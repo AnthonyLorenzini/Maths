@@ -33,6 +33,9 @@
     "box-shadow:0 6px 20px rgba(34,48,63,.22);max-width:calc(100vw - 24px)}" +
     ".ml-barre a{color:inherit;text-decoration:none;display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;white-space:nowrap}" +
     ".ml-barre a:hover,.ml-barre a:focus-visible{background:#F1ECE2;outline:none}" +
+    ".ml-barre .ml-retour{font-weight:700}" +
+    ".ml-barre .ml-court{display:none}" +
+    "@media (max-width:480px){.ml-barre .ml-long{display:none}.ml-barre .ml-court{display:inline}}" +
     ".ml-barre .ml-chap{background:" + accent + ";color:#FFFFFF;min-width:0;overflow:hidden}" +
     ".ml-barre .ml-chap:hover,.ml-barre .ml-chap:focus-visible{background:" + accent + ";filter:brightness(1.12)}" +
     ".ml-barre .ml-chap span{overflow:hidden;text-overflow:ellipsis}" +
@@ -48,9 +51,11 @@
   bar.className = "ml-barre";
   bar.setAttribute("aria-label", "Navigation du site");
   bar.innerHTML =
+    '<a class="ml-retour" href="' + accueil + "#" + found.c.id + '" title="Retour à la page précédente" aria-label="Retour à la page précédente">' +
+      '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M9.5 3 4.5 8l5 5M5 8h8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</a>' +
     '<a href="' + accueil + '" title="Accueil du site" aria-label="Accueil du site">' +
       '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 7.5 8 2.5l6 5V14H10V10H6v4H2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></a>' +
-    '<a class="ml-chap" href="' + accueil + "#" + found.c.id + '" title="Revenir au chapitre"><span>← ' + found.n.nom + " · " + nomChap + "</span></a>" +
+    '<a class="ml-chap" href="' + accueil + "#" + found.c.id + '" title="Aller au chapitre"><span class="ml-long">' + found.n.nom + " · " + nomChap + '</span><span class="ml-court">' + (found.c.num ? "Ch. " + found.c.num : "Chapitre") + "</span></a>" +
     (suivante ? '<a href="../' + suivante.id + '/index.html" title="' + suivante.titre.replace(/"/g, "&quot;") + '">Suivant →</a>' : "") +
     '<a class="ml-x" href="#" role="button" aria-label="Réduire la barre" title="Réduire / afficher">×</a>';
   var cale = document.createElement("div");
@@ -58,6 +63,11 @@
   cale.setAttribute("aria-hidden", "true");
   document.body.appendChild(cale);
   document.body.appendChild(bar);
+  var retour = bar.querySelector(".ml-retour");
+  retour.addEventListener("click", function (e) {
+    var memeSite = document.referrer && document.referrer.indexOf(location.origin) === 0;
+    if (history.length > 1 && memeSite) { e.preventDefault(); history.back(); }
+  });
   var x = bar.querySelector(".ml-x");
   x.addEventListener("click", function (e) {
     e.preventDefault();
