@@ -141,6 +141,15 @@ h1,h2,h3{font-family:var(--f-titre);line-height:1.1;text-wrap:balance;margin:0}
 .vide{border:2px dashed var(--trait);border-radius:14px;padding:16px 18px;color:var(--gris);font-size:14.5px;background:var(--feuille)}
 .vide b{color:var(--encre)}
 
+/* Onglets Leçon / Mini-jeux en haut d'un chapitre */
+.onglets{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.onglet{display:flex;flex-direction:column;gap:2px;text-decoration:none;text-align:left;font-family:inherit;color:var(--encre);cursor:pointer;
+  background:var(--feuille);border:2px solid var(--type);border-radius:14px;padding:10px 18px 10px 16px;min-width:150px;border-left-width:8px}
+.onglet:hover{background:var(--survol)}
+.onglet b{font:700 19px/1.1 var(--f-titre);color:var(--type)}
+.onglet span{font-size:13.5px;color:var(--gris)}
+.conseil{margin-bottom:28px}
+
 /* Séances d'un chapitre : déroulé + « À retenir » */
 .seances{display:flex;flex-direction:column;gap:16px}
 .seance{background:var(--feuille);border:2px solid var(--trait);border-radius:16px;overflow:hidden}
@@ -155,6 +164,8 @@ h1,h2,h3{font-family:var(--f-titre);line-height:1.1;text-wrap:balance;margin:0}
 .seance-liens{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
 .seance-liens a{font-size:13.5px;font-weight:600;text-decoration:none;padding:6px 11px;border-radius:999px;border:2px solid var(--trait);background:var(--feuille)}
 .seance-liens a:hover{border-color:var(--teinte)}
+.seance-jeux{margin:10px 0 0;font-size:14px;color:var(--gris)}
+.seance-jeux b{color:var(--encre)}
 .retenir{margin-top:14px;background:var(--fond);border:2px solid var(--bord);border-radius:14px;padding:12px 16px 14px}
 .retenir h4{margin:0 0 6px;color:var(--encre);font:700 17px/1.1 var(--f-titre);letter-spacing:0;text-transform:none}
 .retenir ul{list-style:none;padding:0;font-size:15.5px}
@@ -301,12 +312,14 @@ footer{margin-top:20px;padding-top:16px;border-top:1.5px dashed var(--trait);col
     if(!c.seances||!c.seances.length) return '';
     return '<section class="rubrique"><div class="rubrique-tete"><h2>Séance par séance</h2><span>ce qu\'on fait en classe, et le bilan à apprendre</span></div>'+
       '<div class="seances">'+c.seances.map(function(se,i){
-        var liens=(se.ressources||[]).map(function(id){ var r=ressourceDuNiveau(n,id); return r? '<a href="'+lien(r)+'">'+esc(TYPES[r.type]?TYPES[r.type].nom:'Page')+' · '+esc(r.titre)+'</a>' : ''; }).join('');
+        var liens=(se.ressources||[]).map(function(id){ var r=ressourceDuNiveau(n,id); return (r&&(r.type==='exos'||r.type==='classe'))? '<a href="'+lien(r)+'">'+esc(TYPES[r.type].nom)+' · '+esc(r.titre)+'</a>' : ''; }).join('');
+        var jeuxTxt=(se.ressources||[]).map(function(id){ var r=ressourceDuNiveau(n,id); return (r&&r.type==='jeu'&&c.ressources.indexOf(r)>-1)? '<b>'+esc(r.titre)+'</b>' : ''; }).filter(Boolean).join(', ');
         return '<article class="seance">'+
           '<div class="seance-tete"><span class="seance-num">Séance '+(i+1)+'</span><h3>'+esc(se.titre)+'</h3>'+(se.duree?'<span class="seance-duree">'+esc(se.duree)+'</span>':'')+'</div>'+
           '<div class="seance-corps">'+
             ((se.contenu&&se.contenu.length)?'<h4>Ce qu\'on fait</h4><ul>'+se.contenu.map(function(t){return '<li>'+gras(t)+'</li>';}).join('')+'</ul>':'')+
             (liens?'<div class="seance-liens">'+liens+'</div>':'')+
+            (jeuxTxt?'<p class="seance-jeux">Jeux utilisés en classe : '+jeuxTxt+' <span>(dans les mini-jeux)</span></p>':'')+
             ((se.retenir&&se.retenir.length)?'<div class="retenir"><h4>Bilan à apprendre</h4><ul>'+se.retenir.map(function(t){return '<li>'+gras(t)+'</li>';}).join('')+'</ul>'+
               (se.exemple?'<p class="exemple"><b>Exemple</b> '+gras(se.exemple)+'</p>':'')+
               (se.savoir?'<p class="savoir"><b>Je sais</b> '+gras(se.savoir)+'</p>':'')+'</div>':'')+
@@ -316,12 +329,27 @@ footer{margin-top:20px;padding-top:16px;border-top:1.5px dashed var(--trait);col
 
   /* ---------- Chapitre ---------- */
   function chapitre(n,c){
-    var k=compte(c);
-    var rubs = ORDRE.filter(function(t){ return k[t] || t==='plus'; }).map(function(t){
-      var items=c.ressources.filter(function(r){return r.type===t;});
+    var avec = !c.bientot && c.seances && c.seances.length;
+    var k=compte(c), utilises={}, onglets='';
+    if(avec){
+      c.seances.forEach(function(se){ (se.ressources||[]).forEach(function(id){ utilises[id]=1; }); });
+      var lec=c.ressources.filter(function(r){return r.type==='lecon';});
+      var jeux=c.ressources.filter(function(r){return r.type==='jeu';});
+      onglets='<nav class="onglets" aria-label="Leçon et mini-jeux">'+
+        (lec.length? '<a class="onglet t-lecon" href="'+lien(lec[0])+'"><b>Leçon</b><span>à relire</span></a>' : '')+
+        (jeux.length===1? '<a class="onglet t-jeu" href="'+lien(jeux[0])+'"><b>Mini-jeu</b><span>pour t\'entraîner</span></a>' :
+         jeux.length>1? '<button type="button" class="onglet t-jeu" data-ancre="rub-jeux"><b>Mini-jeux</b><span>'+jeux.length+' jeux en bas de page</span></button>' : '')+
+        '</nav>';
+    }
+    var rubs = ORDRE.filter(function(t){ return avec ? (t!=='lecon') : (k[t] || t==='plus'); }).map(function(t){
+      var items=c.ressources.filter(function(r){
+        if(r.type!==t) return false;
+        return !(avec && (t==='exos'||t==='classe') && utilises[r.id]);
+      });
+      if(avec && !items.length && t!=='plus') return '';
       var corps = items.length ? '<div class="cartes">'+items.map(function(r){return carte(r);}).join('')+'</div>' :
         '<div class="vide"><b>Bientôt en ligne.</b> En attendant, refais les exercices corrigés de ce chapitre sans regarder la solution : c\'est le meilleur entraînement.</div>';
-      return '<section class="rubrique"><div class="rubrique-tete"><h2>'+TYPES[t].rub+'</h2><span>'+TYPES[t].aide+'</span></div>'+corps+'</section>';
+      return '<section class="rubrique"'+(t==='jeu'?' id="rub-jeux"':'')+'><div class="rubrique-tete"><h2>'+TYPES[t].rub+'</h2><span>'+TYPES[t].aide+'</span></div>'+corps+'</section>';
     }).join('');
     vue.innerHTML =
       '<button type="button" class="retour" data-parent="#'+n.id+'" aria-label="Retour à la page précédente"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M9.5 3 4.5 8l5 5M5 8h8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>'+
@@ -330,8 +358,10 @@ footer{margin-top:20px;padding-top:16px;border-top:1.5px dashed var(--trait);col
         '<div class="vue-titre"><span class="etiquette">'+(c.num? 'Ch'+c.num : '★')+'</span><h1>'+esc(c.titre)+'</h1></div>'+
         '<p class="vue-intro">'+esc(c.resume||'')+'</p>'+
         (c.bientot ? '<div class="vide"><b>Ce chapitre arrive bientôt.</b> Les pages seront mises en ligne au fil des séances.</div>' :
-        '<div class="conseil"><div><b>Par où commencer ?</b> Relis la leçon, refais les exercices corrigés sans regarder la solution, puis termine par un mini-jeu.</div></div>'+seancesHtml(n,c)+rubs)+
+        onglets+'<div class="conseil"><div><b>Par où commencer ?</b> Relis la leçon, refais les exercices corrigés sans regarder la solution, puis termine par un mini-jeu.</div></div>'+seancesHtml(n,c)+rubs)+
       '</div>';
+    var ong=document.querySelector('.onglet[data-ancre]');
+    if(ong) ong.addEventListener('click',function(){ var cible=document.getElementById(ong.getAttribute('data-ancre')); if(cible) cible.scrollIntoView({behavior:'smooth',block:'start'}); });
   }
 
   var pile=[location.hash];

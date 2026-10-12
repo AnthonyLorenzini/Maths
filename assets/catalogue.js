@@ -15,6 +15,9 @@
 
    Un chapitre avec  bientot: true  s'affiche grisé « Bientôt en ligne ».
 
+   Dans un chapitre avec séances, la leçon et les mini-jeux sont affichés en onglets tout en haut ;
+   chaque séance ne montre que ses exercices corrigés (types "exos" et "classe") puis son bilan.
+
    Pour décrire les séances d'un chapitre (affiché au-dessus des ressources), ajoute
    dans le chapitre une liste  seances  :
         seances: [
