@@ -220,6 +220,7 @@ window.SITE = {
             {
               titre: "Les pourcentages", duree: "50 min",
               contenu: [
+                "Exercices du TD, page 52.",
                 "On lit un pourcentage sur une jauge, puis sur une grille de 100.",
                 "On passe d'un pourcentage à une fraction et à un nombre décimal."
               ],
