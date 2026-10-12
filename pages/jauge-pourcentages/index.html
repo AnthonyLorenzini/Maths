@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La Jauge à Pourcentages</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<style>
+/* Base commune Leçon 4 — titres condensés, texte Work Sans, nombres Space Mono ; ambre = action, vert = juste, rouge = faux */
+:root{
+  --bg:#f6f5f1; --panel:#ffffff; --paper:#ffffff; --ink:#221d12; --muted:#6d6656; --line:#cfc8b6; --grid:#ddd6c4;
+  --amber:#e8a400; --amber-ink:#8a5d00; --fill:#f5b81c; --fill-2:#fbe3a1; --on-amber:#1b1404;
+  --ok:#1f9a55; --ok-bg:#e3f5ea; --ko:#d23c3c; --ko-bg:#fbe7e7;
+  --blue:#2463d6; --blue-bg:#e6eefc; --magenta:#c0287f; --magenta-bg:#fbe6f2; --teal:#0e8f88; --teal-bg:#dff4f2;
+  --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16140f; --panel:#201d16; --paper:#2a261d; --ink:#f3eddf; --muted:#aaa18c; --line:#4a4334; --grid:#3d3729;
+  --amber:#f2b52a; --amber-ink:#f6c95a; --fill:#e9a90f; --fill-2:#5a4515; --on-amber:#1b1404;
+  --ok:#3fcf7d; --ok-bg:#163524; --ko:#ff6b6b; --ko-bg:#3d1a1a;
+  --blue:#6c9cff; --blue-bg:#1a2742; --magenta:#f06bc0; --magenta-bg:#3a1830; --teal:#3fd6cc; --teal-bg:#123634; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#16140f; --panel:#201d16; --paper:#2a261d; --ink:#f3eddf; --muted:#aaa18c; --line:#4a4334; --grid:#3d3729;
+  --amber:#f2b52a; --amber-ink:#f6c95a; --fill:#e9a90f; --fill-2:#5a4515; --on-amber:#1b1404;
+  --ok:#3fcf7d; --ok-bg:#163524; --ko:#ff6b6b; --ko-bg:#3d1a1a;
+  --blue:#6c9cff; --blue-bg:#1a2742; --magenta:#f06bc0; --magenta-bg:#3a1830; --teal:#3fd6cc; --teal-bg:#123634; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--f-text);padding-inline:16px;padding-block:16px 40px;margin:0}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+h1{font:800 clamp(2.1rem,7vw,3.5rem)/.9 var(--f-title);letter-spacing:.01em;margin:0;text-transform:uppercase;text-wrap:balance}
+h1 span{color:var(--amber)}
+h2{font:800 clamp(1.4rem,4.5vw,2rem)/1.05 var(--f-title);text-transform:uppercase;letter-spacing:.02em;margin:0;text-wrap:balance}
+.sub{margin:6px 0 0;color:var(--muted);font-size:.95rem;max-width:70ch}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:2px solid var(--line)}
+.tabs button{font:700 1.1rem var(--f-title);letter-spacing:.06em;text-transform:uppercase;background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;border-bottom:4px solid transparent;margin-bottom:-2px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--amber)}
+@media (max-width:440px){.tabs button{padding:8px 8px;font-size:1rem}}
+.seg{display:inline-flex;flex-wrap:wrap;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.seg button{font:600 .9rem var(--f-text);background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;min-height:40px}
+.seg button[aria-pressed="true"]{background:var(--amber);color:var(--on-amber)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:8px 14px;cursor:pointer;min-height:42px}
+.btn:hover{border-color:var(--amber)}
+.btn.main{background:var(--amber);border-color:var(--amber);color:var(--on-amber)}
+.btn:disabled{opacity:.45;cursor:default}
+button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:14px 16px}
+.hint{color:var(--muted);font-size:.9rem;margin:0}
+.recit{margin:0;padding:12px 16px;background:var(--panel);border-left:4px solid var(--amber);border-radius:0 8px 8px 0;max-width:75ch}
+.num{font-family:var(--f-num);font-weight:700}
+.fr{display:inline-flex;flex-direction:column;align-items:center;font:700 1em var(--f-num);line-height:1.05;vertical-align:middle}
+.fr>span:first-child{border-bottom:.09em solid currentColor;padding:0 .15em}
+.msg{min-height:1.5em;font-weight:600;margin:0}
+.msg.ok{color:var(--ok)}.msg.ko{color:var(--ko)}
+input.ans{font:700 1.25rem var(--f-num);text-align:center;border:2px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:6px 4px;width:6em;max-width:100%}
+input.ans:focus{outline:none;border-color:var(--amber)}
+input.ans.ok{border-color:var(--ok);background:var(--ok-bg)}
+input.ans.ko{border-color:var(--ko);background:var(--ko-bg)}
+.lvl{font:600 .85rem var(--f-text);color:var(--muted)}
+/* équipes */
+.teams{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.teams{grid-template-columns:minmax(0,1fr)}}
+.team{border:2px solid var(--tc);border-radius:12px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column}
+.team.t0{--tc:var(--blue);--tb:var(--blue-bg)}.team.t1{--tc:var(--magenta);--tb:var(--magenta-bg)}.team.t2{--tc:var(--teal);--tb:var(--teal-bg)}
+.team .th{background:var(--tb);display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px}
+.team .tn{font:800 1.3rem var(--f-title);text-transform:uppercase;letter-spacing:.05em;color:var(--tc)}
+.team .ts{font:700 1.5rem var(--f-num);color:var(--tc)}
+.team .tb{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.team .draw{display:flex;align-items:center;gap:10px}
+.team .draw button{font:600 .85rem var(--f-text);border:2px solid var(--tc);color:var(--tc);background:none;border-radius:8px;padding:6px 10px;cursor:pointer;min-height:38px}
+.team .who{font:700 1.4rem var(--f-num);color:var(--tc);min-width:2ch}
+.team.turn{box-shadow:0 0 0 4px var(--tc)}
+.team.win{animation:pop .5s}
+.team .res{font-weight:600;min-height:1.4em}
+.team .res.ok{color:var(--ok)}.team .res.ko{color:var(--ko)}
+@keyframes pop{50%{transform:scale(1.04)}}
+.settings{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:.85rem;color:var(--muted)}
+.settings input{width:4em;font:700 .95rem var(--f-num);border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:3px 6px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.team .slot:empty,.team .res:empty{display:none}
+.teams.compact{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.teams.compact .th{flex-direction:column;align-items:flex-start;gap:0;padding:6px 10px}
+.teams.compact .tn{font-size:1.05rem}
+.teams.compact .ts{font-size:1.3rem}
+.teams.compact .tb{padding:6px 10px}
+.teams.compact .draw{flex-wrap:wrap;gap:4px 8px}
+.teams.compact .draw button{padding:4px 8px;min-height:32px;font-size:.8rem}
+.teams.compact .who{font-size:1.1rem}
+@media (max-width:420px){.teams.compact .tn{font-size:.9rem;letter-spacing:.02em}}
+.pane{display:flex;flex-direction:column;gap:16px;min-width:0}
+.grp{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:100%}
+</style>
+<script>
+window.L4=(function(){
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const f=(n,d)=>`<span class="fr"><span>${n}</span><span>${d}</span></span>`;
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+/* nombre en écriture française, sans zéros inutiles (dp = nb max de décimales) */
+const fmt=(x,dp=3)=>{let s=(Math.round(x*10**dp)/10**dp).toFixed(dp);if(s.includes('.'))s=s.replace(/0+$/,'').replace(/\.$/,'');const [a,b]=s.split('.');return a.replace(/\B(?=(\d{3})+(?!\d))/g,' ')+(b?','+b:'');};
+const fmt2=x=>(Math.round(x*100)/100).toFixed(2).replace('.',',');
+/* lecture d'une réponse : "3,5" "3.5" "35/100" "35 %" "1 + 3/10" ; NaN si illisible */
+function parse(v){
+  if(v==null)return NaN;v=String(v).trim().replace(/\s+/g,'').replace(/%$/,'');
+  if(!v)return NaN;
+  if(v.includes('+'))return v.split('+').reduce((s,p)=>s+parse(p),0);
+  const m=v.match(/^(\d+(?:[.,]\d+)?)\/(\d+(?:[.,]\d+)?)$/);
+  if(m){const d=+m[2].replace(',','.');return d?(+m[1].replace(',','.'))/d:NaN;}
+  if(!/^-?\d+(?:[.,]\d+)?$/.test(v)&&!/^-?[.,]\d+$/.test(v))return NaN;
+  return +v.replace(',','.');
+}
+const same=(a,b)=>Math.abs(a-b)<1e-9;
+const store={get(k,d){try{const v=localStorage.getItem('l4.'+k);return v==null?d:JSON.parse(v);}catch(e){return d;}},
+             set(k,v){try{localStorage.setItem('l4.'+k,JSON.stringify(v));}catch(e){}}};
+/* onglets simples : <nav class="tabs"><button data-tab="x"> + éléments [data-pane="x"] */
+function tabs(nav,onChange){
+  nav.setAttribute('role','tablist');
+  const go=t=>{$$('[data-tab]',nav).forEach(b=>{b.setAttribute('role','tab');b.setAttribute('aria-selected',b.dataset.tab===t);});
+    $$('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!==t);onChange&&onChange(t);};
+  nav.addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)go(b.dataset.tab);});
+  return go;
+}
+/* contrôle segmenté : boutons [data-v] */
+function seg(el,onChange,init){
+  const set=v=>{$$('[data-v]',el).forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===String(v)));onChange&&onChange(v);};
+  el.addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(b)set(b.dataset.v);});
+  if(init!=null)set(init);return set;
+}
+/* ---- trois équipes : bleu, magenta, turquoise, tirage au sort d'un élève ---- */
+const TEAMS=['Bleus','Magentas','Turquoises'];
+function Teams(el,opt={}){
+  let size=store.get('teamSize',9);
+  const T=TEAMS.map((n,i)=>({i,name:n,score:0,pool:[],who:null}));
+  let turn=null;
+  el.classList.add('teams');if(opt.compact)el.classList.add('compact');
+  el.innerHTML=T.map(t=>`<section class="team t${t.i}" data-team="${t.i}">
+    <div class="th"><span class="tn">${t.name}</span><span class="ts" aria-label="score">0</span></div>
+    <div class="tb"><div class="draw"><button type="button" data-drawbtn>${opt.compact?'Tirer':'Tirer un élève'}</button><span class="who" aria-live="polite"></span></div>
+    <div class="slot"></div><div class="res" aria-live="polite"></div></div></section>`).join('');
+  const box=i=>el.querySelector(`[data-team="${i}"]`);
+  function refill(t){t.pool=shuffle(Array.from({length:size},(_,k)=>k+1));}
+  function draw(i){
+    const t=T[i];if(!t.pool.length)refill(t);
+    const n=t.pool.pop(),w=box(i).querySelector('.who');
+    const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce){w.textContent='n°'+n;return;}
+    let k=0;const iv=setInterval(()=>{w.textContent='n°'+rnd(1,size);if(++k>9){clearInterval(iv);w.textContent='n°'+n;}},55);
+  }
+  el.addEventListener('click',e=>{const b=e.target.closest('[data-drawbtn]');if(b)draw(+b.closest('[data-team]').dataset.team);});
+  const api={
+    slot:i=>box(i).querySelector('.slot'),
+    res(i,txt,ok){const r=box(i).querySelector('.res');r.textContent=txt||'';r.className='res'+(ok===true?' ok':ok===false?' ko':'');},
+    add(i,p=1){T[i].score+=p;box(i).querySelector('.ts').textContent=T[i].score;if(p>0){const b=box(i);b.classList.remove('win');void b.offsetWidth;b.classList.add('win');}},
+    setTurn(i){turn=i;T.forEach(t=>box(t.i).classList.toggle('turn',t.i===i));},
+    nextTurn(){api.setTurn(turn==null?0:(turn+1)%3);return turn;},
+    get turn(){return turn;},
+    scores:()=>T.map(t=>t.score),
+    reset(){T.forEach(t=>{t.score=0;box(t.i).querySelector('.ts').textContent=0;api.res(t.i,'');});},
+    clearWho(){T.forEach(t=>box(t.i).querySelector('.who').textContent='');},
+    name:i=>T[i].name,
+    settings(container){
+      container.innerHTML=`<label class="settings">Élèves par équipe <input type="number" id="teamsize" min="2" max="15" value="${size}"></label>`;
+      container.querySelector('input').addEventListener('change',e=>{size=Math.max(2,Math.min(15,+e.target.value||9));store.set('teamSize',size);T.forEach(refill);});
+    }
+  };
+  T.forEach(refill);
+  return api;
+}
+/* petit carré dessiné en SVG : n parts coloriées sur u (10 = bandes, 100 = quadrillage), plusieurs carrés si besoin */
+function squaresSVG(t,u,size=60){
+  const n=Math.max(1,Math.ceil(t/u)),gap=6,W=n*size+(n-1)*gap;
+  let s=`<svg viewBox="-1 -1 ${W+2} ${size+2}" width="${W+2}" height="${size+2}" role="img" aria-label="carré colorié">`;
+  for(let k=0;k<n;k++){const x0=k*(size+gap);
+    s+=`<rect x="${x0}" y="0" width="${size}" height="${size}" fill="var(--paper)"/>`;
+    const c=size/10;
+    for(let j=0;j<u;j++){const idx=k*u+j;if(idx>=t)break;
+      if(u===10)s+=`<rect x="${x0}" y="${j*c}" width="${size}" height="${c}" fill="var(--fill)"/>`;
+      else s+=`<rect x="${x0+(j%10)*c}" y="${Math.floor(j/10)*c}" width="${c}" height="${c}" fill="var(--fill)"/>`;}
+    for(let j=1;j<10;j++){s+=`<line x1="${x0}" x2="${x0+size}" y1="${j*c}" y2="${j*c}" stroke="var(--grid)" stroke-width="1"/>`;
+      if(u===100)s+=`<line y1="0" y2="${size}" x1="${x0+j*c}" x2="${x0+j*c}" stroke="var(--grid)" stroke-width="1"/>`;}
+    s+=`<rect x="${x0}" y="0" width="${size}" height="${size}" fill="none" stroke="var(--ink)" stroke-width="1.5"/>`;}
+  return s+'</svg>';
+}
+return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squaresSVG};
+})();
+</script>
+<style>
+.stage{display:flex;flex-direction:column;align-items:center;gap:12px}
+.ctx{font:800 1.3rem var(--f-title);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:0}
+#gauge svg{display:block}
+.ask{font:600 1.15rem var(--f-text);text-align:center;margin:0}
+.ask b{color:var(--amber-ink)}
+.ansrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.ansrow .unit{font:700 1.2rem var(--f-num)}
+.target{font:700 clamp(2rem,8vw,3.2rem) var(--f-num);display:flex;align-items:center;gap:.3em}
+input[type=range]{width:100%;accent-color:var(--amber);height:34px}
+.slider{width:100%;max-width:640px}
+.score{font:700 1.2rem var(--f-num)}
+</style>
+<div class="wrap">
+  <header class="top">
+    <div><h1>La Jauge à <span>Pourcentages</span></h1>
+    <p class="sub"><b>p %</b> veut dire <b>p sur 100</b> : 20 % = 20/100 = 0,2. Lis la jauge et donne l'écriture demandée, ou remplis-la toi-même.</p></div>
+  </header>
+  <nav class="tabs" id="tabs"><button data-tab="course">Course : 3 équipes</button><button data-tab="lire">Solo : lire</button><button data-tab="remplir">Solo : remplir</button></nav>
+  <div class="row">
+    <span class="grp"><span class="lvl">Niveau</span>
+    <div class="seg" id="niv"><button data-v="1">10, 25, 50, 75…</button><button data-v="2">Multiples de 5</button><button data-v="3">Tous</button><button data-v="4">Plus de 100 %</button></div></span>
+    <span class="grp"><span class="lvl">Affichage</span>
+    <div class="seg" id="vue"><button data-v="jauge">Jauge</button><button data-v="grille">Grille de 100</button></div></span>
+  </div>
+  <div class="panel stage">
+    <p class="ctx" id="ctx"></p>
+    <div id="gauge"></div>
+    <div class="target" id="target" hidden></div>
+    <p class="ask" id="ask"></p>
+  </div>
+
+  <section data-pane="course" class="pane">
+    <div id="teams"></div>
+    <div class="row"><button class="btn main" id="corr">Corriger</button><button class="btn" id="nextC">Question suivante →</button></div>
+    <p class="msg" id="cmsg" aria-live="polite"></p>
+    <div id="set"></div>
+  </section>
+
+  <section data-pane="lire" class="pane" hidden>
+    <div class="ansrow"><input class="ans" id="lin" autocomplete="off" aria-label="ta réponse"><span class="unit" id="lunit"></span><button class="btn main" id="lok">Valider</button><button class="btn" id="lnext">Suivante →</button><span class="score" id="lscore"></span></div>
+    <p class="msg" id="lmsg" aria-live="polite"></p>
+  </section>
+
+  <section data-pane="remplir" class="pane" hidden>
+    <div class="slider"><input type="range" id="rng" min="0" max="100" step="1" value="0" aria-label="remplissage de la jauge"></div>
+    <div class="row"><button class="btn" id="rminus">− 1</button><button class="btn" id="rplus">+ 1</button><button class="btn main" id="rok">Valider</button><button class="btn" id="rnext">Suivante →</button><span class="score" id="rscore"></span></div>
+    <p class="msg" id="rmsg" aria-live="polite"></p>
+  </section>
+</div>
+<script>
+(function(){
+const {$,$$,f,pick,rnd,seg,store,Teams,parse,same,fmt,squaresSVG}=L4;
+const CTX=['Batterie du téléphone','Téléchargement du jeu','Réservoir d\'eau','Chargement de la tablette','Remplissage du bus','Barre de vie'];
+const TYPES={pc:{ask:'en <b>pourcentage</b>',unit:'%'},fr:{ask:'en <b>fraction</b>',unit:''},dec:{ask:'en <b>écriture décimale</b>',unit:''}};
+let niv=+store.get('jNiv',1),vue=store.get('jVue','jauge'),tab='course',p=0,shown=0,type='pc',score=[0,0],count=[0,0],answered=false;
+const teams=Teams($('#teams'));teams.settings($('#set'));
+function newP(){
+  if(niv===1)return pick([10,20,25,30,50,60,75,80,90,100]);
+  if(niv===2)return 5*rnd(1,19);
+  if(niv===3)return rnd(1,99);
+  return pick([110,120,125,150,175,200,105,130]);
+}
+function gauge(val){
+  const box=$('#gauge'),W=Math.min(640,(box.parentElement.clientWidth||340)-32);
+  if(vue==='grille'){const n=Math.max(1,Math.ceil(val/100)),sz=Math.min(260,Math.floor((W-(n-1)*6)/n));box.innerHTML=squaresSVG(val,100,sz);return;}
+  const n=val>100?2:1,gap=14,bw=Math.floor((W-(n-1)*gap-12*n)/n),h=Math.max(56,Math.round(bw*0.22));
+  let s=`<svg width="${n*(bw+12)+(n-1)*gap}" height="${h+26}" viewBox="0 0 ${n*(bw+12)+(n-1)*gap} ${h+26}" role="img" aria-label="jauge">`;
+  for(let k=0;k<n;k++){const x0=k*(bw+12+gap),part=Math.max(0,Math.min(100,val-100*k));
+    s+=`<rect x="${x0}" y="2" width="${bw}" height="${h}" rx="8" fill="var(--paper)" stroke="var(--ink)" stroke-width="3"/>`;
+    s+=`<rect x="${x0+bw+2}" y="${2+h*0.3}" width="8" height="${h*0.4}" rx="2" fill="var(--ink)"/>`;
+    s+=`<rect class="fillbar" x="${x0+4}" y="6" width="${(bw-8)*part/100}" height="${h-8}" rx="5" fill="var(--fill)"/>`;
+    for(let j=1;j<10;j++){const x=x0+4+(bw-8)*j/10;s+=`<line x1="${x}" x2="${x}" y1="${j===5?6:h*0.55}" y2="${h-2}" stroke="var(--ink)" stroke-opacity=".45" stroke-width="${j===5?2:1.2}"/>`;}
+    s+=`<text x="${x0}" y="${h+22}" font-family="Space Mono, monospace" font-size="13" fill="var(--muted)">0 %</text><text x="${x0+bw}" y="${h+22}" text-anchor="end" font-family="Space Mono, monospace" font-size="13" fill="var(--muted)">100 %</text>`;}
+  box.innerHTML=s+'</svg>';
+}
+function expected(){return p/100;}
+function check(v,t){
+  v=(v||'').trim();if(!v)return false;
+  if(t==='fr'&&!v.includes('/'))return false;
+  if(t==='dec'&&(v.includes('/')||v.includes('%')))return false;
+  if(t==='pc')return same(parse(v),p);
+  return same(parse(v),expected());
+}
+function solution(t){return t==='pc'?`${p} %`:t==='fr'?`${p}/100`:fmt(p/100);}
+function question(){
+  p=newP();type=pick(['pc','fr','dec']);answered=false;
+  $('#ctx').textContent=pick(CTX);
+  if(tab==='remplir'){
+    const show=pick(niv===4?['fr','dec']:['fr','dec','pcx']);
+    $('#target').hidden=false;
+    $('#target').innerHTML=show==='fr'?f(p,100):show==='dec'?fmt(p/100):(()=>{const g=[[25,f(1,4)],[50,f(1,2)],[75,f(3,4)],[10,f(1,10)]].find(x=>x[0]===p);return g?g[1]:fmt(p/100);})();
+    $('#ask').innerHTML='Remplis la jauge pour qu\'elle montre ce nombre.';
+    $('#rng').max=niv===4?200:100;$('#rng').value=0;gauge(0);$('#rmsg').textContent='';
+  }else{
+    $('#target').hidden=true;gauge(p);
+    $('#ask').innerHTML=`Quelle part de la jauge est remplie ? Écris-la ${TYPES[type].ask}.`;
+    if(tab==='lire'){$('#lin').value='';$('#lin').className='ans';$('#lunit').textContent=TYPES[type].unit;$('#lmsg').textContent='';$('#lin').inputMode=type==='fr'?'text':'decimal';}
+    else{for(let i=0;i<3;i++){teams.slot(i).innerHTML=`<div class="ansrow"><input class="ans" data-ti="${i}" autocomplete="off" aria-label="réponse des ${teams.name(i)}"><span class="unit">${TYPES[type].unit}</span></div>`;teams.res(i,'');}$('#cmsg').textContent='';teams.clearWho();}
+  }
+}
+/* course */
+$('#corr').addEventListener('click',()=>{
+  if(answered)return;answered=true;
+  for(let i=0;i<3;i++){const inp=teams.slot(i).querySelector('input'),ok=check(inp.value,type);inp.classList.add(ok?'ok':'ko');
+    if(ok){teams.add(i,1);teams.res(i,'Juste ! +1',true);}else teams.res(i,inp.value.trim()?'Faux':'Pas de réponse',false);}
+  $('#cmsg').className='msg';$('#cmsg').innerHTML=`Réponse attendue : <span class="num">${solution(type)}</span>${type!=='pc'?'':` (= ${p}/100 = ${fmt(p/100)})`}`;
+});
+$('#nextC').addEventListener('click',question);
+/* lire */
+$('#lok').addEventListener('click',()=>{
+  if(answered)return;const ok=check($('#lin').value,type);answered=true;count[0]++;if(ok)score[0]++;
+  $('#lin').classList.add(ok?'ok':'ko');$('#lmsg').className='msg '+(ok?'ok':'ko');
+  $('#lmsg').innerHTML=ok?`Juste : ${p} % = ${f(p,100)} = ${fmt(p/100)}`:`Non : la jauge montre ${p} % = ${f(p,100)} = ${fmt(p/100)}`;
+  $('#lscore').textContent=`${score[0]} / ${count[0]}`;
+});
+$('#lin').addEventListener('keydown',e=>{if(e.key==='Enter'){answered?question():$('#lok').click();}});
+$('#lnext').addEventListener('click',question);
+/* remplir */
+const setR=v=>{$('#rng').value=v;gauge(+v);};
+$('#rng').addEventListener('input',e=>gauge(+e.target.value));
+$('#rminus').addEventListener('click',()=>setR(Math.max(0,+$('#rng').value-1)));
+$('#rplus').addEventListener('click',()=>setR(Math.min(+$('#rng').max,+$('#rng').value+1)));
+$('#rok').addEventListener('click',()=>{
+  if(answered)return;const v=+$('#rng').value,ok=v===p;answered=true;count[1]++;if(ok)score[1]++;
+  $('#rmsg').className='msg '+(ok?'ok':'ko');
+  $('#rmsg').innerHTML=ok?`Juste : ${p} % de la jauge.`:`Tu as rempli ${v} %. Il fallait ${p} % (= ${f(p,100)}).`;
+  if(!ok)setTimeout(()=>setR(p),900);
+  $('#rscore').textContent=`${score[1]} / ${count[1]}`;
+});
+$('#rnext').addEventListener('click',question);
+L4.tabs($('#tabs'),t=>{tab=t;question();})('course');
+seg($('#niv'),v=>{niv=+v;store.set('jNiv',niv);question();},niv);
+seg($('#vue'),v=>{vue=v;store.set('jVue',v);if(tab==='remplir')gauge(+$('#rng').value);else gauge(p);},vue);
+let lw=0;addEventListener('resize',()=>{const w=$('#gauge').parentElement.clientWidth;if(w!==lw){lw=w;tab==='remplir'?gauge(+$('#rng').value):gauge(p);}});
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>

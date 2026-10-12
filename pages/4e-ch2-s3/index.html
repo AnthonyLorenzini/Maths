@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 3 — Les grandeurs produits : aire, volume et énergie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --acc-b:#8B5CF6; --acc-bg:#F3ECFB; --acc-t:#5B21B6; --ink:#22303F; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 860px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#D6C6FA; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:22px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:25px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+.automatisme { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:12px 16px; margin-bottom:14px; }
+.automatisme h2 { font-family:'Baloo 2',sans-serif; font-size:15px; color:#2B6CB0; margin:0 0 8px 0; }
+.automatisme ol { margin:0; padding-left:20px; font-size:13px; }
+.automatisme li { margin-bottom:2px; }
+.reveal-panel { display:none; margin-top:8px; font-size:12.5px; font-style:italic; color:#3B4C5E; border-top:1px dashed #B7CBE3; padding-top:6px; }
+.reveal-panel.show { display:block; }
+.methode { background:#FFF9EC; border:2px dashed #D8B24C; border-radius:10px; padding:10px 16px; margin-bottom:18px; font-size:12.5px; }
+.methode b.tag { font-family:'Baloo 2',sans-serif; color:#9C7A17; display:block; margin-bottom:3px; font-size:13px; }
+.methode .schema { background:#fff; border-radius:8px; padding:8px; margin-top:8px; text-align:center; }
+.section-title { font-family:'Baloo 2',sans-serif; font-size:18px; margin:4px 0 12px 0; }
+.advanced-title { font-family:'Baloo 2',sans-serif; font-size:15px; color:var(--acc-t); margin:18px 0 10px 0; padding-top:12px; border-top:2px dashed var(--acc-b); }
+.exo { border:2px solid var(--acc-b); background:var(--acc-bg); border-radius:12px; padding:14px 18px; margin-bottom:14px; }
+.exo-title { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:var(--acc-t); margin-bottom:6px; }
+.exo p { font-size:13px; margin:4px 0; line-height:1.5; }
+.exo p.q { margin:6px 0 2px 4px; }
+.schema { background:#fff; border-radius:8px; padding:8px; margin:8px 0; text-align:center; }
+.schema svg { max-width:100%; height:auto; }
+.btn-row { display:flex; gap:10px; margin-top:8px; flex-wrap:wrap; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:12px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:12.5px; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel.solution-panel { border:1.5px dashed #4CAF7D; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; }
+.astuce-panel .label { color:#B5680A; }
+.solution-panel .label { color:#1E7A4C; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="badge">S3</div>
+    <div>
+      <h1>Les grandeurs produits : aire, volume et énergie</h1>
+      <div class="subtitle">Chapitre 2 — Grandeurs quotients et produits — 4e — Séance 3</div>
+    </div>
+  </header>
+  <div class="objectifs"><b>Objectifs :</b> rappeler que l'aire et le volume sont des grandeurs produits ; calculer une énergie électrique (E = P × t, en kWh).</div>
+  <div class="automatisme">
+    <h2>Automatisme</h2>
+    <ol><li>Aire d'un rectangle 5 m × 3 m =</li><li>Volume d'un cube de côté 2 cm =</li><li>1 000 W = … kW</li><li>2,5 × 1 000 =</li><li>45 min = … h</li><li>8 × 0,25 =</li></ol>
+    <button class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
+    <div class="reveal-panel" id="auto-corrige">Corrigé : 15 m² ; 8 cm³ ; 1 kW ; 2 500 ; 0,75 h ; 2</div>
+  </div>
+  <div class="methode"><b class="tag">Méthode</b>Un radiateur électrique a une puissance de 2 kW. Il fonctionne pendant 3 h. Énergie = puissance × durée = 2 × 3 = <b>6 kWh</b>.</div>
+  <div class="section-title">Exercices</div>
+  
+    <div class="exo">
+      <div class="exo-title">★ Exercice</div>
+      <p>Un four électrique a une puissance de 3 kW. Il fonctionne pendant 2 h. Calcule l'énergie consommée en kWh.</p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-0')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-0')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-0"><span class="label">Astuce</span>Énergie = puissance × durée, directement en kWh puisque la puissance est déjà en kW et la durée en h.</div>
+      <div class="panel solution-panel" id="solution-0"><span class="label">Solution</span>3 × 2 = <b>6 kWh</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Une ampoule de 15 W reste allumée pendant 4 h. Calcule l'énergie consommée, d'abord en Wh, puis convertis-la en kWh.</p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-1')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-1')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-1"><span class="label">Astuce</span>Même formule que l'exercice précédent (puissance × durée), mais attention : il y a une conversion Wh → kWh en plus à la fin.</div>
+      <div class="panel solution-panel" id="solution-1"><span class="label">Solution</span>15 × 4 = 60 Wh = <b>0,06 kWh</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Un jardin rectangulaire mesure 12 m de long sur 7,5 m de large.<br><span class='q'>a) Calcule son aire en m².</span><br><span class='q'>b) Le propriétaire veut étaler une couche de terre de 20 cm d'épaisseur sur tout le jardin. Quel volume de terre (en m³) doit-il commander ?</span></p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-2')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-2')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-2"><span class="label">Astuce</span>a) Aire = longueur × largeur. b) Convertis d'abord 20 cm en mètres, puis Volume = aire × épaisseur.</div>
+      <div class="panel solution-panel" id="solution-2"><span class="label">Solution</span>a) 12 × 7,5 = <b>90 m²</b>. b) 20 cm = 0,2 m. Volume = 90 × 0,2 = <b>18 m³</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Un radiateur électrique de 1,5 kW fonctionne 6 h par jour.<br><span class='q'>a) Quelle énergie consomme-t-il chaque jour, en kWh ?</span><br><span class='q'>b) Si le prix du kWh est de 0,25 €, quel est le coût de fonctionnement du radiateur pour une journée ?</span></p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-3')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-3')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-3"><span class="label">Astuce</span>a) même formule que le four (puissance × durée). b) multiplie ensuite l'énergie trouvée par le prix d'un kWh.</div>
+      <div class="panel solution-panel" id="solution-3"><span class="label">Solution</span>a) 1,5 × 6 = <b>9 kWh</b>. b) 9 × 0,25 = <b>2,25 €</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>Un appareil A (une box internet) a une puissance de 15 W et reste allumé 24 h/24. Un appareil B (un four électrique) a une puissance de 2 000 W mais n'est utilisé que 30 minutes par jour.<br><span class='q'>a) Calcule l'énergie consommée par chaque appareil en une journée (en kWh).</span><br><span class='q'>b) Calcule l'énergie consommée par chaque appareil sur une année (365 jours).</span><br><span class='q'>c) Sachant que le prix du kWh est de 0,25 €, quel appareil coûte le plus cher à l'année ? De combien ?</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-4')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-4')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-4"><span class="label">Astuce</span>Calcule d'abord l'énergie quotidienne de chaque appareil (E = P × t, en convertissant en kWh), puis multiplie par 365 pour l'année, puis par le prix du kWh pour le coût.</div>
+      <div class="panel solution-panel" id="solution-4"><span class="label">Solution</span>a) A : 15 × 24 = 360 Wh = <b>0,36 kWh/jour</b>. B : 2000 × 0,5 = 1000 Wh = <b>1 kWh/jour</b>. b) A : 0,36 × 365 = <b>131,4 kWh/an</b>. B : 1 × 365 = <b>365 kWh/an</b>. c) Coût A : 131,4 × 0,25 = 32,85 €/an. Coût B : 365 × 0,25 = 91,25 €/an. <b>L'appareil B coûte le plus cher</b>, de 91,25 − 32,85 = <b>58,40 € de plus par an</b> — alors qu'il ne fonctionne que 30 min par jour contre 24h/24 pour A !</div>
+    </div><div class="advanced-title">Pour aller plus loin</div>
+    <div class="exo">
+      <div class="exo-title">★★★★ Exercice</div>
+      <p>Une piscine extérieure chauffée a la forme d'un pavé droit de 10 m de long, 4 m de large et 1,5 m de profondeur.<br><span class='q'>a) Calcule le volume d'eau de la piscine en m³.</span><br><span class='q'>b) Un système de chauffage électrique de 6 kW doit fonctionner 8 h par jour pour maintenir la température de l'eau. Quelle énergie ce système consomme-t-il chaque jour ?</span><br><span class='q'>c) Si l'électricité coûte 0,22 € par kWh, quel est le coût de chauffage pour une semaine complète (7 jours) ?</span></p>
+      <div class="schema"><svg viewBox="0 0 260 170" xmlns="http://www.w3.org/2000/svg" style="max-width:280px">
+  <polygon points="40,120 160,120 190,90 70,90" fill="#EDE1FB" stroke="#5B21B6" stroke-width="1.5"/>
+  <polygon points="40,120 40,40 70,10 70,90" fill="#F3ECFB" stroke="#5B21B6" stroke-width="1.5"/>
+  <polygon points="40,40 160,40 190,10 70,10" fill="#DCC8F9" stroke="#5B21B6" stroke-width="1.5"/>
+  <rect x="40" y="40" width="120" height="80" fill="#F8F3FE" stroke="#5B21B6" stroke-width="1.5"/>
+  <line x1="160" y1="40" x2="190" y2="10" stroke="#5B21B6" stroke-width="1.5"/>
+  <line x1="160" y1="120" x2="190" y2="90" stroke="#5B21B6" stroke-width="1.5"/>
+  <line x1="190" y1="10" x2="190" y2="90" stroke="#5B21B6" stroke-width="1.5"/>
+  <text x="100" y="135" font-size="11" fill="#22303F" text-anchor="middle">10 m</text>
+  <text x="20" y="82" font-size="11" fill="#22303F" text-anchor="middle" transform="rotate(-90 20 82)">1,5 m</text>
+  <text x="180" y="55" font-size="11" fill="#22303F" text-anchor="middle">4 m</text>
+</svg></div>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-5')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-5')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-5"><span class="label">Astuce</span>Enchaîne 3 formules : volume = L×l×h, puis énergie = puissance×durée, puis coût = énergie×prix. Calcule d'abord pour 1 jour, puis multiplie par 7.</div>
+      <div class="panel solution-panel" id="solution-5"><span class="label">Solution</span>a) 10 × 4 × 1,5 = <b>60 m³</b>. b) 6 × 8 = <b>48 kWh</b> par jour. c) Coût journalier = 48 × 0,22 = 10,56 €. Pour 7 jours : 10,56 × 7 = <b>73,92 €</b>.</div>
+    </div>
+  <footer>Cherche seul(e) d'abord. Utilise l'astuce si tu bloques, puis vérifie avec la solution.</footer>
+</div>
+<script>function toggle(id){document.getElementById(id).classList.toggle('show');}</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

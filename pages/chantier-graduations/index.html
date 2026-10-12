@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>Le Chantier des Graduations</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+  :root{
+    --paper:#fbfcf9; --ink:#182430; --muted:#5f6b73;
+    --accent:#c9821f; --accent-soft:#f0d9b3; --accent-ink:#7a4e10;
+    --good:#3f7d5c; --good-soft:#dcefe4;
+    --bad:#c1503f; --bad-soft:#f7ddd8;
+    --grid-line: rgba(60,110,160,.16);
+    --card:#ffffff; --card-border:#e3e2d8;
+    --shadow: 0 1px 0 rgba(24,36,48,.04);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#161a1f; --ink:#eef0f2; --muted:#9aa4ab;
+      --accent:#e8a33d; --accent-soft:#4a3616; --accent-ink:#f6d190;
+      --good:#6fbf95; --good-soft:#1c3327;
+      --bad:#e2897a; --bad-soft:#3a2320;
+      --grid-line: rgba(140,180,220,.14);
+      --card:#1e242b; --card-border:#2c333b;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#161a1f; --ink:#eef0f2; --muted:#9aa4ab;
+    --accent:#e8a33d; --accent-soft:#4a3616; --accent-ink:#f6d190;
+    --good:#6fbf95; --good-soft:#1c3327;
+    --bad:#e2897a; --bad-soft:#3a2320;
+    --grid-line: rgba(140,180,220,.14);
+    --card:#1e242b; --card-border:#2c333b;
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Work Sans', system-ui, sans-serif;
+    background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  .wrap{ max-width:800px; margin:0 auto; padding: 22px 18px 40px; }
+
+  .eyebrow{ font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.14em; color:var(--accent); display:flex; align-items:center; gap:7px; }
+  .eyebrow::before{ content:""; width:6px; height:6px; background:var(--accent); display:inline-block; transform:rotate(45deg); }
+  h1{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size: clamp(26px,6vw,38px); line-height:1; margin:6px 0 4px; text-wrap:balance; }
+  .sub{ color:var(--muted); font-size:14px; max-width:58ch; margin-bottom:18px; }
+
+  .tabs{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+  .tab{ font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.03em; border:1.5px solid var(--card-border); background:var(--card); color:var(--muted); padding:8px 13px; border-radius:999px; cursor:pointer; }
+  .tab[aria-pressed="true"]{ border-color:var(--accent); color:var(--accent-ink); background:var(--accent-soft); font-weight:700; }
+  .tab:hover{ border-color:var(--accent); }
+
+  .card{ background:var(--card); border:1px solid var(--card-border); border-radius:14px; padding:22px; box-shadow:var(--shadow); margin-bottom:16px; }
+
+  /* --- Consigne (classroom card) mode --- */
+  .consigne-box{ text-align:center; padding: 20px 10px; }
+  .consigne-box .lbl{ font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; font-family:'Space Mono',monospace; margin-bottom:10px; }
+  .consigne-box .txt{ font-family:'Big Shoulders Display'; font-weight:800; font-size: clamp(22px,5vw,32px); line-height:1.15; }
+  .consigne-box .txt b{ color:var(--accent-ink); background:var(--accent-soft); padding:1px 7px; border-radius:6px; }
+
+  .timer{ display:flex; justify-content:center; align-items:center; gap:14px; margin-top:18px; }
+  .timer .clock{ font-family:'Space Mono',monospace; font-weight:700; font-size:34px; min-width:110px; text-align:center; }
+  .timer.running .clock{ color:var(--accent); }
+
+  .corrige{ margin-top:16px; border-top:1px dashed var(--card-border); padding-top:14px; text-align:center; display:none; }
+  .corrige.show{ display:block; }
+  .corrige .val{ font-family:'Space Mono',monospace; font-size:16px; font-weight:700; color:var(--good); }
+
+  /* --- Simulateur mode --- */
+  .prompt{ text-align:center; margin-bottom:4px; }
+  .prompt .ask{ font-size:12.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; font-family:'Space Mono',monospace; }
+  .prompt .goal{ font-family:'Big Shoulders Display'; font-weight:800; font-size:26px; }
+
+  .ruler-host{ overflow-x:auto; padding: 30px 10px 20px; }
+  .ruler{ position:relative; margin: 0 auto; }
+  .ruler .cm-row{ position:relative; height:20px; }
+  .ruler .cm-tick{ position:absolute; top:0; width:1px; background:var(--muted); }
+  .ruler .cm-tick.whole{ height:14px; }
+  .ruler .cm-tick.half{ height:8px; opacity:.6; }
+  .ruler .cm-lbl{ position:absolute; top:-16px; transform:translateX(-50%); font-family:'Space Mono',monospace; font-size:10.5px; color:var(--muted); }
+
+  .segment-row{ position:relative; height:64px; margin-top:6px; cursor:crosshair; }
+  .segment-row .bar{ position:absolute; left:0; right:0; top:30px; height:4px; background:var(--ink); border-radius:2px; }
+  .segment-row .endpoint{ position:absolute; top:14px; width:4px; height:36px; background:var(--accent); border-radius:2px; }
+  .segment-row .point{ position:absolute; top:18px; width:14px; height:28px; margin-left:-7px; }
+  .segment-row .point .head{ width:14px; height:14px; border-radius:50%; background:var(--ink); border:2px solid var(--card); box-shadow:0 0 0 1.5px var(--ink); }
+  .segment-row .point.correct .head{ background:var(--good); box-shadow:0 0 0 1.5px var(--good); }
+  .segment-row .point.incorrect .head{ background:var(--bad); box-shadow:0 0 0 1.5px var(--bad); }
+  .segment-row .ghost{ position:absolute; top:14px; width:1px; height:36px; background:var(--muted); opacity:.35; border-left:2px dashed var(--muted); }
+
+  .hint{ text-align:center; font-size:12.5px; color:var(--muted); margin-top:8px; }
+
+  .feedback{ text-align:center; padding:11px 16px; border-radius:10px; font-weight:600; font-size:14.5px; display:none; margin-top:14px; }
+  .feedback.show{ display:block; }
+  .feedback.good{ background:var(--good-soft); color:var(--good); }
+  .feedback.bad{ background:var(--bad-soft); color:var(--bad); }
+
+  .actions{ display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:16px; }
+  .btn{ font-family:'Space Mono',monospace; font-weight:700; font-size:13px; letter-spacing:.03em; background:var(--ink); color:var(--paper); border:none; border-radius:10px; padding:11px 18px; cursor:pointer; text-transform:uppercase; }
+  .btn:hover{ opacity:.85; }
+  .btn.accent{ background:var(--accent); color:#1b1206; }
+  .btn.ghost{ background:transparent; color:var(--ink); border:1.5px solid var(--card-border); }
+  .btn:disabled{ opacity:.4; cursor:not-allowed; }
+
+  .stat-row{ display:flex; gap:16px; justify-content:center; font-family:'Space Mono',monospace; flex-wrap:wrap; }
+  .stat{ text-align:center; }
+  .stat .n{ font-size:22px; font-weight:700; }
+  .stat .l{ font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.07em; }
+
+  footer{ text-align:center; color:var(--muted); font-size:12px; margin-top:26px; font-family:'Space Mono',monospace; }
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Leçon 3 · Fractions</div>
+  <h1>Le Chantier des Graduations</h1>
+  <div class="sub" id="mode-sub">Tire une consigne de construction et chronomètre le binôme — aucune fiche à imprimer.</div>
+
+  <div class="tabs">
+    <button class="tab" id="tab-consigne" aria-pressed="true">Tirage de défi (papier + règle)</button>
+    <button class="tab" id="tab-simu" aria-pressed="false">Simulateur interactif</button>
+  </div>
+
+  <!-- CONSIGNE MODE -->
+  <div id="panel-consigne">
+    <div class="card">
+      <div class="consigne-box">
+        <div class="lbl">Sur ton cahier, à la règle</div>
+        <div class="txt" id="consigne-txt">Trace un segment de <b>8 cm</b> et gradue-le en <b>4</b> parts égales.</div>
+      </div>
+
+      <div class="timer" id="timer-wrap">
+        <div class="clock" id="clock">00:00</div>
+        <button class="btn accent" id="timer-toggle">Démarrer</button>
+        <button class="btn ghost" id="timer-reset">↺</button>
+      </div>
+
+      <div class="corrige" id="corrige">
+        <div>Écart entre deux graduations :</div>
+        <div class="val" id="corrige-val">8 cm ÷ 4 = 2 cm</div>
+      </div>
+
+      <div class="actions">
+        <button class="btn ghost" id="corrige-toggle">Afficher le corrigé</button>
+        <button class="btn" id="new-consigne">Nouvelle consigne →</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="stat-row">
+        <div class="stat"><div class="n" id="best-time">—</div><div class="l">Meilleur temps</div></div>
+        <div class="stat"><div class="n" id="rounds-done">0</div><div class="l">Consignes tirées</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIMULATEUR MODE -->
+  <div id="panel-simu" style="display:none;">
+    <div class="card">
+      <div class="prompt">
+        <div class="ask">Gradue ce segment en</div>
+        <div class="goal" id="simu-goal">4 parts égales</div>
+      </div>
+
+      <div class="ruler-host">
+        <div class="ruler" id="ruler">
+          <div class="cm-row" id="cm-row"></div>
+          <div class="segment-row" id="segment-row"></div>
+        </div>
+      </div>
+      <div class="hint">Clique le long du segment pour poser une graduation. Reclique dessus pour l'enlever.</div>
+
+      <div class="feedback" id="simu-feedback"></div>
+
+      <div class="actions">
+        <button class="btn ghost" id="simu-reset">Effacer mes points</button>
+        <button class="btn accent" id="simu-check">Vérifier</button>
+        <button class="btn" id="simu-next" style="display:none;">Nouveau segment →</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>Séance 3 · Leçon 3 — Graduer un segment de longueur donnée</footer>
+</div>
+
+<script>
+(function(){
+  // ---------- shared ----------
+  function fmtTime(ms){
+    var s = Math.floor(ms/1000);
+    var mm = String(Math.floor(s/60)).padStart(2,'0');
+    var ss = String(s%60).padStart(2,'0');
+    return mm+':'+ss;
+  }
+
+  // ---------- CONSIGNE MODE ----------
+  var consigneTxt = document.getElementById('consigne-txt');
+  var corrigeVal = document.getElementById('corrige-val');
+  var corrigeBox = document.getElementById('corrige');
+  var corrigeToggle = document.getElementById('corrige-toggle');
+  var clock = document.getElementById('clock');
+  var timerToggle = document.getElementById('timer-toggle');
+  var timerReset = document.getElementById('timer-reset');
+  var timerWrap = document.getElementById('timer-wrap');
+  var bestTimeEl = document.getElementById('best-time');
+  var roundsDoneEl = document.getElementById('rounds-done');
+
+  var timerState = { running:false, startedAt:0, elapsed:0, interval:null };
+  var bestTime = null;
+  var roundsDone = 0;
+  var currentConsigne = null;
+
+  function newConsigne(){
+    var lengths = [6,7,8,9,10,12];
+    var parts = [2,3,4,5,6];
+    var L = lengths[Math.floor(Math.random()*lengths.length)];
+    var N = parts[Math.floor(Math.random()*parts.length)];
+    currentConsigne = { L:L, N:N };
+    consigneTxt.innerHTML = 'Trace un segment de <b>' + L + ' cm</b> et gradue-le en <b>' + N + '</b> parts égales.';
+    var gap = (L / N);
+    corrigeVal.textContent = L + ' cm ÷ ' + N + ' = ' + (Math.round(gap*100)/100) + ' cm entre chaque graduation (soit 1/' + N + ' du segment à chaque fois)';
+    corrigeBox.classList.remove('show');
+    corrigeToggle.textContent = 'Afficher le corrigé';
+    resetTimer();
+    roundsDone++;
+    roundsDoneEl.textContent = roundsDone;
+  }
+
+  function tickClock(){
+    var now = Date.now();
+    var elapsed = timerState.elapsed + (now - timerState.startedAt);
+    clock.textContent = fmtTime(elapsed);
+  }
+
+  function startTimer(){
+    timerState.running = true;
+    timerState.startedAt = Date.now();
+    timerWrap.classList.add('running');
+    timerToggle.textContent = 'Arrêter';
+    timerState.interval = setInterval(tickClock, 250);
+  }
+  function stopTimer(){
+    timerState.running = false;
+    timerState.elapsed += (Date.now() - timerState.startedAt);
+    timerWrap.classList.remove('running');
+    timerToggle.textContent = 'Reprendre';
+    clearInterval(timerState.interval);
+    if (bestTime === null || timerState.elapsed < bestTime){
+      bestTime = timerState.elapsed;
+      bestTimeEl.textContent = fmtTime(bestTime);
+    }
+  }
+  function resetTimer(){
+    clearInterval(timerState.interval);
+    timerState = { running:false, startedAt:0, elapsed:0, interval:null };
+    timerWrap.classList.remove('running');
+    timerToggle.textContent = 'Démarrer';
+    clock.textContent = '00:00';
+  }
+
+  timerToggle.addEventListener('click', function(){
+    if (timerState.running) stopTimer(); else startTimer();
+  });
+  timerReset.addEventListener('click', resetTimer);
+  corrigeToggle.addEventListener('click', function(){
+    corrigeBox.classList.toggle('show');
+    corrigeToggle.textContent = corrigeBox.classList.contains('show') ? 'Masquer le corrigé' : 'Afficher le corrigé';
+  });
+  document.getElementById('new-consigne').addEventListener('click', newConsigne);
+
+  // ---------- SIMULATEUR MODE ----------
+  var simuGoal = document.getElementById('simu-goal');
+  var cmRow = document.getElementById('cm-row');
+  var segmentRow = document.getElementById('segment-row');
+  var simuFeedback = document.getElementById('simu-feedback');
+  var simuCheck = document.getElementById('simu-check');
+  var simuNext = document.getElementById('simu-next');
+  var simuReset = document.getElementById('simu-reset');
+
+  var PX_PER_CM = 44;
+  var simu = { L:8, N:4, points:[], checked:false };
+
+  function renderRuler(){
+    var widthPx = simu.L * PX_PER_CM;
+    document.getElementById('ruler').style.width = widthPx + 'px';
+    cmRow.style.width = widthPx + 'px';
+    cmRow.innerHTML = '';
+    for (var cm=0; cm<=simu.L; cm++){
+      var x = cm*PX_PER_CM;
+      var t = document.createElement('div');
+      t.className = 'cm-tick whole';
+      t.style.left = x+'px';
+      cmRow.appendChild(t);
+      var l = document.createElement('div');
+      l.className = 'cm-lbl';
+      l.style.left = x+'px';
+      l.textContent = cm;
+      cmRow.appendChild(l);
+      if (cm < simu.L){
+        var h = document.createElement('div');
+        h.className = 'cm-tick half';
+        h.style.left = (x+PX_PER_CM/2)+'px';
+        cmRow.appendChild(h);
+      }
+    }
+  }
+
+  function idealPositions(){
+    var arr = [];
+    for (var k=1;k<simu.N;k++){ arr.push(k * (simu.L*PX_PER_CM) / simu.N); }
+    return arr;
+  }
+
+  function renderSegment(){
+    var widthPx = simu.L * PX_PER_CM;
+    segmentRow.style.width = widthPx + 'px';
+    segmentRow.innerHTML = '';
+
+    var bar = document.createElement('div'); bar.className='bar'; segmentRow.appendChild(bar);
+
+    var e0 = document.createElement('div'); e0.className='endpoint'; e0.style.left='0px'; segmentRow.appendChild(e0);
+    var e1 = document.createElement('div'); e1.className='endpoint'; e1.style.left=(widthPx-4)+'px'; segmentRow.appendChild(e1);
+
+    if (simu.checked){
+      idealPositions().forEach(function(x){
+        var g = document.createElement('div'); g.className='ghost'; g.style.left=x+'px'; segmentRow.appendChild(g);
+      });
+    }
+
+    var ideals = simu.checked ? idealPositions() : [];
+    simu.points.slice().sort(function(a,b){return a-b;}).forEach(function(x){
+      var p = document.createElement('div');
+      p.className = 'point';
+      p.style.left = x+'px';
+      if (simu.checked){
+        var nearest = ideals.reduce(function(best,v){ return (best===null || Math.abs(v-x)<Math.abs(best-x)) ? v : best; }, null);
+        var ok = nearest !== null && Math.abs(nearest-x) <= 10;
+        p.classList.add(ok ? 'correct' : 'incorrect');
+      }
+      var head = document.createElement('div'); head.className='head';
+      p.appendChild(head);
+      segmentRow.appendChild(p);
+    });
+  }
+
+  segmentRow.addEventListener('click', function(e){
+    if (simu.checked) return;
+    var rect = segmentRow.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    if (x < 10 || x > simu.L*PX_PER_CM - 10) return; // avoid endpoints
+    // toggle if near existing point
+    var near = simu.points.findIndex(function(p){ return Math.abs(p-x) < 12; });
+    if (near >= 0){ simu.points.splice(near,1); }
+    else {
+      if (simu.points.length >= simu.N - 1) return; // max interior points
+      simu.points.push(x);
+    }
+    renderSegment();
+  });
+
+  function newSimu(){
+    var lengths = [6,7,8,9,10];
+    var parts = [2,3,4,5];
+    simu.L = lengths[Math.floor(Math.random()*lengths.length)];
+    simu.N = parts[Math.floor(Math.random()*parts.length)];
+    simu.points = [];
+    simu.checked = false;
+    simuGoal.textContent = simu.N + ' parts égales (segment de ' + simu.L + ' cm)';
+    simuFeedback.className = 'feedback';
+    simuFeedback.textContent = '';
+    simuCheck.style.display = 'inline-block';
+    simuNext.style.display = 'none';
+    renderRuler();
+    renderSegment();
+  }
+
+  simuCheck.addEventListener('click', function(){
+    if (simu.points.length < simu.N - 1){
+      simuFeedback.className = 'feedback show bad';
+      simuFeedback.textContent = 'Il manque des graduations : il en faut ' + (simu.N-1) + ' pour obtenir ' + simu.N + ' parts.';
+      return;
+    }
+    simu.checked = true;
+    renderSegment();
+    var ideals = idealPositions();
+    var allOk = simu.points.every(function(x){
+      return ideals.some(function(v){ return Math.abs(v-x) <= 10; });
+    });
+    simuFeedback.className = 'feedback show ' + (allOk ? 'good':'bad');
+    simuFeedback.textContent = allOk
+      ? 'Parfait, les parts sont égales !'
+      : 'Presque — les positions idéales sont en pointillés, compare avec tes points.';
+    simuCheck.style.display = 'none';
+    simuNext.style.display = 'inline-block';
+  });
+  simuReset.addEventListener('click', function(){
+    if (simu.checked) return;
+    simu.points = [];
+    renderSegment();
+  });
+  simuNext.addEventListener('click', newSimu);
+
+  // ---------- mode switch ----------
+  var modeSub = document.getElementById('mode-sub');
+  document.getElementById('tab-consigne').addEventListener('click', function(){
+    document.getElementById('tab-consigne').setAttribute('aria-pressed','true');
+    document.getElementById('tab-simu').setAttribute('aria-pressed','false');
+    document.getElementById('panel-consigne').style.display='block';
+    document.getElementById('panel-simu').style.display='none';
+    modeSub.textContent = 'Tire une consigne de construction et chronomètre le binôme — aucune fiche à imprimer.';
+  });
+  document.getElementById('tab-simu').addEventListener('click', function(){
+    document.getElementById('tab-consigne').setAttribute('aria-pressed','false');
+    document.getElementById('tab-simu').setAttribute('aria-pressed','true');
+    document.getElementById('panel-consigne').style.display='none';
+    document.getElementById('panel-simu').style.display='block';
+    modeSub.textContent = 'Entraînement à la maison : place les graduations directement à l\'écran.';
+  });
+
+  newConsigne();
+  newSimu();
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>

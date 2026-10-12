@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La Course aux Fractions</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+  :root{
+    --paper:#fbfcf9; --ink:#182430; --muted:#5f6b73;
+    --accent:#c9821f; --accent-soft:#f0d9b3; --accent-ink:#7a4e10;
+    --teamA:#3f6fb0; --teamA-soft:#dde8f5;
+    --teamB:#a5468a; --teamB-soft:#f4dfee;
+    --teamC:#2f8f8f; --teamC-soft:#d9eeee;
+    --good:#3f7d5c; --good-soft:#dcefe4;
+    --bad:#c1503f; --bad-soft:#f7ddd8;
+    --grid-line: rgba(60,110,160,.16);
+    --card:#ffffff; --card-border:#e3e2d8;
+    --shadow: 0 1px 0 rgba(24,36,48,.04);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#161a1f; --ink:#eef0f2; --muted:#9aa4ab;
+      --accent:#e8a33d; --accent-soft:#4a3616; --accent-ink:#f6d190;
+      --teamA:#7fa8db; --teamA-soft:#233247;
+      --teamB:#d17fb8; --teamB-soft:#3a2635;
+      --teamC:#79d3d3; --teamC-soft:#1e3535;
+      --good:#6fbf95; --good-soft:#1c3327;
+      --bad:#e2897a; --bad-soft:#3a2320;
+      --grid-line: rgba(140,180,220,.14);
+      --card:#1e242b; --card-border:#2c333b;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#161a1f; --ink:#eef0f2; --muted:#9aa4ab;
+    --accent:#e8a33d; --accent-soft:#4a3616; --accent-ink:#f6d190;
+    --teamA:#7fa8db; --teamA-soft:#233247;
+    --teamB:#d17fb8; --teamB-soft:#3a2635;
+    --teamC:#79d3d3; --teamC-soft:#1e3535;
+    --good:#6fbf95; --good-soft:#1c3327;
+    --bad:#e2897a; --bad-soft:#3a2320;
+    --grid-line: rgba(140,180,220,.14);
+    --card:#1e242b; --card-border:#2c333b;
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Work Sans', system-ui, sans-serif;
+    background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  .wrap{ max-width:800px; margin:0 auto; padding: 22px 18px 40px; transition:max-width .15s; }
+  .wrap.wide{ max-width:1150px; }
+
+  .eyebrow{ font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.14em; color:var(--accent); display:flex; align-items:center; gap:7px; }
+  .eyebrow::before{ content:""; width:6px; height:6px; background:var(--accent); display:inline-block; transform:rotate(45deg); }
+  h1{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size: clamp(26px,6vw,38px); line-height:1; margin:6px 0 4px; text-wrap:balance; }
+  .sub{ color:var(--muted); font-size:14px; max-width:56ch; margin-bottom:18px; }
+
+  .tabs{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+  .tab{ font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.03em; border:1.5px solid var(--card-border); background:var(--card); color:var(--muted); padding:8px 13px; border-radius:999px; cursor:pointer; }
+  .tab[aria-pressed="true"]{ border-color:var(--accent); color:var(--accent-ink); background:var(--accent-soft); font-weight:700; }
+  .tab:hover{ border-color:var(--accent); }
+
+  .card{ background:var(--card); border:1px solid var(--card-border); border-radius:14px; padding:20px; box-shadow:var(--shadow); margin-bottom:16px; }
+
+  .prompt{ text-align:center; margin-bottom:6px; }
+  .prompt .ask{ font-size:12.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; font-family:'Space Mono',monospace; margin-bottom:4px; }
+  .prompt .goal{ font-family:'Big Shoulders Display'; font-weight:800; font-size:32px; }
+  .prompt .goal .mode-milieu{ font-size: 20px; font-family:'Work Sans'; font-weight:600; }
+
+  .numberline-host{ padding: 34px 26px 46px; overflow-x:auto; }
+  .numberline{ position:relative; height:70px; min-width:340px; margin:0 10px; }
+  .numberline .rail{ position:absolute; left:0; right:0; top:34px; height:3px; background:var(--ink); border-radius:2px; }
+  .tick{ position:absolute; top:34px; transform:translate(-50%,-50%); cursor:pointer; }
+  .tick .dot{ width:10px; height:10px; border-radius:50%; background:var(--card); border:2px solid var(--muted); display:block; transition:.12s; }
+  .tick.major .dot{ width:5px; height:22px; border-radius:2px; background:var(--ink); border:none; top:-6px; position:relative; }
+  .tick .lbl{ position:absolute; top:20px; left:50%; transform:translateX(-50%); font-family:'Space Mono',monospace; font-weight:700; font-size:13px; white-space:nowrap; }
+  .tick:hover .dot{ border-color:var(--accent); }
+  .tick.selected .dot{ background:var(--accent); border-color:var(--accent); }
+  .tick.correct .dot{ background:var(--good); border-color:var(--good); }
+  .tick.incorrect .dot{ background:var(--bad); border-color:var(--bad); }
+  .tick.endpoint .dot{ width:14px; height:14px; background:var(--accent); border-color:var(--accent); cursor:default; }
+  .tick.endpoint .pin{ position:absolute; top:-26px; left:50%; transform:translateX(-50%); font-family:'Space Mono',monospace; font-weight:700; font-size:12px; background:var(--accent); color:#1b1206; padding:1px 6px; border-radius:5px; }
+  .tick.given{ cursor:default; }
+  .tick.given .dot{ width:16px; height:16px; background:var(--ink); border-color:var(--ink); box-shadow:0 0 0 4px var(--accent-soft); position:static; top:auto; border-radius:50%; }
+  .tick.given .pin{ position:absolute; top:-26px; left:50%; transform:translateX(-50%); font-family:'Space Mono',monospace; font-weight:700; font-size:14px; background:var(--ink); color:var(--paper); padding:1px 8px; border-radius:5px; }
+  .tick.given.revealed .dot{ background:var(--accent); border-color:var(--accent); box-shadow:0 0 0 4px var(--accent-soft); }
+  .tick.given.revealed .pin{ background:var(--accent); color:#1b1206; }
+
+  .feedback{ text-align:center; padding:11px 16px; border-radius:10px; font-weight:600; font-size:14.5px; display:none; margin-top:4px; }
+  .feedback.show{ display:block; }
+  .feedback.good{ background:var(--good-soft); color:var(--good); }
+  .feedback.bad{ background:var(--bad-soft); color:var(--bad); }
+
+  .actions{ display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:14px; }
+  .btn{ font-family:'Space Mono',monospace; font-weight:700; font-size:13px; letter-spacing:.03em; background:var(--ink); color:var(--paper); border:none; border-radius:10px; padding:11px 18px; cursor:pointer; text-transform:uppercase; }
+  .btn:hover{ opacity:.85; }
+  .btn.accent{ background:var(--accent); color:#1b1206; }
+  .btn.ghost{ background:transparent; color:var(--ink); border:1.5px solid var(--card-border); }
+  .btn:disabled{ opacity:.4; cursor:not-allowed; }
+
+  .stat-row{ display:flex; gap:16px; justify-content:center; font-family:'Space Mono',monospace; flex-wrap:wrap; }
+  .stat{ text-align:center; }
+  .stat .n{ font-size:22px; font-weight:700; }
+  .stat .l{ font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.07em; }
+
+  /* answer steppers (numerator/denominator) */
+  .answer-row{ display:flex; justify-content:center; align-items:flex-end; gap:22px; margin:18px 0 6px; flex-wrap:wrap; }
+  .answer-frac{ display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .answer-frac .lbl{ font-family:'Space Mono',monospace; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }
+  .stepper{ display:flex; align-items:center; gap:0; border:1.5px solid var(--card-border); border-radius:10px; overflow:hidden; background:var(--card); }
+  .stepper button{ width:36px; height:36px; border:none; background:transparent; color:var(--ink); font-size:19px; cursor:pointer; font-family:'Space Mono',monospace; }
+  .stepper button:hover{ background:var(--accent-soft); }
+  .stepper button:disabled{ opacity:.35; cursor:not-allowed; }
+  .stepper .val{ width:44px; text-align:center; font-family:'Space Mono',monospace; font-weight:700; font-size:18px; color:var(--ink); }
+  .answer-bar{ font-family:'Space Mono',monospace; font-weight:800; font-size:30px; color:var(--muted); padding-bottom:6px; }
+
+  /* simultaneous team panels */
+  .race-hint{ text-align:center; font-size:12px; color:var(--muted); margin-bottom:14px; }
+  #tracks-host{ display:flex; flex-direction:column; gap:10px; margin-bottom:10px; }
+  @media (min-width:680px){
+    #tracks-host{ display:grid; grid-template-columns:repeat(3,1fr); align-items:start; gap:10px; }
+  }
+  .team-panel{ border-radius:12px; padding:10px 12px; border:2px solid transparent; transition:.15s; }
+  .team-panel.A{ color:var(--teamA); background:var(--teamA-soft); }
+  .team-panel.B{ color:var(--teamB); background:var(--teamB-soft); }
+  .team-panel.C{ color:var(--teamC); background:var(--teamC-soft); }
+  .team-panel.result-good{ box-shadow:0 0 0 3px var(--good) inset; }
+  .team-panel.result-bad{ box-shadow:0 0 0 3px var(--bad) inset; }
+  .team-panel .head{ display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px; }
+  .team-panel .name{ font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:.08em; font-weight:700; }
+  .badge-ok, .badge-bad{ font-family:'Space Mono',monospace; font-size:10.5px; padding:2px 8px; border-radius:999px; font-weight:700; white-space:nowrap; }
+  .badge-ok{ background:var(--good-soft); color:var(--good); }
+  .badge-bad{ background:var(--bad-soft); color:var(--bad); }
+  .team-panel .lane{ display:flex; gap:3px; align-items:center; margin-bottom:8px; }
+  .step{ flex:1; height:12px; border-radius:6px; border:2px solid currentColor; background:var(--card); opacity:.45; }
+  .step.filled{ background:currentColor; opacity:1; }
+  .step.current{ opacity:1; box-shadow:0 0 0 2px currentColor; }
+  .flag{ font-size:14px; line-height:1; flex:0 0 auto; }
+
+  .draw-row{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:6px; }
+  .dice-btn{ font-family:'Space Mono',monospace; font-weight:700; font-size:11.5px; border:1.5px solid currentColor; background:var(--card); color:inherit; padding:6px 9px; border-radius:8px; cursor:pointer; }
+  .dice-btn:hover{ opacity:.8; }
+  .dice-btn:disabled{ opacity:.4; cursor:not-allowed; }
+  .drawn-badge{ font-family:'Space Mono',monospace; font-weight:700; font-size:11.5px; color:var(--muted); background:var(--card); border:1.5px dashed var(--card-border); padding:5px 8px; border-radius:8px; }
+  .drawn-badge.set{ color:inherit; border-style:solid; border-color:currentColor; }
+  .size-toggle{ font-family:'Space Mono',monospace; font-weight:700; font-size:11px; border:1.5px solid transparent; background:transparent; color:inherit; opacity:.6; padding:5px 7px; border-radius:8px; cursor:pointer; margin-left:auto; }
+  .size-toggle:hover{ opacity:1; }
+  .size-panel{ display:flex; align-items:center; gap:6px; margin:-1px 0 7px; }
+  .size-lbl{ font-family:'Space Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); }
+  .stepper.mini button{ width:24px; height:24px; font-size:13px; }
+  .stepper.mini .val{ width:24px; font-size:12.5px; }
+
+  .mode-toggle{ display:flex; gap:5px; margin-bottom:6px; }
+  .mode-btn{ font-family:'Space Mono',monospace; font-weight:700; font-size:10.5px; border:1.5px solid currentColor; background:transparent; color:inherit; opacity:.5; padding:4px 9px; border-radius:999px; cursor:pointer; }
+  .mode-btn.active{ opacity:1; background:var(--card); }
+  .mode-btn:disabled{ cursor:not-allowed; }
+
+  .team-answer{ margin:2px 0 0; gap:10px; justify-content:flex-start; }
+  .whole-answer{ margin:2px 0 0; justify-content:flex-start; }
+  .team-answer .answer-bar{ font-size:20px; padding-bottom:2px; }
+  .team-answer .stepper button, .whole-answer .stepper button{ width:28px; height:28px; font-size:14px; }
+  .team-answer .stepper .val, .whole-answer .stepper .val{ width:30px; font-size:14px; }
+
+  .winner-banner{ text-align:center; font-family:'Big Shoulders Display'; font-weight:800; font-size:22px; color:var(--good); margin-bottom:14px; display:none; }
+  .winner-banner.show{ display:block; }
+
+  .trap-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:-8px 0 16px; }
+  .trap-tab[aria-pressed="true"]{ border-color:var(--bad); color:var(--bad); background:var(--bad-soft); }
+  .trap-hint{ font-size:11.5px; color:var(--muted); max-width:52ch; }
+
+  footer{ text-align:center; color:var(--muted); font-size:12px; margin-top:26px; font-family:'Space Mono',monospace; }
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Leçon 3 · Fractions</div>
+  <h1>La Course aux Fractions</h1>
+  <div class="sub" id="mode-sub">Place le point à la bonne position sur la demi-droite graduée.</div>
+
+  <div class="tabs">
+    <button class="tab" id="tab-entrainement" aria-pressed="true">Entraînement (solo)</button>
+    <button class="tab" id="tab-course" aria-pressed="false">Course en équipes</button>
+    <button class="tab" id="tab-milieu" aria-pressed="false">Trouver le milieu</button>
+  </div>
+
+  <div class="trap-row" id="trap-row">
+    <button class="tab trap-tab" id="trap-toggle" aria-pressed="false">🪤 Origine décalée</button>
+    <span class="trap-hint">La droite ne commence pas à 0 : il faut compter depuis l'origine réelle pour trouver la bonne fraction.</span>
+  </div>
+
+  <div class="card" id="teams-card" style="display:none;">
+    <div class="winner-banner" id="winner-banner"></div>
+    <div id="tracks-host"></div>
+    <div class="race-hint">Dans chaque équipe : tire un élève (🎲), il donne l'abscisse du point. Clique sur « Vérifier » quand les 3 équipes ont répondu — elles jouent en même temps !</div>
+    <div class="actions">
+      <button class="btn ghost" id="race-reset">Réinitialiser la course</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="prompt">
+      <div class="ask" id="prompt-ask">Place la fraction</div>
+      <div class="goal" id="prompt-goal">3/5</div>
+    </div>
+
+    <div class="numberline-host">
+      <div class="numberline" id="numberline"></div>
+    </div>
+
+    <div class="feedback" id="feedback"></div>
+
+    <div class="actions">
+      <button class="btn ghost" id="reset-btn">Recommencer</button>
+      <button class="btn accent" id="check-btn">Vérifier</button>
+      <button class="btn" id="next-btn" style="display:none;">Suivant →</button>
+    </div>
+  </div>
+
+  <div class="card" id="solo-score-card">
+    <div class="stat-row">
+      <div class="stat"><div class="n" id="stat-good">0</div><div class="l">Réussis</div></div>
+      <div class="stat"><div class="n" id="stat-streak">0</div><div class="l">Série en cours</div></div>
+      <div class="stat"><div class="n" id="stat-total">0</div><div class="l">Tentatives</div></div>
+    </div>
+  </div>
+
+  <footer>Séances 2 & 4 · Leçon 3 — Placer une fraction, lire une abscisse, trouver un milieu</footer>
+</div>
+
+<script>
+(function(){
+  var TRACK_LEN = 8;
+  var TEAM_IDS = ['A','B','C'];
+
+  function newTeam(){ return { progress:0, size:6, sizeOpen:false, drawn:null, answerNum:0, answerDen:2, isWhole:false, wholeVal:0, lastOk:null }; }
+
+  var state = {
+    mode: 'entrainement', // entrainement | course | milieu
+    denom: 5,
+    maxUnit: 1,
+    targetIndex: 0,    // in units of 1/denom
+    selectedIndex: null,
+    checked: false,
+    solo: { good:0, total:0, streak:0 },
+    milieuA: 0, milieuB: 0, // endpoint indices (units of 1/denom)
+    showLabels: true,
+    _totalTicksOverride: null,
+    // difficulty option: the line doesn't start at 0, forcing students to count
+    // from the true origin rather than from the left edge of the drawing
+    trapOrigin: false,
+    originIndex: 0,
+    // course (lire l'abscisse) mode — 3 teams play simultaneously each round
+    teams: { A: newTeam(), B: newTeam(), C: newTeam() },
+    winner: null
+  };
+
+  var wrapEl = document.querySelector('.wrap');
+  var trapRow = document.getElementById('trap-row');
+  var trapToggle = document.getElementById('trap-toggle');
+  var numberline = document.getElementById('numberline');
+  var promptAsk = document.getElementById('prompt-ask');
+  var promptGoal = document.getElementById('prompt-goal');
+  var feedback = document.getElementById('feedback');
+  var checkBtn = document.getElementById('check-btn');
+  var nextBtn = document.getElementById('next-btn');
+  var resetBtn = document.getElementById('reset-btn');
+  var teamsCard = document.getElementById('teams-card');
+  var soloScoreCard = document.getElementById('solo-score-card');
+  var modeSub = document.getElementById('mode-sub');
+  var tracksHost = document.getElementById('tracks-host');
+  var winnerBanner = document.getElementById('winner-banner');
+
+  function isLire(){ return state.mode === 'course'; }
+
+  function renderLine(){
+    numberline.innerHTML = '';
+    var totalTicks = state._totalTicksOverride || (state.maxUnit * state.denom);
+    var originIdx = state.mode === 'milieu' ? 0 : (state.originIndex || 0);
+    var widthPer = Math.max(46, Math.min(70, 620 / totalTicks));
+    numberline.style.minWidth = (totalTicks * widthPer + 40) + 'px';
+
+    var rail = document.createElement('div');
+    rail.className = 'rail';
+    numberline.appendChild(rail);
+
+    for (var k=0;k<=totalTicks;k++){
+      var i = originIdx + k; // true absolute index (fraction = i/denom, counted from the real 0)
+      var pct = (k/totalTicks)*100;
+      var isMajor = state.showLabels && (i % state.denom) === 0;
+      var t = document.createElement('div');
+      t.className = 'tick' + (isMajor ? ' major':'');
+      t.style.left = pct + '%';
+      t.dataset.i = i;
+
+      var isMilieuEndpoint = state.mode === 'milieu' && (i === state.milieuA || i === state.milieuB);
+      var isGiven = isLire() && i === state.targetIndex;
+
+      if (isMilieuEndpoint){
+        t.classList.add('endpoint');
+        var pin = document.createElement('div');
+        pin.className = 'pin';
+        pin.textContent = (i === state.milieuA) ? 'A' : 'B';
+        t.appendChild(pin);
+      }
+      if (isGiven){
+        t.classList.add('given');
+        if (state.checked) t.classList.add('revealed');
+        var gpin = document.createElement('div');
+        gpin.className = 'pin';
+        gpin.textContent = state.checked ? (state.targetIndex + '/' + state.denom) : '?';
+        t.appendChild(gpin);
+      }
+
+      var dot = document.createElement('div');
+      dot.className = 'dot';
+      t.appendChild(dot);
+
+      if (isMajor && state.showLabels){
+        var lbl = document.createElement('div');
+        lbl.className = 'lbl';
+        lbl.textContent = (i/state.denom);
+        t.appendChild(lbl);
+      }
+
+      if (!isLire()){
+        if (state.selectedIndex === i) t.classList.add('selected');
+        if (state.checked){
+          if (i === state.targetIndex) t.classList.add('correct');
+          else if (i === state.selectedIndex && i !== state.targetIndex) t.classList.add('incorrect');
+        }
+        if (!isMilieuEndpoint){
+          t.addEventListener('click', function(e){
+            if (state.checked) return;
+            state.selectedIndex = +e.currentTarget.dataset.i;
+            renderLine();
+          });
+        }
+      }
+      numberline.appendChild(t);
+    }
+  }
+
+  function setPrompt(){
+    if (state.mode === 'milieu'){
+      promptAsk.textContent = 'Trouve le milieu du segment';
+      promptGoal.innerHTML = '[A ; B] <span class="mode-milieu">— compte les graduations entre A et B, puis divise ce nombre par 2</span>';
+    } else if (isLire()){
+      promptAsk.textContent = 'Quelle est l\'abscisse du point ?';
+      promptGoal.innerHTML = '<span class="mode-milieu">Compte les graduations pour trouver le numérateur et le dénominateur</span>';
+    } else {
+      promptAsk.textContent = 'Place la fraction';
+      promptGoal.textContent = state.targetIndex + '/' + state.denom;
+    }
+  }
+
+  function newRound(){
+    state.checked = false;
+    state.selectedIndex = null;
+    feedback.className = 'feedback';
+    feedback.textContent = '';
+    checkBtn.style.display = 'inline-block';
+    checkBtn.disabled = false;
+    nextBtn.style.display = 'none';
+
+    if (state.mode === 'milieu'){
+      state.showLabels = false;
+      state.originIndex = 0;
+      var pad = 2;
+      var len = [4,6,8,10][Math.floor(Math.random()*4)]; // even length in ticks, always solvable
+      state.denom = len;
+      state.maxUnit = 1;
+      var totalTicks = len + 2*pad;
+      state.milieuA = pad;
+      state.milieuB = pad + len;
+      state.targetIndex = pad + len/2;
+      state._totalTicksOverride = totalTicks;
+    } else {
+      state.showLabels = true;
+      state._totalTicksOverride = null;
+      state.denom = 2 + Math.floor(Math.random()*7); // 2..8
+      var maxPossibleUnit = state.denom <= 3 ? 4 : (state.denom <= 5 ? 3 : 2);
+      state.maxUnit = 1 + Math.floor(Math.random()*maxPossibleUnit); // visible span, in whole units
+      var originUnits = 0;
+      if (state.trapOrigin){
+        originUnits = 1 + Math.floor(Math.random()*2); // the line starts at 1 or 2, not 0
+      }
+      state.originIndex = originUnits * state.denom;
+      var total = state.maxUnit * state.denom; // visible span, in ticks
+      if (state.maxUnit > 1 && Math.random() < 0.35){
+        // bias toward a fraction that lands exactly on a whole number of units
+        // (e.g. 12/3 = 4), a case explicitly expected at end of 6e — still
+        // relevant when the line's origin is offset (e.g. 20/5 = 4 on a line
+        // starting at 2, forcing students to count from the true 0)
+        var kMin = originUnits + 1;
+        var kMax = originUnits + state.maxUnit;
+        var k = kMin + Math.floor(Math.random()*(kMax - kMin + 1));
+        state.targetIndex = k * state.denom;
+      } else {
+        state.targetIndex = state.originIndex + 1 + Math.floor(Math.random()*total); // avoid landing exactly on the origin
+      }
+    }
+
+    if (isLire()){
+      TEAM_IDS.forEach(function(id){
+        var team = state.teams[id];
+        team.drawn = null;
+        team.answerNum = 0;
+        team.answerDen = 2;
+        team.isWhole = false;
+        team.wholeVal = 0;
+        team.lastOk = null;
+      });
+      renderTeams();
+    }
+
+    setPrompt();
+    renderLine();
+  }
+
+  function wholeNoteFor(target, denom){
+    if (target % denom === 0 && target > 0){
+      var units = target / denom;
+      return ' (' + target + '/' + denom + ' = ' + units + ' unité' + (units>1?'s':'') + ' entière' + (units>1?'s':'') + ')';
+    }
+    return '';
+  }
+
+  function allTeamsDrawn(){
+    return TEAM_IDS.every(function(id){ return !!state.teams[id].drawn; });
+  }
+
+  function checkAnswer(){
+    if (isLire()){
+      if (!allTeamsDrawn()){
+        feedback.className = 'feedback show bad';
+        feedback.textContent = 'Tire un élève dans chaque équipe avant de vérifier !';
+        return;
+      }
+      state.checked = true;
+      var goodTeams = [], badTeams = [];
+      TEAM_IDS.forEach(function(id){
+        var team = state.teams[id];
+        var ok = team.isWhole
+          ? (team.wholeVal * state.denom === state.targetIndex)
+          : (team.answerNum === state.targetIndex && team.answerDen === state.denom);
+        team.lastOk = ok;
+        if (ok){ goodTeams.push(id); advanceTeam(id); } else { badTeams.push(id); }
+      });
+      renderLine();
+      renderTeams();
+      if (state.winner){
+        winnerBanner.className = 'winner-banner show';
+        winnerBanner.textContent = '🏆 L\'équipe ' + state.winner + ' remporte la course !';
+      }
+      var note = wholeNoteFor(state.targetIndex, state.denom);
+      var base = 'La bonne réponse était ' + state.targetIndex + '/' + state.denom + note + '. ';
+      var msg;
+      if (goodTeams.length === 3){ msg = base + 'Bravo, les 3 équipes ont juste et avancent !'; }
+      else if (goodTeams.length === 0){ msg = base + 'Aucune équipe n\'avance ce tour-ci.'; }
+      else { msg = base + (goodTeams.length>1 ? 'Avancent : équipes ' : 'Avance : équipe ') + goodTeams.join(', ') + '.'; }
+      feedback.className = 'feedback show ' + (goodTeams.length>0 ? 'good':'bad');
+      feedback.textContent = msg;
+      checkBtn.style.display = 'none';
+      nextBtn.style.display = 'inline-block';
+      return;
+    }
+
+    if (state.selectedIndex === null){
+      feedback.className = 'feedback show bad';
+      feedback.textContent = 'Clique d\'abord sur un point de la droite.';
+      return;
+    }
+    state.checked = true;
+    var ok2 = state.selectedIndex === state.targetIndex;
+    renderLine();
+
+    var wholeNote = state.mode !== 'milieu' ? wholeNoteFor(state.targetIndex, state.denom) : '';
+
+    if (state.mode === 'entrainement'){
+      state.solo.total++;
+      if (ok2){ state.solo.good++; state.solo.streak++; }
+      else state.solo.streak = 0;
+      document.getElementById('stat-good').textContent = state.solo.good;
+      document.getElementById('stat-streak').textContent = state.solo.streak;
+      document.getElementById('stat-total').textContent = state.solo.total;
+      feedback.className = 'feedback show ' + (ok2 ? 'good':'bad');
+      feedback.textContent = (ok2 ? 'Exact !' : 'Pas tout à fait — la bonne position est en vert.') + wholeNote;
+      checkBtn.style.display = 'none';
+      nextBtn.style.display = 'inline-block';
+    }
+
+    if (state.mode === 'milieu'){
+      var segLen = state.milieuB - state.milieuA;
+      var method = segLen + ' graduations ÷ 2 = ' + (segLen/2) + ' graduations depuis A.';
+      feedback.className = 'feedback show ' + (ok2 ? 'good':'bad');
+      feedback.textContent = (ok2 ? 'Bravo, c\'est bien le milieu ! ' : 'Pas tout à fait — le vrai milieu est en vert. ') + method;
+      checkBtn.style.display = 'none';
+      nextBtn.style.display = 'inline-block';
+    }
+  }
+
+  // ---------- simultaneous team panels ----------
+  function teamPanelHTML(id){
+    var team = state.teams[id];
+    var resultClass = (state.checked && team.lastOk === true) ? ' result-good' : ((state.checked && team.lastOk === false) ? ' result-bad' : '');
+    var badge = (state.checked && team.lastOk === true) ? '<span class="badge-ok">✓ juste</span>'
+      : (state.checked && team.lastOk === false) ? '<span class="badge-bad">✗ faux</span>' : '';
+    var drawnTxt = team.drawn ? ('Élève n°' + team.drawn) : '— pas tiré —';
+    var lane = '';
+    for (var s=0;s<TRACK_LEN;s++){
+      lane += '<div class="step' + (s < team.progress ? ' filled' : '') + (s === team.progress-1 ? ' current' : '') + '"></div>';
+    }
+    var dis = state.checked ? ' disabled' : '';
+
+    var sizePanel = team.sizeOpen ? (
+      '<div class="size-panel">'
+      +   '<span class="size-lbl">Effectif de l\'équipe</span>'
+      +   '<div class="stepper mini">'
+      +     '<button data-action="size-minus" data-team="' + id + '"' + dis + '>−</button>'
+      +     '<div class="val">' + team.size + '</div>'
+      +     '<button data-action="size-plus" data-team="' + id + '"' + dis + '>+</button>'
+      +   '</div>'
+      + '</div>'
+    ) : '';
+
+    var answerHTML = team.isWhole
+      ? ('<div class="answer-row whole-answer">'
+        +   '<div class="answer-frac"><span class="lbl">Nombre entier</span><div class="stepper">'
+        +     '<button data-action="whole-minus" data-team="' + id + '"' + dis + '>−</button>'
+        +     '<div class="val">' + team.wholeVal + '</div>'
+        +     '<button data-action="whole-plus" data-team="' + id + '"' + dis + '>+</button>'
+        +   '</div></div>'
+        + '</div>')
+      : ('<div class="answer-row team-answer">'
+        +   '<div class="answer-frac"><span class="lbl">Num.</span><div class="stepper">'
+        +     '<button data-action="num-minus" data-team="' + id + '"' + dis + '>−</button>'
+        +     '<div class="val">' + team.answerNum + '</div>'
+        +     '<button data-action="num-plus" data-team="' + id + '"' + dis + '>+</button>'
+        +   '</div></div>'
+        +   '<div class="answer-bar">/</div>'
+        +   '<div class="answer-frac"><span class="lbl">Dén.</span><div class="stepper">'
+        +     '<button data-action="den-minus" data-team="' + id + '"' + dis + '>−</button>'
+        +     '<div class="val">' + team.answerDen + '</div>'
+        +     '<button data-action="den-plus" data-team="' + id + '"' + dis + '>+</button>'
+        +   '</div></div>'
+        + '</div>');
+
+    return ''
+      + '<div class="team-panel ' + id + resultClass + '">'
+      + '<div class="head"><div class="name">Équipe ' + id + '</div>' + badge + '</div>'
+      + '<div class="lane">' + lane + '<div class="flag">🏁</div></div>'
+      + '<div class="draw-row">'
+      +   '<button class="dice-btn" data-action="draw" data-team="' + id + '"' + dis + '>🎲 Tirer</button>'
+      +   '<div class="drawn-badge' + (team.drawn ? ' set' : '') + '">' + drawnTxt + '</div>'
+      +   '<button class="size-toggle" data-action="toggle-size" data-team="' + id + '" title="Régler l\'effectif de l\'équipe">⚙ ' + team.size + '</button>'
+      + '</div>'
+      + sizePanel
+      + '<div class="mode-toggle">'
+      +   '<button class="mode-btn' + (!team.isWhole ? ' active' : '') + '" data-action="mode-frac" data-team="' + id + '"' + dis + '>Fraction</button>'
+      +   '<button class="mode-btn' + (team.isWhole ? ' active' : '') + '" data-action="mode-whole" data-team="' + id + '"' + dis + '>Nombre entier</button>'
+      + '</div>'
+      + answerHTML
+      + '</div>';
+  }
+
+  function renderTeams(){
+    tracksHost.innerHTML = TEAM_IDS.map(teamPanelHTML).join('');
+    checkBtn.disabled = isLire() ? (state.checked || !allTeamsDrawn()) : checkBtn.disabled;
+  }
+
+  tracksHost.addEventListener('click', function(e){
+    var btn = e.target.closest('[data-action]');
+    if (!btn || btn.disabled) return;
+    var id = btn.dataset.team;
+    var team = state.teams[id];
+    if (!team) return;
+    switch (btn.dataset.action){
+      case 'draw':
+        team.drawn = 1 + Math.floor(Math.random()*team.size);
+        break;
+      case 'size-plus':
+        team.size = Math.min(40, team.size + 1);
+        break;
+      case 'size-minus':
+        team.size = Math.max(1, team.size - 1);
+        if (team.drawn && team.drawn > team.size) team.drawn = null;
+        break;
+      case 'num-plus':
+        team.answerNum = Math.min(40, team.answerNum + 1);
+        break;
+      case 'num-minus':
+        team.answerNum = Math.max(0, team.answerNum - 1);
+        break;
+      case 'den-plus':
+        team.answerDen = Math.min(10, team.answerDen + 1);
+        break;
+      case 'den-minus':
+        team.answerDen = Math.max(2, team.answerDen - 1);
+        break;
+      case 'toggle-size':
+        team.sizeOpen = !team.sizeOpen;
+        break;
+      case 'mode-frac':
+        team.isWhole = false;
+        break;
+      case 'mode-whole':
+        team.isWhole = true;
+        break;
+      case 'whole-plus':
+        team.wholeVal = Math.min(40, team.wholeVal + 1);
+        break;
+      case 'whole-minus':
+        team.wholeVal = Math.max(0, team.wholeVal - 1);
+        break;
+      default: return;
+    }
+    renderTeams();
+  });
+
+  function advanceTeam(id){
+    var team = state.teams[id];
+    team.progress = Math.min(TRACK_LEN, team.progress + 1);
+    if (team.progress >= TRACK_LEN && !state.winner){
+      state.winner = id;
+    }
+  }
+
+  function resetRace(){
+    TEAM_IDS.forEach(function(id){
+      var team = state.teams[id];
+      team.progress = 0;
+      team.drawn = null;
+      team.answerNum = 0;
+      team.answerDen = 2;
+      team.isWhole = false;
+      team.wholeVal = 0;
+      team.lastOk = null;
+      // team.size (effectif configuré) is kept across resets
+    });
+    state.winner = null;
+    winnerBanner.className = 'winner-banner';
+    winnerBanner.textContent = '';
+    renderTeams();
+    newRound();
+  }
+
+  document.getElementById('race-reset').addEventListener('click', resetRace);
+
+  checkBtn.addEventListener('click', checkAnswer);
+  resetBtn.addEventListener('click', function(){
+    if (state.checked) return;
+    if (isLire()){
+      TEAM_IDS.forEach(function(id){
+        state.teams[id].answerNum = 0;
+        state.teams[id].answerDen = 2;
+        state.teams[id].wholeVal = 0;
+      });
+      renderTeams();
+    } else {
+      state.selectedIndex = null;
+      renderLine();
+    }
+  });
+  nextBtn.addEventListener('click', function(){
+    newRound();
+  });
+
+  trapToggle.addEventListener('click', function(){
+    state.trapOrigin = !state.trapOrigin;
+    trapToggle.setAttribute('aria-pressed', state.trapOrigin ? 'true' : 'false');
+    if (state.mode !== 'milieu') newRound();
+  });
+
+  function setMode(mode){
+    state.mode = mode;
+    ['entrainement','course','milieu'].forEach(function(m){
+      document.getElementById('tab-'+m).setAttribute('aria-pressed', m===mode ? 'true':'false');
+    });
+    teamsCard.style.display = mode === 'course' ? 'block' : 'none';
+    soloScoreCard.style.display = mode === 'entrainement' ? 'block' : 'none';
+    wrapEl.classList.toggle('wide', mode === 'course');
+    trapRow.style.display = mode === 'milieu' ? 'none' : 'flex';
+    modeSub.textContent = mode === 'milieu'
+      ? 'Repère les deux extrémités A et B, puis clique sur le point qui se trouve exactement au milieu.'
+      : mode === 'course'
+        ? 'Jeu en 3 équipes qui jouent en même temps : un point est déjà placé sur la droite. Dans chaque équipe, tire un élève au sort (🎲) — il donne l\'abscisse pour faire avancer son équipe. Si le point tombe pile sur une graduation entière, l\'équipe peut basculer sur « Nombre entier » pour répondre directement.'
+        : 'Place le point à la bonne position sur la demi-droite graduée.';
+    if (mode === 'course'){ renderTeams(); }
+    newRound();
+  }
+
+  document.getElementById('tab-entrainement').addEventListener('click', function(){ setMode('entrainement'); });
+  document.getElementById('tab-course').addEventListener('click', function(){ setMode('course'); });
+  document.getElementById('tab-milieu').addEventListener('click', function(){ setMode('milieu'); });
+
+  setMode('entrainement');
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 4 — Problèmes de répartition et bilan du chapitre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --acc-b:#E5544F; --acc-bg:#FDEBEC; --acc-t:#B5322E; --ink:#22303F; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 860px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#F7B8B5; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:22px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:25px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+.automatisme { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:12px 16px; margin-bottom:14px; }
+.automatisme h2 { font-family:'Baloo 2',sans-serif; font-size:15px; color:#2B6CB0; margin:0 0 8px 0; }
+.automatisme ol { margin:0; padding-left:20px; font-size:13px; }
+.automatisme li { margin-bottom:2px; }
+.reveal-panel { display:none; margin-top:8px; font-size:12.5px; font-style:italic; color:#3B4C5E; border-top:1px dashed #B7CBE3; padding-top:6px; }
+.reveal-panel.show { display:block; }
+.methode { background:#FFF9EC; border:2px dashed #D8B24C; border-radius:10px; padding:10px 16px; margin-bottom:18px; font-size:12.5px; }
+.methode b.tag { font-family:'Baloo 2',sans-serif; color:#9C7A17; display:block; margin-bottom:3px; font-size:13px; }
+.methode .schema { background:#fff; border-radius:8px; padding:8px; margin-top:8px; text-align:center; }
+.section-title { font-family:'Baloo 2',sans-serif; font-size:18px; margin:4px 0 12px 0; }
+.advanced-title { font-family:'Baloo 2',sans-serif; font-size:15px; color:var(--acc-t); margin:18px 0 10px 0; padding-top:12px; border-top:2px dashed var(--acc-b); }
+.exo { border:2px solid var(--acc-b); background:var(--acc-bg); border-radius:12px; padding:14px 18px; margin-bottom:14px; }
+.exo-title { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:var(--acc-t); margin-bottom:6px; }
+.exo p { font-size:13px; margin:4px 0; line-height:1.5; }
+.exo p.q { margin:6px 0 2px 4px; }
+.schema { background:#fff; border-radius:8px; padding:8px; margin:8px 0; text-align:center; }
+.schema svg { max-width:100%; height:auto; }
+.btn-row { display:flex; gap:10px; margin-top:8px; flex-wrap:wrap; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:12px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:12.5px; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel.solution-panel { border:1.5px dashed #4CAF7D; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; }
+.astuce-panel .label { color:#B5680A; }
+.solution-panel .label { color:#1E7A4C; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="badge">S4</div>
+    <div>
+      <h1>Problèmes de répartition et bilan du chapitre</h1>
+      <div class="subtitle">Chapitre 3 — Divisibilité et nombres premiers — 4e — Séance 4</div>
+    </div>
+  </header>
+  <div class="objectifs"><b>Objectifs :</b> résoudre un problème de répartition en lots identiques en cherchant le plus grand nombre qui divise deux quantités, avec une autonomie croissante.</div>
+  <div class="automatisme">
+    <h2>Automatisme</h2>
+    <ol><li>Décompose 18 en facteurs premiers.</li><li>Décompose 24 en facteurs premiers.</li><li>Facteurs premiers communs à 18 et 24 ?</li><li>7 × 8 =</li><li>100 ÷ 25 =</li><li>3² × 2 =</li></ol>
+    <button class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
+    <div class="reveal-panel" id="auto-corrige">Corrigé : 2 × 3² ; 2³ × 3 ; 2 et 3 ; 56 ; 4 ; 18</div>
+  </div>
+  <div class="methode"><b class="tag">Méthode</b>Un fleuriste a 12 roses et 18 tulipes, et veut faire des bouquets identiques avec toutes les fleurs. 12=2²×3, 18=2×3². Facteurs premiers communs : 2×3=6. Il peut donc faire <b>6 bouquets</b> maximum, chacun avec 2 roses et 3 tulipes.</div>
+  <div class="section-title">Exercices</div>
+
+    <div class="exo">
+      <div class="exo-title">★ Exercice</div>
+      <p>Pour le stand de merchandising d'un concert, un organisateur a 48 badges et 36 stickers. Il veut préparer des pochettes identiques en utilisant tous les articles.<br><span class='q'>a) Donne les décompositions en facteurs premiers de 48 et de 36.</span><br><span class='q'>b) Quels sont leurs facteurs premiers communs ?</span><br><span class='q'>c) Quel est le plus grand nombre de pochettes identiques possible, et que contient chaque pochette ?</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-0')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-0')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-0"><span class="label">Astuce</span>Suis les 3 étapes dans l'ordre : décompose, trouve les facteurs communs, puis multiplie-les pour avoir le nombre de pochettes.</div>
+      <div class="panel solution-panel" id="solution-0"><span class="label">Solution</span>a) 48 = 2⁴ × 3 et 36 = 2² × 3². b) Facteurs communs : 2² × 3. c) 2² × 3 = 12, donc <b>12 pochettes</b> maximum, chacune avec 4 badges et 3 stickers.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Dans chaque situation, trouve le plus grand nombre de lots identiques possible en utilisant tout le matériel, et dis ce que contient un lot :<br><span class='q'>a) 36 crayons et 24 gommes</span><br><span class='q'>b) 54 cahiers et 90 stylos</span><br><span class='q'>c) 28 billes rouges et 45 billes bleues</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-1')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-1')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-1"><span class="label">Astuce</span>Même méthode que l'exercice précédent, mais sans les étapes. Pour c), regarde bien les facteurs communs : y en a-t-il ?</div>
+      <div class="panel solution-panel" id="solution-1"><span class="label">Solution</span>a) 36 = 2²×3² et 24 = 2³×3, facteurs communs 2²×3 = 12 : <b>12 lots</b> de 3 crayons et 2 gommes. b) 54 = 2×3³ et 90 = 2×3²×5, facteurs communs 2×3² = 18 : <b>18 lots</b> de 3 cahiers et 5 stylos. c) 28 = 2²×7 et 45 = 3²×5 n'ont aucun facteur commun : on ne peut faire qu'<b>un seul lot</b>, qui contient toutes les billes.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Pour une kermesse, des bénévoles ont préparé des sachets identiques en utilisant tous leurs articles. Chaque sachet contient 4 cookies et 7 bonbons, et il y a 9 sachets.<br><span class='q'>a) Combien de cookies et de bonbons les bénévoles avaient-ils au départ ?</span><br><span class='q'>b) Avaient-ils fait le plus grand nombre de sachets possible ? Justifie avec les décompositions en facteurs premiers.</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-2')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-2')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-2"><span class="label">Astuce</span>Pour a), calcule le contenu total des 9 sachets. Pour b), cherche les facteurs premiers communs aux deux quantités trouvées.</div>
+      <div class="panel solution-panel" id="solution-2"><span class="label">Solution</span>a) 9 × 4 = 36 cookies et 9 × 7 = 63 bonbons. b) 36 = 2²×3² et 63 = 3²×7 : facteurs communs 3² = 9. Le plus grand nombre de sachets possible est <b>9</b> : oui, ils avaient fait le maximum.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>Un fleuriste a 24 roses et 36 tulipes. Pour faire des bouquets identiques avec toutes ses fleurs, Théo propose de faire 6 bouquets, avec 4 roses et 6 tulipes dans chacun.<br><span class='q'>a) Vérifie que le partage proposé par Théo est possible.</span><br><span class='q'>b) Théo a-t-il trouvé le plus grand nombre de bouquets possible ? Justifie avec les décompositions en facteurs premiers.</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-3')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-3')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-3"><span class="label">Astuce</span>Un partage possible n'est pas forcément le meilleur : cherche le plus grand nombre qui divise à la fois 24 et 36.</div>
+      <div class="panel solution-panel" id="solution-3"><span class="label">Solution</span>a) 24 ÷ 6 = 4 et 36 ÷ 6 = 6 : le partage est possible. b) 24 = 2³×3 et 36 = 2²×3², facteurs communs 2²×3 = 12. On peut faire <b>12 bouquets</b>, chacun avec 2 roses et 3 tulipes. Théo n'a donc pas trouvé le maximum : il a oublié un facteur 2.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>Un organisateur d'événement doit répartir 360 chaises et 240 tables identiques dans plusieurs salles identiques, en utilisant tout le matériel.<br><span class='q'>a) Quel est le plus grand nombre de salles identiques possible ?</span><br><span class='q'>b) S'il ne dispose finalement que de 90 tables (au lieu de 240) pour les mêmes 360 chaises, ce nombre de salles change-t-il ? Justifie en refaisant le raisonnement avec les nouvelles quantités.</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-4')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-4')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-4"><span class="label">Astuce</span>Pour la question b), refais tout le raisonnement de la question a) mais avec les nouvelles quantités (360 et 90).</div>
+      <div class="panel solution-panel" id="solution-4"><span class="label">Solution</span>a) 360 = 2³×3²×5 et 240 = 2⁴×3×5, facteurs communs 2³×3×5 = 120 → <b>120 salles</b> (3 chaises et 2 tables chacune). b) 90 = 2×3²×5, facteurs communs avec 360 : 2×3²×5 = 90 → le nombre <b>change</b>, il passe à <b>90 salles</b> (4 chaises et 1 table chacune).</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>On veut carreler un mur rectangulaire de 240 cm sur 180 cm avec des carreaux carrés tous identiques, sans aucune découpe, et les plus grands possible.<br><span class='q'>a) Quelle est la longueur du côté d'un carreau ?</span><br><span class='q'>b) Combien de carreaux faut-il ?</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-5')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-5')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-5"><span class="label">Astuce</span>Le côté du carreau doit diviser 240 et 180 : cherche le plus grand nombre qui divise les deux longueurs.</div>
+      <div class="panel solution-panel" id="solution-5"><span class="label">Solution</span>a) 240 = 2⁴×3×5 et 180 = 2²×3²×5, facteurs communs 2²×3×5 = 60 : le côté mesure <b>60 cm</b>. b) 240 ÷ 60 = 4 carreaux dans la longueur et 180 ÷ 60 = 3 dans la hauteur : 4 × 3 = <b>12 carreaux</b>.</div>
+    </div><div class="advanced-title">Pour aller plus loin</div>
+    <div class="exo">
+      <div class="exo-title">★★★★ Exercice (question ouverte)</div>
+      <p>Pourquoi la décomposition en facteurs premiers permet-elle de trouver directement le plus grand nombre de lots identiques possible, plutôt que de tester au hasard plusieurs nombres de lots ? Explique avec tes mots ce que représentent les facteurs premiers communs dans ce type de problème.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-6')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-6')">✅ Piste de correction</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-6"><span class="label">Astuce</span>Repense à ce que représente un facteur premier commun : c'est un nombre qui divise à la fois les deux quantités de départ.</div>
+      <div class="panel solution-panel" id="solution-6"><span class="label">Piste de correction</span>Les facteurs premiers communs représentent tous les nombres qui divisent à la fois les deux quantités de départ. En les multipliant tous ensemble, on obtient directement le plus grand nombre qui divise les deux quantités, sans avoir à tester un par un tous les diviseurs possibles : c'est une méthode systématique, plus sûre qu'un essai au hasard.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★★ Exercice</div>
+      <p>Un traiteur prépare des plateaux identiques avec toute sa nourriture : 60 sandwichs, 90 boissons et 45 desserts. Quel est le plus grand nombre de plateaux possible, et que contient chaque plateau ?</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-7')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-7')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-7"><span class="label">Astuce</span>Décompose les trois nombres et garde les facteurs premiers présents dans les trois décompositions.</div>
+      <div class="panel solution-panel" id="solution-7"><span class="label">Solution</span>60 = 2²×3×5, 90 = 2×3²×5 et 45 = 3²×5. Facteurs communs aux trois : 3 × 5 = 15. On peut faire <b>15 plateaux</b>, chacun avec 4 sandwichs, 6 boissons et 3 desserts.</div>
+    </div>
+  <footer>Cherche seul(e) d'abord. Utilise l'astuce si tu bloques, puis vérifie avec la solution.</footer>
+</div>
+<script>function toggle(id){document.getElementById(id).classList.toggle('show');}</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

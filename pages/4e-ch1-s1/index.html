@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 1 — La proportionnalité</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@page { size: A4; margin: 10mm; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Work Sans', sans-serif;
+  color: #22303F;
+  background: #EFEAE0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.page {
+  max-width: 900px;
+  margin: 18px auto;
+  background: #FFFFFF;
+  border-radius: 18px;
+  padding: 26px 30px 24px;
+  box-shadow: 0 10px 30px rgba(34,48,63,0.12);
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 3px solid #22303F;
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+}
+.badge {
+  flex: 0 0 auto;
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: #22303F;
+  color: #FFD75E;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-4deg);
+}
+h1 {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  margin: 0;
+  color: #22303F;
+  line-height: 1.15;
+}
+.subtitle { font-size: 13.5px; color: #6B7A8A; margin-top: 4px; font-weight: 500; }
+.objectifs {
+  background: #F4F1EA;
+  border-left: 6px solid #22303F;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+.objectifs b { color: #22303F; }
+.automatisme {
+  background: #EAF1FB;
+  border-left: 6px solid #2B6CB0;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 18px;
+}
+.automatisme h2 {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 15px;
+  color: #2B6CB0;
+  margin: 0 0 8px 0;
+}
+.automatisme ol { margin: 0; padding-left: 20px; font-size: 13px; }
+.automatisme li { margin-bottom: 2px; }
+.automatisme .corrige {
+  margin-top: 8px;
+  font-size: 12.5px;
+  font-style: italic;
+  color: #3B4C5E;
+  border-top: 1px dashed #B7CBE3;
+  padding-top: 6px;
+}
+.section-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 18px;
+  color: #22303F;
+  margin: 4px 0 12px 0;
+}
+.advanced-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 15px;
+  color: #B5680A;
+  margin: 18px 0 10px 0;
+  padding-top: 12px;
+  border-top: 2px dashed #F0B25B;
+}
+.challenge-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 15px;
+  color: #FFFFFF;
+  background: #B5680A;
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin: 18px 0 10px 0;
+}
+.exo {
+  border: 2px solid #F0B25B;
+  background: #FEF2E3;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+.exo-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #B5680A;
+  margin-bottom: 4px;
+}
+.exo p { font-size: 13px; margin: 4px 0; line-height: 1.45; }
+.exo p.q { margin: 2px 0 2px 4px; }
+.schema {
+  background: #FFFFFF;
+  border-radius: 8px;
+  padding: 8px;
+  margin: 8px 0;
+  text-align: center;
+}
+.schema svg { max-width: 100%; height: auto; }
+.corrige-box {
+  margin-top: 8px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12.5px;
+  border: 1.5px dashed #F0B25B;
+}
+.corrige-box .label {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  color: #B5680A;
+  display: block;
+  margin-bottom: 3px;
+}
+footer {
+  margin-top: 16px;
+  font-size: 11.5px;
+  color: #8894A0;
+  border-top: 1.5px dashed #D8DEE4;
+  padding-top: 10px;
+}
+</style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="badge">S1</div>
+      <div>
+        <h1>La proportionnalité</h1>
+        <div class="subtitle">Chapitre 1 — Les pourcentages — 4e — Séance 1</div>
+      </div>
+    </header>
+
+    <div class="objectifs"><b>Objectifs :</b> reconnaître une situation de proportionnalité (tableau, linéarité) ; calculer une quatrième proportionnelle par plusieurs méthodes (coefficient, produit en croix, linéarité).</div>
+
+    <div class="automatisme">
+      <h2>Automatisme</h2>
+      <ol><li>−8 + 15 =</li>
+<li>0,5 × 18 =</li>
+<li>60 ÷ 5 =</li>
+<li>3/6, sous forme de fraction simplifiée =</li>
+<li>1,5 h = … min</li>
+<li>45 ÷ 9 =</li></ol>
+      <div class="corrige">Corrigé : 7 ; 9 ; 12 ; 1/2 ; 90 min ; 5</div>
+    </div>
+
+    <div class="section-title">Exercices</div>
+    
+        <div class="exo">
+          <div class="exo-title">★ Exercice</div>
+          <p>Dans Minecraft, un joueur récolte du minerai de fer à un rythme qu'on suppose constant. Voici ses relevés :<br>Temps (min) : 5 &nbsp;—&nbsp; 10 &nbsp;—&nbsp; 20<br>Blocs de fer : 8 &nbsp;—&nbsp; 16 &nbsp;—&nbsp; 30<br>Ce tableau traduit-il vraiment une situation de proportionnalité ? Justifie.</p>
+          <div class="schema"><svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" style="max-width:340px">
+  <line x1="40" y1="200" x2="300" y2="200" stroke="#22303F" stroke-width="1.5"/>
+  <line x1="40" y1="200" x2="40" y2="15" stroke="#22303F" stroke-width="1.5"/>
+  <text x="170" y="216" font-size="10" fill="#22303F" text-anchor="middle">Temps (min)</text>
+  <text x="14" y="110" font-size="10" fill="#22303F" text-anchor="middle" transform="rotate(-90 14 110)">Blocs de fer</text>
+  <text x="40" y="212" font-size="9" fill="#6B7A8A" text-anchor="middle">0</text>
+  <text x="90" y="212" font-size="9" fill="#6B7A8A" text-anchor="middle">5</text>
+  <text x="140" y="212" font-size="9" fill="#6B7A8A" text-anchor="middle">10</text>
+  <text x="240" y="212" font-size="9" fill="#6B7A8A" text-anchor="middle">20</text>
+  <text x="33" y="163" font-size="9" fill="#6B7A8A" text-anchor="end">8</text>
+  <text x="33" y="123" font-size="9" fill="#6B7A8A" text-anchor="end">16</text>
+  <text x="33" y="43" font-size="9" fill="#6B7A8A" text-anchor="end">32</text>
+  <text x="33" y="53" font-size="9" fill="#B5680A" text-anchor="end">30</text>
+  <line x1="40" y1="200" x2="240" y2="40" stroke="#B7CBE3" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <circle cx="90" cy="160" r="4" fill="#F0B25B" stroke="#B5680A" stroke-width="1"/>
+  <circle cx="140" cy="120" r="4" fill="#F0B25B" stroke="#B5680A" stroke-width="1"/>
+  <circle cx="240" cy="50" r="4" fill="#E5544F" stroke="#B5322E" stroke-width="1"/>
+  <text x="248" y="48" font-size="9" fill="#B5322E">point réel</text>
+  <text x="248" y="38" font-size="9" fill="#6B7A8A">attendu si proportionnel</text>
+</svg></div>
+          <div class="corrige-box"><span class="label">Corrigé</span>8/5 = 1,6 ; 16/10 = 1,6 ; mais 30/20 = 1,5. Les quotients ne sont pas tous égaux : <b>ce n'est pas un tableau de proportionnalité</b> (le joueur a dû ralentir — sur le graphique, le 3<sup>e</sup> point n'est pas aligné avec les deux premiers).</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★ Exercice</div>
+          <p>Un pâtissier utilise toujours les mêmes proportions pour ses gâteaux :<br>Nombre de gâteaux : 1 &nbsp;—&nbsp; 2 &nbsp;—&nbsp; 4<br>Œufs utilisés : 3 &nbsp;—&nbsp; 6 &nbsp;—&nbsp; 12<br>Ce tableau traduit-il une situation de proportionnalité ? Justifie en calculant les quotients.</p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>3/1 = 3 ; 6/2 = 3 ; 12/4 = 3. Tous les quotients sont égaux : <b>oui, c'est un tableau de proportionnalité</b>, de coefficient 3.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★ Exercice</div>
+          <p>Dans une boutique en ligne, un pack de 4 boosters de cartes à collectionner coûte 14 €. Au même tarif, combien coûteraient 6 boosters ?</p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>Coefficient = 14 ÷ 4 = 3,5 €/booster. 6 × 3,5 = <b>21 €</b>.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★ Exercice</div>
+          <p>Une recette de cookies pour 12 cookies nécessite 180 g de farine. En gardant les mêmes proportions, quelle quantité de farine faut-il pour préparer 30 cookies ?</p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>Coefficient = 180 ÷ 12 = 15 g/cookie. 30 × 15 = <b>450 g</b>.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★★ Exercice</div>
+          <p>Un athlète court le 400 m en 52 secondes, à une vitesse qu'on suppose constante. En utilisant une propriété d'addition (linéarité), sans calculer le temps pour 1 mètre, détermine le temps qu'il mettrait pour parcourir 1000 m.</p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>1000 = 400 × 2 + 200 (la moitié de 400). Temps pour 800 m = 2 × 52 = 104 s. Temps pour 200 m = 52 ÷ 2 = 26 s. Temps pour 1000 m = 104 + 26 = <b>130 s</b> (soit 2 min 10 s).</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★★ Exercice (question ouverte)</div>
+          <p>Un camarade affirme : « Dans un jeu vidéo, si je double mon temps de jeu, je double forcément mes gains. » Est-ce vrai dans toutes les situations ? Donne un exemple de jeu où cette affirmation est vraie (situation proportionnelle), puis un exemple où elle serait fausse (situation non proportionnelle), en justifiant à chaque fois.</p>
+          
+          <div class="corrige-box"><span class="label">Piste de correction</span>Vrai par exemple si le jeu attribue un gain fixe par minute jouée (ex. 5 pièces par minute) : le gain est alors proportionnel au temps de jeu. Faux par exemple si le jeu propose un bonus après un certain temps (ex. ×2 de gains après 30 minutes), ou si la difficulté augmente et ralentit la progression : dans ce cas, doubler le temps de jeu n'entraîne pas un doublement exact des gains. Un exemple chiffré dans chaque cas est attendu pour illustrer le raisonnement.</div>
+        </div><div class="advanced-title">Pour aller plus loin — exercices difficiles</div>
+        <div class="exo">
+          <div class="exo-title">★★★★ Exercice</div>
+          <p>Pour préparer un cocktail de fruits, on mélange toujours 3 volumes de jus d'orange pour 2 volumes de jus de mangue. Sofia veut préparer 15 L de ce mélange pour une fête.<br><span class='q'>a) Combien de « parts » au total représente ce mélange (3 parts + 2 parts) ?</span><br><span class='q'>b) Quel volume représente une part, si le mélange total fait 15 L ?</span><br><span class='q'>c) Quel volume de jus d'orange et quel volume de jus de mangue Sofia doit-elle utiliser ?</span></p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>a) 3 + 2 = <b>5 parts</b> au total. b) 15 ÷ 5 = <b>3 L par part</b>. c) Jus d'orange = 3 × 3 = <b>9 L</b>. Jus de mangue = 2 × 3 = <b>6 L</b> (vérification : 9 + 6 = 15 L).</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★★★ Exercice</div>
+          <p>Pour un tournoi esport, un traiteur prépare un mélange de fruits secs toujours dans les mêmes proportions : 2 parts de noix de cajou, 3 parts de raisins secs, 5 parts de pépites de chocolat.<br><span class='q'>a) Combien de parts au total dans ce mélange ?</span><br><span class='q'>b) Pour un sachet de 400 g, quelle est la masse de chaque ingrédient ?</span><br><span class='q'>c) Pour un très grand sachet, le traiteur a utilisé 150 g de raisins secs. Quelle est la masse totale de ce sachet, et quelle masse de chocolat a-t-il utilisée ?</span></p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>a) 2 + 3 + 5 = <b>10 parts</b>. b) 1 part = 400 ÷ 10 = 40 g. Cajou = 80 g, raisins secs = 120 g, chocolat = <b>200 g</b>. c) 150 g de raisins secs correspondent à 3 parts, donc 1 part = 150 ÷ 3 = 50 g. Masse totale = 10 × 50 = <b>500 g</b>. Masse de chocolat = 5 × 50 = <b>250 g</b>.</div>
+        </div><div class="challenge-title">Encore plus loin — pour les meilleurs</div>
+        <div class="exo">
+          <div class="exo-title">★★★★★ Exercice</div>
+          <p>Dans un jeu de gestion, 3 robots identiques minent 90 blocs de minerai en 6 minutes, à un rythme constant et identique pour chaque robot. Combien de blocs mineraient 5 robots identiques, pendant 10 minutes ?</p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>Rythme d'un seul robot : 90 blocs pour 3 robots pendant 6 minutes, donc pour 1 robot pendant 1 minute : 90 ÷ 3 ÷ 6 = <b>5 blocs/robot/minute</b>. Pour 5 robots pendant 10 minutes : 5 × 5 × 10 = <b>250 blocs</b>. (Ici, deux grandeurs — nombre de robots et temps — varient en même temps : il faut ramener le problème à « un seul robot pendant une seule minute » avant de remultiplier.)</div>
+        </div>
+
+    <footer>Aucun exercice nouveau à la maison : reprends ces exercices déjà corrigés en classe. Les exercices « Pour aller plus loin » et « Encore plus loin » sont facultatifs, pour les élèves qui veulent aller plus loin.</footer>
+  </div>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

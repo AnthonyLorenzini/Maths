@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 3 — Simplifier une fraction avec la décomposition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --acc-b:#8B5CF6; --acc-bg:#F3ECFB; --acc-t:#5B21B6; --ink:#22303F; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 860px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#D6C6FA; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:22px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:25px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+.automatisme { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:12px 16px; margin-bottom:14px; }
+.automatisme h2 { font-family:'Baloo 2',sans-serif; font-size:15px; color:#2B6CB0; margin:0 0 8px 0; }
+.automatisme ol { margin:0; padding-left:20px; font-size:13px; }
+.automatisme li { margin-bottom:2px; }
+.reveal-panel { display:none; margin-top:8px; font-size:12.5px; font-style:italic; color:#3B4C5E; border-top:1px dashed #B7CBE3; padding-top:6px; }
+.reveal-panel.show { display:block; }
+.methode { background:#FFF9EC; border:2px dashed #D8B24C; border-radius:10px; padding:10px 16px; margin-bottom:18px; font-size:12.5px; }
+.methode b.tag { font-family:'Baloo 2',sans-serif; color:#9C7A17; display:block; margin-bottom:3px; font-size:13px; }
+.methode .schema { background:#fff; border-radius:8px; padding:8px; margin-top:8px; text-align:center; }
+.section-title { font-family:'Baloo 2',sans-serif; font-size:18px; margin:4px 0 12px 0; }
+.advanced-title { font-family:'Baloo 2',sans-serif; font-size:15px; color:var(--acc-t); margin:18px 0 10px 0; padding-top:12px; border-top:2px dashed var(--acc-b); }
+.exo { border:2px solid var(--acc-b); background:var(--acc-bg); border-radius:12px; padding:14px 18px; margin-bottom:14px; }
+.exo-title { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:var(--acc-t); margin-bottom:6px; }
+.exo p { font-size:13px; margin:4px 0; line-height:1.5; }
+.exo p.q { margin:6px 0 2px 4px; }
+.schema { background:#fff; border-radius:8px; padding:8px; margin:8px 0; text-align:center; }
+.schema svg { max-width:100%; height:auto; }
+.btn-row { display:flex; gap:10px; margin-top:8px; flex-wrap:wrap; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:12px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:12.5px; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel.solution-panel { border:1.5px dashed #4CAF7D; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; }
+.astuce-panel .label { color:#B5680A; }
+.solution-panel .label { color:#1E7A4C; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="badge">S3</div>
+    <div>
+      <h1>Simplifier une fraction avec la décomposition</h1>
+      <div class="subtitle">Chapitre 3 — Divisibilité et nombres premiers — 4e — Séance 3</div>
+    </div>
+  </header>
+  <div class="objectifs"><b>Objectifs :</b> rendre une fraction irréductible en utilisant la décomposition en facteurs premiers, y compris pour une fraction supérieure à 1.</div>
+  <div class="automatisme">
+    <h2>Automatisme</h2>
+    <ol><li>Décompose 8 en facteurs premiers.</li><li>6/8 se simplifie en …</li><li>3 × 5 =</li><li>100/10 =</li><li>Cite un diviseur commun à 12 et 18.</li><li>7 × 7 =</li></ol>
+    <button class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
+    <div class="reveal-panel" id="auto-corrige">Corrigé : 2³ ; 3/4 ; 15 ; 10 ; par exemple 2, 3 ou 6 ; 49</div>
+  </div>
+  <div class="methode"><b class="tag">Méthode</b>Pour simplifier 60/84 : on décompose 60 = 2²×3×5 et 84 = 2²×3×7. Facteurs communs : 2²×3 = 12. On simplifie : 60/84 = <b>5/7</b>. La méthode est la même si le numérateur est plus grand que le dénominateur (fraction supérieure à 1).</div>
+  <div class="section-title">Exercices</div>
+
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Simplifie chacune de ces fractions en utilisant la décomposition en facteurs premiers :<br><span class='q'>a) 12/18</span><br><span class='q'>b) 45/75</span><br><span class='q'>c) 126/84 (le numérateur est plus grand que le dénominateur : la méthode ne change pas)</span><br><span class='q'>d) 35/48 (que remarques-tu ?)</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-0')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-0')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-0"><span class="label">Astuce</span>Décompose le numérateur et le dénominateur, repère les facteurs premiers communs, puis simplifie. Si tu n'en trouves aucun, que peux-tu dire de la fraction ?</div>
+      <div class="panel solution-panel" id="solution-0"><span class="label">Solution</span>a) 12 = 2²×3 et 18 = 2×3², facteurs communs 2×3 = 6 → <b>2/3</b>. b) 45 = 3²×5 et 75 = 3×5², facteurs communs 3×5 = 15 → <b>3/5</b>. c) 126 = 2×3²×7 et 84 = 2²×3×7, facteurs communs 2×3×7 = 42 → <b>3/2</b>. d) 35 = 5×7 et 48 = 2⁴×3 : aucun facteur commun, la fraction <b>35/48 est déjà irréductible</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Sans la modifier, dis si chaque fraction est irréductible. Si ce n'est pas le cas, simplifie-la.<br><span class='q'>a) 15/28</span><br><span class='q'>b) 21/35</span><br><span class='q'>c) 49/64</span><br><span class='q'>d) 55/77</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-1')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-1')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-1"><span class="label">Astuce</span>Une fraction est irréductible quand le numérateur et le dénominateur n'ont aucun facteur premier en commun.</div>
+      <div class="panel solution-panel" id="solution-1"><span class="label">Solution</span>a) 15 = 3×5 et 28 = 2²×7 : aucun facteur commun, <b>15/28 est irréductible</b>. b) 21 = 3×7 et 35 = 5×7 : facteur commun 7, 21/35 = <b>3/5</b>. c) 49 = 7² et 64 = 2⁶ : aucun facteur commun, <b>49/64 est irréductible</b>. d) 55 = 5×11 et 77 = 7×11 : facteur commun 11, 55/77 = <b>5/7</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Trouve le nombre qui manque pour que les deux fractions soient égales :<br><span class='q'>a) 18/45 = 2/…</span><br><span class='q'>b) 42/56 = …/4</span><br><span class='q'>c) 72/90 = 4/…</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-2')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-2')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-2"><span class="label">Astuce</span>Commence par rendre la première fraction irréductible avec les décompositions, puis compare avec la fraction donnée.</div>
+      <div class="panel solution-panel" id="solution-2"><span class="label">Solution</span>a) 18 = 2×3² et 45 = 3²×5 : 18/45 = 2/5, donc <b>5</b>. b) 42 = 2×3×7 et 56 = 2³×7 : 42/56 = 3/4, donc <b>3</b>. c) 72 = 2³×3² et 90 = 2×3²×5 : 72/90 = 4/5, donc <b>5</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>La fosse d'un concert de RnBoi compte 350 places. Dès le premier jour, 245 places sont vendues.<br><span class='q'>a) Écris la fraction des places vendues.</span><br><span class='q'>b) Décompose 245 et 350 en facteurs premiers.</span><br><span class='q'>c) Rends la fraction irréductible.</span><br><span class='q'>d) Donne le résultat sous forme de pourcentage.</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-3')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-3')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-3"><span class="label">Astuce</span>Pour d), une fraction de dénominateur 10 se transforme facilement en pourcentage.</div>
+      <div class="panel solution-panel" id="solution-3"><span class="label">Solution</span>a) 245/350. b) 245 = 5 × 7² et 350 = 2 × 5² × 7. c) Facteurs communs : 5 × 7 = 35, donc 245/350 = <b>7/10</b>. d) 7/10 = <b>70 %</b> des places sont déjà vendues.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>Simplifie ces fractions pour les rendre irréductibles :<br><span class='q'>a) 91/119</span><br><span class='q'>b) 143/187</span><br><span class='q'>c) Que remarques-tu sur les deux résultats ?</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-4')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-4')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-4"><span class="label">Astuce</span>Pour 91 et 119, essaie de diviser par 7. Pour 143 et 187, essaie par 11. Vérifie sur ta grille du crible que les facteurs que tu trouves (13 et 17) sont bien premiers.</div>
+      <div class="panel solution-panel" id="solution-4"><span class="label">Solution</span>a) 91 = 7 × 13 et 119 = 7 × 17 : facteur commun 7, 91/119 = <b>13/17</b>. b) 143 = 11 × 13 et 187 = 11 × 17 : facteur commun 11, 143/187 = <b>13/17</b>. c) Les deux fractions sont égales. Comme 13 et 17 sont premiers, la fraction 13/17 ne peut plus être simplifiée.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice (question ouverte)</div>
+      <p>Une élève simplifie 24/36 en divisant seulement par 2 : elle obtient 12/18 et s'arrête là, pensant avoir terminé. A-t-elle fini ? Explique comment le vérifier avec la décomposition en facteurs premiers, et donne la fraction complètement simplifiée.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-5')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-5')">✅ Piste de correction</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-5"><span class="label">Astuce</span>Décompose complètement 12 et 18 (les résultats de sa simplification) : ont-ils encore un facteur premier commun ?</div>
+      <div class="panel solution-panel" id="solution-5"><span class="label">Piste de correction</span>12/18 n'est pas encore irréductible car 12 = 2²×3 et 18 = 2×3² ont encore un facteur commun (2×3 = 6). En repartant de 24 = 2³×3 et 36 = 2²×3², facteurs communs = 2²×3 = 12, donc <b>24/36 = 2/3</b>.</div>
+    </div><div class="advanced-title">Pour aller plus loin</div>
+    <div class="exo">
+      <div class="exo-title">★★★★ Exercice</div>
+      <p>Trouve une fraction dont le numérateur ET le dénominateur sont tous les deux supérieurs à 100, et qui se simplifie en 3/5 une fois réduite. Justifie ta réponse à l'aide de la décomposition en facteurs premiers.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-6')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-6')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-6"><span class="label">Astuce</span>Multiplie le numérateur ET le dénominateur de 3/5 par un même nombre pour obtenir des valeurs supérieures à 100.</div>
+      <div class="panel solution-panel" id="solution-6"><span class="label">Solution</span>Il suffit de multiplier 3/5 par un même nombre au numérateur et au dénominateur, par exemple × 40 : 120/200. Vérification : 120 = 2³×3×5 et 200 = 2³×5², facteurs communs 2³×5 = 40, donc 120/200 = <b>3/5</b> ✓ (d'autres réponses sont possibles).</div>
+    </div>
+  <footer>Cherche seul(e) d'abord. Utilise l'astuce si tu bloques, puis vérifie avec la solution.</footer>
+</div>
+<script>function toggle(id){document.getElementById(id).classList.toggle('show');}</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

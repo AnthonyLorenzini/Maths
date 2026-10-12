@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 2 — Le débit et la densité</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --acc-b:#4CAF7D; --acc-bg:#E9F7EF; --acc-t:#1E7A4C; --ink:#22303F; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 860px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#7EE2AC; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:22px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:25px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+.automatisme { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:12px 16px; margin-bottom:14px; }
+.automatisme h2 { font-family:'Baloo 2',sans-serif; font-size:15px; color:#2B6CB0; margin:0 0 8px 0; }
+.automatisme ol { margin:0; padding-left:20px; font-size:13px; }
+.automatisme li { margin-bottom:2px; }
+.reveal-panel { display:none; margin-top:8px; font-size:12.5px; font-style:italic; color:#3B4C5E; border-top:1px dashed #B7CBE3; padding-top:6px; }
+.reveal-panel.show { display:block; }
+.methode { background:#FFF9EC; border:2px dashed #D8B24C; border-radius:10px; padding:10px 16px; margin-bottom:18px; font-size:12.5px; }
+.methode b.tag { font-family:'Baloo 2',sans-serif; color:#9C7A17; display:block; margin-bottom:3px; font-size:13px; }
+.methode .schema { background:#fff; border-radius:8px; padding:8px; margin-top:8px; text-align:center; }
+.section-title { font-family:'Baloo 2',sans-serif; font-size:18px; margin:4px 0 12px 0; }
+.advanced-title { font-family:'Baloo 2',sans-serif; font-size:15px; color:var(--acc-t); margin:18px 0 10px 0; padding-top:12px; border-top:2px dashed var(--acc-b); }
+.exo { border:2px solid var(--acc-b); background:var(--acc-bg); border-radius:12px; padding:14px 18px; margin-bottom:14px; }
+.exo-title { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:var(--acc-t); margin-bottom:6px; }
+.exo p { font-size:13px; margin:4px 0; line-height:1.5; }
+.exo p.q { margin:6px 0 2px 4px; }
+.schema { background:#fff; border-radius:8px; padding:8px; margin:8px 0; text-align:center; }
+.schema svg { max-width:100%; height:auto; }
+.btn-row { display:flex; gap:10px; margin-top:8px; flex-wrap:wrap; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:12px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:12.5px; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel.solution-panel { border:1.5px dashed #4CAF7D; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; }
+.astuce-panel .label { color:#B5680A; }
+.solution-panel .label { color:#1E7A4C; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="badge">S2</div>
+    <div>
+      <h1>Le débit et la densité</h1>
+      <div class="subtitle">Chapitre 2 — Grandeurs quotients et produits — 4e — Séance 2</div>
+    </div>
+  </header>
+  <div class="objectifs"><b>Objectifs :</b> calculer et utiliser un débit ; calculer et utiliser une densité (masse volumique) ; convertir ces grandeurs.</div>
+  <div class="automatisme">
+    <h2>Automatisme</h2>
+    <ol><li>15 % de 80 =</li><li>2,5 L = … mL</li><li>3 000 g = … kg</li><li>48 ÷ 6 =</li><li>0,75 × 100 =</li><li>1 h 30 min = … h</li></ol>
+    <button class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
+    <div class="reveal-panel" id="auto-corrige">Corrigé : 12 ; 2 500 mL ; 3 kg ; 8 ; 75 ; 1,5 h</div>
+  </div>
+  <div class="methode"><b class="tag">Méthode</b>Un réservoir se remplit de 120 L en 4 minutes. Débit = volume ÷ temps = 120 ÷ 4 = <b>30 L/min</b>.</div>
+  <div class="section-title">Exercices</div>
+  
+    <div class="exo">
+      <div class="exo-title">★ Exercice</div>
+      <p>Un robinet remplit une baignoire de 150 L en 10 minutes. Calcule le débit du robinet en L/min.</p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-0')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-0')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-0"><span class="label">Astuce</span>Même principe qu'une vitesse : débit = volume ÷ temps.</div>
+      <div class="panel solution-panel" id="solution-0"><span class="label">Solution</span>150 ÷ 10 = <b>15 L/min</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★ Exercice</div>
+      <p>Un bloc de métal a une masse de 316 g pour un volume de 40 cm³. Calcule sa masse volumique (densité) en g/cm³.</p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-1')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-1')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-1"><span class="label">Astuce</span>Densité = masse ÷ volume, exactement le même type de calcul que le débit.</div>
+      <div class="panel solution-panel" id="solution-1"><span class="label">Solution</span>316 ÷ 40 = <b>7,9 g/cm³</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Une pompe à essence délivre 45 L en 3 minutes. Calcule son débit en L/min, puis convertis-le en L/h.</p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-2')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-2')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-2"><span class="label">Astuce</span>Calcule d'abord le débit en L/min (comme d'habitude), puis multiplie par 60 pour passer à L/h.</div>
+      <div class="panel solution-panel" id="solution-2"><span class="label">Solution</span>45 ÷ 3 = 15 L/min. 15 × 60 = <b>900 L/h</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Un glaçon a une masse de 9 g pour un volume de 10 cm³, tandis que l'eau liquide a une masse volumique de 1 g/cm³. Le glaçon flotte-t-il sur l'eau ? Justifie en comparant les densités.</p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-3')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-3')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-3"><span class="label">Astuce</span>Calcule d'abord la densité du glaçon (masse ÷ volume), puis compare-la à celle de l'eau : un objet moins dense que l'eau flotte.</div>
+      <div class="panel solution-panel" id="solution-3"><span class="label">Solution</span>Densité du glaçon = 9 ÷ 10 = 0,9 g/cm³ &lt; 1 g/cm³ (eau) : le glaçon est <b>moins dense</b> que l'eau, donc <b>il flotte</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>Une piscine de 50 m³ doit être remplie par une pompe ayant un débit de 4 m³/h.<br><span class='q'>a) Combien de temps (en heures décimales) faudra-t-il pour remplir la piscine ?</span><br><span class='q'>b) Convertis ce temps en heures et minutes.</span></p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-4')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-4')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-4"><span class="label">Astuce</span>a) utilise t = volume ÷ débit. b) la partie décimale du résultat, multipliée par 60, donne des minutes.</div>
+      <div class="panel solution-panel" id="solution-4"><span class="label">Solution</span>a) 50 ÷ 4 = <b>12,5 h</b>. b) 12,5 h = 12 h + 0,5 × 60 min = <b>12 h 30 min</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>Un camion de pompiers transporte une citerne de 4 000 L d'eau. Sa lance à incendie a un débit de 500 L/min.<br><span class='q'>a) Calcule combien de temps (en minutes) la lance peut fonctionner avant que la citerne soit complètement vide.</span><br><span class='q'>b) Un gros incendie s'est déclenché. 4 fourgons de pompiers sont intervenus, avec 3 lances chacune (même débit de 500 L/min par lance). L'incendie a duré 1 h 30. Quelle quantité totale d'eau a été utilisée pour l'éteindre ?</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-pompiers')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-pompiers')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-pompiers"><span class="label">Astuce</span>a) Utilise t = volume ÷ débit, comme pour la piscine juste au-dessus. b) Calcule d'abord le nombre total de lances, puis le débit total (nombre de lances × débit d'une lance), puis multiplie par la durée en minutes.</div>
+      <div class="panel solution-panel" id="solution-pompiers"><span class="label">Solution</span>a) 4000 ÷ 500 = <b>8 min</b> (même si 4 000 L semble énorme, la citerne d'un seul camion se vide très vite — les pompiers doivent se raccorder à une source d'eau extérieure). b) Nombre de lances : 4 × 3 = 12. Durée : 1 h 30 = 90 min. Quantité d'eau : 12 × 500 × 90 = <b>540 000 L = 540 m³</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice (question ouverte)</div>
+      <p>Un objet a une masse volumique de 2,7 g/cm³ (aluminium). Un autre objet, de même volume, a une masse volumique de 11,3 g/cm³ (plomb). Sans connaître leur volume exact, que peux-tu dire de leurs masses respectives ? Explique ton raisonnement.</p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-5')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-5')">✅ Piste de correction</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-5"><span class="label">Astuce</span>À volume égal, la masse est proportionnelle à la densité. Compare les deux densités entre elles (rapport, pas différence).</div>
+      <div class="panel solution-panel" id="solution-5"><span class="label">Piste de correction</span>À volume égal, la masse est proportionnelle à la masse volumique : plus la densité est grande, plus la masse est grande. Ici, le plomb a une densité environ 4,2 fois plus grande que l'aluminium (11,3 ÷ 2,7 ≈ 4,19), donc à volume égal, le bloc de plomb sera environ 4 fois plus lourd que celui d'aluminium.</div>
+    </div><div class="advanced-title">Pour aller plus loin</div>
+    <div class="exo">
+      <div class="exo-title">★★★★ Exercice</div>
+      <p>Un fleuve a un débit moyen de 250 m³/s.<br><span class='q'>a) Quel volume d'eau s'écoule en 1 minute ? En 1 heure ?</span><br><span class='q'>b) Un réservoir de 5 400 000 m³ doit être rempli entièrement par ce fleuve (on suppose que tout le débit y est dirigé). Combien de temps cela prendra-t-il, en heures ?</span></p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-6')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-6')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-6"><span class="label">Astuce</span>a) Convertis le débit en m³/min puis en m³/h en multipliant successivement. b) Utilise ensuite t = volume ÷ débit(en m³/h).</div>
+      <div class="panel solution-panel" id="solution-6"><span class="label">Solution</span>a) En 1 min : 250 × 60 = 15 000 m³. En 1 h : 250 × 3600 = <b>900 000 m³</b>. b) 5 400 000 ÷ 900 000 = <b>6 h</b>.</div>
+    </div>
+  <footer>Cherche seul(e) d'abord. Utilise l'astuce si tu bloques, puis vérifie avec la solution.</footer>
+</div>
+<script>function toggle(id){document.getElementById(id).classList.toggle('show');}</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

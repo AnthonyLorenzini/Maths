@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Les Fleurs des Décimaux</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<style>
+/* Base commune Leçon 4 — titres condensés, texte Work Sans, nombres Space Mono ; ambre = action, vert = juste, rouge = faux */
+:root{
+  --bg:#f6f5f1; --panel:#ffffff; --paper:#ffffff; --ink:#221d12; --muted:#6d6656; --line:#cfc8b6; --grid:#ddd6c4;
+  --amber:#e8a400; --amber-ink:#8a5d00; --fill:#f5b81c; --fill-2:#fbe3a1; --on-amber:#1b1404;
+  --ok:#1f9a55; --ok-bg:#e3f5ea; --ko:#d23c3c; --ko-bg:#fbe7e7;
+  --blue:#2463d6; --blue-bg:#e6eefc; --magenta:#c0287f; --magenta-bg:#fbe6f2; --teal:#0e8f88; --teal-bg:#dff4f2;
+  --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16140f; --panel:#201d16; --paper:#2a261d; --ink:#f3eddf; --muted:#aaa18c; --line:#4a4334; --grid:#3d3729;
+  --amber:#f2b52a; --amber-ink:#f6c95a; --fill:#e9a90f; --fill-2:#5a4515; --on-amber:#1b1404;
+  --ok:#3fcf7d; --ok-bg:#163524; --ko:#ff6b6b; --ko-bg:#3d1a1a;
+  --blue:#6c9cff; --blue-bg:#1a2742; --magenta:#f06bc0; --magenta-bg:#3a1830; --teal:#3fd6cc; --teal-bg:#123634; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#16140f; --panel:#201d16; --paper:#2a261d; --ink:#f3eddf; --muted:#aaa18c; --line:#4a4334; --grid:#3d3729;
+  --amber:#f2b52a; --amber-ink:#f6c95a; --fill:#e9a90f; --fill-2:#5a4515; --on-amber:#1b1404;
+  --ok:#3fcf7d; --ok-bg:#163524; --ko:#ff6b6b; --ko-bg:#3d1a1a;
+  --blue:#6c9cff; --blue-bg:#1a2742; --magenta:#f06bc0; --magenta-bg:#3a1830; --teal:#3fd6cc; --teal-bg:#123634; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--f-text);padding-inline:16px;padding-block:16px 40px;margin:0}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+h1{font:800 clamp(2.1rem,7vw,3.5rem)/.9 var(--f-title);letter-spacing:.01em;margin:0;text-transform:uppercase;text-wrap:balance}
+h1 span{color:var(--amber)}
+h2{font:800 clamp(1.4rem,4.5vw,2rem)/1.05 var(--f-title);text-transform:uppercase;letter-spacing:.02em;margin:0;text-wrap:balance}
+.sub{margin:6px 0 0;color:var(--muted);font-size:.95rem;max-width:70ch}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:2px solid var(--line)}
+.tabs button{font:700 1.1rem var(--f-title);letter-spacing:.06em;text-transform:uppercase;background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;border-bottom:4px solid transparent;margin-bottom:-2px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--amber)}
+@media (max-width:440px){.tabs button{padding:8px 8px;font-size:1rem}}
+.seg{display:inline-flex;flex-wrap:wrap;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.seg button{font:600 .9rem var(--f-text);background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;min-height:40px}
+.seg button[aria-pressed="true"]{background:var(--amber);color:var(--on-amber)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:8px 14px;cursor:pointer;min-height:42px}
+.btn:hover{border-color:var(--amber)}
+.btn.main{background:var(--amber);border-color:var(--amber);color:var(--on-amber)}
+.btn:disabled{opacity:.45;cursor:default}
+button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:14px 16px}
+.hint{color:var(--muted);font-size:.9rem;margin:0}
+.recit{margin:0;padding:12px 16px;background:var(--panel);border-left:4px solid var(--amber);border-radius:0 8px 8px 0;max-width:75ch}
+.num{font-family:var(--f-num);font-weight:700}
+.fr{display:inline-flex;flex-direction:column;align-items:center;font:700 1em var(--f-num);line-height:1.05;vertical-align:middle}
+.fr>span:first-child{border-bottom:.09em solid currentColor;padding:0 .15em}
+.msg{min-height:1.5em;font-weight:600;margin:0}
+.msg.ok{color:var(--ok)}.msg.ko{color:var(--ko)}
+input.ans{font:700 1.25rem var(--f-num);text-align:center;border:2px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:6px 4px;width:6em;max-width:100%}
+input.ans:focus{outline:none;border-color:var(--amber)}
+input.ans.ok{border-color:var(--ok);background:var(--ok-bg)}
+input.ans.ko{border-color:var(--ko);background:var(--ko-bg)}
+.lvl{font:600 .85rem var(--f-text);color:var(--muted)}
+/* équipes */
+.teams{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.teams{grid-template-columns:minmax(0,1fr)}}
+.team{border:2px solid var(--tc);border-radius:12px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column}
+.team.t0{--tc:var(--blue);--tb:var(--blue-bg)}.team.t1{--tc:var(--magenta);--tb:var(--magenta-bg)}.team.t2{--tc:var(--teal);--tb:var(--teal-bg)}
+.team .th{background:var(--tb);display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px}
+.team .tn{font:800 1.3rem var(--f-title);text-transform:uppercase;letter-spacing:.05em;color:var(--tc)}
+.team .ts{font:700 1.5rem var(--f-num);color:var(--tc)}
+.team .tb{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.team .draw{display:flex;align-items:center;gap:10px}
+.team .draw button{font:600 .85rem var(--f-text);border:2px solid var(--tc);color:var(--tc);background:none;border-radius:8px;padding:6px 10px;cursor:pointer;min-height:38px}
+.team .who{font:700 1.4rem var(--f-num);color:var(--tc);min-width:2ch}
+.team.turn{box-shadow:0 0 0 4px var(--tc)}
+.team.win{animation:pop .5s}
+.team .res{font-weight:600;min-height:1.4em}
+.team .res.ok{color:var(--ok)}.team .res.ko{color:var(--ko)}
+@keyframes pop{50%{transform:scale(1.04)}}
+.settings{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:.85rem;color:var(--muted)}
+.settings input{width:4em;font:700 .95rem var(--f-num);border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:3px 6px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.team .slot:empty,.team .res:empty{display:none}
+.teams.compact{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.teams.compact .th{flex-direction:column;align-items:flex-start;gap:0;padding:6px 10px}
+.teams.compact .tn{font-size:1.05rem}
+.teams.compact .ts{font-size:1.3rem}
+.teams.compact .tb{padding:6px 10px}
+.teams.compact .draw{flex-wrap:wrap;gap:4px 8px}
+.teams.compact .draw button{padding:4px 8px;min-height:32px;font-size:.8rem}
+.teams.compact .who{font-size:1.1rem}
+@media (max-width:420px){.teams.compact .tn{font-size:.9rem;letter-spacing:.02em}}
+.pane{display:flex;flex-direction:column;gap:16px;min-width:0}
+.grp{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:100%}
+</style>
+<script>
+window.L4=(function(){
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const f=(n,d)=>`<span class="fr"><span>${n}</span><span>${d}</span></span>`;
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+/* nombre en écriture française, sans zéros inutiles (dp = nb max de décimales) */
+const fmt=(x,dp=3)=>{let s=(Math.round(x*10**dp)/10**dp).toFixed(dp);if(s.includes('.'))s=s.replace(/0+$/,'').replace(/\.$/,'');const [a,b]=s.split('.');return a.replace(/\B(?=(\d{3})+(?!\d))/g,' ')+(b?','+b:'');};
+const fmt2=x=>(Math.round(x*100)/100).toFixed(2).replace('.',',');
+/* lecture d'une réponse : "3,5" "3.5" "35/100" "35 %" "1 + 3/10" ; NaN si illisible */
+function parse(v){
+  if(v==null)return NaN;v=String(v).trim().replace(/\s+/g,'').replace(/%$/,'');
+  if(!v)return NaN;
+  if(v.includes('+'))return v.split('+').reduce((s,p)=>s+parse(p),0);
+  const m=v.match(/^(\d+(?:[.,]\d+)?)\/(\d+(?:[.,]\d+)?)$/);
+  if(m){const d=+m[2].replace(',','.');return d?(+m[1].replace(',','.'))/d:NaN;}
+  if(!/^-?\d+(?:[.,]\d+)?$/.test(v)&&!/^-?[.,]\d+$/.test(v))return NaN;
+  return +v.replace(',','.');
+}
+const same=(a,b)=>Math.abs(a-b)<1e-9;
+const store={get(k,d){try{const v=localStorage.getItem('l4.'+k);return v==null?d:JSON.parse(v);}catch(e){return d;}},
+             set(k,v){try{localStorage.setItem('l4.'+k,JSON.stringify(v));}catch(e){}}};
+/* onglets simples : <nav class="tabs"><button data-tab="x"> + éléments [data-pane="x"] */
+function tabs(nav,onChange){
+  nav.setAttribute('role','tablist');
+  const go=t=>{$$('[data-tab]',nav).forEach(b=>{b.setAttribute('role','tab');b.setAttribute('aria-selected',b.dataset.tab===t);});
+    $$('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!==t);onChange&&onChange(t);};
+  nav.addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)go(b.dataset.tab);});
+  return go;
+}
+/* contrôle segmenté : boutons [data-v] */
+function seg(el,onChange,init){
+  const set=v=>{$$('[data-v]',el).forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===String(v)));onChange&&onChange(v);};
+  el.addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(b)set(b.dataset.v);});
+  if(init!=null)set(init);return set;
+}
+/* ---- trois équipes : bleu, magenta, turquoise, tirage au sort d'un élève ---- */
+const TEAMS=['Bleus','Magentas','Turquoises'];
+function Teams(el,opt={}){
+  let size=store.get('teamSize',9);
+  const T=TEAMS.map((n,i)=>({i,name:n,score:0,pool:[],who:null}));
+  let turn=null;
+  el.classList.add('teams');if(opt.compact)el.classList.add('compact');
+  el.innerHTML=T.map(t=>`<section class="team t${t.i}" data-team="${t.i}">
+    <div class="th"><span class="tn">${t.name}</span><span class="ts" aria-label="score">0</span></div>
+    <div class="tb"><div class="draw"><button type="button" data-drawbtn>${opt.compact?'Tirer':'Tirer un élève'}</button><span class="who" aria-live="polite"></span></div>
+    <div class="slot"></div><div class="res" aria-live="polite"></div></div></section>`).join('');
+  const box=i=>el.querySelector(`[data-team="${i}"]`);
+  function refill(t){t.pool=shuffle(Array.from({length:size},(_,k)=>k+1));}
+  function draw(i){
+    const t=T[i];if(!t.pool.length)refill(t);
+    const n=t.pool.pop(),w=box(i).querySelector('.who');
+    const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce){w.textContent='n°'+n;return;}
+    let k=0;const iv=setInterval(()=>{w.textContent='n°'+rnd(1,size);if(++k>9){clearInterval(iv);w.textContent='n°'+n;}},55);
+  }
+  el.addEventListener('click',e=>{const b=e.target.closest('[data-drawbtn]');if(b)draw(+b.closest('[data-team]').dataset.team);});
+  const api={
+    slot:i=>box(i).querySelector('.slot'),
+    res(i,txt,ok){const r=box(i).querySelector('.res');r.textContent=txt||'';r.className='res'+(ok===true?' ok':ok===false?' ko':'');},
+    add(i,p=1){T[i].score+=p;box(i).querySelector('.ts').textContent=T[i].score;if(p>0){const b=box(i);b.classList.remove('win');void b.offsetWidth;b.classList.add('win');}},
+    setTurn(i){turn=i;T.forEach(t=>box(t.i).classList.toggle('turn',t.i===i));},
+    nextTurn(){api.setTurn(turn==null?0:(turn+1)%3);return turn;},
+    get turn(){return turn;},
+    scores:()=>T.map(t=>t.score),
+    reset(){T.forEach(t=>{t.score=0;box(t.i).querySelector('.ts').textContent=0;api.res(t.i,'');});},
+    clearWho(){T.forEach(t=>box(t.i).querySelector('.who').textContent='');},
+    name:i=>T[i].name,
+    settings(container){
+      container.innerHTML=`<label class="settings">Élèves par équipe <input type="number" id="teamsize" min="2" max="15" value="${size}"></label>`;
+      container.querySelector('input').addEventListener('change',e=>{size=Math.max(2,Math.min(15,+e.target.value||9));store.set('teamSize',size);T.forEach(refill);});
+    }
+  };
+  T.forEach(refill);
+  return api;
+}
+/* petit carré dessiné en SVG : n parts coloriées sur u (10 = bandes, 100 = quadrillage), plusieurs carrés si besoin */
+function squaresSVG(t,u,size=60){
+  const n=Math.max(1,Math.ceil(t/u)),gap=6,W=n*size+(n-1)*gap;
+  let s=`<svg viewBox="-1 -1 ${W+2} ${size+2}" width="${W+2}" height="${size+2}" role="img" aria-label="carré colorié">`;
+  for(let k=0;k<n;k++){const x0=k*(size+gap);
+    s+=`<rect x="${x0}" y="0" width="${size}" height="${size}" fill="var(--paper)"/>`;
+    const c=size/10;
+    for(let j=0;j<u;j++){const idx=k*u+j;if(idx>=t)break;
+      if(u===10)s+=`<rect x="${x0}" y="${j*c}" width="${size}" height="${c}" fill="var(--fill)"/>`;
+      else s+=`<rect x="${x0+(j%10)*c}" y="${Math.floor(j/10)*c}" width="${c}" height="${c}" fill="var(--fill)"/>`;}
+    for(let j=1;j<10;j++){s+=`<line x1="${x0}" x2="${x0+size}" y1="${j*c}" y2="${j*c}" stroke="var(--grid)" stroke-width="1"/>`;
+      if(u===100)s+=`<line y1="0" y2="${size}" x1="${x0+j*c}" x2="${x0+j*c}" stroke="var(--grid)" stroke-width="1"/>`;}
+    s+=`<rect x="${x0}" y="0" width="${size}" height="${size}" fill="none" stroke="var(--ink)" stroke-width="1.5"/>`;}
+  return s+'</svg>';
+}
+return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squaresSVG};
+})();
+</script>
+<style>
+.ex{display:flex;flex-direction:column;gap:12px;padding-top:8px;border-top:2px solid var(--line)}
+.ex-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px}
+.ex-h h2 small{font:600 .9rem var(--f-text);text-transform:none;letter-spacing:0;color:var(--muted);margin-left:.4em}
+.consigne{margin:0;max-width:75ch}
+.garden{display:flex;flex-wrap:wrap;gap:18px;justify-content:flex-start}
+.flower{position:relative;flex:none}
+.stem{position:absolute;left:0;top:0;pointer-events:none}
+.heart{position:absolute;border-radius:50%;background:var(--amber);color:var(--on-amber);display:flex;flex-direction:column;align-items:center;justify-content:center;font:800 var(--hf) var(--f-title);box-shadow:0 0 0 4px var(--panel)}
+.heart small{font:600 calc(var(--fs)*.75) var(--f-text);text-transform:uppercase;letter-spacing:.06em}
+.petal{position:absolute;border-radius:46%;background:var(--panel);border:2px solid var(--amber);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px 8px;text-align:center;font-size:var(--fs)}
+.petal .k{font:600 calc(var(--fs)*.68)/1.1 var(--f-text);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.petal .v{font:700 var(--fs)/1.15 var(--f-num);display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.2em}
+.petal .v.w{font:600 calc(var(--fs)*.92)/1.2 var(--f-text)}
+.petal .q{color:var(--amber-ink);font:700 calc(var(--fs)*1.3) var(--f-num)}
+.petal.given{background:var(--fill);border-color:var(--fill)}
+.petal.given .k,.petal.given .v{color:var(--on-amber)}
+.petal .sol{display:none}
+.show .petal .sol{display:flex;color:var(--ok)}
+.show .petal .q{display:none}
+.show .petal.wrong{border-color:var(--ko);background:var(--ko-bg)}
+.show .petal.wrong .v.orig{text-decoration:line-through;text-decoration-color:var(--ko);text-decoration-thickness:2px}
+.petal.wrong .sol{color:var(--ok)}
+.show .petal.wrong .k{display:none}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.how .panel{display:flex;gap:10px;align-items:flex-start}
+.how .n{font:800 1.6rem/1 var(--f-title);color:var(--amber)}
+.how p{margin:0}
+.clues{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px;max-width:70ch}
+.ok-line{color:var(--ok);font-weight:600;margin:0}
+.ex:not(.show) .ok-line{display:none}
+</style>
+<div class="wrap">
+  <header class="top">
+    <div><h1>Les Fleurs des <span>Décimaux</span></h1>
+    <p class="sub">Un même nombre, plusieurs visages. Chaque pétale montre une écriture du même nombre décimal. À faire dans le cahier d'exercices, environ 25 min.</p></div>
+  </header>
+
+  <div class="how">
+    <div class="panel"><span class="n">1</span><p>Dans ton cahier, écris la lettre de la fleur dans un cœur, puis dessine 5 pétales autour, à main levée.</p></div>
+    <div class="panel"><span class="n">2</span><p>Recopie le pétale <b>coloré</b> : c'est l'écriture donnée.</p></div>
+    <div class="panel"><span class="n">3</span><p>Complète les autres pétales, puis vérifie avec le bouton « Correction ».</p></div>
+  </div>
+
+  <section class="ex show" id="ex0">
+    <div class="ex-h"><h2>Exemple <small>une fleur complète</small></h2></div>
+    <p class="consigne">Les cinq pétales de cette fleur montrent tous le nombre 6,25.</p>
+    <div class="garden"></div>
+  </section>
+
+  <section class="ex" id="ex1">
+    <div class="ex-h"><h2>Exercice 1 <small>dixièmes et centièmes</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Complète les fleurs A et B.</p>
+    <div class="garden"></div>
+  </section>
+
+  <section class="ex" id="ex2">
+    <div class="ex-h"><h2>Exercice 2 <small>millièmes et zéros cachés</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Complète les fleurs C et D. Attention aux zéros : une case vide du tableau de numération s'écrit 0.</p>
+    <div class="garden"></div>
+  </section>
+
+  <section class="ex" id="ex3">
+    <div class="ex-h"><h2>Exercice 3 <small>avec les pourcentages</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Ces fleurs ont un pétale « Pourcentage » à la place du nombre mixte. Rappel : <b>p %</b> veut dire <b>p sur 100</b>. Complète les fleurs E et F.</p>
+    <div class="garden"></div>
+  </section>
+
+  <section class="ex" id="ex4">
+    <div class="ex-h"><h2>Exercice 4 <small>la fleur intruse</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Dans chaque fleur, <b>un seul pétale</b> ne montre pas le même nombre que les autres. Pas besoin de redessiner : écris dans ton cahier « Fleur G : le pétale faux est … ; il faudrait écrire … ».</p>
+    <div class="garden"></div>
+  </section>
+
+  <section class="ex" id="ex5">
+    <div class="ex-h"><h2>Défi <small>la fleur mystère</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Trouve le nombre mystère grâce aux indices, puis dessine et complète sa fleur I avec les 5 pétales.</p>
+    <ol class="clues">
+      <li>Je suis compris entre 6 et 7.</li>
+      <li>Mon chiffre des dixièmes est 0.</li>
+      <li>Mon chiffre des millièmes vaut 4.</li>
+      <li>Mon chiffre des centièmes est le double de mon chiffre des millièmes.</li>
+      <li>Je n'ai pas d'autre chiffre après la virgule.</li>
+    </ol>
+    <p class="ok-line">Le nombre mystère est 6,084.</p>
+    <div class="garden"></div>
+    <p class="consigne"><b>Encore plus fort :</b> invente ta propre fleur intruse avec un nombre à trois chiffres après la virgule, et fais-la chercher à ton voisin.</p>
+  </section>
+</div>
+<script>
+(function(){
+const {$,$$,f,fmt}=L4;
+const LAB={dec:'Écriture décimale',fr:'Fraction décimale',sum:'Somme de fractions',mix:'Nombre mixte',mots:'En mots',pc:'Pourcentage'};
+const P=(x,w)=>`${x} ${w}${x>1?'s':''}`;
+/* toutes les écritures d'un nombre n/den (den = 100 ou 1000) */
+function forms(n,den){
+  const a=Math.floor(n/den),r=n%den,unit=den===100?'centième':'millième';
+  const dg=den===100?[[Math.floor(r/10),10],[r%10,100]]:[[Math.floor(r/100),10],[Math.floor(r/10)%10,100],[r%10,1000]];
+  const parts=[];if(a)parts.push(`<span>${a}</span>`);dg.forEach(([d,q])=>{if(d)parts.push(f(d,q));});
+  return {dec:fmt(n/den),fr:f(n,den),sum:parts.join('<span>+</span>'),
+    mix:`<span>${a}</span><span>+</span>${f(r,den)}`,
+    mots:a?`${P(a,'unité')} et ${P(r,unit)}`:P(r,unit),pc:`${n*100/den} %`};
+}
+const T1=['dec','fr','sum','mix','mots'],T3=['dec','fr','sum','mots','pc'];
+function std(id,n,den,types,given,all){const F=forms(n,den);
+  return {id,petals:types.map(t=>({k:LAB[t],v:F[t],w:t==='mots',given:all||t===given}))};}
+const EX={
+ ex0:[std('6,25',625,100,T1,null,true)],
+ ex1:[std('A',418,100,T1,'fr'),std('B',136,100,T1,'sum')],
+ ex2:[std('C',4107,1000,T1,'mix'),std('D',3045,1000,T1,'dec')],
+ ex3:[std('E',35,100,T3,'pc'),std('F',125,100,T3,'mots')],
+ ex4:[
+  {id:'G',intrus:true,petals:[{k:LAB.dec,v:'5,08'},{k:LAB.fr,v:f(508,100)},{k:LAB.sum,v:`<span>5</span><span>+</span>${f(8,10)}`,bad:`<span>5</span><span>+</span>${f(8,100)}`},{k:LAB.mix,v:`<span>5</span><span>+</span>${f(8,100)}`},{k:LAB.mots,v:'5 unités et 8 centièmes',w:true}]},
+  {id:'H',intrus:true,petals:[{k:LAB.dec,v:'2,40'},{k:LAB.fr,v:f(24,10)},{k:'Autre fraction',v:f(240,100)},{k:LAB.mix,v:`<span>2</span><span>+</span>${f(4,10)}`},{k:'Autre écriture',v:'2,04',bad:'2,4'}]}],
+ ex5:[std('I',6084,1000,T1,null)]
+};
+function petalHTML(p,intrus){
+  if(intrus)return `<div class="petal${p.bad?' wrong':''}"><span class="k">${p.k}</span><span class="v orig${p.w?' w':''}">${p.v}</span>${p.bad?`<span class="v sol">${p.bad}</span>`:''}</div>`;
+  if(p.given)return `<div class="petal given"><span class="k">${p.k}</span><span class="v${p.w?' w':''}">${p.v}</span></div>`;
+  return `<div class="petal"><span class="k">${p.k}</span><span class="q">?</span><span class="v sol${p.w?' w':''}">${p.v}</span></div>`;
+}
+function layout(){
+  $$('.ex').forEach(sec=>{
+    const g=sec.querySelector('.garden'),avail=g.clientWidth,gap=18;
+    const cols=avail>=1000?3:avail>=620?2:1;
+    const bw=Math.floor((avail-(cols-1)*gap)/cols),S=Math.floor(Math.min(400,bw/1.08));
+    const W=Math.floor(S*1.08),H=Math.floor(S*1.1),cx=W/2,cy=S*0.5,R=S*0.37,pw=S*0.36,ph=S*0.26,hd=S*0.3;
+    g.innerHTML=EX[sec.id].map(fl=>{
+      let h=`<div class="flower" style="width:${W}px;height:${H}px;--fs:${(S*0.042).toFixed(1)}px;--hf:${(S*(fl.id.length>2?0.075:0.13)).toFixed(1)}px">`;
+      h+=`<svg class="stem" width="${W}" height="${H}" aria-hidden="true"><path d="M${cx} ${cy} C ${cx-6} ${S*0.8}, ${cx+8} ${S*0.95}, ${cx} ${H}" stroke="var(--ok)" stroke-width="${Math.max(3,S*0.018)}" fill="none"/><path d="M${cx+2} ${S*1.0} q ${S*0.12} ${-S*0.06} ${S*0.2} ${-S*0.02} q ${-S*0.1} ${S*0.07} ${-S*0.2} ${S*0.02}z" fill="var(--ok)" opacity=".7"/></svg>`;
+      fl.petals.forEach((p,k)=>{const a=(-90+72*k)*Math.PI/180,x=cx+R*Math.cos(a)-pw/2,y=cy+R*Math.sin(a)-ph/2;
+        h+=petalHTML(p,fl.intrus).replace('class="petal',`style="left:${x.toFixed(1)}px;top:${y.toFixed(1)}px;width:${pw.toFixed(1)}px;height:${ph.toFixed(1)}px" class="petal`);});
+      h+=`<div class="heart" style="left:${(cx-hd/2).toFixed(1)}px;top:${(cy-hd/2).toFixed(1)}px;width:${hd.toFixed(1)}px;height:${hd.toFixed(1)}px">${fl.id.length>2?`<small>le nombre</small>${fl.id}`:fl.id}</div>`;
+      return h+'</div>';}).join('');
+  });
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-sol]');if(!b)return;const s=b.closest('.ex');const on=s.classList.toggle('show');b.textContent=on?'Cacher la correction':'Correction';b.classList.toggle('main',on);});
+layout();let lw=0;addEventListener('resize',()=>{const w=$('.garden').clientWidth;if(w!==lw){lw=w;layout();}});
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>

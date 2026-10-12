@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leçon — Grandeurs quotients et produits (4e)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:'Work Sans',sans-serif; color:#22303F; background:#EFEAE0; padding:18px 12px 50px; }
+  .page { max-width:900px; margin:0 auto; background:#FFFFFF; border-radius:18px; padding:26px 30px 20px; box-shadow:0 10px 30px rgba(34,48,63,0.12); }
+  header { display:flex; align-items:center; gap:18px; border-bottom:3px solid #22303F; padding-bottom:14px; margin-bottom:16px; }
+  .badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:#22303F; color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:16px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); text-align:center; line-height:1.1; }
+  h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:26px; margin:0; line-height:1.1; }
+  .subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+  .rappel { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:12.8px; }
+  .rappel b { color:#2B6CB0; }
+  .grid { overflow:hidden; }
+  .card:nth-child(2n) { margin-right:0; }
+  .card { float:left; width:47%; margin:0 3% 16px 0; border-radius:14px; padding:12px 15px 12px; border:2px solid transparent; box-sizing:border-box; }
+  .card h2 { font-family:'Baloo 2',sans-serif; font-size:15px; margin:0 0 6px 0; padding-left:10px; border-left:4px solid currentColor; }
+  .card p { font-size:12px; margin:4px 0; line-height:1.4; }
+  .formula { font-family:'Baloo 2',sans-serif; font-weight:600; font-size:12.5px; background:#FFFFFF; border-radius:8px; padding:6px 9px; margin:5px 0; display:inline-block; }
+  .example { font-size:11px; color:#445263; font-style:italic; }
+  .quotient1 { background:#FEF2E3; border-color:#F0B25B; } .quotient1 h2 { color:#B5680A; } .quotient1 .formula { border:1.5px solid #F0B25B; }
+  .quotient2 { background:#E9F7EF; border-color:#4CAF7D; } .quotient2 h2 { color:#1E7A4C; } .quotient2 .formula { border:1.5px solid #4CAF7D; }
+  .produit { background:#F3ECFB; border-color:#8B5CF6; } .produit h2 { color:#5B21B6; } .produit .formula { border:1.5px solid #8B5CF6; }
+  .convertir { background:#FDEBEC; border-color:#E5544F; } .convertir h2 { color:#B5322E; } .convertir .formula { border:1.5px solid #E5544F; }
+
+  .calc { background:#FFFFFF; border-radius:9px; padding:8px 10px; margin-top:8px; }
+  .calc .calc-title { font-family:'Baloo 2',sans-serif; font-size:10.5px; color:#6B7A8A; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.02em; }
+  .calc-row { display:flex; align-items:center; gap:5px; flex-wrap:wrap; font-size:11.5px; margin-bottom:5px; }
+  .calc-row input[type=number] { width:58px; padding:3px 5px; border-radius:6px; border:1.5px solid #C9C2B4; font-family:'Baloo 2',sans-serif; font-size:12px; }
+  .calc-btn { font-family:'Baloo 2',sans-serif; font-size:10.5px; padding:4px 10px; border-radius:12px; border:none; cursor:pointer; color:#fff; }
+  .quotient1 .calc-btn { background:#B5680A; } .quotient2 .calc-btn { background:#1E7A4C; }
+  .produit .calc-btn { background:#5B21B6; } .convertir .calc-btn { background:#B5322E; }
+  .calc-result { font-family:'Baloo 2',sans-serif; font-size:12px; margin-top:3px; min-height:16px; }
+  .quotient1 .calc-result { color:#B5680A; } .quotient2 .calc-result { color:#1E7A4C; }
+  .produit .calc-result { color:#5B21B6; } .convertir .calc-result { color:#B5322E; }
+
+  footer { clear:both; margin-top:6px; font-size:11px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:8px; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="badge">A÷B<br>A×B</div>
+      <div>
+        <h1>Les grandeurs quotients et produits</h1>
+        <div class="subtitle">Chapitre 2 — Classe de 4e — Fiche leçon interactive</div>
+      </div>
+    </header>
+
+    <div class="rappel">
+      <b>Une grandeur composée</b> s'obtient en combinant deux autres grandeurs. On distingue deux familles : la <b>grandeur quotient</b>
+      (on divise : A ÷ B — ex. la vitesse = distance ÷ temps) et la <b>grandeur produit</b> (on multiplie : A × B — ex. l'aire = longueur × largeur).
+      L'unité d'une grandeur composée combine toujours les unités des deux grandeurs de départ (km/h, m³, kWh...).
+    </div>
+
+    <div class="grid">
+      <div class="card quotient1">
+        <h2>La vitesse</h2>
+        <p>La vitesse moyenne est une grandeur quotient : elle indique la distance parcourue par unité de temps.</p>
+        <div class="formula">v = d ÷ t</div>
+        <p class="example">Unités : km/h (d en km, t en h) ou m/s (d en m, t en s). Ex. : 120 km en 2 h → v = 60 km/h.</p>
+        <div class="calc">
+          <div class="calc-title">Essaie toi-même</div>
+          <div class="calc-row">d = <input type="number" id="v-d" value="120"> km &nbsp; t = <input type="number" id="v-t" value="2"> h
+          <button class="calc-btn" onclick="calcV()">Calculer v</button></div>
+          <div class="calc-result" id="v-r"></div>
+        </div>
+      </div>
+
+      <div class="card quotient2">
+        <h2>Le débit et la densité</h2>
+        <p>Même principe qu'une vitesse : une division entre deux grandeurs différentes.</p>
+        <div class="formula">débit = volume ÷ temps</div>
+        <div class="formula">densité = masse ÷ volume</div>
+        <div class="calc">
+          <div class="calc-title">Débit — essaie toi-même</div>
+          <div class="calc-row">V = <input type="number" id="q-v" value="120"> L &nbsp; t = <input type="number" id="q-t" value="4"> min
+          <button class="calc-btn" onclick="calcQ()">Calculer</button></div>
+          <div class="calc-result" id="q-r"></div>
+        </div>
+      </div>
+
+      <div class="card produit">
+        <h2>Les grandeurs produits</h2>
+        <p>L'aire, le volume et l'énergie s'obtiennent en multipliant deux grandeurs.</p>
+        <div class="formula">Aire = longueur × largeur</div>
+        <div class="formula">Volume = longueur × largeur × hauteur</div>
+        <div class="formula">Énergie : E = P × t</div>
+        <p class="example">Puissance P en kW, durée t en h → énergie E en kWh (kilowattheure).</p>
+        <div class="calc">
+          <div class="calc-title">Énergie — essaie toi-même</div>
+          <div class="calc-row">P = <input type="number" id="e-p" value="2"> kW &nbsp; t = <input type="number" id="e-t" value="3"> h
+          <button class="calc-btn" onclick="calcE()">Calculer</button></div>
+          <div class="calc-result" id="e-r"></div>
+        </div>
+      </div>
+
+      <div class="card convertir">
+        <h2>Convertir une grandeur composée</h2>
+        <p>Méthode : convertir séparément chaque grandeur simple, puis refaire le calcul.</p>
+        <div class="formula">72 km/h → m/s : 72÷3,6 = 20 m/s</div>
+        <p class="example">Astuce : ×1000 puis ÷3600 revient à diviser directement par 3,6 pour passer de km/h à m/s.</p>
+        <div class="calc">
+          <div class="calc-title">Convertisseur km/h ↔ m/s</div>
+          <div class="calc-row"><input type="number" id="conv-kmh" value="72"> km/h
+          <button class="calc-btn" onclick="calcConv('kmh')">→ m/s</button></div>
+          <div class="calc-row"><input type="number" id="conv-ms" value="20"> m/s
+          <button class="calc-btn" onclick="calcConv('ms')">→ km/h</button></div>
+          <div class="calc-result" id="conv-r"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer>Cahier de leçons — Chapitre 2 — Les grandeurs quotients et produits. Modifie les nombres pour t'entraîner avec tes propres valeurs.</footer>
+  </div>
+
+<script>
+function fmt(x){ return Math.round(x*100)/100; }
+function calcV(){
+  const d=parseFloat(document.getElementById('v-d').value), t=parseFloat(document.getElementById('v-t').value);
+  if(isNaN(d)||isNaN(t)||t===0){ document.getElementById('v-r').textContent="Entre deux nombres (t ≠ 0)."; return; }
+  document.getElementById('v-r').textContent = `v = ${d} ÷ ${t} = ${fmt(d/t)} (dans l'unité de d par unité de t)`;
+}
+function calcQ(){
+  const v=parseFloat(document.getElementById('q-v').value), t=parseFloat(document.getElementById('q-t').value);
+  if(isNaN(v)||isNaN(t)||t===0){ document.getElementById('q-r').textContent="Entre deux nombres (t ≠ 0)."; return; }
+  document.getElementById('q-r').textContent = `débit = ${v} ÷ ${t} = ${fmt(v/t)}`;
+}
+function calcE(){
+  const p=parseFloat(document.getElementById('e-p').value), t=parseFloat(document.getElementById('e-t').value);
+  if(isNaN(p)||isNaN(t)){ document.getElementById('e-r').textContent="Entre deux nombres."; return; }
+  document.getElementById('e-r').textContent = `E = ${p} × ${t} = ${fmt(p*t)} kWh`;
+}
+function calcConv(dir){
+  if(dir==='kmh'){
+    const k=parseFloat(document.getElementById('conv-kmh').value);
+    if(isNaN(k)){ document.getElementById('conv-r').textContent="Entre un nombre."; return; }
+    document.getElementById('conv-r').textContent = `${k} km/h = ${fmt(k/3.6)} m/s`;
+  } else {
+    const m=parseFloat(document.getElementById('conv-ms').value);
+    if(isNaN(m)){ document.getElementById('conv-r').textContent="Entre un nombre."; return; }
+    document.getElementById('conv-r').textContent = `${m} m/s = ${fmt(m*3.6)} km/h`;
+  }
+}
+calcV(); calcQ(); calcE(); calcConv('kmh');
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

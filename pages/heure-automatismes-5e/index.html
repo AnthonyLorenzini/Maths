@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>Heure d'automatismes 5e</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout : barre de stations en haut (le plan de la séance), une station visible à la fois, lisible au vidéoprojecteur. */
+:root{
+  --bg:#E9EEF5; --surface:#FFFFFF; --surface2:#F4F7FB; --ink:#132033; --muted:#55657C; --line:#CCD6E3;
+  --accent:#2B55D6; --accent-ink:#FFFFFF; --chalk:#E9A800; --chalk-soft:#FFF3CC;
+  --ok:#1C8A4A; --ok-soft:#DDF3E5; --bad:#C93A2F; --bad-soft:#FBE3E0;
+  --teamX:#D9472F; --teamO:#13878A;
+  --display:"Bricolage Grotesque",ui-rounded,"Segoe UI",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1625; --surface:#172238; --surface2:#1E2B45; --ink:#E7ECF5; --muted:#9AA9C0; --line:#2C3B58;
+  --accent:#7D9CFF; --accent-ink:#0E1625; --chalk:#F4C744; --chalk-soft:#3A3115;
+  --ok:#5BD08A; --ok-soft:#173726; --bad:#FF7F73; --bad-soft:#3D1D1A;
+  --teamX:#FF7A5E; --teamO:#4FC9C9; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1625; --surface:#172238; --surface2:#1E2B45; --ink:#E7ECF5; --muted:#9AA9C0; --line:#2C3B58;
+  --accent:#7D9CFF; --accent-ink:#0E1625; --chalk:#F4C744; --chalk-soft:#3A3115;
+  --ok:#5BD08A; --ok-soft:#173726; --bad:#FF7F73; --bad-soft:#3D1D1A;
+  --teamX:#FF7A5E; --teamO:#4FC9C9; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;font-variant-numeric:tabular-nums}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:14px 40px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
+button{font:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,.cell:focus-visible{outline:3px solid var(--chalk);outline-offset:2px}
+
+/* En-tête */
+.top{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between}
+.top h1{font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-.01em}
+.top h1 small{display:block;font-family:var(--body);font-weight:400;font-size:14px;color:var(--muted);letter-spacing:0}
+.clock{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:6px 8px 6px 14px}
+.clock .t{font-family:var(--display);font-weight:800;font-size:26px;min-width:4.2ch}
+.clock .lbl{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+
+/* Stations */
+.rail{display:flex;gap:6px;overflow-x:auto;margin-top:14px;padding-bottom:4px}
+.rail button{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:0;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:7px 12px;text-align:left}
+.rail button .n{font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.rail button .k{font-weight:700;font-size:15px;white-space:nowrap}
+.rail button[aria-current="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.rail button[aria-current="true"] .n{color:inherit;opacity:.8}
+
+.panel{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:clamp(16px,3vw,32px)}
+.head{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:baseline;justify-content:space-between;margin-bottom:6px}
+.head h2{font-size:clamp(26px,3.6vw,40px);font-weight:800}
+.dur{font-weight:700;color:var(--muted)}
+.consigne{color:var(--muted);max-width:70ch;margin:4px 0 18px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{background:var(--surface2);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:9px 16px;font-weight:700}
+.btn:hover{border-color:var(--accent)}
+.btn.main{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.ok{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}
+.btn.bad{background:var(--bad-soft);color:var(--bad);border-color:var(--bad)}
+.btn.sm{padding:6px 12px;font-size:15px}
+
+/* Minuteur */
+.timer{display:flex;align-items:center;gap:10px}
+.timer .t{font-family:var(--display);font-weight:800;font-size:28px;min-width:3.6ch;text-align:right}
+.timer.end .t{color:var(--bad)}
+.track{height:10px;background:var(--surface2);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin:14px 0 4px}
+.track i{display:block;height:100%;width:100%;background:var(--chalk);transform-origin:left;transition:transform .25s linear}
+
+/* Grande question projetée */
+.stage{min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:20px 8px}
+.stage .num{font-size:14px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.stage .q{font-family:var(--display);font-weight:800;font-size:clamp(38px,7vw,84px);line-height:1.1}
+.stage .theme{display:inline-block;background:var(--chalk-soft);color:var(--ink);border-radius:999px;padding:2px 12px;font-size:14px;font-weight:700}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1;margin:0 .1em;font-size:.8em}
+.frac span:first-child{border-bottom:.08em solid currentColor;padding:0 .12em .06em}
+.frac span:last-child{padding-top:.06em}
+
+.answer{font-family:var(--display);font-weight:800;color:var(--ok);font-size:clamp(28px,4vw,46px)}
+.correction{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;margin-top:16px}
+.correction div{background:var(--surface2);border-radius:10px;padding:10px 14px;display:flex;gap:10px;align-items:baseline}
+.correction b{color:var(--muted);min-width:2ch}
+.correction .r{margin-left:auto;font-weight:700;color:var(--ok);white-space:nowrap}
+
+/* Le compte est bon */
+.plaques{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:10px 0}
+.plaque{background:var(--surface2);border:2px solid var(--line);border-radius:12px;min-width:84px;padding:14px 10px;text-align:center;font-family:var(--display);font-weight:800;font-size:40px}
+.cible{font-family:var(--display);font-weight:800;font-size:clamp(64px,10vw,120px);color:var(--accent);letter-spacing:.04em;line-height:1}
+.steps{font-size:22px;line-height:1.7;text-align:center}
+
+/* Vrai / Faux */
+.vf-verdict{font-family:var(--display);font-weight:800;font-size:46px}
+.vf-verdict.V{color:var(--ok)} .vf-verdict.F{color:var(--bad)}
+.explain{max-width:60ch;font-size:20px}
+.votehint{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;font-weight:700;color:var(--muted)}
+
+/* Fil rouge */
+.chain{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;font-family:var(--display);font-weight:800;font-size:clamp(24px,3.4vw,38px)}
+.chain .s{background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:6px 14px}
+.chain .s.cur{background:var(--chalk-soft);border-color:var(--chalk)}
+.chain .v{font-size:.6em;color:var(--ok);display:block}
+
+/* QCM estimation */
+.choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;width:100%;max-width:820px}
+.choices div{background:var(--surface2);border:2px solid var(--line);border-radius:12px;padding:12px 6px;font-family:var(--display);font-weight:800;font-size:clamp(20px,3vw,32px)}
+.choices div em{display:block;font-style:normal;font-size:14px;color:var(--muted);font-family:var(--body)}
+.choices div.good{border-color:var(--ok);background:var(--ok-soft)}
+@media (max-width:560px){.choices{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Morpion */
+.morpion-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:24px;align-items:start}
+@media (max-width:820px){.morpion-wrap{grid-template-columns:minmax(0,1fr)}}
+.grid9{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:420px;width:100%;margin:0 auto}
+.cell{aspect-ratio:1;max-width:100%;background:var(--surface2);border:2px solid var(--line);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:var(--ink);padding:6px;text-align:center}
+.cell:hover:not([data-owner]){border-color:var(--accent)}
+.cell[data-owner]{cursor:default;font-family:var(--display);font-weight:800;font-size:64px}
+.cell[data-owner="X"]{color:var(--teamX);border-color:var(--teamX)}
+.cell[data-owner="O"]{color:var(--teamO);border-color:var(--teamO)}
+.cell.active{border-color:var(--chalk);background:var(--chalk-soft)}
+.teams{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.team{flex:1 1 140px;border:2px solid var(--line);border-radius:12px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.team .sc{font-family:var(--display);font-size:30px;font-weight:800}
+.team.X{color:var(--teamX)} .team.O{color:var(--teamO)}
+.team.turn{border-color:currentColor;background:var(--surface2)}
+.mq{background:var(--surface2);border-radius:14px;padding:18px;min-height:220px;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;text-align:center}
+.mq .q{font-family:var(--display);font-weight:800;font-size:clamp(28px,4.4vw,52px)}
+.banner{font-family:var(--display);font-weight:800;font-size:30px}
+
+/* Cadenas */
+.clues{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin:10px 0 18px}
+.clue{background:var(--surface2);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+.clue .L{font-family:var(--display);font-weight:800;font-size:28px;color:var(--accent);line-height:1}
+.clue .tx{font-size:20px}
+.clue .sol{color:var(--ok);font-weight:700}
+.lock{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap}
+.lock input{width:64px;height:78px;text-align:center;font-family:var(--display);font-weight:800;font-size:44px;background:var(--surface2);color:var(--ink);border:2px solid var(--line);border-radius:12px}
+.lockmsg{text-align:center;font-family:var(--display);font-weight:800;font-size:28px;min-height:40px;margin-top:10px}
+.lockmsg.ok{color:var(--ok)} .lockmsg.bad{color:var(--bad)}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.shake{animation:shake .3s 2}
+
+/* Déroulé prof */
+.plan{width:100%;border-collapse:collapse;font-size:16px}
+.plan th,.plan td{border-bottom:1px solid var(--line);padding:10px 8px;text-align:left;vertical-align:top}
+.plan th{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.plan td:first-child{white-space:nowrap;font-weight:700}
+.scroll{overflow-x:auto}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:20px}
+.notes section{background:var(--surface2);border-radius:12px;padding:14px 16px}
+.notes h3{font-size:18px;margin-bottom:6px}
+.notes ul{margin:0;padding-left:18px}
+.ticket{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:10px}
+.ticket div{background:var(--surface2);border-radius:12px;padding:16px;font-size:20px}
+.ticket b{display:block;font-family:var(--display);font-size:24px;margin-bottom:4px}
+.muted{color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <h1>Heure d'automatismes · 5e<small>9 stations, valeurs tirées au hasard à chaque clic sur « Nouveau tirage »</small></h1>
+    <div class="clock" aria-label="Horloge de séance">
+      <div><div class="lbl">Séance</div><div class="t" id="gclock">50:00</div></div>
+      <button class="btn sm" id="gstart">Lancer</button>
+      <button class="btn sm" id="greset">↺</button>
+    </div>
+  </header>
+  <nav class="rail" id="rail" aria-label="Stations de la séance"></nav>
+  <main id="panels"></main>
+</div>
+
+<script>
+/* ---------- utilitaires ---------- */
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[R(0,a.length-1)];
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]]}return a};
+const clean=x=>Math.round(x*1e6)/1e6;
+const fr=x=>clean(x).toLocaleString('fr-FR',{maximumFractionDigits:4});
+const F=(n,d)=>`<span class="frac"><span>${n}</span><span>${d}</span></span>`;
+const $=s=>document.querySelector(s);
+let audio;
+function beep(){try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();const o=audio.createOscillator(),g=audio.createGain();o.frequency.value=660;g.gain.setValueAtTime(.15,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.5);o.connect(g).connect(audio.destination);o.start();o.stop(audio.currentTime+.5)}catch(e){}}
+
+/* Minuteur réutilisable */
+function Timer(root,seconds,onEnd){
+  root.innerHTML=`<div class="timer"><span class="t">0:00</span><button class="btn sm" data-a="go">Démarrer</button><button class="btn sm" data-a="rs">↺</button></div>`;
+  const t=root.querySelector('.t'),go=root.querySelector('[data-a=go]');
+  let left=seconds,id=null,total=seconds,bar=null;
+  const show=()=>{t.textContent=Math.floor(left/60)+':'+String(left%60).padStart(2,'0');root.querySelector('.timer').classList.toggle('end',left===0);if(bar)bar.style.transform=`scaleX(${left/total})`};
+  const stop=()=>{clearInterval(id);id=null;go.textContent='Démarrer'};
+  const start=()=>{if(id||left===0)return;go.textContent='Pause';id=setInterval(()=>{left--;show();if(left<=0){stop();beep();onEnd&&onEnd()}},1000)};
+  go.onclick=()=>id?stop():start();
+  root.querySelector('[data-a=rs]').onclick=()=>{stop();left=total;show()};
+  show();
+  return{start,stop,reset(s){stop();total=s??total;left=total;show()},bindBar(b){bar=b;show()},get running(){return!!id}};
+}
+
+/* ---------- banque de questions flash (aussi utilisée par le morpion) ---------- */
+const GEN={
+  tables:{nom:'Tables',f(){const a=R(6,9),b=R(6,9);return Math.random()<.6?{q:`${a} × ${b}`,a:fr(a*b)}:{q:`${a*b} ÷ ${a}`,a:fr(b)}}},
+  dix:{nom:'× ou ÷ par 10, 100, 1 000',f(){const x=R(11,999)/pick([10,100]),k=pick([10,100,1000]);return Math.random()<.5?{q:`${fr(x)} × ${fr(k)}`,a:fr(x*k)}:{q:`${fr(x)} ÷ ${fr(k)}`,a:fr(x/k)}}},
+  decimaux:{nom:'Nombres décimaux',f(){const t=R(0,2);
+    if(t===0){const a=R(11,99)/10,b=R(101,899)/100;return{q:`${fr(a)} + ${fr(b)}`,a:fr(a+b)}}
+    if(t===1){const a=R(11,99)/10;return{q:`Complément de ${fr(a)} à 10`,a:fr(10-a)}}
+    const a=R(21,95)/10,b=R(11,Math.floor(a*10)-5)/10;return{q:`${fr(a)} − ${fr(b)}`,a:fr(a-b)}}},
+  fractions:{nom:'Fractions',f(){const d=pick([2,3,4,5,10]),n=R(1,d-1),m=d*R(2,12);
+    return Math.random()<.7?{q:`${F(n,d)} de ${m}`,a:fr(n*m/d)}:{q:`${F(n,d)} = ? (en décimal)`,a:fr(n/d)}}},
+  conversions:{nom:'Conversions',f(){const t=R(0,4);
+    if(t===0){const x=R(11,95)/10;return{q:`${fr(x)} km = ? m`,a:fr(x*1000)+' m'}}
+    if(t===1){const x=R(105,980);return{q:`${x} cm = ? m`,a:fr(x/100)+' m'}}
+    if(t===2){const x=R(150,2500);return{q:`${x} g = ? kg`,a:fr(x/1000)+' kg'}}
+    if(t===3){const h=R(1,3),m=pick([15,30,45]);return{q:`${h} h ${m} min = ? min`,a:(h*60+m)+' min'}}
+    const m=pick([30,90,150,45,75]);return{q:`${m} min = ? h`,a:fr(m/60)+' h'}}},
+  priorites:{nom:'Priorités opératoires',f(){const t=R(0,3),a=R(2,12),b=R(2,9),c=R(2,9);
+    if(t===0)return{q:`${a} + ${b} × ${c}`,a:fr(a+b*c)};
+    if(t===1){const A=b*c+R(1,20);return{q:`${A} − ${b} × ${c}`,a:fr(A-b*c)}}
+    if(t===2)return{q:`(${a} + ${b}) × ${c}`,a:fr((a+b)*c)};
+    return{q:`${a} + ${b*c} ÷ ${b}`,a:fr(a+c)}}},
+  pourcent:{nom:'Pourcentages',f(){const p=pick([10,50,25,20,75]),base={10:R(2,30)*10,50:R(2,60)*2,25:R(2,30)*4,20:R(2,20)*5,75:R(2,15)*4}[p];return{q:`${p} % de ${base}`,a:fr(base*p/100)}}},
+  geometrie:{nom:'Géométrie',f(){const t=R(0,3);
+    if(t===0){const x=R(12,78);return{q:`Angle complémentaire de ${x}° ?`,a:(90-x)+'°'}}
+    if(t===1){const x=R(25,155);return{q:`Angle supplémentaire de ${x}° ?`,a:(180-x)+'°'}}
+    if(t===2){const a=R(30,80),b=R(30,80);return{q:`Triangle : ${a}° et ${b}°. Troisième angle ?`,a:(180-a-b)+'°'}}
+    const a=R(3,12),b=R(2,9);return{q:`Aire d'un rectangle ${a} cm × ${b} cm ?`,a:(a*b)+' cm²'}}},
+  mental:{nom:'Calcul astucieux',f(){const t=R(0,3);
+    if(t===0){const a=R(12,45);return{q:`${a} × 11`,a:fr(a*11)}}
+    if(t===1){const a=R(1,12)*4;return{q:`${a} × 25`,a:fr(a*25)}}
+    if(t===2){const a=R(14,98);return{q:`${a} × 5`,a:fr(a*5)}}
+    const a=R(11,99)/10*2;return{q:`Moitié de ${fr(a)}`,a:fr(a/2)}}},
+  divis:{nom:'Divisibilité',f(){const d=pick([3,4,9]),k=R(14,60),n=Math.random()<.6?d*k:d*k+1;return{q:`${n} est-il divisible par ${d} ?`,a:n%d===0?`Oui (${d} × ${n/d})`:'Non'}}}
+};
+const THEMES=Object.keys(GEN);
+
+/* ---------- stations ---------- */
+const STATIONS=[
+  {id:'plan',k:'Déroulé',n:'Prof',min:''},
+  {id:'flash',k:'Flash chrono',n:'1 · 8 min',min:8},
+  {id:'compte',k:'Le compte est bon',n:'2 · 7 min',min:7},
+  {id:'vf',k:'Vrai ou faux',n:'3 · 6 min',min:6},
+  {id:'fil',k:'Fil rouge',n:'4 · 5 min',min:5},
+  {id:'estim',k:'Ordre de grandeur',n:'5 · 4 min',min:4},
+  {id:'morpion',k:'Morpion des maths',n:'6 · 12 min',min:12},
+  {id:'cadenas',k:'Cadenas',n:'7 · 8 min',min:8}
+];
+const rail=$('#rail'),panels=$('#panels');
+STATIONS.forEach(s=>{
+  const b=document.createElement('button');b.innerHTML=`<span class="n">${s.n}</span><span class="k">${s.k}</span>`;b.onclick=()=>show(s.id);b.dataset.id=s.id;rail.appendChild(b);
+  const p=document.createElement('section');p.className='panel';p.id='p-'+s.id;p.hidden=true;panels.appendChild(p);
+});
+function show(id){
+  STATIONS.forEach(s=>{$('#p-'+s.id).hidden=s.id!==id;rail.querySelector(`[data-id=${s.id}]`).setAttribute('aria-current',s.id===id)});
+  try{localStorage.setItem('auto5e-tab',id)}catch(e){}
+}
+
+/* Horloge de séance */
+(()=>{let left=3000,id=null;const t=$('#gclock'),b=$('#gstart');
+  const sh=()=>t.textContent=Math.floor(left/60)+':'+String(left%60).padStart(2,'0');
+  b.onclick=()=>{if(id){clearInterval(id);id=null;b.textContent='Reprendre'}else{b.textContent='Pause';id=setInterval(()=>{left=Math.max(0,left-1);sh()},1000)}};
+  $('#greset').onclick=()=>{clearInterval(id);id=null;left=3000;sh();b.textContent='Lancer'};})();
+
+/* 0. Déroulé */
+$('#p-plan').innerHTML=`
+<div class="head"><h2>Déroulé de la séance</h2><span class="dur">50 min · installation des élèves déjà comptée</span></div>
+<p class="consigne">Les 50 minutes commencent quand les élèves sont installés : fiches déjà distribuées sur les tables, horloge de séance lancée dès la première question. Toutes les valeurs se renouvellent avec « Nouveau tirage » : la séance peut resservir avec une autre classe ou plus tard dans l'année.</p>
+<div class="scroll"><table class="plan">
+<thead><tr><th>Temps</th><th>Station</th><th>Modalité</th><th>Ce qui est travaillé</th></tr></thead>
+<tbody>
+<tr><td>0 – 8</td><td>1 · Flash chrono</td><td>Individuel, 20 s par question, correction collective</td><td>Tables, décimaux, fractions, conversions, %, priorités, angles, divisibilité</td></tr>
+<tr><td>8 – 15</td><td>2 · Le compte est bon</td><td>Binômes, 3 min de recherche, présentation au tableau</td><td>Calcul mental, stratégie, écriture d'un calcul en ligne</td></tr>
+<tr><td>15 – 21</td><td>3 · Vrai ou faux</td><td>Vote à main levée puis justification orale</td><td>Erreurs classiques (décimaux, aires, durées)</td></tr>
+<tr><td>21 – 26</td><td>4 · Fil rouge</td><td>Individuel, consignes énoncées à l'oral, sans écrire les étapes</td><td>Mémoire de travail, enchaînement d'opérations</td></tr>
+<tr><td>26 – 30</td><td>5 · Ordre de grandeur</td><td>Individuel, 10 s par question, réponse A/B/C/D</td><td>Estimation, arrondis</td></tr>
+<tr><td>30 – 42</td><td>6 · Morpion des maths</td><td>Deux équipes (rangées gauche / droite), un porte-parole qui tourne</td><td>Révision mélangée, en jeu</td></tr>
+<tr><td>42 – 50</td><td>7 · Cadenas</td><td>Groupes de 3 ou 4, premier code juste gagne</td><td>Reste, aire, fractions, division décimale</td></tr>
+</tbody></table></div>
+<div class="notes">
+<section><h3>Rythme</h3><ul><li>Changer de modalité toutes les 5 à 10 min évite la lassitude : individuel, binôme, vote, jeu d'équipe, groupe.</li><li>Si le temps manque, ne faire qu’une chaîne au Fil rouge et une seule manche de Morpion.</li></ul></section>
+<section><h3>Morpion</h3><ul><li>Une équipe choisit une case, son porte-parole répond en 15 s sans aide.</li><li>Raté : la case reste libre et la main passe. On peut voler la case si l'autre équipe donne la bonne réponse (règle facultative).</li></ul></section>
+<section><h3>Différenciation</h3><ul><li>Au Compte est bon, accepter « le plus proche » pour les élèves en difficulté.</li><li>Au Cadenas, le bouton Indice révèle une réponse au choix du professeur.</li></ul></section>
+</div>`;
+
+/* 1. Flash */
+(()=>{const p=$('#p-flash');
+p.innerHTML=`<div class="head"><h2>Flash chrono</h2><span class="dur">10 questions · 20 s chacune</span></div>
+<p class="consigne">Réponds dans la case du numéro sur ta fiche. Pas de calcul posé, pas de retour en arrière.</p>
+<div class="bar"><button class="btn main" data-a="start">Lancer le flash</button><button class="btn" data-a="next">Question suivante</button><button class="btn" data-a="pause">Pause</button><button class="btn" data-a="corr">Correction</button><button class="btn" data-a="new">Nouveau tirage</button></div>
+<div class="track"><i></i></div>
+<div class="stage" id="fl-stage"><div class="num">Prêts ?</div><div class="q">10 questions</div><div class="theme">20 secondes chacune</div></div>
+<div id="fl-corr" hidden></div>`;
+const PER=20;let qs=[],i=-1,left=PER,id=null;
+const bar=p.querySelector('.track i'),stage=p.querySelector('#fl-stage'),corr=p.querySelector('#fl-corr');
+function draw(){const th=shuffle(THEMES).slice(0,10);qs=th.map(t=>({...GEN[t].f(),th:GEN[t].nom}));i=-1;corr.hidden=true;stop();
+  stage.innerHTML=`<div class="num">Prêts ?</div><div class="q">10 questions</div><div class="theme">20 secondes chacune</div>`;bar.style.transform='scaleX(1)'}
+function render(){const q=qs[i];stage.innerHTML=`<div class="num">Question ${i+1} / 10</div><div class="q">${q.q}</div><div class="theme">${q.th}</div>`}
+function stop(){clearInterval(id);id=null}
+function go(){stop();left=PER;bar.style.transform='scaleX(1)';id=setInterval(()=>{left--;bar.style.transform=`scaleX(${left/PER})`;if(left<=0){next()}},1000)}
+function next(){if(i>=9){stop();beep();stage.innerHTML=`<div class="num">Terminé</div><div class="q">Stylos posés !</div>`;bar.style.transform='scaleX(0)';return}i++;render();go()}
+function correction(){stop();corr.hidden=false;corr.innerHTML=`<h3 style="margin-top:8px">Correction</h3><div class="correction">${qs.map((q,k)=>`<div><b>${k+1}</b><span>${q.q}</span><span class="r">${q.a}</span></div>`).join('')}</div>`}
+p.querySelector('[data-a=start]').onclick=()=>{i=-1;corr.hidden=true;next()};
+p.querySelector('[data-a=next]').onclick=next;
+p.querySelector('[data-a=pause]').onclick=e=>{if(id){stop();e.target.textContent='Reprendre'}else if(i>=0&&i<=9){e.target.textContent='Pause';id=setInterval(()=>{left--;bar.style.transform=`scaleX(${left/PER})`;if(left<=0)next()},1000)}};
+p.querySelector('[data-a=corr]').onclick=correction;
+p.querySelector('[data-a=new]').onclick=draw;
+draw();})();
+
+/* 2. Le compte est bon */
+(()=>{const p=$('#p-compte');
+p.innerHTML=`<div class="head"><h2>Le compte est bon</h2><span class="dur">Binômes · 3 min</span></div>
+<p class="consigne">Atteins la cible avec les plaques : + − × ÷, chaque plaque une fois au plus, pas besoin de toutes les utiliser. Si personne ne trouve, le plus proche gagne.</p>
+<div class="bar"><span id="cb-timer"></span><button class="btn" data-a="sol">Une solution</button><button class="btn" data-a="new">Nouveau tirage</button></div>
+<div class="track"><i></i></div>
+<div class="stage"><div class="cible" id="cb-cible"></div><div class="plaques" id="cb-plaques"></div><div class="steps" id="cb-sol" hidden></div></div>`;
+const T=Timer(p.querySelector('#cb-timer'),180);T.bindBar(p.querySelector('.track i'));
+function gen(){const pool=[1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,25,50,75,100];
+  for(let tries=0;tries<500;tries++){const pl=shuffle(pool).slice(0,6);const use=shuffle(pl).slice(0,R(3,5));let cur=use[0],steps=[];
+    for(const n of use.slice(1)){const ops=[];ops.push('+');if(cur>n)ops.push('−');if(cur*n<=1000&&n>1&&cur>1)ops.push('×','×');if(n>1&&cur%n===0)ops.push('÷');
+      const o=pick(ops),r=o==='+'?cur+n:o==='−'?cur-n:o==='×'?cur*n:cur/n;steps.push(`${cur} ${o} ${n} = ${r}`);cur=r}
+    if(cur>=101&&cur<=999&&steps.length>=2)return{pl,cible:cur,steps}}}
+function draw(){const g=gen();p.querySelector('#cb-cible').textContent=g.cible;p.querySelector('#cb-plaques').innerHTML=g.pl.map(n=>`<div class="plaque">${n}</div>`).join('');
+  const s=p.querySelector('#cb-sol');s.hidden=true;s.innerHTML=g.steps.join('<br>');T.reset()}
+p.querySelector('[data-a=sol]').onclick=()=>{const s=p.querySelector('#cb-sol');s.hidden=!s.hidden};
+p.querySelector('[data-a=new]').onclick=draw;draw();})();
+
+/* 3. Vrai ou faux */
+(()=>{const BANK=[
+ ['0,5 est plus petit que 0,25.','F','0,5 = 0,50 et 0,50 > 0,25. On compare chiffre par chiffre, pas la « longueur ».'],
+ ['1,10 est plus grand que 1,9.','F','1,9 = 1,90 et 1,90 > 1,10.'],
+ ['Multiplier par 0,1 revient à diviser par 10.','V','0,1 = 1/10, donc × 0,1 = ÷ 10.'],
+ ['3 + 2 × 4 = 20','F','La multiplication est prioritaire : 3 + 8 = 11.'],
+ ['Multiplier un nombre le rend toujours plus grand.','F','Contre-exemple : 8 × 0,5 = 4.'],
+ ['1 h 30 min = 1,30 h','F','30 min = une demi-heure, donc 1 h 30 min = 1,5 h.'],
+ [`${F(3,4)} = 0,75`,'V','3 ÷ 4 = 0,75.'],
+ ['Un carré est un rectangle.','V','Il a quatre angles droits : c’est un rectangle particulier.'],
+ [`${F(2,3)} de 12 = 8`,'V','12 ÷ 3 = 4, puis 4 × 2 = 8.'],
+ ['1 m² = 100 cm²','F','1 m² = 100 cm × 100 cm = 10 000 cm².'],
+ ['0,3 × 0,2 = 0,6','F','3 × 2 = 6 et il faut deux chiffres après la virgule : 0,06.'],
+ ['Le périmètre d’un carré de côté 5 cm est 25 cm.','F','Périmètre = 4 × 5 = 20 cm. 25 cm² est son aire.'],
+ ['91 est divisible par 7.','V','7 × 13 = 91.'],
+ ['Un triangle peut avoir deux angles droits.','F','90 + 90 = 180 : il ne resterait rien pour le troisième angle.'],
+ ['4,5 ÷ 0,5 = 9','V','Dans 4,5 il y a 9 demis.'],
+ ['25 % d’une quantité, c’est son quart.','V','25 % = 25/100 = 1/4.'],
+ ['Un nombre divisible par 9 est divisible par 3.','V','9 = 3 × 3. L’inverse est faux : 12.'],
+ ['2,5 × 4 = 8,20','F','2,5 × 4 = 10.']];
+const p=$('#p-vf');
+p.innerHTML=`<div class="head"><h2>Vrai ou faux ?</h2><span class="dur">6 affirmations</span></div>
+<p class="consigne">Bras levé : vrai. Bras croisés : faux. Ensuite, quelqu’un justifie.</p>
+<div class="bar"><button class="btn" data-a="prev">◀</button><button class="btn main" data-a="rev">Révéler</button><button class="btn" data-a="next">▶</button><button class="btn" data-a="new">Nouveau tirage</button></div>
+<div class="stage" id="vf-stage"></div>`;
+let set=[],i=0,shown=false;const st=p.querySelector('#vf-stage');
+function render(){const [a,v,e]=set[i];st.innerHTML=`<div class="num">Affirmation ${i+1} / 6</div><div class="q" style="font-size:clamp(30px,5vw,58px)">${a}</div>`+
+  (shown?`<div class="vf-verdict ${v}">${v==='V'?'VRAI':'FAUX'}</div><div class="explain">${e}</div>`:`<div class="votehint"><span>🙋 Vrai</span><span>🙅 Faux</span></div>`)}
+p.querySelector('[data-a=rev]').onclick=()=>{shown=!shown;render()};
+p.querySelector('[data-a=next]').onclick=()=>{i=Math.min(5,i+1);shown=false;render()};
+p.querySelector('[data-a=prev]').onclick=()=>{i=Math.max(0,i-1);shown=false;render()};
+p.querySelector('[data-a=new]').onclick=()=>{set=shuffle(BANK).slice(0,6);i=0;shown=false;render()};
+set=shuffle(BANK).slice(0,6);render();})();
+
+/* 4. Fil rouge */
+(()=>{const p=$('#p-fil');
+p.innerHTML=`<div class="head"><h2>Fil rouge</h2><span class="dur">2 chaînes de 7 étapes</span></div>
+<p class="consigne">Garde le résultat en tête, n’écris rien avant la fin. Note seulement le résultat final sur ta fiche.</p>
+<div class="bar"><button class="btn main" data-a="go">Lancer</button><label class="muted" for="fil-speed">Rythme</label>
+<select id="fil-speed" class="btn sm"><option value="8">Lent (8 s)</option><option value="6" selected>Moyen (6 s)</option><option value="4">Rapide (4 s)</option></select>
+<button class="btn" data-a="sol">Correction</button><button class="btn" data-a="new">Nouvelle chaîne</button></div>
+<div class="track"><i></i></div>
+<div class="stage" id="fil-stage"></div>`;
+let ch=null,k=-1,id=null;const st=p.querySelector('#fil-stage'),bar=p.querySelector('.track i');
+function gen(){let cur=R(3,9);const start=cur,steps=[];
+  while(steps.length<7){const o=[];if(cur<=40)o.push(['×',R(2,5)]);o.push(['+',R(3,25)]);if(cur>12)o.push(['−',R(2,cur-5)]);
+    [2,3,4,5,6].forEach(d=>{if(cur%d===0&&cur/d>=2)o.push(['÷',d])});if(cur%2===0)o.push(['moitié']);if(cur<=50)o.push(['double']);if(cur<=11&&cur>=3)o.push(['au carré']);
+    const [op,n]=pick(o);const r=op==='×'?cur*n:op==='+'?cur+n:op==='−'?cur-n:op==='÷'?cur/n:op==='moitié'?cur/2:op==='double'?cur*2:cur*cur;
+    if(r>200)continue;steps.push({t:n!==undefined?`${op} ${n}`:op,v:r});cur=r}
+  return{start,steps}}
+function base(){st.innerHTML=`<div class="num">Départ</div><div class="q">${ch.start}</div><div class="theme">Prêts à écouter ?</div>`}
+function stop(){clearInterval(id);id=null}
+function play(){stop();k=-1;const s=+p.querySelector('#fil-speed').value;let left=s;
+  const tick=()=>{k++;if(k>=7){stop();st.innerHTML=`<div class="num">Fin</div><div class="q">Résultat ?</div><div class="theme">Écris-le sur ta fiche</div>`;beep();bar.style.transform='scaleX(0)';return}
+    st.innerHTML=`<div class="num">Étape ${k+1} / 7</div><div class="q">${ch.steps[k].t}</div>`;left=s;bar.style.transform='scaleX(1)'};
+  st.innerHTML=`<div class="num">On part de</div><div class="q">${ch.start}</div>`;bar.style.transform='scaleX(1)';
+  id=setInterval(()=>{left--;bar.style.transform=`scaleX(${left/s})`;if(left<=0)tick()},1000)}
+function sol(){stop();st.innerHTML=`<div class="chain"><span class="s">${ch.start}</span>${ch.steps.map(x=>`<span class="s">${x.t}<span class="v">→ ${x.v}</span></span>`).join('')}</div><div class="answer">Résultat : ${ch.steps[6].v}</div>`}
+p.querySelector('[data-a=go]').onclick=play;p.querySelector('[data-a=sol]').onclick=sol;
+p.querySelector('[data-a=new]').onclick=()=>{stop();ch=gen();base()};
+ch=gen();base();})();
+
+/* 5. Ordre de grandeur */
+(()=>{const p=$('#p-estim');
+p.innerHTML=`<div class="head"><h2>Ordre de grandeur</h2><span class="dur">6 questions · 10 s</span></div>
+<p class="consigne">Pas le temps de calculer : arrondis et choisis la réponse la plus proche (A, B, C ou D).</p>
+<div class="bar"><button class="btn main" data-a="go">Lancer</button><button class="btn" data-a="rev">Révéler la réponse</button><button class="btn" data-a="next">Suivante</button><button class="btn" data-a="new">Nouveau tirage</button></div>
+<div class="track"><i></i></div>
+<div class="stage" id="es-stage"></div>`;
+const PAIRS=[[50,20],[25,40],[200,5],[500,2],[20,5],[250,4],[0.5,200],[4,25],[50,200],[0.2,50]];
+const wob=(x)=>{const v=x*(1+(Math.random()*.12-.06));return x>=10?Math.round(v*10)/10:Math.round(v*100)/100};
+function gen(){return Array.from({length:6},()=>{const t=R(0,3);let q,exact;
+  if(t<=1){const [a,b]=pick(PAIRS);const A=wob(a),B=wob(b);q=`${fr(A)} × ${fr(B)}`;exact=A*B}
+  else if(t===2){const k=pick([1000,10000]);const a=Math.round(k*R(30,70)/100),b=k-a+R(-40,40);q=`${fr(a)} + ${fr(b)}`;exact=a+b}
+  else{const d=pick([20,50,25]),res=pick([10,100]);const A=Math.round(d*res*(1+(Math.random()*.08-.04)));const D=wob(d);q=`${fr(A)} ÷ ${fr(D)}`;exact=A/D}
+  const e=Math.round(Math.log10(exact));const opts=[e-1,e,e+1,e+2].map(x=>Math.pow(10,x));const sh=shuffle(opts);
+  return{q,opts:sh,good:sh.indexOf(Math.pow(10,e)),exact}})}
+let set=gen(),i=0,id=null,rev=false;const st=p.querySelector('#es-stage'),bar=p.querySelector('.track i');
+function render(){const s=set[i];st.innerHTML=`<div class="num">Question ${i+1} / 6</div><div class="q">${s.q}</div>
+  <div class="choices">${s.opts.map((o,k)=>`<div class="${rev&&k===s.good?'good':''}"><em>${'ABCD'[k]}</em>${fr(o)}</div>`).join('')}</div>`+(rev?`<div class="muted">Valeur exacte : ${fr(Math.round(s.exact*100)/100)}</div>`:'')}
+function stop(){clearInterval(id);id=null}
+function run(){stop();let left=10;bar.style.transform='scaleX(1)';id=setInterval(()=>{left--;bar.style.transform=`scaleX(${left/10})`;if(left<=0){stop();beep();if(i<5){i++;rev=false;render();run()}}},1000)}
+p.querySelector('[data-a=go]').onclick=()=>{i=0;rev=false;render();run()};
+p.querySelector('[data-a=rev]').onclick=()=>{stop();rev=true;render()};
+p.querySelector('[data-a=next]').onclick=()=>{stop();i=(i+1)%6;rev=false;render()};
+p.querySelector('[data-a=new]').onclick=()=>{stop();set=gen();i=0;rev=false;render()};
+render();})();
+
+/* 6. Morpion */
+(()=>{const p=$('#p-morpion');
+p.innerHTML=`<div class="head"><h2>Morpion des maths</h2><span class="dur">Équipe ✕ contre équipe ◯</span></div>
+<p class="consigne">L’équipe dont c’est le tour choisit une case. Son porte-parole a 15 s. Bonne réponse : la case est gagnée. Trois alignées : la manche est gagnée.</p>
+<div class="morpion-wrap">
+ <div><div class="teams"><div class="team X" id="tX">Équipe ✕ <span class="sc" id="sX">0</span></div><div class="team O" id="tO">Équipe ◯ <span class="sc" id="sO">0</span></div></div>
+ <div class="grid9" id="g9"></div>
+ <div class="bar" style="justify-content:center;margin-top:12px"><button class="btn" data-a="new">Nouvelle manche</button><button class="btn sm" data-a="zero">Scores à zéro</button></div></div>
+ <div class="mq" id="mq"><div class="muted">Choisis une case pour afficher la question.</div></div>
+</div>`;
+let board,turn='X',cur=null,over=false,score={X:0,O:0},T=null;const g=p.querySelector('#g9'),mq=p.querySelector('#mq');
+const LINES=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+const MT=['tables','dix','decimaux','fractions','conversions','priorites','pourcent','geometrie','mental'];
+function sym(t){return t==='X'?'✕':'◯'}
+function turnUI(){p.querySelector('#tX').classList.toggle('turn',turn==='X');p.querySelector('#tO').classList.toggle('turn',turn==='O')}
+function newGame(){const th=shuffle(MT);board=th.map(t=>({t,owner:null}));over=false;cur=null;draw();mq.innerHTML=`<div class="banner" style="color:var(--team${turn})">À l’équipe ${sym(turn)} de choisir</div>`;turnUI()}
+function draw(){g.innerHTML='';board.forEach((c,k)=>{const b=document.createElement('button');b.className='cell'+(cur===k?' active':'');
+  if(c.owner){b.dataset.owner=c.owner;b.textContent=sym(c.owner);b.disabled=true}else{b.textContent=GEN[c.t].nom}
+  b.onclick=()=>ask(k);g.appendChild(b)})}
+function ask(k){if(over||board[k].owner)return;cur=k;draw();const q=GEN[board[k].t].f();
+  mq.innerHTML=`<div class="theme">${GEN[board[k].t].nom} · équipe ${sym(turn)}</div><div class="q">${q.q}</div><div id="mt"></div><div class="answer" id="ma" hidden>${q.a}</div>
+  <div class="bar" style="justify-content:center"><button class="btn" id="bshow">Réponse</button><button class="btn ok" id="bok">Juste</button><button class="btn bad" id="bko">Raté</button></div>`;
+  T=Timer(mq.querySelector('#mt'),15);T.start();
+  mq.querySelector('#bshow').onclick=()=>mq.querySelector('#ma').hidden=false;
+  mq.querySelector('#bok').onclick=()=>{T.stop();board[k].owner=turn;end()};
+  mq.querySelector('#bko').onclick=()=>{T.stop();end()};}
+function end(){cur=null;const w=LINES.find(l=>l.every(i=>board[i].owner===turn));
+  if(w){over=true;score[turn]++;p.querySelector('#s'+turn).textContent=score[turn];draw();mq.innerHTML=`<div class="banner" style="color:var(--team${turn})">L’équipe ${sym(turn)} gagne la manche !</div>`;turn=turn==='X'?'O':'X';turnUI();return}
+  if(board.every(c=>c.owner)){over=true;draw();mq.innerHTML=`<div class="banner">Match nul</div>`;return}
+  turn=turn==='X'?'O':'X';draw();turnUI();mq.innerHTML=`<div class="banner" style="color:var(--team${turn})">À l’équipe ${sym(turn)} de choisir</div>`}
+p.querySelector('[data-a=new]').onclick=newGame;
+p.querySelector('[data-a=zero]').onclick=()=>{score={X:0,O:0};p.querySelector('#sX').textContent=0;p.querySelector('#sO').textContent=0};
+newGame();})();
+
+/* 7. Cadenas */
+(()=>{const p=$('#p-cadenas');
+const CL=[
+ ()=>{const d=R(4,9),r=R(1,d-1),n=d*R(4,11)+r;return{q:`Reste de la division euclidienne de ${n} par ${d}`,a:r}},
+ ()=>{const c=R(2,9);return{q:`Côté (en cm) d’un carré d’aire ${c*c} cm²`,a:c}},
+ ()=>{const d=pick([3,4,5]),n=R(1,d-1),t=R(1,Math.floor(9/n)),m=d*t;return{q:`${F(n,d)} de ${m}`,a:n*t}},
+ ()=>{const k=R(2,9),q=pick([0.5,0.2,0.25]);return{q:`${fr(k*q)} ÷ ${fr(q)}`,a:k}},
+ ()=>{const a=R(1,9),b=R(2,5),c=R(2,6);return{q:`${a+b*c} − ${b} × ${c}`,a:a}},
+ ()=>{const r=pick([1,2,3]),n=4*R(5,20)+r;const tens=Math.floor((n/4)*10)%10;return{q:`Chiffre des dixièmes de ${n} ÷ 4`,a:tens}},
+ ()=>{const a=R(1,9);return{q:`${a*15} min = ? quarts d’heure`,a:a}},
+ ()=>{const a=R(2,9),p=pick([10,20,50]);return{q:`${p} % de ${a*100/p}`,a:a}}];
+p.innerHTML=`<div class="head"><h2>Ouvre le cadenas</h2><span class="dur">Groupes · 4 indices = 4 chiffres</span></div>
+<p class="consigne">Chaque réponse est un chiffre de 0 à 9. Dans l’ordre A B C D, ils forment le code. Le premier groupe qui montre le bon code gagne.</p>
+<div class="bar"><span id="cd-timer"></span><button class="btn" data-a="hint">Indice</button><button class="btn" data-a="sol">Tout corriger</button><button class="btn" data-a="new">Nouveau tirage</button></div>
+<div class="clues" id="clues"></div>
+<div class="lock" id="lock"></div><div class="lockmsg" id="lmsg"></div>`;
+const T=Timer(p.querySelector('#cd-timer'),300);let code=[],hints=0;
+function draw(){const set=shuffle(CL).slice(0,4).map(f=>f());code=set.map(s=>s.a);hints=0;
+  p.querySelector('#clues').innerHTML=set.map((s,k)=>`<div class="clue"><span class="L">${'ABCD'[k]}</span><span class="tx">${s.q} <span class="sol" hidden>→ ${s.a}</span></span></div>`).join('');
+  const L=p.querySelector('#lock');L.innerHTML=[0,1,2,3].map(k=>`<input id="d${k}" inputmode="numeric" maxlength="1" aria-label="Chiffre ${'ABCD'[k]}">`).join('')+`<button class="btn main" id="ltry">Essayer</button>`;
+  const ins=[...L.querySelectorAll('input')];ins.forEach((el,k)=>el.oninput=()=>{el.value=el.value.replace(/\D/g,'');if(el.value&&ins[k+1])ins[k+1].focus()});
+  L.querySelector('#ltry').onclick=()=>{const v=ins.map(x=>x.value).join(''),m=p.querySelector('#lmsg');
+    if(v===code.join('')){m.className='lockmsg ok';m.textContent='Cadenas ouvert ! 🔓';T.stop();beep()}else{m.className='lockmsg bad';m.textContent='Code faux, vérifiez vos calculs';L.classList.remove('shake');void L.offsetWidth;L.classList.add('shake')}};
+  p.querySelector('#lmsg').textContent='';T.reset()}
+p.querySelector('[data-a=hint]').onclick=()=>{const s=p.querySelectorAll('.clue .sol');if(hints<4){s[hints].hidden=false;hints++}};
+p.querySelector('[data-a=sol]').onclick=()=>p.querySelectorAll('.clue .sol').forEach(s=>s.hidden=false);
+p.querySelector('[data-a=new]').onclick=draw;draw();})();
+
+
+let start='plan';try{start=localStorage.getItem('auto5e-tab')||'plan'}catch(e){}
+show(STATIONS.some(s=>s.id===start)?start:'plan');
+document.addEventListener('keydown',e=>{if(e.target.matches('input,select'))return;const i=STATIONS.findIndex(s=>!$('#p-'+s.id).hidden);
+  if(e.key==='PageDown')show(STATIONS[Math.min(STATIONS.length-1,i+1)].id);if(e.key==='PageUp')show(STATIONS[Math.max(0,i-1)].id)});
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>

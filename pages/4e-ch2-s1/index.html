@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 1 — La vitesse (interactif)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange-b:#F0B25B; --orange-bg:#FEF2E3; --orange-t:#B5680A;
+  --ink:#22303F;
+}
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 860px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:24px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:26px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+.automatisme { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:12px 16px; margin-bottom:14px; }
+.automatisme h2 { font-family:'Baloo 2',sans-serif; font-size:15px; color:#2B6CB0; margin:0 0 8px 0; }
+.automatisme ol { margin:0; padding-left:20px; font-size:13px; }
+.automatisme li { margin-bottom:2px; }
+.reveal-panel { display:none; margin-top:8px; font-size:12.5px; font-style:italic; color:#3B4C5E; border-top:1px dashed #B7CBE3; padding-top:6px; }
+.reveal-panel.show { display:block; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:12px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; margin-top:6px; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.toggle-btn:hover { filter:brightness(0.97); }
+.methode { background:#FFF9EC; border:2px dashed #D8B24C; border-radius:10px; padding:10px 16px; margin-bottom:18px; font-size:12.5px; }
+.methode b.tag { font-family:'Baloo 2',sans-serif; color:#9C7A17; display:block; margin-bottom:3px; font-size:13px; }
+.section-title { font-family:'Baloo 2',sans-serif; font-size:18px; margin:4px 0 12px 0; }
+.advanced-title { font-family:'Baloo 2',sans-serif; font-size:15px; color:var(--orange-t); margin:18px 0 10px 0; padding-top:12px; border-top:2px dashed var(--orange-b); }
+.exo { border:2px solid var(--orange-b); background:var(--orange-bg); border-radius:12px; padding:14px 18px; margin-bottom:14px; }
+.exo-title { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:var(--orange-t); margin-bottom:6px; }
+.exo p { font-size:13px; margin:4px 0; line-height:1.5; }
+.exo p.q { margin:6px 0 2px 4px; }
+.schema { background:#fff; border-radius:8px; padding:8px; margin:8px 0; text-align:center; }
+.schema svg { max-width:100%; height:auto; }
+.btn-row { display:flex; gap:10px; margin-top:8px; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:12.5px; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel.solution-panel { border:1.5px dashed #4CAF7D; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; }
+.astuce-panel .label { color:#B5680A; }
+.solution-panel .label { color:#1E7A4C; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="badge">S1</div>
+    <div>
+      <h1>La vitesse</h1>
+      <div class="subtitle">Chapitre 2 — Grandeurs quotients et produits — 4e — Séance 1</div>
+    </div>
+  </header>
+
+  <div class="objectifs"><b>Objectifs :</b> définir une grandeur quotient ; calculer une vitesse moyenne (v = d ÷ t) ; convertir une vitesse (km/h ↔ m/s).</div>
+
+  <div class="automatisme">
+    <h2>Automatisme</h2>
+    <ol><li>2 h 15 min = … h (écriture décimale)</li><li>3,5 × 4 =</li><li>900 ÷ 30 =</li><li>1 km = … m</li><li>0,5 h = … min</li><li>63 ÷ 9 =</li></ol>
+    <button class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
+    <div class="reveal-panel" id="auto-corrige">Corrigé : 2,25 h ; 14 ; 30 ; 1 000 m ; 30 min ; 7</div>
+  </div>
+
+  <div class="methode"><b class="tag">Méthode</b>Un cycliste parcourt 90 km en 3 h, à vitesse constante. v = d ÷ t = 90 ÷ 3 = <b>30 km/h</b>.</div>
+
+  <div class="section-title">Exercices</div>
+  
+    <div class="exo">
+      <div class="exo-title">★ Exercice</div>
+      <p>Une voiture parcourt 180 km en 2 h, à vitesse constante. Calcule sa vitesse moyenne en km/h.</p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-0')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-0')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-0"><span class="label">Astuce</span>Quelle formule relie vitesse, distance et temps ? Ici, tu connais d et t : v = d ÷ t.</div>
+      <div class="panel solution-panel" id="solution-0"><span class="label">Solution</span>180 ÷ 2 = <b>90 km/h</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★ Exercice</div>
+      <p>Un guépard parcourt 100 m en 4 secondes lors d'un sprint. Calcule sa vitesse en m/s.</p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-1')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-1')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-1"><span class="label">Astuce</span>Même formule que l'exercice précédent, mais attention aux unités : ici distance en mètres, temps en secondes.</div>
+      <div class="panel solution-panel" id="solution-1"><span class="label">Solution</span>100 ÷ 4 = <b>25 m/s</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★ Exercice</div>
+      <p>Un cycliste roule à 20 km/h pendant 3 h, à vitesse constante. Quelle distance a-t-il parcourue ?</p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-2')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-2')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-2"><span class="label">Astuce</span>Cette fois tu connais v et t, pas d. Réarrange la formule v = d ÷ t pour isoler d.</div>
+      <div class="panel solution-panel" id="solution-2"><span class="label">Solution</span>d = v × t = 20 × 3 = <b>60 km</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Un train roule à 100 km/h, à vitesse constante. Combien de temps (en heures) met-il pour parcourir 250 km ?</p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-3')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-3')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-3"><span class="label">Astuce</span>Tu connais v et d, pas t. Réarrange la formule v = d ÷ t pour isoler t.</div>
+      <div class="panel solution-panel" id="solution-3"><span class="label">Solution</span>t = d ÷ v = 250 ÷ 100 = <b>2,5 h</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Un TGV parcourt 450 km en 2 h 30 min. Calcule sa vitesse moyenne en km/h.</p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-4')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-4')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-4"><span class="label">Astuce</span>N'oublie pas de convertir 2 h 30 min en heures décimales avant de diviser.</div>
+      <div class="panel solution-panel" id="solution-4"><span class="label">Solution</span>2 h 30 min = 2,5 h. 450 ÷ 2,5 = <b>180 km/h</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>La vitesse d'un coureur est de 18 km/h. Convertis cette vitesse en m/s.</p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-5')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-5')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-5"><span class="label">Astuce</span>Rappelle-toi la méthode de conversion vue dans la leçon : diviser directement par 3,6.</div>
+      <div class="panel solution-panel" id="solution-5"><span class="label">Solution</span>18 ÷ 3,6 = <b>5 m/s</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>Un avion parcourt 2 400 km en 3 h.<br><span class='q'>a) Calcule sa vitesse moyenne en km/h.</span><br><span class='q'>b) Convertis cette vitesse en m/s (arrondis à l'unité).</span><br><span class='q'>c) À cette vitesse, quelle distance parcourrait-il en 5 h ?</span></p>
+      <div class="schema"><svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="max-width:320px">
+  <line x1="40" y1="180" x2="280" y2="180" stroke="#22303F" stroke-width="1.5"/>
+  <line x1="40" y1="180" x2="40" y2="15" stroke="#22303F" stroke-width="1.5"/>
+  <text x="160" y="196" font-size="10" fill="#22303F" text-anchor="middle">Temps (h)</text>
+  <text x="14" y="100" font-size="10" fill="#22303F" text-anchor="middle" transform="rotate(-90 14 100)">Distance (km)</text>
+  <line x1="40" y1="180" x2="250" y2="20" stroke="#F0B25B" stroke-width="2"/>
+  <circle cx="40" cy="180" r="3.5" fill="#B5680A"/>
+  <circle cx="145" cy="100" r="3.5" fill="#B5680A"/>
+  <circle cx="250" cy="20" r="3.5" fill="#B5680A"/>
+  <text x="40" y="192" font-size="9" fill="#6B7A8A" text-anchor="middle">0</text>
+  <text x="145" y="192" font-size="9" fill="#6B7A8A" text-anchor="middle">3</text>
+  <text x="250" y="192" font-size="9" fill="#6B7A8A" text-anchor="middle">5</text>
+  <text x="33" y="103" font-size="9" fill="#6B7A8A" text-anchor="end">2400</text>
+  <text x="33" y="23" font-size="9" fill="#6B7A8A" text-anchor="end">4000</text>
+  <text x="150" y="70" font-size="9" fill="#B5680A">vitesse constante</text>
+  <text x="150" y="82" font-size="9" fill="#B5680A">→ droite passant par l'origine</text>
+</svg></div>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-6')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-6')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-6"><span class="label">Astuce</span>Fais les questions dans l'ordre : d'abord la vitesse (a), puis la conversion (b), puis la distance avec la vitesse trouvée en a) (c).</div>
+      <div class="panel solution-panel" id="solution-6"><span class="label">Solution</span>a) 2400 ÷ 3 = <b>800 km/h</b>. b) 800 ÷ 3,6 ≈ <b>222 m/s</b>. c) 800 × 5 = <b>4 000 km</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice (question ouverte)</div>
+      <p>Un ami affirme : « Une vitesse moyenne de 60 km/h veut dire qu'on roule tout le temps exactement à 60 km/h. » Est-ce vrai ? Explique avec un exemple ce qui peut se passer concrètement pendant le trajet.</p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-7')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-7')">✅ Piste de correction</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-7"><span class="label">Astuce</span>Repense à la différence entre la vitesse moyenne sur tout le trajet et la vitesse réelle à un instant précis du trajet.</div>
+      <div class="panel solution-panel" id="solution-7"><span class="label">Piste de correction</span>Faux. La vitesse moyenne est calculée sur l'ensemble du trajet (distance totale ÷ temps total), mais la vitesse réelle peut varier à chaque instant. Par exemple, on peut rouler à 90 km/h sur autoroute puis s'arrêter 10 minutes à un péage, et la moyenne sur tout le trajet sera quand même de 60 km/h.</div>
+    </div><div class="advanced-title">Pour aller plus loin / Encore plus loin</div>
+    <div class="exo">
+      <div class="exo-title">★★★★ Exercice</div>
+      <p>Un marathonien parcourt les 42,195 km du marathon en 3 h 30 min.<br><span class='q'>a) Convertis 3 h 30 min en heures décimales, puis en minutes.</span><br><span class='q'>b) Calcule sa vitesse moyenne en km/h (arrondis au dixième).</span><br><span class='q'>c) Sachant qu'il a couru la première moitié de la course exactement 10 minutes plus vite que la seconde moitié, calcule le temps mis sur chacune des deux moitiés, puis sa vitesse moyenne sur chacune (arrondis au dixième).</span></p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-8')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-8')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-8"><span class="label">Astuce</span>Pour c) : tu connais la somme des deux temps (le temps total, 210 min) et leur différence (10 min). Comme pour deux nombres dont on connaît la somme et la différence, tu peux retrouver chacun des deux : (somme − différence) ÷ 2 donne le plus petit, (somme + différence) ÷ 2 donne le plus grand.</div>
+      <div class="panel solution-panel" id="solution-8"><span class="label">Solution</span>a) <b>3,5 h</b> = <b>210 min</b>. b) 42,195 ÷ 3,5 ≈ <b>12,1 km/h</b>. c) Le temps total des deux moitiés est 210 min, et leur différence est 10 min (la 1<sup>re</sup> moitié plus rapide → moins de temps). 1<sup>re</sup> moitié : (210 − 10) ÷ 2 = <b>100 min = 1 h 40 min</b>. 2<sup>e</sup> moitié : (210 + 10) ÷ 2 = <b>110 min = 1 h 50 min</b>. Chaque moitié mesure 42,195 ÷ 2 = 21,0975 km. Vitesse 1<sup>re</sup> moitié : 21,0975 ÷ (100/60) ≈ <b>12,7 km/h</b>. Vitesse 2<sup>e</sup> moitié : 21,0975 ÷ (110/60) ≈ <b>11,5 km/h</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★★★ Exercice</div>
+      <p>Les coureurs à pied expriment souvent leur vitesse sous forme d'une <b>allure</b>, c'est-à-dire le temps nécessaire pour parcourir 1 km (en min/km), plutôt qu'en km/h.<br><span class='q'>a) Un coureur maintient une vitesse constante de 15 km/h. Sachant qu'en 60 min il parcourt 15 km, combien de minutes met-il pour parcourir 1 km ? Exprime son allure en min/km.</span><br><span class='q'>b) Un autre coureur maintient une vitesse de 8 km/h. Calcule son allure en min/km. Le résultat n'est pas un nombre entier de minutes : convertis la partie décimale en secondes pour exprimer l'allure sous la forme « ... min ... s/km ».</span></p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-9')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-9')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-9"><span class="label">Astuce</span>En 60 minutes, combien de km sont parcourus ? Divise 60 par le nombre de km pour trouver le nombre de minutes que prend 1 seul km.</div>
+      <div class="panel solution-panel" id="solution-9"><span class="label">Solution</span>a) 60 ÷ 15 = <b>4 min/km</b>. b) 60 ÷ 8 = 7,5 min/km. La partie décimale 0,5 min = 0,5 × 60 = 30 s, donc l'allure est de <b>7 min 30 s/km</b>.</div>
+    </div>
+
+  <footer>Cherche seul(e) d'abord. Utilise l'astuce si tu bloques, puis vérifie avec la solution.</footer>
+</div>
+<script>
+function toggle(id){
+  const el = document.getElementById(id);
+  el.classList.toggle('show');
+}
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>L'Atelier des Partages</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+  :root{
+    --paper:#fbfcf9;
+    --ink:#182430;
+    --muted:#5f6b73;
+    --accent:#c9821f;
+    --accent-soft:#f0d9b3;
+    --accent-ink:#7a4e10;
+    --good:#3f7d5c;
+    --good-soft:#dcefe4;
+    --bad:#c1503f;
+    --bad-soft:#f7ddd8;
+    --grid-line: rgba(60,110,160,.16);
+    --card:#ffffff;
+    --card-border:#e3e2d8;
+    --shadow: 0 1px 0 rgba(24,36,48,.04);
+    --c1:#c9821f; --c2:#3f7d5c; --c3:#3f6fb0; --c4:#a5468a;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#161a1f;
+      --ink:#eef0f2;
+      --muted:#9aa4ab;
+      --accent:#e8a33d;
+      --accent-soft:#4a3616;
+      --accent-ink:#f6d190;
+      --good:#6fbf95;
+      --good-soft:#1c3327;
+      --bad:#e2897a;
+      --bad-soft:#3a2320;
+      --grid-line: rgba(140,180,220,.14);
+      --card:#1e242b;
+      --card-border:#2c333b;
+      --c1:#e8a33d; --c2:#6fbf95; --c3:#7fa8db; --c4:#d17fb8;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#161a1f;
+    --ink:#eef0f2;
+    --muted:#9aa4ab;
+    --accent:#e8a33d;
+    --accent-soft:#4a3616;
+    --accent-ink:#f6d190;
+    --good:#6fbf95;
+    --good-soft:#1c3327;
+    --bad:#e2897a;
+    --bad-soft:#3a2320;
+    --grid-line: rgba(140,180,220,.14);
+    --card:#1e242b;
+    --card-border:#2c333b;
+    --c1:#e8a33d; --c2:#6fbf95; --c3:#7fa8db; --c4:#d17fb8;
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Work Sans', system-ui, sans-serif;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  .wrap{ max-width:800px; margin:0 auto; padding: 22px 18px 40px; }
+
+  .eyebrow{ font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.14em; color:var(--accent); display:flex; align-items:center; gap:7px; }
+  .eyebrow::before{ content:""; width:6px; height:6px; background:var(--accent); display:inline-block; transform:rotate(45deg); }
+  h1{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size: clamp(28px,6vw,40px); line-height:1; margin:6px 0 4px; text-wrap:balance; }
+  .sub{ color:var(--muted); font-size:14.5px; max-width:56ch; margin-bottom:20px; }
+
+  .tabs{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+  .tab{
+    font-family:'Space Mono',monospace; font-size:12.5px; letter-spacing:.03em;
+    border:1.5px solid var(--card-border); background:var(--card); color:var(--muted);
+    padding:8px 14px; border-radius:999px; cursor:pointer; transition:.15s;
+  }
+  .tab[aria-pressed="true"]{ border-color:var(--accent); color:var(--accent-ink); background:var(--accent-soft); font-weight:700; }
+  .tab:hover{ border-color:var(--accent); }
+
+  .card{ background:var(--card); border:1px solid var(--card-border); border-radius:14px; padding:20px; box-shadow:var(--shadow); margin-bottom:16px; }
+
+  .row{ display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; }
+  .control-group{ display:flex; align-items:center; gap:10px; }
+  .control-label{ font-size:12.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; font-family:'Space Mono',monospace; }
+
+  .stepper{ display:flex; align-items:center; gap:0; border:1.5px solid var(--card-border); border-radius:10px; overflow:hidden; }
+  .stepper button{ width:34px; height:34px; border:none; background:transparent; color:var(--ink); font-size:18px; cursor:pointer; font-family:'Space Mono',monospace; }
+  .stepper button:hover{ background:var(--accent-soft); }
+  .stepper .val{ width:34px; text-align:center; font-family:'Space Mono',monospace; font-weight:700; font-size:15px; }
+
+  .shape-tabs{ display:flex; gap:6px; }
+  .shape-tabs button{
+    border:1.5px solid var(--card-border); background:var(--card); color:var(--muted);
+    width:38px; height:34px; border-radius:8px; cursor:pointer; font-size:16px;
+  }
+  .shape-tabs button[aria-pressed="true"]{ border-color:var(--accent); background:var(--accent-soft); color:var(--accent-ink); }
+
+  .stage{ display:flex; flex-direction:column; align-items:center; gap:18px; padding:26px 10px 8px; }
+  #shape-host{ width:100%; display:flex; justify-content:center; }
+  .touts-row{ display:flex; flex-wrap:wrap; gap:22px; justify-content:center; align-items:flex-end; }
+  .tout-group{ display:flex; flex-direction:column; align-items:center; gap:6px; }
+  .tout-label{ font-family:'Space Mono',monospace; font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }
+
+  .fraction-display{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; justify-content:center; }
+  .frac{ font-family:'Space Mono',monospace; font-weight:700; text-align:center; line-height:1.05; }
+  .frac .num, .frac .den{ display:block; font-size:34px; }
+  .frac .bar{ display:block; width:100%; height:3px; background:var(--ink); margin:2px 0; }
+  .frac-label{ font-size:13px; color:var(--muted); max-width:26ch; text-align:center; }
+
+  /* bar shape */
+  .bar-shape{ display:flex; height:70px; border-radius:8px; overflow:hidden; border:2px solid var(--ink); }
+  .bar-shape .part{ flex:1; border-right:1px solid var(--card-border); cursor:pointer; background:transparent; transition:background .12s; }
+  .bar-shape .part:last-child{ border-right:none; }
+  .bar-shape .part.on{ background:var(--accent); }
+  .bar-shape .part:hover{ background:var(--accent-soft); }
+
+  /* grid / tablette shape */
+  .grid-shape{ display:grid; gap:3px; }
+  .grid-shape .part{ aspect-ratio:1; border:2px solid var(--ink); border-radius:5px; cursor:pointer; background:transparent; transition:background .12s; }
+  .grid-shape .part.on{ background:var(--accent); }
+  .grid-shape .part:hover{ background:var(--accent-soft); }
+  .unit-tally{ font-family:'Space Mono',monospace; font-size:11.5px; color:var(--muted); }
+  .unit-tally.full{ color:var(--good); font-weight:700; }
+
+  /* disk shape */
+  .disk-shape{ width:150px; height:150px; }
+  .disk-shape path{ stroke:var(--ink); stroke-width:2; cursor:pointer; fill:transparent; transition:fill .12s; }
+  .disk-shape path.on{ fill:var(--accent); }
+  .disk-shape path:hover{ fill:var(--accent-soft); }
+
+  .btn{
+    font-family:'Space Mono',monospace; font-weight:700; font-size:13.5px; letter-spacing:.03em;
+    background:var(--ink); color:var(--paper); border:none; border-radius:10px;
+    padding:11px 18px; cursor:pointer; transition:.15s; text-transform:uppercase;
+  }
+  .btn:hover{ opacity:.85; }
+  .btn.accent{ background:var(--accent); color:#1b1206; }
+  .btn.ghost{ background:transparent; color:var(--ink); border:1.5px solid var(--card-border); }
+  .btn:disabled{ opacity:.4; cursor:not-allowed; }
+
+  .defi-target{ text-align:center; }
+  .defi-target .ask{ font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; font-family:'Space Mono',monospace; margin-bottom:4px;}
+  .defi-target .goal{ font-family:'Big Shoulders Display'; font-weight:800; font-size:30px; }
+
+  .feedback{ text-align:center; padding:12px 16px; border-radius:10px; font-weight:600; font-size:15px; display:none; }
+  .feedback.show{ display:block; }
+  .feedback.good{ background:var(--good-soft); color:var(--good); }
+  .feedback.bad{ background:var(--bad-soft); color:var(--bad); }
+
+  .scoreboard{ display:flex; gap:18px; justify-content:center; font-family:'Space Mono',monospace; flex-wrap:wrap; }
+  .scoreboard .item{ text-align:center; }
+  .scoreboard .n{ font-size:22px; font-weight:700; }
+  .scoreboard .l{ font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }
+
+  .actions{ display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:6px; }
+
+  /* --- 4-color panel --- */
+  .quatre-grid{ display:grid; gap:4px; margin:0 auto; width:fit-content; }
+  .quatre-cell{ width:34px; height:34px; border:2px solid var(--ink); border-radius:6px; cursor:pointer; background:transparent; transition:background .12s, transform .08s; }
+  .quatre-cell:active{ transform:scale(.92); }
+  .quatre-cell.c1{ background:var(--c1); }
+  .quatre-cell.c2{ background:var(--c2); }
+  .quatre-cell.c3{ background:var(--c3); }
+  .quatre-cell.c4{ background:var(--c4); }
+
+  .legend{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:16px; }
+  .legend .swatch{ display:flex; align-items:center; gap:7px; font-family:'Space Mono',monospace; font-size:12.5px; }
+  .legend .sq{ width:14px; height:14px; border-radius:4px; border:1.5px solid var(--ink); }
+  .legend .sq.c1{ background:var(--c1); } .legend .sq.c2{ background:var(--c2); } .legend .sq.c3{ background:var(--c3); } .legend .sq.c4{ background:var(--c4); }
+  .legend .cnt.match{ color:var(--good); font-weight:700; }
+
+  footer{ text-align:center; color:var(--muted); font-size:12px; margin-top:26px; font-family:'Space Mono',monospace; }
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Leçon 3 · Fractions</div>
+  <h1>L'Atelier des Partages</h1>
+  <div class="sub" id="page-sub">Partage une forme en parts égales, colorie ce qu'on te demande, et regarde la fraction s'écrire toute seule.</div>
+
+  <div class="tabs" role="tablist" aria-label="Mode">
+    <button class="tab" id="tab-libre" aria-pressed="true">Mode libre</button>
+    <button class="tab" id="tab-defi" aria-pressed="false">Mode défi</button>
+    <button class="tab" id="tab-quatre" aria-pressed="false">Tablette 4 couleurs</button>
+  </div>
+
+  <!-- PANEL: libre / défi -->
+  <div id="panel-partage">
+    <div class="card">
+      <div class="row" style="margin-bottom:8px;">
+        <div class="control-group">
+          <span class="control-label">Forme</span>
+          <div class="shape-tabs">
+            <button data-shape="bar" aria-pressed="true" title="Bande">▭</button>
+            <button data-shape="grid" aria-pressed="false" title="Tablette">▦</button>
+            <button data-shape="disk" aria-pressed="false" title="Disque">●</button>
+          </div>
+        </div>
+        <div class="control-group" id="denom-control">
+          <span class="control-label">Parts (dénominateur)</span>
+          <div class="stepper">
+            <button id="denom-minus">−</button>
+            <div class="val" id="denom-val">4</div>
+            <button id="denom-plus">+</button>
+          </div>
+        </div>
+        <div class="control-group" id="touts-control">
+          <span class="control-label">Nombre d'unités</span>
+          <div class="stepper">
+            <button id="touts-minus">−</button>
+            <div class="val" id="touts-val">1</div>
+            <button id="touts-plus">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div id="defi-target" class="defi-target" style="display:none;">
+          <div class="ask">Colorie</div>
+          <div class="goal" id="defi-goal">3/5</div>
+        </div>
+
+        <div id="shape-host"></div>
+
+        <div class="fraction-display">
+          <div class="frac">
+            <span class="num" id="frac-num">0</span>
+            <span class="bar"></span>
+            <span class="den" id="frac-den">4</span>
+          </div>
+          <div class="frac-label" id="frac-label">Clique sur les parts pour les colorier.</div>
+        </div>
+
+        <div id="feedback" class="feedback"></div>
+
+        <div class="actions">
+          <button class="btn ghost" id="clear-btn">Effacer</button>
+          <button class="btn accent" id="check-btn" style="display:none;">Vérifier</button>
+          <button class="btn" id="next-btn" style="display:none;">Nouveau défi →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="score-card" style="display:none;">
+      <div class="scoreboard">
+        <div class="item"><div class="n" id="score-good">0</div><div class="l">Réussis</div></div>
+        <div class="item"><div class="n" id="score-streak">0</div><div class="l">Série en cours</div></div>
+        <div class="item"><div class="n" id="score-total">0</div><div class="l">Défis joués</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL: quatre couleurs -->
+  <div id="panel-quatre" style="display:none;">
+    <div class="card">
+      <div class="row" style="margin-bottom:14px;">
+        <div class="control-group">
+          <span class="control-label">Taille de la tablette</span>
+          <div class="stepper">
+            <button id="qsize-minus">−</button>
+            <div class="val" id="qsize-val" style="width:44px;">12</div>
+            <button id="qsize-plus">+</button>
+          </div>
+        </div>
+        <div class="control-group">
+          <span class="control-label">Couleur active</span>
+          <div class="shape-tabs" id="color-picker"></div>
+        </div>
+      </div>
+
+      <div class="stage" style="padding-top:10px;">
+        <div id="quatre-grid" class="quatre-grid"></div>
+        <div class="legend" id="quatre-legend"></div>
+        <div id="quatre-feedback" class="feedback"></div>
+        <div class="actions">
+          <button class="btn ghost" id="quatre-clear">Effacer</button>
+          <button class="btn accent" id="quatre-check">Vérifier</button>
+          <button class="btn" id="quatre-new" style="display:none;">Nouvelle disposition →</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="scoreboard">
+        <div class="item"><div class="n" id="quatre-success">0</div><div class="l">Découpages validés</div></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Séance 1 · Leçon 3 — Fractions : Partage</footer>
+</div>
+
+<script>
+(function(){
+  // =========================================================
+  // PARTAGE (libre / défi)
+  // =========================================================
+  var state = {
+    mode: 'libre',        // libre | defi
+    shape: 'bar',         // bar | grid | disk
+    denom: 4,
+    touts: 1,
+    selected: new Set(),  // global indices: tout*denom + part
+    target: null,         // {num, den}
+    checked: false,
+    score: { good:0, total:0, streak:0 }
+  };
+
+  var shapeHost = document.getElementById('shape-host');
+  var fracNum = document.getElementById('frac-num');
+  var fracDen = document.getElementById('frac-den');
+  var fracLabel = document.getElementById('frac-label');
+  var feedback = document.getElementById('feedback');
+  var denomVal = document.getElementById('denom-val');
+  var denomControl = document.getElementById('denom-control');
+  var toutsVal = document.getElementById('touts-val');
+  var toutsControl = document.getElementById('touts-control');
+  var defiTarget = document.getElementById('defi-target');
+  var defiGoal = document.getElementById('defi-goal');
+  var checkBtn = document.getElementById('check-btn');
+  var nextBtn = document.getElementById('next-btn');
+  var clearBtn = document.getElementById('clear-btn');
+  var scoreCard = document.getElementById('score-card');
+
+  function setPressed(el, on){ el.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+  function polarPoint(cx, cy, r, angle){ return [cx + r * Math.cos(angle), cy + r * Math.sin(angle)]; }
+
+  // Largest divisor pair (rows<=cols) of n, closest to a square — always a TRUE
+  // rectangle (like a real chocolate bar), never a ragged sqrt-based grid.
+  function bestGridDims(n){
+    var r = Math.floor(Math.sqrt(n));
+    while (r > 1 && n % r !== 0) r--;
+    return [r, n / r]; // [rows, cols]
+  }
+
+  function buildOneShape(shapeType, touIndex, denom){
+    var host;
+    if (shapeType === 'bar'){
+      host = document.createElement('div');
+      host.className = 'bar-shape';
+      host.style.width = Math.max(160, Math.min(320, denom*36)) + 'px';
+      for (var i=0;i<denom;i++){
+        var gi = touIndex*denom + i;
+        var p = document.createElement('div');
+        p.className = 'part' + (state.selected.has(gi) ? ' on' : '');
+        p.dataset.gi = gi;
+        p.addEventListener('click', function(e){ togglePart(+e.currentTarget.dataset.gi); });
+        host.appendChild(p);
+      }
+    }
+    if (shapeType === 'grid'){
+      var dims = bestGridDims(denom);
+      var cols = dims[1];
+      var cellSize = 34, gap = 3;
+      host = document.createElement('div');
+      host.className = 'grid-shape';
+      host.style.gridTemplateColumns = 'repeat(' + cols + ', ' + cellSize + 'px)';
+      host.style.width = (cols*cellSize + (cols-1)*gap) + 'px';
+      for (var i=0;i<denom;i++){
+        var gi = touIndex*denom + i;
+        var p = document.createElement('div');
+        p.className = 'part' + (state.selected.has(gi) ? ' on' : '');
+        p.dataset.gi = gi;
+        p.addEventListener('click', function(e){ togglePart(+e.currentTarget.dataset.gi); });
+        host.appendChild(p);
+      }
+    }
+    if (shapeType === 'disk'){
+      var svgNS = 'http://www.w3.org/2000/svg';
+      host = document.createElementNS(svgNS, 'svg');
+      host.setAttribute('viewBox', '0 0 150 150');
+      host.setAttribute('class', 'disk-shape');
+      var cx=75, cy=75, r=68;
+      for (var i=0;i<denom;i++){
+        var gi = touIndex*denom + i;
+        var a0 = -Math.PI/2 + (2*Math.PI*i/denom);
+        var a1 = -Math.PI/2 + (2*Math.PI*(i+1)/denom);
+        var p0 = polarPoint(cx,cy,r,a0);
+        var p1 = polarPoint(cx,cy,r,a1);
+        var large = (a1-a0) > Math.PI ? 1 : 0;
+        var d = 'M'+cx+','+cy+' L'+p0[0]+','+p0[1]+' A'+r+','+r+' 0 '+large+' 1 '+p1[0]+','+p1[1]+' Z';
+        var path = document.createElementNS(svgNS,'path');
+        path.setAttribute('d', d);
+        path.setAttribute('class', 'part' + (state.selected.has(gi) ? ' on' : ''));
+        path.dataset.gi = gi;
+        path.addEventListener('click', function(e){ togglePart(+e.currentTarget.dataset.gi); });
+        host.appendChild(path);
+      }
+    }
+    return host;
+  }
+
+  function renderShape(){
+    shapeHost.innerHTML = '';
+    var row = document.createElement('div');
+    row.className = 'touts-row';
+    for (var t=0;t<state.touts;t++){
+      var group = document.createElement('div');
+      group.className = 'tout-group';
+      if (state.touts > 1){
+        var lbl = document.createElement('div');
+        lbl.className = 'tout-label';
+        lbl.textContent = 'Unité n°' + (t+1);
+        group.appendChild(lbl);
+      }
+      group.appendChild(buildOneShape(state.shape, t, state.denom));
+      if (state.touts > 1){
+        var unitCount = 0;
+        for (var k=0;k<state.denom;k++){ if (state.selected.has(t*state.denom+k)) unitCount++; }
+        var tally = document.createElement('div');
+        tally.className = 'unit-tally' + (unitCount === state.denom ? ' full' : '');
+        tally.textContent = unitCount + '/' + state.denom;
+        group.appendChild(tally);
+      }
+      row.appendChild(group);
+    }
+    shapeHost.appendChild(row);
+  }
+
+  function togglePart(gi){
+    if (state.mode === 'defi' && state.checked) return;
+    if (state.selected.has(gi)) state.selected.delete(gi);
+    else state.selected.add(gi);
+    renderShape();
+    updateFraction();
+  }
+
+  function updateFraction(){
+    var n = state.selected.size, d = state.denom;
+    fracNum.textContent = n;
+    fracDen.textContent = d;
+    if (state.mode === 'libre'){
+      if (n === 0){
+        fracLabel.textContent = "Clique sur les parts pour les colorier.";
+      } else if (n % d === 0){
+        var u = n/d;
+        fracLabel.textContent = n + '/' + d + ' = ' + u + ' unité' + (u>1?'s':'') + ' entière' + (u>1?'s':'') + ' coloriée' + (u>1?'s':'') + ' complètement.';
+      } else if (n > d){
+        fracLabel.textContent = n + ' parts colorées sur ' + d + ' par unité → on écrit ' + n + '/' + d + ' (plus d\'une unité).';
+      } else {
+        fracLabel.textContent = n + ' part' + (n>1?'s':'') + ' colorée' + (n>1?'s':'') + ' sur ' + d + ' → on écrit ' + n + '/' + d + '.';
+      }
+    } else {
+      fracLabel.textContent = 'Colorie jusqu\'à obtenir ' + state.target.num + '/' + state.target.den + '.';
+    }
+  }
+
+  function newDefi(){
+    var shapes = ['bar','grid','disk'];
+    state.shape = shapes[Math.floor(Math.random()*shapes.length)];
+    document.querySelectorAll('#panel-partage .shape-tabs button').forEach(function(b){
+      setPressed(b, b.dataset.shape === state.shape);
+    });
+    var d = 2 + Math.floor(Math.random()*7); // 2..8
+    var maxTouts = 3;
+    var n;
+    if (Math.random() < 0.4){
+      // bias toward numerator > denominator, sometimes a whole number of touts
+      var k = 2 + Math.floor(Math.random()*maxTouts); // 2..4 touts worth
+      n = Math.random() < 0.5 ? k*d : (k-1)*d + 1 + Math.floor(Math.random()*(d-1));
+    } else {
+      n = 1 + Math.floor(Math.random()*d); // 1..d, classic case
+    }
+    var toutsNeeded = Math.max(1, Math.ceil(n/d));
+    var toutsShown = Math.min(4, toutsNeeded + (Math.random()<0.5 && toutsNeeded<4 ? 1 : 0));
+
+    state.denom = d;
+    state.touts = toutsShown;
+    state.target = { num:n, den:d };
+    state.selected = new Set();
+    state.checked = false;
+    denomVal.textContent = d;
+    toutsVal.textContent = toutsShown;
+    defiGoal.textContent = n + '/' + d;
+    feedback.className = 'feedback';
+    feedback.textContent = '';
+    checkBtn.style.display = 'inline-block';
+    checkBtn.disabled = false;
+    nextBtn.style.display = 'none';
+    renderShape();
+    updateFraction();
+  }
+
+  function checkDefi(){
+    var ok = state.selected.size === state.target.num && state.denom === state.target.den;
+    state.checked = true;
+    state.score.total++;
+    var whole = state.target.num % state.target.den === 0;
+    var wholeNote = whole ? (' (soit ' + (state.target.num/state.target.den) + ' unité' + (state.target.num/state.target.den>1?'s':'') + ' entière' + (state.target.num/state.target.den>1?'s':'') + ')') : '';
+    if (ok){
+      state.score.good++;
+      state.score.streak++;
+      feedback.className = 'feedback show good';
+      feedback.textContent = 'Bravo ! C\'est bien ' + state.target.num + '/' + state.target.den + wholeNote + '.';
+    } else {
+      state.score.streak = 0;
+      feedback.className = 'feedback show bad';
+      feedback.textContent = 'Pas tout à fait : il fallait colorier ' + state.target.num + ' part(s) sur ' + state.target.den + wholeNote + '. Tu as colorié ' + state.selected.size + '.';
+    }
+    document.getElementById('score-good').textContent = state.score.good;
+    document.getElementById('score-streak').textContent = state.score.streak;
+    document.getElementById('score-total').textContent = state.score.total;
+    checkBtn.style.display = 'none';
+    nextBtn.style.display = 'inline-block';
+  }
+
+  function setPartageMode(mode){
+    state.mode = mode;
+    setPressed(document.getElementById('tab-libre'), mode==='libre');
+    setPressed(document.getElementById('tab-defi'), mode==='defi');
+    defiTarget.style.display = mode==='defi' ? 'block' : 'none';
+    scoreCard.style.display = mode==='defi' ? 'block' : 'none';
+    denomControl.style.display = mode==='defi' ? 'none' : 'flex';
+    toutsControl.style.display = mode==='defi' ? 'none' : 'flex';
+    feedback.className = 'feedback';
+    checkBtn.style.display = 'none';
+    nextBtn.style.display = 'none';
+
+    if (mode === 'defi'){
+      newDefi();
+    } else {
+      state.selected = new Set();
+      state.touts = 1;
+      toutsVal.textContent = 1;
+      fracLabel.textContent = 'Clique sur les parts pour les colorier.';
+      renderShape();
+      updateFraction();
+    }
+  }
+
+  document.getElementById('tab-libre').addEventListener('click', function(){ showPanel('partage'); setPartageMode('libre'); });
+  document.getElementById('tab-defi').addEventListener('click', function(){ showPanel('partage'); setPartageMode('defi'); });
+
+  document.querySelectorAll('#panel-partage .shape-tabs button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if (state.mode === 'defi') return;
+      state.shape = btn.dataset.shape;
+      document.querySelectorAll('#panel-partage .shape-tabs button').forEach(function(b){ setPressed(b, b===btn); });
+      state.selected = new Set();
+      renderShape();
+      updateFraction();
+    });
+  });
+
+  document.getElementById('denom-minus').addEventListener('click', function(){
+    if (state.mode === 'defi') return;
+    if (state.denom > 2){ state.denom--; state.selected = new Set(); denomVal.textContent = state.denom; renderShape(); updateFraction(); }
+  });
+  document.getElementById('denom-plus').addEventListener('click', function(){
+    if (state.mode === 'defi') return;
+    if (state.denom < 10){ state.denom++; state.selected = new Set(); denomVal.textContent = state.denom; renderShape(); updateFraction(); }
+  });
+  document.getElementById('touts-minus').addEventListener('click', function(){
+    if (state.mode === 'defi') return;
+    if (state.touts > 1){ state.touts--; state.selected = new Set(); toutsVal.textContent = state.touts; renderShape(); updateFraction(); }
+  });
+  document.getElementById('touts-plus').addEventListener('click', function(){
+    if (state.mode === 'defi') return;
+    if (state.touts < 4){ state.touts++; toutsVal.textContent = state.touts; renderShape(); updateFraction(); }
+  });
+
+  clearBtn.addEventListener('click', function(){
+    if (state.mode === 'defi' && state.checked) return;
+    state.selected = new Set();
+    renderShape();
+    updateFraction();
+  });
+
+  checkBtn.addEventListener('click', checkDefi);
+  nextBtn.addEventListener('click', newDefi);
+
+  // =========================================================
+  // TABLETTE 4 COULEURS
+  // =========================================================
+  var quatre = { size:12, colors:[], activeColor:1, checked:false, success:0 };
+  var qGrid = document.getElementById('quatre-grid');
+  var qLegend = document.getElementById('quatre-legend');
+  var qFeedback = document.getElementById('quatre-feedback');
+  var qCheck = document.getElementById('quatre-check');
+  var qNew = document.getElementById('quatre-new');
+  var qClear = document.getElementById('quatre-clear');
+  var qSizeVal = document.getElementById('qsize-val');
+  var qSizes = [8,12,16,20];
+  var colorPicker = document.getElementById('color-picker');
+
+  [1,2,3,4].forEach(function(c){
+    var b = document.createElement('button');
+    b.dataset.color = c;
+    b.title = 'Couleur ' + c;
+    b.style.background = 'var(--c'+c+')';
+    b.setAttribute('aria-pressed', c===1 ? 'true':'false');
+    b.addEventListener('click', function(){
+      quatre.activeColor = c;
+      colorPicker.querySelectorAll('button').forEach(function(x){ setPressed(x, +x.dataset.color===c); });
+    });
+    colorPicker.appendChild(b);
+  });
+
+  function initQuatreColors(){
+    quatre.colors = new Array(quatre.size).fill(0);
+    quatre.checked = false;
+  }
+
+  function renderQuatre(){
+    var cols = bestGridDims(quatre.size)[1];
+    qGrid.style.gridTemplateColumns = 'repeat(' + cols + ', 34px)';
+    qGrid.innerHTML = '';
+    quatre.colors.forEach(function(c, i){
+      var cell = document.createElement('div');
+      cell.className = 'quatre-cell' + (c>0 ? ' c'+c : '');
+      cell.dataset.i = i;
+      cell.addEventListener('click', function(){
+        if (quatre.checked) return;
+        var idx = +cell.dataset.i;
+        quatre.colors[idx] = (quatre.colors[idx] === quatre.activeColor) ? 0 : quatre.activeColor;
+        renderQuatre();
+      });
+      qGrid.appendChild(cell);
+    });
+    renderLegend();
+  }
+
+  function countsByColor(){
+    var counts = [0,0,0,0,0];
+    quatre.colors.forEach(function(c){ counts[c]++; });
+    return counts;
+  }
+
+  function renderLegend(){
+    var counts = countsByColor();
+    var target = quatre.size/4;
+    qLegend.innerHTML = '';
+    [1,2,3,4].forEach(function(c){
+      var s = document.createElement('div');
+      s.className = 'swatch';
+      var match = counts[c] === target;
+      s.innerHTML = '<span class="sq c'+c+'"></span><span class="cnt' + (quatre.checked && match ? ' match' : '') + '">' + counts[c] + ' / ' + target + '</span>';
+      qLegend.appendChild(s);
+    });
+  }
+
+  function newQuatreTablette(){
+    initQuatreColors();
+    qFeedback.className = 'feedback';
+    qFeedback.textContent = '';
+    qCheck.style.display = 'inline-block';
+    qNew.style.display = 'none';
+    qSizeVal.textContent = quatre.size;
+    renderQuatre();
+  }
+
+  qCheck.addEventListener('click', function(){
+    var counts = countsByColor();
+    var target = quatre.size/4;
+    var noneEmpty = counts[0] === 0;
+    var allEqual = counts[1]===target && counts[2]===target && counts[3]===target && counts[4]===target;
+    quatre.checked = true;
+    renderQuatre();
+    if (!noneEmpty){
+      qFeedback.className = 'feedback show bad';
+      qFeedback.textContent = 'Il reste des cases non coloriées : colorie toute la tablette avant de vérifier.';
+      quatre.checked = false;
+      return;
+    }
+    if (allEqual){
+      quatre.success++;
+      document.getElementById('quatre-success').textContent = quatre.success;
+      qFeedback.className = 'feedback show good';
+      qFeedback.textContent = 'Parfait, 4 parts bien égales (' + target + ' cases chacune) — et pourtant ta disposition est sûrement différente de celle du voisin ! Essaie une nouvelle disposition.';
+      qCheck.style.display = 'none';
+      qNew.style.display = 'inline-block';
+    } else {
+      qFeedback.className = 'feedback show bad';
+      qFeedback.textContent = 'Pas encore égal : chaque couleur doit couvrir exactement ' + target + ' cases (regarde le décompte sous la tablette).';
+      quatre.checked = false;
+    }
+  });
+  qClear.addEventListener('click', function(){
+    if (quatre.checked) return;
+    initQuatreColors();
+    renderQuatre();
+  });
+  qNew.addEventListener('click', newQuatreTablette);
+
+  document.getElementById('qsize-minus').addEventListener('click', function(){
+    var i = qSizes.indexOf(quatre.size);
+    if (i>0){ quatre.size = qSizes[i-1]; newQuatreTablette(); }
+  });
+  document.getElementById('qsize-plus').addEventListener('click', function(){
+    var i = qSizes.indexOf(quatre.size);
+    if (i<qSizes.length-1){ quatre.size = qSizes[i+1]; newQuatreTablette(); }
+  });
+
+  // =========================================================
+  // PANEL SWITCH
+  // =========================================================
+  var pageSub = document.getElementById('page-sub');
+  function showPanel(which){
+    document.getElementById('panel-partage').style.display = which==='partage' ? 'block':'none';
+    document.getElementById('panel-quatre').style.display = which==='quatre' ? 'block':'none';
+    setPressed(document.getElementById('tab-quatre'), which==='quatre');
+    if (which!=='quatre'){
+      setPressed(document.getElementById('tab-quatre'), false);
+    } else {
+      setPressed(document.getElementById('tab-libre'), false);
+      setPressed(document.getElementById('tab-defi'), false);
+    }
+    pageSub.textContent = which==='quatre'
+      ? 'Colorie toute la tablette avec 4 couleurs pour obtenir 4 parts parfaitement égales — il existe plusieurs façons d\'y arriver !'
+      : 'Partage une forme en parts égales, colorie ce qu\'on te demande, et regarde la fraction s\'écrire toute seule.';
+  }
+  document.getElementById('tab-quatre').addEventListener('click', function(){
+    showPanel('quatre');
+  });
+
+  renderShape();
+  updateFraction();
+  newQuatreTablette();
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>

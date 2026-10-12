@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>L'Énigme du Segment</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+  :root{
+    --paper:#fbfcf9; --ink:#182430; --muted:#5f6b73;
+    --accent:#c9821f; --accent-soft:#f0d9b3; --accent-ink:#7a4e10;
+    --good:#3f7d5c; --good-soft:#dcefe4;
+    --bad:#c1503f; --bad-soft:#f7ddd8;
+    --grid-line: rgba(60,110,160,.16);
+    --card:#ffffff; --card-border:#e3e2d8;
+    --shadow: 0 1px 0 rgba(24,36,48,.04);
+    --code-bg:#182430; --code-fg:#f0d9b3;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#14181d; --ink:#eef0f2; --muted:#9aa4ab;
+      --accent:#e8a33d; --accent-soft:#4a3616; --accent-ink:#f6d190;
+      --good:#6fbf95; --good-soft:#1c3327;
+      --bad:#e2897a; --bad-soft:#3a2320;
+      --grid-line: rgba(140,180,220,.14);
+      --card:#1e242b; --card-border:#2c333b;
+      --code-bg:#0d1114; --code-fg:#e8a33d;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#14181d; --ink:#eef0f2; --muted:#9aa4ab;
+    --accent:#e8a33d; --accent-soft:#4a3616; --accent-ink:#f6d190;
+    --good:#6fbf95; --good-soft:#1c3327;
+    --bad:#e2897a; --bad-soft:#3a2320;
+    --grid-line: rgba(140,180,220,.14);
+    --card:#1e242b; --card-border:#2c333b;
+    --code-bg:#0d1114; --code-fg:#e8a33d;
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Work Sans', system-ui, sans-serif;
+    background-image: radial-gradient(circle, var(--grid-line) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  .wrap{ max-width:720px; margin:0 auto; padding: 22px 18px 40px; }
+
+  .eyebrow{ font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.14em; color:var(--accent); display:flex; align-items:center; gap:7px; justify-content:center; }
+  .eyebrow::before{ content:""; width:6px; height:6px; background:var(--accent); display:inline-block; transform:rotate(45deg); }
+  h1{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size: clamp(28px,7vw,42px); line-height:1; margin:6px 0 4px; text-align:center; text-wrap:balance; }
+  .sub{ color:var(--muted); font-size:14px; max-width:56ch; margin:0 auto 20px; text-align:center; }
+
+  .top-row{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:16px; flex-wrap:wrap; }
+  .progress-wrap{ flex:1; min-width:180px; }
+  .progress-bar{ height:8px; border-radius:6px; background:var(--card-border); overflow:hidden; }
+  .progress-fill{ height:100%; background:var(--accent); border-radius:6px; transition:width .3s; width:0%; }
+  .progress-lbl{ font-family:'Space Mono',monospace; font-size:11px; color:var(--muted); margin-top:4px; }
+
+  .clock{ font-family:'Space Mono',monospace; font-weight:700; font-size:18px; background:var(--card); border:1.5px solid var(--card-border); border-radius:10px; padding:7px 12px; }
+
+  .code-strip{ display:flex; gap:8px; justify-content:center; margin-bottom:18px; }
+  .code-slot{ width:40px; height:48px; border-radius:8px; background:var(--code-bg); color:var(--code-fg); display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-weight:700; font-size:20px; border:2px solid var(--card-border); }
+  .code-slot.filled{ border-color:var(--accent); }
+  .code-slot.pending{ opacity:.35; }
+
+  .card{ background:var(--card); border:1px solid var(--card-border); border-radius:14px; padding:22px; box-shadow:var(--shadow); margin-bottom:16px; }
+
+  .stage-lbl{ text-align:center; font-family:'Space Mono',monospace; font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; margin-bottom:6px; }
+  .stage-ask{ text-align:center; font-family:'Big Shoulders Display'; font-weight:800; font-size: clamp(20px,5vw,28px); margin-bottom:18px; text-wrap:balance; }
+
+  .line-host{ overflow-x:auto; padding: 30px 10px 44px; }
+  .numberline{ position:relative; height:60px; min-width:320px; margin:0 auto; }
+  .numberline .rail{ position:absolute; left:0; right:0; top:28px; height:3px; background:var(--ink); border-radius:2px; }
+  .tick{ position:absolute; top:28px; transform:translate(-50%,-50%); cursor:pointer; }
+  .tick .dot{ width:12px; height:12px; border-radius:50%; background:var(--card); border:2px solid var(--muted); display:block; transition:.12s; }
+  .tick.major .dot{ width:5px; height:22px; border-radius:2px; background:var(--ink); border:none; position:relative; top:-6px; }
+  .tick .lbl{ position:absolute; top:18px; left:50%; transform:translateX(-50%); font-family:'Space Mono',monospace; font-weight:700; font-size:13px; white-space:nowrap; }
+  .tick:hover .dot{ border-color:var(--accent); }
+  .tick.selected .dot{ background:var(--accent); border-color:var(--accent); }
+  .tick.correct .dot{ background:var(--good); border-color:var(--good); }
+  .tick.incorrect .dot{ background:var(--bad); border-color:var(--bad); }
+  .tick.endpoint .dot{ width:15px; height:15px; background:var(--accent); border-color:var(--accent); cursor:default; }
+  .tick.endpoint .pin{ position:absolute; top:-26px; left:50%; transform:translateX(-50%); font-family:'Space Mono',monospace; font-weight:700; font-size:12px; background:var(--accent); color:#1b1206; padding:1px 6px; border-radius:5px; }
+
+  /* graduation-style stage reused from chantier */
+  .ruler-host{ overflow-x:auto; padding: 28px 10px 16px; }
+  .ruler{ position:relative; margin: 0 auto; }
+  .cm-row{ position:relative; height:20px; }
+  .cm-tick{ position:absolute; top:0; width:1px; background:var(--muted); height:12px; }
+  .cm-lbl{ position:absolute; top:-16px; transform:translateX(-50%); font-family:'Space Mono',monospace; font-size:10px; color:var(--muted); }
+  .segment-row{ position:relative; height:56px; margin-top:6px; cursor:crosshair; }
+  .segment-row .bar{ position:absolute; left:0; right:0; top:26px; height:4px; background:var(--ink); border-radius:2px; }
+  .segment-row .endpoint{ position:absolute; top:12px; width:4px; height:32px; background:var(--accent); border-radius:2px; }
+  .segment-row .point{ position:absolute; top:15px; width:14px; height:26px; margin-left:-7px; }
+  .segment-row .point .head{ width:14px; height:14px; border-radius:50%; background:var(--ink); border:2px solid var(--card); box-shadow:0 0 0 1.5px var(--ink); }
+  .segment-row .point.correct .head{ background:var(--good); box-shadow:0 0 0 1.5px var(--good); }
+  .segment-row .point.incorrect .head{ background:var(--bad); box-shadow:0 0 0 1.5px var(--bad); }
+  .segment-row .ghost{ position:absolute; top:12px; width:1px; height:32px; border-left:2px dashed var(--muted); opacity:.4; }
+
+  .hint-row{ text-align:center; margin-top:6px; }
+  .hint-btn{ background:none; border:none; color:var(--accent-ink); text-decoration:underline; cursor:pointer; font-size:12.5px; font-family:'Work Sans'; }
+  .hint-text{ text-align:center; font-size:12.5px; color:var(--muted); margin-top:6px; display:none; }
+  .hint-text.show{ display:block; }
+
+  .feedback{ text-align:center; padding:11px 16px; border-radius:10px; font-weight:600; font-size:14.5px; display:none; margin-top:16px; }
+  .feedback.show{ display:block; }
+  .feedback.good{ background:var(--good-soft); color:var(--good); }
+  .feedback.bad{ background:var(--bad-soft); color:var(--bad); }
+
+  .actions{ display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:16px; }
+  .btn{ font-family:'Space Mono',monospace; font-weight:700; font-size:13px; letter-spacing:.03em; background:var(--ink); color:var(--paper); border:none; border-radius:10px; padding:11px 18px; cursor:pointer; text-transform:uppercase; }
+  .btn:hover{ opacity:.85; }
+  .btn.accent{ background:var(--accent); color:#1b1206; }
+  .btn.ghost{ background:transparent; color:var(--ink); border:1.5px solid var(--card-border); }
+  .btn:disabled{ opacity:.4; cursor:not-allowed; }
+
+  .final-screen{ text-align:center; padding: 30px 10px; display:none; }
+  .final-screen.show{ display:block; }
+  .final-screen .chest{ font-size:64px; margin-bottom:10px; }
+  .final-screen h2{ font-family:'Big Shoulders Display'; font-weight:800; font-size:30px; margin:0 0 8px; }
+  .final-screen p{ color:var(--muted); margin:0 0 18px; }
+  .final-code{ font-family:'Space Mono',monospace; font-weight:700; font-size:30px; letter-spacing:.2em; background:var(--code-bg); color:var(--code-fg); padding:14px 20px; border-radius:10px; display:inline-block; margin-bottom:18px; }
+
+  footer{ text-align:center; color:var(--muted); font-size:12px; margin-top:26px; font-family:'Space Mono',monospace; }
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Leçon 3 · Défi final</div>
+  <h1>L'Énigme du Segment</h1>
+  <div class="sub">5 épreuves, 5 chiffres à gagner. Résous chaque épreuve pour débloquer un chiffre du code et ouvrir le coffre.</div>
+
+  <div class="top-row">
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="progress-lbl" id="progress-lbl">Épreuve 1 / 5</div>
+    </div>
+    <div class="clock" id="clock">00:00</div>
+  </div>
+
+  <div class="code-strip" id="code-strip"></div>
+
+  <div id="game-card" class="card">
+    <div class="stage-lbl" id="stage-lbl">Épreuve 1 — Placer une fraction</div>
+    <div class="stage-ask" id="stage-ask">Place 3/5 sur la demi-droite.</div>
+
+    <div id="host-numberline" class="line-host" style="display:none;">
+      <div class="numberline" id="numberline"></div>
+    </div>
+
+    <div id="host-ruler" class="ruler-host" style="display:none;">
+      <div class="ruler" id="ruler">
+        <div class="cm-row" id="cm-row"></div>
+        <div class="segment-row" id="segment-row"></div>
+      </div>
+    </div>
+
+    <div class="hint-row">
+      <button class="hint-btn" id="hint-btn">Besoin d'un indice ?</button>
+      <div class="hint-text" id="hint-text"></div>
+    </div>
+
+    <div class="feedback" id="feedback"></div>
+
+    <div class="actions">
+      <button class="btn ghost" id="reset-btn">Recommencer l'épreuve</button>
+      <button class="btn accent" id="check-btn">Valider</button>
+      <button class="btn" id="next-btn" style="display:none;">Épreuve suivante →</button>
+    </div>
+  </div>
+
+  <div class="card final-screen" id="final-screen">
+    <div class="chest">🔓</div>
+    <h2>Coffre ouvert !</h2>
+    <p>Bravo — toutes les épreuves sont résolues. Voici le code complet :</p>
+    <div class="final-code" id="final-code">— — — — —</div>
+    <p id="final-time"></p>
+    <div class="actions">
+      <button class="btn accent" id="restart-btn">Rejouer une nouvelle grille →</button>
+    </div>
+  </div>
+
+  <footer>Séance 4 · Leçon 3 — Fraction, graduation, milieu : synthèse</footer>
+</div>
+
+<script>
+(function(){
+  var N_STAGES = 5;
+  var stageTypes = ['fraction','graduation','milieu','fraction','milieu'];
+  var stages = []; // filled per game
+  var current = 0;
+  var digits = [];
+  var startTime = null;
+  var clockInterval = null;
+
+  var progressFill = document.getElementById('progress-fill');
+  var progressLbl = document.getElementById('progress-lbl');
+  var codeStrip = document.getElementById('code-strip');
+  var stageLbl = document.getElementById('stage-lbl');
+  var stageAsk = document.getElementById('stage-ask');
+  var hostNumberline = document.getElementById('host-numberline');
+  var hostRuler = document.getElementById('host-ruler');
+  var numberline = document.getElementById('numberline');
+  var cmRow = document.getElementById('cm-row');
+  var segmentRow = document.getElementById('segment-row');
+  var feedback = document.getElementById('feedback');
+  var checkBtn = document.getElementById('check-btn');
+  var nextBtn = document.getElementById('next-btn');
+  var resetBtn = document.getElementById('reset-btn');
+  var hintBtn = document.getElementById('hint-btn');
+  var hintText = document.getElementById('hint-text');
+  var gameCard = document.getElementById('game-card');
+  var finalScreen = document.getElementById('final-screen');
+  var clockEl = document.getElementById('clock');
+
+  function fmtTime(ms){
+    var s = Math.floor(ms/1000);
+    return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+  }
+  function startClock(){
+    startTime = Date.now();
+    clockInterval = setInterval(function(){ clockEl.textContent = fmtTime(Date.now()-startTime); }, 500);
+  }
+  function stopClock(){ clearInterval(clockInterval); }
+
+  function renderCodeStrip(){
+    codeStrip.innerHTML = '';
+    for (var i=0;i<N_STAGES;i++){
+      var s = document.createElement('div');
+      s.className = 'code-slot ' + (i < digits.length ? 'filled' : 'pending');
+      s.textContent = i < digits.length ? digits[i] : '?';
+      codeStrip.appendChild(s);
+    }
+  }
+
+  function updateProgress(){
+    progressFill.style.width = (current/N_STAGES*100) + '%';
+    progressLbl.textContent = 'Épreuve ' + Math.min(current+1,N_STAGES) + ' / ' + N_STAGES;
+  }
+
+  // ---- generators ----
+  function genFractionStage(){
+    var denom = 2 + Math.floor(Math.random()*7);
+    var maxPossibleUnit = denom <= 3 ? 4 : (denom <= 5 ? 3 : 2);
+    var maxUnit = 1 + Math.floor(Math.random()*maxPossibleUnit);
+    var total = denom*maxUnit;
+    var target;
+    if (maxUnit > 1 && Math.random() < 0.35){
+      var k = 1 + Math.floor(Math.random()*maxUnit);
+      target = k * denom; // whole-number-equivalent fraction, e.g. 12/3 = 4
+    } else {
+      target = 1 + Math.floor(Math.random()*total);
+    }
+    var whole = target % denom === 0;
+    return {
+      type:'fraction', denom:denom, maxUnit:maxUnit, target:target,
+      ask: 'Place ' + target + '/' + denom + ' sur la demi-droite.',
+      hint: whole
+        ? (target + '/' + denom + ' est un nombre entier d\'unités : ' + target + ' ÷ ' + denom + ' = ' + (target/denom) + '.')
+        : 'Le dénominateur (' + denom + ') dit en combien de parts on coupe chaque unité ; compte ' + target + ' parts depuis 0.'
+    };
+  }
+  function genMilieuStage(){
+    var pad = 2;
+    var len = [4,6,8,10][Math.floor(Math.random()*4)];
+    var totalTicks = len+2*pad;
+    return {
+      type:'milieu', totalTicks: totalTicks, a: pad, b: pad+len, target: pad+len/2,
+      ask: 'Trouve le milieu du segment [A ; B].',
+      hint: 'Compte le nombre total de graduations entre A et B, puis divise ce nombre par 2.'
+    };
+  }
+  function genGraduationStage(){
+    var lengths = [6,8,9,10];
+    var L = lengths[Math.floor(Math.random()*lengths.length)];
+    var N = [2,3][Math.floor(Math.random()*2)]; // keep light: 1 or 2 points to place
+    return {
+      type:'graduation', L:L, N:N,
+      ask: 'Place ' + (N-1) + ' graduation' + (N-1>1?'s':'') + ' pour couper ce segment de ' + L + ' cm en ' + N + ' parts égales.',
+      hint: 'Une part mesure ' + (Math.round(L/N*100)/100) + ' cm. Utilise la règle graduée au-dessus pour repérer la position.'
+    };
+  }
+
+  function buildStages(){
+    stages = stageTypes.map(function(t){
+      if (t==='fraction') return genFractionStage();
+      if (t==='milieu') return genMilieuStage();
+      return genGraduationStage();
+    });
+  }
+
+  // ---- render current stage ----
+  var runtime = { selected:null, points:[], checked:false };
+
+  function renderFraction(st){
+    hostNumberline.style.display='block'; hostRuler.style.display='none';
+    numberline.innerHTML='';
+    var total = st.denom*st.maxUnit;
+    for (var i=0;i<=total;i++){
+      var pct = i/total*100;
+      var isMajor = (i % st.denom)===0;
+      var t = document.createElement('div');
+      t.className = 'tick' + (isMajor?' major':'');
+      t.style.left = pct+'%';
+      t.dataset.i = i;
+      var dot = document.createElement('div'); dot.className='dot'; t.appendChild(dot);
+      if (isMajor){ var l=document.createElement('div'); l.className='lbl'; l.textContent=(i/st.denom); t.appendChild(l); }
+      if (runtime.selected===i) t.classList.add('selected');
+      if (runtime.checked){
+        if (i===st.target) t.classList.add('correct');
+        else if (i===runtime.selected) t.classList.add('incorrect');
+      }
+      t.addEventListener('click', function(e){
+        if (runtime.checked) return;
+        runtime.selected = +e.currentTarget.dataset.i;
+        renderFraction(st);
+      });
+      numberline.appendChild(t);
+    }
+  }
+
+  function renderMilieu(st){
+    hostNumberline.style.display='block'; hostRuler.style.display='none';
+    numberline.innerHTML='';
+    var total = st.totalTicks;
+    for (var i=0;i<=total;i++){
+      var pct = i/total*100;
+      var t = document.createElement('div');
+      t.className = 'tick';
+      t.style.left = pct+'%';
+      t.dataset.i = i;
+      var isEndpoint = (i===st.a || i===st.b);
+      if (isEndpoint){
+        t.classList.add('endpoint');
+        var pin=document.createElement('div'); pin.className='pin'; pin.textContent=(i===st.a?'A':'B'); t.appendChild(pin);
+      }
+      var dot = document.createElement('div'); dot.className='dot'; t.appendChild(dot);
+      if (runtime.selected===i) t.classList.add('selected');
+      if (runtime.checked){
+        if (i===st.target) t.classList.add('correct');
+        else if (i===runtime.selected) t.classList.add('incorrect');
+      }
+      if (!isEndpoint){
+        t.addEventListener('click', function(e){
+          if (runtime.checked) return;
+          runtime.selected = +e.currentTarget.dataset.i;
+          renderMilieu(st);
+        });
+      }
+      numberline.appendChild(t);
+    }
+  }
+
+  var PX_PER_CM = 40;
+  function idealPositions(st){
+    var arr=[]; for(var k=1;k<st.N;k++){ arr.push(k*(st.L*PX_PER_CM)/st.N); } return arr;
+  }
+  function renderGraduation(st){
+    hostNumberline.style.display='none'; hostRuler.style.display='block';
+    var widthPx = st.L*PX_PER_CM;
+    document.getElementById('ruler').style.width = widthPx+'px';
+    cmRow.style.width = widthPx+'px';
+    cmRow.innerHTML='';
+    for (var cm=0; cm<=st.L; cm++){
+      var x = cm*PX_PER_CM;
+      var tck=document.createElement('div'); tck.className='cm-tick'; tck.style.left=x+'px'; cmRow.appendChild(tck);
+      var lbl=document.createElement('div'); lbl.className='cm-lbl'; lbl.style.left=x+'px'; lbl.textContent=cm; cmRow.appendChild(lbl);
+    }
+    segmentRow.style.width = widthPx+'px';
+    segmentRow.innerHTML='';
+    var bar=document.createElement('div'); bar.className='bar'; segmentRow.appendChild(bar);
+    var e0=document.createElement('div'); e0.className='endpoint'; e0.style.left='0px'; segmentRow.appendChild(e0);
+    var e1=document.createElement('div'); e1.className='endpoint'; e1.style.left=(widthPx-4)+'px'; segmentRow.appendChild(e1);
+    if (runtime.checked){
+      idealPositions(st).forEach(function(x){ var g=document.createElement('div'); g.className='ghost'; g.style.left=x+'px'; segmentRow.appendChild(g); });
+    }
+    var ideals = runtime.checked ? idealPositions(st) : [];
+    runtime.points.slice().sort(function(a,b){return a-b;}).forEach(function(x){
+      var p=document.createElement('div'); p.className='point'; p.style.left=x+'px';
+      if (runtime.checked){
+        var nearest = ideals.reduce(function(best,v){ return (best===null||Math.abs(v-x)<Math.abs(best-x))?v:best; }, null);
+        var ok = nearest!==null && Math.abs(nearest-x)<=10;
+        p.classList.add(ok?'correct':'incorrect');
+      }
+      var head=document.createElement('div'); head.className='head'; p.appendChild(head);
+      segmentRow.appendChild(p);
+    });
+  }
+  segmentRow.addEventListener('click', function(e){
+    var st = stages[current];
+    if (st.type!=='graduation' || runtime.checked) return;
+    var rect = segmentRow.getBoundingClientRect();
+    var x = e.clientX-rect.left;
+    if (x<10 || x> st.L*PX_PER_CM-10) return;
+    var near = runtime.points.findIndex(function(p){ return Math.abs(p-x)<12; });
+    if (near>=0) runtime.points.splice(near,1);
+    else { if (runtime.points.length>=st.N-1) return; runtime.points.push(x); }
+    renderGraduation(st);
+  });
+
+  function loadStage(){
+    var st = stages[current];
+    runtime = { selected:null, points:[], checked:false };
+    feedback.className='feedback'; feedback.textContent='';
+    checkBtn.style.display='inline-block'; checkBtn.disabled=false;
+    nextBtn.style.display='none';
+    hintText.classList.remove('show'); hintText.textContent = st.hint;
+    hintBtn.textContent = "Besoin d'un indice ?";
+
+    stageLbl.textContent = 'Épreuve ' + (current+1) + ' — ' +
+      (st.type==='fraction' ? 'Placer une fraction' : st.type==='milieu' ? 'Trouver un milieu' : 'Graduer un segment');
+    stageAsk.textContent = st.ask;
+
+    if (st.type==='fraction') renderFraction(st);
+    else if (st.type==='milieu') renderMilieu(st);
+    else renderGraduation(st);
+
+    updateProgress();
+    renderCodeStrip();
+  }
+
+  function checkStage(){
+    var st = stages[current];
+    var ok = false;
+    if (st.type==='fraction' || st.type==='milieu'){
+      if (runtime.selected===null){
+        feedback.className='feedback show bad';
+        feedback.textContent = 'Clique d\'abord sur un point de la droite.';
+        return;
+      }
+      ok = runtime.selected === st.target;
+      runtime.checked = true;
+      if (st.type==='fraction') renderFraction(st); else renderMilieu(st);
+    } else {
+      if (runtime.points.length < st.N-1){
+        feedback.className='feedback show bad';
+        feedback.textContent = 'Il manque des graduations.';
+        return;
+      }
+      runtime.checked = true;
+      renderGraduation(st);
+      var ideals = idealPositions(st);
+      ok = runtime.points.every(function(x){ return ideals.some(function(v){ return Math.abs(v-x)<=10; }); });
+    }
+
+    var note = '';
+    if (st.type==='fraction' && st.target % st.denom === 0){
+      note = ' (' + st.target + '/' + st.denom + ' = ' + (st.target/st.denom) + ' unités entières)';
+    }
+
+    if (ok){
+      var digit = Math.floor(Math.random()*10);
+      digits.push(digit);
+      feedback.className='feedback show good';
+      feedback.textContent = 'Bravo ! Tu débloques le chiffre ' + digit + ' du code.' + note;
+      checkBtn.style.display='none';
+      nextBtn.style.display='inline-block';
+      renderCodeStrip();
+    } else {
+      feedback.className='feedback show bad';
+      feedback.textContent = 'Pas tout à fait — la bonne réponse s\'affiche en vert. Réessaie.' + note;
+      checkBtn.style.display='none';
+      resetBtn.textContent = 'Réessayer';
+    }
+  }
+
+  hintBtn.addEventListener('click', function(){
+    hintText.classList.toggle('show');
+    hintBtn.textContent = hintText.classList.contains('show') ? 'Masquer l\'indice' : "Besoin d'un indice ?";
+  });
+
+  checkBtn.addEventListener('click', checkStage);
+  resetBtn.addEventListener('click', function(){
+    if (runtime.checked && digits.length>current) return; // already advanced
+    runtime.selected=null; runtime.points=[]; runtime.checked=false;
+    feedback.className='feedback'; feedback.textContent='';
+    checkBtn.style.display='inline-block';
+    resetBtn.textContent = "Recommencer l'épreuve";
+    var st=stages[current];
+    if (st.type==='fraction') renderFraction(st); else if (st.type==='milieu') renderMilieu(st); else renderGraduation(st);
+  });
+  nextBtn.addEventListener('click', function(){
+    current++;
+    if (current>=N_STAGES){ finishGame(); return; }
+    loadStage();
+  });
+
+  function finishGame(){
+    stopClock();
+    updateProgress();
+    progressFill.style.width='100%';
+    gameCard.style.display='none';
+    finalScreen.classList.add('show');
+    document.getElementById('final-code').textContent = digits.join(' ');
+    document.getElementById('final-time').textContent = 'Temps total : ' + clockEl.textContent;
+  }
+
+  document.getElementById('restart-btn').addEventListener('click', function(){
+    startGame();
+  });
+
+  function startGame(){
+    current = 0; digits = [];
+    gameCard.style.display='block';
+    finalScreen.classList.remove('show');
+    buildStages();
+    stopClock();
+    startClock();
+    loadStage();
+  }
+
+  startGame();
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>

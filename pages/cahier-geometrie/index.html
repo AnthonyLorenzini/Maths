@@ -1,0 +1,1047 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>Mon Cahier de Géométrie</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+  :root{
+    --bg:#0d2038;
+    --bg-2:#0a1a2e;
+    --grid-line: rgba(233,243,250,.07);
+    --grid-line-strong: rgba(233,243,250,.14);
+    --surface:#123256;
+    --surface-2:#17406c;
+    --surface-border: rgba(233,243,250,.14);
+    --paper:#eef0e6;
+    --paper-2:#e4e7d9;
+    --ink:#122536;
+    --ink-dim:#4a5c6c;
+    --text:#eef3f7;
+    --text-dim:#9db2c7;
+    --accent:#e8a33d;
+    --accent-ink:#3a2405;
+    --teal:#57cbb8;
+    --coral:#e8574a;
+    --violet:#a488db;
+    --focus: #ffd479;
+  }
+
+  *{box-sizing:border-box;}
+  [hidden]{ display:none !important; }
+  ::selection{ background: var(--accent); color: var(--accent-ink); }
+
+  body{
+    background:
+      radial-gradient(ellipse 1200px 700px at 50% -10%, rgba(87,203,184,.08), transparent 60%),
+      repeating-linear-gradient(0deg, var(--grid-line) 0 1px, transparent 1px 44px),
+      repeating-linear-gradient(90deg, var(--grid-line) 0 1px, transparent 1px 44px),
+      var(--bg);
+    color: var(--text);
+    font-family: 'Work Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,h2,h3,.display{
+    font-family: 'Big Shoulders Display', 'Work Sans', sans-serif;
+    font-weight: 800;
+    letter-spacing: .01em;
+    text-wrap: balance;
+  }
+
+  .mono{ font-family:'Space Mono', ui-monospace, monospace; }
+
+  button{ font-family: inherit; cursor:pointer; }
+  button:focus-visible, [tabindex]:focus-visible, .flip-card:focus-visible{
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  a{ color: var(--accent); }
+
+  /* ---------- shell ---------- */
+  .shell{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 18px 20px 48px;
+  }
+
+  header.top{
+    display:flex;
+    align-items:flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--grid-line-strong);
+    margin-bottom: 16px;
+  }
+  .title-block .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size: .72rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display:flex; gap:10px; align-items:center;
+  }
+  .title-block .eyebrow::before{
+    content:"";
+    width:8px;height:8px;
+    background: var(--accent);
+    display:inline-block;
+    transform: rotate(45deg);
+  }
+  .title-block h1{
+    font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+    line-height: .95;
+    margin: 4px 0 6px;
+    color: var(--text);
+  }
+  .title-block h1 .thin{ color: var(--text-dim); font-weight: 600; }
+  .title-block .sub{
+    color: var(--text-dim);
+    font-size: .92rem;
+    max-width: 46ch;
+  }
+
+  .chip-row{ display:flex; gap:8px; flex-wrap:wrap; }
+  .chip{
+    font-family:'Space Mono', monospace;
+    font-size: .72rem;
+    padding: 5px 10px;
+    border: 1px solid var(--surface-border);
+    border-radius: 999px;
+    color: var(--text-dim);
+    background: var(--surface);
+    white-space: nowrap;
+  }
+  .chip b{ color: var(--accent); font-weight:700; }
+
+  /* ---------- score pill ---------- */
+  .score-pill{
+    display:flex; align-items:center; gap:14px;
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 12px;
+    padding: 10px 16px;
+  }
+  .score-pill .counts{ display:flex; gap:14px; font-family:'Space Mono',monospace; font-size:.95rem; }
+  .score-pill .counts b{ font-size:1.1rem; }
+  .score-pill .ok{ color: var(--teal); }
+  .score-pill .ko{ color: var(--coral); }
+  .score-pill .reset-btn{
+    background:none; border:1px solid var(--surface-border); color: var(--text-dim);
+    border-radius: 8px; padding: 6px 10px; font-size:.72rem; font-weight:700;
+  }
+  .score-pill .reset-btn:hover{ border-color: var(--coral); color: var(--coral); }
+
+  /* ---------- nav pills ---------- */
+  .nav-groups{ display:flex; flex-direction:column; gap:8px; margin-bottom: 18px; }
+  .nav-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .nav-row .seance-label{
+    font-family:'Space Mono',monospace; font-size:.72rem; color: var(--text-dim);
+    width: 84px; flex: 0 0 auto;
+  }
+  .pills{ display:flex; gap:6px; flex-wrap:wrap; }
+  .pill{
+    background: transparent;
+    border: 1px solid var(--surface-border);
+    color: var(--text-dim);
+    padding: 7px 13px;
+    border-radius: 999px;
+    font-size: .8rem;
+    font-weight: 600;
+    display:flex; align-items:center; gap:6px;
+    transition: all .15s;
+  }
+  .pill .n{
+    font-family:'Space Mono',monospace;
+    font-size: .68rem;
+    opacity:.7;
+  }
+  .pill:hover{ border-color: var(--accent); color: var(--text); }
+  .pill.active{
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+  .pill.active .n{ opacity:.75; }
+
+  /* ---------- stage ---------- */
+  .stage{
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 18px;
+    padding: 30px clamp(18px,3vw,42px) 34px;
+    min-height: 480px;
+  }
+  .stage::before, .stage::after{
+    content:""; position:absolute; width:22px; height:22px;
+    border: 2px solid var(--accent); opacity:.55;
+  }
+  .stage::before{ top:14px; left:14px; border-right:none; border-bottom:none; }
+  .stage::after{ bottom:14px; right:14px; border-left:none; border-top:none; }
+
+  .panel{ display:none; animation: fade .35s ease; }
+  .panel.active{ display:block; }
+  @keyframes fade{ from{ opacity:0; transform: translateY(6px);} to{opacity:1; transform:none;} }
+
+  .panel-head{ margin-bottom: 18px; }
+  .panel-head .tag{
+    font-family:'Space Mono',monospace; font-size:.7rem; text-transform:uppercase; letter-spacing:.1em;
+    color: var(--teal);
+  }
+  .panel-head h2{ font-size: clamp(1.4rem,2.6vw,1.9rem); margin: 4px 0 6px; color: var(--text); }
+  .panel-head p.desc{ color: var(--text-dim); font-size:.92rem; max-width: 62ch; }
+  .goal-note{
+    margin-top:10px; font-size:.82rem; color: var(--text-dim);
+    background: rgba(232,163,61,.08); border: 1px dashed var(--surface-border);
+    border-left: 3px solid var(--accent);
+    padding: 8px 12px; border-radius: 6px; display:inline-block;
+  }
+
+  /* ---------- flashcards ---------- */
+  .card-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap:16px; }
+  .flip-card{ perspective: 1200px; height: 168px; }
+  .flip-inner{
+    position:relative; width:100%; height:100%;
+    transform-style: preserve-3d; transition: transform .5s cubic-bezier(.2,.7,.3,1);
+  }
+  .flip-card.flipped .flip-inner{ transform: rotateY(180deg); }
+  .flip-face{
+    position:absolute; inset:0; backface-visibility:hidden;
+    border-radius: 12px; padding: 16px;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  .flip-front{
+    background: var(--paper);
+    color: var(--ink);
+    border: 1px solid var(--paper-2);
+  }
+  .flip-front .icon{ font-family:'Space Mono',monospace; font-size:1.5rem; color: var(--surface-2); margin-bottom:6px;}
+  .flip-front .word{ font-family:'Big Shoulders Display'; font-weight:700; font-size:1.35rem; }
+  .flip-front .hint{ font-size:.72rem; color: var(--ink-dim); margin-top:4px; }
+  .flip-back{
+    background: var(--surface-2);
+    border: 1px solid var(--accent);
+    transform: rotateY(180deg);
+    font-size: .88rem; line-height:1.45;
+  }
+  .flip-back .notation{ font-family:'Space Mono',monospace; color: var(--accent); font-size:1rem; display:block; margin-bottom:6px;}
+
+  /* ---------- memory game ---------- */
+  .memory-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  @media (max-width:640px){ .memory-grid{ grid-template-columns: repeat(3,1fr); } }
+  .mem-card{ perspective:900px; height:96px; }
+  .mem-inner{ position:relative; width:100%; height:100%; transform-style:preserve-3d; transition: transform .4s; }
+  .mem-card.flip .mem-inner{ transform: rotateY(180deg); }
+  .mem-face{
+    position:absolute; inset:0; backface-visibility:hidden; border-radius:10px;
+    display:flex; align-items:center; justify-content:center; text-align:center; padding:8px;
+    font-size: .78rem; font-weight:600; line-height:1.25;
+  }
+  .mem-back{
+    background: repeating-linear-gradient(45deg, var(--surface-2), var(--surface-2) 8px, var(--surface) 8px, var(--surface) 16px);
+    border: 1px solid var(--surface-border);
+    color: var(--accent);
+    font-family:'Space Mono',monospace; font-size:1.3rem;
+  }
+  .mem-front{ background: var(--paper); color: var(--ink); transform: rotateY(180deg); border: 1px solid var(--paper-2); }
+  .mem-card.matched .mem-front{ background: var(--teal); color:#0a2b26; border-color: var(--teal); }
+  .mem-card.matched{ opacity:.55; }
+  .mem-status{ margin-top:14px; font-size:.85rem; color: var(--text-dim); font-family:'Space Mono',monospace; }
+  .mem-reset{
+    margin-top: 12px;
+    background: var(--surface-2); border:1px solid var(--surface-border); color: var(--text);
+    padding: 8px 14px; border-radius: 8px; font-size:.8rem; font-weight:600;
+  }
+  .mem-reset:hover{ border-color: var(--accent); }
+
+  /* ---------- true/false ---------- */
+  .vf-list{ display:flex; flex-direction:column; gap:10px; }
+  .vf-item{
+    background: var(--surface-2);
+    border: 1px solid var(--surface-border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  }
+  .vf-item .stmt{ flex:1; min-width:220px; font-size:.92rem; }
+  .vf-item .num{ font-family:'Space Mono',monospace; color: var(--accent); font-size:.8rem; }
+  .vf-reveal-btn{
+    background: transparent; border: 1px solid var(--accent); color: var(--accent);
+    padding: 6px 12px; border-radius: 8px; font-size:.78rem; font-weight:700;
+  }
+  .vf-reveal-btn:hover{ background: var(--accent); color: var(--accent-ink); }
+  .vf-answer{ display:none; width:100%; font-size:.85rem; padding-top:8px; border-top: 1px dashed var(--surface-border); margin-top:4px; }
+  .vf-item.shown .vf-answer{ display:block; }
+  .vf-item.shown .vf-reveal-btn{ display:none; }
+  .badge{ font-family:'Space Mono',monospace; font-weight:700; font-size:.75rem; padding:2px 8px; border-radius:5px; margin-right:8px; }
+  .badge.true{ background: var(--teal); color:#0a2b26; }
+  .badge.false{ background: var(--coral); color:#3a0f0a; }
+
+  /* ---------- diagram cards (instructions) ---------- */
+  .instr-card{
+    display:grid; grid-template-columns: 1.1fr .9fr; gap: 26px; align-items:center;
+  }
+  @media (max-width:720px){ .instr-card{ grid-template-columns:1fr; } }
+  .instr-card ol{ margin:0; padding-left:1.2em; display:flex; flex-direction:column; gap:10px; font-size:.92rem; }
+  .instr-card ol li::marker{ font-family:'Space Mono',monospace; color:var(--accent); font-weight:700; }
+  .svg-box{
+    background: var(--paper); border-radius: 12px; padding: 14px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+  .dist-label{ transition: opacity .4s; font-weight:700; }
+
+  .defn-card{
+    background: var(--paper); color: var(--ink);
+    border-radius: 14px; padding: 24px 26px;
+    max-width: 640px;
+  }
+  .defn-card .lbl{ font-family:'Space Mono',monospace; font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; color: var(--surface-2); }
+  .defn-card p{ font-size: 1.05rem; line-height:1.55; margin: 8px 0; }
+  .defn-card .formula{ font-family:'Space Mono',monospace; background: var(--paper-2); display:inline-block; padding:6px 12px; border-radius:6px; font-size:1.1rem; margin-top:6px;}
+
+  /* ---------- treasure board ---------- */
+  .board-wrap{ overflow-x:auto; padding-bottom: 8px; }
+  .board{ display:flex; align-items:flex-end; gap:4px; min-width: 720px; padding: 30px 4px 6px; position:relative; }
+  .cell{
+    flex:1; height: 54px; background: var(--surface-2); border:1px solid var(--surface-border);
+    border-radius: 8px; position:relative; display:flex; align-items:center; justify-content:center;
+    font-family:'Space Mono',monospace; font-size:.7rem; color: var(--text-dim);
+  }
+  .cell.start{ background: rgba(87,203,184,.18); color: var(--teal); }
+  .cell.treasure{ background: rgba(232,163,61,.22); color: var(--accent); font-size:1.3rem; }
+  .tokens-in-cell{ position:absolute; top:-20px; left:0; right:0; display:flex; justify-content:center; gap:2px; }
+  .token{
+    width:16px; height:16px; border-radius:50%; border:2px solid var(--bg);
+    transition: all .5s cubic-bezier(.3,.7,.3,1.3);
+  }
+  .qcard{
+    background: var(--paper); color: var(--ink); border-radius:12px; padding:18px 20px; margin-top:20px;
+  }
+  .qcard .qn{ font-family:'Space Mono',monospace; color: var(--surface-2); font-size:.75rem; }
+  .qcard .qtext{ font-size:1.02rem; font-weight:600; margin: 6px 0 10px; }
+  .qcard .qans{ display:none; font-size:.9rem; background: var(--paper-2); padding:8px 12px; border-radius:8px; }
+  .qcard.shown .qans{ display:block; }
+  .qrow{ display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+  .qbtn{
+    background: var(--surface-2); color: var(--text); border:1px solid var(--surface-border);
+    padding: 8px 14px; border-radius:8px; font-size:.8rem; font-weight:700;
+  }
+  .qbtn:hover{ border-color: var(--accent); }
+  .qbtn.primary{ background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+  /* ---------- generic exit ticket ---------- */
+  .ticket-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
+  .ticket{
+    background: var(--paper); color: var(--ink); border-radius:12px; padding:18px;
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .ticket .qn{ font-family:'Space Mono',monospace; font-size:.75rem; color: var(--surface-2); }
+  .ticket .q{ font-weight:700; font-size:.98rem; }
+  .ticket .reveal{ align-self:flex-start; background: var(--surface); color: var(--text); border:none; padding:6px 12px; border-radius:7px; font-size:.75rem; font-weight:700; }
+  .ticket .a{ display:none; font-size:.88rem; background: var(--paper-2); padding:8px 10px; border-radius:7px; }
+  .ticket.shown .a{ display:block; }
+  .ticket.shown .reveal{ display:none; }
+
+  /* ---------- footer nav buttons within panel ---------- */
+  .panel-footer{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-top: 26px; padding-top: 16px; border-top: 1px solid var(--grid-line-strong);
+  }
+  .step-btn{
+    background: var(--surface-2); border:1px solid var(--surface-border); color: var(--text);
+    padding: 9px 16px; border-radius: 8px; font-size:.82rem; font-weight:700;
+    display:flex; align-items:center; gap:6px;
+  }
+  .step-btn:hover{ border-color: var(--accent); }
+  .step-btn:disabled{ opacity:.3; cursor:default; }
+  .step-btn:disabled:hover{ border-color: var(--surface-border); }
+  .progress-txt{ font-family:'Space Mono',monospace; font-size:.78rem; color: var(--text-dim); }
+
+  /* ---------- self-check buttons ---------- */
+  .selfcheck-row{ display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+  .sc-btn{
+    border-radius: 8px; padding: 7px 13px; font-size:.78rem; font-weight:700;
+    border: 1px solid var(--surface-border);
+  }
+  .sc-btn.yes{ background: var(--teal); color:#0a2b26; border-color: var(--teal); }
+  .sc-btn.no{ background: transparent; color: var(--coral); border-color: var(--coral); }
+  .sc-btn:disabled{ opacity:.35; cursor:default; }
+  .sc-done{ font-size:.78rem; color: var(--text-dim); margin-top:8px; font-style:italic; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.001s !important; transition-duration:.001s !important; }
+  }
+</style>
+
+<div class="shell">
+
+  <header class="top">
+    <div class="title-block">
+      <div class="eyebrow">6e · Géométrie · À la maison</div>
+      <h1>Points, droites <span class="thin">&amp;</span> distances</h1>
+      <div class="sub">Ton parcours de révision : vocabulaire, notations et distance entre deux points, avec des mini-jeux à faire à ton rythme.</div>
+      <div class="chip-row" style="margin-top:10px;">
+        <span class="chip">Manuel <b>p.91</b></span>
+        <span class="chip">🎮 <b>6</b> mini-jeux</span>
+        <span class="chip">Objectif : comprendre la <b>distance entre deux points</b></span>
+      </div>
+    </div>
+    <div class="score-pill">
+      <div class="counts">
+        <span>⭐ <b class="ok" id="scoreOk">0</b></span>
+        <span>✗ <b class="ko" id="scoreKo">0</b></span>
+      </div>
+      <button class="reset-btn" id="resetBtn" title="Effacer mon score et recommencer">🔄 Recommencer</button>
+    </div>
+  </header>
+
+  <nav class="nav-groups" id="nav"></nav>
+
+  <main class="stage" id="stage">
+
+    <!-- S1-1 : chasse aux objets -->
+    <section class="panel" data-phase="s1-1">
+      <div class="panel-head">
+        <div class="tag">Partie 1 · Pour commencer</div>
+        <h2>Chasse aux objets géométriques</h2>
+        <p class="desc">Regarde autour de toi : ta chambre, le salon, la cuisine… la géométrie est partout ! Clique sur les repères du schéma pour voir des exemples dans une salle de classe.</p>
+      </div>
+      <div class="instr-card">
+        <ol>
+          <li>Sur une feuille ou ton cahier de brouillon, note 3 objets de la maison qui ressemblent à un <b>point</b>, une <b>droite</b> ou un <b>segment</b>.</li>
+          <li>Un point : un coin, l'extrémité d'un objet. Une droite : elle continue à l'infini des deux côtés — pense au bord d'un mur imaginé sans fin. Un segment : une portion bien délimitée, avec un début et une fin.</li>
+          <li>Clique sur les repères du schéma ci-contre pour comparer tes idées avec des exemples.</li>
+        </ol>
+        <div class="svg-box">
+          <svg id="classroomSvg" viewBox="0 0 300 220" width="100%" style="max-width:340px">
+            <rect x="0" y="0" width="300" height="220" fill="none"/>
+            <!-- table -->
+            <rect x="30" y="150" width="90" height="6" fill="#c9cdb8" stroke="#122536" stroke-width="1.5"/>
+            <line x1="34" y1="156" x2="34" y2="185" stroke="#122536" stroke-width="3"/>
+            <line x1="112" y1="156" x2="112" y2="185" stroke="#122536" stroke-width="3"/>
+            <!-- window -->
+            <rect x="170" y="30" width="90" height="70" fill="#dfeaf2" stroke="#122536" stroke-width="2"/>
+            <line x1="215" y1="30" x2="215" y2="100" stroke="#122536" stroke-width="1.5"/>
+            <line x1="170" y1="65" x2="260" y2="65" stroke="#122536" stroke-width="1.5"/>
+            <!-- ruler -->
+            <rect x="150" y="140" width="80" height="10" fill="#f4d98a" stroke="#122536" stroke-width="1.5"/>
+            <!-- clickable hotspots -->
+            <circle class="hotspot" data-label="Le coin de la fenêtre ressemble à un POINT." cx="170" cy="30" r="9" fill="#e8a33d" opacity="0.85" style="cursor:pointer"/>
+            <line class="hotspot" data-label="Une arête du tableau ressemble à une DROITE (elle continue au-delà du cadre)." x1="15" y1="15" x2="285" y2="15" stroke="#57cbb8" stroke-width="6" style="cursor:pointer"/>
+            <rect class="hotspot" data-label="Le bord de la règle est un exemple de SEGMENT : il a deux extrémités bien précises." x="150" y="140" width="80" height="10" fill="transparent" stroke="#e8574a" stroke-width="2" style="cursor:pointer"/>
+            <circle class="hotspot" data-label="Le pied de la table touche le sol en un POINT de contact précis." cx="34" cy="185" r="8" fill="#a488db" opacity="0.85" style="cursor:pointer"/>
+          </svg>
+        </div>
+      </div>
+      <div id="classroomAnswer" class="goal-note" style="display:none; margin-top:14px;"></div>
+    </section>
+
+    <!-- S1-2 : vocabulaire -->
+    <section class="panel" data-phase="s1-2">
+      <div class="panel-head">
+        <div class="tag">Partie 1 · Vocabulaire</div>
+        <h2>Vocabulaire &amp; notations</h2>
+        <p class="desc">Avant de retourner une carte, essaie de deviner la définition à voix haute. Puis clique dessus pour vérifier.</p>
+      </div>
+      <div class="card-grid" id="vocabGrid"></div>
+    </section>
+
+    <!-- S1-3 : memory -->
+    <section class="panel" data-phase="s1-3">
+      <div class="panel-head">
+        <div class="tag">Partie 1 · Jeu</div>
+        <h2>Memory des notations</h2>
+        <p class="desc">Retourne deux cartes à la fois et retrouve les 6 paires notation ↔ définition. Essaie de faire le moins d'essais possible !</p>
+      </div>
+      <div class="memory-grid" id="memoryGrid"></div>
+      <div class="mem-status" id="memStatus">0 / 6 paires trouvées</div>
+      <button class="mem-reset" id="memReset">🔄 Relancer une partie</button>
+    </section>
+
+    <!-- S1-4 : compas -->
+    <section class="panel" data-phase="s1-4">
+      <div class="panel-head">
+        <div class="tag">Partie 2 · À faire sur une feuille</div>
+        <h2>Le compas, outil de report de longueurs</h2>
+        <p class="desc">Prends une feuille, ta règle et ton compas, et suis les étapes pour apprendre à reporter une longueur.</p>
+      </div>
+      <div class="instr-card">
+        <ol>
+          <li>Tracer un segment <span class="mono">[AB]</span> de 5 cm.</li>
+          <li>Piquer le compas en <span class="mono">A</span>, l'écarter jusqu'en <span class="mono">B</span> : l'écartement mesure la longueur <span class="mono">AB</span>.</li>
+          <li>Tracer un point <span class="mono">C</span> ailleurs sur la feuille, puis reporter le même écartement pour placer <span class="mono">D</span> tel que <span class="mono">CD = AB</span>.</li>
+          <li>Coder les deux segments avec le <b>même nombre de petits traits</b> pour indiquer qu'ils ont la même longueur.</li>
+        </ol>
+        <div class="svg-box">
+          <svg viewBox="0 0 260 180" width="100%" style="max-width:300px">
+            <line x1="30" y1="60" x2="130" y2="60" stroke="#122536" stroke-width="2"/>
+            <circle cx="30" cy="60" r="2.5" fill="#122536"/><circle cx="130" cy="60" r="2.5" fill="#122536"/>
+            <text x="26" y="48" font-family="Space Mono" font-size="13" fill="#122536">A</text>
+            <text x="126" y="48" font-family="Space Mono" font-size="13" fill="#122536">B</text>
+            <line x1="70" y1="55" x2="76" y2="65" stroke="#e8574a" stroke-width="2"/>
+            <line x1="80" y1="55" x2="86" y2="65" stroke="#e8574a" stroke-width="2"/>
+            <path d="M 30 100 A 100 100 0 0 1 130 100" fill="none" stroke="#57cbb8" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <line x1="60" y1="140" x2="190" y2="140" stroke="#122536" stroke-width="2"/>
+            <circle cx="60" cy="140" r="2.5" fill="#122536"/><circle cx="190" cy="140" r="2.5" fill="#122536"/>
+            <text x="56" y="128" font-family="Space Mono" font-size="13" fill="#122536">C</text>
+            <text x="186" y="128" font-family="Space Mono" font-size="13" fill="#122536">D</text>
+            <line x1="120" y1="135" x2="126" y2="145" stroke="#e8574a" stroke-width="2"/>
+            <line x1="130" y1="135" x2="136" y2="145" stroke="#e8574a" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+      <div class="goal-note">Pour aller plus loin : reporte 3 longueurs différentes et compare-les sans les mesurer à la règle, uniquement avec le compas.</div>
+    </section>
+
+    <!-- S1-5 : vrai faux -->
+    <section class="panel" data-phase="s1-5">
+      <div class="panel-head">
+        <div class="tag">Partie 2 · Quiz</div>
+        <h2>Vrai ou faux éclair</h2>
+        <p class="desc">Décide si l'affirmation est vraie ou fausse dans ta tête, puis clique sur « Voir la réponse » pour vérifier et dire si tu avais raison.</p>
+      </div>
+      <div class="vf-list" id="vfList"></div>
+    </section>
+
+    <!-- S2-1 : chemin le plus court -->
+    <section class="panel" data-phase="s2-1">
+      <div class="panel-head">
+        <div class="tag">Partie 2 · Défi</div>
+        <h2>Le mystère du chemin le plus court</h2>
+        <p class="desc">Deux points A et B, trois chemins possibles pour aller de l'un à l'autre. Lequel est le plus court, à ton avis ?</p>
+      </div>
+      <div class="instr-card">
+        <ol>
+          <li>Sur une feuille, place deux points A et B, espacés d'une dizaine de centimètres.</li>
+          <li>Trace 3 trajets différents entre les deux : un tracé <b>direct</b>, un tracé en <b>escalier / zigzag</b>, un tracé <b>courbe</b> — ou observe simplement le schéma ci-contre.</li>
+          <li>Devine : selon toi, quel est le trajet le plus court ?</li>
+          <li>Clique sur « Révéler les distances mesurées » pour vérifier ton hypothèse.</li>
+        </ol>
+        <div class="svg-box">
+          <svg viewBox="0 0 260 190" width="100%" style="max-width:300px">
+            <circle cx="30" cy="150" r="4" fill="#122536"/><text x="18" y="168" font-family="Space Mono" font-size="13" fill="#122536">A</text>
+            <circle cx="220" cy="40" r="4" fill="#122536"/><text x="226" y="38" font-family="Space Mono" font-size="13" fill="#122536">B</text>
+            <path d="M 30 150 Q 90 40 220 40" fill="none" stroke="#e8574a" stroke-width="2" stroke-dasharray="5 4"/>
+            <path d="M 30 150 C 100 170 60 20 120 90 S 190 10 220 40" fill="none" stroke="#a488db" stroke-width="2" stroke-dasharray="2 4"/>
+            <line x1="30" y1="150" x2="220" y2="40" stroke="#57cbb8" stroke-width="3"/>
+            <text id="distCourbe" class="dist-label" x="140" y="15" font-family="Space Mono" font-size="12" fill="#e8574a" text-anchor="middle" opacity="0">≈ 5,1 cm</text>
+            <text id="distZigzag" class="dist-label" x="60" y="105" font-family="Space Mono" font-size="12" fill="#a488db" text-anchor="middle" opacity="0">≈ 4,8 cm</text>
+            <text id="distDirect" class="dist-label" x="150" y="90" font-family="Space Mono" font-size="12" fill="#57cbb8" text-anchor="middle" opacity="0">3,6 cm</text>
+          </svg>
+          <button class="qbtn primary" id="revealDist" style="margin-top:10px;">Révéler les distances mesurées</button>
+        </div>
+      </div>
+      <div class="goal-note">Le trajet en trait plein (vert) — le segment [AB] — est toujours le plus court : c'est la <b>distance</b> entre A et B.</div>
+    </section>
+
+    <!-- S2-2 : définition -->
+    <section class="panel" data-phase="s2-2">
+      <div class="panel-head">
+        <div class="tag">Partie 2 · À retenir</div>
+        <h2>La distance entre deux points</h2>
+        <p class="desc">C'est la définition la plus importante de cette page — n'hésite pas à la recopier dans ton cours si besoin.</p>
+      </div>
+      <div class="defn-card">
+        <span class="lbl">Définition</span>
+        <p>La <b>distance entre deux points A et B</b> est la longueur du plus court chemin pour aller de A à B.</p>
+        <p>C'est la longueur du segment <span class="mono">[AB]</span>, notée <span class="mono">AB</span> (sans crochets).</p>
+        <span class="formula">AB = 4,5 cm</span>
+      </div>
+      <div class="goal-note" style="margin-top:16px;">Attention à la notation : <span class="mono">[AB]</span> désigne le segment (l'objet), <span class="mono">AB</span> désigne sa longueur (le nombre).</div>
+
+      <div class="instr-card" style="margin-top:22px;">
+        <div>
+          <span class="lbl" style="font-family:'Space Mono',monospace; font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; color:var(--teal);">Pour aller plus loin</span>
+          <p style="margin:10px 0; font-size:.95rem;">Si <span class="mono">C</span> n'appartient <b>pas</b> au segment <span class="mono">[AB]</span>, alors :</p>
+          <span class="formula" style="display:block; width:fit-content;">AC + CB &gt; AB</span>
+          <p style="margin:16px 0 10px; font-size:.95rem;">Si <span class="mono">D</span> appartient au segment <span class="mono">[AB]</span>, alors :</p>
+          <span class="formula" style="display:block; width:fit-content;">AD + DB = AB</span>
+        </div>
+        <div class="svg-box">
+          <svg viewBox="0 0 220 200" width="100%" style="max-width:240px">
+            <line x1="20" y1="40" x2="180" y2="40" stroke="#122536" stroke-width="2"/>
+            <circle cx="20" cy="40" r="3" fill="#122536"/><circle cx="180" cy="40" r="3" fill="#122536"/>
+            <text x="12" y="28" font-family="Space Mono" font-size="13" fill="#122536">A</text>
+            <text x="176" y="28" font-family="Space Mono" font-size="13" fill="#122536">B</text>
+            <circle cx="120" cy="90" r="3" fill="#e8574a"/>
+            <text x="126" y="90" font-family="Space Mono" font-size="13" fill="#e8574a">C</text>
+            <line x1="20" y1="40" x2="120" y2="90" stroke="#e8574a" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <line x1="120" y1="90" x2="180" y2="40" stroke="#e8574a" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <text x="30" y="150" font-family="Space Mono" font-size="11" fill="#4a5c6c">C ∉ [AB] → AC + CB &gt; AB</text>
+
+            <line x1="20" y1="180" x2="180" y2="180" stroke="#122536" stroke-width="2"/>
+            <circle cx="20" cy="180" r="3" fill="#122536"/><circle cx="180" cy="180" r="3" fill="#122536"/>
+            <circle cx="95" cy="180" r="3" fill="#57cbb8"/>
+            <text x="12" y="168" font-family="Space Mono" font-size="13" fill="#122536">A</text>
+            <text x="176" y="168" font-family="Space Mono" font-size="13" fill="#122536">B</text>
+            <text x="88" y="168" font-family="Space Mono" font-size="13" fill="#57cbb8">D</text>
+          </svg>
+          <div style="font-family:'Space Mono',monospace; font-size:.72rem; color:#4a5c6c; margin-top:2px;">D ∈ [AB] → AD + DB = AB</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- S2-3 : chasse au trésor -->
+    <section class="panel" data-phase="s2-3">
+      <div class="panel-head">
+        <div class="tag">Partie 3 · Jeu</div>
+        <h2>Chasse au trésor géométrique</h2>
+        <p class="desc">Chaque bonne réponse fait avancer ton pion d'une case. Arriveras-tu jusqu'au trésor ?</p>
+      </div>
+      <div class="board-wrap">
+        <div class="board" id="board"></div>
+      </div>
+      <div class="qcard" id="qcard">
+        <div class="qn">Question <span id="qnum">1</span> / <span id="qtotal">8</span></div>
+        <div class="qtext" id="qtext"></div>
+        <div class="qans" id="qans"></div>
+        <div class="qrow">
+          <button class="qbtn primary" id="qReveal">Voir la réponse</button>
+        </div>
+        <div class="selfcheck-row" id="qSelfcheck" hidden>
+          <button class="sc-btn yes" id="qYes">✅ J'avais bon → j'avance</button>
+          <button class="sc-btn no" id="qNo">✗ Je me suis trompé</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- S2-4 : entrainement -->
+    <section class="panel" data-phase="s2-4">
+      <div class="panel-head">
+        <div class="tag">Partie 3 · Entraînement</div>
+        <h2>Entraînement flash — TD p.91</h2>
+        <p class="desc">Prends ton manuel et fais les exercices de la page 91, à ton rythme.</p>
+      </div>
+      <div class="instr-card">
+        <ol>
+          <li><b>À faire :</b> exercices de base p.91 — nommer des points, des droites, des segments et mesurer des distances à la règle.</li>
+          <li><b>Si tu bloques :</b> reviens aux cartes de vocabulaire (Partie 1) pour te rafraîchir la mémoire.</li>
+          <li><b>Pour aller plus loin :</b> construis une figure où trois distances sont égales, en utilisant uniquement le compas.</li>
+          <li>Une fois terminé, corrige-toi avec le corrigé du manuel ou demande à quelqu'un de vérifier.</li>
+        </ol>
+        <div class="svg-box">
+          <svg viewBox="0 0 220 160" width="100%" style="max-width:260px">
+            <rect x="10" y="10" width="200" height="140" fill="none" stroke="#122536" stroke-width="2" rx="6"/>
+            <line x1="30" y1="40" x2="190" y2="40" stroke="#122536" stroke-width="1.5"/>
+            <line x1="30" y1="70" x2="140" y2="70" stroke="#122536" stroke-width="1.5"/>
+            <line x1="30" y1="100" x2="170" y2="100" stroke="#122536" stroke-width="1.5"/>
+            <line x1="30" y1="130" x2="100" y2="130" stroke="#122536" stroke-width="1.5"/>
+            <text x="16" y="25" font-family="Space Mono" font-size="11" fill="#e8a33d">p.91</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- S2-5 : ticket de sortie -->
+    <section class="panel" data-phase="s2-5">
+      <div class="panel-head">
+        <div class="tag">Partie 3 · Vérifie-toi</div>
+        <h2>Ticket de sortie</h2>
+        <p class="desc">Réponds dans ta tête ou sur un brouillon, sans regarder la correction. Puis vérifie et sois honnête avec toi-même !</p>
+      </div>
+      <div class="ticket-grid" id="ticketGrid"></div>
+    </section>
+
+    <!-- S2-6 : bilan -->
+    <section class="panel" data-phase="s2-6">
+      <div class="panel-head">
+        <div class="tag">Partie 3 · Bilan</div>
+        <h2>Ce qu'il faut retenir</h2>
+        <p class="desc">Relis ces trois points avant de refermer la page. Si tu hésites encore, retourne réviser la partie correspondante.</p>
+      </div>
+      <div class="card-grid">
+        <div class="flip-face flip-front" style="position:static; height:auto; border-radius:12px;">
+          <div class="icon mono">A•B</div>
+          <div class="word">Point, droite, segment</div>
+          <div class="hint">Un vocabulaire précis, des notations qui ne se confondent pas.</div>
+        </div>
+        <div class="flip-face flip-front" style="position:static; height:auto; border-radius:12px;">
+          <div class="icon mono">[AB]</div>
+          <div class="word">Distance AB</div>
+          <div class="hint">Longueur du plus court chemin entre A et B = longueur du segment [AB].</div>
+        </div>
+        <div class="flip-face flip-front" style="position:static; height:auto; border-radius:12px;">
+          <div class="icon mono">||</div>
+          <div class="word">Codage</div>
+          <div class="hint">Mêmes petits traits = mêmes longueurs. Petit carré = angle droit.</div>
+        </div>
+      </div>
+      <div class="goal-note" id="bilanScore" style="margin-top:18px;"></div>
+      <div class="goal-note" style="margin-top:10px;">La suite au programme : <b>Fractions</b> — placer une fraction sur une demi-droite graduée.</div>
+    </section>
+
+    <div class="panel-footer">
+      <button class="step-btn" id="prevBtn">← Précédent</button>
+      <span class="progress-txt" id="progressTxt"></span>
+      <button class="step-btn" id="nextBtn">Suivant →</button>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- Navigation ---------------- */
+  var phases = [
+    {id:"s1-1", seance:1, label:"Chasse aux objets"},
+    {id:"s1-2", seance:1, label:"Vocabulaire"},
+    {id:"s1-3", seance:1, label:"Memory"},
+    {id:"s1-4", seance:2, label:"Compas"},
+    {id:"s1-5", seance:2, label:"Vrai / Faux"},
+    {id:"s2-1", seance:2, label:"Chemin court"},
+    {id:"s2-2", seance:2, label:"Définition"},
+    {id:"s2-3", seance:3, label:"Trésor"},
+    {id:"s2-4", seance:3, label:"Entraînement"},
+    {id:"s2-5", seance:3, label:"Ticket sortie"},
+    {id:"s2-6", seance:3, label:"Bilan"}
+  ];
+  var current = 0;
+
+  var nav = document.getElementById("nav");
+  [1,2,3].forEach(function(s){
+    var row = document.createElement("div");
+    row.className = "nav-row";
+    var lbl = document.createElement("span");
+    lbl.className = "seance-label mono";
+    lbl.textContent = "Partie " + s;
+    row.appendChild(lbl);
+    var pillsWrap = document.createElement("div");
+    pillsWrap.className = "pills";
+    phases.filter(function(p){return p.seance===s;}).forEach(function(p){
+      var idx = phases.indexOf(p);
+      var btn = document.createElement("button");
+      btn.className = "pill";
+      btn.dataset.idx = idx;
+      btn.innerHTML = '<span class="n">'+(idx+1)+'</span>' + p.label;
+      btn.addEventListener("click", function(){ goTo(idx); });
+      pillsWrap.appendChild(btn);
+    });
+    row.appendChild(pillsWrap);
+    nav.appendChild(row);
+  });
+
+  function goTo(idx){
+    current = Math.max(0, Math.min(phases.length-1, idx));
+    document.querySelectorAll(".panel").forEach(function(p){
+      p.classList.toggle("active", p.dataset.phase === phases[current].id);
+    });
+    document.querySelectorAll(".pill").forEach(function(p){
+      p.classList.toggle("active", Number(p.dataset.idx) === current);
+    });
+    document.getElementById("progressTxt").textContent =
+      "Partie " + phases[current].seance + " · étape " + (current+1) + " / " + phases.length;
+    document.getElementById("prevBtn").disabled = current === 0;
+    document.getElementById("nextBtn").disabled = current === phases.length-1;
+    document.getElementById("stage").scrollIntoView({block:"nearest"});
+  }
+  document.getElementById("prevBtn").addEventListener("click", function(){ goTo(current-1); });
+  document.getElementById("nextBtn").addEventListener("click", function(){ goTo(current+1); });
+  goTo(0);
+
+  /* ---------------- Personal score (persisted per-browser) ---------------- */
+  var STORAGE_KEY = "geo6e-score-v1";
+  var myScore = {ok:0, ko:0};
+  try{
+    var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+    if(saved && typeof saved.ok==="number" && typeof saved.ko==="number"){ myScore = saved; }
+  }catch(e){}
+
+  var scoreOkEl = document.getElementById("scoreOk");
+  var scoreKoEl = document.getElementById("scoreKo");
+  var bilanScoreEl = document.getElementById("bilanScore");
+  function renderScore(){
+    scoreOkEl.textContent = myScore.ok;
+    scoreKoEl.textContent = myScore.ko;
+    var total = myScore.ok + myScore.ko;
+    bilanScoreEl.textContent = total>0
+      ? "Ton score personnel sur cette page : " + myScore.ok + " bonne(s) réponse(s) sur " + total + "."
+      : "Fais les quiz de cette page pour voir ton score personnel apparaître ici !";
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(myScore)); }catch(e){}
+  }
+  function markScore(correct){
+    if(correct){ myScore.ok++; } else { myScore.ko++; }
+    renderScore();
+  }
+  renderScore();
+
+  document.getElementById("resetBtn").addEventListener("click", function(){
+    try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+    location.reload();
+  });
+
+  /* ---------------- Hotspots (S1-1) ---------------- */
+  var answerBox = document.getElementById("classroomAnswer");
+  document.querySelectorAll(".hotspot").forEach(function(el){
+    el.addEventListener("click", function(){
+      answerBox.style.display = "inline-block";
+      answerBox.textContent = el.dataset.label;
+      document.querySelectorAll(".hotspot").forEach(function(h){ h.style.opacity = h===el ? 1 : 0.85; });
+    });
+  });
+
+  /* ---------------- Vocabulary flashcards (S1-2) ---------------- */
+  var vocab = [
+    {icon:"•A", word:"Point", back:"<span class='notation'>A</span>Se note par une lettre MAJUSCULE : A, B, C… Sur une figure, on le représente par une croix (×), avec sa lettre à côté."},
+    {icon:"(d)", word:"Droite", back:"<span class='notation'>(d) ou (AB)</span>Ensemble de points alignés, illimité dans les deux sens. Se note (d), ou (AB) si elle passe par les points A et B."},
+    {icon:"[AB)", word:"Demi-droite", back:"<span class='notation'>[AB)</span>Illimitée dans un seul sens : origine A, passe par B."},
+    {icon:"[AB]", word:"Segment", back:"<span class='notation'>[AB]</span>Portion de droite limitée par deux extrémités, A et B."},
+    {icon:"AB", word:"Distance", back:"<span class='notation'>AB</span>Longueur du plus court chemin entre A et B : c'est la longueur du segment [AB]. Se note AB, sans crochets."},
+    {icon:"M", word:"Milieu", back:"<span class='notation'>M de [AB]</span>Point du segment situé à égale distance de A et de B."},
+    {icon:"∈", word:"Appartenance", back:"<span class='notation'>A ∈ d</span>« A appartient à d ». Des points sur une même droite sont alignés."}
+  ];
+  var vocabGrid = document.getElementById("vocabGrid");
+  vocab.forEach(function(v){
+    var card = document.createElement("div");
+    card.className = "flip-card";
+    card.tabIndex = 0;
+    card.innerHTML =
+      '<div class="flip-inner">'+
+        '<div class="flip-face flip-front"><div class="icon mono">'+v.icon+'</div><div class="word">'+v.word+'</div><div class="hint">cliquer pour révéler</div></div>'+
+        '<div class="flip-face flip-back">'+v.back+'</div>'+
+      '</div>';
+    function toggle(){ card.classList.toggle("flipped"); }
+    card.addEventListener("click", toggle);
+    card.addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); toggle(); } });
+    vocabGrid.appendChild(card);
+  });
+
+  /* ---------------- Memory game (S1-3) ---------------- */
+  var pairs = [
+    {a:"Segment [AB]", b:"Portion de droite entre A et B"},
+    {a:"Droite (AB)", b:"Ligne illimitée passant par A et B"},
+    {a:"Longueur AB", b:"Distance entre les points A et B"},
+    {a:"A ∈ d", b:"« A appartient à la droite d »"},
+    {a:"Milieu de [AB]", b:"Point à égale distance de A et B"},
+    {a:"Points alignés", b:"Situés sur une même droite"}
+  ];
+  var memoryGrid = document.getElementById("memoryGrid");
+  var memStatus = document.getElementById("memStatus");
+  var flippedCards = [];
+  var matchedCount = 0;
+  var lock = false;
+
+  function shuffle(arr){
+    for(var i=arr.length-1;i>0;i--){
+      var j = Math.floor(Math.random()*(i+1));
+      var t=arr[i]; arr[i]=arr[j]; arr[j]=t;
+    }
+    return arr;
+  }
+
+  function buildMemory(){
+    memoryGrid.innerHTML = "";
+    flippedCards = []; matchedCount = 0; lock = false;
+    memStatus.textContent = "0 / " + pairs.length + " paires trouvées";
+    var deck = [];
+    pairs.forEach(function(p, i){
+      deck.push({pid:i, text:p.a});
+      deck.push({pid:i, text:p.b});
+    });
+    shuffle(deck).forEach(function(c){
+      var el = document.createElement("div");
+      el.className = "mem-card";
+      el.dataset.pid = c.pid;
+      el.tabIndex = 0;
+      el.innerHTML =
+        '<div class="mem-inner">'+
+          '<div class="mem-face mem-back">?</div>'+
+          '<div class="mem-face mem-front">'+c.text+'</div>'+
+        '</div>';
+      function tryFlip(){
+        if(lock || el.classList.contains("flip") || el.classList.contains("matched")) return;
+        el.classList.add("flip");
+        flippedCards.push(el);
+        if(flippedCards.length===2){
+          lock = true;
+          var a=flippedCards[0], b=flippedCards[1];
+          if(a.dataset.pid === b.dataset.pid){
+            a.classList.add("matched"); b.classList.add("matched");
+            matchedCount++;
+            memStatus.textContent = matchedCount + " / " + pairs.length + " paires trouvées" + (matchedCount===pairs.length ? " — Bravo, toutes les paires sont trouvées ! 🎉" : "");
+            flippedCards = []; lock = false;
+          } else {
+            setTimeout(function(){
+              a.classList.remove("flip"); b.classList.remove("flip");
+              flippedCards = []; lock = false;
+            }, 900);
+          }
+        }
+      }
+      el.addEventListener("click", tryFlip);
+      el.addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); tryFlip(); } });
+      memoryGrid.appendChild(el);
+    });
+  }
+  buildMemory();
+  document.getElementById("memReset").addEventListener("click", buildMemory);
+
+  /* ---------------- Reveal distances (S2-1) ---------------- */
+  var revealDistBtn = document.getElementById("revealDist");
+  if(revealDistBtn){
+    revealDistBtn.addEventListener("click", function(){
+      ["distDirect","distZigzag","distCourbe"].forEach(function(id){
+        document.getElementById(id).setAttribute("opacity","1");
+      });
+      revealDistBtn.textContent = "✓ 3,6 cm < 4,8 cm < 5,1 cm — le trajet direct gagne";
+      revealDistBtn.disabled = true;
+    });
+  }
+
+  /* ---------------- Vrai/Faux (S1-5) ---------------- */
+  var vfItems = [
+    {s:"Une droite a une longueur qu'on peut mesurer, en cm par exemple.", v:false, why:"Une droite est illimitée dans les deux sens : elle n'a pas de longueur mesurable. C'est le segment qui a une longueur."},
+    {s:"Le segment [AB] et le segment [BA] désignent la même portion de droite.", v:true, why:"L'ordre des extrémités ne change pas le segment."},
+    {s:"On note la longueur du segment [AB] par (AB).", v:false, why:"La longueur se note AB, sans crochets ni parenthèses. (AB) désigne la droite passant par A et B."},
+    {s:"Trois points alignés appartiennent à une même droite.", v:true, why:"C'est la définition même de l'alignement."},
+    {s:"Le milieu d'un segment est toujours plus proche d'une extrémité que de l'autre.", v:false, why:"Le milieu est à égale distance des deux extrémités."},
+    {s:"Une demi-droite est illimitée dans un seul sens.", v:true, why:"Elle a une origine et se prolonge indéfiniment d'un seul côté."},
+    {s:"La distance entre A et B correspond au trajet le plus court pour aller de A à B.", v:true, why:"C'est la définition de la distance entre deux points."},
+    {s:"On peut coder deux longueurs égales avec le même nombre de petits traits sur les segments.", v:true, why:"C'est le codage standard des longueurs égales en géométrie."}
+  ];
+  var vfList = document.getElementById("vfList");
+  vfItems.forEach(function(item, i){
+    var el = document.createElement("div");
+    el.className = "vf-item";
+    el.innerHTML =
+      '<span class="num mono">'+(i+1)+'.</span>'+
+      '<span class="stmt">'+item.s+'</span>'+
+      '<button class="vf-reveal-btn">Voir la réponse</button>'+
+      '<div class="vf-answer">'+
+        '<span class="badge '+(item.v?"true":"false")+'">'+(item.v?"VRAI":"FAUX")+'</span>'+item.why+
+        '<div class="selfcheck-row"><button class="sc-btn yes">✅ J\'avais raison</button><button class="sc-btn no">✗ Je me suis trompé</button></div>'+
+        '<div class="sc-done" hidden>Réponse enregistrée dans ton score ⭐</div>'+
+      '</div>';
+    el.querySelector(".vf-reveal-btn").addEventListener("click", function(){ el.classList.add("shown"); });
+    var yesBtn = el.querySelector(".sc-btn.yes"), noBtn = el.querySelector(".sc-btn.no");
+    var done = el.querySelector(".sc-done");
+    function answer(correct){
+      markScore(correct);
+      yesBtn.disabled = true; noBtn.disabled = true;
+      done.hidden = false;
+    }
+    yesBtn.addEventListener("click", function(){ answer(true); });
+    noBtn.addEventListener("click", function(){ answer(false); });
+    vfList.appendChild(el);
+  });
+
+  /* ---------------- Treasure hunt (S2-3), solo ---------------- */
+  var player = {pos:0};
+  var BOARD_LEN = 9; // cells 0..9, 9 = treasure
+
+  var boardEl = document.getElementById("board");
+  function renderBoard(){
+    boardEl.innerHTML = "";
+    for(var i=0;i<=BOARD_LEN;i++){
+      var cell = document.createElement("div");
+      cell.className = "cell" + (i===0?" start":"") + (i===BOARD_LEN?" treasure":"");
+      cell.innerHTML = '<span class="tokens-in-cell" data-cell="'+i+'"></span>' + (i===0?"départ":(i===BOARD_LEN?"🏆":i));
+      boardEl.appendChild(cell);
+    }
+    var slot = boardEl.querySelector('.tokens-in-cell[data-cell="'+player.pos+'"]');
+    if(slot){
+      var tok = document.createElement("div");
+      tok.className = "token";
+      tok.style.background = "#e8a33d";
+      slot.appendChild(tok);
+    }
+  }
+  renderBoard();
+
+  var questions = [
+    {q:"Trace deux points E et F. Comment notes-tu le segment qui les relie ?", a:"[EF] — les crochets indiquent qu'il s'agit du segment, limité par ses deux extrémités."},
+    {q:"Comment note-t-on la distance entre les points E et F ?", a:"EF, sans crochets : c'est un nombre, la longueur du segment [EF]."},
+    {q:"Range dans l'ordre croissant : AB = 3 cm ; CD = 1,5 cm ; EF = 2 cm.", a:"CD < EF < AB, soit 1,5 cm < 2 cm < 3 cm."},
+    {q:"Vrai ou faux : la droite (AB) a une longueur que l'on peut mesurer.", a:"Faux : une droite est illimitée, elle n'a pas de longueur mesurable."},
+    {q:"M est le milieu de [AB], avec AB = 8 cm. Que vaut AM ?", a:"AM = 4 cm, car M est à égale distance de A et de B."},
+    {q:"Cite un objet de la salle de classe qui illustre un segment.", a:"Toute réponse cohérente est acceptée : le bord d'un livre, d'une règle, d'une table…"},
+    {q:"Quelle est la distance entre deux points confondus (au même endroit) ?", a:"0 : la distance entre un point et lui-même est nulle."},
+    {q:"Comment code-t-on, sur une figure, deux longueurs égales ?", a:"Avec le même nombre de petits traits sur les deux segments concernés."}
+  ];
+  var qIndex = 0;
+  var qtotal = document.getElementById("qtotal");
+  var qnum = document.getElementById("qnum");
+  var qtext = document.getElementById("qtext");
+  var qans = document.getElementById("qans");
+  var qcard = document.getElementById("qcard");
+  var qReveal = document.getElementById("qReveal");
+  var qSelfcheck = document.getElementById("qSelfcheck");
+  var qYes = document.getElementById("qYes");
+  var qNo = document.getElementById("qNo");
+  qtotal.textContent = questions.length;
+
+  function renderQuestion(){
+    if(player.pos >= BOARD_LEN){
+      qtext.textContent = "Bravo, tu as atteint le trésor ! 🏆 Tu peux continuer à t'entraîner ci-dessous.";
+      qans.textContent = "";
+      qcard.classList.remove("shown");
+      qReveal.hidden = true;
+      qSelfcheck.hidden = true;
+      return;
+    }
+    var q = questions[qIndex];
+    qnum.textContent = qIndex+1;
+    qtext.textContent = q.q;
+    qans.textContent = q.a;
+    qcard.classList.remove("shown");
+    qReveal.hidden = false;
+    qReveal.disabled = false;
+    qSelfcheck.hidden = true;
+  }
+  renderQuestion();
+
+  qReveal.addEventListener("click", function(){
+    qcard.classList.add("shown");
+    qReveal.hidden = true;
+    qSelfcheck.hidden = false;
+  });
+
+  function nextQuestion(correct){
+    markScore(correct);
+    if(correct && player.pos < BOARD_LEN){ player.pos++; renderBoard(); }
+    qIndex = (qIndex+1) % questions.length;
+    setTimeout(renderQuestion, correct ? 500 : 250);
+  }
+  qYes.addEventListener("click", function(){ nextQuestion(true); });
+  qNo.addEventListener("click", function(){ nextQuestion(false); });
+
+  /* ---------------- Exit ticket (S2-5) ---------------- */
+  var ticketData = [
+    {q:"Note le segment reliant les points M et N.", a:"[MN]"},
+    {q:"Comment note-t-on la distance entre les points M et N ?", a:"MN (sans crochets ni parenthèses)"},
+    {q:"Vrai ou faux : le milieu d'un segment est à égale distance de ses deux extrémités.", a:"Vrai."}
+  ];
+  var ticketGrid = document.getElementById("ticketGrid");
+  ticketData.forEach(function(t, i){
+    var el = document.createElement("div");
+    el.className = "ticket";
+    el.innerHTML =
+      '<span class="qn mono">Question '+(i+1)+'</span>'+
+      '<span class="q">'+t.q+'</span>'+
+      '<button class="reveal">Voir la réponse</button>'+
+      '<span class="a mono">'+t.a+'</span>'+
+      '<div class="selfcheck-row" hidden><button class="sc-btn yes">✅ J\'avais raison</button><button class="sc-btn no">✗ Je me suis trompé</button></div>'+
+      '<span class="sc-done" style="font-size:.78rem; color:#4a5c6c; font-style:italic;" hidden>Réponse enregistrée dans ton score ⭐</span>';
+    var revealBtn = el.querySelector(".reveal");
+    var sc = el.querySelector(".selfcheck-row");
+    var done = el.querySelector(".sc-done");
+    revealBtn.addEventListener("click", function(){
+      el.classList.add("shown");
+      revealBtn.hidden = true;
+      sc.hidden = false;
+    });
+    el.querySelector(".sc-btn.yes").addEventListener("click", function(){ markScore(true); sc.hidden = true; done.hidden = false; });
+    el.querySelector(".sc-btn.no").addEventListener("click", function(){ markScore(false); sc.hidden = true; done.hidden = false; });
+    ticketGrid.appendChild(el);
+  });
+
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>

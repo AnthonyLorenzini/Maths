@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leçon — Les pourcentages (4e)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:'Work Sans',sans-serif; color:#22303F; background:#EFEAE0; padding: 18px 12px 50px; }
+  .page { max-width: 900px; margin: 0 auto; background:#FFFFFF; border-radius:18px; padding:26px 30px 20px; box-shadow:0 10px 30px rgba(34,48,63,0.12); }
+  header { display:flex; align-items:center; gap:18px; border-bottom:3px solid #22303F; padding-bottom:14px; margin-bottom:16px; }
+  .badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:#22303F; color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:28px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+  h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:28px; margin:0; line-height:1.05; }
+  .subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+  .rappel { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+  .rappel b { color:#2B6CB0; }
+  .rappel .methods { margin-top:4px; font-size:12.5px; color:#3B4C5E; }
+  .grid { overflow:hidden; }
+  .card { float:left; width:47%; margin:0 3% 16px 0; box-sizing:border-box; border-radius:14px; padding:14px 16px 14px; border:2px solid transparent; }
+  .card:nth-child(2n) { margin-right:0; }
+  .card h2 { font-family:'Baloo 2',sans-serif; font-size:15.5px; margin:0 0 8px 0; padding-left:12px; border-left:4px solid currentColor; }
+  .card p { font-size:12.5px; margin:4px 0; line-height:1.4; }
+  .formula { font-family:'Baloo 2',sans-serif; font-weight:600; font-size:13px; background:#FFFFFF; border-radius:8px; padding:7px 10px; margin:6px 0; display:inline-block; }
+  .example { font-size:11.5px; color:#445263; font-style:italic; }
+  .pourcent { background:#FEF2E3; border-color:#F0B25B; } .pourcent h2 { color:#B5680A; } .pourcent .formula { border:1.5px solid #F0B25B; }
+  .appliquer { background:#E9F7EF; border-color:#4CAF7D; } .appliquer h2 { color:#1E7A4C; } .appliquer .formula { border:1.5px solid #4CAF7D; }
+  .reciproque { background:#F3ECFB; border-color:#8B5CF6; } .reciproque h2 { color:#5B21B6; } .reciproque .formula { border:1.5px solid #8B5CF6; }
+  .evolution { background:#FDEBEC; border-color:#E5544F; } .evolution h2 { color:#B5322E; } .evolution .formula { border:1.5px solid #E5544F; }
+
+  .calc { background:#FFFFFF; border-radius:10px; padding:10px 12px; margin-top:10px; }
+  .calc .calc-title { font-family:'Baloo 2',sans-serif; font-size:11.5px; color:#6B7A8A; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.02em; }
+  .calc-row { display:flex; align-items:center; gap:6px; flex-wrap:wrap; font-size:12px; margin-bottom:6px; }
+  .calc-row input[type=number] { width:64px; padding:4px 6px; border-radius:6px; border:1.5px solid #C9C2B4; font-family:'Baloo 2',sans-serif; font-size:12.5px; }
+  .calc-row select { padding:4px 6px; border-radius:6px; border:1.5px solid #C9C2B4; font-size:12px; }
+  .calc-btn { font-family:'Baloo 2',sans-serif; font-size:11.5px; padding:5px 12px; border-radius:14px; border:none; cursor:pointer; color:#fff; }
+  .pourcent .calc-btn { background:#B5680A; } .appliquer .calc-btn { background:#1E7A4C; }
+  .reciproque .calc-btn { background:#5B21B6; } .evolution .calc-btn { background:#B5322E; }
+  .calc-result { font-family:'Baloo 2',sans-serif; font-size:13px; margin-top:4px; min-height:18px; }
+  .pourcent .calc-result { color:#B5680A; } .appliquer .calc-result { color:#1E7A4C; }
+  .reciproque .calc-result { color:#5B21B6; } .evolution .calc-result { color:#B5322E; }
+
+  footer { clear:both; margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="badge">%</div>
+      <div>
+        <h1>Les pourcentages</h1>
+        <div class="subtitle">Chapitre 1 — Classe de 4e — Fiche leçon interactive</div>
+      </div>
+    </header>
+
+    <div class="rappel">
+      <b>Rappel : la proportionnalité.</b> Deux grandeurs sont proportionnelles si on multiplie toujours par le même nombre pour passer de l'une à l'autre (le <b>coefficient</b>).
+      <div class="methods">Pour trouver une valeur manquante (4<sup>e</sup> proportionnelle) : le <b>coefficient</b>, le <b>produit en croix</b> (a/b = c/x → x = b×c÷a), ou la <b>linéarité</b>.</div>
+    </div>
+
+    <div class="grid">
+
+      <div class="card pourcent">
+        <h2>Calculer un pourcentage</h2>
+        <p>Un pourcentage compare une quantité à un total ramené à 100. « t % » = t/100.</p>
+        <div class="formula">t % de N = (t ÷ 100) × N</div>
+        <p class="example">Ex. : 20 % de 150 = (20 ÷ 100) × 150 = 30</p>
+        <div class="calc">
+          <div class="calc-title">Essaie toi-même</div>
+          <div class="calc-row">
+            <input type="number" id="c1-t" placeholder="t" value="20"> % de
+            <input type="number" id="c1-n" placeholder="N" value="150">
+            <button class="calc-btn" onclick="calc1()">Calculer</button>
+          </div>
+          <div class="calc-result" id="c1-r"></div>
+        </div>
+      </div>
+
+      <div class="card evolution">
+        <h2>Trouver un pourcentage</h2>
+        <p>Pour savoir quel pourcentage représente une partie par rapport à un total :</p>
+        <div class="formula">pourcentage = (partie ÷ total) × 100</div>
+        <p class="example">Ex. : 7 filles sur 20 élèves → 7 ÷ 20 × 100 = 35 % de filles</p>
+        <div class="calc">
+          <div class="calc-title">Essaie toi-même</div>
+          <div class="calc-row">
+            <input type="number" id="c2-p" placeholder="partie" value="7">  sur
+            <input type="number" id="c2-t" placeholder="total" value="20">
+            <button class="calc-btn" onclick="calc2()">Calculer</button>
+          </div>
+          <div class="calc-result" id="c2-r"></div>
+        </div>
+      </div>
+
+      <div class="card appliquer">
+        <h2>Appliquer un pourcentage</h2>
+        <p>Réduction, TVA, hausse ou baisse dans le temps : c'est toujours la même formule.</p>
+        <p><b>Diminution</b> (réduction, baisse) :</p>
+        <div class="formula">nouveau = initial × (1 − t/100)</div>
+        <p><b>Augmentation</b> (TVA, hausse) :</p>
+        <div class="formula">nouveau = initial × (1 + t/100)</div>
+        <div class="calc">
+          <div class="calc-title">Essaie toi-même</div>
+          <div class="calc-row">
+            <input type="number" id="c3-i" placeholder="initial" value="45">
+            <select id="c3-sign"><option value="-">− (baisse)</option><option value="+">+ (hausse)</option></select>
+            <input type="number" id="c3-t" placeholder="t" value="30"> %
+            <button class="calc-btn" onclick="calc3()">Calculer</button>
+          </div>
+          <div class="calc-result" id="c3-r"></div>
+        </div>
+      </div>
+
+      <div class="card reciproque">
+        <h2>Le pourcentage réciproque</h2>
+        <p>Retrouver un total quand on connaît une partie qui représente t % :</p>
+        <div class="formula">total = partie ÷ (t ÷ 100)</div>
+        <p class="example">Astuce : soldé à −30 %, le prix payé = 70 % du prix initial.</p>
+        <div class="calc">
+          <div class="calc-title">Essaie toi-même</div>
+          <div class="calc-row">
+            <input type="number" id="c4-p" placeholder="partie" value="12"> représente
+            <input type="number" id="c4-t" placeholder="t" value="60"> % du total
+            <button class="calc-btn" onclick="calc4()">Calculer</button>
+          </div>
+          <div class="calc-result" id="c4-r"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>Cahier de leçons — Chapitre 1 — Les pourcentages. Modifie les nombres dans les encadrés blancs pour t'entraîner avec tes propres valeurs.</footer>
+  </div>
+
+<script>
+function fmt(x){ return Math.round(x*100)/100; }
+function calc1(){
+  const t = parseFloat(document.getElementById('c1-t').value);
+  const n = parseFloat(document.getElementById('c1-n').value);
+  if (isNaN(t) || isNaN(n)) { document.getElementById('c1-r').textContent = "Entre deux nombres."; return; }
+  document.getElementById('c1-r').textContent = `${t} % de ${n} = ${fmt((t/100)*n)}`;
+}
+function calc2(){
+  const p = parseFloat(document.getElementById('c2-p').value);
+  const t = parseFloat(document.getElementById('c2-t').value);
+  if (isNaN(p) || isNaN(t) || t===0) { document.getElementById('c2-r').textContent = "Entre deux nombres (total ≠ 0)."; return; }
+  document.getElementById('c2-r').textContent = `${p} sur ${t} = ${fmt((p/t)*100)} %`;
+}
+function calc3(){
+  const i = parseFloat(document.getElementById('c3-i').value);
+  const sign = document.getElementById('c3-sign').value;
+  const t = parseFloat(document.getElementById('c3-t').value);
+  if (isNaN(i) || isNaN(t)) { document.getElementById('c3-r').textContent = "Entre deux nombres."; return; }
+  const res = sign === '-' ? i*(1-t/100) : i*(1+t/100);
+  document.getElementById('c3-r').textContent = `Nouveau = ${fmt(res)}`;
+}
+function calc4(){
+  const p = parseFloat(document.getElementById('c4-p').value);
+  const t = parseFloat(document.getElementById('c4-t').value);
+  if (isNaN(p) || isNaN(t) || t===0) { document.getElementById('c4-r').textContent = "Entre deux nombres (t ≠ 0)."; return; }
+  document.getElementById('c4-r').textContent = `Total = ${fmt(p/(t/100))}`;
+}
+calc1(); calc2(); calc3(); calc4();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

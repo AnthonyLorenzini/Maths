@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 3 — Les évolutions en pourcentage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@page { size: A4; margin: 10mm; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Work Sans', sans-serif;
+  color: #22303F;
+  background: #EFEAE0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.page {
+  max-width: 900px;
+  margin: 18px auto;
+  background: #FFFFFF;
+  border-radius: 18px;
+  padding: 26px 30px 24px;
+  box-shadow: 0 10px 30px rgba(34,48,63,0.12);
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 3px solid #22303F;
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+}
+.badge {
+  flex: 0 0 auto;
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: #22303F;
+  color: #F7B8B5;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-4deg);
+}
+h1 {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  margin: 0;
+  color: #22303F;
+  line-height: 1.15;
+}
+.subtitle { font-size: 13.5px; color: #6B7A8A; margin-top: 4px; font-weight: 500; }
+.objectifs {
+  background: #F4F1EA;
+  border-left: 6px solid #22303F;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+.objectifs b { color: #22303F; }
+.automatisme {
+  background: #EAF1FB;
+  border-left: 6px solid #2B6CB0;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 18px;
+}
+.automatisme h2 {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 15px;
+  color: #2B6CB0;
+  margin: 0 0 8px 0;
+}
+.automatisme ol { margin: 0; padding-left: 20px; font-size: 13px; }
+.automatisme li { margin-bottom: 2px; }
+.automatisme .corrige {
+  margin-top: 8px;
+  font-size: 12.5px;
+  font-style: italic;
+  color: #3B4C5E;
+  border-top: 1px dashed #B7CBE3;
+  padding-top: 6px;
+}
+.section-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 18px;
+  color: #22303F;
+  margin: 4px 0 12px 0;
+}
+.advanced-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 15px;
+  color: #B5322E;
+  margin: 18px 0 10px 0;
+  padding-top: 12px;
+  border-top: 2px dashed #E5544F;
+}
+.challenge-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 15px;
+  color: #FFFFFF;
+  background: #B5322E;
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin: 18px 0 10px 0;
+}
+.exo {
+  border: 2px solid #E5544F;
+  background: #FDEBEC;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+.exo-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #B5322E;
+  margin-bottom: 4px;
+}
+.exo p { font-size: 13px; margin: 4px 0; line-height: 1.45; }
+.exo p.q { margin: 2px 0 2px 4px; }
+.schema {
+  background: #FFFFFF;
+  border-radius: 8px;
+  padding: 8px;
+  margin: 8px 0;
+  text-align: center;
+}
+.schema svg { max-width: 100%; height: auto; }
+.corrige-box {
+  margin-top: 8px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12.5px;
+  border: 1.5px dashed #E5544F;
+}
+.corrige-box .label {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  color: #B5322E;
+  display: block;
+  margin-bottom: 3px;
+}
+footer {
+  margin-top: 16px;
+  font-size: 11.5px;
+  color: #8894A0;
+  border-top: 1.5px dashed #D8DEE4;
+  padding-top: 10px;
+}
+</style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="badge">S3</div>
+      <div>
+        <h1>Les évolutions en pourcentage</h1>
+        <div class="subtitle">Chapitre 1 — Les pourcentages — 4e — Séance 3</div>
+      </div>
+    </header>
+
+    <div class="objectifs"><b>Objectifs :</b> calculer une évolution (hausse ou baisse) exprimée en pourcentage, en un seul calcul, y compris sur plusieurs périodes successives.</div>
+
+    <div class="automatisme">
+      <h2>Automatisme</h2>
+      <ol><li>−6 × 3 =</li>
+<li>0,001 × 5 000 =</li>
+<li>120 min = … h</li>
+<li>4² =</li>
+<li>15 % de 200 =</li>
+<li>1/5 de 45 =</li></ol>
+      <div class="corrige">Corrigé : −18 ; 5 ; 2 h ; 16 ; 30 ; 9</div>
+    </div>
+
+    <div class="section-title">Exercices</div>
+    
+        <div class="exo">
+          <div class="exo-title">★ Exercice</div>
+          <p>Le nombre de joueurs quotidiens d'un jeu mobile était de 50 000. Après une campagne de publicité, il augmente de 8 %. Calcule le nouveau nombre de joueurs quotidiens.</p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>50000 × 1,08 = <b>54 000 joueurs</b>.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★ Exercice</div>
+          <p>Une chaîne YouTube gaming comptait 40 000 abonnés. Après un scandale, elle perd 15 % de ses abonnés. Combien d'abonnés compte-t-elle désormais ?</p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>40000 × 0,85 = <b>34 000 abonnés</b>.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★ Exercice</div>
+          <p>Un joueur de basket a marqué 18 points par match en moyenne la saison dernière. Cette saison, sa moyenne a augmenté de 25 %. Quelle est sa nouvelle moyenne de points par match ?</p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>18 × 1,25 = <b>22,5 points par match</b>.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★ Exercice</div>
+          <p>Un jeu en ligne comptait 4 000 joueurs actifs en janvier 2024. En janvier 2025, ce nombre a augmenté de 6 %.<br><span class='q'>a) Combien de joueurs actifs le jeu compte-t-il en janvier 2025 ?</span><br><span class='q'>b) Si le jeu continue de croître d'environ 6 % chaque année, dépassera-t-il 4 500 joueurs actifs en janvier 2026 ? Justifie par un calcul.</span></p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>a) 4000 × 1,06 = <b>4 240 joueurs</b>. b) 4240 × 1,06 ≈ <b>4 494</b>, donc <b>inférieur à 4 500</b>.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★★ Exercice (question ouverte)</div>
+          <p>Un festival de musique a accueilli 12 000 festivaliers en 2023. En 2024, la fréquentation a augmenté de 15 %. En 2025, elle a encore augmenté de 10 % par rapport à 2024.<br><span class='q'>a) Combien de festivaliers en 2024 ? Et en 2025 ?</span><br><span class='q'>b) Un organisateur affirme que l'augmentation totale entre 2023 et 2025 est de 15 % + 10 % = 25 %. Vérifie ce calcul en trouvant le pourcentage d'augmentation réel entre 2023 et 2025 (arrondi au dixième), puis explique avec tes mots pourquoi les pourcentages successifs ne s'additionnent pas directement.</span></p>
+          <div class="schema"><svg viewBox="0 0 260 190" xmlns="http://www.w3.org/2000/svg" style="max-width:280px">
+  <line x1="35" y1="160" x2="250" y2="160" stroke="#22303F" stroke-width="1.5"/>
+  <line x1="35" y1="160" x2="35" y2="15" stroke="#22303F" stroke-width="1.5"/>
+  <rect x="55" y="49" width="45" height="111" fill="#F7B8B5"/>
+  <rect x="130" y="35" width="45" height="125" fill="#EE8A85"/>
+  <rect x="205" y="19" width="45" height="141" fill="#E5544F"/>
+  <text x="77" y="43" font-size="9.5" fill="#22303F" text-anchor="middle">12 000</text>
+  <text x="152" y="29" font-size="9.5" fill="#22303F" text-anchor="middle">13 800</text>
+  <text x="227" y="13" font-size="9.5" fill="#22303F" text-anchor="middle">15 180</text>
+  <text x="77" y="174" font-size="9.5" fill="#6B7A8A" text-anchor="middle">2023</text>
+  <text x="152" y="174" font-size="9.5" fill="#6B7A8A" text-anchor="middle">2024</text>
+  <text x="227" y="174" font-size="9.5" fill="#6B7A8A" text-anchor="middle">2025</text>
+</svg></div>
+          <div class="corrige-box"><span class="label">Piste de correction</span>a) 12000 × 1,15 = <b>13 800 festivaliers</b> en 2024. 13800 × 1,10 = <b>15 180 festivaliers</b> en 2025. b) Évolution réelle = (15180 − 12000) ÷ 12000 × 100 ≈ <b>26,5 %</b>, donc l'organisateur a tort. Explication attendue : la seconde augmentation de 10 % ne porte pas sur les 12 000 festivaliers initiaux mais sur les 13 800 déjà atteints en 2024, un nombre plus grand — c'est pour cela que l'augmentation totale dépasse 25 %.</div>
+        </div><div class="advanced-title">Pour aller plus loin — exercices difficiles</div>
+        <div class="exo">
+          <div class="exo-title">★★★★ Exercice</div>
+          <p>Une ville compte 20 000 habitants. Chaque année, sa population augmente de 5 %.<br><span class='q'>a) Quelle est la population après 1 an ? Après 2 ans ? Après 3 ans ?</span><br><span class='q'>b) Vous n'avez pas encore étudié les puissances : explique simplement, avec tes mots, comment on obtient la population d'une année à partir de celle de l'année précédente, et comment on pourrait continuer ce calcul pour un nombre d'années quelconque.</span><br><span class='q'>c) En poursuivant ce principe, calcule la population après 4 ans.</span></p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>a) Après 1 an : 20000 × 1,05 = <b>21 000 habitants</b>. Après 2 ans : 21000 × 1,05 = <b>22 050 habitants</b>. Après 3 ans : 22050 × 1,05 ≈ <b>23 153 habitants</b> (arrondi à l'unité). b) Explication attendue : chaque année, il suffit de multiplier la population de l'année précédente par 1,05 (ce qui revient à ajouter 5 %). Pour un nombre d'années quelconque, on recommence ce même calcul autant de fois que d'années écoulées, en repartant à chaque fois du résultat précédent. c) Après 4 ans : 23153 × 1,05 ≈ <b>24 311 habitants</b> (arrondi à l'unité).</div>
+        </div>
+
+    <footer>Aucun exercice nouveau à la maison : reprends ces exercices déjà corrigés en classe. Les exercices « Pour aller plus loin » et « Encore plus loin » sont facultatifs, pour les élèves qui veulent aller plus loin.</footer>
+  </div>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini-jeux — Grandeurs quotients et produits (4e)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange-b: #F0B25B; --orange-bg: #FEF2E3; --orange-t: #B5680A;
+    --green-b: #4CAF7D; --green-bg: #E9F7EF; --green-t: #1E7A4C;
+    --purple-b: #8B5CF6; --purple-bg: #F3ECFB; --purple-t: #5B21B6;
+    --red-b: #E5544F; --red-bg: #FDEBEC; --red-t: #B5322E;
+    --ink: #22303F;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Work Sans', Arial, sans-serif;
+    color: var(--ink);
+    background: #EFEAE0;
+    padding: 20px 12px 60px;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 20px; }
+  h1 { font-family: 'Baloo 2', sans-serif; font-size: 26px; margin: 0 0 4px 0; }
+  header p { color: #6B7A8A; margin: 0; font-size: 14px; }
+
+  .tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 18px; flex-wrap: wrap; }
+  .tab-btn {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 13.5px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: 2px solid var(--ink);
+    background: #fff;
+    cursor: pointer;
+    color: var(--ink);
+  }
+  .tab-btn.active { background: var(--ink); color: #fff; }
+
+  .game { display: none; background: #fff; border-radius: 18px; padding: 22px 24px; box-shadow: 0 10px 30px rgba(34,48,63,0.10); }
+  .game.active { display: block; }
+  .game h2 { font-family: 'Baloo 2', sans-serif; font-size: 20px; margin: 0 0 6px 0; }
+  .game .desc { font-size: 13px; color: #6B7A8A; margin-bottom: 16px; }
+
+  .scorebar {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Baloo 2', sans-serif; font-size: 14px; margin-bottom: 14px;
+    background: #F4F1EA; border-radius: 10px; padding: 8px 14px; flex-wrap: wrap; gap: 6px;
+  }
+  .scorebar span b { color: var(--ink); }
+
+  .question-box {
+    background: var(--q-bg, var(--orange-bg));
+    border: 2px solid var(--q-border, var(--orange-b));
+    border-radius: 14px; padding: 18px; margin-bottom: 14px;
+  }
+  .question-box .qtext { font-size: 16px; font-weight: 600; margin-bottom: 14px; }
+  .options { display: grid; gap: 10px; }
+  .opt-btn {
+    text-align: left; font-family: 'Work Sans', sans-serif; font-size: 14px;
+    padding: 10px 14px; border-radius: 10px; border: 2px solid var(--q-border, var(--orange-b));
+    background: #fff; cursor: pointer;
+  }
+  .opt-btn:hover { background: #f8f8f8; }
+  .opt-btn.correct { background: #E9F7EF; border-color: #4CAF7D; }
+  .opt-btn.wrong { background: #FDEBEC; border-color: #E5544F; }
+  .feedback { margin-top: 12px; font-size: 13.5px; min-height: 20px; }
+  .feedback.good { color: #1E7A4C; font-weight: 600; }
+  .feedback.bad { color: #B5322E; font-weight: 600; }
+  .next-btn, .action-btn {
+    font-family: 'Baloo 2', sans-serif; font-size: 14px; padding: 8px 18px;
+    border-radius: 20px; border: none; background: var(--ink); color: #fff; cursor: pointer; margin-top: 10px;
+  }
+  .next-btn:disabled { opacity: 0.4; cursor: default; }
+
+  .chrono-box { text-align: center; padding: 10px 0; }
+  .chrono-timer { font-family: 'Baloo 2', sans-serif; font-size: 30px; color: var(--red-t); margin-bottom: 6px; }
+  .chrono-question {
+    font-size: 17px; font-weight: 600; background: var(--red-bg); border: 2px solid var(--red-b);
+    border-radius: 14px; padding: 20px; margin-bottom: 14px;
+  }
+  .chrono-input {
+    font-size: 18px; padding: 8px 12px; border-radius: 10px; border: 2px solid var(--ink);
+    width: 140px; text-align: center; font-family: 'Baloo 2', sans-serif;
+  }
+  .chrono-result { margin-top: 14px; font-size: 15px; }
+  .streak { font-family: 'Baloo 2', sans-serif; color: var(--red-t); }
+
+  .build-scene { background: var(--red-bg); border: 2px solid var(--red-b); border-radius: 14px; padding: 18px; margin-bottom: 14px; }
+  .build-qtext { font-size: 15.5px; font-weight: 600; margin-bottom: 14px; }
+  .build-display {
+    font-family: 'Baloo 2', sans-serif; font-size: 20px; min-height: 36px; background: #fff; border-radius: 10px;
+    padding: 8px 14px; margin-bottom: 14px; text-align: center; color: var(--red-t); letter-spacing: 0.03em;
+  }
+  .build-display .placeholder { color: #B9AF9A; font-size: 14px; }
+  .build-keys { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 10px; }
+  .build-key {
+    font-family: 'Baloo 2', sans-serif; font-size: 13px; padding: 7px 12px; border-radius: 10px;
+    border: 2px solid var(--red-b); background: #fff; color: var(--red-t); cursor: pointer;
+  }
+  .build-key.op { background: var(--red-t); color: #fff; font-size: 15px; padding: 7px 16px; }
+  .build-key:disabled { opacity: 0.35; cursor: default; }
+  .build-actions { display: flex; gap: 10px; justify-content: center; margin-top: 6px; }
+  .build-btn { font-family: 'Baloo 2', sans-serif; font-size: 13px; padding: 7px 16px; border-radius: 18px; border: none; cursor: pointer; }
+  .build-btn.clear { background: #fff; border: 2px solid var(--ink); color: var(--ink); }
+  .build-btn.validate { background: var(--red-t); color: #fff; }
+  .build-btn:disabled { opacity: 0.4; cursor: default; }
+
+  footer { text-align: center; margin-top: 20px; font-size: 11.5px; color: #8894A0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Mini-jeux — Grandeurs quotients et produits</h1>
+    <p>Chapitre 2 — 4e — entraînement libre, à volonté</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showGame('quiz', event)">🧠 Quiz éclair</button>
+    <button class="tab-btn" onclick="showGame('unite', event)">📏 Trouve l'unité</button>
+    <button class="tab-btn" onclick="showGame('chrono', event)">⏱️ Calcul chrono</button>
+  </div>
+
+  <!-- QUIZ GAME -->
+  <div class="game active" id="game-quiz">
+    <h2>Quiz éclair</h2>
+    <div class="desc">Réponds aux questions les unes après les autres. Les questions <b>et les valeurs</b> changent à chaque partie.</div>
+    <div class="scorebar">
+      <span>Score : <b id="quiz-score">0</b> / <b id="quiz-total">0</b></span>
+      <span>Question <b id="quiz-num">1</b> / <b id="quiz-max">10</b></span>
+    </div>
+    <div id="quiz-area"></div>
+    <button class="action-btn" id="quiz-restart" style="display:none" onclick="startQuiz()">Rejouer</button>
+  </div>
+
+  <!-- UNITE GAME (construction) -->
+  <div class="game" id="game-unite">
+    <h2>Construis l'unité</h2>
+    <div class="desc">Clique sur les boutons pour construire l'unité manquante : une grandeur, puis × ou ÷, puis une autre grandeur. 5 bonnes réponses d'affilée débloquent le niveau 2.</div>
+    <div class="scorebar">
+      <span>Score : <b id="unite-score">0</b> / <b id="unite-total">0</b></span>
+      <span>Série : <b id="unite-streak">0</b> 🔥</span>
+      <span>Niveau : <b id="unite-level">1</b></span>
+    </div>
+    <div id="unite-area"></div>
+    <button class="action-btn" id="unite-restart" onclick="startUnite()">↺ Recommencer</button>
+  </div>
+
+  <!-- CHRONO GAME -->
+  <div class="game" id="game-chrono">
+    <h2>Calcul chrono</h2>
+    <div class="desc">Tu as <b>2 minutes</b> pour répondre correctement à un maximum de questions. Tape ta réponse (nombre) et valide.</div>
+    <div class="scorebar">
+      <span>Bonnes réponses : <b id="chrono-score">0</b></span>
+      <span>Tentées : <b id="chrono-attempts">0</b></span>
+      <span>Série : <b class="streak" id="chrono-streak">0</b> 🔥</span>
+    </div>
+    <div class="chrono-box">
+      <div class="chrono-timer" id="chrono-timer">2:00</div>
+      <div class="chrono-question" id="chrono-q">Clique sur "Commencer" pour démarrer les 2 minutes.</div>
+      <input type="text" class="chrono-input" id="chrono-input" placeholder="ta réponse" inputmode="decimal" onkeydown="if(event.key==='Enter') checkChrono()" disabled>
+      <br>
+      <button class="action-btn" id="chrono-btn" onclick="startOrCheck()">Commencer</button>
+      <div class="chrono-result" id="chrono-result"></div>
+    </div>
+  </div>
+
+  <footer>Chapitre 2 — Grandeurs quotients et produits — 4e. Entraînement libre, sans note.</footer>
+</div>
+
+<script>
+function showGame(name, evt) {
+  document.querySelectorAll('.game').forEach(g => g.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('game-' + name).classList.add('active');
+  if (evt) evt.target.classList.add('active');
+}
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function round1(x) { return Math.round(x * 10) / 10; }
+
+const themeColors = {
+  orange: {bg:'var(--orange-bg)', b:'var(--orange-b)'},
+  green: {bg:'var(--green-bg)', b:'var(--green-b)'},
+  purple: {bg:'var(--purple-bg)', b:'var(--purple-b)'},
+  red: {bg:'var(--red-bg)', b:'var(--red-b)'},
+};
+
+/* Ensure 4 distinct numeric option strings, correct included, shuffled */
+function buildNumericOptions(correct, distractors, theme, qtext, decimals) {
+  let vals = [correct, ...distractors];
+  // dedupe: nudge duplicates
+  for (let i = 1; i < vals.length; i++) {
+    for (let j = 0; j < i; j++) {
+      if (Math.abs(vals[i] - vals[j]) < 0.001) vals[i] += (i + 1) * 0.7;
+    }
+  }
+  const fmt = v => {
+    const r = decimals ? Math.round(v * Math.pow(10, decimals)) / Math.pow(10, decimals) : Math.round(v);
+    return r.toString().replace('.', ',');
+  };
+  const strs = vals.map(fmt);
+  const order = shuffle([0,1,2,3]);
+  const opts = order.map(i => strs[i]);
+  const correctIndex = order.indexOf(0);
+  return {q: qtext, opts, correct: correctIndex, theme};
+}
+
+/* ---------- QUIZ: concept generators ---------- */
+const conceptFacts = [
+  {name:"la vitesse", type:"quotient"},
+  {name:"le débit", type:"quotient"},
+  {name:"la densité (masse volumique)", type:"quotient"},
+  {name:"l'aire", type:"produit"},
+  {name:"le volume", type:"produit"},
+  {name:"l'énergie électrique (E = P × t)", type:"produit"},
+];
+function genConcept() {
+  const f = pick(conceptFacts);
+  const opts = shuffle(["produit","quotient"]);
+  return {q: `${f.name.charAt(0).toUpperCase()+f.name.slice(1)} est une grandeur ...`, opts, correct: opts.indexOf(f.type), theme: f.type === 'quotient' ? 'orange' : 'purple'};
+}
+
+/* ---------- QUIZ: numeric generators (values change every game) ---------- */
+function genVitesse() {
+  const t = pick([1,2,3,4,5,6]);
+  const v = pick([20,30,40,50,60,70,80,90]);
+  const d = v * t;
+  return buildNumericOptions(v, [d*t, t/d*1000, v+10], 'orange', `Un véhicule parcourt ${d} km en ${t} h, à vitesse constante. Sa vitesse moyenne est :`, 0);
+}
+function genConvertKmh() {
+  const kmh = pick([18,36,54,72,90,108,126,144]);
+  const ms = kmh/3.6;
+  return buildNumericOptions(ms, [kmh*3.6, kmh/3, kmh-3.6], 'orange', `Convertis ${kmh} km/h en m/s :`, 1);
+}
+function genDebit() {
+  const t = pick([2,3,4,5,6]);
+  const q = pick([5,10,15,20,25]);
+  const V = q * t;
+  return buildNumericOptions(q, [V*t, t/V*100, q+5], 'green', `Un robinet délivre ${V} L en ${t} min. Son débit en L/min est :`, 1);
+}
+function genDensite() {
+  const v = pick([10,20,40,50]);
+  const rho = pick([2,3,5,7,8,9]);
+  const m = rho * v;
+  return buildNumericOptions(rho, [v/m*100, m*v/10, rho+2], 'green', `Un objet a une masse de ${m} g pour un volume de ${v} cm³. Sa densité (g/cm³) est :`, 1);
+}
+function genEnergie() {
+  const P = pick([1,1.5,2,2.5,3,4]);
+  const t = pick([2,3,4,5,6]);
+  const E = P * t;
+  return buildNumericOptions(E, [P/t, P+t, E*10], 'purple', `Un appareil de ${P} kW fonctionne ${t} h. L'énergie consommée en kWh est :`, 1);
+}
+function genAire() {
+  const L = pick([3,4,5,6,7,8]);
+  const l = pick([2,3,4,5]);
+  const A = L * l;
+  return buildNumericOptions(A, [2*(L+l), L+l, A/2], 'purple', `Un rectangle mesure ${L} m sur ${l} m. Son aire en m² est :`, 0);
+}
+function genDistance() {
+  const v = pick([20,30,40,50,60,70,80]);
+  const t = pick([1,2,3,4,5]);
+  const d = v * t;
+  return buildNumericOptions(d, [v/t, v+t, d/2], 'orange', `Un cycliste roule à ${v} km/h pendant ${t} h, à vitesse constante. La distance parcourue est :`, 0);
+}
+function genTemps() {
+  const v = pick([20,30,40,50,60,80,100]);
+  const t = pick([1,2,3,4,5]);
+  const d = v * t;
+  return buildNumericOptions(t, [d*v, v-d, d/100], 'orange', `Un scooter roule à ${v} km/h. Le temps nécessaire pour parcourir ${d} km est (en h) :`, 1);
+}
+function genAllure() {
+  const v = pick([4,5,6,8,10,12,15,20]);
+  const allure = 60/v;
+  return buildNumericOptions(allure, [v*60, v/60, 60+v], 'red', `Un coureur maintient une vitesse de ${v} km/h. Son allure, en min/km, est :`, 1);
+}
+
+const quizGenerators = [genConcept, genConcept, genConcept, genVitesse, genDistance, genTemps, genConvertKmh, genAllure, genDebit, genDensite, genEnergie, genAire];
+
+let quizOrder = [], quizIndex = 0, quizScore = 0, quizAnswered = false;
+const QUIZ_LEN = 10;
+
+function startQuiz() {
+  const gens = [];
+  while (gens.length < QUIZ_LEN) gens.push(...shuffle(quizGenerators));
+  quizOrder = gens.slice(0, QUIZ_LEN).map(g => g());
+  quizIndex = 0; quizScore = 0; quizAnswered = false;
+  document.getElementById('quiz-max').textContent = QUIZ_LEN;
+  document.getElementById('quiz-restart').style.display = 'none';
+  renderQuizQuestion();
+}
+function renderQuizQuestion() {
+  const item = quizOrder[quizIndex];
+  document.getElementById('quiz-num').textContent = quizIndex + 1;
+  document.getElementById('quiz-score').textContent = quizScore;
+  document.getElementById('quiz-total').textContent = quizIndex;
+  const colors = themeColors[item.theme] || themeColors.orange;
+  let optsHtml = '';
+  item.opts.forEach((opt, i) => { optsHtml += `<button class="opt-btn" style="--q-border:${colors.b}" onclick="answerQuiz(${i})">${opt}</button>`; });
+  document.getElementById('quiz-area').innerHTML = `
+    <div class="question-box" style="--q-bg:${colors.bg};--q-border:${colors.b}">
+      <div class="qtext">${item.q}</div>
+      <div class="options" id="quiz-options">${optsHtml}</div>
+      <div class="feedback" id="quiz-feedback"></div>
+      <button class="next-btn" id="quiz-next" disabled onclick="nextQuiz()">Suivant →</button>
+    </div>`;
+  quizAnswered = false;
+}
+function answerQuiz(i) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const item = quizOrder[quizIndex];
+  const buttons = document.querySelectorAll('#quiz-options .opt-btn');
+  buttons.forEach((b, idx) => { b.disabled = true; if (idx === item.correct) b.classList.add('correct'); else if (idx === i) b.classList.add('wrong'); });
+  const fb = document.getElementById('quiz-feedback');
+  if (i === item.correct) { quizScore++; fb.textContent = "Bonne réponse !"; fb.className = "feedback good"; }
+  else { fb.textContent = "Pas tout à fait — la bonne réponse est surlignée en vert."; fb.className = "feedback bad"; }
+  document.getElementById('quiz-score').textContent = quizScore;
+  document.getElementById('quiz-next').disabled = false;
+}
+function nextQuiz() {
+  quizIndex++;
+  if (quizIndex >= quizOrder.length) {
+    document.getElementById('quiz-area').innerHTML = `<div class="question-box"><div class="qtext">Partie terminée ! Score final : ${quizScore} / ${quizOrder.length}</div></div>`;
+    document.getElementById('quiz-total').textContent = quizOrder.length;
+    document.getElementById('quiz-restart').style.display = 'inline-block';
+    return;
+  }
+  renderQuizQuestion();
+}
+
+/* ---------- CONSTRUIS L'UNITE (clic sur les boutons, valeurs aleatoires, niveaux par serie) ---------- */
+const unitKeys = ["km","m","cm","cm³","m³","h","min","s","L","mL","g","kg","kW","W"];
+
+const easyGenerators = [
+  () => { const t=pick([1,2,3,4,5]); const v=pick([20,30,40,50,60,70,80,90]); const d=v*t;
+    return {text:`Une voiture a parcouru ${d} km en ${t} h. Elle a roulé à ${v}`, ans:["km","/","h"]}; },
+  () => { const t=pick([2,3,4,5,6]); const q=pick([10,20,30,40,50,60]); const V=q*t;
+    return {text:`Une baignoire se remplit avec ${V} L en ${t} min. Son débit est de ${q}`, ans:["L","/","min"]}; },
+  () => { const v=pick([10,20,25,40,50]); const rho=pick([2,3,4,5,6,8]); const m=rho*v;
+    return {text:`Un objet de ${m} g occupe un volume de ${v} cm³. Sa densité est de ${rho}`, ans:["g","/","cm³"]}; },
+  () => { const P=pick([1,2,3,4,5]); const t=pick([1,2,3,4,5,6]); const E=P*t;
+    return {text:`Un radiateur de ${P} kW fonctionne pendant ${t} h. Il consomme ${E}`, ans:["kW","×","h"]}; },
+  () => { const L=pick([3,4,5,6,7,8]); const l=pick([2,3,4,5,6]); const A=L*l;
+    return {text:`Un jardin rectangulaire mesure ${L} m sur ${l} m. Son aire est de ${A}`, ans:["m","×","m"]}; },
+];
+
+const hardGenerators = [
+  () => { const t=pick([1,2,3,4,5]); const v=pick([20,30,40,50,60,70,80,90]); const d=v*t;
+    return {text:`Une voiture a parcouru ${d} km en ${t} h. Elle a roulé à ${v*1000}`, ans:["m","/","h"]}; },
+  () => { const t=pick([2,3,4,5,6]); const q=pick([10,20,30,40,50,60]); const V=q*t;
+    return {text:`Une baignoire se remplit avec ${V} L en ${t} min. Son débit est de ${q*60}`, ans:["L","/","h"]}; },
+  () => { const v=pick([10,20,25,40,50]); const rho=pick([2,3,4,5,6,8]); const m=rho*v;
+    return {text:`Un objet de ${m} g occupe un volume de ${v} cm³. Sa densité est de ${rho*1000}`, ans:["kg","/","m³"]}; },
+  () => { const P=pick([1,2,3,4,5]); const t=pick([1,2,3,4,5,6]); const E=P*t;
+    return {text:`Un radiateur de ${P} kW fonctionne pendant ${t} h. Il consomme ${E*1000}`, ans:["W","×","h"]}; },
+  () => { const v=pick([60,120,180,240,300]); const t=pick([1,2,3]); const d=v*t;
+    return {text:`Un TGV parcourt ${d} km en ${t} h. Il roule donc à ${v/60}`, ans:["km","/","min"]}; },
+];
+
+/* file melangee : chaque generateur est utilise une fois avant qu'un cycle ne recommence, evite les repetitions */
+let easyQueue = [], hardQueue = [];
+function nextGeneratorIndex(level) {
+  const queue = level === 1 ? easyQueue : hardQueue;
+  const size = level === 1 ? easyGenerators.length : hardGenerators.length;
+  if (queue.length === 0) {
+    const fresh = shuffle([...Array(size).keys()]);
+    if (level === 1) easyQueue = fresh; else hardQueue = fresh;
+  }
+  const q = level === 1 ? easyQueue : hardQueue;
+  return q.shift();
+}
+
+let uniteScore = 0, uniteAttempts = 0, uniteStreak = 0, uniteLevel = 1, uniteAnswered = false, uniteBuild = [], uniteCurrent = null;
+
+function startUnite() {
+  uniteScore = 0; uniteAttempts = 0; uniteStreak = 0; uniteLevel = 1; uniteAnswered = false;
+  easyQueue = []; hardQueue = [];
+  document.getElementById('unite-score').textContent = 0;
+  document.getElementById('unite-total').textContent = 0;
+  document.getElementById('unite-streak').textContent = 0;
+  document.getElementById('unite-level').textContent = 1;
+  renderUniteQuestion();
+}
+
+function renderUniteQuestion() {
+  const gens = uniteLevel === 1 ? easyGenerators : hardGenerators;
+  const idx = nextGeneratorIndex(uniteLevel);
+  uniteCurrent = gens[idx]();
+  uniteBuild = [];
+  uniteAnswered = false;
+
+  const keysHtml = unitKeys.map(k => `<button class="build-key" data-kind="unit" onclick="pressKey('${k}')">${k}</button>`).join('')
+    + `<button class="build-key op" data-kind="op" onclick="pressKey('/')">÷</button>`
+    + `<button class="build-key op" data-kind="op" onclick="pressKey('×')">×</button>`;
+
+  document.getElementById('unite-area').innerHTML = `
+    <div class="build-scene">
+      <div class="build-qtext">${uniteCurrent.text} <span class="placeholder">...</span></div>
+      <div class="build-display" id="build-display"><span class="placeholder">clique une grandeur, puis × ou ÷, puis une autre grandeur</span></div>
+      <div class="build-keys" id="build-keys">${keysHtml}</div>
+      <div class="build-actions">
+        <button class="build-btn clear" onclick="clearBuild()">↺ Effacer</button>
+        <button class="build-btn validate" id="build-validate" disabled onclick="validateBuild()">Valider</button>
+      </div>
+      <div class="feedback" id="unite-feedback"></div>
+    </div>
+    <button class="next-btn" id="unite-next" disabled onclick="nextUnite()">Suivant →</button>`;
+  updateKeyStates();
+}
+
+function updateKeyStates() {
+  const buttons = document.querySelectorAll('#build-keys .build-key');
+  const wantUnit = (uniteBuild.length === 0 || uniteBuild.length === 2);
+  buttons.forEach(b => {
+    if (uniteAnswered) { b.disabled = true; return; }
+    const isOp = b.dataset.kind === 'op';
+    b.disabled = wantUnit ? isOp : !isOp;
+    if (uniteBuild.length >= 3) b.disabled = true;
+  });
+  const display = document.getElementById('build-display');
+  display.innerHTML = uniteBuild.length ? uniteBuild.join(' ') : `<span class="placeholder">clique une grandeur, puis × ou ÷, puis une autre grandeur</span>`;
+  document.getElementById('build-validate').disabled = (uniteBuild.length !== 3) || uniteAnswered;
+}
+
+function pressKey(k) {
+  if (uniteAnswered || uniteBuild.length >= 3) return;
+  uniteBuild.push(k);
+  updateKeyStates();
+}
+function clearBuild() {
+  if (uniteAnswered) return;
+  uniteBuild = [];
+  updateKeyStates();
+}
+function validateBuild() {
+  if (uniteAnswered || uniteBuild.length !== 3) return;
+  uniteAnswered = true;
+  uniteAttempts++;
+  const item = uniteCurrent;
+  const ok = uniteBuild[0] === item.ans[0] && uniteBuild[1] === item.ans[1] && uniteBuild[2] === item.ans[2];
+  const fb = document.getElementById('unite-feedback');
+  const isSquare = item.ans[1] === '×' && item.ans[0] === item.ans[2];
+  const squareNote = isSquare ? ` (et ${item.ans[0]} × ${item.ans[0]} s'écrit aussi ${item.ans[0]}<sup>2</sup>)` : '';
+  let levelUpNote = '';
+  if (ok) {
+    uniteScore++; uniteStreak++;
+    if (uniteLevel === 1 && uniteStreak >= 5) { uniteLevel = 2; levelUpNote = " 🎉 5 bonnes réponses d'affilée : niveau 2 débloqué !"; }
+    fb.innerHTML = "✅ Exactement, " + item.ans.join(' ') + " !" + squareNote + levelUpNote;
+    fb.className = "feedback good";
+  } else {
+    uniteStreak = 0;
+    fb.innerHTML = "❌ Pas tout à fait — la bonne unité était " + item.ans.join(' ') + "." + squareNote;
+    fb.className = "feedback bad";
+  }
+  document.getElementById('unite-score').textContent = uniteScore;
+  document.getElementById('unite-total').textContent = uniteAttempts;
+  document.getElementById('unite-streak').textContent = uniteStreak;
+  document.getElementById('unite-level').textContent = uniteLevel;
+  document.getElementById('unite-next').disabled = false;
+  updateKeyStates();
+}
+function nextUnite() {
+  renderUniteQuestion();
+}
+
+/* ---------- CALCUL CHRONO (2 minutes) ---------- */
+let chronoRunning = false, chronoScore = 0, chronoAttempts = 0, chronoStreak = 0, chronoAnswer = 0, chronoTolerance = 0;
+let chronoTimeLeft = 120, chronoTimerHandle = null;
+
+const chronoTemplates = [
+  () => { const t = pick([1,2,3,4,5]); const v = pick([20,30,40,50,60,70,80,90]); return {q:`Un véhicule parcourt ${v*t} km en ${t} h. Quelle est sa vitesse en km/h ?`, a: v, tol:0.5}; },
+  () => { const kmh = pick([18,36,54,72,90,108]); return {q:`Convertis ${kmh} km/h en m/s.`, a: kmh/3.6, tol:0.2}; },
+  () => { const v = pick([5,10,15,20,25,30]); const t = pick([2,3,4,5]); return {q:`Un robinet a un débit de ${v} L/min. Combien de litres coulent en ${t} min ?`, a: v*t, tol:0.5}; },
+  () => { const p = pick([1,1.5,2,2.5,3]); const t = pick([2,3,4,5,6]); return {q:`Un appareil de ${p} kW fonctionne ${t} h. Quelle énergie consomme-t-il, en kWh ?`, a: p*t, tol:0.2}; },
+  () => { const L = pick([3,4,5,6,7,8]); const l = pick([2,3,4,5]); return {q:`Calcule l'aire d'un rectangle de ${L} m sur ${l} m (en m²).`, a: L*l, tol:0.5}; },
+  () => { const v = pick([10,20,40]); const rho = pick([2,3,4,5]); return {q:`Un objet a une masse de ${rho*v} g pour un volume de ${v} cm³. Calcule sa densité en g/cm³.`, a: rho, tol:0.1}; },
+  () => { const d = pick([80,100,120,150,200]); const v = pick([40,50,80,100]); return {q:`Une distance de ${d} km est parcourue à ${v} km/h. Calcule la durée en heures (arrondis au dixième si besoin).`, a: round1(d/v), tol:0.15}; },
+  () => { const v = pick([20,30,40,50,60,70,80]); const t = pick([1,2,3,4,5]); return {q:`Un cycliste roule à ${v} km/h pendant ${t} h, à vitesse constante. Quelle distance parcourt-il, en km ?`, a: v*t, tol:0.5}; },
+  () => { const v = pick([4,5,6,8,10,12,15,20]); return {q:`Un coureur maintient une vitesse de ${v} km/h. Quelle est son allure en min/km ?`, a: round1(60/v), tol:0.15}; },
+];
+
+function formatTime(s) { const m = Math.floor(s/60); const sec = s%60; return m + ":" + (sec<10?"0":"") + sec; }
+
+function newChronoQuestion() {
+  const t = pick(chronoTemplates)();
+  chronoAnswer = t.a; chronoTolerance = t.tol;
+  document.getElementById('chrono-q').textContent = t.q;
+  document.getElementById('chrono-input').value = '';
+  document.getElementById('chrono-input').focus();
+  document.getElementById('chrono-result').textContent = '';
+}
+
+function startOrCheck() {
+  if (!chronoRunning) {
+    chronoRunning = true;
+    chronoScore = 0; chronoAttempts = 0; chronoStreak = 0; chronoTimeLeft = 120;
+    document.getElementById('chrono-score').textContent = 0;
+    document.getElementById('chrono-attempts').textContent = 0;
+    document.getElementById('chrono-streak').textContent = 0;
+    document.getElementById('chrono-btn').textContent = 'Valider';
+    document.getElementById('chrono-input').disabled = false;
+    document.getElementById('chrono-timer').textContent = formatTime(chronoTimeLeft);
+    newChronoQuestion();
+    chronoTimerHandle = setInterval(() => {
+      chronoTimeLeft--;
+      document.getElementById('chrono-timer').textContent = formatTime(chronoTimeLeft);
+      if (chronoTimeLeft <= 0) endChrono();
+    }, 1000);
+  } else {
+    checkChrono();
+  }
+}
+
+function endChrono() {
+  clearInterval(chronoTimerHandle);
+  chronoRunning = false;
+  document.getElementById('chrono-input').disabled = true;
+  document.getElementById('chrono-btn').textContent = 'Rejouer';
+  document.getElementById('chrono-q').textContent = `Temps écoulé ! Score final : ${chronoScore} bonnes réponses sur ${chronoAttempts} tentées.`;
+  document.getElementById('chrono-result').textContent = '';
+}
+
+function checkChrono() {
+  if (!chronoRunning) return;
+  const val = parseFloat(document.getElementById('chrono-input').value.replace(',', '.'));
+  const resultEl = document.getElementById('chrono-result');
+  if (isNaN(val)) { resultEl.textContent = "Tape un nombre avant de valider."; return; }
+  chronoAttempts++;
+  if (Math.abs(val - chronoAnswer) <= chronoTolerance) {
+    chronoScore++; chronoStreak++;
+    resultEl.textContent = "✅ Correct ! Réponse : " + chronoAnswer;
+    resultEl.style.color = '#1E7A4C';
+  } else {
+    chronoStreak = 0;
+    resultEl.textContent = "❌ Pas tout à fait. Réponse : " + chronoAnswer;
+    resultEl.style.color = '#B5322E';
+  }
+  document.getElementById('chrono-score').textContent = chronoScore;
+  document.getElementById('chrono-attempts').textContent = chronoAttempts;
+  document.getElementById('chrono-streak').textContent = chronoStreak;
+  if (chronoRunning) setTimeout(() => { if (chronoRunning) newChronoQuestion(); }, 700);
+}
+
+// init
+startQuiz();
+startUnite();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 2 — Décomposition en produit de facteurs premiers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --acc-b:#4CAF7D; --acc-bg:#E9F7EF; --acc-t:#1E7A4C; --ink:#22303F; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 860px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#7EE2AC; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:22px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:25px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+.automatisme { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:12px 16px; margin-bottom:14px; }
+.automatisme h2 { font-family:'Baloo 2',sans-serif; font-size:15px; color:#2B6CB0; margin:0 0 8px 0; }
+.automatisme ol { margin:0; padding-left:20px; font-size:13px; }
+.automatisme li { margin-bottom:2px; }
+.reveal-panel { display:none; margin-top:8px; font-size:12.5px; font-style:italic; color:#3B4C5E; border-top:1px dashed #B7CBE3; padding-top:6px; }
+.reveal-panel.show { display:block; }
+.methode { background:#FFF9EC; border:2px dashed #D8B24C; border-radius:10px; padding:10px 16px; margin-bottom:18px; font-size:12.5px; }
+.methode b.tag { font-family:'Baloo 2',sans-serif; color:#9C7A17; display:block; margin-bottom:3px; font-size:13px; }
+.methode .schema { background:#fff; border-radius:8px; padding:8px; margin-top:8px; text-align:center; }
+.section-title { font-family:'Baloo 2',sans-serif; font-size:18px; margin:4px 0 12px 0; }
+.advanced-title { font-family:'Baloo 2',sans-serif; font-size:15px; color:var(--acc-t); margin:18px 0 10px 0; padding-top:12px; border-top:2px dashed var(--acc-b); }
+.exo { border:2px solid var(--acc-b); background:var(--acc-bg); border-radius:12px; padding:14px 18px; margin-bottom:14px; }
+.exo-title { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:var(--acc-t); margin-bottom:6px; }
+.exo p { font-size:13px; margin:4px 0; line-height:1.5; }
+.exo p.q { margin:6px 0 2px 4px; }
+.schema { background:#fff; border-radius:8px; padding:8px; margin:8px 0; text-align:center; }
+.schema svg { max-width:100%; height:auto; }
+.btn-row { display:flex; gap:10px; margin-top:8px; flex-wrap:wrap; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:12px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:12.5px; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel.solution-panel { border:1.5px dashed #4CAF7D; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; }
+.astuce-panel .label { color:#B5680A; }
+.solution-panel .label { color:#1E7A4C; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="badge">S2</div>
+    <div>
+      <h1>Décomposition en produit de facteurs premiers</h1>
+      <div class="subtitle">Chapitre 3 — Divisibilité et nombres premiers — 4e — Séance 2</div>
+    </div>
+  </header>
+  <div class="objectifs"><b>Objectifs :</b> décomposer un nombre entier en produit de facteurs premiers.</div>
+  <div class="automatisme">
+    <h2>Automatisme</h2>
+    <ol><li>2 × 2 × 3 =</li><li>45 = 9 × …</li><li>100 ÷ 4 =</li><li>Cite les nombres premiers inférieurs à 10.</li><li>3² =</li><li>60 ÷ 5 =</li></ol>
+    <button class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
+    <div class="reveal-panel" id="auto-corrige">Corrigé : 12 ; 5 ; 25 ; 2, 3, 5, 7 ; 9 ; 12</div>
+  </div>
+  <div class="methode"><b class="tag">Méthode</b>On divise successivement le nombre par le plus petit nombre premier possible, jusqu'à obtenir 1. Exemple pour 60 :<div class="schema"><svg viewBox="0 0 380 230" xmlns="http://www.w3.org/2000/svg" style="max-width:340px">
+  <line x1="70" y1="35" x2="35" y2="75" stroke="#4CAF7D" stroke-width="1.5"/>
+  <line x1="70" y1="35" x2="150" y2="75" stroke="#4CAF7D" stroke-width="1.5"/>
+  <line x1="150" y1="101" x2="150" y2="140" stroke="#4CAF7D" stroke-width="1.5"/>
+  <line x1="150" y1="101" x2="265" y2="140" stroke="#4CAF7D" stroke-width="1.5"/>
+  <line x1="265" y1="166" x2="265" y2="205" stroke="#4CAF7D" stroke-width="1.5"/>
+  <line x1="265" y1="166" x2="345" y2="205" stroke="#4CAF7D" stroke-width="1.5"/>
+  <rect x="45" y="12" width="50" height="26" rx="6" fill="#E9F7EF" stroke="#1E7A4C" stroke-width="1.5"/>
+  <text x="70" y="30" font-size="14" fill="#1E7A4C" text-anchor="middle" font-family="Baloo 2, sans-serif">60</text>
+  <rect x="10" y="75" width="50" height="26" rx="6" fill="#FFFFFF" stroke="#1E7A4C" stroke-width="1.5"/>
+  <text x="35" y="93" font-size="14" fill="#1E7A4C" text-anchor="middle" font-family="Baloo 2, sans-serif">2</text>
+  <rect x="125" y="75" width="50" height="26" rx="6" fill="#E9F7EF" stroke="#1E7A4C" stroke-width="1.5"/>
+  <text x="150" y="93" font-size="14" fill="#1E7A4C" text-anchor="middle" font-family="Baloo 2, sans-serif">30</text>
+  <rect x="125" y="140" width="50" height="26" rx="6" fill="#FFFFFF" stroke="#1E7A4C" stroke-width="1.5"/>
+  <text x="150" y="158" font-size="14" fill="#1E7A4C" text-anchor="middle" font-family="Baloo 2, sans-serif">2</text>
+  <rect x="240" y="140" width="50" height="26" rx="6" fill="#E9F7EF" stroke="#1E7A4C" stroke-width="1.5"/>
+  <text x="265" y="158" font-size="14" fill="#1E7A4C" text-anchor="middle" font-family="Baloo 2, sans-serif">15</text>
+  <rect x="240" y="205" width="50" height="26" rx="6" fill="#FFFFFF" stroke="#1E7A4C" stroke-width="1.5"/>
+  <text x="265" y="223" font-size="14" fill="#1E7A4C" text-anchor="middle" font-family="Baloo 2, sans-serif">3</text>
+  <rect x="320" y="205" width="50" height="26" rx="6" fill="#FFFFFF" stroke="#1E7A4C" stroke-width="1.5"/>
+  <text x="345" y="223" font-size="14" fill="#1E7A4C" text-anchor="middle" font-family="Baloo 2, sans-serif">5</text>
+</svg></div></div>
+  <div class="section-title">Exercices</div>
+
+    <div class="exo">
+      <div class="exo-title">★ Exercice</div>
+      <p>Décompose chacun de ces nombres en produit de facteurs premiers :<br><span class='q'>a) 12</span><br><span class='q'>b) 45</span><br><span class='q'>c) 28</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-0')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-0')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-0"><span class="label">Astuce</span>Divise par le plus petit nombre premier possible (2, puis 3, puis 5...), puis recommence avec le résultat jusqu'à arriver à 1.</div>
+      <div class="panel solution-panel" id="solution-0"><span class="label">Solution</span>a) 12 = 2 × 2 × 3 = <b>2² × 3</b>. b) 45 = 3 × 3 × 5 = <b>3² × 5</b> (45 n'est pas divisible par 2). c) 28 = 2 × 2 × 7 = <b>2² × 7</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★ Exercice</div>
+      <p>Complète chaque décomposition en facteurs premiers :<br><span class='q'>a) 56 = 2 × 2 × 2 × …</span><br><span class='q'>b) 99 = 3 × 3 × …</span><br><span class='q'>c) 75 = 3 × … × …</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-1')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-1')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-1"><span class="label">Astuce</span>Effectue la division pour trouver le nombre manquant, puis vérifie sur ta grille du crible que ce nombre est bien premier.</div>
+      <div class="panel solution-panel" id="solution-1"><span class="label">Solution</span>a) 2 × 2 × 2 = 8 et 56 ÷ 8 = 7 : 56 = 2 × 2 × 2 × <b>7</b> = 2³ × 7. b) 3 × 3 = 9 et 99 ÷ 9 = 11 : 99 = 3 × 3 × <b>11</b> = 3² × 11. c) 75 ÷ 3 = 25 = 5 × 5 : 75 = 3 × <b>5</b> × <b>5</b> = 3 × 5².</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★ Exercice</div>
+      <p>Dans l'autre sens : calcule la valeur de chaque nombre donné par sa décomposition.<br><span class='q'>a) 2² × 3 × 5</span><br><span class='q'>b) 3² × 7</span><br><span class='q'>c) 2³ × 3²</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-2')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-2')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-2"><span class="label">Astuce</span>2³ veut dire 2 × 2 × 2. Calcule d'abord les puissances, puis multiplie.</div>
+      <div class="panel solution-panel" id="solution-2"><span class="label">Solution</span>a) 4 × 3 × 5 = <b>60</b>. b) 9 × 7 = <b>63</b>. c) 8 × 9 = <b>72</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Décompose ces nombres en produit de facteurs premiers :<br><span class='q'>a) 84</span><br><span class='q'>b) 150</span><br><span class='q'>c) 360</span><br><span class='q'>d) 97</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-3')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-3')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-3"><span class="label">Astuce</span>Pour 150, pense à ce qui se passe quand un nombre finit par 0. Pour 97, regarde ta grille du crible : est-il barré ?</div>
+      <div class="panel solution-panel" id="solution-3"><span class="label">Solution</span>a) 84 = 2 × 2 × 3 × 7 = <b>2² × 3 × 7</b>. b) 150 = 2 × 3 × 5 × 5 = <b>2 × 3 × 5²</b>. c) 360 = 2 × 2 × 2 × 3 × 3 × 5 = <b>2³ × 3² × 5</b>. d) 97 est un nombre premier (il n'est pas barré sur la grille) : on ne peut pas le décomposer, <b>97 = 97</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Pour décomposer 72, Léa commence par 72 = 8 × 9 et Hugo par 72 = 6 × 12.<br><span class='q'>a) Termine la décomposition de Léa, puis celle de Hugo, jusqu'à n'avoir que des nombres premiers.</span><br><span class='q'>b) Écris chaque résultat avec des exposants. Que remarques-tu ?</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-4')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-4')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-4"><span class="label">Astuce</span>Décompose chaque facteur : 8 et 9 d'un côté, 6 et 12 de l'autre.</div>
+      <div class="panel solution-panel" id="solution-4"><span class="label">Solution</span>a) Léa : 72 = 8 × 9 = 2 × 2 × 2 × 3 × 3. Hugo : 72 = 6 × 12 = (2 × 3) × (2 × 2 × 3) = 2 × 2 × 2 × 3 × 3. b) Les deux trouvent <b>2³ × 3²</b>. Quelle que soit la façon de commencer, la décomposition en facteurs premiers d'un nombre est toujours la même (à l'ordre près).</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>On sait que 210 = 2 × 3 × 5 × 7. Sans poser de division, dis si 210 est divisible par :<br><span class='q'>a) 5</span><br><span class='q'>b) 14</span><br><span class='q'>c) 4</span><br><span class='q'>d) 15</span><br><span class='q'>e) 11</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-5')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-5')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-5"><span class="label">Astuce</span>Un nombre est divisible par un autre si tous les facteurs premiers du second se trouvent dans la décomposition du premier, avec au moins le même exposant.</div>
+      <div class="panel solution-panel" id="solution-5"><span class="label">Solution</span>a) <b>Oui</b> : 5 est un facteur de 210. b) <b>Oui</b> : 14 = 2 × 7, et 2 et 7 sont dans la décomposition. c) <b>Non</b> : 4 = 2 × 2, mais 210 ne contient qu'un seul facteur 2. d) <b>Oui</b> : 15 = 3 × 5. e) <b>Non</b> : 11 n'apparaît pas dans la décomposition.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice (question ouverte)</div>
+      <p>Trois élèves décomposent 60 :<br><span class='q'>Léa : 60 = 6 × 10</span><br><span class='q'>Hugo : 60 = 2 × 2 × 15</span><br><span class='q'>Inès : 60 = 2² × 3 × 5</span><br>Qui a écrit une décomposition <b>en facteurs premiers</b> ? Pour les autres, explique ce qui ne va pas et termine la décomposition.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-6')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-6')">✅ Piste de correction</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-6"><span class="label">Astuce</span>Pour chaque facteur écrit, demande-toi s'il est premier. Si non, la décomposition n'est pas terminée.</div>
+      <div class="panel solution-panel" id="solution-6"><span class="label">Piste de correction</span>Seule Inès a une décomposition en facteurs premiers. Chez Léa, 6 et 10 ne sont pas premiers (6 = 2 × 3 et 10 = 2 × 5). Chez Hugo, 15 n'est pas premier (15 = 3 × 5). Dans les deux cas, on termine avec 60 = 2 × 2 × 3 × 5 = <b>2² × 3 × 5</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>Un nombre est un carré parfait quand il s'écrit n × n (comme 36 = 6 × 6). Décompose chacun de ces nombres en facteurs premiers et regarde les exposants : lesquels sont des carrés parfaits ?<br><span class='q'>36 ; 72 ; 100 ; 180 ; 225</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-7')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-7')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-7"><span class="label">Astuce</span>Un carré parfait n × n contient chaque facteur premier un nombre pair de fois. Regarde les exposants de chaque décomposition.</div>
+      <div class="panel solution-panel" id="solution-7"><span class="label">Solution</span>36 = 2² × 3² (carré : 6 × 6). 72 = 2³ × 3² (exposant 3 impair : pas un carré). 100 = 2² × 5² (carré : 10 × 10). 180 = 2² × 3² × 5 (exposant 1 : pas un carré). 225 = 3² × 5² (carré : 15 × 15). Les carrés parfaits sont <b>36, 100 et 225</b> : tous leurs exposants sont pairs.</div>
+    </div><div class="advanced-title">Pour aller plus loin</div>
+    <div class="exo">
+      <div class="exo-title">★★★★ Exercice</div>
+      <p>Tu as déjà décomposé 12 = 2² × 3 et 84 = 2² × 3 × 7 dans les exercices précédents. Sans repartir de zéro, utilise directement ces deux décompositions pour donner celle de 12 × 84.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-8')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-8')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-8"><span class="label">Astuce</span>Tu n'as pas besoin de tout redécomposer depuis le début : combine simplement les deux décompositions déjà connues en additionnant les exposants des facteurs communs.</div>
+      <div class="panel solution-panel" id="solution-8"><span class="label">Solution</span>12 × 84 = (2² × 3) × (2² × 3 × 7) = <b>2⁴ × 3² × 7</b> (vérification : 12 × 84 = 1008, et 2⁴ × 3² × 7 = 16 × 9 × 7 = 1008 ✓).</div>
+    </div>
+  <footer>Cherche seul(e) d'abord. Utilise l'astuce si tu bloques, puis vérifie avec la solution.</footer>
+</div>
+<script>function toggle(id){document.getElementById(id).classList.toggle('show');}</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

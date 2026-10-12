@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 4 — Le pourcentage réciproque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@page { size: A4; margin: 10mm; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Work Sans', sans-serif;
+  color: #22303F;
+  background: #EFEAE0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.page {
+  max-width: 900px;
+  margin: 18px auto;
+  background: #FFFFFF;
+  border-radius: 18px;
+  padding: 26px 30px 24px;
+  box-shadow: 0 10px 30px rgba(34,48,63,0.12);
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 3px solid #22303F;
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+}
+.badge {
+  flex: 0 0 auto;
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: #22303F;
+  color: #D6C6FA;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-4deg);
+}
+h1 {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  margin: 0;
+  color: #22303F;
+  line-height: 1.15;
+}
+.subtitle { font-size: 13.5px; color: #6B7A8A; margin-top: 4px; font-weight: 500; }
+.objectifs {
+  background: #F4F1EA;
+  border-left: 6px solid #22303F;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+.objectifs b { color: #22303F; }
+.automatisme {
+  background: #EAF1FB;
+  border-left: 6px solid #2B6CB0;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 18px;
+}
+.automatisme h2 {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 15px;
+  color: #2B6CB0;
+  margin: 0 0 8px 0;
+}
+.automatisme ol { margin: 0; padding-left: 20px; font-size: 13px; }
+.automatisme li { margin-bottom: 2px; }
+.automatisme .corrige {
+  margin-top: 8px;
+  font-size: 12.5px;
+  font-style: italic;
+  color: #3B4C5E;
+  border-top: 1px dashed #B7CBE3;
+  padding-top: 6px;
+}
+.section-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 18px;
+  color: #22303F;
+  margin: 4px 0 12px 0;
+}
+.advanced-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 15px;
+  color: #5B21B6;
+  margin: 18px 0 10px 0;
+  padding-top: 12px;
+  border-top: 2px dashed #8B5CF6;
+}
+.challenge-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 15px;
+  color: #FFFFFF;
+  background: #5B21B6;
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin: 18px 0 10px 0;
+}
+.exo {
+  border: 2px solid #8B5CF6;
+  background: #F3ECFB;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+.exo-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #5B21B6;
+  margin-bottom: 4px;
+}
+.exo p { font-size: 13px; margin: 4px 0; line-height: 1.45; }
+.exo p.q { margin: 2px 0 2px 4px; }
+.schema {
+  background: #FFFFFF;
+  border-radius: 8px;
+  padding: 8px;
+  margin: 8px 0;
+  text-align: center;
+}
+.schema svg { max-width: 100%; height: auto; }
+.corrige-box {
+  margin-top: 8px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12.5px;
+  border: 1.5px dashed #8B5CF6;
+}
+.corrige-box .label {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  color: #5B21B6;
+  display: block;
+  margin-bottom: 3px;
+}
+footer {
+  margin-top: 16px;
+  font-size: 11.5px;
+  color: #8894A0;
+  border-top: 1.5px dashed #D8DEE4;
+  padding-top: 10px;
+}
+</style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="badge">S4</div>
+      <div>
+        <h1>Le pourcentage réciproque</h1>
+        <div class="subtitle">Chapitre 1 — Les pourcentages — 4e — Séance 4</div>
+      </div>
+    </header>
+
+    <div class="objectifs"><b>Objectifs :</b> retrouver une grandeur totale connaissant une partie et son pourcentage.</div>
+
+    <div class="automatisme">
+      <h2>Automatisme</h2>
+      <ol><li>5 − 9 =</li>
+<li>45 ÷ 3 =</li>
+<li>2 km = … m</li>
+<li>0,25 × 200 =</li>
+<li>12 × 5 =</li>
+<li>60 % = combien de dixièmes ?</li></ol>
+      <div class="corrige">Corrigé : −4 ; 15 ; 2 000 m ; 50 ; 60 ; 6/10</div>
+    </div>
+
+    <div class="section-title">Exercices</div>
+    
+        <div class="exo">
+          <div class="exo-title">★ Exercice</div>
+          <p>Léa a payé 35 € un jeu vidéo soldé à −30 % pendant les soldes d'hiver (elle a donc payé 70 % du prix initial). Quel était le prix initial du jeu ?</p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>35 ÷ 0,70 = <b>50 €</b>.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★ Exercice</div>
+          <p>Sur un serveur Discord de gaming, 180 membres sont des joueurs actifs, ce qui représente 60 % du nombre total de membres. Quel est le nombre total de membres du serveur ?</p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>180 ÷ 0,60 = <b>300 membres</b>.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★ Exercice</div>
+          <p>Un film a rapporté 3,4 millions d'euros lors de sa première semaine, ce qui correspond à 40 % de ses recettes totales prévues sur toute son exploitation en salles. Quelles sont les recettes totales prévues ?</p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>3,4 ÷ 0,40 = <b>8,5 millions d'euros</b>.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★ Exercice</div>
+          <p>Un jeu vidéo indépendant a vu ses ventes progresser de 25 % après une grosse mise à jour, ce qui correspond à 5 000 exemplaires vendus en plus.<br><span class='q'>a) Ces 5 000 exemplaires représentent quel pourcentage des ventes initiales ?</span><br><span class='q'>b) Combien d'exemplaires le jeu avait-il vendus avant la mise à jour ?</span></p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>a) 25 % (donné directement par l'énoncé : c'est le taux d'augmentation). b) 5000 correspond à 25 % des ventes initiales. Ventes initiales = 5000 ÷ 0,25 = <b>20 000 exemplaires</b>.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★ Exercice</div>
+          <p>Après une réduction de 15 % pendant le Black Friday, un casque gaming coûte maintenant 68 €. Quel était son prix avant la réduction ?</p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>68 correspond à 85 % du prix initial. 68 ÷ 0,85 = <b>80 €</b>.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★★ Exercice (question ouverte)</div>
+          <p>Un streamer affirme : « Ce mois-ci, mes dons représentent 12 % de mes revenus totaux, soit 240 €. » Un abonné calcule alors que ses revenus totaux sont de 2 000 €. Explique la démarche à suivre, avec le calcul complet, pour vérifier si son résultat est correct.</p>
+          
+          <div class="corrige-box"><span class="label">Piste de correction</span>Méthode : revenus totaux = partie ÷ (pourcentage ÷ 100) = 240 ÷ 0,12 = <b>2 000 €</b>. Le résultat de l'abonné est donc correct, et sa méthode aussi : diviser la partie connue par le pourcentage exprimé en écriture décimale permet de « remonter » à 100 % du total.</div>
+        </div><div class="advanced-title">Pour aller plus loin — exercices difficiles</div>
+        <div class="exo">
+          <div class="exo-title">★★★★ Exercice</div>
+          <p>Un influenceur culinaire gagne 15 % de commission sur les ventes générées par son code promo. Le mois dernier, sa commission s'élevait à 1 350 €.<br><span class='q'>a) Quel montant total de ventes son code a-t-il généré ?</span><br><span class='q'>b) Ce mois-ci, les ventes générées par son code ont augmenté de 20 % par rapport au mois dernier. Quel est le nouveau montant des ventes ?</span><br><span class='q'>c) Si sa commission reste de 15 %, quelle commission touchera-t-il ce mois-ci ?</span></p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>a) 1350 ÷ 0,15 = <b>9 000 €</b> de ventes. b) 9000 × 1,20 = <b>10 800 €</b>. c) 10800 × 0,15 = <b>1 620 € de commission</b>.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★★★ Exercice</div>
+          <p>Une boutique de mode en ligne applique une réduction de 20 %, suivie d'une réduction supplémentaire de 10 % sur le nouveau prix. Après ces deux réductions successives, un article coûte finalement 43,20 €. Quel était le prix initial de cet article ?</p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>Après les deux réductions, le prix initial a été multiplié par 0,80 puis par 0,90, soit par 0,80 × 0,90 = 0,72 au total. Prix initial = 43,20 ÷ 0,72 = <b>60 €</b>.</div>
+        </div>
+
+    <footer>Aucun exercice nouveau à la maison : reprends ces exercices déjà corrigés en classe. Les exercices « Pour aller plus loin » et « Encore plus loin » sont facultatifs, pour les élèves qui veulent aller plus loin.</footer>
+  </div>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

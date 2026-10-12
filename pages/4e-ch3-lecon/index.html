@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leçon — Divisibilité, nombres premiers (4e)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:'Work Sans',sans-serif; color:#22303F; background:#EFEAE0; padding:18px 12px 50px; }
+  .page { max-width:900px; margin:0 auto; background:#FFFFFF; border-radius:18px; padding:26px 30px 20px; box-shadow:0 10px 30px rgba(34,48,63,0.12); }
+  header { display:flex; align-items:center; gap:18px; border-bottom:3px solid #22303F; padding-bottom:14px; margin-bottom:16px; }
+  .badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:#22303F; color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:22px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+  h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:26px; margin:0; line-height:1.1; }
+  .subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+  .rappel { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:12.8px; }
+  .rappel b { color:#2B6CB0; }
+  .grid { overflow:hidden; }
+  .card:nth-child(2n) { margin-right:0; }
+  .card { float:left; width:47%; margin:0 3% 16px 0; border-radius:14px; padding:12px 15px 12px; border:2px solid transparent; box-sizing:border-box; }
+  .card h2 { font-family:'Baloo 2',sans-serif; font-size:15px; margin:0 0 6px 0; padding-left:10px; border-left:4px solid currentColor; }
+  .card p { font-size:12px; margin:4px 0; line-height:1.4; }
+  .formula { font-family:'Baloo 2',sans-serif; font-weight:600; font-size:12.5px; background:#FFFFFF; border-radius:8px; padding:6px 9px; margin:5px 0; display:inline-block; }
+  .example { font-size:11px; color:#445263; font-style:italic; }
+  .c1 { background:#FEF2E3; border-color:#F0B25B; } .c1 h2 { color:#B5680A; } .c1 .formula { border:1.5px solid #F0B25B; }
+  .c2 { background:#E9F7EF; border-color:#4CAF7D; } .c2 h2 { color:#1E7A4C; } .c2 .formula { border:1.5px solid #4CAF7D; }
+  .c3 { background:#F3ECFB; border-color:#8B5CF6; } .c3 h2 { color:#5B21B6; } .c3 .formula { border:1.5px solid #8B5CF6; }
+  .c4 { background:#FDEBEC; border-color:#E5544F; } .c4 h2 { color:#B5322E; } .c4 .formula { border:1.5px solid #E5544F; }
+
+  .calc { background:#FFFFFF; border-radius:9px; padding:8px 10px; margin-top:8px; }
+  .calc .calc-title { font-family:'Baloo 2',sans-serif; font-size:10.5px; color:#6B7A8A; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.02em; }
+  .calc-row { display:flex; align-items:center; gap:5px; flex-wrap:wrap; font-size:11.5px; margin-bottom:5px; }
+  .calc-row input[type=number] { width:64px; padding:3px 5px; border-radius:6px; border:1.5px solid #C9C2B4; font-family:'Baloo 2',sans-serif; font-size:12px; }
+  .calc-btn { font-family:'Baloo 2',sans-serif; font-size:10.5px; padding:4px 10px; border-radius:12px; border:none; cursor:pointer; color:#fff; }
+  .c1 .calc-btn { background:#B5680A; } .c2 .calc-btn { background:#1E7A4C; }
+  .c3 .calc-btn { background:#5B21B6; } .c4 .calc-btn { background:#B5322E; }
+  .calc-result { font-family:'Baloo 2',sans-serif; font-size:12px; margin-top:3px; min-height:16px; }
+  .c1 .calc-result { color:#B5680A; } .c2 .calc-result { color:#1E7A4C; }
+  .c3 .calc-result { color:#5B21B6; } .c4 .calc-result { color:#B5322E; }
+
+  footer { clear:both; margin-top:6px; font-size:11px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:8px; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="badge">÷</div>
+      <div>
+        <h1>Divisibilité et nombres premiers</h1>
+        <div class="subtitle">Chapitre 3 — Classe de 4e — Fiche leçon interactive</div>
+      </div>
+    </header>
+
+    <div class="rappel">
+      <b>Rappel (déjà vu en 5e/6e) :</b> dire que <i>a</i> est un <b>multiple</b> de <i>b</i> revient à dire que <i>b</i> est un <b>diviseur</b> de <i>a</i>, ou que <i>a</i> est <b>divisible</b> par <i>b</i>. Critères de divisibilité : par <b>2</b> (chiffre des unités pair), <b>5</b> (unités = 0 ou 5), <b>10</b> (unités = 0), <b>3</b> et <b>9</b> (somme des chiffres divisible par 3, ou par 9), <b>4</b> (nombre formé par les 2 derniers chiffres divisible par 4).
+    </div>
+
+    <div class="grid">
+      <div class="card c1">
+        <h2>Les nombres premiers</h2>
+        <p>Un nombre premier n'a exactement <b>2 diviseurs</b> : 1 et lui-même.</p>
+        <div class="formula">2, 3, 5, 7, 11, 13, 17, 19, 23...</div>
+        <p class="example">Méthode : on teste si le nombre est divisible par 2, 3, 5, 7... Si aucun nombre premier plus petit ne le divise, il est premier.</p>
+        <div class="calc">
+          <div class="calc-title">Teste un nombre</div>
+          <div class="calc-row">
+            <input type="number" id="p-n" value="91">
+            <button class="calc-btn" onclick="testPrime()">Premier ?</button>
+          </div>
+          <div class="calc-result" id="p-r"></div>
+        </div>
+      </div>
+
+      <div class="card c2">
+        <h2>Décomposition en facteurs premiers</h2>
+        <p>Tout nombre entier peut s'écrire comme un produit de nombres premiers.</p>
+        <div class="formula">60 = 2 × 2 × 3 × 5 = 2² × 3 × 5</div>
+        <p class="example">Méthode : diviser successivement par le plus petit nombre premier possible, jusqu'à obtenir 1.</p>
+        <div class="calc">
+          <div class="calc-title">Décompose un nombre</div>
+          <div class="calc-row">
+            <input type="number" id="d-n" value="60">
+            <button class="calc-btn" onclick="decompose()">Décomposer</button>
+          </div>
+          <div class="calc-result" id="d-r"></div>
+        </div>
+      </div>
+
+      <div class="card c3">
+        <h2>Simplifier une fraction</h2>
+        <p>On décompose le numérateur et le dénominateur, puis on simplifie par les facteurs premiers communs.</p>
+        <div class="formula">60/84 = (2²×3×5)/(2²×3×7) = 5/7</div>
+        <p class="example">La fraction est irréductible quand il ne reste plus aucun facteur premier commun.</p>
+        <div class="calc">
+          <div class="calc-title">Simplifie une fraction</div>
+          <div class="calc-row">
+            <input type="number" id="f-a" value="60"> / <input type="number" id="f-b" value="84">
+            <button class="calc-btn" onclick="simplify()">Simplifier</button>
+          </div>
+          <div class="calc-result" id="f-r"></div>
+        </div>
+      </div>
+
+      <div class="card c4">
+        <h2>Problèmes de répartition</h2>
+        <p>Pour répartir en lots identiques (sans reste), on cherche le <b>plus grand nombre qui divise les deux quantités</b>.</p>
+        <div class="formula">On décompose les 2 nombres, on multiplie leurs facteurs premiers communs</div>
+        <p class="example">Ex. : 12 roses et 18 tulipes → 12=2²×3, 18=2×3² → facteurs communs 2×3=6 → 6 bouquets max.</p>
+        <div class="calc">
+          <div class="calc-title">Calcule le nombre max de lots</div>
+          <div class="calc-row">
+            <input type="number" id="r-a" value="12"> et <input type="number" id="r-b" value="18">
+            <button class="calc-btn" onclick="repartition()">Calculer</button>
+          </div>
+          <div class="calc-result" id="r-r"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer>Cahier de leçons — Chapitre 3 — Divisibilité et nombres premiers. Modifie les nombres pour t'entraîner avec tes propres valeurs.</footer>
+  </div>
+
+<script>
+function isPrime(n){
+  if (n < 2) return false;
+  for (let i=2; i*i<=n; i++) if (n%i===0) return false;
+  return true;
+}
+function primeFactors(n){
+  const factors = [];
+  let m = n;
+  for (let p=2; p*p<=m; p++){
+    while (m % p === 0) { factors.push(p); m = m/p; }
+  }
+  if (m > 1) factors.push(m);
+  return factors;
+}
+function factorsToString(factors){
+  const counts = {};
+  factors.forEach(f => counts[f] = (counts[f]||0)+1);
+  return Object.keys(counts).sort((a,b)=>a-b).map(k => counts[k]>1 ? `${k}<sup>${counts[k]}</sup>` : `${k}`).join(' × ');
+}
+function gcd(a,b){ a=Math.abs(a); b=Math.abs(b); while(b){ [a,b]=[b, a%b]; } return a; }
+
+function testPrime(){
+  const n = parseInt(document.getElementById('p-n').value);
+  const el = document.getElementById('p-r');
+  if (isNaN(n) || n<1) { el.textContent = "Entre un nombre entier positif."; return; }
+  if (n===1){ el.textContent = "1 n'est ni premier ni composé (il n'a qu'un seul diviseur)."; return; }
+  if (isPrime(n)) { el.textContent = `${n} est premier ✅ (aucun diviseur trouvé entre 2 et √${n})`; }
+  else {
+    const f = primeFactors(n);
+    el.textContent = `${n} n'est pas premier ❌ : ${n} = ${f.join(' × ')}`;
+  }
+}
+function decompose(){
+  const n = parseInt(document.getElementById('d-n').value);
+  const el = document.getElementById('d-r');
+  if (isNaN(n) || n<2) { el.textContent = "Entre un nombre entier ≥ 2."; return; }
+  const f = primeFactors(n);
+  el.innerHTML = `${n} = ${factorsToString(f)}`;
+}
+function simplify(){
+  const a = parseInt(document.getElementById('f-a').value);
+  const b = parseInt(document.getElementById('f-b').value);
+  const el = document.getElementById('f-r');
+  if (isNaN(a) || isNaN(b) || b===0) { el.textContent = "Entre deux entiers (dénominateur ≠ 0)."; return; }
+  const g = gcd(a,b);
+  el.innerHTML = `${a}/${b} = <b>${a/g}/${b/g}</b> (on a divisé par ${g})`;
+}
+function repartition(){
+  const a = parseInt(document.getElementById('r-a').value);
+  const b = parseInt(document.getElementById('r-b').value);
+  const el = document.getElementById('r-r');
+  if (isNaN(a) || isNaN(b)) { el.textContent = "Entre deux entiers."; return; }
+  const g = gcd(a,b);
+  el.innerHTML = `Maximum <b>${g} lots</b>, chacun avec ${a/g} et ${b/g}.`;
+}
+testPrime(); decompose(); simplify(); repartition();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

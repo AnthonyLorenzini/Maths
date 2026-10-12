@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 2 — Calculer et appliquer un pourcentage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@page { size: A4; margin: 10mm; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Work Sans', sans-serif;
+  color: #22303F;
+  background: #EFEAE0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.page {
+  max-width: 900px;
+  margin: 18px auto;
+  background: #FFFFFF;
+  border-radius: 18px;
+  padding: 26px 30px 24px;
+  box-shadow: 0 10px 30px rgba(34,48,63,0.12);
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 3px solid #22303F;
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+}
+.badge {
+  flex: 0 0 auto;
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: #22303F;
+  color: #7EE2AC;
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-4deg);
+}
+h1 {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  margin: 0;
+  color: #22303F;
+  line-height: 1.15;
+}
+.subtitle { font-size: 13.5px; color: #6B7A8A; margin-top: 4px; font-weight: 500; }
+.objectifs {
+  background: #F4F1EA;
+  border-left: 6px solid #22303F;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+.objectifs b { color: #22303F; }
+.automatisme {
+  background: #EAF1FB;
+  border-left: 6px solid #2B6CB0;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 18px;
+}
+.automatisme h2 {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 15px;
+  color: #2B6CB0;
+  margin: 0 0 8px 0;
+}
+.automatisme ol { margin: 0; padding-left: 20px; font-size: 13px; }
+.automatisme li { margin-bottom: 2px; }
+.automatisme .corrige {
+  margin-top: 8px;
+  font-size: 12.5px;
+  font-style: italic;
+  color: #3B4C5E;
+  border-top: 1px dashed #B7CBE3;
+  padding-top: 6px;
+}
+.section-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 18px;
+  color: #22303F;
+  margin: 4px 0 12px 0;
+}
+.advanced-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 15px;
+  color: #1E7A4C;
+  margin: 18px 0 10px 0;
+  padding-top: 12px;
+  border-top: 2px dashed #4CAF7D;
+}
+.challenge-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 15px;
+  color: #FFFFFF;
+  background: #1E7A4C;
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin: 18px 0 10px 0;
+}
+.exo {
+  border: 2px solid #4CAF7D;
+  background: #E9F7EF;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+.exo-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #1E7A4C;
+  margin-bottom: 4px;
+}
+.exo p { font-size: 13px; margin: 4px 0; line-height: 1.45; }
+.exo p.q { margin: 2px 0 2px 4px; }
+.schema {
+  background: #FFFFFF;
+  border-radius: 8px;
+  padding: 8px;
+  margin: 8px 0;
+  text-align: center;
+}
+.schema svg { max-width: 100%; height: auto; }
+.corrige-box {
+  margin-top: 8px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12.5px;
+  border: 1.5px dashed #4CAF7D;
+}
+.corrige-box .label {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  color: #1E7A4C;
+  display: block;
+  margin-bottom: 3px;
+}
+footer {
+  margin-top: 16px;
+  font-size: 11.5px;
+  color: #8894A0;
+  border-top: 1.5px dashed #D8DEE4;
+  padding-top: 10px;
+}
+</style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="badge">S2</div>
+      <div>
+        <h1>Calculer et appliquer un pourcentage</h1>
+        <div class="subtitle">Chapitre 1 — Les pourcentages — 4e — Séance 2</div>
+      </div>
+    </header>
+
+    <div class="objectifs"><b>Objectifs :</b> calculer un pourcentage d'une quantité ; trouver le pourcentage que représente une partie ; appliquer un taux d'augmentation ou de réduction (TVA, soldes).</div>
+
+    <div class="automatisme">
+      <h2>Automatisme</h2>
+      <ol><li>−12 + 5 =</li>
+<li>Aire d'un rectangle de 4 cm sur 3 cm =</li>
+<li>1/4 de 200 =</li>
+<li>250 mL + 0,5 L = … mL</li>
+<li>90 × 1,1 =</li>
+<li>La moitié de 96 =</li></ol>
+      <div class="corrige">Corrigé : −7 ; 12 cm² ; 50 ; 750 mL ; 99 ; 48</div>
+    </div>
+
+    <div class="section-title">Exercices</div>
+    
+        <div class="exo">
+          <div class="exo-title">★ Exercice</div>
+          <p>Sur une plateforme de streaming musical, un titre a été écouté 4 500 000 fois la semaine de sa sortie. 18 % de ces écoutes proviennent de France. Combien d'écoutes proviennent de France ?</p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>4 500 000 × 0,18 = <b>810 000 écoutes</b>.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★ Exercice</div>
+          <p>Un jeu de combat propose 24 personnages jouables, dont 9 sont des personnages secrets à débloquer.<br><span class='q'>a) Quel pourcentage de personnages sont secrets ?</span><br><span class='q'>b) Une mise à jour ajoute 6 nouveaux personnages, tous secrets. Quel est le nouveau pourcentage de personnages secrets ?</span></p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>a) 9 ÷ 24 × 100 = <b>37,5 %</b>. b) Total = 30 personnages, dont 15 secrets. 15 ÷ 30 × 100 = <b>50 %</b>.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★ Exercice</div>
+          <p>Un skin légendaire coûte habituellement 2 000 V-bucks. Pendant un event, il est proposé avec −30 %.<br><span class='q'>a) Quelle est la réduction en V-bucks ?</span><br><span class='q'>b) Quel est le nouveau prix ?</span></p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>a) 2000 × 0,30 = 600 V-bucks. b) 2000 − 600 = <b>1 400 V-bucks</b>.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★ Exercice</div>
+          <p>Un abonnement de streaming coûte 5 € HT par mois. La TVA est de 20 %. Calcule le prix TTC payé par l'abonné.</p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>TVA = 5 × 0,20 = 1 €. TTC = 5 + 1 = <b>6 €</b>.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★★ Exercice</div>
+          <p>Une boutique en ligne fait une offre flash sur une console à 300 € : −20 % le premier jour, puis encore −10 % sur le nouveau prix le deuxième jour.<br><span class='q'>a) Quel est le prix après la première réduction ?</span><br><span class='q'>b) Quel est le prix final après la seconde réduction ?</span><br><span class='q'>c) Un camarade affirme que cumuler −20 % puis −10 % revient au même qu'une réduction unique de −30 %. A-t-il raison ? Justifie par un calcul.</span></p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>a) 300 × 0,80 = 240 €. b) 240 × 0,90 = <b>216 €</b>. c) Une réduction unique de 30 % donnerait 300 × 0,70 = 210 € ≠ 216 €. <b>Il a tort</b> : les réductions successives ne s'additionnent pas directement.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★★ Exercice (question ouverte)</div>
+          <p>Sur sa chaîne gaming, Nina a 8 000 abonnés. Elle affirme : « Si je gagne 25 % d'abonnés en plus ce mois-ci, puis que j'en perds 25 % le mois suivant, je reviendrai exactement à 8 000 abonnés. » A-t-elle raison ? Justifie par un calcul, puis explique avec tes mots pourquoi augmenter puis diminuer du même pourcentage ne ramène pas toujours à la valeur de départ.</p>
+          
+          <div class="corrige-box"><span class="label">Piste de correction</span>Après +25 % : 8000 × 1,25 = 10 000. Après −25 % : 10 000 × 0,75 = 7 500 ≠ 8 000. <b>Elle a tort.</b> Explication attendue : les 25 % ne portent pas sur le même nombre à chaque fois — la baisse s'applique à 10 000 (donc 2 500 abonnés en moins), alors que la hausse n'avait ajouté que 2 000 abonnés (25 % de 8 000). C'est pour cela que le solde final est négatif.</div>
+        </div><div class="advanced-title">Pour aller plus loin — exercices difficiles</div>
+        <div class="exo">
+          <div class="exo-title">★★★★ Exercice</div>
+          <p>Dans un restaurant, l'addition d'un repas est de 64 € HT. La TVA sur la restauration est de 10 %. Le groupe décide en plus de laisser un pourboire de 8 % calculé sur le montant TTC.<br><span class='q'>a) Calcule le montant TTC de l'addition.</span><br><span class='q'>b) Calcule le montant du pourboire.</span><br><span class='q'>c) Quel est le montant total finalement payé (addition + pourboire) ?</span><br><span class='q'>d) Si le groupe avait plutôt calculé le pourboire sur le montant HT, quelle différence cela aurait-il fait sur le total payé ?</span></p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>a) TVA = 64 × 0,10 = 6,40 €. TTC = <b>70,40 €</b>. b) Pourboire = 70,40 × 0,08 ≈ <b>5,63 €</b>. c) Total = 70,40 + 5,63 = <b>76,03 €</b>. d) Pourboire sur le HT : 64 × 0,08 = 5,12 €, total = 70,40 + 5,12 = 75,52 €. Différence ≈ <b>0,51 € de plus</b> en calculant le pourboire sur le TTC.</div>
+        </div>
+        <div class="exo">
+          <div class="exo-title">★★★★ Exercice</div>
+          <p>Un pack de jeux vidéo contient 3 titres normalement vendus à 12 €, 18 € et 25 € séparément. Le pack est proposé avec une réduction globale de 35 % sur le total.<br><span class='q'>a) Quel est le prix total si les 3 jeux sont achetés séparément ?</span><br><span class='q'>b) Quel est le prix du pack avec la réduction ?</span><br><span class='q'>c) Un joueur n'est intéressé que par les 2 jeux les moins chers. Acheter le pack complet reste-t-il plus avantageux que d'acheter seulement ces 2 jeux séparément (sans réduction) ? Justifie par un calcul.</span></p>
+          
+          <div class="corrige-box"><span class="label">Corrigé</span>a) 12 + 18 + 25 = <b>55 €</b>. b) 55 × 0,65 = <b>35,75 €</b>. c) Les 2 jeux les moins chers séparément : 12 + 18 = 30 €. Le pack coûte 35,75 €, donc <b>plus cher</b> que les 2 jeux seuls malgré la réduction de 35 % : le joueur paierait pour un jeu dont il ne se sert pas.</div>
+        </div>
+
+    <footer>Aucun exercice nouveau à la maison : reprends ces exercices déjà corrigés en classe. Les exercices « Pour aller plus loin » et « Encore plus loin » sont facultatifs, pour les élèves qui veulent aller plus loin.</footer>
+  </div>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini-jeux — Divisibilité et nombres premiers (4e)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange-b: #F0B25B; --orange-bg: #FEF2E3; --orange-t: #B5680A;
+    --green-b: #4CAF7D; --green-bg: #E9F7EF; --green-t: #1E7A4C;
+    --purple-b: #8B5CF6; --purple-bg: #F3ECFB; --purple-t: #5B21B6;
+    --red-b: #E5544F; --red-bg: #FDEBEC; --red-t: #B5322E;
+    --ink: #22303F;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+  .wrap { max-width: 780px; margin: 0 auto; }
+  header { text-align:center; margin-bottom:20px; }
+  h1 { font-family:'Baloo 2',sans-serif; font-size:24px; margin:0 0 4px 0; }
+  header p { color:#6B7A8A; margin:0; font-size:14px; }
+  .tabs { display:flex; gap:8px; justify-content:center; margin-bottom:18px; flex-wrap:wrap; }
+  .tab-btn { font-family:'Baloo 2',sans-serif; font-size:13px; padding:8px 14px; border-radius:20px; border:2px solid var(--ink); background:#fff; cursor:pointer; color:var(--ink); }
+  .tab-btn.active { background:var(--ink); color:#fff; }
+  .game { display:none; background:#fff; border-radius:18px; padding:22px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+  .game.active { display:block; }
+  .game h2 { font-family:'Baloo 2',sans-serif; font-size:20px; margin:0 0 6px 0; }
+  .game .desc { font-size:13px; color:#6B7A8A; margin-bottom:16px; }
+  .scorebar { display:flex; justify-content:space-between; align-items:center; font-family:'Baloo 2',sans-serif; font-size:14px; margin-bottom:14px; background:#F4F1EA; border-radius:10px; padding:8px 14px; flex-wrap:wrap; gap:6px; }
+  .scorebar span b { color:var(--ink); }
+  .action-btn { font-family:'Baloo 2',sans-serif; font-size:14px; padding:8px 18px; border-radius:20px; border:none; background:var(--ink); color:#fff; cursor:pointer; margin-top:10px; display:block; margin-left:auto; margin-right:auto; }
+
+  /* Premier ou pas (chrono) */
+  .prime-timer { font-family:'Baloo 2',sans-serif; font-size:30px; color:var(--orange-t); text-align:center; margin-bottom:8px; }
+  .prime-number { font-family:'Baloo 2',sans-serif; font-size:48px; text-align:center; background:var(--orange-bg); border:2px solid var(--orange-b); border-radius:16px; padding:24px; margin-bottom:16px; }
+  .prime-buttons { display:flex; gap:12px; justify-content:center; }
+  .prime-btn { font-family:'Baloo 2',sans-serif; font-size:16px; padding:12px 24px; border-radius:14px; border:2px solid var(--ink); background:#fff; cursor:pointer; }
+  .prime-btn.yes { border-color:var(--green-b); color:var(--green-t); }
+  .prime-btn.no { border-color:var(--red-b); color:var(--red-t); }
+  .prime-result { text-align:center; margin-top:12px; font-size:14px; min-height:20px; }
+
+  /* Decompose-moi (visuel) */
+  .decomp-tree-wrap { background:#fff; border:2px solid var(--green-b); border-radius:14px; padding:12px; margin-bottom:14px; text-align:center; overflow-x:auto; }
+  .decomp-tree-wrap svg { max-width:100%; }
+  .decomp-msg { font-size:13.5px; min-height:20px; margin-bottom:6px; text-align:center; font-weight:600; }
+  .decomp-options { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:8px; }
+  .decomp-opt { font-family:'Baloo 2',sans-serif; font-size:18px; width:52px; height:52px; border-radius:50%; border:2px solid var(--green-b); background:#fff; cursor:pointer; }
+  .decomp-opt.correct { background:#E9F7EF; border-color:#4CAF7D; }
+  .decomp-opt.wrong { background:#FDEBEC; border-color:#E5544F; }
+
+  /* Trouve le partage (exploration) */
+  .partage-scene { background:var(--purple-bg); border:2px solid var(--purple-b); border-radius:16px; padding:18px; margin-bottom:14px; }
+  .partage-icon { font-size:36px; text-align:center; margin-bottom:4px; }
+  .partage-qtext { font-size:14.5px; font-weight:600; margin-bottom:12px; text-align:center; }
+  .partage-stepper { display:flex; align-items:center; justify-content:center; gap:14px; margin-bottom:16px; }
+  .partage-stepper button { font-family:'Baloo 2',sans-serif; font-size:20px; width:38px; height:38px; border-radius:50%; border:2px solid var(--purple-b); background:#fff; cursor:pointer; }
+  .partage-stepper .n-display { font-family:'Baloo 2',sans-serif; font-size:24px; min-width:90px; text-align:center; }
+  .pile-block { margin-bottom:12px; }
+  .pile-label { font-size:12.5px; color:#5B21B6; margin-bottom:4px; font-weight:600; }
+  .pile-groups { display:flex; flex-wrap:wrap; gap:6px; }
+  .group-box { border:2px solid #8B5CF6; border-radius:8px; padding:4px 6px; background:#fff; display:flex; flex-wrap:wrap; gap:2px; align-content:flex-start; min-width:34px; min-height:34px; }
+  .group-box.reste { border:2px dashed #E5544F; background:#FDEBEC; }
+  .dot { width:8px; height:8px; border-radius:50%; background:#8B5CF6; }
+  .dot.b { background:#EE8A85; }
+  .reste-label { font-size:10px; color:#B5322E; width:100%; text-align:center; }
+  .partage-status { text-align:center; font-family:'Baloo 2',sans-serif; font-size:15px; margin:10px 0; min-height:24px; }
+  .partage-status.ok { color:#1E7A4C; }
+  .partage-status.bad { color:#B5322E; }
+  .partage-validate-row { display:flex; gap:10px; justify-content:center; margin-top:8px; }
+  .partage-btn { font-family:'Baloo 2',sans-serif; font-size:14px; padding:9px 18px; border-radius:20px; border:2px solid var(--ink); background:#fff; color:var(--ink); cursor:pointer; }
+  .partage-btn.primary { background:var(--ink); color:#fff; border:none; }
+  .partage-feedback { margin-top:12px; font-size:14px; min-height:24px; font-family:'Baloo 2',sans-serif; text-align:center; }
+  .partage-feedback.good { color:#1E7A4C; }
+  .partage-feedback.bad { color:#B5322E; }
+
+  /* ---- Crible d'Ératosthène (chapitre 3) ---- */
+  #game-crible { --c2:#F0B25B; --c2bg:#FEF2E3; --c3:#2B6CB0; --c3bg:#E3EEFA; --c5:#4CAF7D; --c5bg:#E9F7EF; --c7:#8B5CF6; --c7bg:#F3ECFB; --gold:#D9A400; --goldbg:#FFF1B8; }
+  #game-crible [hidden] { display: none !important; }
+  .cr-instr { background:#F4F1EA; border:2px solid var(--ink); border-radius:12px; padding:12px 16px; font-size:15px; font-weight:500; margin-bottom:10px; }
+  .cr-instr b { font-weight:700; }
+  .cr-instr small { display:block; font-weight:500; font-size:12.5px; color:#5B6A7A; margin-top:3px; }
+  .cr-legend { display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12px; color:#4A5968; margin-bottom:10px; }
+  .cr-legend span { display:inline-flex; align-items:center; gap:5px; }
+  .cr-legend i { width:14px; height:14px; border-radius:4px; border:2px solid #C4C4C4; display:inline-block; }
+  .cr-grid { display:grid; grid-template-columns:repeat(10, minmax(0, 1fr)); gap:3px; max-width:540px; margin:0 auto 10px; }
+  .cr-cell { aspect-ratio:1; min-width:0; padding:0; font-family:'Baloo 2', sans-serif; font-size:clamp(11px, 3.1vw, 17px); line-height:1; border-radius:7px; border:2px solid #D9D2C3; background:#F4F1EA; color:var(--ink); cursor:pointer; transition:background .15s; }
+  .cr-cell:hover { background:#fff; }
+  .cr-cell:focus-visible { outline:3px solid var(--ink); outline-offset:1px; }
+  .cr-cell.x { color:#6F7C8A; text-decoration:line-through; text-decoration-thickness:2px; }
+  .cr-cell.x1 { background:#E4E4E4; border-color:#C4C4C4; }
+  .cr-cell.x2 { background:var(--c2bg); border-color:var(--c2); }
+  .cr-cell.x3 { background:var(--c3bg); border-color:var(--c3); }
+  .cr-cell.x5 { background:var(--c5bg); border-color:var(--c5); }
+  .cr-cell.x7 { background:var(--c7bg); border-color:var(--c7); }
+  .cr-cell.ring { background:var(--goldbg); border:3px solid var(--gold); color:var(--ink); font-weight:700; text-decoration:none; }
+  .cr-cell.sel { box-shadow:0 0 0 3px var(--ink); }
+  .cr-cell.shake { animation:crShake .35s; border-color:var(--red-b); background:var(--red-bg); }
+  @keyframes crShake { 0%,100% { transform:translateX(0); } 25% { transform:translateX(-4px); } 75% { transform:translateX(4px); } }
+  @media (prefers-reduced-motion: reduce) { .cr-cell.shake { animation:none; } }
+  .cr-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:6px; }
+  .cr-actions .action-btn, #game-crible .action-btn { margin-top:0; }
+  #game-crible .action-btn:disabled { opacity:.4; cursor:default; }
+  .cr-end { margin-top:16px; background:var(--goldbg); border:2px solid var(--gold); border-radius:14px; padding:14px 16px; font-size:14px; }
+  .cr-primes-line { margin-bottom:8px; line-height:1.5; }
+  .cr-rule { font-weight:600; margin-bottom:8px; }
+  .cr-info { background:#fff; border-radius:10px; padding:8px 12px; margin-bottom:10px; font-size:13.5px; min-height:20px; }
+  .cr-why { margin-top:10px; background:#fff; border:1.5px dashed var(--gold); border-radius:10px; padding:10px 12px; font-size:13px; line-height:1.5; }
+
+  #game-crible .feedback { margin-top:12px; font-size:13.5px; min-height:20px; }
+  #game-crible .feedback.good { color:#1E7A4C; font-weight:600; }
+  #game-crible .feedback.bad { color:#B5322E; font-weight:600; }
+  #game-crible .action-btn { display:inline-block; margin:0; }
+
+footer { text-align:center; margin-top:20px; font-size:11.5px; color:#8894A0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Mini-jeux — Divisibilité et nombres premiers</h1>
+    <p>Chapitre 3 — 4e — entraînement libre, à volonté</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showGame('crible', event)">🔎 Crible d'Ératosthène</button>
+    <button class="tab-btn" onclick="showGame('prime', event)">🔢 Premier ou pas ?</button>
+    <button class="tab-btn" onclick="showGame('decomp', event)">🌳 Décompose-moi</button>
+    <button class="tab-btn" onclick="showGame('partage', event)">💐 Trouve le partage</button>
+  </div>
+
+  <!-- CRIBLE D'ERATOSTHENE (chapitre 3) -->
+  <div class="game active" id="game-crible">
+    <h2>Crible d'Ératosthène</h2>
+    <div class="desc">Chapitre 3 — Reconstitue le crible comme sur papier : à chaque étape, entoure le premier nombre non barré, puis barre tous ses multiples. Tu peux aussi regarder l'animation.</div>
+    <div class="scorebar">
+      <span>Barrés : <b id="cr-crossed">0</b></span>
+      <span>Nombres premiers repérés : <b id="cr-found">0</b></span>
+      <span>Erreurs : <b id="cr-errors">0</b></span>
+    </div>
+    <div class="cr-instr" id="cr-instr"></div>
+    <div class="cr-legend">
+      <span><i style="background:#E4E4E4"></i>le nombre 1</span>
+      <span><i style="background:var(--c2bg);border-color:var(--c2)"></i>multiples de 2</span>
+      <span><i style="background:var(--c3bg);border-color:var(--c3)"></i>multiples de 3</span>
+      <span><i style="background:var(--c5bg);border-color:var(--c5)"></i>multiples de 5</span>
+      <span><i style="background:var(--c7bg);border-color:var(--c7)"></i>multiples de 7</span>
+      <span><i style="background:var(--goldbg);border-color:var(--gold)"></i>nombre premier</span>
+    </div>
+    <div class="cr-grid" id="cr-grid" role="group" aria-label="Grille des nombres de 1 à 100"></div>
+    <div class="feedback" id="cr-fb" aria-live="polite"></div>
+    <div class="cr-actions">
+      <button type="button" class="action-btn" id="cr-step">👀 Montre-moi l'étape</button>
+      <button type="button" class="action-btn" id="cr-play">▶ Tout le crible</button>
+      <button type="button" class="action-btn" id="cr-reset">↺ Recommencer</button>
+    </div>
+    <div class="cr-end" id="cr-end" hidden>
+      <div class="cr-primes-line"><b><span id="cr-count">25</span> nombres premiers inférieurs à 100 :</b> <span id="cr-primes"></span></div>
+      <div class="cr-rule">Un nombre premier a exactement deux diviseurs : 1 et lui-même.</div>
+      <div class="cr-info" id="cr-info"></div>
+      <button type="button" class="action-btn" id="cr-why-btn">🤔 Pourquoi s'arrêter à 7 ?</button>
+      <div class="cr-why" id="cr-why" hidden>Le prochain nombre non barré serait 11. Ses multiples 22, 33, 44, 55, 66, 77, 88 et 99 sont déjà tous barrés : 22 = 2 × 11, 33 = 3 × 11, 55 = 5 × 11 et 77 = 7 × 11 ont été barrés avec les multiples de 2, 3, 5 et 7 ; 44, 66 et 88 sont pairs ; 99 est un multiple de 3. Le premier multiple de 11 qui ne serait pas déjà barré est 11 × 11 = 121, qui dépasse 100. Il n'y a donc plus rien à barrer.</div>
+    </div>
+  </div>
+
+  <!-- PREMIER OU PAS (CHRONO 1 MIN) -->
+  <div class="game" id="game-prime">
+    <h2>Premier ou pas ?</h2>
+    <div class="desc">Tu as <b>1 minute</b>. Un nombre s'affiche : clique le plus vite possible "Premier" ou "Pas premier".</div>
+    <div class="scorebar">
+      <span>Bonnes réponses : <b id="prime-score">0</b></span>
+      <span>Tentées : <b id="prime-attempts">0</b></span>
+    </div>
+    <div class="prime-timer" id="prime-timer">1:00</div>
+    <div class="prime-number" id="prime-number">Clique sur "Commencer"</div>
+    <div class="prime-buttons" id="prime-buttons" style="visibility:hidden">
+      <button class="prime-btn yes" onclick="answerPrime(true)">Premier</button>
+      <button class="prime-btn no" onclick="answerPrime(false)">Pas premier</button>
+    </div>
+    <div class="prime-result" id="prime-result"></div>
+    <button class="action-btn" id="prime-btn-start" onclick="startPrime()">Commencer</button>
+  </div>
+
+  <!-- DECOMPOSE-MOI (VISUEL) -->
+  <div class="game" id="game-decomp">
+    <h2>Décompose-moi</h2>
+    <div class="desc">À chaque étape, clique sur le plus petit nombre premier qui divise le nombre affiché. Regarde l'arbre se construire !</div>
+    <div class="scorebar">
+      <span>Décompositions réussies : <b id="decomp-score">0</b></span>
+    </div>
+    <div class="decomp-tree-wrap"><div id="decomp-tree"></div></div>
+    <div class="decomp-msg" id="decomp-msg"></div>
+    <div class="decomp-options" id="decomp-options"></div>
+    <button class="action-btn" onclick="newDecomp()">Nouveau nombre</button>
+  </div>
+
+  <!-- TROUVE LE PARTAGE (EXPLORATION) -->
+  <div class="game" id="game-partage">
+    <h2>Le bon partage</h2>
+    <div class="desc">Choisis un nombre de groupes avec les boutons + / − et regarde si ça tombe juste pour les deux tas. Trouve le plus grand nombre qui marche pour les deux à la fois !</div>
+    <div class="scorebar">
+      <span>Défis réussis : <b id="partage-score">0</b> / <b id="partage-total">0</b></span>
+    </div>
+    <div id="partage-area"></div>
+    <button class="action-btn" onclick="startPartageRound()">Nouveau défi</button>
+  </div>
+
+  <footer>Chapitre 3 — Divisibilité et nombres premiers — 4e. Entraînement libre, sans note.</footer>
+</div>
+
+<script>
+function showGame(name, evt) {
+  document.querySelectorAll('.game').forEach(g => g.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('game-' + name).classList.add('active');
+  if (evt) evt.target.classList.add('active');
+}
+function shuffle(arr) { const a = arr.slice(); for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function pick(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
+
+function isPrime(n) {
+  if (n < 2) return false;
+  for (let i = 2; i*i <= n; i++) if (n % i === 0) return false;
+  return true;
+}
+function smallestPrimeFactor(n) {
+  for (let p of [2,3,5,7,11,13,17,19,23,29,31]) { if (n % p === 0) return p; }
+  return n;
+}
+
+/* ---------- PREMIER OU PAS (chrono 1 min) ---------- */
+let primeRunning=false, primeScore=0, primeAttempts=0, primeAnswer=false, primeTimeLeft=60, primeHandle=null;
+function formatTime(s){ const m=Math.floor(s/60); const sec=s%60; return m+":"+(sec<10?"0":"")+sec; }
+function newPrimeQuestion(){
+  const n = Math.floor(Math.random()*97)+2;
+  primeAnswer = isPrime(n);
+  document.getElementById('prime-number').textContent = n;
+  document.getElementById('prime-result').textContent = '';
+}
+function startPrime(){
+  primeRunning = true; primeScore=0; primeAttempts=0; primeTimeLeft=60;
+  document.getElementById('prime-score').textContent = 0;
+  document.getElementById('prime-attempts').textContent = 0;
+  document.getElementById('prime-timer').textContent = formatTime(primeTimeLeft);
+  document.getElementById('prime-buttons').style.visibility = 'visible';
+  document.getElementById('prime-btn-start').textContent = 'Recommencer';
+  newPrimeQuestion();
+  if (primeHandle) clearInterval(primeHandle);
+  primeHandle = setInterval(()=>{
+    primeTimeLeft--;
+    document.getElementById('prime-timer').textContent = formatTime(primeTimeLeft);
+    if (primeTimeLeft<=0) endPrime();
+  },1000);
+}
+function endPrime(){
+  clearInterval(primeHandle); primeRunning=false;
+  document.getElementById('prime-buttons').style.visibility='hidden';
+  document.getElementById('prime-number').textContent = `Terminé ! ${primeScore} bonnes réponses sur ${primeAttempts}.`;
+}
+function answerPrime(guessYes){
+  if (!primeRunning) return;
+  primeAttempts++;
+  const resultEl = document.getElementById('prime-result');
+  if (guessYes === primeAnswer) { primeScore++; resultEl.textContent="✅ Correct !"; resultEl.style.color="#1E7A4C"; }
+  else { resultEl.textContent = "❌ Non — " + (primeAnswer? "il est premier." : "il n'est pas premier."); resultEl.style.color="#B5322E"; }
+  document.getElementById('prime-score').textContent = primeScore;
+  document.getElementById('prime-attempts').textContent = primeAttempts;
+  if (primeRunning) setTimeout(()=>{ if (primeRunning) newPrimeQuestion(); }, 500);
+}
+
+/* ---------- DECOMPOSE-MOI (arbre visuel) ---------- */
+let decompStart = 0, decompTrail = [], decompCurrent = 0, decompScore = 0;
+
+function newDecomp(){
+  const starters = [60, 84, 90, 120, 72, 48, 100, 36, 150, 200, 54, 42];
+  decompStart = pick(starters);
+  decompCurrent = decompStart;
+  decompTrail = [];
+  document.getElementById('decomp-msg').textContent = '';
+  renderTree();
+  renderDecompOptions();
+}
+
+function renderTree(){
+  const boxW = 46, boxH = 26, dx = 78, dy = 62, x0 = 30, y0 = 16;
+  let x = x0, y = y0;
+  let elems = [];
+  elems.push(box(x, y, decompStart, false, true));
+  for (let i = 0; i < decompTrail.length; i++) {
+    const factor = decompTrail[i];
+    const isLastLeafOnly = false;
+    const nextVal = i === decompTrail.length - 1 ? decompCurrent : null;
+    const leafX = x - 20, leafY = y + dy;
+    const nextX = x + dx, nextY = y + dy;
+    elems.push(line(x + boxW/2, y + boxH, leafX + boxW/2, leafY));
+    elems.push(line(x + boxW/2, y + boxH, nextX + boxW/2, nextY));
+    elems.push(box(leafX, leafY, factor, true, false));
+    const nextIsDone = (i === decompTrail.length - 1) && decompCurrent === 1;
+    if (i < decompTrail.length) {
+      const nextLabel = (i === decompTrail.length - 1) ? decompCurrent : null;
+    }
+    // compute the running value at this node for display (recompute forward)
+    x = nextX; y = nextY;
+  }
+  // recompute intermediate values properly (forward simulation) for correct labels
+  elems = [];
+  let curVal = decompStart;
+  x = x0; y = y0;
+  elems.push(box(x, y, curVal, false, curVal === 1));
+  for (let i = 0; i < decompTrail.length; i++) {
+    const factor = decompTrail[i];
+    const nextVal = curVal / factor;
+    const leafX = x - 20, leafY = y + dy;
+    const nextX = x + dx, nextY = y + dy;
+    elems.push(line(x + boxW/2, y + boxH, leafX + boxW/2, leafY));
+    elems.push(line(x + boxW/2, y + boxH, nextX + boxW/2, nextY));
+    elems.push(box(leafX, leafY, factor, true, false));
+    elems.push(box(nextX, nextY, nextVal, false, nextVal === 1));
+    curVal = nextVal; x = nextX; y = nextY;
+  }
+  const width = x0 + dx * (decompTrail.length + 1) + 40;
+  const height = y0 + dy * (decompTrail.length + 1) + 30;
+  const svg = `<svg viewBox="0 0 ${Math.max(width,220)} ${height}" xmlns="http://www.w3.org/2000/svg">${elems.join('')}</svg>`;
+  document.getElementById('decomp-tree').innerHTML = svg;
+
+  function box(bx, by, label, isLeaf, isDone) {
+    const fill = isLeaf ? '#E9F7EF' : (isDone ? '#D6C6FA' : '#FFFFFF');
+    const stroke = isLeaf ? '#1E7A4C' : (isDone ? '#5B21B6' : '#8B5CF6');
+    return `<rect x="${bx}" y="${by}" width="${boxW}" height="${boxH}" rx="7" fill="${fill}" stroke="${stroke}" stroke-width="1.8"/>
+      <text x="${bx+boxW/2}" y="${by+boxH/2+4}" font-size="13" font-family="Baloo 2, sans-serif" fill="${isLeaf?'#1E7A4C':'#22303F'}" text-anchor="middle">${label}</text>`;
+  }
+  function line(x1,y1,x2,y2){
+    return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#B7CBE3" stroke-width="1.5"/>`;
+  }
+}
+
+function renderDecompOptions(){
+  if (decompCurrent === 1) {
+    document.getElementById('decomp-options').innerHTML = '';
+    document.getElementById('decomp-msg').textContent = "🎉 Terminé ! " + decompStart + " = " + decompTrail.join(' × ');
+    document.getElementById('decomp-msg').style.color = '#1E7A4C';
+    decompScore++;
+    document.getElementById('decomp-score').textContent = decompScore;
+    return;
+  }
+  const correct = smallestPrimeFactor(decompCurrent);
+  let opts = new Set([correct]);
+  const candidates = [2,3,5,7,11,13];
+  while (opts.size < 4 && opts.size < candidates.length) { opts.add(pick(candidates)); }
+  const optsArr = shuffle(Array.from(opts));
+  document.getElementById('decomp-options').innerHTML = optsArr.map(o => `<button class="decomp-opt" onclick="chooseFactor(${o}, ${correct})">${o}</button>`).join('');
+}
+
+function chooseFactor(chosen, correct){
+  const buttons = document.querySelectorAll('#decomp-options .decomp-opt');
+  buttons.forEach(b => { b.disabled = true; if (parseInt(b.textContent) === correct) b.classList.add('correct'); });
+  if (chosen === correct) {
+    decompTrail.push(correct);
+    decompCurrent = decompCurrent / correct;
+    renderTree();
+    setTimeout(renderDecompOptions, 450);
+  } else {
+    document.getElementById('decomp-msg').textContent = "Pas le bon facteur premier — réessaie !";
+    document.getElementById('decomp-msg').style.color = '#B5322E';
+    setTimeout(()=>{ document.getElementById('decomp-msg').textContent=''; renderDecompOptions(); }, 800);
+  }
+}
+
+/* ---------- LE BON PARTAGE (exploration) ---------- */
+function gcdOf(a,b){ while(b){ [a,b]=[b,a%b]; } return a; }
+
+const partageThemes = [
+  {icon:'💐', text:(a,b)=>`Un fleuriste a ${a} roses et ${b} tulipes. Il veut faire des bouquets identiques avec toutes les fleurs.`, pileA:'roses', pileB:'tulipes'},
+  {icon:'🎒', text:(a,b)=>`Une enseignante a ${a} crayons et ${b} gommes à répartir en lots identiques, sans rien garder.`, pileA:'crayons', pileB:'gommes'},
+  {icon:'🧺', text:(a,b)=>`Un chef a ${a} tomates et ${b} oignons pour préparer des paniers identiques.`, pileA:'tomates', pileB:'oignons'},
+  {icon:'⚽', text:(a,b)=>`Un club a ${a} garçons et ${b} filles à répartir en équipes identiques, sans laisser personne de côté.`, pileA:'garçons', pileB:'filles'},
+  {icon:'🍪', text:(a,b)=>`Une pâtissière a ${a} cookies et ${b} macarons à ranger dans des boîtes identiques.`, pileA:'cookies', pileB:'macarons'},
+];
+const partagePairs = [[12,18],[20,15],[16,24],[18,30],[28,42],[27,18],[24,16],[35,49],[32,48],[24,36],[20,30],[36,24]];
+
+let partageScore=0, partageTotal=0, partageA=0, partageB=0, partageN=1, partageTheme=null, partageValidated=false;
+
+function startPartageRound(){
+  const [a,b] = pick(partagePairs);
+  partageA=a; partageB=b; partageN=1; partageValidated=false;
+  partageTheme = pick(partageThemes);
+  document.getElementById('partage-total').textContent = partageTotal;
+  document.getElementById('partage-score').textContent = partageScore;
+  renderPartageScene();
+}
+function dots(count, cls){
+  let h=''; for(let i=0;i<count;i++) h+=`<span class="dot ${cls}"></span>`; return h;
+}
+function renderPileGroups(total, n){
+  const q = Math.floor(total/n), r = total%n;
+  let html = '<div class="pile-groups">';
+  for (let i=0;i<n;i++) html += `<div class="group-box">${dots(q, total===partageA?'':'b')}</div>`;
+  if (r>0) html += `<div class="group-box reste"><span class="reste-label">reste</span>${dots(r, total===partageA?'':'b')}</div>`;
+  html += '</div>';
+  return html;
+}
+function renderPartageScene(){
+  const theme = partageTheme;
+  const rA = partageA % partageN, rB = partageB % partageN;
+  const works = rA===0 && rB===0;
+  document.getElementById('partage-area').innerHTML = `
+    <div class="partage-scene">
+      <div class="partage-icon">${theme.icon}</div>
+      <div class="partage-qtext">${theme.text(partageA, partageB)}</div>
+      <div class="partage-stepper">
+        <button onclick="changeN(-1)">−</button>
+        <div class="n-display">${partageN} groupe${partageN>1?'s':''}</div>
+        <button onclick="changeN(1)">+</button>
+      </div>
+      <div class="pile-block">
+        <div class="pile-label">${partageA} ${theme.pileA}</div>
+        ${renderPileGroups(partageA, partageN)}
+      </div>
+      <div class="pile-block">
+        <div class="pile-label">${partageB} ${theme.pileB}</div>
+        ${renderPileGroups(partageB, partageN)}
+      </div>
+      <div class="partage-status ${works?'ok':'bad'}">${works ? '✅ Ça tombe juste pour les deux tas !' : '❌ Il reste des ' + (rA>0? theme.pileA + (rB>0? ' et des '+theme.pileB : '') : theme.pileB)}</div>
+      <div class="partage-validate-row">
+        <button class="partage-btn primary" onclick="validatePartage()" ${partageValidated?'disabled':''}>C'est mon maximum !</button>
+      </div>
+      <div class="partage-feedback" id="partage-feedback"></div>
+    </div>`;
+}
+function changeN(delta){
+  if (partageValidated) return;
+  const newN = partageN + delta;
+  if (newN < 1) return;
+  if (newN > Math.max(partageA, partageB)) return;
+  partageN = newN;
+  renderPartageScene();
+}
+function validatePartage(){
+  if (partageValidated) return;
+  partageValidated = true;
+  partageTotal++;
+  const trueMax = gcdOf(partageA, partageB);
+  const rA = partageA % partageN, rB = partageB % partageN;
+  const works = rA===0 && rB===0;
+  const fb = document.getElementById('partage-feedback');
+  if (works && partageN === trueMax) {
+    partageScore++;
+    fb.textContent = "🎉 Bravo, c'est bien le plus grand nombre possible !";
+    fb.className = "partage-feedback good";
+  } else if (works && partageN < trueMax) {
+    fb.textContent = `Ça marche, mais on peut faire mieux ! Le maximum est ${trueMax}. Essaie un nombre plus grand.`;
+    fb.className = "partage-feedback bad";
+  } else {
+    fb.textContent = `Ça ne tombe pas juste avec ${partageN}. Le maximum qui fonctionne est ${trueMax}.`;
+    fb.className = "partage-feedback bad";
+  }
+  document.getElementById('partage-score').textContent = partageScore;
+  document.getElementById('partage-total').textContent = partageTotal;
+}
+
+/* ---------- CRIBLE D'ERATOSTHENE (chapitre 3) ---------- */
+(function () {
+  const N = 100, PR = [2, 3, 5, 7];
+  const $ = id => document.getElementById(id);
+  const grid = $('cr-grid');
+  const cells = [null];
+  for (let n = 1; n <= N; n++) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'cr-cell'; b.textContent = n; b.dataset.n = n;
+    cells.push(b); grid.appendChild(b);
+  }
+  grid.addEventListener('click', e => { const b = e.target.closest('.cr-cell'); if (b) onCell(+b.dataset.n); });
+  $('cr-step').addEventListener('click', () => run(false));
+  $('cr-play').addEventListener('click', () => run(true));
+  $('cr-reset').addEventListener('click', reset);
+  $('cr-why-btn').addEventListener('click', () => { const w = $('cr-why'); w.hidden = !w.hidden; });
+
+  /* by[n] : 0 = non barré, -1 = barré (c'est le nombre 1), p = barré comme multiple de p */
+  let by, ringed, phase, pi, errors, timer = null, sel;
+
+  function say(msg, kind) { const f = $('cr-fb'); f.innerHTML = msg; f.className = 'feedback' + (kind ? ' ' + kind : ''); }
+  function bump(n) {
+    const c = cells[n];
+    c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake');
+    setTimeout(() => c.classList.remove('shake'), 400);
+  }
+  function required(p) { const r = []; for (let m = 2 * p; m <= N; m += p) if (!by[m]) r.push(m); return r; }
+  function divisors(n) { const d = []; for (let i = 1; i <= n; i++) if (n % i === 0) d.push(i); return d; }
+  function label(n, b, shown) {
+    return n + (b === -1 ? ", barré : 1 n'est pas premier" : b ? ', barré : multiple de ' + b : shown ? ', premier' : '');
+  }
+
+  function render() {
+    let crossed = 0;
+    for (let n = 1; n <= N; n++) {
+      const c = cells[n], b = by[n];
+      if (b) crossed++;
+      const shown = ringed.has(n) || (phase === 'done' && n > 1 && !b);
+      c.classList.toggle('x', !!b);
+      c.classList.toggle('x1', b === -1);
+      PR.forEach(p => c.classList.toggle('x' + p, b === p));
+      c.classList.toggle('ring', shown);
+      c.classList.toggle('sel', n === sel);
+      c.setAttribute('aria-label', label(n, b, shown));
+    }
+    $('cr-crossed').textContent = crossed;
+    $('cr-found').textContent = phase === 'done' ? N - crossed : ringed.size;
+    $('cr-errors').textContent = errors;
+    renderInstr(crossed);
+    renderEnd();
+    $('cr-play').textContent = timer ? '⏸ Pause' : '▶ Tout le crible';
+    $('cr-step').disabled = !!timer || phase === 'done';
+    $('cr-play').disabled = phase === 'done';
+  }
+
+  function renderInstr(crossed) {
+    let h;
+    if (phase === 'one') {
+      h = "Commence par barrer le nombre <b>1</b>.<small>Il n'a qu'un seul diviseur : ce n'est pas un nombre premier.</small>";
+    } else if (phase === 'pick') {
+      h = 'Entoure le <b>premier nombre non barré</b>.<small>' + (pi === 0
+        ? 'Le 1 est barré : cherche le premier nombre qui reste.'
+        : 'Cherche le plus petit nombre non barré et pas encore entouré.') + '</small>';
+    } else if (phase === 'cross') {
+      const p = PR[pi];
+      h = 'Barre <b>tous les multiples de ' + p + '</b>, sauf ' + p + ' lui-même.<small>Il en reste ' + required(p).length + ' à barrer. Pense à la table de ' + p + '.</small>';
+    } else {
+      h = '<b>Bravo !</b> Tous les nombres qui restent sont premiers.<small>Il y en a ' + (N - crossed) + ' entre 1 et 100' + (errors === 0 ? ", et tu n'as fait aucune erreur." : '.') + '</small>';
+    }
+    $('cr-instr').innerHTML = h;
+  }
+
+  function renderEnd() {
+    const end = $('cr-end');
+    end.hidden = phase !== 'done';
+    if (phase !== 'done') return;
+    const primes = [];
+    for (let n = 2; n <= N; n++) if (!by[n]) primes.push(n);
+    $('cr-primes').textContent = primes.join(', ');
+    $('cr-count').textContent = primes.length;
+  }
+
+  function afterCross() {
+    if (required(PR[pi]).length === 0) {
+      pi++;
+      phase = pi < PR.length ? 'pick' : 'done';
+      if (phase === 'done') say('🎉 Crible terminé !', 'good');
+    }
+  }
+
+  function explore(n) {
+    sel = n;
+    const d = divisors(n);
+    let h = '<b>' + n + '</b> a ' + d.length + ' diviseur' + (d.length > 1 ? 's' : '') + ' : ' + d.join(', ') + '. ';
+    if (n === 1) h += "Un seul diviseur : 1 n'est pas premier.";
+    else if (d.length === 2) h += 'Exactement deux diviseurs : c\'est un nombre premier.';
+    else h += "Plus de deux diviseurs : ce n'est pas un nombre premier.";
+    $('cr-info').innerHTML = h;
+    render();
+  }
+
+  function onCell(n) {
+    if (timer) return;
+    if (phase === 'done') { explore(n); return; }
+    if (phase === 'one') {
+      if (n === 1) { by[1] = -1; phase = 'pick'; pi = 0; say("✔ 1 n'a qu'un seul diviseur : il n'est pas premier.", 'good'); }
+      else { bump(n); say("Commence par le nombre 1 : il n'est pas premier.", 'bad'); }
+    } else if (phase === 'pick') {
+      const t = PR[pi];
+      if (n === t) { ringed.add(t); phase = 'cross'; say('✔ ' + t + " n'a que deux diviseurs, 1 et " + t + ' : il est premier.', 'good'); }
+      else if (by[n]) say('Ce nombre est déjà barré.', '');
+      else if (ringed.has(n)) say('Celui-là est déjà entouré.', '');
+      else { errors++; bump(n); say("Pas celui-là : cherche le plus petit nombre non barré qui n'est pas encore entouré.", 'bad'); }
+    } else {
+      const p = PR[pi];
+      if (n === p) say(p + ' reste dans la grille : on ne barre pas ' + p + ", c'est un nombre premier.", '');
+      else if (n % p === 0) {
+        if (by[n]) say(n + " est déjà barré (par un nombre premier plus petit).", '');
+        else { by[n] = p; say('✔ ' + n + ' = ' + p + ' × ' + (n / p), 'good'); afterCross(); }
+      } else if (by[n]) say(n + ' est déjà barré.', '');
+      else { errors++; bump(n); say(n + " n'est pas dans la table de " + p + '.', 'bad'); }
+    }
+    render();
+  }
+
+  function tick() {
+    if (phase === 'one') { by[1] = -1; phase = 'pick'; pi = 0; }
+    else if (phase === 'pick') { ringed.add(PR[pi]); phase = 'cross'; }
+    else if (phase === 'cross') {
+      const r = required(PR[pi]);
+      if (r.length) by[r[0]] = PR[pi];
+      afterCross();
+    }
+  }
+  function stopAuto() { if (timer) { clearInterval(timer); timer = null; } }
+
+  function run(all) {
+    if (timer) { stopAuto(); render(); return; }
+    if (phase === 'done') return;
+    const startPhase = phase, startPi = pi;
+    say('', '');
+    timer = setInterval(() => {
+      tick();
+      const stop = phase === 'done' || (!all && (startPhase === 'one' ? phase !== 'one' : pi !== startPi));
+      if (stop) stopAuto();
+      render();
+    }, 120);
+    render();
+  }
+
+  function reset() {
+    stopAuto();
+    by = new Array(N + 1).fill(0); ringed = new Set();
+    phase = 'one'; pi = 0; errors = 0; sel = 0;
+    $('cr-info').textContent = 'Clique sur un nombre de la grille pour voir tous ses diviseurs.';
+    $('cr-why').hidden = true;
+    say('', '');
+    render();
+  }
+
+  reset();
+})();
+
+// init
+newDecomp();
+startPartageRound();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

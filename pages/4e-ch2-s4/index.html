@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 4 — Bilan : synthèse des grandeurs quotients et produits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --acc-b:#E5544F; --acc-bg:#FDEBEC; --acc-t:#B5322E; --ink:#22303F; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 860px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#F7B8B5; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:22px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:25px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+.automatisme { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:12px 16px; margin-bottom:14px; }
+.automatisme h2 { font-family:'Baloo 2',sans-serif; font-size:15px; color:#2B6CB0; margin:0 0 8px 0; }
+.automatisme ol { margin:0; padding-left:20px; font-size:13px; }
+.automatisme li { margin-bottom:2px; }
+.reveal-panel { display:none; margin-top:8px; font-size:12.5px; font-style:italic; color:#3B4C5E; border-top:1px dashed #B7CBE3; padding-top:6px; }
+.reveal-panel.show { display:block; }
+.methode { background:#FFF9EC; border:2px dashed #D8B24C; border-radius:10px; padding:10px 16px; margin-bottom:18px; font-size:12.5px; }
+.methode b.tag { font-family:'Baloo 2',sans-serif; color:#9C7A17; display:block; margin-bottom:3px; font-size:13px; }
+.methode .schema { background:#fff; border-radius:8px; padding:8px; margin-top:8px; text-align:center; }
+.section-title { font-family:'Baloo 2',sans-serif; font-size:18px; margin:4px 0 12px 0; }
+.advanced-title { font-family:'Baloo 2',sans-serif; font-size:15px; color:var(--acc-t); margin:18px 0 10px 0; padding-top:12px; border-top:2px dashed var(--acc-b); }
+.exo { border:2px solid var(--acc-b); background:var(--acc-bg); border-radius:12px; padding:14px 18px; margin-bottom:14px; }
+.exo-title { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:var(--acc-t); margin-bottom:6px; }
+.exo p { font-size:13px; margin:4px 0; line-height:1.5; }
+.exo p.q { margin:6px 0 2px 4px; }
+.schema { background:#fff; border-radius:8px; padding:8px; margin:8px 0; text-align:center; }
+.schema svg { max-width:100%; height:auto; }
+.btn-row { display:flex; gap:10px; margin-top:8px; flex-wrap:wrap; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:12px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:12.5px; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel.solution-panel { border:1.5px dashed #4CAF7D; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; }
+.astuce-panel .label { color:#B5680A; }
+.solution-panel .label { color:#1E7A4C; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="badge">S4</div>
+    <div>
+      <h1>Bilan : synthèse des grandeurs quotients et produits</h1>
+      <div class="subtitle">Chapitre 2 — Grandeurs quotients et produits — 4e — Séance 4</div>
+    </div>
+  </header>
+  <div class="objectifs"><b>Objectifs :</b> réinvestir les grandeurs quotients et produits à travers des problèmes complets, dans des situations proches de celles du brevet.</div>
+  <div class="automatisme">
+    <h2>Automatisme</h2>
+    <ol><li>20 % de 60 =</li><li>3,6 × 10 =</li><li>500 cm³ = … L</li><li>90 ÷ 1,5 =</li><li>2 h = … min</li><li>7 × 8 =</li></ol>
+    <button class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
+    <div class="reveal-panel" id="auto-corrige">Corrigé : 12 ; 36 ; 0,5 L ; 60 ; 120 min ; 56</div>
+  </div>
+  <div class="methode"><b class="tag">Méthode</b>Un train roule à 90 km/h. Il doit parcourir 225 km. Temps = distance ÷ vitesse = 225 ÷ 90 = <b>2,5 h</b>.</div>
+  <div class="section-title">Exercices</div>
+  
+    <div class="exo">
+      <div class="exo-title">★★★ Problème — La course contre la montre de M. Lorenzini</div>
+      <p>M. Lorenzini est en route vers le concert de RnBoi avec ses amis. Le trajet total fait 297 km. Ils sont partis à 9 h 00, et le parking réservé aux festivaliers ferme à 13 h 00 — après cette heure, impossible de se garer et d'assister au concert.<br>
+      Le premier tiers du trajet s'est bien passé : ils ont roulé à une vitesse moyenne de 66 km/h. Mais ensuite, un bouchon les a immobilisés pendant 15 minutes.<br>
+      <span class='q'>a) Quelle distance représente le premier tiers du trajet ? Calcule le temps mis pour le parcourir.</span><br>
+      <span class='q'>b) En tenant compte du bouchon, combien de temps s'est écoulé depuis leur départ à ce stade ?</span><br>
+      <span class='q'>c) Combien de temps leur reste-t-il au maximum avant la fermeture du parking ?</span><br>
+      <span class='q'>d) Quelle distance reste-t-il à parcourir ? À quelle vitesse moyenne minimale doivent-ils rouler sur cette distance pour arriver avant la fermeture du parking ?</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-0')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-0')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-0"><span class="label">Astuce</span>a) Le premier tiers, c'est la distance totale divisée par 3 ; puis t = d ÷ v. b) additionne ce temps de trajet et le temps du bouchon. c) calcule d'abord le budget-temps total entre le départ et la fermeture, puis soustrais le temps déjà écoulé (b). d) la distance restante, c'est la distance totale moins celle déjà parcourue ; utilise ensuite v = d ÷ t avec le temps restant trouvé en c).</div>
+      <div class="panel solution-panel" id="solution-0"><span class="label">Solution</span>a) Premier tiers : 297 ÷ 3 = 99 km. Temps : 99 ÷ 66 = 1,5 h = <b>1 h 30 min</b>. b) 1 h 30 min + 15 min = <b>1 h 45 min</b>. c) Budget total : 13 h 00 − 9 h 00 = 4 h. Temps restant : 4 h − 1 h 45 min = <b>2 h 15 min</b>. d) Distance restante : 297 − 99 = 198 km. Vitesse nécessaire : 198 ÷ 2,25 = <b>88 km/h</b> — ils doivent donc accélérer nettement (88 km/h contre 66 km/h au départ) pour rattraper le temps perdu dans le bouchon.</div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">★★★ Problème — La vidéo « room makeover » de Mia</div>
+      <p>Mia tourne une vidéo de relooking de chambre pour sa chaîne. Le sol de sa chambre mesure 4,8 m sur 3,6 m. Dans un coin de la pièce se trouve un dressing intégré de 1,4 m sur 1,1 m, dont le sol est déjà carrelé et qu'il ne faut donc pas peindre.<br>
+      <span class='q'>a) Calcule l'aire totale du sol de la chambre, puis l'aire du sol du dressing. Déduis-en l'aire réellement à peindre.</span><br>
+      <span class='q'>b) Un pot de peinture couvre 6 m². Combien de pots Mia doit-elle acheter au minimum ?</span><br>
+      <span class='q'>c) Une fois la peinture terminée, Mia fait fonctionner un purificateur d'air (débit de traitement 45 m³/h) pour évacuer les odeurs. La pièce fait 2,5 m de hauteur sous plafond. Combien de temps le purificateur doit-il fonctionner pour traiter une fois tout le volume d'air de la chambre (dressing compris, puisque l'air y circule aussi) ?</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-1')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-1')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-1"><span class="label">Astuce</span>a) Calcule les deux aires séparément (longueur × largeur pour chacune), puis soustrais. b) Divise l'aire à peindre par ce que couvre un pot, et arrondis toujours au pot supérieur. c) Le volume d'air se calcule avec l'aire TOTALE de la chambre (pas seulement l'aire peinte) multipliée par la hauteur ; ensuite utilise t = volume ÷ débit.</div>
+      <div class="panel solution-panel" id="solution-1"><span class="label">Solution</span>a) Aire totale : 4,8 × 3,6 = 17,28 m². Aire du dressing : 1,4 × 1,1 = 1,54 m². Aire à peindre : 17,28 − 1,54 = <b>15,74 m²</b>. b) 15,74 ÷ 6 ≈ 2,62 → il faut arrondir à l'entier supérieur → <b>3 pots</b>. c) Volume d'air = 17,28 × 2,5 = 43,2 m³. Temps = 43,2 ÷ 45 = 0,96 h ≈ <b>58 min</b>.</div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">★★★ Problème — Qui paie les places ?</div>
+      <p>Théo et Manon se lancent un défi amical pour rejoindre un festival situé à 180 km : le dernier arrivé paie les places d'entrée des deux ! Théo prend l'autoroute et roule à 108 km/h de moyenne. Manon prend une route plus directe mais limitée à 75 km/h ; elle part cependant 36 minutes avant Théo.<br>
+      <span class='q'>Qui devra payer les places ? Justifie ta réponse par des calculs.</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-2')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-2')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-2"><span class="label">Astuce</span>Calcule le temps de trajet de chacun avec t = d ÷ v (les résultats ne seront pas des nombres ronds). Puis, pour comparer leurs heures d'arrivée, pense à tenir compte du fait que Manon est partie 36 min (0,6 h) avant Théo.</div>
+      <div class="panel solution-panel" id="solution-2"><span class="label">Solution</span>Temps de Théo : 180 ÷ 108 ≈ 1,667 h = <b>1 h 40 min</b>. Temps de Manon : 180 ÷ 75 = 2,4 h = <b>2 h 24 min</b>. Manon étant partie 0,6 h avant Théo, son heure d'arrivée par rapport au départ de Théo est 2,4 − 0,6 = 1,8 h = 1 h 48 min. 1 h 40 min &lt; 1 h 48 min : Théo arrive 8 minutes avant Manon — c'est donc <b>Manon qui devra payer les places</b>, malgré son départ anticipé !</div>
+    </div>
+
+    <div class="exo">
+      <div class="exo-title">★★★ Problème — Trouve l'erreur</div>
+      <p>Un élève a résolu cet exercice : « Un radiateur de 2 kW fonctionne pendant 1 h 45 min. Énergie = 2 × 1,45 = 2,9 kWh. »<br>
+      <span class='q'>a) Cet élève a fait une erreur classique. Laquelle ?</span><br>
+      <span class='q'>b) Donne le calcul correct et la bonne réponse.</span></p>
+      
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-3')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-3')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-3"><span class="label">Astuce</span>1 h 45 min, ce n'est pas la même chose que 1,45 h ! 45 minutes, c'est une fraction de 60 minutes, pas de 100. Convertis correctement avant de multiplier.</div>
+      <div class="panel solution-panel" id="solution-3"><span class="label">Solution</span>a) L'élève a confondu les minutes avec des centièmes d'heure : il a écrit 1 h 45 min = 1,45 h, alors que 45 min = 45/60 h = 0,75 h, donc 1 h 45 min = <b>1,75 h</b> (et non 1,45 h). b) Énergie = 2 × 1,75 = <b>3,5 kWh</b> (et non 2,9 kWh).</div>
+    </div><div class="advanced-title">Pour aller plus loin</div>
+    <div class="exo">
+      <div class="exo-title">★★★★ Problème — Le bassin du parc d'attractions</div>
+      <p>Un parc d'attractions construit un bassin de rétention pour alimenter sa nouvelle attraction aquatique. Le bassin, en forme de pavé droit, mesure 7,5 m de long, 4,2 m de large et 1,8 m de profondeur.<br>
+      <span class='q'>a) Calcule le volume du bassin.</span><br>
+      <span class='q'>b) Une pompe au débit de 3,5 m³/h doit le remplir entièrement. Combien de temps cela prendra-t-il (arrondis au dixième d'heure) ?</span><br>
+      <span class='q'>c) Cette pompe fonctionne avec une puissance de 2,8 kW. Quelle énergie totale sera consommée pour le remplissage complet ?</span><br>
+      <span class='q'>d) Sachant que le kWh coûte 0,19 €, quel est le coût total du remplissage (arrondis au centime) ?</span></p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-4')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-4')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-4"><span class="label">Astuce</span>Enchaîne les formules dans l'ordre : volume = L × l × h, puis temps = volume ÷ débit, puis énergie = puissance × temps, puis coût = énergie × prix. Aucun résultat intermédiaire n'est un nombre rond : garde toutes les décimales jusqu'au bout.</div>
+      <div class="panel solution-panel" id="solution-4"><span class="label">Solution</span>a) 7,5 × 4,2 × 1,8 = <b>56,7 m³</b>. b) 56,7 ÷ 3,5 = <b>16,2 h</b>. c) 2,8 × 16,2 = <b>45,36 kWh</b>. d) 45,36 × 0,19 ≈ <b>8,62 €</b>.</div>
+    </div>
+  <footer>Cherche seul(e) d'abord. Utilise l'astuce si tu bloques, puis vérifie avec la solution.</footer>
+</div>
+<script>function toggle(id){document.getElementById(id).classList.toggle('show');}</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

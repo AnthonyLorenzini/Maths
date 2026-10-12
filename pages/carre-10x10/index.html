@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le Carré 10×10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<style>
+/* Mise en page : bandeau titre + onglets du récit, plateau de carrés à colorier, compteur qui « parle » comme l'histoire */
+:root{
+  --bg:#f6f5f1; --panel:#ffffff; --paper:#ffffff; --ink:#221d12; --muted:#6d6656; --line:#cfc8b6; --grid:#ddd6c4;
+  --amber:#e8a400; --amber-ink:#8a5d00; --fill:#f5b81c; --fill-2:#fbe3a1;
+  --ok:#1f9a55; --ok-bg:#e3f5ea; --ko:#d23c3c; --ko-bg:#fbe7e7;
+  --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16140f; --panel:#201d16; --paper:#2a261d; --ink:#f3eddf; --muted:#aaa18c; --line:#4a4334; --grid:#3d3729;
+  --amber:#f2b52a; --amber-ink:#f6c95a; --fill:#e9a90f; --fill-2:#5a4515;
+  --ok:#3fcf7d; --ok-bg:#163524; --ko:#ff6b6b; --ko-bg:#3d1a1a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#16140f; --panel:#201d16; --paper:#2a261d; --ink:#f3eddf; --muted:#aaa18c; --line:#4a4334; --grid:#3d3729;
+  --amber:#f2b52a; --amber-ink:#f6c95a; --fill:#e9a90f; --fill-2:#5a4515;
+  --ok:#3fcf7d; --ok-bg:#163524; --ko:#ff6b6b; --ko-bg:#3d1a1a; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--f-text);padding-inline:16px;padding-block:16px 40px}
+.wrap{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+h1{font:800 clamp(2.2rem,7vw,3.6rem)/.9 var(--f-title);letter-spacing:.01em;margin:0;text-transform:uppercase}
+h1 span{color:var(--amber)}
+.sub{margin:6px 0 0;color:var(--muted);font-size:.95rem}
+.switch{display:flex;align-items:center;gap:8px;font-size:.9rem;color:var(--muted);cursor:pointer;user-select:none}
+.switch input{width:20px;height:20px;accent-color:var(--amber)}
+nav{display:flex;gap:6px;flex-wrap:wrap;border-bottom:2px solid var(--line)}
+nav button{font:700 1.15rem var(--f-title);letter-spacing:.06em;text-transform:uppercase;background:none;border:0;color:var(--muted);padding:8px 14px;cursor:pointer;border-bottom:4px solid transparent;margin-bottom:-2px}
+nav button[aria-selected="true"]{color:var(--ink);border-color:var(--amber)}
+.recit{margin:0;padding:12px 16px;background:var(--panel);border-left:4px solid var(--amber);border-radius:0 8px 8px 0;font-size:1rem;max-width:72ch}
+.recit b{color:var(--amber-ink)}
+.tools{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:8px 14px;cursor:pointer;min-height:42px}
+.btn:hover{border-color:var(--amber)}
+.btn.main{background:var(--amber);border-color:var(--amber);color:#1b1404}
+.btn:focus-visible,nav button:focus-visible,.cell:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.stepper{display:flex;align-items:center;gap:8px;font-size:.95rem}
+.stepper .btn{width:42px;padding:0;font:700 1.3rem var(--f-num)}
+.stepper output{font:700 1.1rem var(--f-num);min-width:1.5ch;text-align:center}
+#board{display:flex;flex-wrap:wrap;gap:14px;touch-action:none;user-select:none;-webkit-user-select:none}
+.sqbox{display:flex;flex-direction:column;align-items:center;gap:6px}
+.sqrow{display:flex;gap:4px}
+.sq{background:var(--paper);border:2px solid var(--ink);display:grid}
+.cell{background:var(--paper);border:0;padding:0;cursor:pointer;transition:background .08s}
+.dix .cell{border-bottom:1.5px solid var(--grid)}
+.dix .cell:last-child{border-bottom:0}
+.cent .cell{border-right:1px solid var(--grid);border-bottom:1px solid var(--grid)}
+.cent .cell.r9{border-bottom:0}.cent .cell.c9{border-right:0}
+.cent .cell.c4{border-right-color:var(--line)}
+.cell.on{background:var(--fill)}
+.handles{display:flex;flex-direction:column;justify-content:stretch;padding-block:2px}
+.handle{flex:1;border:0;margin:1px 0;border-radius:3px;background:var(--fill-2);cursor:pointer;width:14px;padding:0}
+.handle:hover{background:var(--amber)}
+.sqcap{display:flex;gap:8px;align-items:center;font:400 .8rem var(--f-num);color:var(--muted)}
+.sqcap button{font:600 .78rem var(--f-text);background:none;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:2px 8px;cursor:pointer}
+.sqcap button:hover{color:var(--ink);border-color:var(--amber)}
+.count{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:14px 18px;display:flex;flex-direction:column;gap:6px;font-size:1.1rem}
+.count .big{font:700 clamp(1.3rem,4.5vw,1.9rem) var(--f-num);display:flex;flex-wrap:wrap;align-items:center;gap:.35em}
+.count .line{display:flex;flex-wrap:wrap;align-items:center;gap:.35em}
+.num{font-family:var(--f-num);font-weight:700}
+.fr{display:inline-flex;flex-direction:column;align-items:center;font:700 1em var(--f-num);line-height:1.05;vertical-align:middle}
+.fr>span:first-child{border-bottom:.09em solid currentColor;padding:0 .15em}
+.tiens{color:var(--amber-ink);font-weight:600}
+.tab{display:grid;grid-template-columns:repeat(3,minmax(0,6.5rem));border:2px solid var(--ink);width:max-content;max-width:100%;margin-top:4px}
+.tab div{text-align:center;padding:4px 6px;border-right:1px solid var(--line)}
+.tab div:nth-child(3n){border-right:0}
+.tab .h{font:600 .72rem var(--f-text);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line)}
+.tab .d{font:700 1.5rem var(--f-num)}
+.tab .u{position:relative}
+.tab .u::after{content:",";position:absolute;right:-.2em;bottom:.1em;color:var(--amber);font-size:1.6rem}
+.dots{display:flex;flex-wrap:wrap;gap:6px}
+.dot{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);background:var(--panel);font:700 .75rem var(--f-num);color:var(--muted);cursor:pointer;padding:0}
+.dot.cur{border-color:var(--amber);color:var(--ink)}
+.dot.done{background:var(--ok);border-color:var(--ok);color:#fff}
+.consigne{font:800 clamp(1.5rem,5vw,2.2rem)/1.1 var(--f-title);text-transform:uppercase;letter-spacing:.02em;display:flex;flex-wrap:wrap;align-items:center;gap:.3em;margin:0}
+.consigne .fr,.consigne .num{font-size:.8em;text-transform:none}
+.write{display:flex;flex-wrap:wrap;align-items:center;gap:.4em;font:700 1.35rem var(--f-num)}
+.write input{width:3.4em;font:700 1.3rem var(--f-num);text-align:center;border:2px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:4px 2px}
+.write input.wide{width:5em}
+.write input:focus{outline:none;border-color:var(--amber)}
+.write input.ok{border-color:var(--ok);background:var(--ok-bg)}
+.write input.ko{border-color:var(--ko);background:var(--ko-bg)}
+.frin{display:inline-flex;flex-direction:column;align-items:center;gap:2px}
+.frin>*:first-child{border-bottom:3px solid currentColor;padding-bottom:3px}
+.msg{min-height:1.6em;font-weight:600;margin:0}
+.msg.ok{color:var(--ok)}.msg.ko{color:var(--ko)}
+.flash-ok .sq{border-color:var(--ok);box-shadow:0 0 0 3px var(--ok)}
+.flash-ko .sq{border-color:var(--ko);box-shadow:0 0 0 3px var(--ko)}
+@media (max-width:440px){nav button{padding:8px 9px;font-size:1.05rem}}
+@media (prefers-reduced-motion:reduce){.cell{transition:none}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Le Carré <span>10×10</span></h1>
+      <p class="sub">D'après l'histoire de la virgule : colorie des dixièmes, puis des centièmes.</p>
+    </div>
+    <label class="switch"><input type="checkbox" id="virg"> Afficher la virgule</label>
+  </header>
+
+  <nav role="tablist">
+    <button role="tab" id="t-dix" data-tab="dix" aria-selected="true">Dixièmes</button>
+    <button role="tab" id="t-cent" data-tab="cent" aria-selected="false">Centièmes</button>
+    <button role="tab" id="t-defi" data-tab="defi" aria-selected="false">Défis</button>
+  </nav>
+
+  <p class="recit" id="recit"></p>
+
+  <div class="tools" id="free-tools">
+    <div class="stepper"><span>Carrés</span>
+      <button class="btn" id="minus" aria-label="Un carré de moins">−</button>
+      <output id="nsq">2</output>
+      <button class="btn" id="plus" aria-label="Un carré de plus">+</button>
+    </div>
+    <button class="btn" id="clear">Tout effacer</button>
+  </div>
+
+  <div id="defi-head" hidden>
+    <div class="dots" id="dots"></div>
+  </div>
+  <h2 class="consigne" id="consigne" hidden></h2>
+
+  <div id="board"></div>
+
+  <div class="count" id="count"></div>
+
+  <div class="count" id="defi-box" hidden>
+    <div class="tools" id="color-step">
+      <button class="btn main" id="checkColor">J'ai colorié</button>
+      <button class="btn" id="clearD">Effacer</button>
+    </div>
+    <div id="write-step" hidden>
+      <div class="write" id="write"></div>
+    </div>
+    <p class="msg" id="msg"></p>
+    <div class="tools">
+      <button class="btn" id="prev">← Défi précédent</button>
+      <button class="btn main" id="checkWrite" hidden>Vérifier</button>
+      <button class="btn" id="next">Défi suivant →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const f=(n,d)=>`<span class="fr"><span>${n}</span><span>${d}</span></span>`;
+const dec=(t,u)=>{const s=(t/u).toFixed(u===10?1:2);return s.replace('.',',');};
+const pl=(n,w)=>n>1?w+'s':w;
+
+const RECIT={
+  dix:"Le bâton ne suffisait pas : on l'a <b>partagé en 10 parties égales</b>. Un petit bout fait <b>un dixième</b> et le bâton entier fait <b>dix dixièmes</b>. Rentré chez lui, l'homme fait pareil avec un carré. Clique ou glisse sur les bandes pour colorier.",
+  cent:"Ça recommence ! Un dixième, c'est trop gros. On <b>partage chaque dixième en 10 parties égales</b> : un petit carreau fait <b>un centième</b>, et le carré entier fait <b>cent centièmes</b>. La languette à gauche d'une ligne colorie un dixième d'un coup.",
+  defi:"À ton tour d'essayer ! Colorie d'abord, puis écris ce que tu vois."
+};
+
+/* Défis repris de la fiche « Histoire de la virgule » */
+const DEFIS=[
+ {u:10,t:13,k:'dec'},{u:10,t:24,k:'dec'},{u:10,t:17,k:'dec'},{u:10,t:29,k:'dec'},{u:10,t:35,k:'dec'},
+ {u:10,t:16,k:'rev'},{u:10,t:27,k:'rev'},
+ {u:100,t:20,k:'eq'},
+ {u:100,t:25,k:'dec'},{u:100,t:37,k:'dec'},{u:100,t:54,k:'dec'},{u:100,t:127,k:'dec'},{u:100,t:148,k:'dec'},
+ {u:100,t:27,k:'rev'},{u:100,t:15,k:'rev'},{u:100,t:109,k:'rev'}
+];
+
+const S={tab:'dix',virgule:false,
+  free:{dix:{n:2,c:[]},cent:{n:1,c:[]}},
+  d:{i:0,phase:'color',done:new Set(),c:[]}};
+
+function cur(){
+  if(S.tab==='defi'){const D=DEFIS[S.d.i];return {u:D.u,n:Math.max(1,Math.ceil(D.t/D.u)),c:S.d.c};}
+  const F=S.free[S.tab];return {u:S.tab==='dix'?10:100,n:F.n,c:F.c};
+}
+function fit(c,len){while(c.length<len)c.push(false);c.length=len;}
+
+/* ---------- plateau ---------- */
+const board=$('#board');
+function renderBoard(){
+  const {u,n,c}=cur(); fit(c,n*u);
+  lastW=board.clientWidth;const W=board.clientWidth||340, gap=14, hand=u===100?18:0;
+  const perRow=Math.min(n, W<560?2:4);
+  let size=Math.floor((W-gap*(perRow-1))/perRow)-hand-4;
+  size=Math.max(110,Math.min(u===10?200:260,size));
+  size=Math.floor(size/10)*10;           /* largeur fixée en px : pas de % dans des flex imbriqués */
+  const cs=size/10;
+  let h='';
+  for(let k=0;k<n;k++){
+    h+=`<div class="sqbox"><div class="sqrow">`;
+    if(u===100){
+      h+=`<div class="handles" style="height:${size+4}px">`;
+      for(let r=0;r<10;r++)h+=`<button class="handle" data-row="${k},${r}" aria-label="Colorier un dixième, ligne ${r+1}"></button>`;
+      h+=`</div>`;
+      h+=`<div class="sq cent" style="width:${size+4}px;grid-template-columns:repeat(10,${cs}px);grid-auto-rows:${cs}px">`;
+      for(let r=0;r<10;r++)for(let q=0;q<10;q++){const i=k*100+r*10+q;
+        h+=`<div class="cell r${r} c${q}${c[i]?' on':''}" data-i="${i}"></div>`;}
+    }else{
+      h+=`<div class="sq dix" style="width:${size+4}px;grid-template-columns:${size}px;grid-auto-rows:${cs}px">`;
+      for(let r=0;r<10;r++){const i=k*10+r;h+=`<div class="cell${c[i]?' on':''}" data-i="${i}"></div>`;}
+    }
+    h+=`</div></div><div class="sqcap">carré ${k+1}<button data-sq="${k}">tout le carré</button></div></div>`;
+  }
+  board.innerHTML=h;
+  board.classList.remove('flash-ok','flash-ko');
+}
+let painting=null;
+function setCell(el,v){const {c}=cur();const i=+el.dataset.i;if(c[i]!==v){c[i]=v;el.classList.toggle('on',v);}}
+board.addEventListener('pointerdown',e=>{
+  const el=e.target.closest('.cell');if(!el)return;
+  e.preventDefault();const {c}=cur();painting=!c[+el.dataset.i];setCell(el,painting);changed();
+});
+window.addEventListener('pointermove',e=>{
+  if(painting===null)return;
+  const el=document.elementFromPoint(e.clientX,e.clientY);
+  const cell=el&&el.closest&&el.closest('#board .cell');
+  if(cell){setCell(cell,painting);changed();}
+});
+window.addEventListener('pointerup',()=>painting=null);
+window.addEventListener('pointercancel',()=>painting=null);
+board.addEventListener('click',e=>{
+  const {u,c}=cur();
+  const hd=e.target.closest('[data-row]'),sq=e.target.closest('[data-sq]');
+  let idx=[];
+  if(hd){const [k,r]=hd.dataset.row.split(',').map(Number);for(let q=0;q<10;q++)idx.push(k*100+r*10+q);}
+  else if(sq){const k=+sq.dataset.sq;for(let j=0;j<u;j++)idx.push(k*u+j);}
+  else return;
+  const v=!idx.every(i=>c[i]);idx.forEach(i=>c[i]=v);
+  board.querySelectorAll('.cell').forEach(el=>{if(idx.includes(+el.dataset.i))el.classList.toggle('on',v);});
+  changed();
+});
+function changed(){board.classList.remove('flash-ok','flash-ko');if(S.tab==='defi'){if(S.d.phase==='color')$('#msg').textContent='';}else renderCount();}
+function total(){return cur().c.filter(Boolean).length;}
+
+/* ---------- compteur libre ---------- */
+function tableau(t,u){
+  const U=Math.floor(t/u), r=t%u, d=u===10?r:Math.floor(r/10), c=u===10?null:r%10;
+  return `<div class="tab"><div class="h">unités</div><div class="h">dixièmes</div><div class="h">${u===100?'centièmes':''}</div>
+  <div class="d u">${U}</div><div class="d">${d}</div><div class="d">${c===null?'':c}</div></div>`;
+}
+function renderCount(){
+  const {u}=cur(),t=total(),out=$('#count');
+  if(u===10){
+    const a=Math.floor(t/10),b=t%10;
+    let h=`<div class="big"><span>${t} ${pl(t,'dixième')} de carré</span><span>=</span>${f(t,10)}</div>`;
+    if(t>=10)h+=`<div class="line">= <span class="num">${a}</span> ${pl(a,'carré')} + <span class="num">${b}</span> ${pl(b,'dixième')}${b?`&nbsp;= <span class="num">${a}</span> + ${f(b,10)}`:''}</div>`;
+    if(S.virgule)h+=`<div class="line">Écriture décimale : <span class="num">${dec(t,10)}</span></div>${tableau(t,10)}`;
+    out.innerHTML=h;
+  }else{
+    const a=Math.floor(t/100),r=t%100,d=Math.floor(r/10),c=r%10;
+    let h=`<div class="big"><span>${t} ${pl(t,'centième')}</span><span>=</span>${f(t,100)}</div>`;
+    if(t>=10){
+      const parts=[];if(a)parts.push(`<span class="num">${a}</span>`);if(d)parts.push(f(d,10));if(c)parts.push(f(c,100));
+      h+=`<div class="line">= ${parts.join(' + ')}</div>`;
+    }
+    if(t>0&&t%10===0&&t<1000)h+=`<div class="line tiens">Tiens ! ${f(t,100)} c'est pareil que ${f(t/10,10)}</div>`;
+    if(S.virgule)h+=`<div class="line">Écriture décimale : <span class="num">${dec(t,100)}</span></div>${tableau(t,100)}`;
+    out.innerHTML=h;
+  }
+}
+
+/* ---------- défis ---------- */
+function showD(D){
+  const {u,t,k}=D;
+  if(k!=='rev')return f(t,u);
+  const a=Math.floor(t/u),r=t%u,parts=[];
+  if(u===10){if(a)parts.push(`<span class="num">${a}</span>`);if(r)parts.push(f(r,10));}
+  else{const d=Math.floor(r/10),c=r%10;if(a)parts.push(`<span class="num">${a}</span>`);if(d)parts.push(f(d,10));if(c)parts.push(f(c,100));}
+  return parts.join('<span>+</span>');
+}
+const inp=(id,cls='')=>`<input id="${id}" class="${cls}" inputmode="${cls?'decimal':'numeric'}" autocomplete="off" aria-label="réponse">`;
+const frIn=(top,den)=>`<span class="frin">${top}<span>${den}</span></span>`;
+function answers(D){
+  const {u,t,k}=D,a=Math.floor(t/u),r=t%u;
+  let html=showD(D)+' <span>=</span> ',ans=[];
+  if(k==='rev'){html+=frIn(inp('w0'),u);ans=[t];}
+  else if(k==='eq'){html+=frIn(inp('w0'),10);ans=[t/10];}
+  else if(u===10){html+=`${inp('w0')} <span>+</span> ${frIn(inp('w1'),10)}`;ans=[a,r];}
+  else if(t<100){html+=`${frIn(inp('w0'),10)} <span>+</span> ${frIn(inp('w1'),100)}`;ans=[Math.floor(r/10),r%10];}
+  else{html+=`${inp('w0')} <span>+</span> ${frIn(inp('w1'),10)} <span>+</span> ${frIn(inp('w2'),100)}`;ans=[a,Math.floor(r/10),r%10];}
+  if(S.virgule){html+=` <span>=</span> ${inp('wd','wide')}`;}
+  return {html,ans};
+}
+function renderDots(){
+  $('#dots').innerHTML=DEFIS.map((_,i)=>`<button class="dot${i===S.d.i?' cur':''}${S.d.done.has(i)?' done':''}" data-d="${i}" aria-label="Défi ${i+1}">${i+1}</button>`).join('');
+}
+$('#dots').addEventListener('click',e=>{const b=e.target.closest('[data-d]');if(b)goDefi(+b.dataset.d);});
+function goDefi(i){
+  S.d.i=(i+DEFIS.length)%DEFIS.length;S.d.phase='color';S.d.c=[];
+  renderDefi();
+}
+function renderDefi(){
+  const D=DEFIS[S.d.i];
+  const word=D.u===10?'dixièmes de carré':'centièmes';
+  $('#consigne').innerHTML=`Colorie <span>${showD(D)}</span>`;
+  $('#consigne').setAttribute('aria-label',`Défi ${S.d.i+1}`);
+  renderDots();renderBoard();
+  $('#color-step').hidden=S.d.phase!=='color';
+  $('#write-step').hidden=S.d.phase!=='write';
+  $('#checkWrite').hidden=S.d.phase!=='write';
+  $('#msg').className='msg';$('#msg').textContent=S.d.phase==='color'?'':'';
+  if(S.d.phase==='write'){$('#write').innerHTML=answers(D).html;}
+}
+$('#checkColor').addEventListener('click',()=>{
+  const D=DEFIS[S.d.i],t=total(),w=D.u===10?'dixième':'centième';
+  const m=$('#msg');
+  if(t===D.t){
+    board.classList.add('flash-ok');m.className='msg ok';
+    m.textContent=`Bravo : ${t} ${pl(t,w)}${D.u===10?' de carré':''}. Écris maintenant ce que tu vois.`;
+    S.d.phase='write';
+    $('#color-step').hidden=true;$('#write-step').hidden=false;$('#checkWrite').hidden=false;
+    $('#write').innerHTML=answers(D).html;
+    const first=$('#w0');if(first)first.focus({preventScroll:true});
+  }else{
+    board.classList.add('flash-ko');m.className='msg ko';
+    m.textContent=`Tu as colorié ${t} ${pl(t,w)}. Compte encore : il en faut ${t<D.t?'plus':'moins'}.`;
+  }
+});
+$('#clearD').addEventListener('click',()=>{S.d.c.fill(false);renderBoard();$('#msg').textContent='';});
+function readNum(v){v=(v||'').trim().replace(/\s/g,'').replace('.',',');if(!/^\d+(,\d+)?$/.test(v))return NaN;return parseFloat(v.replace(',','.'));}
+$('#checkWrite').addEventListener('click',()=>{
+  const D=DEFIS[S.d.i],{ans}=answers(D);let all=true;
+  ans.forEach((a,j)=>{const el=$('#w'+j);const ok=readNum(el.value)===a;el.classList.toggle('ok',ok);el.classList.toggle('ko',!ok);if(!ok)all=false;});
+  const wd=$('#wd');
+  if(wd){const ok=Math.abs(readNum(wd.value)-D.t/D.u)<1e-9;wd.classList.toggle('ok',ok);wd.classList.toggle('ko',!ok);if(!ok)all=false;}
+  const m=$('#msg');
+  if(all){S.d.done.add(S.d.i);renderDots();m.className='msg ok';m.textContent=S.d.done.size===DEFIS.length?'Tous les défis sont réussis !':'Juste ! Passe au défi suivant.';}
+  else{m.className='msg ko';m.textContent='Les cases en rouge sont à revoir. Regarde ton coloriage.';}
+});
+$('#write').addEventListener('keydown',e=>{if(e.key==='Enter')$('#checkWrite').click();});
+$('#prev').addEventListener('click',()=>goDefi(S.d.i-1));
+$('#next').addEventListener('click',()=>goDefi(S.d.i+1));
+
+/* ---------- onglets et outils ---------- */
+function setTab(t){
+  S.tab=t;
+  document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t));
+  $('#recit').innerHTML=RECIT[t];
+  const def=t==='defi';
+  $('#free-tools').hidden=def;$('#count').hidden=def;
+  $('#defi-head').hidden=!def;$('#consigne').hidden=!def;$('#defi-box').hidden=!def;
+  if(def)renderDefi();else{$('#nsq').textContent=S.free[t].n;renderBoard();renderCount();}
+}
+document.querySelector('nav').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)setTab(b.dataset.tab);});
+$('#plus').addEventListener('click',()=>{const F=S.free[S.tab];if(F.n<4){F.n++;$('#nsq').textContent=F.n;renderBoard();renderCount();}});
+$('#minus').addEventListener('click',()=>{const F=S.free[S.tab];if(F.n>1){F.n--;$('#nsq').textContent=F.n;renderBoard();renderCount();}});
+$('#clear').addEventListener('click',()=>{S.free[S.tab].c.fill(false);renderBoard();renderCount();});
+$('#virg').addEventListener('change',e=>{S.virgule=e.target.checked;if(S.tab==='defi'){if(S.d.phase==='write')$('#write').innerHTML=answers(DEFIS[S.d.i]).html;}else renderCount();});
+let rt,lastW=0;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(board.clientWidth!==lastW){lastW=board.clientWidth;renderBoard();}},120);});
+
+/* Exemple de départ : 13 dixièmes de carré, comme dans l'histoire */
+for(let i=0;i<13;i++)S.free.dix.c[i]=true;
+setTab('dix');
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
