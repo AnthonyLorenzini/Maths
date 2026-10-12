@@ -148,7 +148,8 @@ window.SITE = {
               titre: "Le milieu d'un segment et synthèse", duree: "50 min",
               contenu: [
                 "On cherche le milieu d'un segment sur une droite graduée.",
-                "Escape game final : 5 épreuves, un chiffre de code à gagner à chaque épreuve (placer une fraction, graduer, trouver un milieu…)."
+                "Escape game final : 5 épreuves, un chiffre de code à gagner à chaque épreuve (placer une fraction, graduer, trouver un milieu…).",
+                "Exercices du TD, **page 52**."
               ],
               ressources: ["course-fractions", "enigme-segment"],
               retenir: [
