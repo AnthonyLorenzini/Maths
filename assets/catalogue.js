@@ -231,6 +231,36 @@ window.SITE = {
               ],
               exemple: "20 % = 20/100 = 0,2.",
               savoir: "écrire un pourcentage sous forme de fraction et de nombre décimal."
+            },
+            {
+              titre: "Lire et placer un nombre décimal sur une droite graduée", duree: "50 min",
+              contenu: [
+                "On lit l'abscisse d'un point et on place un nombre sur une droite graduée en dixièmes.",
+                "Avec la loupe, on découpe un dixième en 10 pour atteindre les centièmes (mini-jeu La Loupe à Décimaux)."
+              ],
+              ressources: ["loupe-decimaux"],
+              retenir: [
+                "Sur une droite graduée en dixièmes, chaque graduation vaut **0,1** ; dans la loupe, chaque graduation vaut **0,01**.",
+                "Pour placer un décimal, on repère d'abord le bon dixième, puis on agrandit avec la loupe.",
+                "Si la droite ne commence pas à 0, on compte à partir de l'origine réelle."
+              ],
+              exemple: "Dans la loupe entre 1,3 et 1,4, le point à la 7e graduation est 1,37.",
+              savoir: "lire et placer un nombre décimal sur une droite graduée."
+            },
+            {
+              titre: "Calculer avec des décimaux : prix et durées", duree: "50 min",
+              contenu: [
+                "Le jeu de la caisse : on calcule le total d'un ticket de caisse, puis la monnaie à rendre (mini-jeu La Caisse Enregistreuse).",
+                "Chrono Fou : on convertit des durées et on calcule des horaires de trains (mini-jeu Le Chrono Fou)."
+              ],
+              ressources: ["caisse-enregistreuse", "chrono-fou"],
+              retenir: [
+                "Pour additionner ou soustraire des décimaux, on pose l'opération en mettant **la virgule sous la virgule**, et on complète avec des zéros.",
+                "La monnaie à rendre est une soustraction : somme donnée − total à payer.",
+                "Les durées ne se comptent pas par 10 : **1 h = 60 min** et **1 min = 60 s**. On convertit avant de calculer."
+              ],
+              exemple: "12,5 + 3,75 : on écrit 12,50 + 3,75 = 16,25. Et 2 h 15 min = 2 × 60 + 15 = 135 min.",
+              savoir: "poser une opération avec des décimaux, rendre la monnaie et convertir une durée."
             }
           ],
           ressources: [
