@@ -21,7 +21,9 @@
           { titre: "…", duree: "50 min",
             contenu: ["ce qu'on fait, étape par étape", "…"],
             ressources: ["id-d-une-ressource-du-chapitre"],
-            retenir: ["l'essentiel à retenir, une phrase par ligne (**gras** possible)"] }
+            retenir: ["les 3 règles à apprendre (**gras** possible)"],
+            exemple: "un exemple calculé, en une ligne",
+            savoir: "ce que l'élève doit savoir faire (complète « Je sais… »)" }
         ]
    ========================================================= */
 window.SITE = {
@@ -43,12 +45,14 @@ window.SITE = {
                 "On découvre le vocabulaire et les notations avec des cartes à retourner.",
                 "On joue au Mémory pour associer chaque notation à sa définition."
               ],
-              ressources: ["points-droites-distances", "6e-ch2-cahier-exercices", "cahier-geometrie"],
+              ressources: ["points-droites-distances", "6e-ch2-cahier-exercices"],
               retenir: [
-                "Un **point** se note avec une lettre majuscule : A. Une **droite** se note (AB), un **segment** se note [AB], une **demi-droite** se note [AB).",
+                "Un **point** se note A ; une **droite** (AB) ; un **segment** [AB] ; une **demi-droite** [AB).",
                 "A ∈ (d) se lit « A appartient à (d) » ; C ∉ (d) se lit « C n'appartient pas à (d) ». Des points d'une même droite sont **alignés**.",
                 "**[AB]** est le segment (un objet) ; **AB** est sa longueur (un nombre, sans crochets)."
-              ]
+              ],
+              exemple: "[EF] est un segment. S'il mesure 3 cm, on écrit EF = 3 cm.",
+              savoir: "nommer et noter un point, une droite, un segment et une demi-droite, et dire si un point appartient à une droite."
             },
             {
               titre: "Reporter des longueurs et trouver la distance", duree: "≈ 42 min",
@@ -59,11 +63,12 @@ window.SITE = {
               ],
               ressources: ["points-droites-distances", "6e-ch2-cahier-exercices"],
               retenir: [
-                "La **distance** entre deux points A et B est la longueur du plus court chemin de A à B : c'est la longueur du segment [AB], notée AB.",
-                "Si C n'est pas sur [AB], alors **AC + CB > AB**.",
-                "Si D est sur [AB], alors **AD + DB = AB**.",
-                "Deux segments codés avec les mêmes petits traits ont la même longueur."
-              ]
+                "La **distance AB** est la longueur du plus court chemin de A à B : c'est la longueur du segment [AB].",
+                "Si C ∉ [AB], alors **AC + CB > AB**. Si D ∈ [AB], alors **AD + DB = AB**.",
+                "Deux segments codés avec les mêmes petits traits ont la même longueur : on les reporte au compas."
+              ],
+              exemple: "AD = 2,5 cm et DB = 3,5 cm : AD + DB = 6 cm = AB, donc D ∈ [AB].",
+              savoir: "reporter une longueur au compas et utiliser AD + DB = AB pour savoir si un point est sur un segment."
             },
             {
               titre: "Réinvestir et faire le point", duree: "≈ 46 min",
@@ -72,12 +77,14 @@ window.SITE = {
                 "Entraînement dans le manuel, page 91.",
                 "Ticket de sortie : on répond seul, sans aide, puis on vérifie."
               ],
-              ressources: ["points-droites-distances", "6e-ch2-cahier-exercices", "cahier-geometrie"],
+              ressources: ["points-droites-distances", "6e-ch2-cahier-exercices"],
               retenir: [
-                "Les notations ne se confondent pas : point A, droite (AB), segment [AB], longueur AB.",
-                "AB est la longueur du plus court chemin entre A et B.",
-                "Codage : mêmes petits traits = mêmes longueurs ; petit carré = angle droit."
-              ]
+                "Codage : **mêmes petits traits = mêmes longueurs** ; petit carré = angle droit.",
+                "Le **milieu** M de [AB] est le point de [AB] à égale distance de A et de B.",
+                "AB est la longueur du plus court chemin entre A et B."
+              ],
+              exemple: "(AB) est une droite ; [AB] est un segment ; AB = 4,5 cm est une longueur.",
+              savoir: "lire une figure codée et écrire correctement chaque notation."
             }
           ],
           ressources: [
@@ -98,10 +105,12 @@ window.SITE = {
               ],
               ressources: ["atelier-partages"],
               retenir: [
-                "Dans la fraction **a/b**, le **dénominateur b** dit en combien de parts égales on partage l'unité, et le **numérateur a** dit combien de parts on prend.",
-                "Des parts égales n'ont pas forcément la même forme : elles ont la même taille.",
-                "Une fraction peut être plus grande que 1 quand on prend plus d'une unité."
-              ]
+                "Dans la fraction **a/b**, le **dénominateur b** est le nombre de parts égales de l'unité, le **numérateur a** est le nombre de parts prises.",
+                "Des parts égales ont la même taille, pas forcément la même forme.",
+                "Si on prend plus d'une unité, la fraction est supérieure à 1."
+              ],
+              exemple: "3/5 : on partage l'unité en 5 parts égales et on en colorie 3.",
+              savoir: "colorier une fraction donnée et dire ce que représentent le numérateur et le dénominateur."
             },
             {
               titre: "Placer une fraction sur une demi-droite graduée", duree: "50 min",
@@ -111,10 +120,12 @@ window.SITE = {
               ],
               ressources: ["course-fractions"],
               retenir: [
-                "L'**unité** est le segment qui va de 0 à 1 : on le partage en autant de parts que le dénominateur.",
-                "Pour placer a/b : on compte **a graduations** depuis l'origine, avec des graduations qui valent chacune 1/b.",
-                "Le nombre qui repère un point sur la droite s'appelle son **abscisse**."
-              ]
+                "L'**unité** est le segment de 0 à 1 : on le partage en autant de parts que le dénominateur.",
+                "Pour placer a/b, on compte **a graduations** depuis l'origine ; chaque graduation vaut 1/b. Le nombre qui repère un point est son **abscisse**.",
+                "Si la droite ne commence pas à 0, on compte à partir de l'origine réelle."
+              ],
+              exemple: "Unité partagée en 5 : le point 3/5 est à la 3e graduation après 0.",
+              savoir: "placer une fraction sur une demi-droite graduée et lire l'abscisse d'un point."
             },
             {
               titre: "Graduer un segment", duree: "50 min",
@@ -124,9 +135,11 @@ window.SITE = {
               ],
               ressources: ["chantier-graduations"],
               retenir: [
-                "Pour partager un segment en **N parts égales**, on calcule l'écart entre deux graduations : **longueur ÷ N** (8 cm ÷ 4 = 2 cm).",
+                "Pour partager un segment en **N parts égales**, on calcule l'écart entre deux graduations : **longueur ÷ N**.",
                 "On reporte ensuite cet écart de proche en proche, à partir d'une extrémité."
-              ]
+              ],
+              exemple: "Segment de 8 cm en 4 parts égales : 8 ÷ 4 = 2 cm entre deux graduations.",
+              savoir: "graduer un segment en N parts égales avec la règle."
             },
             {
               titre: "Le milieu d'un segment et synthèse", duree: "50 min",
@@ -136,10 +149,12 @@ window.SITE = {
               ],
               ressources: ["course-fractions", "enigme-segment"],
               retenir: [
-                "Le **milieu** de [AB] est le point du segment situé à égale distance de A et de B : il partage le segment en deux parts égales.",
-                "Sur une droite graduée, pour trouver le milieu : on compte les graduations entre A et B, puis on divise par 2.",
-                "Fraction, graduation et milieu servent tous les trois à partager en parts égales."
-              ]
+                "Le **milieu** de [AB] est le point à égale distance de A et de B : il partage le segment en deux parts égales.",
+                "Sur une droite graduée, on compte les graduations entre A et B, puis on **divise par 2**.",
+                "Fraction, graduation et milieu servent tous à partager en parts égales."
+              ],
+              exemple: "Il y a 12 graduations entre A et B : le milieu est à 6 graduations de A.",
+              savoir: "trouver le milieu d'un segment gradué."
             }
           ],
           ressources: [
@@ -163,8 +178,10 @@ window.SITE = {
               retenir: [
                 "Un **dixième** est une part sur 10 : 1/10 = 0,1. Un **centième** est une part sur 100 : 1/100 = 0,01.",
                 "10 dixièmes font 1 unité ; 10 centièmes font 1 dixième.",
-                "Une **fraction décimale** est une fraction dont le dénominateur est 10, 100, 1 000…"
-              ]
+                "Une **fraction décimale** a pour dénominateur 10, 100, 1 000…"
+              ],
+              exemple: "7/10 = 0,7 et 23/100 = 0,23.",
+              savoir: "écrire une fraction décimale avec une virgule, et inversement."
             },
             {
               titre: "Un même nombre, plusieurs écritures", duree: "50 min",
@@ -174,10 +191,12 @@ window.SITE = {
               ],
               ressources: ["familles-decimales", "memory-fractions-decimales", "fleurs-decimaux"],
               retenir: [
-                "Un même nombre s'écrit de plusieurs façons : 6,25 = 625/100 = 6 + 25/100 = 6 + 2/10 + 5/100.",
+                "Un même nombre s'écrit de plusieurs façons : à virgule, en fraction, en somme de fractions, en nombre mixte.",
                 "Dans un tableau de numération, une case vide s'écrit **0**.",
                 "Ajouter des zéros à droite de la partie décimale ne change pas le nombre : 0,5 = 0,50."
-              ]
+              ],
+              exemple: "6,25 = 625/100 = 6 + 25/100 = 6 + 2/10 + 5/100.",
+              savoir: "passer d'une écriture d'un nombre décimal à une autre."
             },
             {
               titre: "Lire et placer un nombre décimal sur une droite graduée", duree: "50 min",
@@ -188,9 +207,11 @@ window.SITE = {
               ressources: ["loupe-decimaux"],
               retenir: [
                 "Sur une droite graduée en dixièmes, chaque graduation vaut **0,1** ; dans la loupe, chaque graduation vaut **0,01**.",
-                "Pour placer un décimal, on repère d'abord le bon dixième, puis on agrandit.",
+                "Pour placer un décimal, on repère d'abord le bon dixième, puis on agrandit avec la loupe.",
                 "Si la droite ne commence pas à 0, on compte à partir de l'origine réelle."
-              ]
+              ],
+              exemple: "Dans la loupe entre 1,3 et 1,4, le point à la 7e graduation est 1,37.",
+              savoir: "lire et placer un nombre décimal sur une droite graduée."
             },
             {
               titre: "Les pourcentages", duree: "50 min",
@@ -200,10 +221,12 @@ window.SITE = {
               ],
               ressources: ["jauge-pourcentages"],
               retenir: [
-                "**p %** veut dire **p sur 100** : 20 % = 20/100 = 0,2.",
-                "100 % correspond à l'unité entière, soit 1 ; au-delà de 100 %, on dépasse l'unité.",
-                "On peut passer d'un pourcentage à une fraction, puis à un nombre à virgule."
-              ]
+                "**p %** veut dire **p sur 100**.",
+                "20 % = 20/100 = 0,2 : on passe d'un pourcentage à une fraction, puis à un nombre décimal.",
+                "**100 %** correspond à l'unité entière ; au-delà de 100 %, on dépasse l'unité."
+              ],
+              exemple: "20 % = 20/100 = 0,2.",
+              savoir: "écrire un pourcentage sous forme de fraction et de nombre décimal."
             },
             {
               titre: "Calculer avec des nombres décimaux", duree: "50 min",
@@ -214,9 +237,11 @@ window.SITE = {
               ressources: ["caisse-enregistreuse"],
               retenir: [
                 "Pour additionner ou soustraire des décimaux, on pose l'opération en mettant **la virgule sous la virgule**.",
-                "On complète avec des zéros pour que les deux nombres aient le même nombre de chiffres après la virgule.",
+                "On complète avec des zéros pour avoir le même nombre de chiffres après la virgule.",
                 "La monnaie à rendre est une soustraction : somme donnée − total à payer."
-              ]
+              ],
+              exemple: "12,5 + 3,75 : on écrit 12,50 + 3,75 = 16,25.",
+              savoir: "poser une addition ou une soustraction de décimaux et rendre la monnaie."
             },
             {
               titre: "Durées, coffre décimal et bilan", duree: "50 min",
@@ -227,9 +252,11 @@ window.SITE = {
               ressources: ["chrono-fou", "coffre-decimal"],
               retenir: [
                 "Les durées ne se comptent pas par 10 : **1 h = 60 min** et **1 min = 60 s**.",
-                "Un nombre est décimal s'il peut s'écrire avec une fraction de dénominateur 10, 100, 1 000…",
-                "Pour comparer ou ranger des décimaux, on regarde d'abord la partie entière, puis les dixièmes, les centièmes…"
-              ]
+                "On convertit les durées avant de calculer un horaire ou une durée de trajet.",
+                "Un nombre est **décimal** s'il peut s'écrire avec une fraction de dénominateur 10, 100, 1 000…"
+              ],
+              exemple: "2 h 15 min = 2 × 60 + 15 = 135 min.",
+              savoir: "convertir une durée et calculer un horaire d'arrivée."
             }
           ],
           ressources: [
@@ -281,12 +308,14 @@ window.SITE = {
                 "Automatisme de début de séance (5 min), puis on teste si des tableaux de valeurs traduisent une situation de proportionnalité, avec les quotients et un graphique.",
                 "On calcule une quatrième proportionnelle avec trois méthodes : le coefficient, le produit en croix et la linéarité."
               ],
-              ressources: ["4e-ch1-lecon", "4e-ch1-s1"],
+              ressources: ["4e-ch1-s1"],
               retenir: [
-                "Deux grandeurs sont **proportionnelles** si on passe de l'une à l'autre en multipliant toujours par le même nombre : le **coefficient de proportionnalité**.",
-                "Dans un tableau de proportionnalité, **tous les quotients sont égaux**. Sur un graphique, les points sont alignés sur une droite qui passe par l'origine.",
-                "Pour trouver une valeur manquante : le coefficient, le **produit en croix** (a/b = c/x donc x = b × c ÷ a) ou la **linéarité**."
-              ]
+                "Deux grandeurs sont **proportionnelles** si on passe de l'une à l'autre en multipliant toujours par le même nombre : le **coefficient**.",
+                "Dans un tableau de proportionnalité, **tous les quotients sont égaux**.",
+                "Valeur manquante : le coefficient, le **produit en croix** (a/b = c/x donc x = b × c ÷ a) ou la **linéarité**."
+              ],
+              exemple: "Gâteaux : 1, 2, 4 ; œufs : 3, 6, 12. Les quotients valent tous 3 : c'est proportionnel, de coefficient 3.",
+              savoir: "justifier qu'un tableau est de proportionnalité et calculer une valeur manquante."
             },
             {
               titre: "Calculer et appliquer un pourcentage", duree: "50 min",
@@ -295,10 +324,12 @@ window.SITE = {
               ],
               ressources: ["4e-ch1-s2"],
               retenir: [
-                "**t %** veut dire **t/100**. Pour calculer t % de N : **(t ÷ 100) × N** (20 % de 150 = 0,20 × 150 = 30).",
-                "Pour trouver le pourcentage que représente une partie : **(partie ÷ total) × 100** (7 filles sur 20 élèves : 7 ÷ 20 × 100 = 35 %).",
-                "Pour une réduction ou une taxe, on calcule le pourcentage, puis on le retire ou on l'ajoute au prix de départ (TVA 20 % : prix TTC = prix HT + 20 % du prix HT)."
-              ]
+                "**t %** veut dire **t/100**. t % de N = **(t ÷ 100) × N**.",
+                "Pourcentage que représente une partie : **(partie ÷ total) × 100**.",
+                "Réduction : on retire le pourcentage du prix. TVA : on l'ajoute (TTC = HT + 20 % de HT)."
+              ],
+              exemple: "Skin à 2 000 V-bucks à − 30 % : réduction = 2 000 × 0,30 = 600 ; nouveau prix = 1 400.",
+              savoir: "calculer un pourcentage d'une quantité et le pourcentage que représente une partie."
             },
             {
               titre: "Les évolutions en pourcentage", duree: "50 min",
@@ -308,10 +339,12 @@ window.SITE = {
               ],
               ressources: ["4e-ch1-s3"],
               retenir: [
-                "Une **hausse de t %** revient à multiplier par **1 + t/100** (+ 8 % : × 1,08). Une **baisse de t %** revient à multiplier par **1 − t/100** (− 15 % : × 0,85).",
-                "Pour deux évolutions successives, on enchaîne les calculs : chaque pourcentage s'applique au résultat précédent.",
-                "**Les pourcentages successifs ne s'additionnent pas** : + 15 % puis + 10 % font environ + 26,5 %, pas + 25 %."
-              ]
+                "Une **hausse de t %** : on multiplie par **1 + t/100**. Une **baisse de t %** : on multiplie par **1 − t/100**.",
+                "Deux évolutions successives : on enchaîne les calculs, chaque pourcentage s'applique au résultat précédent.",
+                "**Les pourcentages successifs ne s'additionnent pas** : + 15 % puis + 10 %, ce n'est pas + 25 %."
+              ],
+              exemple: "40 000 abonnés, − 15 % : 40 000 × 0,85 = 34 000.",
+              savoir: "calculer une hausse ou une baisse en un seul calcul."
             },
             {
               titre: "Le pourcentage réciproque", duree: "50 min",
@@ -320,10 +353,12 @@ window.SITE = {
               ],
               ressources: ["4e-ch1-s4"],
               retenir: [
-                "Pour retrouver un total quand on connaît une partie qui représente t % : **total = partie ÷ (t ÷ 100)**.",
+                "Retrouver un total à partir d'une partie qui représente t % : **total = partie ÷ (t ÷ 100)**.",
                 "Après une baisse de 30 %, on paie **70 %** du prix initial : prix initial = prix payé ÷ 0,70.",
-                "Après plusieurs évolutions, on multiplie d'abord les coefficients (× 0,80 puis × 0,90 : × 0,72), puis on divise le résultat final par ce coefficient total."
-              ]
+                "Après plusieurs évolutions, on multiplie les coefficients, puis on divise par le coefficient total."
+              ],
+              exemple: "Casque à 68 € après − 15 % : 68 ÷ 0,85 = 80 €.",
+              savoir: "retrouver le prix ou le total de départ."
             }
           ],
           ressources: [
@@ -344,12 +379,14 @@ window.SITE = {
                 "Automatisme (conversions de durées, calcul mental), puis on définit une grandeur quotient.",
                 "On calcule une vitesse moyenne, une distance ou une durée, et on convertit des vitesses (km/h et m/s)."
               ],
-              ressources: ["4e-ch2-lecon", "4e-ch2-s1"],
+              ressources: ["4e-ch2-s1"],
               retenir: [
-                "Une **grandeur quotient** s'obtient en divisant deux grandeurs. Son unité combine celles des deux grandeurs (km/h, m/s…).",
+                "Une **grandeur quotient** s'obtient en divisant deux grandeurs : son unité les combine (km/h, m/s…).",
                 "**v = d ÷ t**, donc **d = v × t** et **t = d ÷ v**.",
-                "On convertit les durées avant de calculer : 2 h 15 min = 2,25 h. Pour passer de km/h à m/s, on divise par 3,6."
-              ]
+                "On convertit les durées avant de calculer (2 h 15 min = 2,25 h). De km/h à m/s : **÷ 3,6**."
+              ],
+              exemple: "90 km en 3 h : v = 90 ÷ 3 = 30 km/h. Et 72 km/h = 72 ÷ 3,6 = 20 m/s.",
+              savoir: "calculer une vitesse, une distance ou une durée, et convertir des km/h en m/s."
             },
             {
               titre: "Le débit et la densité", duree: "50 min",
@@ -359,11 +396,12 @@ window.SITE = {
               ],
               ressources: ["4e-ch2-s2"],
               retenir: [
-                "**Débit = volume ÷ temps** (en L/min, L/h, m³/h…).",
-                "**Densité (masse volumique) = masse ÷ volume** (en g/cm³…).",
-                "C'est le même type de calcul qu'une vitesse. Pour passer de L/min à L/h, on multiplie par 60.",
+                "**Débit = volume ÷ temps** (L/min, m³/h…). **Densité = masse ÷ volume** (g/cm³…).",
+                "C'est le même type de calcul qu'une vitesse. De L/min à L/h, on multiplie par 60.",
                 "Un objet moins dense que l'eau (moins de 1 g/cm³) flotte."
-              ]
+              ],
+              exemple: "120 L en 4 min : débit = 120 ÷ 4 = 30 L/min.",
+              savoir: "calculer et utiliser un débit ou une densité."
             },
             {
               titre: "Aire, volume et énergie", duree: "50 min",
@@ -373,10 +411,12 @@ window.SITE = {
               ],
               ressources: ["4e-ch2-s3"],
               retenir: [
-                "Une **grandeur produit** s'obtient en multipliant deux grandeurs : aire = longueur × largeur ; volume = longueur × largeur × hauteur.",
+                "Une **grandeur produit** s'obtient en multipliant : aire = longueur × largeur ; volume = longueur × largeur × hauteur.",
                 "**Énergie E = P × t** : avec P en kW et t en h, E est en **kWh**.",
-                "1 000 W = 1 kW. Pour passer de Wh à kWh, on divise par 1 000. Le coût = énergie × prix du kWh."
-              ]
+                "1 000 W = 1 kW. Coût = énergie × prix du kWh."
+              ],
+              exemple: "Radiateur de 2 kW pendant 3 h : E = 2 × 3 = 6 kWh.",
+              savoir: "calculer une aire, un volume et une énergie en kWh."
             },
             {
               titre: "Bilan du chapitre", duree: "50 min",
@@ -384,12 +424,14 @@ window.SITE = {
                 "Automatisme, puis des problèmes complets, comme au brevet : trajet en voiture, peinture d'une chambre, défi entre deux amis.",
                 "On cherche l'erreur d'un élève sur une durée convertie à tort."
               ],
-              ressources: ["4e-ch2-s4", "4e-ch2-minijeux"],
+              ressources: ["4e-ch2-s4"],
               retenir: [
-                "Dans un problème, on identifie la grandeur cherchée, on choisit la formule, on **convertit les unités avant de calculer**, puis on enchaîne les étapes.",
-                "Les minutes ne sont pas des centièmes d'heure : **1 h 45 min = 1,75 h**, pas 1,45 h.",
-                "Pour acheter des pots de peinture, on arrondit toujours au nombre entier supérieur."
-              ]
+                "Dans un problème : on repère la grandeur cherchée, on choisit la formule, on **convertit avant de calculer**, puis on enchaîne.",
+                "Les minutes ne sont pas des centièmes d'heure : **1 h 45 min = 1,75 h**.",
+                "Pour acheter des pots de peinture, on arrondit toujours à l'entier supérieur."
+              ],
+              exemple: "Radiateur de 2 kW pendant 1 h 45 min : E = 2 × 1,75 = 3,5 kWh (et non 2 × 1,45).",
+              savoir: "résoudre un problème complet en enchaînant plusieurs grandeurs."
             }
           ],
           ressources: [
@@ -411,12 +453,14 @@ window.SITE = {
                 "Automatisme sur les critères de divisibilité, puis le crible d'Ératosthène sur une grille de 1 à 100.",
                 "On cherche les diviseurs de plusieurs nombres, on teste des nombres et on cherche des intrus."
               ],
-              ressources: ["4e-ch3-lecon", "4e-ch3-s1"],
+              ressources: ["4e-ch3-s1"],
               retenir: [
                 "Un **nombre premier** a exactement **deux diviseurs** : 1 et lui-même (2, 3, 5, 7, 11, 13…).",
-                "**1 n'est pas premier** (un seul diviseur) ; **2 est le seul nombre premier pair**.",
-                "Pour tester un nombre inférieur à 100, on cherche s'il est divisible par 2, 3, 5 ou 7. S'il ne l'est par aucun, il est premier."
-              ]
+                "**1 n'est pas premier** ; **2 est le seul nombre premier pair**.",
+                "Pour tester un nombre inférieur à 100 : est-il divisible par 2, 3, 5 ou 7 ? Si non, il est premier."
+              ],
+              exemple: "17 a deux diviseurs (1 et 17) : il est premier. 12 en a six : il ne l'est pas.",
+              savoir: "dire si un nombre inférieur à 100 est premier et le justifier."
             },
             {
               titre: "Décomposition en facteurs premiers", duree: "50 min",
@@ -424,12 +468,14 @@ window.SITE = {
                 "Automatisme, puis on décompose des nombres en produit de facteurs premiers.",
                 "On fait aussi l'inverse : à partir d'une décomposition, on retrouve le nombre."
               ],
-              ressources: ["4e-ch3-s2", "4e-ch3-minijeux"],
+              ressources: ["4e-ch3-s2"],
               retenir: [
-                "Tout nombre entier supérieur à 1 s'écrit comme un **produit de nombres premiers**.",
-                "Méthode : on divise successivement par le plus petit nombre premier possible, jusqu'à obtenir 1.",
-                "Exemple : 60 = 2 × 2 × 3 × 5 = **2² × 3 × 5**."
-              ]
+                "Tout nombre entier supérieur à 1 est un **produit de nombres premiers**.",
+                "Méthode : on divise par le plus petit nombre premier possible, jusqu'à obtenir 1.",
+                "On écrit le résultat avec des puissances : 60 = 2 × 2 × 3 × 5 = **2² × 3 × 5**."
+              ],
+              exemple: "60 ÷ 2 = 30 ; 30 ÷ 2 = 15 ; 15 ÷ 3 = 5 ; 5 ÷ 5 = 1, donc 60 = 2² × 3 × 5.",
+              savoir: "décomposer un nombre en produit de facteurs premiers."
             },
             {
               titre: "Simplifier une fraction", duree: "50 min",
@@ -438,22 +484,26 @@ window.SITE = {
               ],
               ressources: ["4e-ch3-s3"],
               retenir: [
-                "Pour simplifier : on décompose le numérateur et le dénominateur, puis on simplifie par les facteurs premiers communs. 60/84 = (2² × 3 × 5)/(2² × 3 × 7) = **5/7**.",
-                "Une fraction est **irréductible** quand il ne reste aucun facteur premier commun (35/48 est déjà irréductible).",
+                "On décompose le numérateur et le dénominateur, puis on simplifie par les **facteurs premiers communs**.",
+                "Une fraction est **irréductible** quand il ne reste aucun facteur commun (35/48 l'est déjà).",
                 "La méthode est la même pour une fraction supérieure à 1 : 126/84 = 3/2."
-              ]
+              ],
+              exemple: "60/84 = (2² × 3 × 5)/(2² × 3 × 7) = 5/7.",
+              savoir: "rendre une fraction irréductible avec la décomposition."
             },
             {
               titre: "Problèmes de répartition et bilan", duree: "50 min",
               contenu: [
                 "Automatisme, puis des problèmes de répartition en lots identiques : bouquets, pochettes de badges et de stickers, carrelage."
               ],
-              ressources: ["4e-ch3-s4", "4e-ch3-minijeux"],
+              ressources: ["4e-ch3-s4"],
               retenir: [
                 "Pour répartir en lots identiques sans reste, on cherche le **plus grand nombre qui divise les deux quantités**.",
-                "Méthode : on décompose les deux nombres, puis on multiplie leurs facteurs premiers communs. 48 badges et 36 stickers : 2² × 3 = 12 pochettes.",
-                "Chaque lot contient ensuite quantité ÷ nombre de lots (4 badges et 3 stickers)."
-              ]
+                "Méthode : on décompose les deux nombres, puis on multiplie leurs facteurs premiers communs.",
+                "Chaque lot contient ensuite quantité ÷ nombre de lots."
+              ],
+              exemple: "12 roses = 2² × 3 et 18 tulipes = 2 × 3² : 2 × 3 = 6 bouquets, chacun avec 2 roses et 3 tulipes.",
+              savoir: "résoudre un problème de répartition en lots identiques."
             }
           ],
           ressources: [

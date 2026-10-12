@@ -159,6 +159,11 @@ h1,h2,h3{font-family:var(--f-titre);line-height:1.1;text-wrap:balance;margin:0}
 .retenir h4{margin:0 0 6px;color:var(--encre);font:700 17px/1.1 var(--f-titre);letter-spacing:0;text-transform:none}
 .retenir ul{list-style:none;padding:0;font-size:15.5px}
 .retenir li{position:relative;padding-left:24px}
+.retenir .exemple,.retenir .savoir{margin:10px 0 0;font-size:15px}
+.retenir .exemple{background:var(--feuille);border:2px dashed var(--bord);border-radius:10px;padding:8px 12px}
+.retenir .exemple b,.retenir .savoir b{font-family:var(--f-titre);color:var(--teinte);margin-right:4px}
+.retenir .savoir{font-weight:600}
+.retenir .savoir b::before{content:"☐ ";font-weight:400}
 .retenir li::before{content:"✓";position:absolute;left:0;top:0;font-weight:800;color:var(--teinte)}
 @media (max-width:560px){.seance-tete{flex-wrap:wrap}.seance-duree{width:100%}}
 
@@ -294,7 +299,7 @@ footer{margin-top:20px;padding-top:16px;border-top:1.5px dashed var(--trait);col
   }
   function seancesHtml(n,c){
     if(!c.seances||!c.seances.length) return '';
-    return '<section class="rubrique"><div class="rubrique-tete"><h2>Séance par séance</h2><span>ce qu\'on fait en classe, et ce qu\'il faut retenir</span></div>'+
+    return '<section class="rubrique"><div class="rubrique-tete"><h2>Séance par séance</h2><span>ce qu\'on fait en classe, et le bilan à apprendre</span></div>'+
       '<div class="seances">'+c.seances.map(function(se,i){
         var liens=(se.ressources||[]).map(function(id){ var r=ressourceDuNiveau(n,id); return r? '<a href="'+lien(r)+'">'+esc(TYPES[r.type]?TYPES[r.type].nom:'Page')+' · '+esc(r.titre)+'</a>' : ''; }).join('');
         return '<article class="seance">'+
@@ -302,7 +307,9 @@ footer{margin-top:20px;padding-top:16px;border-top:1.5px dashed var(--trait);col
           '<div class="seance-corps">'+
             ((se.contenu&&se.contenu.length)?'<h4>Ce qu\'on fait</h4><ul>'+se.contenu.map(function(t){return '<li>'+gras(t)+'</li>';}).join('')+'</ul>':'')+
             (liens?'<div class="seance-liens">'+liens+'</div>':'')+
-            ((se.retenir&&se.retenir.length)?'<div class="retenir"><h4>À retenir</h4><ul>'+se.retenir.map(function(t){return '<li>'+gras(t)+'</li>';}).join('')+'</ul></div>':'')+
+            ((se.retenir&&se.retenir.length)?'<div class="retenir"><h4>Bilan à apprendre</h4><ul>'+se.retenir.map(function(t){return '<li>'+gras(t)+'</li>';}).join('')+'</ul>'+
+              (se.exemple?'<p class="exemple"><b>Exemple</b> '+gras(se.exemple)+'</p>':'')+
+              (se.savoir?'<p class="savoir"><b>Je sais</b> '+gras(se.savoir)+'</p>':'')+'</div>':'')+
           '</div></article>';
       }).join('')+'</div></section>';
   }
