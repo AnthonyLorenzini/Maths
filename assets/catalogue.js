@@ -274,6 +274,58 @@ window.SITE = {
         {
           id: "4e-ch1", num: 1, titre: "Les pourcentages",
           resume: "Proportionnalité, appliquer un pourcentage, évolutions et pourcentage réciproque.",
+          seances: [
+            {
+              titre: "La proportionnalité", duree: "50 min",
+              contenu: [
+                "Automatisme de début de séance (5 min), puis on teste si des tableaux de valeurs traduisent une situation de proportionnalité, avec les quotients et un graphique.",
+                "On calcule une quatrième proportionnelle avec trois méthodes : le coefficient, le produit en croix et la linéarité."
+              ],
+              ressources: ["4e-ch1-lecon", "4e-ch1-s1"],
+              retenir: [
+                "Deux grandeurs sont **proportionnelles** si on passe de l'une à l'autre en multipliant toujours par le même nombre : le **coefficient de proportionnalité**.",
+                "Dans un tableau de proportionnalité, **tous les quotients sont égaux**. Sur un graphique, les points sont alignés sur une droite qui passe par l'origine.",
+                "Pour trouver une valeur manquante : le coefficient, le **produit en croix** (a/b = c/x donc x = b × c ÷ a) ou la **linéarité**."
+              ]
+            },
+            {
+              titre: "Calculer et appliquer un pourcentage", duree: "50 min",
+              contenu: [
+                "Automatisme, puis des exercices pour calculer un pourcentage d'une quantité, trouver quel pourcentage représente une partie, et appliquer une réduction ou la TVA."
+              ],
+              ressources: ["4e-ch1-s2"],
+              retenir: [
+                "**t %** veut dire **t/100**. Pour calculer t % de N : **(t ÷ 100) × N** (20 % de 150 = 0,20 × 150 = 30).",
+                "Pour trouver le pourcentage que représente une partie : **(partie ÷ total) × 100** (7 filles sur 20 élèves : 7 ÷ 20 × 100 = 35 %).",
+                "Pour une réduction ou une taxe, on calcule le pourcentage, puis on le retire ou on l'ajoute au prix de départ (TVA 20 % : prix TTC = prix HT + 20 % du prix HT)."
+              ]
+            },
+            {
+              titre: "Les évolutions en pourcentage", duree: "50 min",
+              contenu: [
+                "Automatisme, puis des hausses et des baisses calculées en un seul calcul.",
+                "On enchaîne deux évolutions successives et on compare avec la somme des pourcentages."
+              ],
+              ressources: ["4e-ch1-s3"],
+              retenir: [
+                "Une **hausse de t %** revient à multiplier par **1 + t/100** (+ 8 % : × 1,08). Une **baisse de t %** revient à multiplier par **1 − t/100** (− 15 % : × 0,85).",
+                "Pour deux évolutions successives, on enchaîne les calculs : chaque pourcentage s'applique au résultat précédent.",
+                "**Les pourcentages successifs ne s'additionnent pas** : + 15 % puis + 10 % font environ + 26,5 %, pas + 25 %."
+              ]
+            },
+            {
+              titre: "Le pourcentage réciproque", duree: "50 min",
+              contenu: [
+                "Automatisme, puis des problèmes où l'on connaît le résultat et on cherche le prix ou le total de départ : soldes, serveur, recettes d'un film, commission."
+              ],
+              ressources: ["4e-ch1-s4"],
+              retenir: [
+                "Pour retrouver un total quand on connaît une partie qui représente t % : **total = partie ÷ (t ÷ 100)**.",
+                "Après une baisse de 30 %, on paie **70 %** du prix initial : prix initial = prix payé ÷ 0,70.",
+                "Après plusieurs évolutions, on multiplie d'abord les coefficients (× 0,80 puis × 0,90 : × 0,72), puis on divise le résultat final par ce coefficient total."
+              ]
+            }
+          ],
           ressources: [
             { id: "4e-ch1-lecon", type: "lecon", titre: "Leçon — Les pourcentages", resume: "La fiche leçon, avec des calculatrices pour tester tes propres nombres.", ajout: "2026-09-21" },
             { id: "4e-ch1-s1", type: "exos", titre: "Séance 1 — La proportionnalité", resume: "Reconnaître une situation de proportionnalité, 4e proportionnelle.", ajout: "2026-09-21" },
@@ -285,6 +337,61 @@ window.SITE = {
         {
           id: "4e-ch2", num: 2, titre: "Grandeurs quotients et produits",
           resume: "Vitesse, débit, densité, aire, volume et énergie.",
+          seances: [
+            {
+              titre: "La vitesse", duree: "50 min",
+              contenu: [
+                "Automatisme (conversions de durées, calcul mental), puis on définit une grandeur quotient.",
+                "On calcule une vitesse moyenne, une distance ou une durée, et on convertit des vitesses (km/h et m/s)."
+              ],
+              ressources: ["4e-ch2-lecon", "4e-ch2-s1"],
+              retenir: [
+                "Une **grandeur quotient** s'obtient en divisant deux grandeurs. Son unité combine celles des deux grandeurs (km/h, m/s…).",
+                "**v = d ÷ t**, donc **d = v × t** et **t = d ÷ v**.",
+                "On convertit les durées avant de calculer : 2 h 15 min = 2,25 h. Pour passer de km/h à m/s, on divise par 3,6."
+              ]
+            },
+            {
+              titre: "Le débit et la densité", duree: "50 min",
+              contenu: [
+                "Automatisme, puis des exercices avec des robinets, des pompes, des blocs de métal et des glaçons.",
+                "On calcule des débits et des masses volumiques, et on convertit leurs unités."
+              ],
+              ressources: ["4e-ch2-s2"],
+              retenir: [
+                "**Débit = volume ÷ temps** (en L/min, L/h, m³/h…).",
+                "**Densité (masse volumique) = masse ÷ volume** (en g/cm³…).",
+                "C'est le même type de calcul qu'une vitesse. Pour passer de L/min à L/h, on multiplie par 60.",
+                "Un objet moins dense que l'eau (moins de 1 g/cm³) flotte."
+              ]
+            },
+            {
+              titre: "Aire, volume et énergie", duree: "50 min",
+              contenu: [
+                "Automatisme, puis on rappelle que l'aire et le volume sont des grandeurs produits.",
+                "On calcule des énergies électriques en kWh et leur coût."
+              ],
+              ressources: ["4e-ch2-s3"],
+              retenir: [
+                "Une **grandeur produit** s'obtient en multipliant deux grandeurs : aire = longueur × largeur ; volume = longueur × largeur × hauteur.",
+                "**Énergie E = P × t** : avec P en kW et t en h, E est en **kWh**.",
+                "1 000 W = 1 kW. Pour passer de Wh à kWh, on divise par 1 000. Le coût = énergie × prix du kWh."
+              ]
+            },
+            {
+              titre: "Bilan du chapitre", duree: "50 min",
+              contenu: [
+                "Automatisme, puis des problèmes complets, comme au brevet : trajet en voiture, peinture d'une chambre, défi entre deux amis.",
+                "On cherche l'erreur d'un élève sur une durée convertie à tort."
+              ],
+              ressources: ["4e-ch2-s4", "4e-ch2-minijeux"],
+              retenir: [
+                "Dans un problème, on identifie la grandeur cherchée, on choisit la formule, on **convertit les unités avant de calculer**, puis on enchaîne les étapes.",
+                "Les minutes ne sont pas des centièmes d'heure : **1 h 45 min = 1,75 h**, pas 1,45 h.",
+                "Pour acheter des pots de peinture, on arrondit toujours au nombre entier supérieur."
+              ]
+            }
+          ],
           ressources: [
             { id: "4e-ch2-lecon", type: "lecon", titre: "Leçon — Grandeurs quotients et produits", resume: "Les formules, avec un convertisseur km/h ↔ m/s.", ajout: "2026-09-21" },
             { id: "4e-ch2-s1", type: "exos", titre: "Séance 1 — La vitesse", resume: "v = d ÷ t, et les conversions.", ajout: "2026-09-21" },
@@ -297,6 +404,58 @@ window.SITE = {
         {
           id: "4e-ch3", num: 3, titre: "Divisibilité et nombres premiers",
           resume: "Nombres premiers, décomposition, fractions irréductibles et répartitions.",
+          seances: [
+            {
+              titre: "Découverte des nombres premiers", duree: "50 min",
+              contenu: [
+                "Automatisme sur les critères de divisibilité, puis le crible d'Ératosthène sur une grille de 1 à 100.",
+                "On cherche les diviseurs de plusieurs nombres, on teste des nombres et on cherche des intrus."
+              ],
+              ressources: ["4e-ch3-lecon", "4e-ch3-s1"],
+              retenir: [
+                "Un **nombre premier** a exactement **deux diviseurs** : 1 et lui-même (2, 3, 5, 7, 11, 13…).",
+                "**1 n'est pas premier** (un seul diviseur) ; **2 est le seul nombre premier pair**.",
+                "Pour tester un nombre inférieur à 100, on cherche s'il est divisible par 2, 3, 5 ou 7. S'il ne l'est par aucun, il est premier."
+              ]
+            },
+            {
+              titre: "Décomposition en facteurs premiers", duree: "50 min",
+              contenu: [
+                "Automatisme, puis on décompose des nombres en produit de facteurs premiers.",
+                "On fait aussi l'inverse : à partir d'une décomposition, on retrouve le nombre."
+              ],
+              ressources: ["4e-ch3-s2", "4e-ch3-minijeux"],
+              retenir: [
+                "Tout nombre entier supérieur à 1 s'écrit comme un **produit de nombres premiers**.",
+                "Méthode : on divise successivement par le plus petit nombre premier possible, jusqu'à obtenir 1.",
+                "Exemple : 60 = 2 × 2 × 3 × 5 = **2² × 3 × 5**."
+              ]
+            },
+            {
+              titre: "Simplifier une fraction", duree: "50 min",
+              contenu: [
+                "Automatisme, puis on simplifie des fractions avec la décomposition, y compris des fractions supérieures à 1."
+              ],
+              ressources: ["4e-ch3-s3"],
+              retenir: [
+                "Pour simplifier : on décompose le numérateur et le dénominateur, puis on simplifie par les facteurs premiers communs. 60/84 = (2² × 3 × 5)/(2² × 3 × 7) = **5/7**.",
+                "Une fraction est **irréductible** quand il ne reste aucun facteur premier commun (35/48 est déjà irréductible).",
+                "La méthode est la même pour une fraction supérieure à 1 : 126/84 = 3/2."
+              ]
+            },
+            {
+              titre: "Problèmes de répartition et bilan", duree: "50 min",
+              contenu: [
+                "Automatisme, puis des problèmes de répartition en lots identiques : bouquets, pochettes de badges et de stickers, carrelage."
+              ],
+              ressources: ["4e-ch3-s4", "4e-ch3-minijeux"],
+              retenir: [
+                "Pour répartir en lots identiques sans reste, on cherche le **plus grand nombre qui divise les deux quantités**.",
+                "Méthode : on décompose les deux nombres, puis on multiplie leurs facteurs premiers communs. 48 badges et 36 stickers : 2² × 3 = 12 pochettes.",
+                "Chaque lot contient ensuite quantité ÷ nombre de lots (4 badges et 3 stickers)."
+              ]
+            }
+          ],
           ressources: [
             { id: "4e-ch3-lecon", type: "lecon", titre: "Leçon — Divisibilité et nombres premiers", resume: "Teste si un nombre est premier, décompose, simplifie.", ajout: "2026-09-21" },
             { id: "4e-ch3-s1", type: "exos", titre: "Séance 1 — Découverte des nombres premiers", resume: "Le crible d'Ératosthène.", ajout: "2026-10-06" },
