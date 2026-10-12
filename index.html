@@ -319,7 +319,7 @@ footer{margin-top:20px;padding-top:16px;border-top:1.5px dashed var(--trait);col
           '<div class="seance-corps">'+
             ((se.contenu&&se.contenu.length)?'<h4>Ce qu\'on fait</h4><ul>'+se.contenu.map(function(t){return '<li>'+gras(t)+'</li>';}).join('')+'</ul>':'')+
             (liens?'<div class="seance-liens">'+liens+'</div>':'')+
-            (jeuxTxt?'<p class="seance-jeux">Jeux utilisés en classe : '+jeuxTxt+' <span>(dans les mini-jeux)</span></p>':'')+
+            (jeuxTxt?'<p class="seance-jeux">Mini-jeu associé : '+jeuxTxt+' <span>(onglet Mini-jeux)</span></p>':'')+
             ((se.retenir&&se.retenir.length)?'<div class="retenir"><h4>Bilan à apprendre</h4><ul>'+se.retenir.map(function(t){return '<li>'+gras(t)+'</li>';}).join('')+'</ul>'+
               (se.exemple?'<p class="exemple"><b>Exemple</b> '+gras(se.exemple)+'</p>':'')+
               (se.savoir?'<p class="savoir"><b>Je sais</b> '+gras(se.savoir)+'</p>':'')+'</div>':'')+

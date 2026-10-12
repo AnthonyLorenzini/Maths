@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L'histoire de la virgule</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{--papier:#F3EEE4;--feuille:#FFFFFF;--encre:#22303F;--gris:#5F6F80;--trait:#DDD5C6;--vert:#1E7A4C;--vert-clair:#E6F5EC;--carreau:rgba(43,108,176,.10)}
+@media (prefers-color-scheme:dark){:root{--papier:#161B22;--feuille:#202833;--encre:#ECE6DA;--gris:#9DAAB7;--trait:#344150;--vert:#6BD3A0;--vert-clair:#18342A;--carreau:rgba(140,175,220,.07)}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--papier);color:var(--encre);font:400 16px/1.55 'Work Sans',system-ui,sans-serif;
+  background-image:linear-gradient(var(--carreau) 1px,transparent 1px),linear-gradient(90deg,var(--carreau) 1px,transparent 1px);background-size:22px 22px}
+.cadre{max-width:860px;margin:0 auto;padding:22px 16px 40px}
+.etiquette{font:700 13px/1 'Work Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--vert)}
+h1{font:800 clamp(30px,6vw,44px)/1.05 'Baloo 2','Trebuchet MS',sans-serif;margin:6px 0 8px}
+.intro{color:var(--gris);margin:0 0 18px;max-width:60ch}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.bouton{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:700 15px/1 'Work Sans',sans-serif;padding:12px 18px;border-radius:12px;border:2px solid var(--vert);color:var(--vert);background:var(--feuille)}
+.bouton.plein{background:var(--vert);color:#fff}
+.bouton:hover{filter:brightness(1.08)}
+.feuillet{margin:0 0 18px;background:var(--feuille);border:2px solid var(--trait);border-radius:14px;overflow:hidden}
+.feuillet img{display:block;width:100%;height:auto}
+.feuillet figcaption{font-size:13px;color:var(--gris);padding:6px 12px;border-top:1px dashed var(--trait)}
+.credit{font-size:13px;color:var(--gris)}
+@media print{.actions{display:none}}
+</style>
+</head>
+<body>
+<main class="cadre">
+  <div class="etiquette">6e · Chapitre 4 · Activité</div>
+  <h1>L'histoire de la virgule</h1>
+  <p class="intro">L'activité de découverte : du bâton partagé en 10 jusqu'à l'invention de la virgule. Lis-la, ou télécharge-la pour la refaire sur papier.</p>
+  <div class="actions">
+    <a class="bouton plein" href="histoire-de-la-virgule.pdf" download>Télécharger le PDF</a>
+    <a class="bouton" href="histoire-de-la-virgule.pdf" target="_blank" rel="noopener">Ouvrir dans un nouvel onglet</a>
+  </div>
+  <figure class="feuillet"><img src="page-1.jpg" alt="Page 1 de l'activité : les moutons, les cailloux, les écritures des nombres, puis la mesure d'une ficelle avec un bâton." loading="eager"><figcaption>Page 1 sur 4</figcaption></figure>
+  <figure class="feuillet"><img src="page-2.jpg" alt="Page 2 : le bâton partagé en dixièmes, les carrés, les écritures fractionnaires et les exercices sur les dixièmes." loading="lazy"><figcaption>Page 2 sur 4</figcaption></figure>
+  <figure class="feuillet"><img src="page-3.jpg" alt="Page 3 : les centièmes, 20/100 = 2/10 et les exercices sur les centièmes." loading="lazy"><figcaption>Page 3 sur 4</figcaption></figure>
+  <figure class="feuillet"><img src="page-4.jpg" alt="Page 4 : l'invention de la virgule, 257/100 = 2 + 5/10 + 7/100 = 2,57." loading="lazy"><figcaption>Page 4 sur 4</figcaption></figure>
+  <p class="credit">Document : « Activité — Histoire de la virgule », auteure : Laura Guimard.</p>
+</main>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

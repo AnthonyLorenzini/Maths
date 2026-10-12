@@ -172,54 +172,54 @@ window.SITE = {
           resume: "Dixièmes, centièmes, millièmes : un même nombre, plusieurs écritures.",
           seances: [
             {
-              titre: "Dixièmes et centièmes", duree: "50 min",
+              titre: "L'histoire de la virgule (1/2) : les dixièmes", duree: "50 min",
               contenu: [
-                "On découvre l'histoire de la virgule : on partage l'unité en 10 parts égales, puis chaque part en 10 encore.",
-                "On colorie des dixièmes, puis des centièmes, sur le carré 10×10, et on écrit ce qu'on a colorié."
+                "On lit l'histoire du berger et de la ficelle : pour mesurer plus précisément, il partage son bâton en 10 parties égales.",
+                "On écrit des quantités en dixièmes avec des fractions, puis on passe de 13/10 à 1 + 3/10 et inversement."
               ],
-              ressources: ["flash-decimaux", "carre-10x10"],
+              ressources: ["histoire-virgule", "carre-10x10"],
               retenir: [
-                "Un **dixième** est une part sur 10 : 1/10 = 0,1. Un **centième** est une part sur 100 : 1/100 = 0,01.",
-                "10 dixièmes font 1 unité ; 10 centièmes font 1 dixième.",
-                "Une **fraction décimale** a pour dénominateur 10, 100, 1 000…"
+                "Pour être plus précis, on partage l'unité en 10 parties égales : chaque part est un **dixième** et l'unité fait **10 dixièmes**.",
+                "Un nombre de dixièmes s'écrit avec une fraction de dénominateur 10 : 24 dixièmes = **24/10**.",
+                "Dès qu'il y a 10 dixièmes, on a une unité entière : 13/10 = 1 + 3/10."
               ],
-              exemple: "7/10 = 0,7 et 23/100 = 0,23.",
-              savoir: "écrire une fraction décimale avec une virgule, et inversement."
+              exemple: "35/10 = 3 + 5/10, et 7 + 9/10 = 79/10.",
+              savoir: "écrire une quantité en dixièmes sous forme de fraction, et passer de 13/10 à 1 + 3/10 (et inversement)."
             },
             {
-              titre: "Un même nombre, plusieurs écritures", duree: "50 min",
+              titre: "L'histoire de la virgule (2/2) : les centièmes et la virgule", duree: "50 min",
               contenu: [
-                "Familles, Mémory et fleurs : on associe l'écriture à virgule, la fraction décimale, la somme de fractions et le nombre mixte.",
-                "Dans le cahier d'exercices, on complète les fleurs, avec les millièmes, les zéros cachés et les pourcentages."
+                "Même idée : on partage chaque dixième en 10 parties égales. On obtient les centièmes.",
+                "On écrit des nombres en dixièmes et centièmes, puis on découvre la virgule."
               ],
-              ressources: ["familles-decimales", "memory-fractions-decimales", "fleurs-decimaux"],
+              ressources: ["histoire-virgule", "carre-10x10"],
               retenir: [
-                "Un même nombre s'écrit de plusieurs façons : à virgule, en fraction, en somme de fractions, en nombre mixte.",
+                "On partage chaque dixième en 10 : un **centième** est une part sur 100 (1/100). L'unité fait **100 centièmes**.",
+                "10 centièmes font 1 dixième : 20/100 = 2/10.",
+                "La **virgule** permet d'écrire le nombre « d'un seul morceau » : 2 unités, 5 dixièmes, 7 centièmes s'écrivent **2,57**. Et 3/10 = 0,3."
+              ],
+              exemple: "257/100 = 2 + 5/10 + 7/100 = 2,57.",
+              savoir: "écrire avec une virgule un nombre donné en dixièmes et en centièmes."
+            },
+            {
+              titre: "Les différentes écritures d'un nombre décimal (les fleurs)", duree: "50 min",
+              contenu: [
+                "Chaque fleur a 5 pétales, et chaque pétale montre une écriture du même nombre. On en connaît une, on complète les autres.",
+                "Exercices : dixièmes et centièmes, millièmes et zéros cachés, pourcentages, fleur intruse et fleur mystère."
+              ],
+              ressources: ["fleurs-decimaux"],
+              retenir: [
+                "Un même nombre décimal s'écrit de plusieurs façons : **écriture décimale** (6,25), **fraction décimale** (625/100), **somme de fractions** (6 + 2/10 + 5/100), **nombre mixte** et **en mots**.",
                 "Dans un tableau de numération, une case vide s'écrit **0**.",
                 "Ajouter des zéros à droite de la partie décimale ne change pas le nombre : 0,5 = 0,50."
               ],
-              exemple: "6,25 = 625/100 = 6 + 25/100 = 6 + 2/10 + 5/100.",
+              exemple: "6,25 = 625/100 = 6 + 2/10 + 5/100.",
               savoir: "passer d'une écriture d'un nombre décimal à une autre."
-            },
-            {
-              titre: "Lire et placer un nombre décimal sur une droite graduée", duree: "50 min",
-              contenu: [
-                "On lit l'abscisse d'un point et on place un nombre sur une droite graduée en dixièmes.",
-                "Avec la loupe, on découpe un dixième en 10 pour atteindre les centièmes."
-              ],
-              ressources: ["loupe-decimaux"],
-              retenir: [
-                "Sur une droite graduée en dixièmes, chaque graduation vaut **0,1** ; dans la loupe, chaque graduation vaut **0,01**.",
-                "Pour placer un décimal, on repère d'abord le bon dixième, puis on agrandit avec la loupe.",
-                "Si la droite ne commence pas à 0, on compte à partir de l'origine réelle."
-              ],
-              exemple: "Dans la loupe entre 1,3 et 1,4, le point à la 7e graduation est 1,37.",
-              savoir: "lire et placer un nombre décimal sur une droite graduée."
             },
             {
               titre: "Les pourcentages", duree: "50 min",
               contenu: [
-                "On lit un pourcentage sur une jauge, puis sur une grille de 100, et on le remplit soi-même.",
+                "On lit un pourcentage sur une jauge, puis sur une grille de 100.",
                 "On passe d'un pourcentage à une fraction et à un nombre décimal."
               ],
               ressources: ["jauge-pourcentages"],
@@ -230,39 +230,10 @@ window.SITE = {
               ],
               exemple: "20 % = 20/100 = 0,2.",
               savoir: "écrire un pourcentage sous forme de fraction et de nombre décimal."
-            },
-            {
-              titre: "Calculer avec des nombres décimaux", duree: "50 min",
-              contenu: [
-                "Le jeu de la caisse : on calcule le total d'un ticket de caisse, puis la monnaie à rendre.",
-                "On pose chaque opération dans le cahier."
-              ],
-              ressources: ["caisse-enregistreuse"],
-              retenir: [
-                "Pour additionner ou soustraire des décimaux, on pose l'opération en mettant **la virgule sous la virgule**.",
-                "On complète avec des zéros pour avoir le même nombre de chiffres après la virgule.",
-                "La monnaie à rendre est une soustraction : somme donnée − total à payer."
-              ],
-              exemple: "12,5 + 3,75 : on écrit 12,50 + 3,75 = 16,25.",
-              savoir: "poser une addition ou une soustraction de décimaux et rendre la monnaie."
-            },
-            {
-              titre: "Durées, coffre décimal et bilan", duree: "50 min",
-              contenu: [
-                "Chrono Fou : on convertit des durées et on calcule des horaires de trains.",
-                "Coffre décimal : chaque énigme résolue donne un chiffre du code, pour faire le point sur tout le chapitre."
-              ],
-              ressources: ["chrono-fou", "coffre-decimal"],
-              retenir: [
-                "Les durées ne se comptent pas par 10 : **1 h = 60 min** et **1 min = 60 s**.",
-                "On convertit les durées avant de calculer un horaire ou une durée de trajet.",
-                "Un nombre est **décimal** s'il peut s'écrire avec une fraction de dénominateur 10, 100, 1 000…"
-              ],
-              exemple: "2 h 15 min = 2 × 60 + 15 = 135 min.",
-              savoir: "convertir une durée et calculer un horaire d'arrivée."
             }
           ],
           ressources: [
+            { id: "histoire-virgule", type: "classe", titre: "L'histoire de la virgule", resume: "L'activité de découverte : du bâton partagé en 10 jusqu'à la virgule. À lire ou à télécharger en PDF.", ajout: "2026-10-12" },
             { id: "carre-10x10", type: "jeu", titre: "Le Carré 10×10", resume: "Colorie des dixièmes, puis des centièmes.", ajout: "2026-10-10" },
             { id: "fleurs-decimaux", type: "exos", titre: "Les Fleurs des Décimaux", resume: "Chaque pétale montre une écriture du même nombre. Avec correction.", ajout: "2026-10-10" },
             { id: "familles-decimales", type: "jeu", titre: "Le Jeu des Familles décimales", resume: "Quatre écritures pour un même nombre : complète chaque famille.", ajout: "2026-10-10" },
