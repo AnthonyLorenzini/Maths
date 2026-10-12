@@ -147,6 +147,27 @@ h1,h2,h3{font-family:var(--f-titre);line-height:1.1;text-wrap:balance;margin:0}
 .vide{border:2px dashed var(--trait);border-radius:14px;padding:16px 18px;color:var(--gris);font-size:14.5px;background:var(--feuille)}
 .vide b{color:var(--encre)}
 
+/* Séances d'un chapitre : déroulé + « À retenir » */
+.seances{display:flex;flex-direction:column;gap:16px}
+.seance{background:var(--feuille);border:2px solid var(--trait);border-radius:16px;overflow:hidden}
+.seance-tete{display:flex;align-items:center;gap:12px;padding:14px 18px 6px}
+.seance-num{flex:none;font:800 15px/1 var(--f-titre);padding:7px 11px 5px;border-radius:999px;background:var(--fond);color:var(--teinte);border:2px solid var(--bord)}
+.seance-tete h3{font-size:21px;flex:1;min-width:0}
+.seance-duree{flex:none;font-size:13px;font-weight:600;color:var(--gris)}
+.seance-corps{padding:4px 18px 16px}
+.seance-corps h4{margin:10px 0 6px;font:700 13px/1 var(--f-texte);letter-spacing:.07em;text-transform:uppercase;color:var(--gris)}
+.seance-corps ul{margin:0;padding-left:20px;font-size:15px}
+.seance-corps li+li{margin-top:3px}
+.seance-liens{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.seance-liens a{font-size:13.5px;font-weight:600;text-decoration:none;padding:6px 11px;border-radius:999px;border:2px solid var(--trait);background:var(--feuille)}
+.seance-liens a:hover{border-color:var(--teinte)}
+.retenir{margin-top:14px;background:var(--fond);border:2px solid var(--bord);border-radius:14px;padding:12px 16px 14px}
+.retenir h4{margin:0 0 6px;color:var(--encre);font:700 17px/1.1 var(--f-titre);letter-spacing:0;text-transform:none}
+.retenir ul{list-style:none;padding:0;font-size:15.5px}
+.retenir li{position:relative;padding-left:24px}
+.retenir li::before{content:"✓";position:absolute;left:0;top:0;font-weight:800;color:var(--teinte)}
+@media (max-width:560px){.seance-tete{flex-wrap:wrap}.seance-duree{width:100%}}
+
 .resultats-tete{font:700 20px/1.2 var(--f-titre);margin:0 0 12px}
 footer{margin-top:20px;padding-top:16px;border-top:1.5px dashed var(--trait);color:var(--gris);font-size:13.5px}
 
@@ -285,6 +306,27 @@ footer{margin-top:20px;padding-top:16px;border-top:1.5px dashed var(--trait);col
       }).join('')+'</div>';
   }
 
+  function gras(t){return esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');}
+  function ressourceDuNiveau(n,id){
+    for (var i=0;i<n.chapitres.length;i++) for (var j=0;j<n.chapitres[i].ressources.length;j++)
+      if (n.chapitres[i].ressources[j].id===id) return n.chapitres[i].ressources[j];
+    return null;
+  }
+  function seancesHtml(n,c){
+    if(!c.seances||!c.seances.length) return '';
+    return '<section class="rubrique"><div class="rubrique-tete"><h2>Séance par séance</h2><span>ce qu\'on fait en classe, et ce qu\'il faut retenir</span></div>'+
+      '<div class="seances">'+c.seances.map(function(se,i){
+        var liens=(se.ressources||[]).map(function(id){ var r=ressourceDuNiveau(n,id); return r? '<a href="'+lien(r)+'">'+esc(TYPES[r.type]?TYPES[r.type].nom:'Page')+' · '+esc(r.titre)+'</a>' : ''; }).join('');
+        return '<article class="seance">'+
+          '<div class="seance-tete"><span class="seance-num">Séance '+(i+1)+'</span><h3>'+esc(se.titre)+'</h3>'+(se.duree?'<span class="seance-duree">'+esc(se.duree)+'</span>':'')+'</div>'+
+          '<div class="seance-corps">'+
+            ((se.contenu&&se.contenu.length)?'<h4>Ce qu\'on fait</h4><ul>'+se.contenu.map(function(t){return '<li>'+gras(t)+'</li>';}).join('')+'</ul>':'')+
+            (liens?'<div class="seance-liens">'+liens+'</div>':'')+
+            ((se.retenir&&se.retenir.length)?'<div class="retenir"><h4>À retenir</h4><ul>'+se.retenir.map(function(t){return '<li>'+gras(t)+'</li>';}).join('')+'</ul></div>':'')+
+          '</div></article>';
+      }).join('')+'</div></section>';
+  }
+
   /* ---------- Chapitre ---------- */
   function chapitre(n,c){
     var k=compte(c);
@@ -300,7 +342,7 @@ footer{margin-top:20px;padding-top:16px;border-top:1.5px dashed var(--trait);col
         '<div class="vue-titre"><span class="etiquette">'+(c.num? 'Ch'+c.num : '★')+'</span><h1>'+esc(c.titre)+'</h1></div>'+
         '<p class="vue-intro">'+esc(c.resume||'')+'</p>'+
         (c.bientot ? '<div class="vide"><b>Ce chapitre arrive bientôt.</b> Les pages seront mises en ligne au fil des séances.</div>' :
-        '<div class="conseil"><div><b>Par où commencer ?</b> Relis la leçon, refais les exercices corrigés sans regarder la solution, puis termine par un mini-jeu.</div></div>'+rubs)+
+        '<div class="conseil"><div><b>Par où commencer ?</b> Relis la leçon, refais les exercices corrigés sans regarder la solution, puis termine par un mini-jeu.</div></div>'+seancesHtml(n,c)+rubs)+
       '</div>';
   }
 
