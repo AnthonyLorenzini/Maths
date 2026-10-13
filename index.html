@@ -190,6 +190,58 @@ a.niv,a.chap,a.reprendre{text-decoration:none;color:inherit}
 .deroule summary{cursor:pointer;font-weight:700;padding:4px 0}
 .deroule ul{margin:6px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
 .bandeau .doux{max-width:72%}
+
+/* onglets d'une classe */
+.onglets{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;border-radius:18px;background:var(--cc)}
+.onglets a{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 8px;border-radius:13px;text-decoration:none;color:var(--c);font-family:var(--f-titre);font-weight:800}
+.onglets a.on{background:var(--carte);box-shadow:0 2px 0 color-mix(in srgb,var(--c) 30%,transparent)}
+.onglets svg{width:18px;height:18px;flex:none}
+.lien .fl svg{width:18px;height:18px;display:block}
+.lien .num{width:34px;height:34px;border-radius:10px;font-size:1.05rem;flex:none}
+.lien.off{opacity:.55;border-style:dashed;cursor:default}
+.lien.off:hover{border-color:var(--trait);color:var(--encre)}
+
+/* scène de l'ascension */
+svg .lbl{paint-order:stroke;stroke:rgba(255,255,255,.72);stroke-width:3px;stroke-linejoin:round}
+svg .lbl.ok{fill:var(--encre);font-weight:800}
+svg .rep-i{color:#8A95A8} svg .rep-i.ok{color:var(--c,var(--violet))}
+svg .plafond{stroke:var(--orange);stroke-width:1.6;stroke-dasharray:6 5}
+svg .pastille{fill:var(--orange)} svg .pastille-t{fill:#fff;font-family:var(--f-texte);font-weight:700;font-size:10.5px}
+.pied-asc{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:20px;background:var(--carte);border:1px solid var(--trait)}
+.pied-asc svg.mini{width:46px;height:50px;flex:none}
+.pied-asc .alt{font-size:1.7rem}
+.zone{font-weight:700;color:var(--encre-2);margin-top:2px}
+.pied-asc .btn{margin-left:auto;padding:10px 18px;flex:none}
+
+/* test d'ascension */
+.test{display:flex;flex-direction:column;gap:16px}
+.t-tete{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.progres{display:flex;gap:6px}
+.progres i{flex:1;height:10px;border-radius:999px;background:var(--trait)}
+.progres i.v{background:var(--vert)} .progres i.f{background:var(--orange)} .progres i.c{background:var(--carte);box-shadow:inset 0 0 0 3px var(--c)}
+.enonce{font-size:1.15rem;font-weight:700;line-height:1.45;padding:16px;border-radius:18px;background:var(--carte);border:2px solid var(--trait)}
+.enonce p{margin:12px 0 0}
+.tab{border-collapse:collapse;margin:2px 0;font-variant-numeric:tabular-nums;max-width:100%}
+.tab th,.tab td{border:2px solid var(--trait);padding:8px 12px;text-align:center;font-weight:700}
+.tab th{background:var(--cc);color:var(--c);text-align:left;font-family:var(--f-titre)}
+.reps{display:flex;flex-direction:column;gap:10px}
+.rep{display:flex;gap:12px;align-items:center;min-height:56px;padding:12px 16px;border-radius:16px;background:var(--carte);border:2px solid var(--trait);font-weight:700;font-size:1.05rem;line-height:1.3;transition:border-color .12s,transform .08s,background .12s}
+.rep:hover:not(:disabled){border-color:var(--c)} .rep:active:not(:disabled){transform:translateY(2px)}
+.rep .lettre{width:32px;height:32px;border-radius:50%;background:var(--cc);color:var(--c);display:grid;place-items:center;font-family:var(--f-titre);font-weight:800;flex:none}
+.rep.bonne{border-color:var(--vert);background:var(--vert-clair)} .rep.bonne .lettre{background:var(--vert);color:#fff}
+.rep.faux{border-color:var(--orange);background:var(--orange-clair)} .rep.faux .lettre{background:var(--orange);color:#fff}
+.rep:disabled{cursor:default}
+.correction{display:flex;flex-direction:column;gap:10px}
+.correction .btn{width:100%}
+.verdict{font-size:1.1rem}
+.verdict.ok strong{color:color-mix(in srgb,var(--vert) 80%,#000)} .verdict.non strong{color:color-mix(in srgb,var(--orange) 78%,#000)}
+.res-test{border-radius:22px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.res-test.ok{background:var(--vert-clair);border:2px solid var(--vert)}
+.res-test.non{background:var(--orange-clair);border:2px solid var(--orange)}
+.res-test .score{font-size:1.15rem}
+.a-revoir{border-radius:18px;padding:14px 16px;background:var(--carte);border:2px solid var(--trait)}
+.a-revoir ul{margin:8px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.a-revoir a{font-weight:700;color:var(--c)}
 </style>
 </head>
 <body>
@@ -197,6 +249,8 @@ a.niv,a.chap,a.reprendre{text-decoration:none;color:inherit}
 <div id="voile" class="voile" hidden></div>
 <div id="toast" class="toast" role="status" hidden></div>
 <script src="assets/catalogue.js"></script>
+<script src="assets/ascension.js"></script>
+<script src="assets/questions.js"></script>
 <script>
 
 const S=window.SITE;
@@ -209,7 +263,9 @@ const ICO={
  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
  retenir:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3Z"/></svg>',
  loupe:'<svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="5.5"/><path d="m12 12 4.5 4.5"/></svg>',
- gauche:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>'
+ gauche:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>',
+ fleche:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>',
+ monte:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V6M6 12l6-6 6 6"/></svg>'
 };
 
 /* ---------- Fractales : une par niveau ---------- */
@@ -342,100 +398,221 @@ const ENIGMES=[
 ];
 function enigmeDuJour(){const d=new Date();const j=Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);return ENIGMES[j%ENIGMES.length]}
 
-/* ---------- La montgolfière : pseudo et altitude gardés sur l'appareil de l'élève ---------- */
-const PALIERS=[[0,'Au sol'],[300,'Au-dessus des toits'],[800,'Dans les nuages'],[1500,'Au-dessus des nuages'],[2500,'Avec les aigles'],[4000,'Très haute altitude'],[5000,'Record de l’expédition']];
-const MAXI=5000,GAIN=50;
-let M={pseudo:'',alt:0,jour:'',joues:[],msg:''};
-function charger(){try{Object.assign(M,JSON.parse(localStorage.getItem('expe-montgolfiere')||'{}'))}catch(e){}}
-charger();
-function sauver(){try{localStorage.setItem('expe-montgolfiere',JSON.stringify(M))}catch(e){}}
-function aujourdhui(){const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
-function palier(a){let p=PALIERS[0];for(const x of PALIERS)if(a>=x[0])p=x;return p}
-function prochain(a){return PALIERS.find(x=>x[0]>a)}
-const fr=n=>n.toLocaleString('fr-FR');
-function gagner(id){
- if(M.jour!==aujourdhui()){M.jour=aujourdhui();M.joues=[]}
- if(M.joues.includes(id)){M.msg='Déjà compté aujourd’hui pour ce jeu. Essaie-en un autre !';sauver();return}
- const avant=palier(M.alt)[1];
- M.alt=Math.min(MAXI,M.alt+GAIN);M.joues.push(id);
- const apres=palier(M.alt)[1];
- M.msg=apres!==avant?`<b>+${GAIN} m</b> Nouveau palier : ${apres} !`:`<b>+${GAIN} m</b> Ta montgolfière est à ${fr(M.alt)} m`;
- sauver();
-}
+/* ---------- Ascension : altitude, pseudo et résultats restent sur l'appareil de l'élève ---------- */
+const AS=window.ASC,CF=AS.CONFIG;
+const fr=n=>Math.round(n).toLocaleString('fr-FR');
+const dateLundi=()=>AS.prochainLundi().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+const liste=a=>a.length<2?a.join(''):a.slice(0,-1).join(', ')+' et '+a[a.length-1];
+const niveauDe=id=>S.niveaux.find(x=>x.id===id);
 
-function montgolfiere(anim=true){
- const a=M.alt,r=a/MAXI;
- const sol=196,haut=80,y=sol-(sol-haut)*r;              // y = bas de la nacelle
- const p=palier(a),n=prochain(a);
- const base=n?p[0]:PALIERS[PALIERS.length-2][0],cible=n?n[0]:MAXI,pct=Math.round(100*(a-base)/(cible-base));
- const reperes=PALIERS.slice(1).map(([h,nom])=>{const yy=sol-(sol-haut)*h/MAXI;return `<line class="repere" x1="12" y1="${yy.toFixed(0)}" x2="250" y2="${yy.toFixed(0)}"/><text class="lbl" x="12" y="${(yy-4).toFixed(0)}">${fr(h)} m</text>`}).join('');
- const bx=300;
- return `<footer class="vol a-monte" id="vol">
-  <svg viewBox="0 0 360 230" role="img" aria-label="Ta montgolfière : ${a} mètres, palier ${p[1]}">
-   <defs>
-    <linearGradient id="ciel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="ciel1"/><stop offset="1" class="ciel2"/></linearGradient>
-    <clipPath id="enveloppe"><path d="M0 -62 C26 -62 34 -40 30 -24 C26 -10 12 -4 8 2 L-8 2 C-12 -4 -26 -10 -30 -24 C-34 -40 -26 -62 0 -62Z"/></clipPath>
-   </defs>
-   <rect width="360" height="230" fill="url(#ciel)"/>
-   <circle class="soleil" cx="236" cy="34" r="16"/>
-   <g class="nuage"><ellipse cx="70" cy="${(sol-(sol-haut)*1000/MAXI).toFixed(0)}" rx="34" ry="10"/><ellipse cx="90" cy="${(sol-(sol-haut)*1000/MAXI-7).toFixed(0)}" rx="20" ry="11"/>
-    <ellipse cx="200" cy="${(sol-(sol-haut)*1300/MAXI).toFixed(0)}" rx="40" ry="10"/><ellipse cx="185" cy="${(sol-(sol-haut)*1300/MAXI-6).toFixed(0)}" rx="22" ry="11"/></g>
+/* Repères : de petites icônes dessinées sur une grille 18 × 18 */
+const ICO_REP={
+ lampadaire:'<path d="M6 17h6M9 17V6.5c0-1.8 1-2.9 2.7-2.9H14"/><path d="M12.2 3.4h3.4l-.9 2.8h-1.6z" fill="currentColor" stroke="none"/>',
+ arbre:'<circle cx="9" cy="6.8" r="5"/><path d="M9 11.8V17M6.6 17h4.8"/>',
+ immeuble:'<rect x="4.5" y="2" width="9" height="15" rx="1"/><path d="M7.3 5.5h.8M10 5.5h.8M7.3 8.5h.8M10 8.5h.8M7.3 11.5h.8M10 11.5h.8M8.2 17v-3h1.6v3"/>',
+ eiffel:'<path d="M9 1.5 10.3 8 13.5 17M9 1.5 7.7 8 4.5 17M7.9 8h2.2M6.5 12.2h5M4.8 17h8.4"/>',
+ burj:'<path d="M9 1v3.5M9 4.5 10.4 8v3l1.8 2.5V17H5.8v-3.5L7.6 11V8Z"/>',
+ puy:'<path d="M1.5 17C3 10 5.8 6.5 9 6.5s6 3.5 7.5 10.5Z"/><path d="M9 6.5V2M7.6 3.6h2.8"/>',
+ montblanc:'<path d="M1.5 17 7 6l2.4 4 2.1-3.2L16.5 17Z"/><path d="M5.5 9.2 7 6l1.5 2.6"/>'
+};
+
+/* La scène : l'altitude est dessinée sur une échelle logarithmique (voir niveauRel dans ascension.js),
+   sinon le lampadaire (8 m) serait invisible à côté du Mont Blanc (4 806 m). */
+const SC={H:450,SOL:408,HAUT:78,BX:306};
+const yDe=a=>SC.SOL-(SC.SOL-SC.HAUT)*AS.niveauRel(a);
+let nbBallons=0;
+function ballon(x,y,s){ // y = bas de la nacelle
+ const id='env'+(++nbBallons);
+ return `<clipPath id="${id}"><path d="M0 -62 C26 -62 34 -40 30 -24 C26 -10 12 -4 8 2 L-8 2 C-12 -4 -26 -10 -30 -24 C-34 -40 -26 -62 0 -62Z"/></clipPath>
+  <g transform="translate(${x} ${(+y).toFixed(1)}) scale(${s})">
+   <line class="corde" x1="-8" y1="-24" x2="-6" y2="-10"/><line class="corde" x1="8" y1="-24" x2="6" y2="-10"/>
+   <g transform="translate(0 -24) scale(.62)" clip-path="url(#${id})">
+    <rect x="-36" y="-64" width="72" height="70" fill="var(--violet)"/>
+    <rect x="-24" y="-64" width="12" height="70" fill="var(--soleil)"/><rect x="-6" y="-64" width="12" height="70" fill="var(--vert)"/><rect x="12" y="-64" width="12" height="70" fill="var(--orange)"/>
+   </g>
+   <rect class="nacelle" x="-7" y="-10" width="14" height="10" rx="2"/>
+  </g>`;
+}
+function scene(nid,avant){
+ const R=AS.resume(nid),a=R.alt,pl=R.plafond,y=yDe(a),y0=avant==null?y:yDe(avant),yP=yDe(pl);
+ const reperes=AS.REPERES.map(r=>{const yy=yDe(r.h),pass=a>=r.h;
+  return `<line class="repere" x1="8" y1="${yy.toFixed(1)}" x2="352" y2="${yy.toFixed(1)}"/>
+   <g class="rep-i${pass?' ok':''}" transform="translate(10 ${(yy-9).toFixed(1)})" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${ICO_REP[r.ico]||''}</g>
+   <text class="lbl${pass?' ok':''}" x="34" y="${(yy+4).toFixed(1)}">${r.nom} · ${fr(r.h)} m${pass?' ✓':''}</text>`}).join('');
+ const lib=pl>=CF.MAX?'Plafond · sommet':'Plafond · '+fr(pl)+' m';
+ const nuage=(cx,h,k=1)=>{const cy=yDe(h).toFixed(0);return `<ellipse cx="${cx}" cy="${cy}" rx="${34*k}" ry="${10*k}"/><ellipse cx="${cx+18*k}" cy="${cy-7*k}" rx="${20*k}" ry="${11*k}"/>`};
+ return `<svg viewBox="0 0 360 ${SC.H}" role="img" aria-label="Ta montgolfière : ${fr(a)} mètres, plafond de la semaine ${fr(pl)} mètres">
+   <defs><linearGradient id="ciel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="ciel1"/><stop offset="1" class="ciel2"/></linearGradient></defs>
+   <rect width="360" height="${SC.H}" fill="url(#ciel)"/>
+   <circle class="soleil" cx="${SC.BX-100}" cy="30" r="14"/>
+   <g class="nuage">${nuage(210,120)}${nuage(120,520,.9)}${nuage(215,1900,1.1)}${nuage(110,3300,.8)}</g>
    ${reperes}
-   <path class="colline2" d="M0 230 L0 200 C60 182 110 190 170 200 C230 210 290 186 360 194 L360 230Z"/>
-   <path class="colline" d="M0 230 L0 210 C80 198 150 214 220 208 C290 202 330 212 360 208 L360 230Z"/>
-   <g class="${anim?'decolle':''}" style="--dy:${(sol-y).toFixed(0)}px"><g class="flotte"><g transform="translate(${bx} ${y.toFixed(1)})">
-    <line class="corde" x1="-8" y1="-24" x2="-6" y2="-10"/><line class="corde" x1="8" y1="-24" x2="6" y2="-10"/>
-    <g transform="translate(0 -24) scale(.62)" clip-path="url(#enveloppe)">
-     <rect x="-36" y="-64" width="72" height="70" fill="var(--violet)"/>
-     <rect x="-24" y="-64" width="12" height="70" fill="var(--soleil)"/><rect x="-6" y="-64" width="12" height="70" fill="var(--vert)"/><rect x="12" y="-64" width="12" height="70" fill="var(--orange)"/>
-    </g>
-    <rect class="nacelle" x="-7" y="-10" width="14" height="10" rx="2"/>
-   </g></g></g>
-  </svg>
+   <line class="plafond" x1="0" y1="${yP.toFixed(1)}" x2="360" y2="${yP.toFixed(1)}"/>
+   <g transform="translate(166 ${(yP-22).toFixed(1)})"><rect class="pastille" width="108" height="18" rx="9"/><text class="pastille-t" x="54" y="12.7" text-anchor="middle">${lib}</text></g>
+   <path class="colline2" d="M0 ${SC.H} L0 ${SC.SOL-16} C60 ${SC.SOL-34} 110 ${SC.SOL-24} 170 ${SC.SOL-14} C230 ${SC.SOL-4} 290 ${SC.SOL-28} 360 ${SC.SOL-20} L360 ${SC.H}Z"/>
+   <path class="colline" d="M0 ${SC.H} L0 ${SC.SOL-4} C80 ${SC.SOL-18} 150 ${SC.SOL-2} 220 ${SC.SOL-8} C290 ${SC.SOL-14} 330 ${SC.SOL-4} 360 ${SC.SOL-8} L360 ${SC.H}Z"/>
+   <g class="${avant!=null&&y0!==y?'decolle':''}" style="--dy:${(y0-y).toFixed(0)}px"><g class="flotte">${ballon(SC.BX,y,1)}</g></g>
+  </svg>`;
+}
+function carteScene(nid,avant){
+ const n=niveauDe(nid),R=AS.resume(nid),a=R.alt,pl=R.plafond;
+ const zone=R.auSommet?'Au sommet du Mont Blanc':a<AS.REPERES[0].h?'Au sol':'Au-dessus '+R.dernier.du;
+ const pre=R.dernier?R.dernier.h:0,pct=R.suivant?Math.round(100*(a-pre)/(R.suivant.h-pre)):100;
+ const prochain=R.auSommet?'<strong>Tu as atteint le sommet !</strong> Bravo, tu es en haut du Mont Blanc.'
+  :`Prochain repère : <strong>${R.suivant.le}</strong> (${fr(R.suivant.h)} m), encore <strong>${fr(R.suivant.h-a)} m</strong>.`;
+ const plafond=pl>=CF.MAX?'Le plafond est au sommet : plus de limite jusqu’à la fin de l’année.'
+  :R.marge>0?`Plafond de cette semaine : <strong>${fr(pl)} m</strong>. Tu peux encore gagner <strong>${fr(R.marge)} m</strong> avant lundi.`
+  :`Tu es au plafond de la semaine (<strong>${fr(pl)} m</strong>). Il monte à <strong>${fr(R.plafondApres)} m</strong> ${dateLundi()}.`;
+ return `<section class="vol a-monte" id="vol">${scene(nid,avant)}
   <div class="infos">
-   <div class="ligne">
-    <div><div class="eti doux">Ma montgolfière</div><div class="alt">${fr(a)} <small>m · ${p[1]}</small></div></div>
-    <button class="pseudo" onclick="fenetrePseudo()">${M.pseudo?'Pseudo : '+esc(M.pseudo):'Choisir mon pseudo'}</button>
-   </div>
-   <div class="jauge" aria-hidden="true"><span style="width:${n?pct:100}%"></span></div>
-   <p class="palier-txt">${n?`Encore <strong>${fr(n[0]-a)} m</strong> pour atteindre <strong>${n[1]}</strong>. Chaque mini-jeu joué fait monter ta montgolfière de <strong>${GAIN} m</strong>.`:'<strong>Record battu !</strong> Ta montgolfière est tout en haut.'}</p>
-   <p class="note" style="text-align:left">Ton pseudo et ton altitude restent sur ton téléphone : rien n’est envoyé.</p>
-  </div>
- </footer>`;
+   <div class="ligne"><div><div class="eti doux">Ma montgolfière · ${esc(n.nom)}</div><div class="alt">${fr(a)} <small>m</small></div><div class="zone">${zone}</div></div>
+    <button class="pseudo" onclick="fenetrePseudo()">${AS.pseudo()?'Pilote : '+esc(AS.pseudo()):'Choisir mon pseudo'}</button></div>
+   <div class="jauge" aria-hidden="true"><span style="width:${pct}%"></span></div>
+   <p class="palier-txt">${prochain}</p><p class="palier-txt">${plafond}</p>
+   <p class="note" style="text-align:left">Ton pseudo et ton altitude restent sur ton appareil : rien n’est envoyé.</p>
+  </div></section>`;
+}
+function piedAscension(nid){
+ const n=niveauDe(nid);if(!n||!AS.testables(n).length)return '';
+ const R=AS.resume(nid);
+ return `<footer class="pied-asc a-monte"><svg class="mini" viewBox="-38 -68 76 74" aria-hidden="true">${ballon(0,0,1)}</svg>
+  <div><div class="eti doux">Ma montgolfière · ${esc(n.nom)}</div><div class="alt">${fr(R.alt)} <small>m</small></div><div class="doux" style="font-size:.85rem">Plafond de la semaine : ${fr(R.plafond)} m</div></div>
+  <a class="btn" href="#${nid}/ascension">Monter</a></footer>`;
 }
 
-let aLancer=null;
-function fenetrePseudo(id){
- aLancer=id||null;const r=id&&trouver(id);const v=document.getElementById('voile');
- v.innerHTML=`<form class="fenetre a-pop" onsubmit="event.preventDefault()">
+/* ---------- Pseudo (facultatif : il ne sert qu'à personnaliser la montgolfière) ---------- */
+let apresPseudo=null;
+function fenetrePseudo(cible){
+ apresPseudo=typeof cible==='string'?cible:null;const v=document.getElementById('voile');
+ v.innerHTML=`<form class="fenetre a-pop" onsubmit="return valider(event)">
   <h3>Invente ton pseudo de pilote</h3>
-  <p class="doux">Pas ton vrai nom ! Ton pseudo et ton altitude restent sur ce téléphone, rien n’est envoyé.</p>
+  <p class="doux">Pas ton vrai nom ! Ton pseudo et ton altitude restent sur cet appareil, rien n’est envoyé.</p>
   <label for="pseudo">Mon pseudo</label>
-  <input id="pseudo" maxlength="16" autocomplete="off" placeholder="ex. Fractale42" value="${esc(M.pseudo)}">
+  <input id="pseudo" maxlength="16" autocomplete="off" placeholder="ex. Fractale42" value="${esc(AS.pseudo())}">
   <div class="erreur" id="err" hidden>Entre 3 et 16 lettres ou chiffres, sans espace.</div>
-  <div class="actions">
-   ${r?`<a class="btn" href="${url(r)}" onclick="return valider(event)">${ICO.jeu} C’est parti</a>
-   <a class="lien-texte" href="${url(r)}" onclick="refuser()">Jouer sans pseudo</a>`
-   :`<button class="btn" onclick="valider(event)">Enregistrer</button><button class="lien-texte" type="button" onclick="fermer()">Annuler</button>`}
-  </div></form>`;
+  <div class="actions"><button class="btn" type="submit">${apresPseudo?'C’est parti':'Enregistrer'}</button>
+   <button class="lien-texte" type="button" onclick="plusTard()">${apresPseudo?'Plus tard':'Annuler'}</button></div></form>`;
  v.hidden=false;v.onclick=e=>{if(e.target===v)fermer()};
- setTimeout(()=>document.getElementById('pseudo').focus(),50);
+ setTimeout(()=>{const i=document.getElementById('pseudo');if(i)i.focus()},50);
 }
 function valider(e){
- const p=document.getElementById('pseudo').value.trim();
- if(!/^[A-Za-zÀ-ÿ0-9_-]{3,16}$/.test(p)){e.preventDefault();document.getElementById('err').hidden=false;return false}
- M.pseudo=p;sauver();fermer();
- if(aLancer)gagner(aLancer);else{const v=document.getElementById('vol');if(v)v.outerHTML=montgolfiere(false)}
- return true;
+ e.preventDefault();
+ if(!AS.setPseudo(document.getElementById('pseudo').value)){document.getElementById('err').hidden=false;return false}
+ const c=apresPseudo;fermer();
+ document.querySelectorAll('.pseudo').forEach(b=>b.textContent='Pilote : '+AS.pseudo());
+ if(c)location.hash=c;
+ return false;
 }
 function fermer(){const v=document.getElementById('voile');v.hidden=true;v.innerHTML=''}
 function sansPseudo(){try{return sessionStorage.getItem('expe-sans')==='1'}catch(e){return false}}
-function refuser(){try{sessionStorage.setItem('expe-sans','1')}catch(e){}fermer()}
-function jouer(e,id){
- if(!M.pseudo&&!sansPseudo()){e.preventDefault();fenetrePseudo(id);return false}
- if(M.pseudo)gagner(id);
+function plusTard(){const c=apresPseudo;try{sessionStorage.setItem('expe-sans','1')}catch(e){}fermer();if(c)location.hash=c}
+function commencer(e,cible){
+ if(!AS.pseudo()&&!sansPseudo()){e.preventDefault();fenetrePseudo(cible);return false}
  return true;
 }
+
+/* ---------- L'onglet Ascension d'une classe, et le test d'un chapitre ---------- */
+function onglets(n,actif){
+ if(!AS.testables(n).length)return '';
+ return `<nav class="onglets a-monte" aria-label="Sections de la classe">
+  <a href="#${n.id}"${actif==='chap'?' class="on" aria-current="page"':''}>${ICO.exos} Chapitres</a>
+  <a href="#${n.id}/ascension"${actif==='asc'?' class="on" aria-current="page"':''}>${ICO.monte} Ascension</a></nav>`;
+}
+function ligneTest(n,c){
+ const dispo=AS.aTest(c.id)&&!c.bientot,st=AS.stats(n.id,c.id),deja=AS.dejaAujourdhui(n.id,c.id);
+ const sous=!dispo?(c.bientot?'Chapitre à venir':'Test bientôt disponible')
+  :st.essais?`${st.reussis} réussi${st.reussis>1?'s':''} sur ${st.essais} essai${st.essais>1?'s':''}${deja?' · déjà compté aujourd’hui':''}`:'Pas encore tenté';
+ const dedans=`<span class="num">${c.num}</span><span class="res"><strong>${esc(c.titre)}</strong><small>${sous}</small></span>${dispo?`<span class="fl">${ICO.fleche}</span>`:''}`;
+ const h=`#${n.id}/ascension/${c.id}`;
+ return dispo?`<a class="lien test-lien" href="${h}" onclick="return commencer(event,'${h}')">${dedans}</a>`
+  :`<div class="lien off" aria-disabled="true">${dedans}</div>`;
+}
+function vueAscension(n){
+ AS.memoriserActif(n.id);
+ ouvrir(`<div class="vue c-${n.couleur}">
+  <button class="retour a-haut" data-parent="#${n.id}">${ICO.gauche} ${esc(n.nom)}</button>
+  ${onglets(n,'asc')}
+  <section class="vue" style="gap:6px"><h2 class="a-monte" ${d(0,.12)}>L’Ascension</h2><p class="doux">Réussis des tests pour faire monter ta montgolfière jusqu’au sommet du Mont Blanc.</p></section>
+  ${carteScene(n.id)}
+  <section class="vue" style="gap:12px"><h2>Je passe un test</h2>
+   <p class="doux"><strong>${CF.SEUIL} bonnes réponses sur ${CF.NB_Q}</strong> : tu montes de <strong>${CF.GAIN} m</strong>. Sinon, tu restes où tu es et tu peux recommencer, les questions changent.</p>
+   <div class="liens">${n.chapitres.filter(c=>c.num).map(c=>ligneTest(n,c)).join('')}</div></section>
+  <details class="deroule"><summary>Comment ça marche ?</summary><ul>
+   <li>Chaque chapitre a son test de ${CF.NB_Q} questions. Avec ${CF.SEUIL} bonnes réponses, tu montes de ${CF.GAIN} m.</li>
+   <li>Un test raté ne te fait jamais redescendre : tu réessaies quand tu veux.</li>
+   <li>Le plafond monte chaque lundi, jusqu’au sommet début juin. Tu ne peux pas le dépasser, mais il ne redescend jamais : si tu rates une semaine, tu rattrapes plus tard.</li>
+   <li>Un chapitre ne te fait monter qu’une fois par jour : change de chapitre ou reviens demain.</li>
+   <li>Les repères sont à leur vraie hauteur. L’échelle est « écrasée » pour que le lampadaire reste visible à côté du Mont Blanc.</li>
+  </ul></details>
+ </div>`,null,{note:false});
+}
+
+let T=null; // test en cours
+function vueTest(n,c){
+ AS.memoriserActif(n.id);
+ T={nid:n.id,cid:c.id,titre:c.titre,qs:AS.tirer(c.id),i:0,rep:[],res:null,bonnes:0};
+ ouvrir(`<div class="vue c-${n.couleur}">
+  <button class="retour a-haut" data-parent="#${n.id}/ascension">${ICO.gauche} Ascension</button>
+  <section class="test" id="test"></section></div>`,rendreQuestion,{note:false});
+}
+function rendreQuestion(){
+ const el=document.getElementById('test');if(!el||!T)return;
+ const q=T.qs[T.i],L='ABCD';
+ const pastilles=T.qs.map((_,k)=>`<i class="${k<T.rep.length?(T.rep[k]?'v':'f'):(k===T.i?'c':'')}"></i>`).join('');
+ el.innerHTML=`<div class="t-tete"><span class="eti" style="color:var(--c)">Test · ${esc(T.titre)}</span><span class="doux">Question ${T.i+1} sur ${T.qs.length}</span></div>
+  <div class="progres" aria-hidden="true">${pastilles}</div>
+  <div class="enonce a-pop">${q.q}</div>
+  <div class="reps" role="group" aria-label="Réponses possibles">${q.choix.map((t,k)=>`<button class="rep" type="button" onclick="repondre(${k})"><span class="lettre">${L[k]}</span><span>${esc(t)}</span></button>`).join('')}</div>
+  <div class="correction" id="corr" role="status" hidden></div>`;
+ window.scrollTo(0,0);
+}
+function repondre(k){
+ if(!T||T.rep.length>T.i)return;
+ const q=T.qs[T.i],juste=k===q.bonne,fin=T.i===T.qs.length-1;
+ T.rep.push(juste);
+ document.querySelectorAll('#test .rep').forEach((b,j)=>{b.disabled=true;if(j===q.bonne)b.classList.add('bonne');else if(j===k)b.classList.add('faux')});
+ document.querySelectorAll('#test .progres i')[T.i].className=juste?'v':'f';
+ const c=document.getElementById('corr');
+ c.innerHTML=`<p class="verdict ${juste?'ok':'non'}"><strong>${juste?'Bien joué !':'Pas tout à fait.'}</strong>${juste?'':' La bonne réponse : <strong>'+esc(q.choix[q.bonne])+'</strong>.'}</p>
+  <p class="doux">${esc(q.expl)}</p><button class="btn" type="button" id="suite" onclick="suivante()">${fin?'Voir mon résultat':'Question suivante'} →</button>`;
+ c.hidden=false;
+ const s=document.getElementById('suite');s.focus({preventScroll:true});s.scrollIntoView({block:'nearest',behavior:REDUIT?'auto':'smooth'});
+}
+function suivante(){
+ if(!T)return;
+ T.i++;
+ if(T.i<T.qs.length){rendreQuestion();return}
+ T.bonnes=T.rep.filter(Boolean).length;
+ T.res=AS.enregistrer(T.nid,T.cid,T.bonnes>=CF.SEUIL);
+ rendreResultat();
+}
+function rendreResultat(){
+ const el=document.getElementById('test'),r=T.res,n=niveauDe(T.nid),ch=trouverNC(T.cid).c;
+ const franchis=r.franchis.length?` Tu dépasses ${liste(r.franchis.map(x=>x.le))} !`:'';
+ const msg={
+  'ok':`<strong>+${fr(r.gain)} m</strong>, tu montes à ${fr(r.apres)} m.${franchis}`,
+  'plafond-atteint':`<strong>+${fr(r.gain)} m</strong>, tu montes à ${fr(r.apres)} m et tu touches le plafond de la semaine. Il remonte à ${fr(AS.plafondApres())} m ${dateLundi()}.${franchis}`,
+  'plafond':`Test réussi, bravo ! Mais tu es déjà au plafond de la semaine (${fr(r.plafond)} m) : il remonte à ${fr(AS.plafondApres())} m ${dateLundi()}. Rien n’est perdu.`,
+  'jour':'Test réussi, bravo ! Ce chapitre t’a déjà fait monter aujourd’hui. Essaie un autre chapitre, ou reviens demain.',
+  'sommet':`<strong>+${fr(r.gain)} m</strong> : tu es au sommet du Mont Blanc (${fr(CF.MAX)} m) !${franchis}`,
+  'au-sommet':'Test réussi ! Tu es déjà tout en haut du Mont Blanc : bravo.',
+  'echec':`Tu restes à ${fr(r.apres)} m, tu ne redescends pas. Relis ce qui est indiqué ci-dessous, puis réessaie : les questions changent.`
+ }[r.raison];
+ const fautes=[...new Set(T.qs.filter((q,k)=>!T.rep[k]).map(q=>q.seance))].sort((a,b)=>a-b).filter(s=>ch.seances&&ch.seances[s-1]);
+ const revoir=fautes.length?`<section class="a-revoir a-monte"><h3>${r.reussi?'Pour aller plus loin, à relire':'À relire'}</h3><ul>${fautes.map(s=>`<li><a href="#${ch.id}">Séance ${s} · ${esc(ch.seances[s-1].titre)}</a></li>`).join('')}</ul></section>`:'';
+ el.innerHTML=`<div class="res-test ${r.reussi?'ok':'non'} a-pop"><h2>${r.reussi?'Test réussi !':'Pas cette fois'}</h2>
+   <p class="score"><strong>${T.bonnes} / ${T.qs.length}</strong> bonnes réponses${r.reussi?'':' (il en fallait '+CF.SEUIL+')'}</p><p>${msg}</p></div>
+  ${r.gain>0?carteScene(T.nid,r.avant):''}
+  ${revoir}
+  <div class="choix a-monte"><button class="btn" type="button" onclick="rejouerTest()">Refaire un test</button><a class="btn jaune" href="#${n.id}/ascension">Autres tests</a></div>`;
+ window.scrollTo(0,0);
+}
+function rejouerTest(){
+ if(!T)return;
+ T.qs=AS.tirer(T.cid);T.i=0;T.rep=[];T.res=null;T.bonnes=0;
+ rendreQuestion();
+}
+
 let tt;function toast(t,html){const el=document.getElementById('toast');el[html?'innerHTML':'textContent']=t;el.hidden=false;clearTimeout(tt);tt=setTimeout(()=>el.hidden=true,3200)}
 
 /* ---------- outils ---------- */
@@ -445,25 +622,24 @@ function gras(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')}
 const d=(i,base=.15,pas=.08)=>`style="animation-delay:${(base+i*pas).toFixed(2)}s"`;
 const TYPES={lecon:'Leçon',classe:'Activité en classe',exos:'Exercices corrigés',jeu:'Mini-jeu',plus:'Exercices en plus'};
 const NOTE_BAS='<p class="note">Pas de nouveaux devoirs : à la maison, on refait les exercices déjà corrigés en classe. Les mini-jeux et les exercices en plus sont là pour ceux qui veulent s’entraîner davantage.</p>';
-function ouvrir(html,apres){
- app.classList.remove('anim');app.innerHTML=html+montgolfiere()+NOTE_BAS;void app.offsetWidth;app.classList.add('anim');
+function ouvrir(html,apres,o){
+ o=o||{};
+ app.classList.remove('anim');app.innerHTML=html+(o.pied||'')+(o.note===false?'':NOTE_BAS);void app.offsetWidth;app.classList.add('anim');
  window.scrollTo(0,0);if(apres)apres();
- if(M.msg){toast(M.msg,true);M.msg='';sauver()}
 }
 function trouverNC(id){for(const n of S.niveaux){if(n.id===id)return{n};for(const c of n.chapitres)if(c.id===id)return{n,c}}return null}
 function trouver(id){for(const n of S.niveaux)for(const c of n.chapitres)for(const r of c.ressources)if(r.id===id)return r;return null}
 const url=r=>'pages/'+r.id+'/index.html';
 function estNeuf(r){if(!r.ajout)return false;const t=new Date(r.ajout+'T12:00:00');return Date.now()-t.getTime()<12*864e5}
 const NEUF='<span class="neuf">Nouveau</span>';
-const jeuClic=r=>r.type==='jeu'?` onclick="return jouer(event,'${r.id}')"`:'';
 function lien(r){
- if(r.type==='jeu')return `<a class="lien jeu" href="${url(r)}"${jeuClic(r)}>${ICO.jeu} <span class="res">${esc(r.titre)}</span>${estNeuf(r)?NEUF:''}<span class="fl">+${GAIN} m</span></a>`;
- return `<a class="lien" href="${url(r)}">${ICO[r.type]||ICO.exos} <span class="res">${esc(r.titre)}</span>${estNeuf(r)?NEUF:''}<span class="fl">›</span></a>`;
+ if(r.type==='jeu')return `<a class="lien jeu" href="${url(r)}">${ICO.jeu} <span class="res">${esc(r.titre)}</span>${estNeuf(r)?NEUF:''}<span class="fl">${ICO.fleche}</span></a>`;
+ return `<a class="lien" href="${url(r)}">${ICO[r.type]||ICO.exos} <span class="res">${esc(r.titre)}</span>${estNeuf(r)?NEUF:''}<span class="fl">${ICO.fleche}</span></a>`;
 }
 function ligneRes(x){const r=x.r;
- return `<a class="lien${r.type==='jeu'?' jeu':''}" href="${url(r)}"${jeuClic(r)}>${ICO[r.type]||ICO.exos}<span class="res"><strong>${esc(r.titre)}</strong><small>${esc(TYPES[r.type]||'')} · ${esc(x.n.nom)} · ${esc(x.c.titre)}</small></span>${estNeuf(r)?NEUF:''}<span class="fl">${r.type==='jeu'?'+'+GAIN+' m':'›'}</span></a>`}
-function carteJeu(r,i){return `<a class="carte-jeu a-pop" ${d(i,.2,.05)} href="${url(r)}"${jeuClic(r)}>
- <span class="ico">${ICO.jeu}</span><span class="t">${esc(r.titre)}</span>${r.resume?`<span class="s">${esc(r.resume)}</span>`:''}<span class="gain">+${GAIN} m${estNeuf(r)?' · Nouveau':''}</span></a>`}
+ return `<a class="lien${r.type==='jeu'?' jeu':''}" href="${url(r)}">${ICO[r.type]||ICO.exos}<span class="res"><strong>${esc(r.titre)}</strong><small>${esc(TYPES[r.type]||'')} · ${esc(x.n.nom)} · ${esc(x.c.titre)}</small></span>${estNeuf(r)?NEUF:''}<span class="fl">${ICO.fleche}</span></a>`}
+function carteJeu(r,i){return `<a class="carte-jeu a-pop" ${d(i,.2,.05)} href="${url(r)}">
+ <span class="ico">${ICO.jeu}</span><span class="t">${esc(r.titre)}</span>${r.resume?`<span class="s">${esc(r.resume)}</span>`:''}${estNeuf(r)?'<span class="gain">Nouveau</span>':''}</a>`}
 const nbJeux=c=>c.ressources.filter(r=>r.type==='jeu').length;
 const toutes=()=>S.niveaux.flatMap(n=>n.chapitres.flatMap(c=>c.ressources.map(r=>({r,c,n}))));
 const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
@@ -506,20 +682,21 @@ function accueil(){
    const l=tout.filter(x=>{const t=norm([x.r.titre,x.r.resume,x.c.titre,x.c.resume,x.n.nom,TYPES[x.r.type]].join(' '));return mots.every(m=>t.includes(m)||((m==='jeux'||m==='mini-jeux')&&x.r.type==='jeu'))});
    res.innerHTML=l.length?`<p class="doux" style="margin:4px 0">${l.length} page${l.length>1?'s':''} trouvée${l.length>1?'s':''}</p>`+l.map(ligneRes).join(''):'<p class="doux">Aucune page ne correspond. Essaie le nom d’un chapitre.</p>';
   });
- });
+ },{pied:piedAscension(AS.actif())});
 }
 
 function niveau(n){
  ouvrir(`<div class="vue c-${n.couleur}">
   <button class="retour a-haut" data-parent="#">${ICO.gauche} Accueil</button>
   <section class="bandeau a-pop" ${d(0,.05)}><span class="gros">${esc(n.nom)}</span><span>${esc(n.accroche)}</span><canvas id="fractale" aria-hidden="true"></canvas><button class="rejouer" onclick="rejouerFn&&rejouerFn()">↻ Rejouer</button></section>
+  ${onglets(n,'chap')}
   <div class="chapitres">
    ${n.chapitres.map((c,i)=>{const ns=(c.seances||[]).length,nj=nbJeux(c),le=c.ressources.some(r=>r.type==='lecon');
     const dedans=`<span class="haut"><span class="num">${c.num??'★'}</span><span><span class="eti" style="color:var(--c)">${c.num?'Chapitre '+c.num:'Entraînement'}</span><br><span class="t">${esc(c.titre)}</span></span></span>
      ${c.bientot?'<span class="s">Bientôt en ligne</span>':`<span class="puces">${le?`<span class="puce">${ICO.lecon} Leçon</span>`:''}${ns?`<span class="puce">${ICO.exos} ${ns} séance${ns>1?'s':''}</span>`:''}${nj?`<span class="puce jeu">${ICO.jeu} ${nj} mini-jeu${nj>1?'x':''}</span>`:''}</span>`}`;
     return c.bientot?`<div class="chap a-monte" ${d(i,.2,.07)} aria-disabled="true">${dedans}</div>`:`<a class="chap a-monte" ${d(i,.2,.07)} href="#${c.id}">${dedans}</a>`}).join('')}
   </div>
- </div>`,()=>{const F=FRACTALES[n.id]||FRACTALES['6e'];lancer('fractale',F[0],F[1])});
+ </div>`,()=>{const F=FRACTALES[n.id]||FRACTALES['6e'];lancer('fractale',F[0],F[1])},{pied:piedAscension(n.id)});
 }
 
 function chapitre(n,c){
@@ -550,14 +727,19 @@ function chapitre(n,c){
   ${restant.length?`<section class="vue" style="gap:12px"><h2>${seances.length?'Autres ressources du chapitre':'Exercices et activités'}</h2><div class="liens">${restant.map(lien).join('')}</div></section>`:''}
   ${jeux.length?`<section class="vue" style="gap:12px" id="jeux"><h2>Tous les mini-jeux du chapitre</h2><div class="jeux">${jeux.map(carteJeu).join('')}</div></section>`:''}
   ${plus.length?`<section class="vue" style="gap:12px"><h2>Pour s’entraîner encore</h2><div class="liens">${plus.map(lien).join('')}</div></section>`:''}`}
- </div>`);
+ </div>`,null,{pied:piedAscension(n.id)});
 }
 
 /* ---------- navigation par ancre (#6e, #6e-ch3) ---------- */
 const pile=[location.hash];
 function router(){
- const h=decodeURIComponent(location.hash.replace(/^#/,'')),t=h?trouverNC(h):null;
- if(t&&t.c){chapitre(t.n,t.c);document.title=t.c.titre+' · '+t.n.nom+' — '+S.titre}
+ const h=decodeURIComponent(location.hash.replace(/^#/,'')),[a,b,c]=h.split('/'),t=a?trouverNC(a):null;
+ if(t&&!t.c&&b==='ascension'&&AS.testables(t.n).length){
+  const ch=c&&AS.testables(t.n).find(x=>x.id===c);
+  if(ch){vueTest(t.n,ch);document.title='Test · '+ch.titre+' — '+S.titre}
+  else{vueAscension(t.n);document.title='Ascension · '+t.n.nom+' — '+S.titre}
+ }
+ else if(t&&t.c){chapitre(t.n,t.c);document.title=t.c.titre+' · '+t.n.nom+' — '+S.titre}
  else if(t){niveau(t.n);document.title='Classe de '+t.n.nom+' — '+S.titre}
  else{accueil();document.title=S.titre}
 }
@@ -565,7 +747,7 @@ addEventListener('hashchange',()=>{const h=location.hash;if(pile.length>1&&pile[
 document.addEventListener('click',e=>{const b=e.target.closest('.retour');if(!b)return;if(pile.length>1)history.back();else location.hash=b.getAttribute('data-parent')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')fermer()});
 addEventListener('resize',()=>{clearTimeout(window._rz);window._rz=setTimeout(()=>redessiner&&redessiner(),200)});
-addEventListener('pageshow',e=>{if(e.persisted){charger();router()}});
+addEventListener('pageshow',e=>{if(e.persisted){AS.charger();router()}});
 router();
 
 </script>

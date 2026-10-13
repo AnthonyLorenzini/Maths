@@ -28,6 +28,11 @@
             exemple: "un exemple calculé, en une ligne",
             savoir: "ce que l'élève doit savoir faire (complète « Je sais… »)" }
         ]
+
+   Tests d'ascension (onglet « Ascension » d'une classe) :
+   un chapitre a son test dès qu'il a un bloc dans assets/questions.js (ASC.inscrire("<id du chapitre>", …)).
+   Rien à ajouter ici. Les réglages (gain par test, plafond de la semaine, date du sommet, seuil de
+   réussite) sont tout en haut de assets/ascension.js. Les mini-jeux ne font pas monter la montgolfière.
    ========================================================= */
 window.SITE = {
   titre: "Les maths de M. Lorenzini",
