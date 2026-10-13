@@ -19,7 +19,7 @@
     MAX: 4806,             // altitude du sommet : le Mont Blanc
     DEPART: "2026-10-12",  // lundi de la 1re semaine
     SOMMET: "2027-05-31",  // lundi où le plafond atteint le sommet (début juin)
-    GAIN: 150,             // mètres gagnés par test réussi (un test par semaine ≈ le rythme du plafond)
+    GAIN: 200,             // mètres gagnés au maximum par test réussi ; on s'arrête toujours au prochain repère
     NB_Q: 8,               // questions par test
     SEUIL: 6,              // bonnes réponses pour réussir le test
     A0: 5                  // réglage de l'échelle (voir niveauRel)
@@ -137,7 +137,7 @@
                 "jour"             réussi, mais ce chapitre a déjà fait monter aujourd'hui
                 "plafond"          réussi, mais déjà au plafond de la semaine
                 "au-sommet"        réussi, déjà tout en haut
-                "ok"               réussi, +GAIN m
+                "ok"               réussi, +GAIN m au plus (jamais au-delà du prochain repère)
                 "plafond-atteint"  réussi, on monte jusqu'au plafond (gain réduit ou non)
                 "sommet"           réussi, on atteint le sommet */
   function enregistrer(niv, chap, reussi, date) {
@@ -152,7 +152,8 @@
       else if (avant >= CONFIG.MAX) res.raison = "au-sommet";
       else if (avant >= pl) res.raison = "plafond";
       else {
-        var g = Math.min(CONFIG.GAIN, pl - avant, CONFIG.MAX - avant);
+        // montée progressive : un test ne fait jamais dépasser le prochain repère (on le "gagne" un par un)
+        var nx = suivant(avant), g = Math.min(CONFIG.GAIN, pl - avant, CONFIG.MAX - avant, nx ? nx.h - avant : CONFIG.MAX);
         n.alt = avant + g;
         n.jours[chap] = jour;
         res.apres = n.alt; res.gain = g;

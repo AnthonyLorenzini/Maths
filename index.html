@@ -416,10 +416,15 @@ const ICO_REP={
  montblanc:'<path d="M1.5 17 7 6l2.4 4 2.1-3.2L16.5 17Z"/><path d="M5.5 9.2 7 6l1.5 2.6"/>'
 };
 
-/* La scène : l'altitude est dessinée sur une échelle logarithmique (voir niveauRel dans ascension.js),
-   sinon le lampadaire (8 m) serait invisible à côté du Mont Blanc (4 806 m). */
-const SC={H:450,SOL:408,HAUT:78,BX:306};
-const yDe=a=>SC.SOL-(SC.SOL-SC.HAUT)*AS.niveauRel(a);
+/* La scène est zoomée sur le trajet en cours : du dernier repère atteint (en bas) jusqu'à l'objectif
+   (en haut). Les repères suivants restent cachés : on les découvre un par un. */
+const SC={H:450,SOL:408,HAUT:96,BX:300,ZB:1.2};
+function vue(a){
+ const d=AS.dernier(a),s=AS.suivant(a),R=AS.REPERES;
+ if(s)return {base:d?d.h:0,bn:d,obj:s};
+ const i=R.length-1;return {base:i>0?R[i-1].h:0,bn:R[i-1]||null,obj:R[i]};
+}
+const yVue=(a,v)=>SC.SOL-(SC.SOL-SC.HAUT)*Math.max(0,Math.min(1,(a-v.base)/(v.obj.h-v.base)));
 let nbBallons=0;
 function ballon(x,y,s){ // y = bas de la nacelle
  const id='env'+(++nbBallons);
@@ -434,24 +439,26 @@ function ballon(x,y,s){ // y = bas de la nacelle
   </g>`;
 }
 function scene(nid,avant){
- const R=AS.resume(nid),a=R.alt,pl=R.plafond,y=yDe(a),y0=avant==null?y:yDe(avant),yP=yDe(pl);
- const reperes=AS.REPERES.map(r=>{const yy=yDe(r.h),pass=a>=r.h;
-  return `<line class="repere" x1="8" y1="${yy.toFixed(1)}" x2="352" y2="${yy.toFixed(1)}"/>
-   <g class="rep-i${pass?' ok':''}" transform="translate(10 ${(yy-9).toFixed(1)})" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${ICO_REP[r.ico]||''}</g>
-   <text class="lbl${pass?' ok':''}" x="34" y="${(yy+4).toFixed(1)}">${r.nom} · ${fr(r.h)} m${pass?' ✓':''}</text>`}).join('');
- const lib=pl>=CF.MAX?'Plafond · sommet':'Plafond · '+fr(pl)+' m';
- const nuage=(cx,h,k=1)=>{const cy=yDe(h).toFixed(0);return `<ellipse cx="${cx}" cy="${cy}" rx="${34*k}" ry="${10*k}"/><ellipse cx="${cx+18*k}" cy="${cy-7*k}" rx="${20*k}" ry="${11*k}"/>`};
- return `<svg viewBox="0 0 360 ${SC.H}" role="img" aria-label="Ta montgolfière : ${fr(a)} mètres, plafond de la semaine ${fr(pl)} mètres">
+ const R=AS.resume(nid),a=R.alt,pl=R.plafond,v=vue(a),y=yVue(a,v),yO=SC.HAUT;
+ // d'où part l'animation : de la position précédente, ou du bas de l'écran si on vient de changer de repère
+ const y0=avant==null?y:(avant<v.base?SC.SOL+30:yVue(avant,v));
+ const ic=(r,yy,cl)=>`<g class="rep-i${cl}" transform="translate(10 ${(yy-9).toFixed(1)})" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${ICO_REP[r.ico]||''}</g>`;
+ const bas=v.bn&&v.base>0?`<line class="repere" x1="8" y1="${SC.SOL}" x2="352" y2="${SC.SOL}"/>${ic(v.bn,SC.SOL,' ok')}<text class="lbl ok" x="34" y="${SC.SOL+4}">${v.bn.nom} · ${fr(v.bn.h)} m ✓</text>`:'';
+ const pass=a>=v.obj.h;
+ const haut=`<line class="repere" x1="8" y1="${yO}" x2="352" y2="${yO}"/>${ic(v.obj,yO,pass?' ok':'')}<text class="lbl${pass?' ok':''}" x="34" y="${yO+4}">${pass?'':'Objectif : '}${v.obj.nom} · ${fr(v.obj.h)} m${pass?' ✓':''}</text>`;
+ const yP=yVue(pl,v),lib=pl>=CF.MAX?'Plafond · sommet':'Plafond · '+fr(pl)+' m';
+ const plaf=pl<v.obj.h&&pl>=a?`<line class="plafond" x1="0" y1="${yP.toFixed(1)}" x2="360" y2="${yP.toFixed(1)}"/>
+   <g transform="translate(150 ${(yP-22).toFixed(1)})"><rect class="pastille" width="108" height="18" rx="9"/><text class="pastille-t" x="54" y="12.7" text-anchor="middle">${lib}</text></g>`:'';
+ const nuage=(cx,cy,k=1)=>`<ellipse cx="${cx}" cy="${cy}" rx="${34*k}" ry="${10*k}"/><ellipse cx="${cx+18*k}" cy="${cy-7*k}" rx="${20*k}" ry="${11*k}"/>`;
+ return `<svg viewBox="0 0 360 ${SC.H}" role="img" aria-label="Ta montgolfière : ${fr(a)} mètres, objectif ${v.obj.le} à ${fr(v.obj.h)} mètres, plafond de la semaine ${fr(pl)} mètres">
    <defs><linearGradient id="ciel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="ciel1"/><stop offset="1" class="ciel2"/></linearGradient></defs>
    <rect width="360" height="${SC.H}" fill="url(#ciel)"/>
-   <circle class="soleil" cx="${SC.BX-100}" cy="30" r="14"/>
-   <g class="nuage">${nuage(210,120)}${nuage(120,520,.9)}${nuage(215,1900,1.1)}${nuage(110,3300,.8)}</g>
-   ${reperes}
-   <line class="plafond" x1="0" y1="${yP.toFixed(1)}" x2="360" y2="${yP.toFixed(1)}"/>
-   <g transform="translate(166 ${(yP-22).toFixed(1)})"><rect class="pastille" width="108" height="18" rx="9"/><text class="pastille-t" x="54" y="12.7" text-anchor="middle">${lib}</text></g>
-   <path class="colline2" d="M0 ${SC.H} L0 ${SC.SOL-16} C60 ${SC.SOL-34} 110 ${SC.SOL-24} 170 ${SC.SOL-14} C230 ${SC.SOL-4} 290 ${SC.SOL-28} 360 ${SC.SOL-20} L360 ${SC.H}Z"/>
-   <path class="colline" d="M0 ${SC.H} L0 ${SC.SOL-4} C80 ${SC.SOL-18} 150 ${SC.SOL-2} 220 ${SC.SOL-8} C290 ${SC.SOL-14} 330 ${SC.SOL-4} 360 ${SC.SOL-8} L360 ${SC.H}Z"/>
-   <g class="${avant!=null&&y0!==y?'decolle':''}" style="--dy:${(y0-y).toFixed(0)}px"><g class="flotte">${ballon(SC.BX,y,1)}</g></g>
+   <circle class="soleil" cx="${SC.BX-120}" cy="46" r="14"/>
+   <g class="nuage">${nuage(90,190)}${nuage(230,300,.9)}${nuage(60,360,.8)}</g>
+   ${bas}${haut}${plaf}
+   <path class="colline2" d="M0 ${SC.H} L0 ${SC.SOL-16} C60 ${SC.SOL-34} 110 ${SC.SOL-24} 170 ${SC.SOL-14} C230 ${SC.SOL-4} 290 ${SC.SOL-28} 360 ${SC.SOL-20} L360 ${SC.H}Z" ${v.base>0?'style="display:none"':''}/>
+   <path class="colline" d="M0 ${SC.H} L0 ${SC.SOL-4} C80 ${SC.SOL-18} 150 ${SC.SOL-2} 220 ${SC.SOL-8} C290 ${SC.SOL-14} 330 ${SC.SOL-4} 360 ${SC.SOL-8} L360 ${SC.H}Z" ${v.base>0?'style="display:none"':''}/>
+   <g class="${avant!=null&&y0!==y?'decolle':''}" style="--dy:${(y0-y).toFixed(0)}px"><g class="flotte">${ballon(SC.BX,y,SC.ZB)}</g></g>
   </svg>`;
 }
 function carteScene(nid,avant){
@@ -588,7 +595,7 @@ function suivante(){
 }
 function rendreResultat(){
  const el=document.getElementById('test'),r=T.res,n=niveauDe(T.nid),ch=trouverNC(T.cid).c;
- const franchis=r.franchis.length?` Tu dépasses ${liste(r.franchis.map(x=>x.le))} !`:'';
+ const franchis=r.franchis.length?` Tu atteins ${liste(r.franchis.map(x=>x.le))} !`:'';
  const msg={
   'ok':`<strong>+${fr(r.gain)} m</strong>, tu montes à ${fr(r.apres)} m.${franchis}`,
   'plafond-atteint':`<strong>+${fr(r.gain)} m</strong>, tu montes à ${fr(r.apres)} m et tu touches le plafond de la semaine. Il remonte à ${fr(AS.plafondApres())} m ${dateLundi()}.${franchis}`,
