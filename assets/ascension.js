@@ -19,22 +19,39 @@
     MAX: 4806,             // altitude du sommet : le Mont Blanc
     DEPART: "2026-10-12",  // lundi de la 1re semaine
     SOMMET: "2027-05-31",  // lundi où le plafond atteint le sommet (début juin)
-    GAIN: 200,             // mètres gagnés au maximum par test réussi ; on s'arrête toujours au prochain repère
+    T: 3,                  // tests réussis nécessaires pour franchir un palier (1 test = 1/3 du chemin)
     NB_Q: 8,               // questions par test
-    SEUIL: 6,              // bonnes réponses pour réussir le test
-    A0: 5                  // réglage de l'échelle (voir niveauRel)
+    SEUIL: 6               // bonnes réponses pour réussir le test
   };
 
-  /* Repères, à leur vraie hauteur. */
+  /* Les 11 paliers, à leur vraie hauteur. "m" = numéro du dessin dans index.html. */
   var REPERES = [
-    { h: 8,    nom: "Lampadaire",   le: "le lampadaire",   du: "du lampadaire",   ico: "lampadaire" },
-    { h: 30,   nom: "Grand arbre",  le: "le grand arbre",  du: "du grand arbre",  ico: "arbre" },
-    { h: 60,   nom: "Immeuble",     le: "l\u2019immeuble",     du: "de l\u2019immeuble",     ico: "immeuble" },
-    { h: 330,  nom: "Tour Eiffel",  le: "la tour Eiffel",  du: "de la tour Eiffel", ico: "eiffel" },
-    { h: 828,  nom: "Burj Khalifa", le: "le Burj Khalifa", du: "du Burj Khalifa", ico: "burj" },
-    { h: 1465, nom: "Puy de Dôme",  le: "le puy de Dôme",  du: "du puy de Dôme",  ico: "puy" },
-    { h: CONFIG.MAX, nom: "Mont Blanc", le: "le Mont Blanc", du: "du Mont Blanc", ico: "montblanc" }
+    { h: 8,    nom: "Lampadaire",            le: "le lampadaire",            du: "du lampadaire" },
+    { h: 30,   nom: "Grand arbre",           le: "le grand arbre",           du: "du grand arbre" },
+    { h: 60,   nom: "Immeuble",              le: "l’immeuble",           du: "de l’immeuble" },
+    { h: 93,   nom: "Statue de la Liberté", le: "la statue de la Liberté", du: "de la statue de la Liberté" },
+    { h: 330,  nom: "Tour Eiffel",           le: "la tour Eiffel",           du: "de la tour Eiffel" },
+    { h: 443,  nom: "Empire State Building", le: "l’Empire State Building", du: "de l’Empire State Building" },
+    { h: 828,  nom: "Burj Khalifa",          le: "le Burj Khalifa",          du: "du Burj Khalifa" },
+    { h: 1465, nom: "Puy de Dôme",       le: "le puy de Dôme",       du: "du puy de Dôme" },
+    { h: 1912, nom: "Mont Ventoux",          le: "le mont Ventoux",          du: "du mont Ventoux" },
+    { h: 3842, nom: "Aiguille du Midi",      le: "l’aiguille du Midi",   du: "de l’aiguille du Midi" },
+    { h: 4806, nom: "Mont Blanc",            le: "le Mont Blanc",            du: "du Mont Blanc" }
   ];
+  var NP = REPERES.length, NET = NP * CONFIG.T;   // 11 paliers, 33 étapes
+
+  /* Étape e (0..33) -> altitude en mètres : on monte d'un tiers du palier à chaque test réussi. */
+  function altDe(e) {
+    e = Math.max(0, Math.min(NET, Math.round(e)));
+    var u = e / CONFIG.T, i = Math.min(NP - 1, Math.floor(u + 1e-9)), f = u - i;
+    var bas = i === 0 ? 0 : REPERES[i - 1].h;
+    return Math.round(bas + (REPERES[i].h - bas) * f);
+  }
+  function etDe(a) { // plus grande étape dont l'altitude ne dépasse pas a
+    var e = 0;
+    for (var k = 0; k <= NET; k++) if (altDe(k) <= a) e = k;
+    return e;
+  }
 
   /* ---------- Dates ---------- */
   function pad(n) { return (n < 10 ? "0" : "") + n; }
@@ -45,12 +62,13 @@
   function semaine(d) { return Math.floor((jourNum(d || new Date()) - jourNum(parse(CONFIG.DEPART))) / 7); }
   function nbSemaines() { return (jourNum(parse(CONFIG.SOMMET)) - jourNum(parse(CONFIG.DEPART))) / 7; }
 
-  /* Plafond d'altitude : une marche par semaine, jusqu'au sommet. */
-  function plafond(d) {
+  /* Plafond : une étape de plus par semaine, jusqu'au sommet début juin. */
+  function plafondEt(d) {
     var k = Math.max(0, semaine(d)), W = nbSemaines();
-    if (k >= W) return CONFIG.MAX;
-    return Math.min(CONFIG.MAX, Math.round(CONFIG.MAX * (k + 1) / (W + 1) / 10) * 10);
+    if (k >= W) return NET;
+    return Math.min(NET, Math.round(NET * (k + 1) / (W + 1)));
   }
+  function plafond(d) { return altDe(plafondEt(d)); }
   function prochainLundi(d) {
     var k = semaine(d), t = parse(CONFIG.DEPART);
     if (k < 0) return t;
@@ -59,15 +77,6 @@
   }
   function plafondApres(d) { return plafond(prochainLundi(d)); }
 
-  /* ---------- Échelle ----------
-     Les repères vont de 8 m à 4 806 m : sur une échelle normale, le lampadaire serait
-     invisible. On affiche donc l'altitude sur une échelle logarithmique : monter de 10 à 100 m
-     prend autant de place que de 100 à 1 000 m. Renvoie un nombre entre 0 (sol) et 1 (sommet). */
-  function niveauRel(a) {
-    a = Math.max(0, Math.min(CONFIG.MAX, a));
-    return Math.log(1 + a / CONFIG.A0) / Math.log(1 + CONFIG.MAX / CONFIG.A0);
-  }
-  function franchis(avant, apres) { return REPERES.filter(function (r) { return avant < r.h && apres >= r.h; }); }
   function suivant(a) { for (var i = 0; i < REPERES.length; i++) if (REPERES[i].h > a) return REPERES[i]; return null; }
   function dernier(a) { var x = null; REPERES.forEach(function (r) { if (a >= r.h) x = r; }); return x; }
 
@@ -101,7 +110,9 @@
   function ne(id) {
     var n = etat.niv[id];
     if (!n || typeof n !== "object") n = etat.niv[id] = {};
-    n.alt = Math.max(0, Math.min(CONFIG.MAX, +n.alt || 0));
+    if (typeof n.et !== "number") n.et = etDe(+n.alt || 0);   // anciennes sauvegardes : on déduit l'étape de l'altitude
+    n.et = Math.max(0, Math.min(NET, Math.round(n.et)));
+    n.alt = altDe(n.et);
     if (!n.jours || typeof n.jours !== "object") n.jours = {};
     if (!n.essais || typeof n.essais !== "object") n.essais = {};
     if (!n.reussis || typeof n.reussis !== "object") n.reussis = {};
@@ -123,42 +134,43 @@
 
   function resume(id, d) {
     d = d || new Date();
-    var a = ne(id).alt, pl = plafond(d);
+    var n = ne(id), a = n.alt, pe = plafondEt(d), pl = altDe(pe);
     return {
-      alt: a, plafond: pl, marge: Math.max(0, pl - a),
+      alt: a, et: n.et, plafond: pl, plafondEt: pe, marge: Math.max(0, pl - a),
       dernier: dernier(a), suivant: suivant(a),
+      dansPalier: n.et % CONFIG.T,            // tests déjà réussis dans le palier en cours (0, 1 ou 2)
       lundi: prochainLundi(d), plafondApres: plafondApres(d),
-      auSommet: a >= CONFIG.MAX
+      auSommet: n.et >= NET
     };
   }
 
-  /* Enregistre le résultat d'un test. Renvoie ce qui s'est passé pour que l'écran l'explique :
+  /* Enregistre le résultat d'un test. Chaque test réussi fait monter d'UNE étape (un tiers de palier).
        raison = "echec"            test raté : on stagne
                 "jour"             réussi, mais ce chapitre a déjà fait monter aujourd'hui
                 "plafond"          réussi, mais déjà au plafond de la semaine
                 "au-sommet"        réussi, déjà tout en haut
-                "ok"               réussi, +GAIN m au plus (jamais au-delà du prochain repère)
-                "plafond-atteint"  réussi, on monte jusqu'au plafond (gain réduit ou non)
-                "sommet"           réussi, on atteint le sommet */
+                "ok"               réussi, on monte d'une étape
+                "plafond-atteint"  réussi, et on touche le plafond de la semaine
+                "sommet"           réussi, on atteint le sommet
+     res.palier = palier atteint (objet de REPERES) si on vient de le franchir, sinon null. */
   function enregistrer(niv, chap, reussi, date) {
     var n = ne(niv), d = date || new Date(), jour = cle(d);
-    var avant = n.alt, pl = plafond(d);
+    var avant = n.alt, etAvant = n.et, pe = plafondEt(d);
     n.essais[chap] = (n.essais[chap] || 0) + 1;
     etat.actif = niv;
-    var res = { reussi: !!reussi, avant: avant, apres: avant, gain: 0, plafond: pl, raison: "echec", franchis: [] };
+    var res = { reussi: !!reussi, avant: avant, apres: avant, gain: 0, plafond: altDe(pe),
+                etAvant: etAvant, etApres: etAvant, raison: "echec", franchis: [], palier: null };
     if (reussi) {
       n.reussis[chap] = (n.reussis[chap] || 0) + 1;
       if (n.jours[chap] === jour) res.raison = "jour";
-      else if (avant >= CONFIG.MAX) res.raison = "au-sommet";
-      else if (avant >= pl) res.raison = "plafond";
+      else if (etAvant >= NET) res.raison = "au-sommet";
+      else if (etAvant >= pe) res.raison = "plafond";
       else {
-        // montée progressive : un test ne fait jamais dépasser le prochain repère (on le "gagne" un par un)
-        var nx = suivant(avant), g = Math.min(CONFIG.GAIN, pl - avant, CONFIG.MAX - avant, nx ? nx.h - avant : CONFIG.MAX);
-        n.alt = avant + g;
+        n.et = etAvant + 1; n.alt = altDe(n.et);
         n.jours[chap] = jour;
-        res.apres = n.alt; res.gain = g;
-        res.franchis = franchis(avant, n.alt);
-        res.raison = n.alt >= CONFIG.MAX ? "sommet" : (n.alt >= pl ? "plafond-atteint" : "ok");
+        res.etApres = n.et; res.apres = n.alt; res.gain = n.alt - avant;
+        if (n.et % CONFIG.T === 0) { res.palier = REPERES[n.et / CONFIG.T - 1]; res.franchis = [res.palier]; }
+        res.raison = n.et >= NET ? "sommet" : (n.et >= pe ? "plafond-atteint" : "ok");
       }
     }
     sauver();
@@ -266,7 +278,7 @@
   var API = {
     CONFIG: CONFIG, REPERES: REPERES,
     cle: cle, semaine: semaine, nbSemaines: nbSemaines, plafond: plafond, prochainLundi: prochainLundi, plafondApres: plafondApres,
-    niveauRel: niveauRel, franchis: franchis, suivant: suivant, dernier: dernier,
+    altDe: altDe, etDe: etDe, plafondEt: plafondEt, NP: NP, NET: NET, suivant: suivant, dernier: dernier,
     charger: charger, sauver: sauver, pseudo: pseudo, setPseudo: setPseudo, actif: actif, memoriserActif: memoriserActif,
     alt: alt, stats: stats, dejaAujourdhui: dejaAujourdhui, reinitialiser: reinitialiser, resume: resume, enregistrer: enregistrer,
     rng: rng, entier: entier, parmi: parmi, melanger: melanger, nb: nb, euro: euro, pct: pct, qcm: qcm,

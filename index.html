@@ -139,6 +139,12 @@ svg .nuage{fill:var(--nuage)} svg .colline{fill:var(--colline)} svg .colline2{fi
 svg .repere{stroke:var(--encre-2);stroke-width:1;stroke-dasharray:3 5;opacity:.35}
 svg .lbl{font-family:var(--f-texte);font-weight:700;font-size:10.5px;fill:var(--encre-2)}
 svg .soleil{fill:var(--soleil)}
+/* paliers collectionnés */
+.coll{display:grid;grid-template-columns:repeat(11,1fr);gap:4px}
+.coll .slot{aspect-ratio:1;border-radius:8px;background:var(--fond);border:1px solid var(--trait);display:grid;place-items:center;color:var(--encre-2);font-weight:800;font-size:.75rem;overflow:hidden}
+.coll .slot.ok{background:#fff;border-color:var(--violet)}
+.coll .slot.cur{outline:2px dashed var(--orange);outline-offset:1px}
+.coll .slot svg{width:100%;height:100%;display:block}
 svg .corde{stroke:#6B4A2B;stroke-width:1.4}
 svg .nacelle{fill:#A9733F}
 .note{font-size:.85rem;color:var(--encre-2);text-align:center}
@@ -405,26 +411,91 @@ const dateLundi=()=>AS.prochainLundi().toLocaleDateString('fr-FR',{weekday:'long
 const liste=a=>a.length<2?a.join(''):a.slice(0,-1).join(', ')+' et '+a[a.length-1];
 const niveauDe=id=>S.niveaux.find(x=>x.id===id);
 
-/* Repères : de petites icônes dessinées sur une grille 18 × 18 */
-const ICO_REP={
- lampadaire:'<path d="M6 17h6M9 17V6.5c0-1.8 1-2.9 2.7-2.9H14"/><path d="M12.2 3.4h3.4l-.9 2.8h-1.6z" fill="currentColor" stroke="none"/>',
- arbre:'<circle cx="9" cy="6.8" r="5"/><path d="M9 11.8V17M6.6 17h4.8"/>',
- immeuble:'<rect x="4.5" y="2" width="9" height="15" rx="1"/><path d="M7.3 5.5h.8M10 5.5h.8M7.3 8.5h.8M10 8.5h.8M7.3 11.5h.8M10 11.5h.8M8.2 17v-3h1.6v3"/>',
- eiffel:'<path d="M9 1.5 10.3 8 13.5 17M9 1.5 7.7 8 4.5 17M7.9 8h2.2M6.5 12.2h5M4.8 17h8.4"/>',
- burj:'<path d="M9 1v3.5M9 4.5 10.4 8v3l1.8 2.5V17H5.8v-3.5L7.6 11V8Z"/>',
- puy:'<path d="M1.5 17C3 10 5.8 6.5 9 6.5s6 3.5 7.5 10.5Z"/><path d="M9 6.5V2M7.6 3.6h2.8"/>',
- montblanc:'<path d="M1.5 17 7 6l2.4 4 2.1-3.2L16.5 17Z"/><path d="M5.5 9.2 7 6l1.5 2.6"/>'
+/* ---------- La scène : tout est posé au sol, à l'échelle réelle ----------
+   Le dernier palier atteint et l'objectif sont les seuls annoncés : les suivants restent cachés,
+   chacun apparaît derrière le précédent une fois celui-ci atteint. La vue se dézoome au fil des paliers
+   et la montgolfière (22 m) reste à l'échelle (taille bornée pour rester visible). */
+function fenetres(cols,rows,x0,y0,dx,dy,w,h,on,off){let s='';for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const lit=((r*7+c*3+r*c)%5)>1;s+=`<rect x="${x0+c*dx}" y="${y0+r*dy}" width="${w}" height="${h}" rx="1.2" fill="${lit?on:off}"/>`}return s}
+const MOD={
+1:`<circle cx="14" cy="14" r="18" fill="#FFC93C" opacity=".28"/><rect x="-2.5" y="8" width="5" height="112" rx="2" fill="#3B4558"/><path d="M0 12 Q0 1 12 1" fill="none" stroke="#3B4558" stroke-width="4.5" stroke-linecap="round"/><path d="M7 1H25L22 10H10Z" fill="#3B4558"/><ellipse cx="16" cy="11.5" rx="5.5" ry="3" fill="#FFE08A"/><rect x="-7" y="106" width="14" height="14" rx="2" fill="#3B4558"/>`,
+2:`<rect x="-5" y="62" width="10" height="58" fill="#8A5A3B"/><circle cx="-21" cy="56" r="24" fill="#2F9E5A"/><circle cx="21" cy="56" r="24" fill="#2F9E5A"/><circle cx="0" cy="32" r="32" fill="#3BB56A"/><circle cx="-10" cy="22" r="11" fill="#6ADB93" opacity=".7"/><circle cx="16" cy="48" r="7" fill="#2F9E5A" opacity=".55"/>`,
+3:`<rect x="-33" y="0" width="66" height="6" fill="#4F43B8"/><rect x="-30" y="6" width="60" height="114" fill="#8D86E8"/><rect x="14" y="6" width="16" height="114" fill="#7A72D6"/>${fenetres(4,8,-24,14,13,13,9,8,'#FFE9A8','#5B54B5')}<rect x="-4" y="-0" width="8" height="0" fill="none"/>`,
+4:`<rect x="-24" y="86" width="48" height="34" fill="#9AA6B8"/><rect x="-28" y="82" width="56" height="6" fill="#B5BFCE"/><path d="M-13 50H13L18 84H-18Z" fill="#6CC4A8"/><path d="M-13 50L-4 84H-18Z" fill="#59B093"/><rect x="-24" y="58" width="9" height="15" rx="2" fill="#4FAE93" transform="rotate(-12 -20 65)"/><circle cx="-1" cy="40" r="8.5" fill="#6CC4A8"/><path d="M-10 36L-17 29M-6 33L-9 24M-1 32L-1 22M4 33L7 24M8 36L14 29" stroke="#6CC4A8" stroke-width="2.6" stroke-linecap="round"/><path d="M8 54L17 24" stroke="#6CC4A8" stroke-width="7" stroke-linecap="round"/><rect x="12" y="15" width="9" height="9" rx="1.5" fill="#4FAE93"/><path d="M16.5 15C10 8 14 4 16.5 0C19 5 23 8 16.5 15Z" fill="#FFC93C"/>`,
+5:`<line x1="0" y1="0" x2="0" y2="20" stroke="#5E5348" stroke-width="2.4"/><path d="M-3.5 20H3.5L8 52H-8Z" fill="#6B5F54"/><rect x="-13" y="50" width="26" height="4" fill="#4E453C"/><path d="M-8 54H8L17 90H-17Z" fill="#6B5F54"/><path d="M-6 57L6 71M6 57L-6 71M-9 72L9 88M9 72L-9 88" stroke="#A89B8D" stroke-width="1.1" fill="none"/><rect x="-22" y="89" width="44" height="5" fill="#4E453C"/><path d="M-21 94H21L36 120H22C16 108 -16 108 -22 120H-36Z" fill="#6B5F54"/><path d="M-18 100L-8 112M18 100L8 112" stroke="#A89B8D" stroke-width="1.1"/>`,
+6:`<line x1="0" y1="0" x2="0" y2="18" stroke="#8C8579" stroke-width="2"/><circle cx="0" cy="19" r="2.2" fill="#FF6B6B"/><rect x="-3.5" y="18" width="7" height="12" fill="#CBBFA9"/><rect x="-9" y="30" width="18" height="14" fill="#C2B49F"/><rect x="-16" y="44" width="32" height="22" fill="#B7A68F"/><rect x="-24" y="66" width="48" height="18" fill="#C2B49F"/><rect x="-34" y="84" width="68" height="36" fill="#B7A68F"/><path d="M-9 30H9M-16 44H16M-24 66H24M-34 84H34" stroke="#8F7F69" stroke-width="1.4"/>${fenetres(5,2,-12,48,6,8,3.4,4.5,'#FFE9A8','#8F7F69')}${fenetres(8,4,-30,89,8,7,4,4,'#FFE9A8','#8F7F69')}`,
+7:`<path d="M0 0L2 22L5 40L7 58L12 78L17 98L24 120H-24L-17 98L-12 78L-7 58L-5 40L-2 22Z" fill="#9BC1E3"/><path d="M0 0L2 22L5 40L7 58L12 78L17 98L24 120H0Z" fill="#6F9CC6"/><path d="M-5 40H5M-7 58H7M-12 78H12M-17 98H17" stroke="#fff" stroke-width="1.1" opacity=".7"/>`,
+8:`<line x1="0" y1="0" x2="0" y2="22" stroke="#C0392B" stroke-width="2.2"/><path d="M-2 6H2M-2 12H2" stroke="#fff" stroke-width="2"/><rect x="-7" y="20" width="14" height="6" fill="#B9B5AA"/><path d="M-50 120C-42 76 -24 34 -8 26H8C24 34 42 76 50 120Z" fill="#6FA074"/><path d="M-30 120C-24 90 -14 56 -4 40L8 40C16 58 26 92 32 120Z" fill="#5D8F63" opacity=".6"/><path d="M-14 36H14" stroke="#4E7A55" stroke-width="2"/>`,
+9:`<rect x="-3.5" y="0" width="7" height="14" fill="#E4E0D6"/><path d="M-3.5 2H3.5M-3.5 7H3.5" stroke="#C0392B" stroke-width="3"/><path d="M-52 120L-9 15H9L52 120Z" fill="#DAD3C4"/><path d="M-4 15H9L52 120H18Z" fill="#C7BFAE"/><path d="M-30 80L-12 40M-14 100L0 54M16 96L8 56M32 84L18 46" stroke="#A89F8D" stroke-width="2.2" stroke-linecap="round"/>`,
+10:`<line x1="0" y1="0" x2="0" y2="8" stroke="#555" stroke-width="2"/><rect x="-8" y="6" width="16" height="9" fill="#C0392B"/><path d="M-42 120L-15 46L-8 18H8L12 46L42 120Z" fill="#7C7E8C"/><path d="M-8 18H8L12 46L4 38L0 52L-6 40L-14 46Z" fill="#fff"/><path d="M-26 90L-12 62M22 90L12 66M-4 100L2 70" stroke="#5E606D" stroke-width="2.2" stroke-linecap="round"/><path d="M8 12L50 74" stroke="#333" stroke-width="1.2"/><rect x="26" y="40" width="9" height="6" rx="1" fill="#E8700F" transform="rotate(48 30 43)"/>`,
+11:`<line x1="0" y1="10" x2="0" y2="-8" stroke="#3B4558" stroke-width="2"/><path d="M0 -8L12 -4L0 0Z" fill="#E8700F"/><path d="M-54 120L-18 46L-8 26L0 10L10 24L20 48L54 120Z" fill="#8A93B8"/><path d="M-8 26L0 10L10 24L20 48L11 42L5 54L-3 42L-11 52L-18 46Z" fill="#fff"/><path d="M20 48L54 120H30L14 76Z" fill="#6F7AA3"/><path d="M-30 100L-14 70M-2 108L4 76" stroke="#6F7AA3" stroke-width="2.2" stroke-linecap="round"/>`
 };
-
-/* La scène est zoomée sur le trajet en cours : du dernier repère atteint (en bas) jusqu'à l'objectif
-   (en haut). Les repères suivants restent cachés : on les découvre un par un. */
-const SC={H:450,SOL:408,HAUT:96,BX:300,ZB:1.2};
-function vue(a){
- const d=AS.dernier(a),s=AS.suivant(a),R=AS.REPERES;
- if(s)return {base:d?d.h:0,bn:d,obj:s};
- const i=R.length-1;return {base:i>0?R[i-1].h:0,bn:R[i-1]||null,obj:R[i]};
+const SC={H:450,SOL:405,BX:305,MIN:80};
+const NP=AS.NP,TT=CF.T,HR=[0,...AS.REPERES.map(r=>r.h)];
+const CXR=[0,50,92,132,175,105,215,160,120,230,150,170],SXR=[0,1,1,1,1,1,1,1,2.2,2.2,1.6,2];
+(function(){let d=`<linearGradient id="fadeG"/><clipPath id="env"><path d="M0 -62 C26 -62 34 -40 30 -24 C26 -10 12 -4 8 2 L-8 2 C-12 -4 -26 -10 -30 -24 C-34 -40 -26 -62 0 -62Z"/></clipPath>
+<g id="bal"><line x1="-8" y1="-24" x2="-6" y2="-10" stroke="#6B5640" stroke-width="1.4"/><line x1="8" y1="-24" x2="6" y2="-10" stroke="#6B5640" stroke-width="1.4"/>
+<g transform="translate(0 -24) scale(.62)" clip-path="url(#env)"><rect x="-36" y="-64" width="72" height="70" fill="#6E4FE0"/><rect x="-24" y="-64" width="12" height="70" fill="#FFC93C"/><rect x="-6" y="-64" width="12" height="70" fill="#0F9562"/><rect x="12" y="-64" width="12" height="70" fill="#E8700F"/></g>
+<rect x="-7" y="-10" width="14" height="10" rx="2" fill="#A9703F"/></g>`;
+ for(let i=1;i<=NP;i++)d+=`<g id="m${i}">${MOD[i]}</g>`;
+ document.body.insertAdjacentHTML('beforeend',`<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>${d}</defs></svg>`);
+})();
+const lerp=(a,b,t)=>a+(b-a)*t,mixC=(A,B,t)=>'rgb('+A.map((v,i)=>Math.round(lerp(v,B[i],t))).join(',')+')';
+const objDe=e=>Math.min(NP,Math.floor(e/TT+1e-6)+1);                 // palier en objectif
+const zlDe=e=>Math.log(Math.max(SC.MIN,HR[objDe(e)]*1.12));          // zoom visé (log de l'altitude visible)
+const altE=e=>{const u=e/TT,i=Math.min(NP-1,Math.floor(u+1e-9));return HR[i]+(HR[i+1]-HR[i])*(u-i)};
+const NUA=Array.from({length:14},(_,j)=>({u:.3+j*.8,x:(j*97)%360,k:.7+(j%3)*.25,v:4+(j%4)*2}));
+function pill(x,y,txt,col){const w=10+txt.length*6.1;return `<rect x="${x}" y="${y-13}" width="${w}" height="19" rx="9.5" fill="#fff" opacity=".93"/><text x="${x+w/2}" y="${y+.5}" text-anchor="middle" font-size="11" font-weight="800" fill="${col}" font-family="inherit">${txt}</text>`}
+const etatFixe=e=>({e,zl:zlDe(e),rev:Object.fromEntries(Array.from({length:NP},(_,i)=>[i+1,1])),t:0,anim:false});
+function sceneInner(nid,st){
+ const R=AS.resume(nid),top=Math.exp(st.zl),ppm=(SC.SOL-40)/top,Y=a=>SC.SOL-a*ppm,e=st.e,o=objDe(e),sk=Math.min(1,e/(NP*TT));
+ const alt=altE(e),pl=R.plafond,t=st.t;
+ let s=`<defs><linearGradient id="ciel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${mixC([169,219,255],[98,138,226],sk)}"/><stop offset="1" stop-color="${mixC([225,244,255],[176,208,250],sk)}"/></linearGradient></defs>
+  <rect width="360" height="${SC.H}" fill="url(#ciel)"/><circle cx="240" cy="46" r="14" fill="#FFC93C" opacity="${(1-sk*.8).toFixed(2)}"/>`;
+ NUA.forEach(c=>{const y=Y(c.u*top/3.2+(c.u>3?HR[Math.min(NP,Math.round(c.u))]*.3:0));if(y<20||y>SC.SOL-30)return;const x=((c.x+t*c.v)%440)-50;
+  s+=`<g fill="#fff" opacity=".8"><ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="${32*c.k}" ry="${9*c.k}"/><ellipse cx="${(x+17*c.k).toFixed(1)}" cy="${(y-7*c.k).toFixed(1)}" rx="${19*c.k}" ry="${10*c.k}"/></g>`});
+ s+=`<path d="M0 ${SC.H} L0 ${SC.SOL-14} C70 ${SC.SOL-34} 120 ${SC.SOL-22} 180 ${SC.SOL-12} C240 ${SC.SOL-2} 300 ${SC.SOL-28} 360 ${SC.SOL-18} L360 ${SC.H}Z" fill="#8CCFA1"/>`;
+ for(let i=o;i>=1;i--){
+  const rev=Math.min(1,st.rev[i]||0),h=HR[i]*ppm,sy=h/120,sx=sy*SXR[i],op=(1-.03*(i-1))*rev;
+  if(op<=.01||h<1.2)continue;
+  s+=`<g opacity="${op.toFixed(2)}" transform="translate(${CXR[i]} ${SC.SOL}) scale(${sx.toFixed(4)} ${sy.toFixed(4)}) translate(0 -120)"><use href="#m${i}"/></g>`}
+ s+=`<path d="M0 ${SC.H} L0 ${SC.SOL-2} C80 ${SC.SOL-16} 150 ${SC.SOL+2} 220 ${SC.SOL-4} C290 ${SC.SOL-10} 330 ${SC.SOL-2} 360 ${SC.SOL-6} L360 ${SC.H}Z" fill="#B9E6C6"/>`;
+ const yo=Y(HR[o]),R_=AS.REPERES;
+ s+=`<line x1="0" y1="${yo.toFixed(1)}" x2="360" y2="${yo.toFixed(1)}" stroke="#1B2333" stroke-width="1.6" stroke-dasharray="5 5" opacity=".6"/>${pill(8,yo-8,'Objectif · '+R_[o-1].nom+' · '+fr(HR[o])+' m','#6E4FE0')}`;
+ if(o>1&&(st.rev[o]||0)>.9){const yp=Y(HR[o-1]);if(yp>yo+30)s+=`<line x1="0" y1="${yp.toFixed(1)}" x2="360" y2="${yp.toFixed(1)}" stroke="#0F9562" stroke-width="1.4" opacity=".6"/>${pill(8,yp-8,R_[o-2].nom+' · '+fr(HR[o-1])+' m ✓','#0A7A4E')}`}
+ if(R.plafondEt<NP*TT&&pl<HR[o]&&pl>=alt-.5){const y=Y(pl);
+  s+=`<line x1="0" y1="${y.toFixed(1)}" x2="360" y2="${y.toFixed(1)}" stroke="#E8700F" stroke-width="2.2" stroke-dasharray="7 5"/><g transform="translate(150 ${(y-20).toFixed(1)})"><rect width="124" height="18" rx="9" fill="#E8700F"/><text x="62" y="12.6" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="inherit">Plafond de la semaine</text></g>`}
+ const by=Y(alt),vrai=22*ppm,hb=Math.max(15,Math.min(110,vrai)),kb=hb/62.4;
+ const halo=vrai<15?`<circle cx="${SC.BX}" cy="${(by-hb*.5).toFixed(1)}" r="${(hb*.75+(st.anim?3*Math.sin(t*3):0)).toFixed(1)}" fill="none" stroke="#fff" stroke-width="1.6" opacity=".85"/>`:'';
+ const bal=`<g transform="translate(${SC.BX} ${by.toFixed(1)}) rotate(${st.anim?(Math.sin(t*1.6)*2.2).toFixed(2):0}) scale(${kb.toFixed(3)})"><use href="#bal"/></g>`;
+ s+=halo+(st.anim?bal:`<g class="flotte">${bal}</g>`);
+ (st.parts||[]).forEach(p=>{s+=`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${p.r}" fill="${p.c}" opacity="${Math.max(0,p.l).toFixed(2)}"/>`});
+ return s}
+function scene(nid){
+ const R=AS.resume(nid),o=objDe(R.et);
+ return `<svg id="sc" viewBox="0 0 360 ${SC.H}" role="img" aria-label="Ta montgolfière : ${fr(R.alt)} mètres. Objectif : ${AS.REPERES[o-1].le}, ${fr(HR[o])} mètres. Plafond de la semaine : ${fr(R.plafond)} mètres.">${sceneInner(nid,etatFixe(R.et))}</svg>`}
+let animScene=0;
+function animerScene(nid,e0,e1){
+ const svg=document.getElementById('sc');if(!svg||e1<=e0||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+ const id=++animScene,palier=objDe(e1)>objDe(e0),st=etatFixe(e0),D1=1300,D2=palier?1700:0,t0=performance.now();
+ const cols=['#FFC93C','#6E4FE0','#0F9562','#E8700F','#fff'];st.anim=true;st.parts=[];let fait=false,dernier=t0;
+ function f(now){
+  if(id!==animScene||!svg.isConnected)return;
+  const ms=now-t0,dt=Math.min(.05,(now-dernier)/1000);dernier=now;
+  const p=Math.min(1,ms/D1),ez=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+  st.e=e0+(e1-e0)*ez;st.t=ms/1000;
+  if(palier&&ms>D1){const q=Math.min(1,(ms-D1)/D2),eq=q*q*(3-2*q);st.zl=lerp(zlDe(e0),zlDe(e1),eq);st.rev[objDe(e1)]=q;
+   if(!fait){fait=true;const ppm=(SC.SOL-40)/Math.exp(zlDe(e0)),y=SC.SOL-HR[objDe(e0)]*ppm;for(let k=0;k<34;k++){const a=Math.random()*6.283,v=60+Math.random()*130;st.parts.push({x:SC.BX,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-80,r:2+Math.random()*2.5,c:cols[k%5],l:1})}}}
+  else if(palier)st.rev[objDe(e1)]=0;
+  st.parts.forEach(q=>{q.x+=q.vx*dt;q.y+=q.vy*dt;q.vy+=260*dt;q.l-=dt*.8});st.parts=st.parts.filter(q=>q.l>0);
+  if(ms<D1+D2+600){svg.innerHTML=sceneInner(nid,st);requestAnimationFrame(f)}
+  else svg.innerHTML=sceneInner(nid,etatFixe(e1));
+ }
+ f(t0);
 }
-const yVue=(a,v)=>SC.SOL-(SC.SOL-SC.HAUT)*Math.max(0,Math.min(1,(a-v.base)/(v.obj.h-v.base)));
+function collection(nid){
+ const R=AS.resume(nid),fait=Math.floor(R.et/TT+1e-6);
+ return `<div class="coll" aria-label="Paliers atteints : ${fait} sur ${NP}">${Array.from({length:NP},(_,i)=>{const n=i+1,ok=n<=fait,cur=n===fait+1;
+  return `<div class="slot${ok?' ok':''}${cur?' cur':''}" title="${ok?esc(AS.REPERES[i].nom):'?'}">${ok?`<svg viewBox="-50 -12 100 145" aria-label="${esc(AS.REPERES[i].nom)}"><use href="#m${n}"/></svg>`:'?'}</div>`}).join('')}</div>`}
 let nbBallons=0;
 function ballon(x,y,s){ // y = bas de la nacelle
  const id='env'+(++nbBallons);
@@ -438,43 +509,22 @@ function ballon(x,y,s){ // y = bas de la nacelle
    <rect class="nacelle" x="-7" y="-10" width="14" height="10" rx="2"/>
   </g>`;
 }
-function scene(nid,avant){
- const R=AS.resume(nid),a=R.alt,pl=R.plafond,v=vue(a),y=yVue(a,v),yO=SC.HAUT;
- // d'où part l'animation : de la position précédente, ou du bas de l'écran si on vient de changer de repère
- const y0=avant==null?y:(avant<v.base?SC.SOL+30:yVue(avant,v));
- const ic=(r,yy,cl)=>`<g class="rep-i${cl}" transform="translate(10 ${(yy-9).toFixed(1)})" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${ICO_REP[r.ico]||''}</g>`;
- const bas=v.bn&&v.base>0?`<line class="repere" x1="8" y1="${SC.SOL}" x2="352" y2="${SC.SOL}"/>${ic(v.bn,SC.SOL,' ok')}<text class="lbl ok" x="34" y="${SC.SOL+4}">${v.bn.nom} · ${fr(v.bn.h)} m ✓</text>`:'';
- const pass=a>=v.obj.h;
- const haut=`<line class="repere" x1="8" y1="${yO}" x2="352" y2="${yO}"/>${ic(v.obj,yO,pass?' ok':'')}<text class="lbl${pass?' ok':''}" x="34" y="${yO+4}">${pass?'':'Objectif : '}${v.obj.nom} · ${fr(v.obj.h)} m${pass?' ✓':''}</text>`;
- const yP=yVue(pl,v),lib=pl>=CF.MAX?'Plafond · sommet':'Plafond · '+fr(pl)+' m';
- const plaf=pl<v.obj.h&&pl>=a?`<line class="plafond" x1="0" y1="${yP.toFixed(1)}" x2="360" y2="${yP.toFixed(1)}"/>
-   <g transform="translate(150 ${(yP-22).toFixed(1)})"><rect class="pastille" width="108" height="18" rx="9"/><text class="pastille-t" x="54" y="12.7" text-anchor="middle">${lib}</text></g>`:'';
- const nuage=(cx,cy,k=1)=>`<ellipse cx="${cx}" cy="${cy}" rx="${34*k}" ry="${10*k}"/><ellipse cx="${cx+18*k}" cy="${cy-7*k}" rx="${20*k}" ry="${11*k}"/>`;
- return `<svg viewBox="0 0 360 ${SC.H}" role="img" aria-label="Ta montgolfière : ${fr(a)} mètres, objectif ${v.obj.le} à ${fr(v.obj.h)} mètres, plafond de la semaine ${fr(pl)} mètres">
-   <defs><linearGradient id="ciel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="ciel1"/><stop offset="1" class="ciel2"/></linearGradient></defs>
-   <rect width="360" height="${SC.H}" fill="url(#ciel)"/>
-   <circle class="soleil" cx="${SC.BX-120}" cy="46" r="14"/>
-   <g class="nuage">${nuage(90,190)}${nuage(230,300,.9)}${nuage(60,360,.8)}</g>
-   ${bas}${haut}${plaf}
-   <path class="colline2" d="M0 ${SC.H} L0 ${SC.SOL-16} C60 ${SC.SOL-34} 110 ${SC.SOL-24} 170 ${SC.SOL-14} C230 ${SC.SOL-4} 290 ${SC.SOL-28} 360 ${SC.SOL-20} L360 ${SC.H}Z" ${v.base>0?'style="display:none"':''}/>
-   <path class="colline" d="M0 ${SC.H} L0 ${SC.SOL-4} C80 ${SC.SOL-18} 150 ${SC.SOL-2} 220 ${SC.SOL-8} C290 ${SC.SOL-14} 330 ${SC.SOL-4} 360 ${SC.SOL-8} L360 ${SC.H}Z" ${v.base>0?'style="display:none"':''}/>
-   <g class="${avant!=null&&y0!==y?'decolle':''}" style="--dy:${(y0-y).toFixed(0)}px"><g class="flotte">${ballon(SC.BX,y,SC.ZB)}</g></g>
-  </svg>`;
-}
-function carteScene(nid,avant){
- const n=niveauDe(nid),R=AS.resume(nid),a=R.alt,pl=R.plafond;
+function carteScene(nid){
+ const n=niveauDe(nid),R=AS.resume(nid),a=R.alt,pl=R.plafond,rest=TT-R.dansPalier;
  const zone=R.auSommet?'Au sommet du Mont Blanc':a<AS.REPERES[0].h?'Au sol':'Au-dessus '+R.dernier.du;
- const pre=R.dernier?R.dernier.h:0,pct=R.suivant?Math.round(100*(a-pre)/(R.suivant.h-pre)):100;
+ const pct=R.auSommet?100:Math.round(100*R.dansPalier/TT);
  const prochain=R.auSommet?'<strong>Tu as atteint le sommet !</strong> Bravo, tu es en haut du Mont Blanc.'
-  :`Prochain repère : <strong>${R.suivant.le}</strong> (${fr(R.suivant.h)} m), encore <strong>${fr(R.suivant.h-a)} m</strong>.`;
- const plafond=pl>=CF.MAX?'Le plafond est au sommet : plus de limite jusqu’à la fin de l’année.'
-  :R.marge>0?`Plafond de cette semaine : <strong>${fr(pl)} m</strong>. Tu peux encore gagner <strong>${fr(R.marge)} m</strong> avant lundi.`
+  :`Objectif : <strong>${R.suivant.le}</strong> (${fr(R.suivant.h)} m). Encore <strong>${rest} test${rest>1?'s réussis':' réussi'}</strong> pour l’atteindre.`;
+ const k=R.plafondEt-R.et;
+ const plafond=R.plafondEt>=AS.NET?'Le plafond est au sommet : plus de limite jusqu’à la fin de l’année.'
+  :k>0?`Cette semaine, tu peux encore monter avec <strong>${k} test${k>1?'s':''}</strong> (plafond : ${fr(pl)} m).`
   :`Tu es au plafond de la semaine (<strong>${fr(pl)} m</strong>). Il monte à <strong>${fr(R.plafondApres)} m</strong> ${dateLundi()}.`;
- return `<section class="vol a-monte" id="vol">${scene(nid,avant)}
+ return `<section class="vol a-monte" id="vol">${scene(nid)}
   <div class="infos">
    <div class="ligne"><div><div class="eti doux">Ma montgolfière · ${esc(n.nom)}</div><div class="alt">${fr(a)} <small>m</small></div><div class="zone">${zone}</div></div>
     <button class="pseudo" onclick="fenetrePseudo()">${AS.pseudo()?'Pilote : '+esc(AS.pseudo()):'Choisir mon pseudo'}</button></div>
    <div class="jauge" aria-hidden="true"><span style="width:${pct}%"></span></div>
+   ${collection(nid)}
    <p class="palier-txt">${prochain}</p><p class="palier-txt">${plafond}</p>
    <p class="note" style="text-align:left">Ton pseudo et ton altitude restent sur ton appareil : rien n’est envoyé.</p>
   </div></section>`;
@@ -542,14 +592,14 @@ function vueAscension(n){
   <section class="vue" style="gap:6px"><h2 class="a-monte" ${d(0,.12)}>L’Ascension</h2><p class="doux">Réussis des tests pour faire monter ta montgolfière jusqu’au sommet du Mont Blanc.</p></section>
   ${carteScene(n.id)}
   <section class="vue" style="gap:12px"><h2>Je passe un test</h2>
-   <p class="doux"><strong>${CF.SEUIL} bonnes réponses sur ${CF.NB_Q}</strong> : tu montes de <strong>${CF.GAIN} m</strong>. Sinon, tu restes où tu es et tu peux recommencer, les questions changent.</p>
+   <p class="doux"><strong>${CF.SEUIL} bonnes réponses sur ${CF.NB_Q}</strong> : ta montgolfière monte d’une étape. Il faut <strong>${CF.T} tests réussis</strong> pour atteindre le palier suivant. Sinon, tu restes où tu es et tu peux recommencer, les questions changent.</p>
    <div class="liens">${n.chapitres.filter(c=>c.num).map(c=>ligneTest(n,c)).join('')}</div></section>
   <details class="deroule"><summary>Comment ça marche ?</summary><ul>
-   <li>Chaque chapitre a son test de ${CF.NB_Q} questions. Avec ${CF.SEUIL} bonnes réponses, tu montes de ${CF.GAIN} m.</li>
+   <li>Chaque chapitre a son test de ${CF.NB_Q} questions. Avec ${CF.SEUIL} bonnes réponses, tu montes d’une étape : ${CF.T} étapes = un palier (lampadaire, arbre, immeuble… jusqu’au Mont Blanc).</li>
    <li>Un test raté ne te fait jamais redescendre : tu réessaies quand tu veux.</li>
    <li>Le plafond monte chaque lundi, jusqu’au sommet début juin. Tu ne peux pas le dépasser, mais il ne redescend jamais : si tu rates une semaine, tu rattrapes plus tard.</li>
    <li>Un chapitre ne te fait monter qu’une fois par jour : change de chapitre ou reviens demain.</li>
-   <li>Les repères sont à leur vraie hauteur. L’échelle est « écrasée » pour que le lampadaire reste visible à côté du Mont Blanc.</li>
+   <li>Les paliers sont à leur vraie hauteur et la montgolfière est à l’échelle : elle rapetisse en montant. Chaque palier apparaît derrière le précédent quand tu l’atteins.</li>
   </ul></details>
  </div>`,null,{note:false});
 }
@@ -595,13 +645,14 @@ function suivante(){
 }
 function rendreResultat(){
  const el=document.getElementById('test'),r=T.res,n=niveauDe(T.nid),ch=trouverNC(T.cid).c;
- const franchis=r.franchis.length?` Tu atteins ${liste(r.franchis.map(x=>x.le))} !`:'';
+ const R=AS.resume(T.nid),rest=CF.T-R.dansPalier;
+ const suite=r.palier?` Tu atteins <strong>${r.palier.le}</strong> !`:(R.auSommet?'':` Encore ${rest} test${rest>1?'s réussis':' réussi'} avant ${R.suivant.le}.`);
  const msg={
-  'ok':`<strong>+${fr(r.gain)} m</strong>, tu montes à ${fr(r.apres)} m.${franchis}`,
-  'plafond-atteint':`<strong>+${fr(r.gain)} m</strong>, tu montes à ${fr(r.apres)} m et tu touches le plafond de la semaine. Il remonte à ${fr(AS.plafondApres())} m ${dateLundi()}.${franchis}`,
+  'ok':`<strong>+${fr(r.gain)} m</strong>, tu montes à ${fr(r.apres)} m.${suite}`,
+  'plafond-atteint':`<strong>+${fr(r.gain)} m</strong>, tu montes à ${fr(r.apres)} m et tu touches le plafond de la semaine. Il remonte à ${fr(AS.plafondApres())} m ${dateLundi()}.${suite}`,
   'plafond':`Test réussi, bravo ! Mais tu es déjà au plafond de la semaine (${fr(r.plafond)} m) : il remonte à ${fr(AS.plafondApres())} m ${dateLundi()}. Rien n’est perdu.`,
   'jour':'Test réussi, bravo ! Ce chapitre t’a déjà fait monter aujourd’hui. Essaie un autre chapitre, ou reviens demain.',
-  'sommet':`<strong>+${fr(r.gain)} m</strong> : tu es au sommet du Mont Blanc (${fr(CF.MAX)} m) !${franchis}`,
+  'sommet':`<strong>+${fr(r.gain)} m</strong> : tu es au sommet du Mont Blanc (${fr(CF.MAX)} m) !`,
   'au-sommet':'Test réussi ! Tu es déjà tout en haut du Mont Blanc : bravo.',
   'echec':`Tu restes à ${fr(r.apres)} m, tu ne redescends pas. Relis ce qui est indiqué ci-dessous, puis réessaie : les questions changent.`
  }[r.raison];
@@ -609,10 +660,11 @@ function rendreResultat(){
  const revoir=fautes.length?`<section class="a-revoir a-monte"><h3>${r.reussi?'Pour aller plus loin, à relire':'À relire'}</h3><ul>${fautes.map(s=>`<li><a href="#${ch.id}">Séance ${s} · ${esc(ch.seances[s-1].titre)}</a></li>`).join('')}</ul></section>`:'';
  el.innerHTML=`<div class="res-test ${r.reussi?'ok':'non'} a-pop"><h2>${r.reussi?'Test réussi !':'Pas cette fois'}</h2>
    <p class="score"><strong>${T.bonnes} / ${T.qs.length}</strong> bonnes réponses${r.reussi?'':' (il en fallait '+CF.SEUIL+')'}</p><p>${msg}</p></div>
-  ${r.gain>0?carteScene(T.nid,r.avant):''}
+  ${r.gain>0?carteScene(T.nid):''}
   ${revoir}
   <div class="choix a-monte"><button class="btn" type="button" onclick="rejouerTest()">Refaire un test</button><a class="btn jaune" href="#${n.id}/ascension">Autres tests</a></div>`;
  window.scrollTo(0,0);
+ if(r.gain>0)animerScene(T.nid,r.etAvant,r.etApres);
 }
 function rejouerTest(){
  if(!T)return;
