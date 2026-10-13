@@ -15,8 +15,8 @@
   });
   if (!found) return;
 
-  var couleurs = { vert: "#1E7A4C", orange: "#B5680A", violet: "#5B21B6" };
-  var accent = couleurs[found.n.couleur] || "#22303F";
+  var couleurs = { vert: "#0F9562", orange: "#E8700F", violet: "#6E4FE0" };
+  var accent = couleurs[found.n.couleur] || "#1B2333";
   var accueil = "../../index.html";
   var suivante = found.c.ressources[found.i + 1];
 
@@ -28,11 +28,11 @@
 
   var css =
     ".ml-barre{position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:2147483000;" +
-    "display:flex;gap:6px;align-items:center;font:600 13px/1.2 'Work Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;" +
-    "background:#FFFFFF;color:#22303F;border:2px solid #22303F;border-radius:999px;padding:5px;" +
+    "display:flex;gap:6px;align-items:center;font:700 13px/1.2 'Atkinson Hyperlegible','Work Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;" +
+    "background:#FFFFFF;color:#1B2333;border:2px solid #1B2333;border-radius:999px;padding:5px;" +
     "box-shadow:0 6px 20px rgba(34,48,63,.22);max-width:calc(100vw - 24px)}" +
     ".ml-barre a{color:inherit;text-decoration:none;display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;white-space:nowrap}" +
-    ".ml-barre a:hover,.ml-barre a:focus-visible{background:#F1ECE2;outline:none}" +
+    ".ml-barre a:hover,.ml-barre a:focus-visible{background:#EEF2FA;outline:none}" +
     ".ml-barre .ml-retour{font-weight:700}" +
     ".ml-barre .ml-court{display:none}" +
     "@media (max-width:480px){.ml-barre .ml-long{display:none}.ml-barre .ml-court{display:inline}}" +
@@ -40,7 +40,7 @@
     ".ml-barre .ml-chap:hover,.ml-barre .ml-chap:focus-visible{background:" + accent + ";filter:brightness(1.12)}" +
     ".ml-barre .ml-chap span{overflow:hidden;text-overflow:ellipsis}" +
     ".ml-barre .ml-x{padding:7px 9px;color:#6B7A8A}" +
-    ".ml-barre.ml-mini a:not(.ml-x){display:none}.ml-barre.ml-mini .ml-x{color:#22303F}" +
+    ".ml-barre.ml-mini a:not(.ml-x){display:none}.ml-barre.ml-mini .ml-x{color:#1B2333}" +
     "@media print{.ml-barre{display:none}}";
   var st = document.createElement("style");
   st.textContent = css;
