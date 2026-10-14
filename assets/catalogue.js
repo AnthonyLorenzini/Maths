@@ -58,6 +58,9 @@ window.SITE = {
         { etiquette: "Chapitres 1 et 2", titre: "Évaluation — Numération & Géométrie",
           resume: "Rang des chiffres, nombres décimaux, vocabulaire et notations, distances. 50 min, sur 20.", ajout: "2026-10-14",
           versions: [ { nom: "", sujet: "evaluations/6e/6e-ch1-2-sujet.pdf", corrige: "evaluations/6e/6e-ch1-2-corrige.pdf" } ] }
+        ,{ chapitre: "6e-ch4", etiquette: "Chapitre 4 · Petit test", titre: "Petit test — Les fleurs des décimaux",
+          resume: "Compléter les pétales : écriture décimale, en mots, fraction décimale, nombre mixte, somme de fractions.", ajout: "2026-10-14",
+          versions: [ { nom: "A et B", sujet: "evaluations/6e/6e-fleurs-decimaux-sujets-A-et-B.pdf", corrige: "evaluations/6e/6e-fleurs-decimaux-corrige-A-et-B.pdf" } ] }
       ],
       chapitres: [
         {
@@ -327,6 +330,9 @@ window.SITE = {
       id: "4e", nom: "4e", couleur: "violet",
       accroche: "Pourcentages, grandeurs, nombres premiers, Pythagore",
       evaluations: [
+        { chapitre: "4e-ch1", etiquette: "Chapitre 1 · Petit test", titre: "Petit test — Les évolutions en pourcentage",
+          resume: "Une hausse puis une baisse du même pourcentage : retrouve-t-on le nombre de départ ?", ajout: "2026-10-14",
+          versions: [ { nom: "A et B", sujet: "evaluations/4e/4e-ch1-petit-test-evolutions-sujets-A-et-B.pdf", corrige: "evaluations/4e/4e-ch1-petit-test-evolutions-corrige-A-et-B.pdf" } ] },
         { etiquette: "Chapitres 1 et 2", titre: "Évaluation — Pourcentages et grandeurs",
           resume: "Pourcentages, vitesse, débit, volume, problème. 50 min, sur 20. Les versions A et B sont dans le même fichier.", ajout: "2026-10-14",
           versions: [ { nom: "A et B", sujet: "evaluations/4e/4e-ch1-2-sujets-A-et-B.pdf", corrige: "evaluations/4e/4e-ch1-2-corrige-A-et-B.pdf" } ] }
