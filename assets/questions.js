@@ -690,9 +690,7 @@
 
   /* =====================  6e · Chapitre 1 — Numération entière et décimale  =====================
 
-     Ce chapitre n'est pas (ou pas encore) dans le catalogue du site : sa banque de questions
-     sert surtout à alimenter les tests cumulatifs des chapitres suivants de la 6e.
-     Séances « virtuelles » utilisées pour répartir les questions :
+     Les séances correspondent à celles du site (catalogue.js) :
        1 = lire et écrire les grands nombres entiers
        2 = rangs des chiffres : « chiffre des… », « nombre de… », valeur d'un chiffre
        3 = écriture décimale : zéros inutiles, décomposition                                    */
@@ -857,6 +855,540 @@
       { id: "valeur-chiffre", seance: 2, gen: valeurChiffre },
       { id: "zeros-inutiles", seance: 3, gen: zerosInutiles },
       { id: "decomposition-6e", seance: 3, gen: decompositionDecimale }
+    ]
+  });
+
+
+  /* =====================  Outils communs aux chapitres 2 à 4 de la 6e  ===================== */
+
+  function cm(x) { return nb(x) + " cm"; }
+  function frac(a, b) { return a + "/" + b; }
+  function paire(R) { return parmi(R, ["AB", "CD", "EF", "KL", "MN", "RS"]); }
+  function heure(total) {                            // 995 → « 16 h 35 »
+    var h = Math.floor(total / 60), m = total % 60;
+    return h + " h " + (m < 10 ? "0" : "") + m;
+  }
+
+  /* =====================  6e · Chapitre 2 — Points, droites et distances  ===================== */
+
+  /* Séance 1 — Le vocabulaire de la géométrie */
+
+  function notationObjet(R) {
+    var p = paire(R), X = p[0], Y = p[1];
+    var objets = [
+      { txt: "la droite qui passe par les points " + X + " et " + Y, bonne: "(" + X + Y + ")" },
+      { txt: "le segment d'extrémités " + X + " et " + Y, bonne: "[" + X + Y + "]" },
+      { txt: "la demi-droite d'origine " + X + " qui passe par " + Y, bonne: "[" + X + Y + ")" },
+      { txt: "la longueur du segment d'extrémités " + X + " et " + Y, bonne: X + Y }
+    ];
+    var o = parmi(R, objets), tous = ["(" + X + Y + ")", "[" + X + Y + "]", "[" + X + Y + ")", X + Y];
+    return qcm(R, {
+      q: "Comment note-t-on " + o.txt + " ?",
+      bonne: o.bonne, erreurs: tous.filter(function (x) { return x !== o.bonne; }),
+      expl: "La droite se note avec des parenthèses : (" + X + Y + "). Le segment se note avec des crochets : [" + X + Y + "]. La demi-droite a un crochet côté origine et une parenthèse de l'autre côté : [" + X + Y + "). La longueur se note sans rien : " + X + Y + "."
+    });
+  }
+
+  function appartient(R) {
+    var P = parmi(R, ["A", "B", "C", "M", "N", "P", "R"]), d = parmi(R, ["(d)", "(d')", "(D)"]), k = entier(R, 0, 3);
+    if (k === 0) {
+      return qcm(R, { q: "Le point " + P + " appartient à la droite " + d + ". Comment l'écrit-on ?", n: 3,
+        bonne: P + " ∈ " + d, erreurs: [P + " ∉ " + d, P + " = " + d],
+        expl: "Le symbole ∈ signifie « appartient à ». On écrit " + P + " ∈ " + d + "." });
+    }
+    if (k === 1) {
+      return qcm(R, { q: "Le point " + P + " n'est pas sur la droite " + d + ". Comment l'écrit-on ?", n: 3,
+        bonne: P + " ∉ " + d, erreurs: [P + " ∈ " + d, P + " = " + d],
+        expl: "Le symbole ∉ signifie « n'appartient pas à ». On écrit " + P + " ∉ " + d + "." });
+    }
+    if (k === 2) {
+      return qcm(R, { q: "Comment lit-on « " + P + " ∈ " + d + " » ?", n: 3,
+        bonne: P + " appartient à " + d, erreurs: [P + " n'appartient pas à " + d, P + " est égal à " + d],
+        expl: "∈ se lit « appartient à » : le point " + P + " est sur la droite " + d + "." });
+    }
+    return qcm(R, { q: "Comment lit-on « " + P + " ∉ " + d + " » ?", n: 3,
+      bonne: P + " n'appartient pas à " + d, erreurs: [P + " appartient à " + d, P + " est égal à " + d],
+      expl: "∉ se lit « n'appartient pas à » : le point " + P + " n'est pas sur la droite " + d + "." });
+  }
+
+  function ecritureLongueur(R) {
+    var p = paire(R), X = p[0], Y = p[1], L = parmi(R, [3, 4, 5, 6.5, 7, 8.2, 9, 4.5]);
+    return qcm(R, {
+      q: "Le segment [" + X + Y + "] mesure " + cm(L) + ". Quelle écriture est correcte ?",
+      bonne: X + Y + " = " + cm(L),
+      erreurs: ["[" + X + Y + "] = " + cm(L), "(" + X + Y + ") = " + cm(L), "[" + X + Y + ") = " + cm(L)],
+      expl: "[" + X + Y + "] est le segment (un objet), et " + X + Y + " est sa longueur (un nombre). C'est une longueur qui mesure " + cm(L) + " : " + X + Y + " = " + cm(L) + "."
+    });
+  }
+
+  /* Séance 2 — Reporter des longueurs et trouver la distance */
+
+  function pointSurSegment(R) {
+    var t = parmi(R, [["A", "D", "B"], ["E", "M", "F"], ["R", "T", "S"]]), X = t[0], Y = t[1], Z = t[2];
+    var a = parmi(R, [1.5, 2, 2.5, 3, 3.5, 4]), b = parmi(R, [2, 2.5, 3, 4, 4.5, 5]), sur = R() < 0.5, c = parmi(R, [0.5, 1, 1.5]);
+    var z = sur ? a + b : a + b - c;
+    return qcm(R, {
+      q: X + Y + " = " + cm(a) + ", " + Y + Z + " = " + cm(b) + " et " + X + Z + " = " + cm(z) + ". Le point " + Y + " est-il sur le segment [" + X + Z + "] ?",
+      n: 3, bonne: sur ? "Oui, " + Y + " est sur [" + X + Z + "]" : "Non, " + Y + " n'est pas sur [" + X + Z + "]",
+      erreurs: [sur ? "Non, " + Y + " n'est pas sur [" + X + Z + "]" : "Oui, " + Y + " est sur [" + X + Z + "]", "On ne peut pas savoir"],
+      expl: X + Y + " + " + Y + Z + " = " + nb(a) + " + " + nb(b) + " = " + nb(a + b) + " cm. " + (sur
+        ? "C'est égal à " + X + Z + " = " + cm(z) + " : " + Y + " est sur le segment [" + X + Z + "]."
+        : "C'est différent de " + X + Z + " = " + cm(z) + " (plus grand) : " + Y + " n'est pas sur le segment [" + X + Z + "].")
+    });
+  }
+
+  function complementSegment(R) {
+    var a = parmi(R, [1.5, 2.5, 3.2, 4.5, 5.5, 2.8]), b = parmi(R, [1.5, 2.5, 3.5, 4.2, 5, 6.5]), z = a + b;
+    var t = parmi(R, [["A", "D", "B"], ["E", "M", "F"], ["R", "T", "S"]]), X = t[0], Y = t[1], Z = t[2];
+    return qcm(R, {
+      q: "Le point " + Y + " est sur le segment [" + X + Z + "]. On a " + X + Y + " = " + cm(a) + " et " + X + Z + " = " + cm(z) + ". Combien mesure " + Y + Z + " ?",
+      bonne: b, fmt: cm, pas: 1, erreurs: [z + a, a, z, b + 1],
+      expl: "Comme " + Y + " est sur [" + X + Z + "], " + X + Y + " + " + Y + Z + " = " + X + Z + ". Donc " + Y + Z + " = " + nb(z) + " − " + nb(a) + " = " + cm(b) + "."
+    });
+  }
+
+  function distanceInegalite(R) {
+    var p = parmi(R, [["A", "B", "C"], ["E", "F", "G"], ["K", "L", "M"]]), X = p[0], Y = p[1], Z = p[2];
+    if (R() < 0.5) {
+      return qcm(R, {
+        q: "Le point " + Z + " n'est pas sur le segment [" + X + Y + "]. Quelle relation est vraie ?", n: 3,
+        bonne: X + Z + " + " + Z + Y + " > " + X + Y, erreurs: [X + Z + " + " + Z + Y + " = " + X + Y, X + Z + " + " + Z + Y + " < " + X + Y],
+        expl: "Aller de " + X + " à " + Y + " en passant par " + Z + " (hors du segment) est plus long que d'aller tout droit : " + X + Z + " + " + Z + Y + " > " + X + Y + "."
+      });
+    }
+    return qcm(R, {
+      q: "La distance entre deux points " + X + " et " + Y + " est…",
+      bonne: "la longueur du plus court chemin de " + X + " à " + Y,
+      erreurs: ["la longueur d'un chemin quelconque de " + X + " à " + Y, "la longueur du plus long chemin de " + X + " à " + Y, "la longueur de la droite (" + X + Y + ")"],
+      expl: "La distance " + X + Y + " est la longueur du plus court chemin de " + X + " à " + Y + " : c'est la longueur du segment [" + X + Y + "]."
+    });
+  }
+
+  /* Séance 3 — Réinvestir et faire le point */
+
+  function milieu(R) {
+    var p = paire(R), X = p[0], Y = p[1], h = parmi(R, [2, 2.5, 3, 3.5, 4, 4.5, 5, 6]), L = 2 * h;
+    if (R() < 0.5) {
+      return qcm(R, {
+        q: "M est le milieu du segment [" + X + Y + "]. " + X + "M = " + cm(h) + ". Combien mesure " + X + Y + " ?",
+        bonne: L, fmt: cm, pas: 1, erreurs: [h / 2, h, h + 2, 3 * h],
+        expl: "M est le milieu : " + X + "M = M" + Y + " = " + cm(h) + ". Donc " + X + Y + " = 2 × " + nb(h) + " = " + cm(L) + "."
+      });
+    }
+    return qcm(R, {
+      q: "M est le milieu du segment [" + X + Y + "]. " + X + Y + " = " + cm(L) + ". Combien mesure " + X + "M ?",
+      bonne: h, fmt: cm, pas: 1, erreurs: [L * 2, L, L - 2, L / 4],
+      expl: "Le milieu partage le segment en deux longueurs égales : " + X + "M = " + nb(L) + " ÷ 2 = " + cm(h) + "."
+    });
+  }
+
+  function codage(R) {
+    if (R() < 0.5) {
+      return qcm(R, {
+        q: "Sur une figure, deux segments portent le même petit trait de codage. Qu'est-ce que cela signifie ?",
+        bonne: "Ils ont la même longueur", erreurs: ["Ils sont perpendiculaires", "Ils sont parallèles", "Ils sont alignés"],
+        expl: "Deux segments codés avec les mêmes petits traits ont la même longueur : on peut les reporter au compas."
+      });
+    }
+    return qcm(R, {
+      q: "Sur une figure, un petit carré est dessiné au sommet d'un angle. Qu'est-ce que cela signifie ?",
+      bonne: "C'est un angle droit", erreurs: ["C'est un angle de 45°", "Les deux côtés ont la même longueur", "Les deux côtés sont alignés"],
+      expl: "Le petit carré est le codage de l'angle droit."
+    });
+  }
+
+  function notationCorrecte(R) {
+    var p = paire(R), X = p[0], Y = p[1];
+    var vrai = ["[" + X + Y + "] est un segment", "(" + X + Y + ") est une droite", X + Y + " est une longueur", "[" + X + Y + ") est une demi-droite"];
+    var faux = [X + Y + " est un segment", "[" + X + Y + "] est une longueur", "(" + X + Y + ") est un segment", "[" + X + Y + ") est une droite", X + Y + " est une droite", "(" + X + Y + ") est une longueur"];
+    var bonne = parmi(R, vrai);
+    return qcm(R, {
+      q: "Quelle phrase est correcte ?",
+      bonne: bonne, erreurs: A.melanger(R, faux).slice(0, 3),
+      expl: "On écrit : [" + X + Y + "] est un segment ; (" + X + Y + ") est une droite ; [" + X + Y + ") est une demi-droite ; " + X + Y + " est une longueur (un nombre)."
+    });
+  }
+
+  A.inscrire("6e-ch2", {
+    types: [
+      { id: "notation-objet",     seance: 1, gen: notationObjet },
+      { id: "appartient",         seance: 1, gen: appartient },
+      { id: "ecriture-longueur",  seance: 1, gen: ecritureLongueur },
+      { id: "point-sur-segment",  seance: 2, gen: pointSurSegment },
+      { id: "complement-segment", seance: 2, gen: complementSegment },
+      { id: "distance-inegalite", seance: 2, gen: distanceInegalite },
+      { id: "milieu",             seance: 3, gen: milieu },
+      { id: "codage",             seance: 3, gen: codage },
+      { id: "notation-correcte",  seance: 3, gen: notationCorrecte }
+    ]
+  });
+
+  /* =====================  6e · Chapitre 3 — Les fractions  ===================== */
+
+  /* Séance 1 — Partager en parts égales */
+
+  function fractionPart(R) {
+    var b = entier(R, 4, 12), a = entier(R, 2, b - 1);
+    var forme = parmi(R, ["Une tablette de chocolat", "Une pizza", "Un rectangle", "Un gâteau"]);
+    if (R() < 0.5) {
+      return qcm(R, {
+        q: forme + " est partagé" + (forme === "Une tablette de chocolat" || forme === "Une pizza" || forme === "Un gâteau" ? "e" : "") + " en " + b + " parts égales. On en prend " + a + ". Quelle fraction a-t-on prise ?",
+        bonne: frac(a, b), erreurs: [frac(b, a), frac(b - a, b), frac(a, a + b), frac(a + 1, b)],
+        expl: "Le dénominateur est le nombre de parts égales (" + b + "), le numérateur est le nombre de parts prises (" + a + ") : " + frac(a, b) + "."
+      });
+    }
+    return qcm(R, {
+      q: "Un rectangle est partagé en " + b + " parts égales. " + a + " parts sont coloriées. Quelle fraction du rectangle n'est PAS coloriée ?",
+      bonne: frac(b - a, b), erreurs: [frac(a, b), frac(b, b - a), frac(b - a, a), frac(b - a, b + 1)],
+      expl: "Il y a " + b + " parts en tout, dont " + a + " coloriées. Il en reste " + b + " − " + a + " = " + (b - a) + " non coloriées : " + frac(b - a, b) + "."
+    });
+  }
+
+  function sensFraction(R) {
+    var b = entier(R, 3, 9), a = entier(R, 1, b - 1);
+    if (R() < 0.5) {
+      return qcm(R, {
+        q: "Dans la fraction " + frac(a, b) + ", que représente le nombre " + b + " ?",
+        bonne: "Le nombre de parts égales de l'unité", erreurs: ["Le nombre de parts prises", "La taille d'une part", "La longueur de l'unité"],
+        expl: "Le dénominateur " + b + " dit en combien de parts égales on partage l'unité."
+      });
+    }
+    return qcm(R, {
+      q: "Dans la fraction " + frac(a, b) + ", que représente le nombre " + a + " ?",
+      bonne: "Le nombre de parts prises", erreurs: ["Le nombre de parts égales de l'unité", "La taille d'une part", "Le nombre d'unités"],
+      expl: "Le numérateur " + a + " dit combien de parts on prend."
+    });
+  }
+
+  function plusGrandQue1(R) {
+    var b = entier(R, 3, 9), grande = frac(b + entier(R, 1, b), b), petites = [];
+    while (petites.length < 3) {
+      var bb = entier(R, 3, 10), f = frac(entier(R, 1, bb - 1), bb);
+      if (petites.indexOf(f) < 0) petites.push(f);
+    }
+    return qcm(R, {
+      q: "Laquelle de ces fractions est plus grande que 1 ?",
+      bonne: grande, erreurs: petites,
+      expl: "Une fraction est plus grande que 1 quand le numérateur est plus grand que le dénominateur : on prend plus d'une unité. Ici : " + grande + "."
+    });
+  }
+
+  /* Séance 2 — Placer une fraction sur une demi-droite graduée */
+
+  function graduationsPourPlacer(R) {
+    var b = entier(R, 3, 10), a = entier(R, 2, b + 3);
+    return qcm(R, {
+      q: "L'unité est partagée en " + b + " parts égales (de 0 à 1). Combien de graduations faut-il compter depuis 0 pour placer " + frac(a, b) + " ?",
+      bonne: a, fmt: nb, pas: 1, erreurs: [b, a + 1, a - 1, a + b],
+      expl: "Chaque graduation vaut 1/" + b + ". Pour placer " + frac(a, b) + ", on compte " + a + " graduations depuis l'origine 0."
+    });
+  }
+
+  function abscisse(R) {
+    var b = entier(R, 3, 8), a = entier(R, 1, b - 1);
+    if (R() < 0.5) {
+      return qcm(R, {
+        q: "Sur une demi-droite graduée d'origine 0, l'unité est partagée en " + b + " parts égales. Le point A est à " + a + " graduations de l'origine. Quelle est son abscisse ?",
+        bonne: frac(a, b), erreurs: [frac(b, a), frac(a, a + b), frac(a + 1, b)],
+        expl: "Chaque graduation vaut 1/" + b + ", et A est à " + a + " graduations : son abscisse est " + frac(a, b) + "."
+      });
+    }
+    return qcm(R, {
+      q: "Sur une demi-droite graduée, l'unité est partagée en " + b + " parts égales, et le premier trait est le nombre 1 (et non 0). Le point P est à " + a + " graduations de ce premier trait. Quelle est l'abscisse de P ?",
+      bonne: frac(b + a, b), erreurs: [frac(a, b), frac(a + 1, b), frac(b + a, a)],
+      expl: "On compte à partir de l'origine réelle, qui est 1 = " + frac(b, b) + ". P est " + a + " graduations plus loin : " + frac(b, b) + " + " + frac(a, b) + " = " + frac(b + a, b) + "."
+    });
+  }
+
+  /* Séance 3 — Graduer un segment */
+
+  function ecartGraduations(R) {
+    var N = parmi(R, [2, 4, 5, 8, 10]), g = parmi(R, [0.5, 1, 1.5, 2, 2.5]), L = N * g;
+    return qcm(R, {
+      q: "On partage un segment de " + cm(L) + " en " + N + " parts égales. Quel est l'écart entre deux graduations voisines ?",
+      bonne: g, fmt: cm, pas: 0.5, erreurs: [L * N, L - N, L + N, g * 2],
+      expl: "On divise la longueur par le nombre de parts : " + nb(L) + " ÷ " + N + " = " + cm(g) + "."
+    });
+  }
+
+  function nombreDeParts(R) {
+    var N = parmi(R, [4, 5, 6, 8, 10]), g = parmi(R, [1, 1.5, 2, 2.5]), L = N * g;
+    return qcm(R, {
+      q: "Un segment de " + cm(L) + " est gradué tous les " + cm(g) + ". En combien de parts égales est-il partagé ?",
+      bonne: N, fmt: nb, pas: 1, erreurs: [L * g, L - g, L + g, N + 1],
+      expl: "Le nombre de parts est la longueur divisée par l'écart : " + nb(L) + " ÷ " + nb(g) + " = " + N + "."
+    });
+  }
+
+  /* Séance 4 — Le milieu d'un segment et synthèse */
+
+  function milieuGraduations(R) {
+    var n = parmi(R, [8, 10, 12, 14, 16, 18, 20]);
+    return qcm(R, {
+      q: "Entre les points A et B d'une droite graduée, il y a " + n + " graduations. À combien de graduations de A se trouve le milieu de [AB] ?",
+      bonne: n / 2, fmt: nb, pas: 1, erreurs: [n, n * 2, n / 2 - 1, n / 2 + 1],
+      expl: "Le milieu partage le segment en deux parts égales : " + n + " ÷ 2 = " + (n / 2) + " graduations."
+    });
+  }
+
+  function milieuAbscisse(R) {
+    var a = entier(R, 0, 6), d = 2 * entier(R, 1, 4), b = a + d;
+    return qcm(R, {
+      q: "Sur une droite graduée, A a pour abscisse " + a + " et B a pour abscisse " + b + ". Quelle est l'abscisse du milieu de [AB] ?",
+      bonne: a + d / 2, fmt: nb, pas: 1, min: 0, erreurs: [d / 2, a + b, b - a, b / 2],
+      expl: "Il y a " + d + " unités entre A et B, donc le milieu est à " + (d / 2) + " de A : " + a + " + " + (d / 2) + " = " + (a + d / 2) + "."
+    });
+  }
+
+  function fractionMilieu(R) {
+    var p = paire(R), X = p[0], Y = p[1];
+    return qcm(R, {
+      q: "M est le milieu du segment [" + X + Y + "]. Quelle fraction du segment [" + X + Y + "] représente le segment [" + X + "M] ?",
+      bonne: "1/2", erreurs: ["2/1", "1/4", "2/3"],
+      expl: "Le milieu partage le segment en 2 parts égales : [" + X + "M] est 1 part sur 2, soit 1/2 de [" + X + Y + "]."
+    });
+  }
+
+  A.inscrire("6e-ch3", {
+    types: [
+      { id: "fraction-part",      seance: 1, gen: fractionPart },
+      { id: "sens-fraction",      seance: 1, gen: sensFraction },
+      { id: "plus-grand-que-1",   seance: 1, gen: plusGrandQue1 },
+      { id: "graduations-placer", seance: 2, gen: graduationsPourPlacer },
+      { id: "abscisse",           seance: 2, gen: abscisse },
+      { id: "ecart-graduations",  seance: 3, gen: ecartGraduations },
+      { id: "nombre-de-parts",    seance: 3, gen: nombreDeParts },
+      { id: "milieu-graduations", seance: 4, gen: milieuGraduations },
+      { id: "milieu-abscisse",    seance: 4, gen: milieuAbscisse },
+      { id: "fraction-milieu",    seance: 4, gen: fractionMilieu }
+    ]
+  });
+
+  /* =====================  6e · Chapitre 4 — Fractions décimales et nombres décimaux  ===================== */
+
+  /* Séance 1 — Les dixièmes */
+
+  function dixiemes(R) {
+    var n = entier(R, 11, 59), q = Math.floor(n / 10), r = n % 10;
+    if (r === 0) r = entier(R, 1, 9), n = q * 10 + r;
+    var k = entier(R, 0, 2);
+    if (k === 0) {
+      return qcm(R, {
+        q: "Comment écrit-on " + n + " dixièmes avec une fraction ?",
+        bonne: frac(n, 10), erreurs: [frac(10, n), frac(n, 100), frac(n, n + 10)],
+        expl: "Un dixième est 1/10. " + n + " dixièmes s'écrivent " + frac(n, 10) + "."
+      });
+    }
+    if (k === 1) {
+      return qcm(R, {
+        q: frac(n, 10) + " est égal à…",
+        bonne: q + " + " + frac(r, 10), erreurs: [r + " + " + frac(q, 10), q + " + " + frac(r, 100), (q + r) + " + " + frac(1, 10), q + " + " + frac(r + 1, 10)],
+        expl: "10 dixièmes font 1 unité. " + frac(n, 10) + " = " + q + " unité" + (q > 1 ? "s" : "") + " et " + r + " dixième" + (r > 1 ? "s" : "") + " = " + q + " + " + frac(r, 10) + "."
+      });
+    }
+    return qcm(R, {
+      q: q + " + " + frac(r, 10) + " est égal à…",
+      bonne: frac(n, 10), erreurs: [frac(q + r, 10), frac(n, 100), frac(r * 10 + q, 10), frac(n + 10, 10)],
+      expl: q + " unité" + (q > 1 ? "s" : "") + " = " + (q * 10) + " dixièmes, et on ajoute " + r + " dixième" + (r > 1 ? "s" : "") + " : " + (q * 10) + " + " + r + " = " + n + " dixièmes, soit " + frac(n, 10) + "."
+    });
+  }
+
+  /* Séance 2 — Les centièmes et la virgule */
+
+  function uniteDixiemeCentieme(R) {
+    var u = entier(R, 1, 9), d = entier(R, 1, 9), c = entier(R, 1, 9), x = u + d / 10 + c / 100;
+    return qcm(R, {
+      q: "Quel nombre décimal correspond à " + u + " unité" + (u > 1 ? "s" : "") + ", " + d + " dixième" + (d > 1 ? "s" : "") + " et " + c + " centième" + (c > 1 ? "s" : "") + " ?",
+      bonne: x, fmt: nb, pas: 0.01,
+      erreurs: [u + c / 10 + d / 100, u * 10 + d + c / 10, u + d / 100 + c / 1000, Number(String(u) + String(d) + String(c))],
+      expl: u + " + " + d + "/10 + " + c + "/100 = " + nb(x) + " : les unités avant la virgule, les dixièmes puis les centièmes après."
+    });
+  }
+
+  function centiemesVersDecimal(R) {
+    var u = entier(R, 1, 9), d = entier(R, 0, 9), c = entier(R, 1, 9), n = u * 100 + d * 10 + c, x = n / 100;
+    return qcm(R, {
+      q: frac(n, 100) + " s'écrit avec une virgule…",
+      bonne: x, fmt: nb, pas: 0.01, erreurs: [n / 10, n / 1000, u + d / 100 + c / 1000, n],
+      expl: frac(n, 100) + " = " + u + " + " + d + "/10 + " + c + "/100 = " + nb(x) + "."
+    });
+  }
+
+  function dixiemesVersDecimal(R) {
+    var n = entier(R, 1, 9), pos = R() < 0.5;
+    if (pos) {
+      return qcm(R, {
+        q: frac(n, 10) + " s'écrit avec une virgule…",
+        bonne: n / 10, fmt: nb, pas: 0.1, erreurs: [n / 100, n + 0.1, n * 10, 1 + n / 10],
+        expl: frac(n, 10) + " = " + n + " dixième" + (n > 1 ? "s" : "") + " = " + nb(n / 10) + ". Le chiffre des dixièmes est le premier chiffre après la virgule."
+      });
+    }
+    var m = n * 10;
+    return qcm(R, {
+      q: frac(m, 100) + " est égal à combien de dixièmes ?",
+      bonne: n, fmt: nb, pas: 1, erreurs: [m, n * 100, n + 1, m / 100],
+      expl: "10 centièmes font 1 dixième. " + frac(m, 100) + " = " + frac(n, 10) + " : " + n + " dixième" + (n > 1 ? "s" : "") + "."
+    });
+  }
+
+  /* Séance 3 — Les différentes écritures d'un nombre décimal */
+
+  function decimalVersFraction(R) {
+    var u = entier(R, 1, 9), d = entier(R, 0, 9), c = entier(R, 1, 9), n = u * 100 + d * 10 + c, x = n / 100;
+    return qcm(R, {
+      q: "Quelle fraction décimale est égale à " + nb(x) + " ?",
+      bonne: frac(n, 100), erreurs: [frac(n, 10), frac(n, 1000), frac(u, d * 10 + c), frac(100, n)],
+      expl: nb(x) + " a deux chiffres après la virgule : c'est un nombre de centièmes. " + nb(x) + " = " + frac(n, 100) + "."
+    });
+  }
+
+  function decimalVersSomme(R) {
+    var u = entier(R, 1, 9), d = entier(R, 1, 9), c;
+    do { c = entier(R, 1, 9); } while (c === d);      // si d = c, « d/100 + c/10 » vaudrait la même chose
+    var x = u + d / 10 + c / 100;
+    return qcm(R, {
+      q: nb(x) + " est égal à…",
+      bonne: u + " + " + frac(d, 10) + " + " + frac(c, 100),
+      erreurs: [u + " + " + frac(d, 100) + " + " + frac(c, 10), u + " + " + frac(d * 10 + c, 10), u + " + " + frac(d, 10) + " + " + frac(c, 1000)],
+      expl: "Le chiffre " + d + " est au rang des dixièmes, le chiffre " + c + " au rang des centièmes : " + nb(x) + " = " + u + " + " + frac(d, 10) + " + " + frac(c, 100) + "."
+    });
+  }
+
+  function zerosEquivalents(R) {
+    var u = entier(R, 0, 9), d = entier(R, 1, 9);
+    var x = nb(u + d / 10);
+    return qcm(R, {
+      q: "Quelle écriture représente le même nombre que " + x + " ?",
+      bonne: x + "0", erreurs: [u + ",0" + d, (u * 10 + d) + ",0", u + "," + d + d],
+      expl: "On peut ajouter des zéros à droite de la partie décimale sans changer le nombre : " + x + " = " + x + "0."
+    });
+  }
+
+  /* Séance 4 — Les pourcentages */
+
+  function pctFraction(R) {
+    var p = parmi(R, [5, 10, 20, 25, 40, 50, 60, 75]);
+    return qcm(R, {
+      q: "Quelle fraction est égale à " + p + " % ?",
+      bonne: frac(p, 100), erreurs: [frac(100, p), frac(p, 10), frac(p, 1000)],
+      expl: p + " % veut dire « " + p + " sur 100 » : " + p + " % = " + frac(p, 100) + "."
+    });
+  }
+
+  function pctDecimal(R) {
+    var p = parmi(R, [5, 8, 20, 25, 40, 75]), x = p / 100;
+    return qcm(R, {
+      q: "Quel nombre décimal est égal à " + p + " % ?",
+      bonne: x, fmt: nb, pas: 0.01, erreurs: [p / 10, p / 1000, p, p / 100 + 1],
+      expl: p + " % = " + frac(p, 100) + " = " + nb(x) + "."
+    });
+  }
+
+  function pctComparaison(R) {
+    var p = parmi(R, [20, 50, 75, 100, 150, 200, 250, 30]);
+    var bonne = p < 100 ? "Plus petit que l'unité" : p === 100 ? "Égal à l'unité" : "Plus grand que l'unité";
+    return qcm(R, {
+      q: "Un nombre vaut " + p + " % de l'unité. Par rapport à l'unité entière, il est…",
+      n: 3, bonne: bonne, erreurs: ["Plus petit que l'unité", "Égal à l'unité", "Plus grand que l'unité"].filter(function (x) { return x !== bonne; }),
+      expl: "100 % correspond à l'unité entière. " + p + " % est " + (p < 100 ? "inférieur à 100 % : on n'a pas toute l'unité." : p === 100 ? "égal à 100 % : c'est exactement l'unité." : "supérieur à 100 % : on dépasse l'unité.")
+    });
+  }
+
+  /* Séance 5 — Lire et placer un nombre décimal sur une droite graduée */
+
+  function loupe(R) {
+    var a = entier(R, 1, 8), b = entier(R, 0, 8), k = entier(R, 1, 9), x = a + b / 10 + k / 100;
+    return qcm(R, {
+      q: "Dans la loupe entre " + nb(a + b / 10) + " et " + nb(a + (b + 1) / 10) + ", un point est à la " + k + (k === 1 ? "re" : "e") + " graduation après " + nb(a + b / 10) + ". Chaque graduation vaut 0,01. Quel nombre repère ce point ?",
+      bonne: x, fmt: nb, pas: 0.01,
+      erreurs: [a + k / 10 + b / 100, a + b / 10 + k / 1000, a + (b + 1) / 10 + k / 100, a + k / 100],
+      expl: "On part de " + nb(a + b / 10) + " et on ajoute " + k + " centième" + (k > 1 ? "s" : "") + " : " + nb(a + b / 10) + " + " + nb(k / 100) + " = " + nb(x) + "."
+    });
+  }
+
+  function graduationDixiemes(R) {
+    var a = entier(R, 1, 8), b = entier(R, 0, 8), k = entier(R, 2, 5), depart = a + b / 10, x = depart + k / 10;
+    return qcm(R, {
+      q: "Sur une droite graduée de dixième en dixième, un point est repéré par " + nb(depart) + ". Quel nombre repère le point situé " + k + " graduations plus loin ?",
+      bonne: x, fmt: nb, pas: 0.1, erreurs: [depart + k / 100, depart + k, a + b / 10 * 0 + k / 10, depart - k / 10],
+      expl: "Chaque graduation vaut 0,1. " + k + " graduations de plus : " + nb(depart) + " + " + k + " × 0,1 = " + nb(x) + "."
+    });
+  }
+
+  /* Séance 6 — Calculer avec des décimaux : prix et durées */
+
+  function additionDecimaux(R) {
+    var xi = entier(R, 5, 30), xd = entier(R, 1, 9), yi = entier(R, 1, 9), yd = entier(R, 11, 99);
+    if (yd % 10 === 0) yd += 3;
+    var x = xi + xd / 10, y = yi + yd / 100, s = Math.round((x + y) * 100) / 100;
+    return qcm(R, {
+      q: "Calcule " + nb(x) + " + " + nb(y) + ".",
+      bonne: s, fmt: nb, pas: 0.01,
+      erreurs: [xi + yi + (xd + yd) / 100, Math.round((x + y + 1) * 100) / 100, Math.round((x + y - 0.9) * 100) / 100, Math.round((x + y) * 10) / 100],
+      expl: "On pose l'addition en mettant la virgule sous la virgule et on complète avec un zéro : " + nb(x) + "0 + " + nb(y) + " = " + nb(s) + "."
+    });
+  }
+
+  function monnaie(R) {
+    var b = parmi(R, [10, 20, 50]), pc;
+    do { pc = entier(R, 150, b * 100 - 150); } while (pc % 10 === 0);   // prix en centimes, dernier chiffre non nul
+    var p = pc / 100, r = (b * 100 - pc) / 100;
+    return qcm(R, {
+      q: "Tu paies un achat de " + euro(p) + " avec un billet de " + euro(b) + ". Quelle monnaie doit-on te rendre ?",
+      bonne: r, fmt: euro, pas: 0.5,
+      erreurs: [r + 1, r + 0.1, b + p, r - 1],
+      expl: "Monnaie = somme donnée − total à payer = " + euro(b) + " − " + euro(p) + " = " + euro(r) + "."
+    });
+  }
+
+  function dureeConversion(R) {
+    var h = entier(R, 1, 5), m = parmi(R, [5, 10, 15, 20, 30, 40, 45, 50]), N = 60 * h + m;
+    if (R() < 0.5) {
+      return qcm(R, {
+        q: "Convertis " + h + " h " + m + " min en minutes.",
+        bonne: N, fmt: minutes, pas: 5, erreurs: [100 * h + m, h * m, h + m, N + 60],
+        expl: "1 h = 60 min, donc " + h + " h = " + (60 * h) + " min. Puis " + (60 * h) + " + " + m + " = " + minutes(N) + "."
+      });
+    }
+    var faux1 = N >= 100 ? Math.floor(N / 100) + " h " + (N % 100) + " min" : h + " h " + (m + 30) + " min";
+    return qcm(R, {
+      q: "Convertis " + minutes(N) + " en heures et minutes.",
+      bonne: h + " h " + m + " min",
+      erreurs: [faux1, (h + 1) + " h " + m + " min", h + " h " + (m + 10) + " min", (h - 1) + " h " + m + " min"],
+      expl: nb(N) + " ÷ 60 : " + h + " fois 60 minutes (" + (60 * h) + " min) et il reste " + m + " min. Donc " + minutes(N) + " = " + h + " h " + m + " min."
+    });
+  }
+
+  function horaireArrivee(R) {
+    var H, M, h, m;
+    do { H = entier(R, 7, 18); M = parmi(R, [15, 25, 35, 40, 45, 50]); h = entier(R, 1, 3); m = parmi(R, [20, 25, 30, 40, 45, 50]); } while (M + m < 60);
+    var total = H * 60 + M + h * 60 + m;
+    return qcm(R, {
+      q: "Un train part à " + H + " h " + M + " et roule pendant " + h + " h " + m + " min. À quelle heure arrive-t-il ?",
+      bonne: heure(total),
+      erreurs: [(H + h) + " h " + (M + m), heure(total + 10), heure(total - 10), heure(total + 60)],
+      expl: "On additionne les heures puis les minutes : " + (H + h) + " h et " + (M + m) + " min. Comme 60 min = 1 h, " + (M + m) + " min = 1 h " + (M + m - 60) + " min. Arrivée : " + heure(total) + "."
+    });
+  }
+
+  A.inscrire("6e-ch4", {
+    types: [
+      { id: "dixiemes",            seance: 1, gen: dixiemes },
+      { id: "unite-dixieme-cent",  seance: 2, gen: uniteDixiemeCentieme },
+      { id: "centiemes-decimal",   seance: 2, gen: centiemesVersDecimal },
+      { id: "dixiemes-decimal",    seance: 2, gen: dixiemesVersDecimal },
+      { id: "decimal-fraction",    seance: 3, gen: decimalVersFraction },
+      { id: "decimal-somme",       seance: 3, gen: decimalVersSomme },
+      { id: "zeros-equivalents",   seance: 3, gen: zerosEquivalents },
+      { id: "pct-fraction",        seance: 4, gen: pctFraction },
+      { id: "pct-decimal",         seance: 4, gen: pctDecimal },
+      { id: "pct-comparaison",     seance: 4, gen: pctComparaison },
+      { id: "loupe",               seance: 5, gen: loupe },
+      { id: "graduation-dixiemes", seance: 5, gen: graduationDixiemes },
+      { id: "addition-decimaux",   seance: 6, gen: additionDecimaux },
+      { id: "monnaie",             seance: 6, gen: monnaie },
+      { id: "duree-conversion",    seance: 6, gen: dureeConversion },
+      { id: "horaire-arrivee",     seance: 6, gen: horaireArrivee }
     ]
   });
 
