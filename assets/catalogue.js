@@ -37,13 +37,14 @@
    1. Dépose les PDF dans  evaluations/<niveau>/  (ex. evaluations/4e/4e-ch1-A.pdf, 4e-ch1-A-corrige.pdf).
    2. Dans le niveau (à côté de « chapitres »), ajoute une liste  evaluations  :
         evaluations: [
-          { chapitre: "4e-ch1", titre: "Évaluation — Chapitre 1", resume: "…", ajout: "2026-10-14",
+          { chapitre: "4e-ch1", etiquette: "Chapitres 1 et 2", titre: "Évaluation — …", resume: "…", ajout: "2026-10-14",
             versions: [
               { nom: "A", sujet: "evaluations/4e/4e-ch1-A.pdf", corrige: "evaluations/4e/4e-ch1-A-corrige.pdf" },
               { nom: "B", sujet: "evaluations/4e/4e-ch1-B.pdf", corrige: "evaluations/4e/4e-ch1-B-corrige.pdf" }
             ] }
         ]
-      « resume » et « ajout » sont facultatifs ; avec une seule version, le mot « Version » n'est pas affiché.
+      « chapitre », « etiquette » (texte au-dessus du titre, par défaut « Chapitre N »), « resume » et « ajout » sont facultatifs.
+      Un fichier peut contenir A et B : mets alors une seule version, nom: "A et B". Avec nom: "", le mot « Version » n'est pas affiché.
       Un niveau sans liste affiche « Les évaluations arrivent bientôt ».
    ========================================================= */
 window.SITE = {
@@ -53,6 +54,11 @@ window.SITE = {
     {
       id: "6e", nom: "6e", couleur: "vert",
       accroche: "Fractions, nombres décimaux, géométrie",
+      evaluations: [
+        { etiquette: "Chapitres 1 et 2", titre: "Évaluation — Numération & Géométrie",
+          resume: "Rang des chiffres, nombres décimaux, vocabulaire et notations, distances. 50 min, sur 20.", ajout: "2026-10-14",
+          versions: [ { nom: "", sujet: "evaluations/6e/6e-ch1-2-sujet.pdf", corrige: "evaluations/6e/6e-ch1-2-corrige.pdf" } ] }
+      ],
       chapitres: [
         {
           id: "6e-ch2", num: 2, titre: "Points, droites et distances",
@@ -320,6 +326,11 @@ window.SITE = {
     {
       id: "4e", nom: "4e", couleur: "violet",
       accroche: "Pourcentages, grandeurs, nombres premiers, Pythagore",
+      evaluations: [
+        { etiquette: "Chapitres 1 et 2", titre: "Évaluation — Pourcentages et grandeurs",
+          resume: "Pourcentages, vitesse, débit, volume, problème. 50 min, sur 20. Les versions A et B sont dans le même fichier.", ajout: "2026-10-14",
+          versions: [ { nom: "A et B", sujet: "evaluations/4e/4e-ch1-2-sujets-A-et-B.pdf", corrige: "evaluations/4e/4e-ch1-2-corrige-A-et-B.pdf" } ] }
+      ],
       chapitres: [
         {
           id: "4e-ch1", num: 1, titre: "Les pourcentages",

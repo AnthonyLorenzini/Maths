@@ -596,10 +596,10 @@ function vueEvaluations(n){
  const carte=(e,i)=>{
   const ch=n.chapitres.find(c=>c.id===e.chapitre),vs=e.versions||[];
   return `<article class="eval a-monte" ${d(i,.2,.07)}>
-   <div class="eti">${ch&&ch.num?'Chapitre '+ch.num:'Entraînement'}${estNeuf(e)?' '+NEUF:''}</div>
+   <div class="eti">${e.etiquette||(ch&&ch.num?'Chapitre '+ch.num:'Entraînement')}${estNeuf(e)?' '+NEUF:''}</div>
    <h3>${esc(e.titre)}</h3>
    ${e.resume?`<p class="doux">${esc(e.resume)}</p>`:''}
-   <div class="versions">${vs.map(v=>`<div class="version"><span class="v">${vs.length>1?'Version '+esc(v.nom):'Évaluation'}</span>
+   <div class="versions">${vs.map(v=>`<div class="version"><span class="v">${v.nom?'Version '+esc(v.nom):'Évaluation'}</span>
      <span class="boutons">${v.sujet?pdf(v.sujet,'Sujet vierge','sujet'):''}${v.corrige?pdf(v.corrige,'Corrigé','corrige'):''}</span></div>`).join('')}</div>
   </article>`};
  ouvrir(`<div class="vue c-${n.couleur}">
