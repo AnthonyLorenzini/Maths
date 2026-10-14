@@ -202,6 +202,18 @@ a.niv,a.chap,a.reprendre{text-decoration:none;color:inherit}
 .onglets a{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 8px;border-radius:13px;text-decoration:none;color:var(--c);font-family:var(--f-titre);font-weight:800}
 .onglets a.on{background:var(--carte);box-shadow:0 2px 0 color-mix(in srgb,var(--c) 30%,transparent)}
 .onglets svg{width:18px;height:18px;flex:none}
+/* onglet Évaluations */
+.onglets.trois{grid-template-columns:repeat(3,1fr)}
+.onglets.trois a{font-size:.86rem;gap:5px;padding:12px 2px}
+.onglets:not(.trois){grid-template-columns:1fr 1fr}
+.eval{display:flex;flex-direction:column;gap:8px;padding:16px;border-radius:20px;background:var(--carte);box-shadow:0 2px 0 color-mix(in srgb,var(--c) 25%,transparent)}
+.eval h3{margin:0}
+.eval .versions{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.eval .version{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-radius:14px;background:var(--cc)}
+.eval .v{font-family:var(--f-titre);font-weight:800;color:var(--c)}
+.eval .boutons{display:flex;flex-wrap:wrap;gap:8px}
+.btn-pdf{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;border-radius:12px;font-weight:800;text-decoration:none;border:2px solid var(--c);color:var(--c);background:var(--carte)}
+.btn-pdf.sujet{background:var(--c);color:#fff}
 .lien .fl svg{width:18px;height:18px;display:block}
 .lien .num{width:34px;height:34px;border-radius:10px;font-size:1.05rem;flex:none}
 .lien.off{opacity:.55;border-style:dashed;cursor:default}
@@ -271,6 +283,7 @@ const ICO={
  loupe:'<svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="5.5"/><path d="m12 12 4.5 4.5"/></svg>',
  gauche:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>',
  fleche:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>',
+ eval:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>',
  monte:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V6M6 12l6-6 6 6"/></svg>'
 };
 
@@ -570,10 +583,33 @@ function commencer(e,cible){
 
 /* ---------- L'onglet Ascension d'une classe, et le test d'un chapitre ---------- */
 function onglets(n,actif){
- if(!AS.testables(n).length)return '';
- return `<nav class="onglets a-monte" aria-label="Sections de la classe">
-  <a href="#${n.id}"${actif==='chap'?' class="on" aria-current="page"':''}>${ICO.exos} Chapitres</a>
-  <a href="#${n.id}/ascension"${actif==='asc'?' class="on" aria-current="page"':''}>${ICO.monte} Ascension</a></nav>`;
+ const asc=AS.testables(n).length>0,on=k=>actif===k?' class="on" aria-current="page"':'';
+ return `<nav class="onglets${asc?' trois':''} a-monte" aria-label="Sections de la classe">
+  <a href="#${n.id}"${on('chap')}>${ICO.exos} Chapitres</a>
+  ${asc?`<a href="#${n.id}/ascension"${on('asc')}>${ICO.monte} Ascension</a>`:''}
+  <a href="#${n.id}/evaluations"${on('eval')}>${ICO.eval} Évaluations</a></nav>`;
+}
+/* ---------- L'onglet Évaluations d'une classe : sujets vierges et corrigés en PDF ---------- */
+function vueEvaluations(n){
+ const L=n.evaluations||[];
+ const pdf=(f,txt,cl)=>`<a class="btn-pdf ${cl}" href="${esc(f)}" target="_blank" rel="noopener">${txt}</a>`;
+ const carte=(e,i)=>{
+  const ch=n.chapitres.find(c=>c.id===e.chapitre),vs=e.versions||[];
+  return `<article class="eval a-monte" ${d(i,.2,.07)}>
+   <div class="eti">${ch&&ch.num?'Chapitre '+ch.num:'Entraînement'}${estNeuf(e)?' '+NEUF:''}</div>
+   <h3>${esc(e.titre)}</h3>
+   ${e.resume?`<p class="doux">${esc(e.resume)}</p>`:''}
+   <div class="versions">${vs.map(v=>`<div class="version"><span class="v">${vs.length>1?'Version '+esc(v.nom):'Évaluation'}</span>
+     <span class="boutons">${v.sujet?pdf(v.sujet,'Sujet vierge','sujet'):''}${v.corrige?pdf(v.corrige,'Corrigé','corrige'):''}</span></div>`).join('')}</div>
+  </article>`};
+ ouvrir(`<div class="vue c-${n.couleur}">
+  <button class="retour a-haut" data-parent="#${n.id}">${ICO.gauche} ${esc(n.nom)}</button>
+  ${onglets(n,'eval')}
+  <section class="vue" style="gap:6px"><h2 class="a-monte" ${d(0,.12)}>Les évaluations</h2>
+   <p class="doux">Retrouve ici les évaluations vierges pour les refaire, puis le corrigé pour te corriger. Essaie d’abord sans regarder le corrigé !</p></section>
+  ${L.length?`<section class="vue" style="gap:12px">${L.map(carte).join('')}</section>`
+   :`<div class="enigme a-monte" ${d(0,.2)}><p class="q">Les évaluations de la ${esc(n.nom)} arrivent bientôt.</p><p class="doux">Elles seront mises en ligne au fil de l’année, avec leur corrigé.</p></div>`}
+ </div>`,null,{pied:piedAscension(n.id)});
 }
 function ligneTest(n,c){
  const dispo=AS.aTest(c.id)&&!c.bientot,st=AS.stats(n.id,c.id),deja=AS.dejaAujourdhui(n.id,c.id);
@@ -710,8 +746,7 @@ function accueil(){
  ouvrir(`<div class="vue">
   <section class="heros a-pop" ${d(0,.05)}>
    <canvas id="mandel" aria-hidden="true"></canvas><button class="rejouer" onclick="rejouerFn&&rejouerFn()">↻ Rejouer</button>
-   <div class="txt"><h1>Les maths de M. Lorenzini</h1><p class="doux">Leçons, exercices corrigés et mini-jeux, au même endroit.</p>
-    <p class="legende">Ci-dessus, l’ensemble de Mandelbrot se dessine sous tes yeux. Pour chaque point c, on répète z → z² + c. Les points qui ne s’échappent jamais forment la figure violette.</p></div>
+   <div class="txt"><h1>Les maths de M. Lorenzini</h1><p class="doux">Leçons, exercices corrigés et mini-jeux, au même endroit.</p></div>
   </section>
   <section class="vue" style="gap:12px">
    <h2 class="a-monte" ${d(0,.3)}>Je choisis mon niveau</h2>
@@ -798,6 +833,7 @@ function router(){
   if(ch){vueTest(t.n,ch);document.title='Test · '+ch.titre+' — '+S.titre}
   else{vueAscension(t.n);document.title='Ascension · '+t.n.nom+' — '+S.titre}
  }
+ else if(t&&!t.c&&b==='evaluations'){vueEvaluations(t.n);document.title='Évaluations · '+t.n.nom+' — '+S.titre}
  else if(t&&t.c){chapitre(t.n,t.c);document.title=t.c.titre+' · '+t.n.nom+' — '+S.titre}
  else if(t){niveau(t.n);document.title='Classe de '+t.n.nom+' — '+S.titre}
  else{accueil();document.title=S.titre}

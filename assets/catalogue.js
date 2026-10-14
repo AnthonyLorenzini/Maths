@@ -33,6 +33,18 @@
    un chapitre a son test dès qu'il a un bloc dans assets/questions.js (ASC.inscrire("<id du chapitre>", …)).
    Rien à ajouter ici. Les réglages (gain par test, plafond de la semaine, date du sommet, seuil de
    réussite) sont tout en haut de assets/ascension.js. Les mini-jeux ne font pas monter la montgolfière.
+   Évaluations (onglet « Évaluations » d'une classe) :
+   1. Dépose les PDF dans  evaluations/<niveau>/  (ex. evaluations/4e/4e-ch1-A.pdf, 4e-ch1-A-corrige.pdf).
+   2. Dans le niveau (à côté de « chapitres »), ajoute une liste  evaluations  :
+        evaluations: [
+          { chapitre: "4e-ch1", titre: "Évaluation — Chapitre 1", resume: "…", ajout: "2026-10-14",
+            versions: [
+              { nom: "A", sujet: "evaluations/4e/4e-ch1-A.pdf", corrige: "evaluations/4e/4e-ch1-A-corrige.pdf" },
+              { nom: "B", sujet: "evaluations/4e/4e-ch1-B.pdf", corrige: "evaluations/4e/4e-ch1-B-corrige.pdf" }
+            ] }
+        ]
+      « resume » et « ajout » sont facultatifs ; avec une seule version, le mot « Version » n'est pas affiché.
+      Un niveau sans liste affiche « Les évaluations arrivent bientôt ».
    ========================================================= */
 window.SITE = {
   titre: "Les maths de M. Lorenzini",
