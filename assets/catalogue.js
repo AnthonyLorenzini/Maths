@@ -31,6 +31,7 @@
 
    Tests d'ascension (onglet « Ascension » d'une classe) :
    un chapitre a son test dès qu'il a un bloc dans assets/questions.js (ASC.inscrire("<id du chapitre>", …)).
+   Le test d'un chapitre est cumulatif : il reprend aussi les questions des chapitres précédents du même niveau.
    Rien à ajouter ici. Les réglages (gain par test, plafond de la semaine, date du sommet, seuil de
    réussite) sont tout en haut de assets/ascension.js. Les mini-jeux ne font pas monter la montgolfière.
    Évaluations (onglet « Évaluations » d'une classe) :

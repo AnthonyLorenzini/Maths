@@ -9,6 +9,11 @@
      gen(R)  fabrique une question avec de nouveaux nombres à chaque appel (R = le hasard)
    Les outils (qcm, nb, euro, pct, entier, parmi…) viennent de ASC (assets/ascension.js).
    Les chapitres sans bloc ici n'ont simplement pas encore de test.
+
+   Les tests sont CUMULATIFS : le test du chapitre N mélange des questions des chapitres 1 à N du même
+   niveau (ceux qui ont un bloc), pour rappeler à l'élève tout ce qu'il a vu depuis la rentrée.
+   Rien à régler : un nouveau chapitre inscrit enrichit automatiquement les tests des chapitres suivants.
+   Les identifiants doivent suivre la forme "<niveau>-ch<numéro>" (ex. "4e-ch4").
    ========================================================= */
 (function (A) {
   "use strict";
@@ -239,4 +244,447 @@
       { id: "rec-total",    seance: 4, gen: recTotal }
     ]
   });
+
+  /* =====================  Outils communs aux chapitres 2 et 3  ===================== */
+
+  function pgcd(a, b) { return b === 0 ? a : pgcd(b, a % b); }
+  function estPremier(n) {
+    if (n < 2) return false;
+    for (var d = 2; d * d <= n; d++) if (n % d === 0) return false;
+    return true;
+  }
+  function hm(t) {                                   // 2,5 → « 2 h 30 min »
+    var h = Math.floor(t + 1e-9), m = Math.round((t - h) * 60);
+    return h + " h" + (m ? " " + m + " min" : "");
+  }
+  var SUP = { 1: "", 2: "²", 3: "³", 4: "⁴", 5: "⁵" };
+  function facteurs(lst) {                           // [[2,2],[3,1]] → « 2² × 3 »
+    return lst.map(function (f) { return f[0] + SUP[f[1]]; }).join(" × ");
+  }
+  function produit(lst) { return lst.reduce(function (a, f) { return a * Math.pow(f[0], f[1]); }, 1); }
+  function kmh(x) { return nb(x) + " km/h"; }
+  function ms(x) { return nb(x) + " m/s"; }
+  function lmin(x) { return nb(x) + " L/min"; }
+  function lh(x) { return nb(x) + " L/h"; }
+  function gcm3(x) { return nb(x) + " g/cm³"; }
+  function gram(x) { return nb(x) + " g"; }
+  function kwh(x) { return nb(x) + " kWh"; }
+  function m3(x) { return nb(x) + " m³"; }
+  function minutes(x) { return nb(x) + " min"; }
+
+  /* =====================  4e · Chapitre 2 — Grandeurs quotients et produits  ===================== */
+
+  /* Séance 1 — La vitesse */
+
+  function vitCalcul(R) {
+    var v, t, d;
+    do { v = parmi(R, [40, 45, 60, 72, 80, 90, 100, 110, 120]); t = parmi(R, [1.5, 2, 2.5, 3, 4, 5]); d = v * t; } while (d !== Math.floor(d));
+    var sujet = parmi(R, ["Un TGV", "Une voiture", "Un car de touristes", "Un camion"]);
+    return qcm(R, {
+      q: sujet + " parcourt " + nb(d) + " km en " + hm(t) + ", à vitesse constante. Quelle est sa vitesse moyenne ?",
+      bonne: v, fmt: kmh, pas: 10,
+      erreurs: [d * t, d - t, d + t, v + 10],
+      expl: (t === Math.floor(t) ? "" : hm(t) + " = " + nb(t) + " h. ") + "v = d ÷ t = " + nb(d) + " ÷ " + nb(t) + " = " + kmh(v) + "."
+    });
+  }
+
+  function vitDistTemps(R) {
+    var v, t, d;
+    if (R() < 0.5) {                                 // distance parcourue
+      do { v = parmi(R, [50, 60, 75, 80, 90, 100, 120]); t = parmi(R, [1.5, 2, 2.5, 3, 4, 5]); d = v * t; } while (d !== Math.floor(d));
+      var h = Math.floor(t), m = Math.round((t - h) * 60);
+      var sj = parmi(R, ["Un car", "Un train", "Une voiture"]);
+      return qcm(R, {
+        q: sj + " roule à " + kmh(v) + ", à vitesse constante, pendant " + hm(t) + ". Quelle distance parcourt-il ?",
+        bonne: d, fmt: function (x) { return nb(x) + " km"; }, pas: 10,
+        erreurs: [v * (h + m / 100), v + t, v / t, d + v],
+        expl: "d = v × t = " + nb(v) + " × " + nb(t) + " = " + nb(d) + " km." + (m ? " Attention : " + hm(t) + " = " + nb(t) + " h, et pas " + h + "," + m + " h." : "")
+      });
+    }
+    do { v = parmi(R, [40, 60, 80, 100, 120]); t = parmi(R, [1.5, 2.5, 3.5, 4.5]); d = v * t; } while (d !== Math.floor(d));
+    var hh = Math.floor(t);
+    return qcm(R, {
+      q: "Un train roule à " + kmh(v) + ", à vitesse constante. Combien de temps met-il pour parcourir " + nb(d) + " km ?",
+      bonne: hm(t),
+      erreurs: [hh + " h 50 min", hh + " h 5 min", (hh + 1) + " h 30 min", hh + " h"],
+      expl: "t = d ÷ v = " + nb(d) + " ÷ " + nb(v) + " = " + nb(t) + " h. Et 0,5 h = 30 min, donc t = " + hm(t) + "."
+    });
+  }
+
+  function vitConversion(R) {
+    if (R() < 0.5) {
+      var v = parmi(R, [18, 36, 54, 72, 90, 108, 126, 144]), w = v / 3.6;
+      return qcm(R, {
+        q: "Convertis " + kmh(v) + " en mètres par seconde.",
+        bonne: w, fmt: ms, pas: 5,
+        erreurs: [v * 3.6, v / 6, v / 10, v / 36],
+        expl: "Pour passer des km/h aux m/s, on divise par 3,6 : " + nb(v) + " ÷ 3,6 = " + ms(w) + "."
+      });
+    }
+    var w2 = parmi(R, [5, 10, 15, 20, 25, 30]), v2 = w2 * 3.6;
+    return qcm(R, {
+      q: "Un véhicule se déplace à " + ms(w2) + ". Convertis cette vitesse en kilomètres par heure.",
+      bonne: v2, fmt: kmh, pas: 9,
+      erreurs: [w2 / 3.6, w2 * 6, w2 * 36, w2 * 10],
+      expl: "Pour passer des m/s aux km/h, on multiplie par 3,6 : " + nb(w2) + " × 3,6 = " + kmh(v2) + "."
+    });
+  }
+
+  /* Séance 2 — Le débit et la densité */
+
+  function debit(R) {
+    var d = parmi(R, [8, 12, 15, 20, 25, 30, 40]), t = parmi(R, [3, 4, 5, 6, 8, 10, 12, 15]), V = d * t, k = R();
+    if (k < 0.4) {
+      return qcm(R, {
+        q: "Un robinet remplit une baignoire de " + nb(V) + " L en " + t + " minutes. Quel est son débit ?",
+        bonne: d, fmt: lmin, pas: 2,
+        erreurs: [V * t, V - t, V + t, d * 60],
+        expl: "Débit = volume ÷ temps = " + nb(V) + " ÷ " + t + " = " + lmin(d) + "."
+      });
+    }
+    if (k < 0.8) {
+      return qcm(R, {
+        q: "Une pompe de débit " + lmin(d) + " vide un bassin de " + nb(V) + " L. Combien de minutes faut-il ?",
+        bonne: t, fmt: minutes, pas: 2,
+        erreurs: [V * d, V - d, V + d, t * 60],
+        expl: "Temps = volume ÷ débit = " + nb(V) + " ÷ " + nb(d) + " = " + t + " min."
+      });
+    }
+    return qcm(R, {
+      q: "Une pompe a un débit de " + lmin(d) + ". Quel est son débit en litres par heure ?",
+      bonne: d * 60, fmt: lh, pas: 60,
+      erreurs: [d / 60, d * 100, d + 60, d * 24],
+      expl: "1 heure = 60 minutes, donc en une heure la pompe débite 60 fois plus : " + nb(d) + " × 60 = " + lh(d * 60) + "."
+    });
+  }
+
+  function densite(R) {
+    var rho, V, m;
+    do {
+      rho = parmi(R, [0.8, 0.9, 2.7, 7.8, 8.9, 11.3]); V = parmi(R, [10, 20, 25, 40, 50]); m = Math.round(rho * V * 10) / 10;
+    } while (m !== Math.floor(m));
+    var mat = { 0.8: ["de l'huile", "d'huile"], 0.9: ["de la glace", "de glace"], 2.7: ["de l'aluminium", "d'aluminium"], 7.8: ["de l'acier", "d'acier"], 8.9: ["du cuivre", "de cuivre"], 11.3: ["du plomb", "de plomb"] }[rho];
+    if (R() < 0.5) {
+      return qcm(R, {
+        q: "Un bloc de " + gram(m) + " a un volume de " + nb(V) + " cm³. Quelle est sa masse volumique ?",
+        bonne: rho, fmt: gcm3, pas: 0.1,
+        erreurs: [m * V, m - V, rho * 10, rho / 10],
+        expl: "Masse volumique = masse ÷ volume = " + nb(m) + " ÷ " + nb(V) + " = " + gcm3(rho) + "."
+      });
+    }
+    return qcm(R, {
+      q: "La masse volumique " + mat[0] + " est " + gcm3(rho) + ". Quelle est la masse de " + nb(V) + " cm³ " + mat[1] + " ?",
+      bonne: m, fmt: gram, pas: 5,
+      erreurs: [rho + V, V - rho, m * 10, m / 10],
+      expl: "Masse = masse volumique × volume = " + nb(rho) + " × " + nb(V) + " = " + gram(m) + "."
+    });
+  }
+
+  function flotte(R) {
+    var rho, V, m;
+    do {
+      rho = parmi(R, [0.5, 0.6, 0.8, 0.9, 1.2, 1.5, 2.5, 2.7, 7.8]); V = parmi(R, [10, 20, 40, 50]); m = Math.round(rho * V * 10) / 10;
+    } while (m !== Math.floor(m));
+    var leger = rho < 1;
+    var obj = parmi(R, ["Un objet", "Une bille", "Un petit bloc"]);
+    return qcm(R, {
+      q: obj + " a une masse de " + gram(m) + " et un volume de " + nb(V) + " cm³. L'eau a une masse volumique de 1 g/cm³. Que fait-il dans l'eau ?",
+      n: 3, bonne: leger ? "Il flotte" : "Il coule",
+      erreurs: [leger ? "Il coule" : "Il flotte", "On ne peut pas savoir"],
+      expl: "Sa masse volumique est " + nb(m) + " ÷ " + nb(V) + " = " + gcm3(rho) + ". " + (leger ? "Elle est plus petite que celle de l'eau (1 g/cm³) : il flotte." : "Elle est plus grande que celle de l'eau (1 g/cm³) : il coule.")
+    });
+  }
+
+  /* Séance 3 — Aire, volume et énergie */
+
+  function volumePave(R) {
+    var L = parmi(R, [6, 8, 10, 12, 15]), l = parmi(R, [3, 4, 5, 6]), h = parmi(R, [1, 1.5, 2, 2.5]), V = L * l * h;
+    var bac = parmi(R, ["Une piscine", "Un bassin", "Une citerne"]);
+    return qcm(R, {
+      q: bac + " en forme de pavé droit mesure " + nb(L) + " m de long, " + nb(l) + " m de large et " + nb(h) + " m de profondeur. Quel est son volume ?",
+      bonne: V, fmt: m3, pas: 5,
+      erreurs: [L * l, L + l + h, L * l * h * 2, L * h * 2 + l * h * 2],
+      expl: "Volume = longueur × largeur × hauteur = " + nb(L) + " × " + nb(l) + " × " + nb(h) + " = " + m3(V) + "."
+    });
+  }
+
+  function energie(R) {
+    var P = parmi(R, [500, 800, 1000, 1200, 1500, 2000, 2400]), t = parmi(R, [2, 3, 4, 5, 6, 8, 10]), E = P * t / 1000;
+    var app = parmi(R, [["Un radiateur", "il"], ["Un four", "il"], ["Un sèche-cheveux", "il"], ["Une plaque de cuisson", "elle"]]);
+    return qcm(R, {
+      q: app[0] + " de " + nb(P) + " W fonctionne pendant " + t + " h. Quelle énergie consomme-t-" + app[1] + " ?",
+      bonne: E, fmt: kwh, pas: 1,
+      erreurs: [P * t, P * t / 100, P * t / 10, P + t],
+      expl: nb(P) + " W = " + nb(P / 1000) + " kW. Énergie = puissance × temps = " + nb(P / 1000) + " × " + t + " = " + kwh(E) + "."
+    });
+  }
+
+  function coutEnergie(R) {
+    var P, t, prix, E, c;
+    do {                                             // résultat exact au centime près : pas d'arrondi
+      P = parmi(R, [1000, 1500, 2000, 2500, 3000]); t = parmi(R, [2, 3, 4]); prix = parmi(R, [0.2, 0.25, 0.3]);
+      E = P * t / 1000; c = Math.round(E * prix * 100) / 100;
+    } while (Math.abs(E * prix * 100 - Math.round(E * prix * 100)) > 1e-9);
+    return qcm(R, {
+      q: "Un chauffage de " + nb(P) + " W fonctionne pendant " + t + " h. Le kWh coûte " + euro(prix) + ". Combien coûte ce fonctionnement ?",
+      bonne: c, fmt: euro, pas: 0.5,
+      erreurs: [E * prix * 10, E + prix, P * prix, E / prix],
+      expl: "Énergie : " + nb(P / 1000) + " × " + t + " = " + kwh(E) + ". Coût : " + nb(E) + " × " + nb(prix) + " = " + euro(c) + "."
+    });
+  }
+
+  /* Séance 4 — Bilan du chapitre */
+
+  function bilanMoyenne(R) {
+    var v1, v2, t1, t2, d, T, vm;
+    do {
+      v1 = parmi(R, [10, 15, 20, 25, 30, 40]); v2 = parmi(R, [10, 15, 20, 25, 30, 40]); t1 = entier(R, 1, 3); t2 = entier(R, 1, 3);
+      d = v1 * t1 + v2 * t2; T = t1 + t2; vm = d / T;
+    } while (v1 === v2 || t1 === t2 || vm !== Math.floor(vm));
+    return qcm(R, {
+      q: "Un cycliste roule " + t1 + " h à " + kmh(v1) + ", puis " + t2 + " h à " + kmh(v2) + ". Quelle est sa vitesse moyenne sur l'ensemble du trajet ?",
+      bonne: vm, fmt: kmh, pas: 5,
+      erreurs: [(v1 + v2) / 2, d, v1 + v2, d - T],
+      expl: "Distance totale : " + nb(v1) + " × " + t1 + " + " + nb(v2) + " × " + t2 + " = " + nb(d) + " km. Durée totale : " + T + " h. Vitesse moyenne : " + nb(d) + " ÷ " + T + " = " + kmh(vm) + ". La moyenne de " + nb(v1) + " et " + nb(v2) + " serait fausse, car les durées ne sont pas égales."
+    });
+  }
+
+  function bilanFuite(R) {
+    var d1 = parmi(R, [12, 15, 20, 24, 30]), f = parmi(R, [2, 3, 5, 6]), t = parmi(R, [8, 10, 12, 15, 20]), net = d1 - f, V = net * t;
+    return qcm(R, {
+      q: "Un robinet débite " + lmin(d1) + " dans un bac, mais le bac fuit à raison de " + lmin(f) + ". Combien de minutes faut-il pour remplir " + nb(V) + " L ?",
+      bonne: t, fmt: minutes, pas: 2,
+      erreurs: [V / d1, V / (d1 + f), V / f, V * net],
+      expl: "Chaque minute, le bac gagne " + nb(d1) + " − " + nb(f) + " = " + lmin(net) + ". Temps : " + nb(V) + " ÷ " + nb(net) + " = " + t + " min."
+    });
+  }
+
+  A.inscrire("4e-ch2", {
+    types: [
+      { id: "vit-calcul",     seance: 1, gen: vitCalcul },
+      { id: "vit-dist-temps", seance: 1, gen: vitDistTemps },
+      { id: "vit-conversion", seance: 1, gen: vitConversion },
+      { id: "debit",          seance: 2, gen: debit },
+      { id: "densite",        seance: 2, gen: densite },
+      { id: "flotte",         seance: 2, gen: flotte },
+      { id: "volume-pave",    seance: 3, gen: volumePave },
+      { id: "energie",        seance: 3, gen: energie },
+      { id: "cout-energie",   seance: 3, gen: coutEnergie },
+      { id: "bilan-moyenne",  seance: 4, gen: bilanMoyenne },
+      { id: "bilan-fuite",    seance: 4, gen: bilanFuite }
+    ]
+  });
+
+  /* =====================  4e · Chapitre 3 — Divisibilité et nombres premiers  ===================== */
+
+  /* Séance 1 — Découverte des nombres premiers */
+
+  function premierLequel(R) {
+    var premiers = [23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97];
+    var pieges = A.melanger(R, [49, 51, 57, 63, 69, 77, 87, 91, 93]).slice(0, 3);
+    var bonne = parmi(R, premiers);
+    function dec(x) { var d = 2; while (x % d) d++; return x + " = " + d + " × " + (x / d); }
+    return qcm(R, {
+      q: "Parmi ces nombres, lequel est un nombre premier ?",
+      bonne: bonne, fmt: nb, erreurs: pieges,
+      expl: nb(bonne) + " n'est divisible que par 1 et par lui-même : il est premier. Les autres ne le sont pas : " + pieges.map(dec).join(" ; ") + "."
+    });
+  }
+
+  function comptePremiers(R) {
+    var debut = parmi(R, [0, 10, 20, 30, 40, 50, 60, 70]), fin = debut + 20, n = 0, liste = [];
+    for (var k = debut; k <= fin; k++) if (estPremier(k)) { n++; liste.push(k); }
+    return qcm(R, {
+      q: "Combien y a-t-il de nombres premiers compris entre " + debut + " et " + fin + " (inclus) ?",
+      bonne: n, fmt: nb, pas: 1, min: 0,
+      erreurs: [n + 1, n - 1, n + 2, n + 3],
+      expl: "Les nombres premiers entre " + debut + " et " + fin + " sont : " + liste.join(", ") + ". Il y en a " + n + "."
+    });
+  }
+
+  function critereDiv(R) {
+    var k = parmi(R, [3, 9]);
+    var bonne, pieges = [], x;
+    do { x = entier(R, 100, 990); } while (x % k !== 0 || x % 10 === 0);
+    bonne = x;
+    var vus = {};
+    vus[x] = true;
+    while (pieges.length < 4) {
+      var y = entier(R, 100, 990), s = String(y).split("").reduce(function (a, c) { return a + (+c); }, 0);
+      if (vus[y] || y % k === 0 || y % 10 === 0) continue;
+      if (k === 9 && s % 3 !== 0 && R() < 0.6) continue;     // pour 9, on garde souvent des multiples de 3 (piège classique)
+      vus[y] = true; pieges.push(y);
+    }
+    var sc = String(bonne).split("").reduce(function (a, c) { return a + (+c); }, 0);
+    return qcm(R, {
+      q: "Lequel de ces nombres est divisible par " + k + " ?",
+      bonne: bonne, fmt: String, erreurs: pieges,
+      expl: "On additionne les chiffres : " + String(bonne).split("").join(" + ") + " = " + sc + ", et " + sc + " est dans la table de " + k + ". Un nombre est divisible par " + k + " quand la somme de ses chiffres l'est."
+    });
+  }
+
+  /* Séance 2 — Décomposition en facteurs premiers */
+
+  function tirerDecomp(R) {
+    var P = [2, 3, 5, 7, 11], lst, N;
+    do {
+      var nbf = entier(R, 2, 3), ps = A.melanger(R, P).slice(0, nbf).sort(function (a, b) { return a - b; });
+      lst = ps.map(function (p) { return [p, entier(R, 1, p === 2 ? 3 : 2)]; });
+      N = produit(lst);
+    } while (N < 30 || N > 700 || lst.every(function (f) { return f[1] === 1; }) && R() < 0.5);
+    return { lst: lst, N: N };
+  }
+
+  function decomposition(R) {
+    var d = tirerDecomp(R), lst = d.lst, N = d.N, bonne = facteurs(lst), erreurs = [];
+    // piège 1 : un facteur qui n'est pas premier (le produit est bon, mais ce n'est pas une décomposition en premiers)
+    var iC = lst.findIndex(function (f) { return f[1] >= 2; }), morceaux;
+    if (iC >= 0) {
+      morceaux = lst.map(function (f, i) { return i === iC ? String(Math.pow(f[0], f[1])) : f[0] + SUP[f[1]]; });
+    } else {
+      morceaux = [String(lst[0][0] * lst[1][0])].concat(lst.slice(2).map(function (f) { return f[0] + SUP[f[1]]; }));
+    }
+    erreurs.push(morceaux.join(" × "));
+    // piège 2 : un exposant trop fort ; piège 3 : un exposant oublié ; piège 4 : un facteur remplacé
+    var j = entier(R, 0, lst.length - 1);
+    erreurs.push(facteurs(lst.map(function (f, i) { return i === j ? [f[0], Math.min(5, f[1] + 1)] : f; })));
+    erreurs.push(facteurs(lst.map(function (f, i) { return i === j ? [f[0], Math.max(1, f[1] - 1)] : f; })));
+    var suiv = { 2: 3, 3: 5, 5: 7, 7: 11, 11: 13 };
+    erreurs.push(facteurs(lst.map(function (f, i) { return i === lst.length - 1 ? [suiv[f[0]] || f[0], f[1]] : f; })));
+    return qcm(R, {
+      q: "Quelle est la décomposition de " + nb(N) + " en produit de facteurs premiers ?",
+      bonne: bonne, erreurs: erreurs.filter(function (x) { return x !== bonne; }),
+      expl: nb(N) + " = " + bonne + ". Chaque facteur est un nombre premier, et le produit redonne bien " + nb(N) + ". Dans une décomposition, il ne doit rester aucun facteur comme 4, 6, 9, 10…"
+    });
+  }
+
+  function decompInverse(R) {
+    var d = tirerDecomp(R), lst = d.lst, N = d.N;
+    var somme = lst.reduce(function (a, f) { return a + Math.pow(f[0], f[1]); }, 0);
+    var prodPE = lst.reduce(function (a, f) { return a * f[0] * f[1]; }, 1);
+    return qcm(R, {
+      q: "Quel nombre est égal à " + facteurs(lst) + " ?",
+      bonne: N, fmt: nb, pas: 10,
+      erreurs: [somme, prodPE, N + lst[0][0], N - lst[lst.length - 1][0]],
+      expl: facteurs(lst) + " = " + lst.map(function (f) { return nb(Math.pow(f[0], f[1])); }).join(" × ") + " = " + nb(N) + "."
+    });
+  }
+
+  function diviseursPremiers(R) {
+    var d = tirerDecomp(R), lst = d.lst, N = d.N, ps = lst.map(function (f) { return f[0]; });
+    function liste(a) { return a.length === 1 ? String(a[0]) : a.slice(0, -1).join(", ") + " et " + a[a.length - 1]; }
+    var bonne = liste(ps), erreurs = [];
+    var comp = lst.filter(function (f) { return f[1] >= 2; })[0];
+    erreurs.push(liste([1].concat(ps)));
+    if (comp) erreurs.push(liste(ps.concat([Math.pow(comp[0], 2)]).sort(function (a, b) { return a - b; })));
+    erreurs.push(liste(ps.slice(0, -1).length ? ps.slice(1) : [ps[0] + 1]));
+    erreurs.push(liste(ps.concat([N]).sort(function (a, b) { return a - b; })));
+    return qcm(R, {
+      q: "Quels sont les diviseurs premiers de " + nb(N) + " ?",
+      bonne: bonne, erreurs: erreurs.filter(function (x) { return x !== bonne; }),
+      expl: nb(N) + " = " + facteurs(lst) + ". Ses diviseurs premiers sont les nombres premiers qui apparaissent dans la décomposition : " + bonne + ". Ni 1, ni " + nb(N) + " lui-même ne comptent comme diviseurs premiers (1 n'est pas premier, et " + nb(N) + " ne l'est pas)."
+    });
+  }
+
+  /* Séance 3 — Simplifier une fraction */
+
+  function fracIrreductible(R) {
+    var p, q, dd;
+    do {
+      p = entier(R, 2, 11); q = entier(R, 3, 13); dd = parmi(R, [2, 3, 4, 5, 6, 7, 8, 9, 10, 12]);
+    } while (p >= q || pgcd(p, q) !== 1 || q * dd > 150);
+    var a = p * dd, b = q * dd, erreurs = [];
+    var pf = [2, 3, 5, 7].filter(function (x) { return dd % x === 0 && dd / x > 1; })[0];
+    if (pf) erreurs.push((a / pf) + "/" + (b / pf));
+    erreurs.push(q + "/" + p, (p + 1) + "/" + q, p + "/" + (q + 1), (a - dd) + "/" + (b - dd));
+    var bonne = p + "/" + q;
+    return qcm(R, {
+      q: "Quelle est la fraction irréductible égale à " + a + "/" + b + " ?",
+      bonne: bonne, erreurs: erreurs.filter(function (x) { return x !== bonne; }),
+      expl: "On divise le numérateur et le dénominateur par leur plus grand diviseur commun, " + dd + " : " + a + " ÷ " + dd + " = " + p + " et " + b + " ÷ " + dd + " = " + q + ". Une fraction irréductible ne se simplifie plus : " + bonne + "."
+    });
+  }
+
+  function fracSimplifiable(R) {
+    var a, b, g, h = [2, 3, 5, 7, 11];
+    var reductible = R() < 0.6;
+    if (reductible) {
+      do { g = parmi(R, [2, 3, 5, 7]); a = g * entier(R, 2, 12); b = g * entier(R, 2, 14); } while (a === b || a > b || b > 99);
+    } else {
+      do { a = entier(R, 5, 40); b = entier(R, 6, 60); } while (a >= b || pgcd(a, b) !== 1);
+    }
+    var gg = pgcd(a, b), bonne, erreurs = [];
+    if (gg > 1) {
+      var pg = [2, 3, 5, 7, 11, 13].filter(function (x) { return gg % x === 0; })[0];
+      bonne = "Non, on peut simplifier par " + pg;
+      erreurs.push("Oui, elle est irréductible");
+      h.filter(function (x) { return gg % x !== 0; }).slice(0, 2).forEach(function (x) { erreurs.push("Non, on peut simplifier par " + x); });
+      return qcm(R, {
+        q: "La fraction " + a + "/" + b + " est-elle irréductible ?",
+        bonne: bonne, erreurs: erreurs,
+        expl: a + " et " + b + " sont tous les deux divisibles par " + pg + " : " + a + " = " + pg + " × " + (a / pg) + " et " + b + " = " + pg + " × " + (b / pg) + ". La fraction n'est donc pas irréductible."
+      });
+    }
+    bonne = "Oui, elle est irréductible";
+    h.filter(function (x) { return !(a % x === 0 && b % x === 0); }).slice(0, 3).forEach(function (x) { erreurs.push("Non, on peut simplifier par " + x); });
+    return qcm(R, {
+      q: "La fraction " + a + "/" + b + " est-elle irréductible ?",
+      bonne: bonne, erreurs: erreurs,
+      expl: "Il n'existe aucun nombre (autre que 1) qui divise à la fois " + a + " et " + b + " : leur seul diviseur commun est 1. La fraction est irréductible."
+    });
+  }
+
+  /* Séance 4 — Problèmes de répartition */
+
+  function pgcdLots(R) {
+    var g, a, b;
+    do {
+      g = parmi(R, [4, 5, 6, 7, 8, 9, 12, 15]); a = entier(R, 2, 9); b = entier(R, 2, 9);
+    } while (a >= b || pgcd(a, b) !== 1 || g * b > 150);
+    var A1 = g * a, B1 = g * b, fl = parmi(R, [["roses", "tulipes"], ["stylos", "crayons"], ["billes rouges", "billes bleues"], ["bonbons", "chocolats"]]);
+    if (R() < 0.5) {
+      return qcm(R, {
+        q: "Une commerçante a " + A1 + " " + fl[0] + " et " + B1 + " " + fl[1] + ". Elle veut faire le plus grand nombre possible de lots identiques, sans rien laisser. Combien de lots peut-elle faire ?",
+        bonne: g, fmt: nb, pas: 1,
+        erreurs: [a, b, B1 - A1, g + 1],
+        expl: "Le nombre de lots est le plus grand diviseur commun de " + A1 + " et " + B1 + ", c'est-à-dire " + g + ". (Avec la décomposition en facteurs premiers de " + A1 + " et de " + B1 + ", on garde les facteurs communs.)"
+      });
+    }
+    return qcm(R, {
+      q: "Une commerçante a " + A1 + " " + fl[0] + " et " + B1 + " " + fl[1] + ". Elle fait le plus grand nombre possible de lots identiques, sans rien laisser. Combien de " + fl[0] + " y a-t-il dans chaque lot ?",
+      bonne: a, fmt: nb, pas: 1,
+      erreurs: [g, b, A1 - B1 > 0 ? A1 - B1 : B1 - A1, a + 1],
+      expl: "On fait " + g + " lots (le plus grand diviseur commun de " + A1 + " et " + B1 + "). Chaque lot contient donc " + A1 + " ÷ " + g + " = " + a + " " + fl[0] + " et " + B1 + " ÷ " + g + " = " + b + " " + fl[1] + "."
+    });
+  }
+
+  function carrelage(R) {
+    var g, a, b;
+    do {
+      g = parmi(R, [10, 15, 20, 25, 30, 40, 50]); a = entier(R, 2, 9); b = entier(R, 2, 9);
+    } while (a >= b || pgcd(a, b) !== 1 || g * b > 500);
+    var L = g * b, l = g * a, nbC = a * b;
+    return qcm(R, {
+      q: "Une pièce rectangulaire mesure " + L + " cm sur " + l + " cm. On la recouvre, sans découpe, avec des carreaux carrés tous identiques, les plus grands possible. Quel est le côté d'un carreau ?",
+      bonne: g, fmt: function (x) { return nb(x) + " cm"; }, pas: 5,
+      erreurs: [g * 2, L - l, a * 10, g + 5],
+      expl: "Le côté est le plus grand diviseur commun de " + L + " et " + l + ", c'est-à-dire " + g + " cm. On pose alors " + b + " carreaux dans la longueur et " + a + " dans la largeur, soit " + nbC + " carreaux."
+    });
+  }
+
+  A.inscrire("4e-ch3", {
+    types: [
+      { id: "premier-lequel",     seance: 1, gen: premierLequel },
+      { id: "compte-premiers",    seance: 1, gen: comptePremiers },
+      { id: "critere-div",        seance: 1, gen: critereDiv },
+      { id: "decomposition",      seance: 2, gen: decomposition },
+      { id: "decomp-inverse",     seance: 2, gen: decompInverse },
+      { id: "diviseurs-premiers", seance: 2, gen: diviseursPremiers },
+      { id: "frac-irreductible",  seance: 3, gen: fracIrreductible },
+      { id: "frac-simplifiable",  seance: 3, gen: fracSimplifiable },
+      { id: "pgcd-lots",          seance: 4, gen: pgcdLots },
+      { id: "carrelage",          seance: 4, gen: carrelage }
+    ]
+  });
+
 })(typeof window !== "undefined" ? window.ASC : global.ASC);

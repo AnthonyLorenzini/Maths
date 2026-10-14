@@ -2,7 +2,7 @@
    ASCENSION — la logique commune (aucun affichage ici).
 
    Principe : dans l'onglet « Ascension » d'une classe, l'élève choisit un chapitre
-   et passe un test. Test réussi → la montgolfière monte. Test raté → elle stagne
+   et passe un test cumulatif (les questions du chapitre et de tous les précédents). Test réussi → la montgolfière monte. Test raté → elle stagne
    (elle ne redescend jamais).
 
    Le plafond de la semaine monte chaque lundi et ne retombe jamais : une semaine
@@ -246,31 +246,74 @@
   /* ---------- Les tests : un générateur de questions par chapitre ---------- */
   var CHAPITRES = {};
   /* inscrire("4e-ch1", { types: [ { id, seance, gen(R) → question }, … ] })
-     seance = numéro de la séance du chapitre que la question révise (pour dire à l'élève quoi relire). */
+     seance = numéro de la séance du chapitre que la question révise (pour dire à l'élève quoi relire).
+     Le test d'un chapitre est cumulatif : il reprend aussi les questions des chapitres précédents du même niveau. */
   function inscrire(chapId, def) { CHAPITRES[chapId] = def; }
   function aTest(chapId) { return !!CHAPITRES[chapId]; }
   function testables(niveau) { return niveau.chapitres.filter(function (c) { return !c.bientot && aTest(c.id); }); }
 
-  /* Tire un test : autant de questions que NB_Q, réparties sur les séances du chapitre,
-     sans énoncé en double, dans un ordre mélangé. */
-  function tirer(chapId, R) {
-    var def = CHAPITRES[chapId];
-    if (!def) return [];
-    R = R || Math.random;
-    var parSeance = {};
+  /* Chapitres couverts par le test d'un chapitre : lui-même et tous les chapitres précédents du
+     même niveau qui ont des questions (test cumulatif). "4e-ch3" -> ["4e-ch1", "4e-ch2", "4e-ch3"].
+     Le chapitre du test est toujours le dernier de la liste. */
+  function couverts(chapId) {
+    var m = /^(.+)-ch(\d+)$/.exec(chapId);
+    if (!m || !CHAPITRES[chapId]) return CHAPITRES[chapId] ? [chapId] : [];
+    var niv = m[1], num = +m[2], liste = [];
+    Object.keys(CHAPITRES).forEach(function (id) {
+      var mm = /^(.+)-ch(\d+)$/.exec(id);
+      if (mm && mm[1] === niv && +mm[2] < num) liste.push({ id: id, num: +mm[2] });
+    });
+    liste.sort(function (x, y) { return x.num - y.num; });
+    return liste.map(function (x) { return x.id; }).concat([chapId]);
+  }
+
+  /* Nombre de questions par chapitre : on partage NB_Q à parts égales, le reste va d'abord au chapitre
+     du test, puis aux chapitres les plus récents. S'il y a plus de chapitres que de questions, le
+     chapitre du test est toujours là et les autres sont tirés au sort. */
+  function repartir(ids, R) {
+    var n = ids.length, Q = CONFIG.NB_Q, quota = {};
+    ids.forEach(function (id) { quota[id] = 0; });
+    if (n <= Q) {
+      var base = Math.floor(Q / n), reste = Q % n;
+      ids.forEach(function (id) { quota[id] = base; });
+      for (var i = 0; i < reste; i++) quota[ids[n - 1 - i]]++;
+    } else {
+      var autres = melanger(R, ids.slice(0, n - 1)).slice(0, Q - 1);
+      quota[ids[n - 1]] = 1;
+      autres.forEach(function (id) { quota[id] = 1; });
+    }
+    return quota;
+  }
+
+  /* k questions d'un chapitre, réparties sur ses séances, sans énoncé déjà vu (vus). */
+  function tirerChapitre(chapId, k, R, vus) {
+    var def = CHAPITRES[chapId], parSeance = {}, sortie = [];
     def.types.forEach(function (t) { (parSeance[t.seance] = parSeance[t.seance] || []).push(t); });
     var cles = Object.keys(parSeance).sort(function (a, b) { return a - b; });
-    var base = Math.floor(CONFIG.NB_Q / cles.length), reste = CONFIG.NB_Q % cles.length;
-    var avecReste = melanger(R, cles).slice(0, reste), sortie = [], vus = {};
+    var base = Math.floor(k / cles.length), reste = k % cles.length;
+    var avecReste = melanger(R, cles).slice(0, reste);
     cles.forEach(function (s) {
-      var k = base + (avecReste.indexOf(s) >= 0 ? 1 : 0), pool = melanger(R, parSeance[s]);
-      for (var i = 0; i < k; i++) {
+      var kk = base + (avecReste.indexOf(s) >= 0 ? 1 : 0), pool = melanger(R, parSeance[s]);
+      for (var i = 0; i < kk; i++) {
         var t = pool[i % pool.length], q = null;
         for (var essai = 0; essai < 40; essai++) { q = t.gen(R); if (!vus[q.q]) break; }
         vus[q.q] = true;
-        q.seance = +s; q.type = t.id;
+        q.chap = chapId; q.seance = +s; q.type = t.id;
         sortie.push(q);
       }
+    });
+    return sortie;
+  }
+
+  /* Tire un test cumulatif : NB_Q questions prises dans le chapitre et dans tous les précédents,
+     sans énoncé en double, dans un ordre mélangé. Chaque question sait de quel chapitre (q.chap)
+     et de quelle séance (q.seance) elle vient, pour dire à l'élève quoi relire. */
+  function tirer(chapId, R) {
+    if (!CHAPITRES[chapId]) return [];
+    R = R || Math.random;
+    var ids = couverts(chapId), quota = repartir(ids, R), vus = {}, sortie = [];
+    ids.forEach(function (id) {
+      if (quota[id] > 0) sortie = sortie.concat(tirerChapitre(id, quota[id], R, vus));
     });
     return melanger(R, sortie);
   }
@@ -282,7 +325,7 @@
     charger: charger, sauver: sauver, pseudo: pseudo, setPseudo: setPseudo, actif: actif, memoriserActif: memoriserActif,
     alt: alt, stats: stats, dejaAujourdhui: dejaAujourdhui, reinitialiser: reinitialiser, resume: resume, enregistrer: enregistrer,
     rng: rng, entier: entier, parmi: parmi, melanger: melanger, nb: nb, euro: euro, pct: pct, qcm: qcm,
-    inscrire: inscrire, aTest: aTest, testables: testables, tirer: tirer
+    inscrire: inscrire, aTest: aTest, testables: testables, couverts: couverts, tirer: tirer
   };
   charger();
   if (typeof module !== "undefined" && module.exports) module.exports = API;

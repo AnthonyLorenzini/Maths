@@ -631,7 +631,7 @@ function vueAscension(n){
    <p class="doux"><strong>${CF.SEUIL} bonnes réponses sur ${CF.NB_Q}</strong> : ta montgolfière monte d’une étape. Il faut <strong>${CF.T} tests réussis</strong> pour atteindre le palier suivant. Sinon, tu restes où tu es et tu peux recommencer, les questions changent.</p>
    <div class="liens">${n.chapitres.filter(c=>c.num).map(c=>ligneTest(n,c)).join('')}</div></section>
   <details class="deroule"><summary>Comment ça marche ?</summary><ul>
-   <li>Chaque chapitre a son test de ${CF.NB_Q} questions. Avec ${CF.SEUIL} bonnes réponses, tu montes d’une étape : ${CF.T} étapes = un palier (lampadaire, arbre, immeuble… jusqu’au Mont Blanc).</li>
+   <li>Le test d’un chapitre mélange ${CF.NB_Q} questions de ce chapitre <strong>et de tous les précédents</strong> : c’est un rappel de ce que tu as vu depuis la rentrée. Avec ${CF.SEUIL} bonnes réponses, tu montes d’une étape : ${CF.T} étapes = un palier (lampadaire, arbre, immeuble… jusqu’au Mont Blanc).</li>
    <li>Un test raté ne te fait jamais redescendre : tu réessaies quand tu veux.</li>
    <li>Le plafond monte chaque lundi, jusqu’au sommet début juin. Tu ne peux pas le dépasser, mais il ne redescend jamais : si tu rates une semaine, tu rattrapes plus tard.</li>
    <li>Un chapitre ne te fait monter qu’une fois par jour : change de chapitre ou reviens demain.</li>
@@ -692,8 +692,12 @@ function rendreResultat(){
   'au-sommet':'Test réussi ! Tu es déjà tout en haut du Mont Blanc : bravo.',
   'echec':`Tu restes à ${fr(r.apres)} m, tu ne redescends pas. Relis ce qui est indiqué ci-dessous, puis réessaie : les questions changent.`
  }[r.raison];
- const fautes=[...new Set(T.qs.filter((q,k)=>!T.rep[k]).map(q=>q.seance))].sort((a,b)=>a-b).filter(s=>ch.seances&&ch.seances[s-1]);
- const revoir=fautes.length?`<section class="a-revoir a-monte"><h3>${r.reussi?'Pour aller plus loin, à relire':'À relire'}</h3><ul>${fautes.map(s=>`<li><a href="#${ch.id}">Séance ${s} · ${esc(ch.seances[s-1].titre)}</a></li>`).join('')}</ul></section>`:'';
+ const vusF={},fautes=[];
+ T.qs.forEach((q,k)=>{if(T.rep[k])return;const cle=q.chap+'|'+q.seance;if(vusF[cle])return;vusF[cle]=1;
+  const cc=n.chapitres.find(x=>x.id===q.chap),se=cc&&cc.seances&&cc.seances[q.seance-1];if(se)fautes.push({cc,s:q.seance,se})});
+ const multi=new Set(fautes.map(f=>f.cc.id)).size>1||(AS.couverts(T.cid).length>1);
+ fautes.sort((a,b)=>(a.cc.num-b.cc.num)||(a.s-b.s));
+ const revoir=fautes.length?`<section class="a-revoir a-monte"><h3>${r.reussi?'Pour aller plus loin, à relire':'À relire'}</h3><ul>${fautes.map(f=>`<li><a href="#${f.cc.id}">${multi?'Chapitre '+f.cc.num+' · ':''}Séance ${f.s} · ${esc(f.se.titre)}</a></li>`).join('')}</ul></section>`:'';
  el.innerHTML=`<div class="res-test ${r.reussi?'ok':'non'} a-pop"><h2>${r.reussi?'Test réussi !':'Pas cette fois'}</h2>
    <p class="score"><strong>${T.bonnes} / ${T.qs.length}</strong> bonnes réponses${r.reussi?'':' (il en fallait '+CF.SEUIL+')'}</p><p>${msg}</p></div>
   ${r.gain>0?carteScene(T.nid):''}
