@@ -843,7 +843,10 @@ function router(){
  else{accueil();document.title=S.titre}
 }
 addEventListener('hashchange',()=>{const h=location.hash;if(pile.length>1&&pile[pile.length-2]===h)pile.pop();else pile.push(h);fermer();router()});
-document.addEventListener('click',e=>{const b=e.target.closest('.retour');if(!b)return;if(pile.length>1)history.back();else location.hash=b.getAttribute('data-parent')});
+document.addEventListener('click',e=>{const b=e.target.closest('.retour');if(!b)return;
+ const cible=b.getAttribute('data-parent')||'#',nor=x=>String(x||'').replace(/^#/,'');
+ /* le bouton va TOUJOURS à sa destination (Accueil, 4e, Ascension…) : on ne revient en arrière que si la page précédente est déjà cette destination */
+ if(pile.length>1&&nor(pile[pile.length-2])===nor(cible))history.back();else location.hash=cible});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')fermer()});
 addEventListener('resize',()=>{clearTimeout(window._rz);window._rz=setTimeout(()=>redessiner&&redessiner(),200)});
 addEventListener('pageshow',e=>{if(e.persisted){AS.charger();router()}});
