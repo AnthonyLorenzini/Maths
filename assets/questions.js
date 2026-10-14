@@ -687,4 +687,177 @@
     ]
   });
 
+
+  /* =====================  6e · Chapitre 1 — Numération entière et décimale  =====================
+
+     Ce chapitre n'est pas (ou pas encore) dans le catalogue du site : sa banque de questions
+     sert surtout à alimenter les tests cumulatifs des chapitres suivants de la 6e.
+     Séances « virtuelles » utilisées pour répartir les questions :
+       1 = lire et écrire les grands nombres entiers
+       2 = rangs des chiffres : « chiffre des… », « nombre de… », valeur d'un chiffre
+       3 = écriture décimale : zéros inutiles, décomposition                                    */
+
+  var U16 = ["zéro", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze", "quinze", "seize"];
+  var DIZ = { 2: "vingt", 3: "trente", 4: "quarante", 5: "cinquante", 6: "soixante" };
+
+  function moinsCent(n, final) {                    // 0 < n < 100 ; final : « quatre-vingts » prend son s
+    if (n < 17) return U16[n];
+    if (n < 20) return "dix-" + U16[n - 10];
+    if (n < 70) {
+      var d = Math.floor(n / 10), u = n % 10;
+      return DIZ[d] + (u === 0 ? "" : u === 1 ? " et un" : "-" + U16[u]);
+    }
+    if (n < 80) return n === 71 ? "soixante et onze" : "soixante-" + moinsCent(n - 60, false);
+    if (n === 80) return "quatre-vingt" + (final ? "s" : "");
+    return "quatre-vingt-" + moinsCent(n - 80, false);
+  }
+  function moinsMille(n, final) {                   // 0 < n < 1000
+    var c = Math.floor(n / 100), r = n % 100, mots = [];
+    if (c === 1) mots.push("cent");
+    else if (c > 1) mots.push(U16[c] + " cent" + (r === 0 && final ? "s" : ""));
+    if (r > 0) mots.push(moinsCent(r, final));
+    return mots.join(" ");
+  }
+  function enLettres(n) {                           // 0 < n < 10^12
+    var mots = [], mds = Math.floor(n / 1e9), mi = Math.floor(n / 1e6) % 1000, mille = Math.floor(n / 1000) % 1000, r = n % 1000;
+    if (mds) mots.push(moinsMille(mds, true) + " milliard" + (mds > 1 ? "s" : ""));
+    if (mi) mots.push(moinsMille(mi, true) + " million" + (mi > 1 ? "s" : ""));
+    if (mille) mots.push((mille === 1 ? "" : moinsMille(mille, false) + " ") + "mille");
+    if (r) mots.push(moinsMille(r, true));
+    return mots.join(" ");
+  }
+
+  /* Séance 1 — Lire et écrire les grands nombres entiers */
+
+  function grandNombre(R) {
+    var g2 = entier(R, 1, 999), g1 = parmi(R, [0, 5, 12, 40, 305, 780, 906]), g0 = parmi(R, [0, 8, 70, 214, 360, 519, 802, 999]);
+    if (R() < 0.3) g2 = parmi(R, [2, 7, 45, 300, 800]);
+    var N = g2 * 1e6 + g1 * 1e3 + g0;
+    return { g2: g2, g1: g1, g0: g0, N: N, fausses: [
+      Number(String(g2) + String(g1) + String(g0)),                  // on oublie de compléter les groupes par des zéros
+      g2 * 1e6 + g0 * 1e3 + g1,                                       // on échange les milliers et les unités
+      N * 10,
+      g2 * 1e3 + g1                                                   // on oublie un groupe
+    ] };
+  }
+
+  function lireEcrire(R) {
+    var d = grandNombre(R), N = d.N;
+    if (R() < 0.5) {
+      return qcm(R, {
+        q: "Quel est le nombre « " + enLettres(N) + " » ?",
+        bonne: N, fmt: nb, pas: 1000, erreurs: d.fausses,
+        expl: enLettres(N) + " s'écrit " + nb(N) + ". On lit le nombre par groupes de trois chiffres : millions, milliers, puis unités. Quand un groupe n'a pas trois chiffres, on le complète par des zéros à gauche (huit unités après un groupe de milliers s'écrivent 008) et un groupe absent s'écrit 000."
+      });
+    }
+    return qcm(R, {
+      q: "Comment lit-on le nombre " + nb(N) + " ?",
+      bonne: enLettres(N), erreurs: d.fausses.map(enLettres).filter(function (x) { return x; }),
+      expl: nb(N) + " se lit « " + enLettres(N) + " ». On lit chaque groupe de trois chiffres, suivi du nom de sa classe (millions, mille)."
+    });
+  }
+
+  /* Séances 2 et 3 : un nombre décimal dont tous les chiffres sont différents */
+
+  function nomRangE(e) {                            // e = exposant de 10 : 0 unités, 1 dizaines, 2 centaines, 3 unités de mille…
+    var t = { "-3": "millièmes", "-2": "centièmes", "-1": "dixièmes", 0: "unités", 1: "dizaines", 2: "centaines", 3: "milliers", 4: "dizaines de mille", 5: "centaines de mille", 6: "millions" };
+    return t[e];
+  }
+  function nombreDistinct(R) {                      // chiffres tous différents, ni zéro en tête ni zéro à la fin
+    var lg = entier(R, 5, 8), dp = entier(R, 1, 3), chiffres;
+    if (lg - dp < 2) dp = lg - 2;
+    do { chiffres = A.melanger(R, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]).slice(0, lg); } while (chiffres[0] === 0 || chiffres[lg - 1] === 0);
+    var ent = lg - dp;
+    return { ch: chiffres, ent: ent, dp: dp, texte: nb(Number(chiffres.slice(0, ent).join("") + "." + chiffres.slice(ent).join(""))) };
+  }
+  function chiffreA(n, e) { return n.ch[n.ent - 1 - e]; }
+  function prefixeA(n, e) { return Number(n.ch.slice(0, n.ent - e).join("")); }
+
+  function chiffreDes(R) {
+    var n = nombreDistinct(R), e = entier(R, -n.dp, n.ent - 1);
+    var bonne = chiffreA(n, e), erreurs = [];
+    [e + 1, e - 1, -e, e + 2, e - 2].forEach(function (x) { if (x >= -n.dp && x <= n.ent - 1 && x !== e) erreurs.push(chiffreA(n, x)); });
+    n.ch.forEach(function (c) { erreurs.push(c); });
+    return qcm(R, {
+      q: "Dans le nombre " + n.texte + ", quel est le chiffre des " + nomRangE(e) + " ?",
+      bonne: bonne, fmt: String, min: 0, erreurs: erreurs,
+      expl: "Dans " + n.texte + ", le chiffre des " + nomRangE(e) + " est " + bonne + ". Le « chiffre des… » est un seul chiffre : celui qui occupe ce rang dans le tableau de numération."
+    });
+  }
+
+  function nombreDe(R) {
+    var n = nombreDistinct(R), e = entier(R, -n.dp, n.ent - 2);
+    var bonne = prefixeA(n, e), erreurs = [chiffreA(n, e)];
+    if (e + 1 <= n.ent - 1) erreurs.push(prefixeA(n, e + 1));
+    if (e - 1 >= -n.dp) erreurs.push(prefixeA(n, e - 1)); else erreurs.push(prefixeA(n, e) * 10 + n.ch[0]);
+    erreurs.push(Number(n.ch.join("")));
+    return qcm(R, {
+      q: "Dans le nombre " + n.texte + ", quel est le nombre de " + nomRangE(e) + " ?",
+      bonne: bonne, fmt: nb, min: 0, pas: 1, erreurs: erreurs,
+      expl: "Le « nombre de " + nomRangE(e) + " » compte tout ce qu'il y a dans " + n.texte + " jusqu'au rang des " + nomRangE(e) + " (inclus) : " + nb(bonne) + ". Il ne faut pas le confondre avec le « chiffre des " + nomRangE(e) + " », qui est seulement " + chiffreA(n, e) + "."
+    });
+  }
+
+  function valeurChiffre(R) {
+    var n = nombreDistinct(R), e = entier(R, -n.dp, n.ent - 1), c = chiffreA(n, e);
+    if (c === 0) return valeurChiffre(R);
+    var v = c * Math.pow(10, e);
+    return qcm(R, {
+      q: "Dans le nombre " + n.texte + ", quelle est la valeur du chiffre " + c + " ?",
+      bonne: v, fmt: nb, min: 0, pas: Math.pow(10, e),
+      erreurs: [c, c * Math.pow(10, e + 1), c * Math.pow(10, e - 1), c * Math.pow(10, -e)],
+      expl: "Le chiffre " + c + " est au rang des " + nomRangE(e) + " dans " + n.texte + ". Sa valeur est donc " + c + " × " + nb(Math.pow(10, e)) + " = " + nb(v) + "."
+    });
+  }
+
+  /* Séance 3 — Écriture décimale : zéros inutiles, décomposition */
+
+  function groupe(s) { return s.replace(/\B(?=(\d{3})+(?!\d))/g, " "); }   // 1264817 → 1 264 817 (espace fine)
+
+  function zerosInutiles(R) {
+    var lg = entier(R, 4, 7), dp = entier(R, 1, 2), ch, ent = lg - dp;
+    do {
+      ch = []; for (var i = 0; i < lg; i++) ch.push(entier(R, i === 0 ? 1 : 0, 9));
+    } while (ch[lg - 1] === 0 || ch[1] !== 0 || ch.slice(0, ent).filter(function (c) { return c === 0; }).length > 2);
+    var entStr = ch.slice(0, ent).join(""), decStr = ch.slice(ent).join("");
+    var base = Number(entStr + "." + decStr);
+    var zD = "0".repeat(entier(R, 1, 2)), zF = "0".repeat(entier(R, 1, 2));
+    var ecrit = groupe(zD + entStr) + "," + decStr + zF;
+    var sansInterne = Number(entStr[0] + entStr.slice(2) + "." + decStr);
+    return qcm(R, {
+      q: "Quelle écriture est égale à " + ecrit + " (sans zéro inutile) ?",
+      bonne: base, fmt: nb, pas: 1,
+      erreurs: [base * 10, base / 10, sansInterne, base * 100],
+      expl: "Les zéros inutiles sont ceux qu'on peut supprimer sans changer le rang des autres chiffres : ceux placés tout à gauche de la partie entière et tout à droite de la partie décimale. Ici : " + ecrit + " = " + nb(base) + ". Le zéro placé entre deux chiffres, lui, est indispensable."
+    });
+  }
+
+  function decompositionDecimale(R) {
+    var exps = A.melanger(R, [4, 3, 2, 1, 0, -1, -2, -3]).slice(0, entier(R, 3, 4)).sort(function (a, b) { return b - a; });
+    var cs = exps.map(function () { return entier(R, 1, 9); });
+    var total = 0;
+    exps.forEach(function (e, i) { total += cs[i] * Math.pow(10, e + 3); });
+    var N = total / 1000;
+    var expr = exps.map(function (e, i) { return cs[i] + " × " + nb(Math.pow(10, e)); }).join(" + ");
+    var concat = Number(cs.join(""));
+    var vois = exps.map(function (e, i) { return i === exps.length - 1 ? cs[i] * Math.pow(10, e - 1) : cs[i] * Math.pow(10, e); }).reduce(function (a, b) { return a + b; }, 0);
+    return qcm(R, {
+      q: "Quel nombre est égal à " + expr + " ?",
+      bonne: N, fmt: nb, pas: 1,
+      erreurs: [concat, N * 10, N / 10, Math.round(vois * 1000) / 1000],
+      expl: expr.split(" + ").map(function (t) { var p = t.split(" × "); return p[0] + " × " + p[1] + " = " + nb(p[0] * Number(p[1].replace(/\s/g, "").replace(",", "."))); }).join(" ; ") + ". En les additionnant : " + nb(N) + "."
+    });
+  }
+
+  A.inscrire("6e-ch1", {
+    types: [
+      { id: "lire-ecrire",    seance: 1, gen: lireEcrire },
+      { id: "chiffre-des",    seance: 2, gen: chiffreDes },
+      { id: "nombre-de",      seance: 2, gen: nombreDe },
+      { id: "valeur-chiffre", seance: 2, gen: valeurChiffre },
+      { id: "zeros-inutiles", seance: 3, gen: zerosInutiles },
+      { id: "decomposition-6e", seance: 3, gen: decompositionDecimale }
+    ]
+  });
+
 })(typeof window !== "undefined" ? window.ASC : global.ASC);
