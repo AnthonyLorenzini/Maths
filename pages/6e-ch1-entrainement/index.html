@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entraînement — Numération (6e)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange-b:#F0B25B; --orange-bg:#FEF2E3; --orange-t:#B5680A;
+  --ink:#22303F;
+}
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 860px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:24px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:26px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+.automatisme { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:12px 16px; margin-bottom:14px; }
+.automatisme h2 { font-family:'Baloo 2',sans-serif; font-size:15px; color:#2B6CB0; margin:0 0 8px 0; }
+.automatisme ol { margin:0; padding-left:20px; font-size:13px; }
+.automatisme li { margin-bottom:2px; }
+.reveal-panel { display:none; margin-top:8px; font-size:12.5px; font-style:italic; color:#3B4C5E; border-top:1px dashed #B7CBE3; padding-top:6px; }
+.reveal-panel.show { display:block; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:12px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; margin-top:6px; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.toggle-btn:hover { filter:brightness(0.97); }
+.methode { background:#FFF9EC; border:2px dashed #D8B24C; border-radius:10px; padding:10px 16px; margin-bottom:18px; font-size:12.5px; }
+.methode b.tag { font-family:'Baloo 2',sans-serif; color:#9C7A17; display:block; margin-bottom:3px; font-size:13px; }
+.section-title { font-family:'Baloo 2',sans-serif; font-size:18px; margin:4px 0 12px 0; }
+.advanced-title { font-family:'Baloo 2',sans-serif; font-size:15px; color:var(--orange-t); margin:18px 0 10px 0; padding-top:12px; border-top:2px dashed var(--orange-b); }
+.exo { border:2px solid var(--orange-b); background:var(--orange-bg); border-radius:12px; padding:14px 18px; margin-bottom:14px; }
+.exo-title { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:var(--orange-t); margin-bottom:6px; }
+.exo p { font-size:13px; margin:4px 0; line-height:1.5; }
+.exo p.q { margin:6px 0 2px 4px; }
+.schema { background:#fff; border-radius:8px; padding:8px; margin:8px 0; text-align:center; }
+.schema svg { max-width:100%; height:auto; }
+.btn-row { display:flex; gap:10px; margin-top:8px; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:12.5px; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel.solution-panel { border:1.5px dashed #4CAF7D; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; }
+.astuce-panel .label { color:#B5680A; }
+.solution-panel .label { color:#1E7A4C; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+
+
+.jeu-top { display:flex; justify-content:space-between; align-items:center; font-family:'Baloo 2',sans-serif; font-size:15px; margin-bottom:10px; }
+.barre { height:10px; background:#E8EDF3; border-radius:6px; overflow:hidden; margin-bottom:16px; }
+.barre > i { display:block; height:100%; background:#4CAF7D; width:0; transition:width .25s; }
+.enonce { font-size:17px; line-height:1.5; margin-bottom:14px; min-height:52px; }
+.choix { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; }
+.choix button { font-family:inherit; font-size:16px; padding:12px 14px; border:2px solid #B7CBE3; border-radius:12px; background:#fff; color:var(--ink); cursor:pointer; text-align:center; }
+.choix button:hover:not(:disabled) { background:#EAF1FB; }
+.choix button.ok { background:#DDF3E7; border-color:#4CAF7D; }
+.choix button.non { background:#FBE3E1; border-color:#D9534F; }
+.retour-q { margin-top:14px; padding:10px 14px; border-radius:10px; font-size:14px; line-height:1.5; display:none; }
+.retour-q.show { display:block; }
+.retour-q.ok { background:#E7F6EE; border:1.5px solid #4CAF7D; }
+.retour-q.non { background:#FDEDEC; border:1.5px solid #D9534F; }
+.suite { margin-top:14px; font-family:'Baloo 2',sans-serif; font-size:15px; padding:8px 18px; border-radius:20px; border:2px solid #22303F; background:#22303F; color:#fff; cursor:pointer; display:none; }
+.bilan { text-align:center; padding:20px 0; }
+.bilan .score { font-family:'Baloo 2',sans-serif; font-size:38px; color:#1E7A4C; }
+
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="badge">🎯</div>
+    <div>
+      <h1>Entraînement — Numération</h1>
+      <div class="subtitle">Chapitre 1 — Classe de 6e — Mini-jeu à valeurs aléatoires</div>
+    </div>
+  </header>
+  <div class="objectifs"><b>Comment ça marche ?</b> Une série de 8 questions : lire et écrire de grands nombres, chiffre des… / nombre de…, valeur d'un chiffre, zéros inutiles. Les nombres changent à chaque série, tu peux rejouer autant que tu veux.</div>
+
+  <div id="zone">
+    <div class="jeu-top"><span id="num"></span><span id="pts"></span></div>
+    <div class="barre"><i id="avance"></i></div>
+    <div class="enonce" id="enonce"></div>
+    <div class="choix" id="choix"></div>
+    <div class="retour-q" id="retour"></div>
+    <button class="suite" id="suite" onclick="suite()">Question suivante →</button>
+  </div>
+
+  <div class="bilan" id="bilan" style="display:none">
+    <div class="score" id="score"></div>
+    <p id="mot"></p>
+    <button class="suite" style="display:inline-block" onclick="demarrer()">Une nouvelle série</button>
+  </div>
+
+  <footer>Ce mini-jeu est un entraînement libre. Pour faire monter ta montgolfière, passe par l'onglet « Ascension » de ta classe.</footer>
+</div>
+<script src="../../assets/ascension.js"></script>
+<script src="../../assets/questions.js"></script>
+<script>
+var qs = [], i = 0, bonnes = 0, repondu = false;
+function demarrer(){
+  qs = ASC.tirer("6e-ch1"); i = 0; bonnes = 0;
+  document.getElementById("zone").style.display = "block";
+  document.getElementById("bilan").style.display = "none";
+  afficher();
+}
+function afficher(){
+  repondu = false;
+  var q = qs[i];
+  document.getElementById("num").textContent = "Question " + (i+1) + " / " + qs.length;
+  document.getElementById("pts").textContent = bonnes + " bonne" + (bonnes>1?"s":"") + " réponse" + (bonnes>1?"s":"");
+  document.getElementById("avance").style.width = (i/qs.length*100) + "%";
+  document.getElementById("enonce").innerHTML = q.q;
+  var c = document.getElementById("choix"); c.innerHTML = "";
+  q.choix.forEach(function(t,k){
+    var b = document.createElement("button"); b.textContent = t;
+    b.onclick = function(){ repondre(k); }; c.appendChild(b);
+  });
+  var r = document.getElementById("retour"); r.className = "retour-q"; r.textContent = "";
+  document.getElementById("suite").style.display = "none";
+}
+function repondre(k){
+  if(repondu) return; repondu = true;
+  var q = qs[i], bts = document.getElementById("choix").children, bon = (k === q.bonne);
+  if(bon) bonnes++;
+  for(var j=0;j<bts.length;j++){ bts[j].disabled = true; if(j===q.bonne) bts[j].classList.add("ok"); else if(j===k) bts[j].classList.add("non"); }
+  var r = document.getElementById("retour");
+  r.className = "retour-q show " + (bon?"ok":"non");
+  r.innerHTML = (bon ? "<b>Bravo !</b> " : "<b>Pas tout à fait.</b> ") + q.expl;
+  var s = document.getElementById("suite"); s.style.display = "inline-block";
+  s.textContent = (i === qs.length-1) ? "Voir mon score" : "Question suivante →";
+}
+function suite(){
+  if(i < qs.length-1){ i++; afficher(); return; }
+  document.getElementById("zone").style.display = "none";
+  var b = document.getElementById("bilan"); b.style.display = "block";
+  document.getElementById("score").textContent = bonnes + " / " + qs.length;
+  document.getElementById("avance").style.width = "100%";
+  document.getElementById("mot").textContent = bonnes === qs.length ? "Parfait, aucune erreur !" : bonnes >= 6 ? "Très bien ! Encore une série ?" : "Relis la leçon, puis recommence : les questions changent à chaque série.";
+}
+demarrer();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

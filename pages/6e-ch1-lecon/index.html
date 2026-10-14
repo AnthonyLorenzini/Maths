@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leçon — Numération entière et décimale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange-b:#F0B25B; --orange-bg:#FEF2E3; --orange-t:#B5680A;
+  --ink:#22303F;
+}
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 860px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:24px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:26px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+.automatisme { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:12px 16px; margin-bottom:14px; }
+.automatisme h2 { font-family:'Baloo 2',sans-serif; font-size:15px; color:#2B6CB0; margin:0 0 8px 0; }
+.automatisme ol { margin:0; padding-left:20px; font-size:13px; }
+.automatisme li { margin-bottom:2px; }
+.reveal-panel { display:none; margin-top:8px; font-size:12.5px; font-style:italic; color:#3B4C5E; border-top:1px dashed #B7CBE3; padding-top:6px; }
+.reveal-panel.show { display:block; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:12px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; margin-top:6px; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.toggle-btn:hover { filter:brightness(0.97); }
+.methode { background:#FFF9EC; border:2px dashed #D8B24C; border-radius:10px; padding:10px 16px; margin-bottom:18px; font-size:12.5px; }
+.methode b.tag { font-family:'Baloo 2',sans-serif; color:#9C7A17; display:block; margin-bottom:3px; font-size:13px; }
+.section-title { font-family:'Baloo 2',sans-serif; font-size:18px; margin:4px 0 12px 0; }
+.advanced-title { font-family:'Baloo 2',sans-serif; font-size:15px; color:var(--orange-t); margin:18px 0 10px 0; padding-top:12px; border-top:2px dashed var(--orange-b); }
+.exo { border:2px solid var(--orange-b); background:var(--orange-bg); border-radius:12px; padding:14px 18px; margin-bottom:14px; }
+.exo-title { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:var(--orange-t); margin-bottom:6px; }
+.exo p { font-size:13px; margin:4px 0; line-height:1.5; }
+.exo p.q { margin:6px 0 2px 4px; }
+.schema { background:#fff; border-radius:8px; padding:8px; margin:8px 0; text-align:center; }
+.schema svg { max-width:100%; height:auto; }
+.btn-row { display:flex; gap:10px; margin-top:8px; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:12.5px; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel.solution-panel { border:1.5px dashed #4CAF7D; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; }
+.astuce-panel .label { color:#B5680A; }
+.solution-panel .label { color:#1E7A4C; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+
+
+.rappel { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:12px 16px; margin-bottom:18px; font-size:13.5px; line-height:1.5; }
+.card { border:2px solid #D8DEE4; border-radius:14px; padding:14px 18px; margin-bottom:16px; background:#fff; }
+.card h2 { font-family:'Baloo 2',sans-serif; font-size:18px; margin:0 0 6px 0; }
+.card p { font-size:13.5px; line-height:1.5; margin:6px 0; }
+.formula { background:#EAF1FB; border:2px solid #B7CBE3; border-radius:10px; padding:8px 12px; font-family:'Baloo 2',sans-serif; font-size:15px; margin:8px 0; }
+.outil { background:#FEF2E3; border:2px dashed #F0B25B; border-radius:12px; padding:10px 14px; margin-top:10px; }
+.outil .titre { font-family:'Baloo 2',sans-serif; font-weight:700; color:#B5680A; font-size:14px; margin-bottom:6px; }
+.outil label { font-size:13px; font-weight:600; }
+.outil input[type=text], .outil select { font-family:inherit; font-size:15px; padding:6px 10px; border:2px solid #D8B24C; border-radius:8px; background:#fff; color:var(--ink); }
+.outil input[type=text] { width:230px; max-width:100%; }
+.outil .res { margin-top:10px; font-size:14px; line-height:1.55; }
+.outil .err { color:#B3261E; font-weight:600; }
+.tabwrap { overflow-x:auto; margin-top:8px; }
+table.num { border-collapse:collapse; margin:0 auto; font-size:14px; }
+table.num th { background:#22303F; color:#fff; padding:5px 8px; font-weight:600; font-size:12px; border:1px solid #fff; }
+table.num th.cl { background:#2B6CB0; font-size:13px; }
+table.num th.dec { background:#B5680A; }
+table.num td { border:1px solid #B7CBE3; min-width:34px; height:38px; text-align:center; font-family:'Baloo 2',sans-serif; font-size:20px; background:#fff; }
+table.num td.virg { border:none; background:none; font-size:26px; min-width:22px; color:#B5680A; }
+table.num td.dec { background:#FFF9EC; border-color:#F0B25B; }
+table.num td.surl { background:#FFD75E; }
+.retenir { background:#E7F6EE; border-left:6px solid #4CAF7D; border-radius:10px; padding:10px 16px; font-size:13.5px; line-height:1.6; }
+.retenir ul { margin:4px 0 0 0; padding-left:20px; }
+
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="badge">C1</div>
+    <div>
+      <h1>Numération entière et décimale</h1>
+      <div class="subtitle">Chapitre 1 — Classe de 6e — Fiche leçon interactive</div>
+    </div>
+  </header>
+
+  <div class="rappel">
+    <b>Notre système de numération est un système de position.</b> Un même chiffre n'a pas la même valeur selon l'endroit où il est écrit : dans 505, le premier 5 vaut 500 et le second vaut 5. La position d'un chiffre s'appelle son <b>rang</b>.
+  </div>
+
+  <div class="card">
+    <h2>Le tableau de numération</h2>
+    <p>On range les chiffres dans un tableau. À gauche de la virgule, ils sont regroupés par <b>classes</b> de trois chiffres (unités, milliers, millions, milliards). À droite de la virgule, il y a les dixièmes, les centièmes, les millièmes…</p>
+    <div class="outil">
+      <div class="titre">Essaie toi-même</div>
+      <label for="in-tab">Écris un nombre : </label>
+      <input type="text" id="in-tab" value="4725,306" inputmode="decimal" autocomplete="off">
+      <button class="toggle-btn" onclick="tableau()">Placer dans le tableau</button>
+      <div class="res" id="res-tab"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Lire un nombre</h2>
+    <p>On coupe la partie entière en groupes de trois chiffres, en partant de la droite, puis on lit chaque groupe suivi du nom de sa classe. Pour la partie décimale, on dit combien il y a de dixièmes, de centièmes ou de millièmes.</p>
+    <div class="formula">47 305 210 → quarante-sept millions trois cent cinq mille deux cent dix</div>
+    <div class="outil">
+      <div class="titre">Essaie toi-même</div>
+      <label for="in-lire">Écris un nombre : </label>
+      <input type="text" id="in-lire" value="3040007" inputmode="decimal" autocomplete="off">
+      <button class="toggle-btn" onclick="lireNombre()">Lire le nombre</button>
+      <div class="res" id="res-lire"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>« Chiffre des… » ou « nombre de… » ?</h2>
+    <p>Il ne faut pas confondre :</p>
+    <p>• le <b>chiffre des centaines</b> : un seul chiffre, celui qui est écrit au rang des centaines ;<br>
+       • le <b>nombre de centaines</b> : on compte toutes les centaines que contient le nombre, donc on garde tous les chiffres jusqu'à ce rang.</p>
+    <div class="formula">Dans 4 725,306 : chiffre des centaines = 7 ; nombre de centaines = 47</div>
+    <div class="outil">
+      <div class="titre">Essaie toi-même</div>
+      <label for="in-rang">Nombre : </label>
+      <input type="text" id="in-rang" value="4725,306" inputmode="decimal" autocomplete="off">
+      <label for="sel-rang"> Rang : </label>
+      <select id="sel-rang"></select>
+      <button class="toggle-btn" onclick="chiffreNombre()">Voir</button>
+      <div class="res" id="res-rang"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Les zéros inutiles</h2>
+    <p>Un zéro est <b>inutile</b> si on peut le supprimer sans changer le rang des autres chiffres. Ce sont les zéros écrits tout à gauche de la partie entière et tout à droite de la partie décimale. Un zéro placé <i>entre</i> deux chiffres est toujours utile.</p>
+    <div class="formula">00 209,700 = 209,7 &nbsp;&nbsp; mais &nbsp;&nbsp; 209,07 ≠ 209,7</div>
+  </div>
+
+  <div class="retenir">
+    <b>À retenir</b>
+    <ul>
+      <li>Les chiffres d'un grand nombre se lisent par groupes de trois : milliards, millions, milliers, unités.</li>
+      <li>Le chiffre des dixièmes est le premier chiffre après la virgule, puis viennent les centièmes et les millièmes.</li>
+      <li>« Chiffre des… » : un seul chiffre. « Nombre de… » : tout ce qu'il y a jusqu'à ce rang.</li>
+      <li>On peut supprimer les zéros inutiles sans changer la valeur du nombre.</li>
+    </ul>
+  </div>
+
+  <footer>Cahier de leçons — Chapitre 1 — Numération entière et décimale. Modifie les nombres dans les encadrés pour t'entraîner avec tes propres valeurs.</footer>
+</div>
+<script>
+var U16 = ["zéro","un","deux","trois","quatre","cinq","six","sept","huit","neuf","dix","onze","douze","treize","quatorze","quinze","seize"];
+var DIZ = {2:"vingt",3:"trente",4:"quarante",5:"cinquante",6:"soixante"};
+function moinsCent(n, final){
+  if(n < 17) return U16[n];
+  if(n < 20) return "dix-" + U16[n-10];
+  if(n < 70){ var d=Math.floor(n/10), u=n%10; return DIZ[d] + (u===0?"":u===1?" et un":"-"+U16[u]); }
+  if(n < 80) return n===71 ? "soixante et onze" : "soixante-" + moinsCent(n-60,false);
+  if(n === 80) return "quatre-vingt" + (final?"s":"");
+  return "quatre-vingt-" + moinsCent(n-80,false);
+}
+function moinsMille(n, final){
+  var c=Math.floor(n/100), r=n%100, m=[];
+  if(c===1) m.push("cent"); else if(c>1) m.push(U16[c] + " cent" + (r===0&&final?"s":""));
+  if(r>0) m.push(moinsCent(r,final));
+  return m.join(" ");
+}
+function enLettres(n){
+  if(n===0) return "zéro";
+  var m=[], mds=Math.floor(n/1e9), mi=Math.floor(n/1e6)%1000, mille=Math.floor(n/1000)%1000, r=n%1000;
+  if(mds) m.push(moinsMille(mds,true)+" milliard"+(mds>1?"s":""));
+  if(mi) m.push(moinsMille(mi,true)+" million"+(mi>1?"s":""));
+  if(mille) m.push((mille===1?"":moinsMille(mille,false)+" ")+"mille");
+  if(r) m.push(moinsMille(r,true));
+  return m.join(" ");
+}
+function groupe(s){ return s.replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
+function lire(id){
+  var brut = document.getElementById(id).value.replace(/[\s  ]/g,"").replace(",",".");
+  if(!/^\d{1,12}(\.\d{1,3})?$/.test(brut)) return null;
+  var p = brut.split("."), ent = p[0].replace(/^0+(?=\d)/,""), dec = p[1] || "";
+  return {ent:ent, dec:dec};
+}
+var ERR = '<span class="err">Écris un nombre (12 chiffres au plus avant la virgule, 3 au plus après).</span>';
+
+/* 1. tableau de numération */
+var CLASSES = ["unités","milliers","millions","milliards"];
+function tableau(){
+  var out = document.getElementById("res-tab"), v = lire("in-tab");
+  if(!v){ out.innerHTML = ERR; return; }
+  var nbCl = Math.max(1, Math.ceil(v.ent.length/3)), pad = v.ent.padStart(nbCl*3," ");
+  var h1="", h2="", ligne="";
+  for(var c=nbCl-1;c>=0;c--){
+    h1 += '<th class="cl" colspan="3">'+CLASSES[c]+(c===0?" simples":"")+'</th>';
+    h2 += '<th>c</th><th>d</th><th>u</th>';
+    for(var k=0;k<3;k++){
+      var i=(nbCl-1-c)*3+k, ch=pad[i];
+      ligne += '<td>'+(ch===" "?"":ch)+'</td>';
+    }
+  }
+  var dh="", dl="";
+  if(v.dec){
+    h1 += '<th class="virg-h"></th><th class="dec" colspan="3">partie décimale</th>';
+    h2 += '<th></th><th class="dec">dixièmes</th><th class="dec">centièmes</th><th class="dec">millièmes</th>';
+    ligne += '<td class="virg">,</td>';
+    for(var j=0;j<3;j++) ligne += '<td class="dec">'+(v.dec[j]||"")+'</td>';
+  }
+  out.innerHTML = '<div class="tabwrap"><table class="num"><tr>'+h1+'</tr><tr>'+h2+'</tr><tr>'+ligne+'</tr></table></div>';
+}
+
+/* 2. lire un nombre */
+function lireNombre(){
+  var out = document.getElementById("res-lire"), v = lire("in-lire");
+  if(!v){ out.innerHTML = ERR; return; }
+  var n = parseInt(v.ent,10), txt = enLettres(n);
+  if(v.dec){
+    var d = parseInt(v.dec,10), noms = {1:"dixième",2:"centième",3:"millième"}, nom = noms[v.dec.length]+(d>1?"s":"");
+    var u = enLettres(n); if(/un$/.test(u)) u += "e";            // une unité, vingt et une unités
+    txt = u + (n>1?" unités":" unité") + " et " + enLettres(d) + " " + nom;
+  }
+  out.innerHTML = '<b>'+groupe(v.ent)+(v.dec?","+v.dec:"")+'</b> se lit : <i>'+txt+'</i>.';
+}
+
+/* 3. chiffre des / nombre de */
+var RANGS = [["millions",6],["centaines de mille",5],["dizaines de mille",4],["milliers",3],["centaines",2],["dizaines",1],["unités",0],["dixièmes",-1],["centièmes",-2],["millièmes",-3]];
+function remplirRangs(){
+  var s = document.getElementById("sel-rang"), h="";
+  RANGS.forEach(function(r,i){ h += '<option value="'+i+'">'+r[0]+'</option>'; });
+  s.innerHTML = h; s.value = "6";
+}
+function chiffreNombre(){
+  var out = document.getElementById("res-rang"), v = lire("in-rang");
+  if(!v){ out.innerHTML = ERR; return; }
+  var r = RANGS[parseInt(document.getElementById("sel-rang").value,10)], e = r[1], chiffre, nombre;
+  if(e >= 0){
+    chiffre = v.ent.length > e ? v.ent[v.ent.length-1-e] : "0";
+    nombre = v.ent.length > e ? v.ent.slice(0, v.ent.length-e) : "0";
+  } else {
+    var d = (v.dec + "000").slice(0, -e);
+    chiffre = d[-e-1];
+    nombre = (v.ent === "0" ? "" : v.ent) + d; nombre = nombre.replace(/^0+(?=\d)/,"") || "0";
+  }
+  var aff = groupe(v.ent)+(v.dec?","+v.dec:"");
+  out.innerHTML = 'Dans <b>'+aff+'</b> :<br>le <b>chiffre des '+r[0]+'</b> est <b>'+chiffre+'</b> ;<br>le <b>nombre de '+r[0]+'</b> est <b>'+groupe(nombre)+'</b>.';
+}
+remplirRangs();
+tableau(); lireNombre(); chiffreNombre();
+document.getElementById("in-tab").addEventListener("keydown", function(e){ if(e.key==="Enter") tableau(); });
+document.getElementById("in-lire").addEventListener("keydown", function(e){ if(e.key==="Enter") lireNombre(); });
+document.getElementById("in-rang").addEventListener("keydown", function(e){ if(e.key==="Enter") chiffreNombre(); });
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

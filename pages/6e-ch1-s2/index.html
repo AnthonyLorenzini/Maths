@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 2 — Le rang des chiffres : « chiffre des… » et « nombre de… » (interactif)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange-b:#F0B25B; --orange-bg:#FEF2E3; --orange-t:#B5680A;
+  --ink:#22303F;
+}
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 860px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:24px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:26px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+.automatisme { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:12px 16px; margin-bottom:14px; }
+.automatisme h2 { font-family:'Baloo 2',sans-serif; font-size:15px; color:#2B6CB0; margin:0 0 8px 0; }
+.automatisme ol { margin:0; padding-left:20px; font-size:13px; }
+.automatisme li { margin-bottom:2px; }
+.reveal-panel { display:none; margin-top:8px; font-size:12.5px; font-style:italic; color:#3B4C5E; border-top:1px dashed #B7CBE3; padding-top:6px; }
+.reveal-panel.show { display:block; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:12px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; margin-top:6px; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.toggle-btn:hover { filter:brightness(0.97); }
+.methode { background:#FFF9EC; border:2px dashed #D8B24C; border-radius:10px; padding:10px 16px; margin-bottom:18px; font-size:12.5px; }
+.methode b.tag { font-family:'Baloo 2',sans-serif; color:#9C7A17; display:block; margin-bottom:3px; font-size:13px; }
+.section-title { font-family:'Baloo 2',sans-serif; font-size:18px; margin:4px 0 12px 0; }
+.advanced-title { font-family:'Baloo 2',sans-serif; font-size:15px; color:var(--orange-t); margin:18px 0 10px 0; padding-top:12px; border-top:2px dashed var(--orange-b); }
+.exo { border:2px solid var(--orange-b); background:var(--orange-bg); border-radius:12px; padding:14px 18px; margin-bottom:14px; }
+.exo-title { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:var(--orange-t); margin-bottom:6px; }
+.exo p { font-size:13px; margin:4px 0; line-height:1.5; }
+.exo p.q { margin:6px 0 2px 4px; }
+.schema { background:#fff; border-radius:8px; padding:8px; margin:8px 0; text-align:center; }
+.schema svg { max-width:100%; height:auto; }
+.btn-row { display:flex; gap:10px; margin-top:8px; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:12.5px; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel.solution-panel { border:1.5px dashed #4CAF7D; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; }
+.astuce-panel .label { color:#B5680A; }
+.solution-panel .label { color:#1E7A4C; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+
+
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="badge">S2</div>
+    <div>
+      <h1>Le rang des chiffres : « chiffre des… » et « nombre de… »</h1>
+      <div class="subtitle">Chapitre 1 — Numération entière et décimale — 6e — Séance 2</div>
+    </div>
+  </header>
+
+  <div class="objectifs"><b>Objectifs :</b> identifier le rang d'un chiffre (unités, dizaines, centaines, milliers… dixièmes, centièmes, millièmes) ; ne pas confondre « chiffre des… » et « nombre de… » ; donner la valeur d'un chiffre.</div>
+
+  <div class="automatisme">
+    <h2>Automatisme</h2>
+    <ol><li>3 × 1 000 =</li><li>5 × 0,1 =</li><li>40 ÷ 10 =</li><li>2,5 + 0,5 =</li><li>100 × 0,01 =</li><li>6 × 7 =</li></ol>
+    <button class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
+    <div class="reveal-panel" id="auto-corrige">Corrigé : 3 000 ; 0,5 ; 4 ; 3 ; 1 ; 42</div>
+  </div>
+
+  <div class="methode"><b class="tag">Méthode</b>Dans <b>4 725,306</b> : le <b>chiffre des centaines</b> est 7 (un seul chiffre). Le <b>nombre de centaines</b> est 47 (on compte toutes les centaines : 47 centaines et un peu plus). Le chiffre des centièmes est 0 ; le nombre de centièmes est 472 530.</div>
+
+  <div class="section-title">Exercices</div>
+    <div class="exo">
+      <div class="exo-title">★ Exercice</div>
+      <p>Dans 6 482,507, donne : a) le chiffre des dizaines ; b) le chiffre des dixièmes ; c) le chiffre des millièmes.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-0')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-0')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-0"><span class="label">Astuce</span>Repère la virgule : à gauche, unités, dizaines, centaines… ; à droite, dixièmes, centièmes, millièmes.</div>
+      <div class="panel solution-panel" id="solution-0"><span class="label">Solution</span>a) <b>8</b> ; b) <b>5</b> ; c) <b>7</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★ Exercice</div>
+      <p>Dans 912 053, donne : a) le chiffre des milliers ; b) le chiffre des centaines ; c) le chiffre des centaines de mille.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-1')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-1')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-1"><span class="label">Astuce</span>Écris le nombre dans un tableau de numération, avec les classes séparées : 912 | 053.</div>
+      <div class="panel solution-panel" id="solution-1"><span class="label">Solution</span>a) <b>2</b> ; b) <b>0</b> ; c) <b>9</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Dans 7 358,14, donne le nombre de : a) dizaines ; b) centaines ; c) dixièmes ; d) centièmes.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-2')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-2')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-2"><span class="label">Astuce</span>Le « nombre de… » compte tout ce qu'on peut former jusqu'à ce rang : on garde tous les chiffres jusqu'au rang demandé.</div>
+      <div class="panel solution-panel" id="solution-2"><span class="label">Solution</span>a) <b>735</b> dizaines ; b) <b>73</b> centaines ; c) <b>73 581</b> dixièmes ; d) <b>735 814</b> centièmes.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Dans 3 408,46, quelle est la valeur de chacun des deux chiffres 4 ?</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-3')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-3')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-3"><span class="label">Astuce</span>Le premier 4 est du côté des entiers, le second après la virgule. Quel est le rang de chacun ?</div>
+      <div class="panel solution-panel" id="solution-3"><span class="label">Solution</span>Le premier 4 est au rang des centaines : sa valeur est <b>400</b>. Le second est au rang des dixièmes : sa valeur est <b>0,4</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Vrai ou faux ? Justifie. a) Dans 25,36, le chiffre des centièmes est 36. b) Dans 25,36, il y a 253 dixièmes. c) Dans 4 070, le nombre de dizaines est 7.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-4')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-4')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-4"><span class="label">Astuce</span>Pour chaque affirmation, demande-toi : parle-t-on d'un chiffre (un seul) ou d'un nombre (on compte tout) ?</div>
+      <div class="panel solution-panel" id="solution-4"><span class="label">Solution</span>a) <b>Faux</b> : le chiffre des centièmes est 6 (le nombre de centièmes est 2 536). b) <b>Vrai</b> : 25,36 contient 253 dixièmes entiers, plus 6 centièmes. c) <b>Faux</b> : le chiffre des dizaines est 7, mais le nombre de dizaines est 407.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>Quel nombre a 5 centaines, 3 unités, 8 dixièmes et 2 millièmes, et rien d'autre ?</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-5')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-5')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-5"><span class="label">Astuce</span>Place chaque chiffre à son rang. Les rangs qui ne sont pas cités contiennent un 0.</div>
+      <div class="panel solution-panel" id="solution-5"><span class="label">Solution</span>Centaines 5, dizaines 0, unités 3, dixièmes 8, centièmes 0, millièmes 2 → <b>503,802</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>Trouve un nombre dont le chiffre des dizaines est 7 et dont le nombre de dizaines est 127.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-6')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-6')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-6"><span class="label">Astuce</span>Si le nombre de dizaines est 127, quels sont les chiffres qui se trouvent devant le chiffre des unités ?</div>
+      <div class="panel solution-panel" id="solution-6"><span class="label">Solution</span>Le nombre de dizaines est 127 : le nombre commence par 127 et se termine par un chiffre des unités. Par exemple <b>1 274</b> (ou toute valeur de 1 270 à 1 279).</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>Qui suis-je ? Je suis un nombre à 6 chiffres. Mon nombre de milliers est 573. Mon chiffre des centaines est 4, celui des dizaines est 0 et celui des unités est 9.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-7')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-7')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-7"><span class="label">Astuce</span>573 milliers, ce sont les trois premiers chiffres. Ajoute ensuite les centaines, les dizaines et les unités.</div>
+      <div class="panel solution-panel" id="solution-7"><span class="label">Solution</span>573 milliers → 573 | ... puis 4 centaines, 0 dizaine, 9 unités → <b>573 409</b>.</div>
+    </div>
+  <div class="advanced-title">Pour aller plus loin</div>
+    <div class="exo">
+      <div class="exo-title">★★★★ Exercice</div>
+      <p>Dans 4 070,05, combien y a-t-il de centièmes en tout ?</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-8')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-8')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-8"><span class="label">Astuce</span>Le nombre de centièmes garde tous les chiffres jusqu'au rang des centièmes, virgule effacée.</div>
+      <div class="panel solution-panel" id="solution-8"><span class="label">Solution</span>On garde tous les chiffres : <b>407 005</b> centièmes.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★★ Exercice</div>
+      <p>Explique avec un exemple pourquoi « le chiffre des dizaines » et « le nombre de dizaines » ne sont pas la même chose.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-9')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-9')">✅ Piste de correction</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-9"><span class="label">Astuce</span>Choisis un nombre à quatre chiffres et compare les deux réponses.</div>
+      <div class="panel solution-panel" id="solution-9"><span class="label">Piste de correction</span>Piste : dans 4 725, le chiffre des dizaines est 2 (un seul chiffre), alors que le nombre de dizaines est 472 (il y a 472 dizaines dans 4 725).</div>
+    </div>
+
+  <footer>Cherche seul(e) d'abord. Utilise l'astuce si tu bloques, puis vérifie avec la solution.</footer>
+</div>
+<script>
+function toggle(id){
+  const el = document.getElementById(id);
+  el.classList.toggle('show');
+}
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 3 — Les nombres décimaux : zéros inutiles et décompositions (interactif)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange-b:#F0B25B; --orange-bg:#FEF2E3; --orange-t:#B5680A;
+  --ink:#22303F;
+}
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 860px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:24px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:26px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+.automatisme { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:12px 16px; margin-bottom:14px; }
+.automatisme h2 { font-family:'Baloo 2',sans-serif; font-size:15px; color:#2B6CB0; margin:0 0 8px 0; }
+.automatisme ol { margin:0; padding-left:20px; font-size:13px; }
+.automatisme li { margin-bottom:2px; }
+.reveal-panel { display:none; margin-top:8px; font-size:12.5px; font-style:italic; color:#3B4C5E; border-top:1px dashed #B7CBE3; padding-top:6px; }
+.reveal-panel.show { display:block; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:12px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; margin-top:6px; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.toggle-btn:hover { filter:brightness(0.97); }
+.methode { background:#FFF9EC; border:2px dashed #D8B24C; border-radius:10px; padding:10px 16px; margin-bottom:18px; font-size:12.5px; }
+.methode b.tag { font-family:'Baloo 2',sans-serif; color:#9C7A17; display:block; margin-bottom:3px; font-size:13px; }
+.section-title { font-family:'Baloo 2',sans-serif; font-size:18px; margin:4px 0 12px 0; }
+.advanced-title { font-family:'Baloo 2',sans-serif; font-size:15px; color:var(--orange-t); margin:18px 0 10px 0; padding-top:12px; border-top:2px dashed var(--orange-b); }
+.exo { border:2px solid var(--orange-b); background:var(--orange-bg); border-radius:12px; padding:14px 18px; margin-bottom:14px; }
+.exo-title { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:var(--orange-t); margin-bottom:6px; }
+.exo p { font-size:13px; margin:4px 0; line-height:1.5; }
+.exo p.q { margin:6px 0 2px 4px; }
+.schema { background:#fff; border-radius:8px; padding:8px; margin:8px 0; text-align:center; }
+.schema svg { max-width:100%; height:auto; }
+.btn-row { display:flex; gap:10px; margin-top:8px; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:12.5px; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel.solution-panel { border:1.5px dashed #4CAF7D; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; }
+.astuce-panel .label { color:#B5680A; }
+.solution-panel .label { color:#1E7A4C; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+
+
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="badge">S3</div>
+    <div>
+      <h1>Les nombres décimaux : zéros inutiles et décompositions</h1>
+      <div class="subtitle">Chapitre 1 — Numération entière et décimale — 6e — Séance 3</div>
+    </div>
+  </header>
+
+  <div class="objectifs"><b>Objectifs :</b> repérer les zéros inutiles et les supprimer ; décomposer un nombre décimal selon la valeur de ses chiffres ; passer d'une décomposition à l'écriture décimale.</div>
+
+  <div class="automatisme">
+    <h2>Automatisme</h2>
+    <ol><li>0,1 × 10 =</li><li>5 ÷ 10 =</li><li>12 × 0,1 =</li><li>100 × 0,07 =</li><li>3 dixièmes = ... (en écriture décimale)</li><li>8 × 9 =</li></ol>
+    <button class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
+    <div class="reveal-panel" id="auto-corrige">Corrigé : 1 ; 0,5 ; 1,2 ; 7 ; 0,3 ; 72</div>
+  </div>
+
+  <div class="methode"><b class="tag">Méthode</b>Un zéro est <b>inutile</b> si on peut le supprimer sans changer le rang des autres chiffres : à gauche de la partie entière et à droite de la partie décimale. On peut aussi décomposer : 36,25 = 3 × 10 + 6 × 1 + 2 × 0,1 + 5 × 0,01.</div>
+
+  <div class="section-title">Exercices</div>
+    <div class="exo">
+      <div class="exo-title">★ Exercice</div>
+      <p>Supprime les zéros inutiles : a) 007,40 ; b) 12,500 ; c) 0 308,0 ; d) 100,100.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-0')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-0')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-0"><span class="label">Astuce</span>Regarde tout à gauche de la partie entière, et tout à droite de la partie décimale. Un zéro entre deux chiffres, lui, est utile.</div>
+      <div class="panel solution-panel" id="solution-0"><span class="label">Solution</span>a) <b>7,4</b> ; b) <b>12,5</b> ; c) <b>308</b> ; d) <b>100,1</b> (le zéro du milieu de 100 est utile).</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★ Exercice</div>
+      <p>Écris 9,2 avec trois décimales, sans changer sa valeur.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-1')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-1')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-1"><span class="label">Astuce</span>On a le droit d'ajouter des zéros inutiles à droite de la partie décimale.</div>
+      <div class="panel solution-panel" id="solution-1"><span class="label">Solution</span><b>9,200</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Écris sous forme décimale : 4 × 100 + 2 × 1 + 7 × 0,1 + 9 × 0,001.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-2')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-2')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-2"><span class="label">Astuce</span>Place chaque chiffre à son rang : 100 → centaines, 1 → unités, 0,1 → dixièmes, 0,001 → millièmes.</div>
+      <div class="panel solution-panel" id="solution-2"><span class="label">Solution</span>Centaines 4, dizaines 0, unités 2, dixièmes 7, centièmes 0, millièmes 9 → <b>402,709</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Décompose 5 038,26 sous la forme d'une somme de produits « chiffre × valeur du rang », sans écrire les rangs qui contiennent 0.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-3')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-3')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-3"><span class="label">Astuce</span>Lis le nombre rang par rang, des milliers jusqu'aux centièmes.</div>
+      <div class="panel solution-panel" id="solution-3"><span class="label">Solution</span>5 038,26 = <b>5 × 1 000 + 3 × 10 + 8 × 1 + 2 × 0,1 + 6 × 0,01</b> (pas de centaines).</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Parmi ces écritures, lesquelles représentent le même nombre que 3,5 ? 3,50 ; 3,05 ; 03,5 ; 3,500 ; 35,0.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-4')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-4')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-4"><span class="label">Astuce</span>Supprime les zéros inutiles de chaque écriture, puis compare avec 3,5.</div>
+      <div class="panel solution-panel" id="solution-4"><span class="label">Solution</span><b>3,50</b>, <b>03,5</b> et <b>3,500</b>. En revanche 3,05 ≠ 3,5 (le zéro est entre deux chiffres) et 35,0 = 35.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Écris le nombre : six centaines et cinq centièmes.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-5')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-5')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-5"><span class="label">Astuce</span>Il n'y a ni dizaines, ni unités, ni dixièmes : ces rangs contiennent 0.</div>
+      <div class="panel solution-panel" id="solution-5"><span class="label">Solution</span>Centaines 6, dizaines 0, unités 0, dixièmes 0, centièmes 5 → <b>600,05</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>Julie lit 12,05 « douze virgule cinq ». A-t-elle raison ? Corrige si besoin.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-6')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-6')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-6"><span class="label">Astuce</span>Quel est le chiffre des dixièmes dans 12,05 ? Et celui des centièmes ?</div>
+      <div class="panel solution-panel" id="solution-6"><span class="label">Solution</span>Non. Dans 12,05, le chiffre des dixièmes est 0 et celui des centièmes est 5. On lit « douze virgule zéro cinq » ou « douze unités et cinq centièmes ». Le zéro est utile.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>Avec les chiffres 1, 2 et 3, utilisés une seule fois chacun, on écrit des nombres de la forme « ab,c » (un seul chiffre après la virgule). Quel est le plus grand ? Le plus petit ?</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-7')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-7')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-7"><span class="label">Astuce</span>Pour le plus grand, mets le plus grand chiffre au rang le plus fort. Fais le contraire pour le plus petit.</div>
+      <div class="panel solution-panel" id="solution-7"><span class="label">Solution</span>Le plus grand : <b>32,1</b>. Le plus petit : <b>12,3</b>.</div>
+    </div>
+  <div class="advanced-title">Pour aller plus loin</div>
+    <div class="exo">
+      <div class="exo-title">★★★★ Exercice</div>
+      <p>Quel est le plus petit nombre décimal à trois décimales qui soit supérieur à 5 ?</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-8')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-8')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-8"><span class="label">Astuce</span>Commence par 5 et pense au plus petit rang disponible : le millième.</div>
+      <div class="panel solution-panel" id="solution-8"><span class="label">Solution</span><b>5,001</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★★ Exercice</div>
+      <p>Combien de nombres décimaux à deux décimales y a-t-il entre 0 et 1 (0 et 1 non compris) ?</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-9')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-9')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-9"><span class="label">Astuce</span>Liste les premiers : 0,01 ; 0,02 ; 0,03… Jusqu'où va-t-on ?</div>
+      <div class="panel solution-panel" id="solution-9"><span class="label">Solution</span>De 0,01 à 0,99 : <b>99 nombres</b>.</div>
+    </div>
+
+  <footer>Cherche seul(e) d'abord. Utilise l'astuce si tu bloques, puis vérifie avec la solution.</footer>
+</div>
+<script>
+function toggle(id){
+  const el = document.getElementById(id);
+  el.classList.toggle('show');
+}
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

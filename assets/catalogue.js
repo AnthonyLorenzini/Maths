@@ -65,6 +65,64 @@ window.SITE = {
       ],
       chapitres: [
         {
+          id: "6e-ch1", num: 1, titre: "Numération entière et décimale",
+          resume: "Lire les grands nombres, rang des chiffres, « chiffre des » et « nombre de », zéros inutiles.",
+          seances: [
+            {
+              titre: "Lire et écrire les grands nombres", duree: "50 min",
+              contenu: [
+                "Automatisme, puis on apprend à couper un grand nombre en classes de trois chiffres (unités, milliers, millions, milliards) pour le lire et l'écrire en chiffres et en lettres.",
+                "On compare et on range des nombres entiers."
+              ],
+              ressources: ["6e-ch1-s1"],
+              retenir: [
+                "On lit un grand nombre par **groupes de trois chiffres**, en partant de la droite : milliards, millions, milliers, unités.",
+                "Un groupe qui n'est pas dit s'écrit **000**, et un groupe incomplet se complète par des zéros à gauche.",
+                "Pour comparer, on compte d'abord les chiffres : le nombre qui en a le plus est le plus grand."
+              ],
+              exemple: "47 305 210 se lit « quarante-sept millions trois cent cinq mille deux cent dix ».",
+              savoir: "lire et écrire un grand nombre entier, et comparer deux nombres entiers."
+            },
+            {
+              titre: "Le rang des chiffres : « chiffre des » et « nombre de »", duree: "50 min",
+              contenu: [
+                "On place des nombres dans le tableau de numération (partie entière et partie décimale) et on nomme les rangs : unités, dizaines, centaines… dixièmes, centièmes, millièmes.",
+                "On apprend à ne pas confondre « le chiffre des centaines » et « le nombre de centaines », puis on donne la valeur d'un chiffre."
+              ],
+              ressources: ["6e-ch1-s2", "6e-ch1-entrainement"],
+              retenir: [
+                "Le **chiffre des centaines** est un seul chiffre, celui qui est écrit au rang des centaines.",
+                "Le **nombre de centaines** compte toutes les centaines du nombre : on garde tous les chiffres jusqu'à ce rang.",
+                "La **valeur** d'un chiffre dépend de son rang : dans 3 408,46, le premier 4 vaut 400 et le second vaut 0,4."
+              ],
+              exemple: "Dans 4 725,306 : chiffre des centaines = 7 ; nombre de centaines = 47 ; nombre de centièmes = 472 530.",
+              savoir: "donner le chiffre des… et le nombre de… d'un nombre décimal, et la valeur d'un chiffre."
+            },
+            {
+              titre: "Les nombres décimaux : zéros inutiles et décompositions", duree: "50 min",
+              contenu: [
+                "On repère les zéros inutiles (à gauche de la partie entière, à droite de la partie décimale) et on les supprime sans changer la valeur du nombre.",
+                "On décompose un nombre décimal selon la valeur de ses chiffres, et on retrouve l'écriture décimale à partir d'une décomposition."
+              ],
+              ressources: ["6e-ch1-s3"],
+              retenir: [
+                "Un zéro est **inutile** si on peut le supprimer sans changer le rang des autres chiffres.",
+                "Un zéro placé **entre deux chiffres** est toujours utile : 3,05 ≠ 3,5.",
+                "On peut décomposer : 36,25 = 3 × 10 + 6 × 1 + 2 × 0,1 + 5 × 0,01."
+              ],
+              exemple: "00 209,700 = 209,7 ; mais 209,07 ≠ 209,7.",
+              savoir: "supprimer les zéros inutiles et décomposer un nombre décimal."
+            }
+          ],
+          ressources: [
+            { id: "6e-ch1-lecon", type: "lecon", titre: "Leçon — Numération entière et décimale", resume: "Un tableau de numération, la lecture des nombres et « chiffre des / nombre de » à tester avec tes propres nombres.", ajout: "2026-10-14" },
+            { id: "6e-ch1-s1", type: "exos", titre: "Séance 1 — Lire et écrire les grands nombres", resume: "Classes, lettres et chiffres, rangement de nombres.", ajout: "2026-10-14" },
+            { id: "6e-ch1-s2", type: "exos", titre: "Séance 2 — Le rang des chiffres", resume: "« Chiffre des » ou « nombre de » ? Valeur d'un chiffre.", ajout: "2026-10-14" },
+            { id: "6e-ch1-s3", type: "exos", titre: "Séance 3 — Zéros inutiles et décompositions", resume: "Supprimer les zéros inutiles, décomposer un décimal.", ajout: "2026-10-14" },
+            { id: "6e-ch1-entrainement", type: "jeu", titre: "Entraînement — Numération", resume: "Des séries de 8 questions, avec de nouveaux nombres à chaque fois.", ajout: "2026-10-14" }
+          ]
+        },
+        {
           id: "6e-ch2", num: 2, titre: "Points, droites et distances",
           resume: "Vocabulaire, notations, distance entre deux points et milieu d'un segment.",
           seances: [

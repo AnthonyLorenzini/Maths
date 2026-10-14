@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 1 — Lire et écrire les grands nombres (interactif)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange-b:#F0B25B; --orange-bg:#FEF2E3; --orange-t:#B5680A;
+  --ink:#22303F;
+}
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 860px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:24px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:26px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+.automatisme { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:12px 16px; margin-bottom:14px; }
+.automatisme h2 { font-family:'Baloo 2',sans-serif; font-size:15px; color:#2B6CB0; margin:0 0 8px 0; }
+.automatisme ol { margin:0; padding-left:20px; font-size:13px; }
+.automatisme li { margin-bottom:2px; }
+.reveal-panel { display:none; margin-top:8px; font-size:12.5px; font-style:italic; color:#3B4C5E; border-top:1px dashed #B7CBE3; padding-top:6px; }
+.reveal-panel.show { display:block; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:12px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; margin-top:6px; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.toggle-btn:hover { filter:brightness(0.97); }
+.methode { background:#FFF9EC; border:2px dashed #D8B24C; border-radius:10px; padding:10px 16px; margin-bottom:18px; font-size:12.5px; }
+.methode b.tag { font-family:'Baloo 2',sans-serif; color:#9C7A17; display:block; margin-bottom:3px; font-size:13px; }
+.section-title { font-family:'Baloo 2',sans-serif; font-size:18px; margin:4px 0 12px 0; }
+.advanced-title { font-family:'Baloo 2',sans-serif; font-size:15px; color:var(--orange-t); margin:18px 0 10px 0; padding-top:12px; border-top:2px dashed var(--orange-b); }
+.exo { border:2px solid var(--orange-b); background:var(--orange-bg); border-radius:12px; padding:14px 18px; margin-bottom:14px; }
+.exo-title { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:var(--orange-t); margin-bottom:6px; }
+.exo p { font-size:13px; margin:4px 0; line-height:1.5; }
+.exo p.q { margin:6px 0 2px 4px; }
+.schema { background:#fff; border-radius:8px; padding:8px; margin:8px 0; text-align:center; }
+.schema svg { max-width:100%; height:auto; }
+.btn-row { display:flex; gap:10px; margin-top:8px; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:12.5px; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel.solution-panel { border:1.5px dashed #4CAF7D; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; }
+.astuce-panel .label { color:#B5680A; }
+.solution-panel .label { color:#1E7A4C; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+
+
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="badge">S1</div>
+    <div>
+      <h1>Lire et écrire les grands nombres</h1>
+      <div class="subtitle">Chapitre 1 — Numération entière et décimale — 6e — Séance 1</div>
+    </div>
+  </header>
+
+  <div class="objectifs"><b>Objectifs :</b> lire et écrire des grands nombres entiers ; utiliser les classes (unités, milliers, millions, milliards) ; comparer et ranger des nombres entiers.</div>
+
+  <div class="automatisme">
+    <h2>Automatisme</h2>
+    <ol><li>7 × 8 =</li><li>300 + 40 + 5 =</li><li>10 × 100 =</li><li>1 000 ÷ 10 =</li><li>Le double de 250 =</li><li>4 × 25 =</li></ol>
+    <button class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
+    <div class="reveal-panel" id="auto-corrige">Corrigé : 56 ; 345 ; 1 000 ; 100 ; 500 ; 100</div>
+  </div>
+
+  <div class="methode"><b class="tag">Méthode</b>On coupe le nombre en groupes de trois chiffres, en partant de la droite : 47 305 210 = 47 | 305 | 210. On lit chaque groupe, suivi du nom de sa classe : <b>quarante-sept millions trois cent cinq mille deux cent dix</b>.</div>
+
+  <div class="section-title">Exercices</div>
+    <div class="exo">
+      <div class="exo-title">★ Exercice</div>
+      <p>Écris en chiffres : « quatre cent trente-deux mille cinq cent six ».</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-0')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-0')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-0"><span class="label">Astuce</span>Cherche d'abord le mot « mille » : ce qui est avant, ce sont les milliers ; ce qui est après, ce sont les unités.</div>
+      <div class="panel solution-panel" id="solution-0"><span class="label">Solution</span>432 | 506 → <b>432 506</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★ Exercice</div>
+      <p>Écris en lettres : 80 200.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-1')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-1')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-1"><span class="label">Astuce</span>« vingt » et « cent » prennent un s quand ils sont multipliés et qu'aucun nombre ne les suit : quatre-vingts, deux cents. Devant « mille », pas de s.</div>
+      <div class="panel solution-panel" id="solution-1"><span class="label">Solution</span><b>quatre-vingt mille deux cents</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Écris en chiffres : « trois millions quarante mille sept ».</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-2')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-2')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-2"><span class="label">Astuce</span>Prépare trois groupes de trois chiffres : millions, milliers, unités. Un groupe qui n'est pas dit contient 000, et un groupe incomplet se complète par des zéros à gauche.</div>
+      <div class="panel solution-panel" id="solution-2"><span class="label">Solution</span>millions : 3 ; milliers : 040 ; unités : 007 → <b>3 040 007</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Écris en lettres : a) le Mont Blanc culmine à 4 806 m ; b) la Lune est à environ 384 400 km de la Terre ; c) la France compte environ 68 000 000 d'habitants.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-3')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-3')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-3"><span class="label">Astuce</span>Attention : quatre-vingts, deux cents (s à la fin) mais quatre-vingt-quatre, deux cent un (pas de s s'il y a un nombre derrière).</div>
+      <div class="panel solution-panel" id="solution-3"><span class="label">Solution</span>a) <b>quatre mille huit cent six</b>. b) <b>trois cent quatre-vingt-quatre mille quatre cents</b>. c) <b>soixante-huit millions</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Range dans l'ordre croissant : 1 250 000 ; 999 999 ; 12 500 000 ; 1 025 000.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-4')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-4')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-4"><span class="label">Astuce</span>Compte d'abord les chiffres : plus il y en a, plus le nombre est grand. À nombre de chiffres égal, compare chiffre par chiffre en partant de la gauche.</div>
+      <div class="panel solution-panel" id="solution-4"><span class="label">Solution</span>999 999 &lt; 1 025 000 &lt; 1 250 000 &lt; 12 500 000.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Léa écrit « deux mille cinq » = 2 500. Tom écrit 2 005. Qui a raison ? Explique.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-5')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-5')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-5"><span class="label">Astuce</span>Lis ce que dit chaque nombre : combien de milliers, puis combien d'unités ?</div>
+      <div class="panel solution-panel" id="solution-5"><span class="label">Solution</span><b>Tom</b> a raison : « deux mille cinq » = 2 milliers et 5 unités = 2 005. 2 500 se lit « deux mille cinq cents ».</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>Écris les quatre nombres qui suivent 1 999 998.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-6')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-6')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-6"><span class="label">Astuce</span>Ajoute 1 à chaque fois. Que devient le nombre quand il atteint 1 999 999 + 1 ?</div>
+      <div class="panel solution-panel" id="solution-6"><span class="label">Solution</span><b>1 999 999</b> ; <b>2 000 000</b> ; <b>2 000 001</b> ; <b>2 000 002</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>Avec les chiffres 3, 0, 7 et 5, utilisés une seule fois chacun, écris le plus grand et le plus petit nombre possibles.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-7')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-7')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-7"><span class="label">Astuce</span>Pour le plus grand, mets les chiffres du plus grand au plus petit. Pour le plus petit, attention : un nombre ne commence pas par 0.</div>
+      <div class="panel solution-panel" id="solution-7"><span class="label">Solution</span>Le plus grand : <b>7 530</b>. Le plus petit : <b>3 057</b> (le 0 ne peut pas être en premier, donc on commence par 3).</div>
+    </div>
+  <div class="advanced-title">Pour aller plus loin</div>
+    <div class="exo">
+      <div class="exo-title">★★★★ Exercice</div>
+      <p>Un milliard s'écrit 1 000 000 000. a) Combien y a-t-il de zéros ? b) Combien de millions y a-t-il dans un milliard ?</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-8')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-8')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-8"><span class="label">Astuce</span>Une classe contient trois chiffres. Combien de classes de zéros, après le 1 ?</div>
+      <div class="panel solution-panel" id="solution-8"><span class="label">Solution</span>a) <b>9 zéros</b> (3 classes de 000). b) 1 000 000 000 ÷ 1 000 000 = <b>1 000 millions</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★★ Exercice</div>
+      <p>On compte un nombre par seconde sans s'arrêter. Combien de jours faut-il environ pour compter jusqu'à un million ? (Un jour = 86 400 secondes.)</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-9')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-9')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-9"><span class="label">Astuce</span>Il faut compter 1 000 000 secondes. Combien de fois 86 400 y a-t-il dans 1 000 000 ?</div>
+      <div class="panel solution-panel" id="solution-9"><span class="label">Solution</span>1 000 000 ÷ 86 400 ≈ 11,6. Il faut environ <b>11 jours et demi</b>, sans dormir !</div>
+    </div>
+
+  <footer>Cherche seul(e) d'abord. Utilise l'astuce si tu bloques, puis vérifie avec la solution.</footer>
+</div>
+<script>
+function toggle(id){
+  const el = document.getElementById(id);
+  el.classList.toggle('show');
+}
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>
