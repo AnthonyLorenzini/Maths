@@ -61,7 +61,7 @@ window.SITE = {
       leconCommune: {
         titre: "Le cahier de leçons de 6e",
         texte: "La leçon est commune à toutes les classes de 6e. Pour mettre ton cahier à jour, ouvre le lien ou scanne le QR code. Il est inutile de se connecter !",
-        lien: "https://bit.ly/maths6lexy",
+        lien: "https://www.pearltrees.com/private/id107692875?access=47ecdee83de.66b434b.dac4513f64c7f6901573f8ed973fad40",
         qr: "assets/qr-lecon-6e.png"
       },
       evaluations: [
