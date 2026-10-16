@@ -92,16 +92,6 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(-
 .choix{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .choix.seul{grid-template-columns:1fr}
 .choix .btn{width:100%}
-/* leçon commune d'un niveau (lien + QR code) */
-.commune{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:16px;border-radius:20px;background:var(--carte);border:2px solid var(--c);box-shadow:0 4px 0 var(--cc)}
-.commune h2{font-size:1.15rem;margin:0}
-.commune p{margin:4px 0 12px}
-.commune .btn{width:100%}
-.commune .qr{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.78rem;color:var(--encre-2);text-align:center}
-.commune .qr img{width:112px;height:112px;border:1px solid var(--trait);border-radius:10px;background:#fff;image-rendering:pixelated}
-.commune-mini{display:flex;align-items:center;justify-content:center;gap:10px;padding:12px 14px;border-radius:14px;border:2px dashed var(--c);color:var(--c);font-weight:800;text-decoration:none;background:var(--carte)}
-.commune-mini svg{width:20px;height:20px;flex:none}
-@media(max-width:420px){.commune{grid-template-columns:1fr}.commune .qr{order:-1}.commune .qr img{width:140px;height:140px}}
 .seance{border-radius:20px;background:var(--carte);border:1px solid var(--trait);overflow:hidden}
 .seance .tete{display:flex;gap:12px;align-items:center;padding:14px 16px;background:var(--cc)}
 .seance .tete .num{background:var(--c);color:var(--blanc)}
@@ -216,6 +206,16 @@ a.niv,a.chap,a.reprendre{text-decoration:none;color:inherit}
 .onglets.trois{grid-template-columns:repeat(3,1fr)}
 .onglets.trois a{font-size:.86rem;gap:5px;padding:12px 2px}
 .onglets:not(.trois){grid-template-columns:1fr 1fr}
+.onglets.quatre{grid-template-columns:repeat(4,1fr)}
+.onglets.quatre a{flex-direction:column;gap:3px;font-size:.78rem;padding:10px 2px}
+/* onglet Leçon : lien + QR code */
+.commune{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:16px;border-radius:20px;background:var(--carte);border:2px solid var(--c);box-shadow:0 4px 0 var(--cc)}
+.commune h2{font-size:1.15rem;margin:0}
+.commune p{margin:4px 0 12px}
+.commune .btn{width:100%}
+.commune .qr{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.78rem;color:var(--encre-2);text-align:center}
+.commune .qr img{width:112px;height:112px;border:1px solid var(--trait);border-radius:10px;background:#fff;image-rendering:pixelated}
+@media(max-width:420px){.commune{grid-template-columns:1fr}.commune .qr{order:-1}.commune .qr img{width:140px;height:140px}}
 .eval{display:flex;flex-direction:column;gap:8px;padding:16px;border-radius:20px;background:var(--carte);box-shadow:0 2px 0 color-mix(in srgb,var(--c) 25%,transparent)}
 .eval h3{margin:0}
 .eval .versions{display:flex;flex-direction:column;gap:8px;margin-top:4px}
@@ -276,9 +276,9 @@ svg .pastille{fill:var(--orange)} svg .pastille-t{fill:#fff;font-family:var(--f-
 <div class="page" id="app"></div>
 <div id="voile" class="voile" hidden></div>
 <div id="toast" class="toast" role="status" hidden></div>
-<script src="assets/catalogue.js"></script>
-<script src="assets/ascension.js"></script>
-<script src="assets/questions.js"></script>
+<script src="assets/catalogue.js?v=20261016b"></script>
+<script src="assets/ascension.js?v=20261016b"></script>
+<script src="assets/questions.js?v=20261016b"></script>
 <script>
 
 const S=window.SITE;
@@ -593,11 +593,26 @@ function commencer(e,cible){
 
 /* ---------- L'onglet Ascension d'une classe, et le test d'un chapitre ---------- */
 function onglets(n,actif){
- const asc=AS.testables(n).length>0,on=k=>actif===k?' class="on" aria-current="page"':'';
- return `<nav class="onglets${asc?' trois':''} a-monte" aria-label="Sections de la classe">
+ const asc=AS.testables(n).length>0,lc=!!n.leconCommune,on=k=>actif===k?' class="on" aria-current="page"':'';
+ const nb=2+(asc?1:0)+(lc?1:0);
+ return `<nav class="onglets${nb===4?' quatre':nb===3?' trois':''} a-monte" aria-label="Sections de la classe">
   <a href="#${n.id}"${on('chap')}>${ICO.exos} Chapitres</a>
+  ${lc?`<a href="#${n.id}/lecon"${on('lecon')}>${ICO.lecon} Leçon</a>`:''}
   ${asc?`<a href="#${n.id}/ascension"${on('asc')}>${ICO.monte} Ascension</a>`:''}
   <a href="#${n.id}/evaluations"${on('eval')}>${ICO.eval} Évaluations</a></nav>`;
+}
+/* ---------- L'onglet Leçon d'une classe : la leçon commune, hébergée ailleurs (lien + QR code) ---------- */
+function vueLecon(n){
+ const L=n.leconCommune;
+ ouvrir(`<div class="vue c-${n.couleur}">
+  <button class="retour a-haut" data-parent="#${n.id}">${ICO.gauche} ${esc(n.nom)}</button>
+  ${onglets(n,'lecon')}
+  <section class="commune a-monte" ${d(0,.15)}>
+   <div><h2>${esc(L.titre)}</h2><p class="doux">${esc(L.texte||'')}</p>
+    <a class="btn" href="${esc(L.lien)}" target="_blank" rel="noopener">${ICO.lecon} Ouvrir la leçon</a></div>
+   ${L.qr?`<div class="qr"><img src="${esc(L.qr)}" alt="QR code vers le cahier de leçons de ${esc(n.nom)}" width="112" height="112"><span>ou scanne-moi</span></div>`:''}
+  </section>
+ </div>`,null,{pied:piedAscension(n.id)});
 }
 /* ---------- L'onglet Évaluations d'une classe : sujets vierges et corrigés en PDF ---------- */
 function vueEvaluations(n){
@@ -793,24 +808,10 @@ function accueil(){
  },{pied:piedAscension(AS.actif())});
 }
 
-function leconCommune(n){
- const L=n.leconCommune;if(!L)return '';
- return `<section class="commune a-monte" aria-label="${esc(L.titre)}">
-  <div><h2>${esc(L.titre)}</h2><p class="doux">${esc(L.texte||'')}</p>
-   <a class="btn" href="${esc(L.lien)}" target="_blank" rel="noopener">${ICO.lecon} Ouvrir la leçon</a></div>
-  ${L.qr?`<div class="qr"><img src="${esc(L.qr)}" alt="QR code vers le cahier de leçons de ${esc(n.nom)}" width="112" height="112"><span>ou scanne-moi</span></div>`:''}
- </section>`;
-}
-function leconCommuneMini(n){
- const L=n.leconCommune;if(!L)return '';
- return `<a class="commune-mini a-monte" href="${esc(L.lien)}" target="_blank" rel="noopener">${ICO.lecon} ${esc(L.titre)} (s’ouvre dans un nouvel onglet)</a>`;
-}
-
 function niveau(n){
  ouvrir(`<div class="vue c-${n.couleur}">
   <button class="retour a-haut" data-parent="#">${ICO.gauche} Accueil</button>
   <section class="bandeau a-pop" ${d(0,.05)}><span class="gros">${esc(n.nom)}</span><span>${esc(n.accroche)}</span><canvas id="fractale" aria-hidden="true"></canvas><button class="rejouer" onclick="rejouerFn&&rejouerFn()">↻ Rejouer</button></section>
-  ${leconCommune(n)}
   ${onglets(n,'chap')}
   <div class="chapitres">
    ${n.chapitres.map((c,i)=>{const ns=(c.seances||[]).length,nj=nbJeux(c),le=c.ressources.some(r=>r.type==='lecon');
@@ -844,7 +845,6 @@ function chapitre(n,c){
   <button class="retour a-haut" data-parent="#${n.id}">${ICO.gauche} ${esc(n.nom)}</button>
   <section class="bandeau a-pop" ${d(0,.05)}><span class="eti">${esc(n.nom)}${c.num?' · Chapitre '+c.num:''}</span><h2 style="font-size:1.8rem">${esc(c.titre)}</h2>${c.resume?`<span class="doux">${esc(c.resume)}</span>`:''}${frac(n.id).replace('<svg','<svg class="deco"')}</section>
   ${c.bientot?'<div class="enigme"><p class="q">Ce chapitre arrive bientôt.</p><p class="doux">Les pages seront mises en ligne au fil des séances.</p></div>':`
-  ${leconCommuneMini(n)}
   ${choix}
   ${seances.length?`<h2>Les séances</h2>${blocSeances}`:''}
   ${restant.length?`<section class="vue" style="gap:12px"><h2>${seances.length?'Autres ressources du chapitre':'Exercices et activités'}</h2><div class="liens">${restant.map(lien).join('')}</div></section>`:''}
@@ -862,6 +862,7 @@ function router(){
   if(ch){vueTest(t.n,ch);document.title='Test · '+ch.titre+' — '+S.titre}
   else{vueAscension(t.n);document.title='Ascension · '+t.n.nom+' — '+S.titre}
  }
+ else if(t&&!t.c&&b==='lecon'&&t.n.leconCommune){vueLecon(t.n);document.title='Leçon · '+t.n.nom+' — '+S.titre}
  else if(t&&!t.c&&b==='evaluations'){vueEvaluations(t.n);document.title='Évaluations · '+t.n.nom+' — '+S.titre}
  else if(t&&t.c){chapitre(t.n,t.c);document.title=t.c.titre+' · '+t.n.nom+' — '+S.titre}
  else if(t){niveau(t.n);document.title='Classe de '+t.n.nom+' — '+S.titre}

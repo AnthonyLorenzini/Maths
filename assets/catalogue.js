@@ -30,8 +30,8 @@
         ]
 
    Leçon commune d'un niveau (ex. 6e, leçon faite par une collègue et hébergée ailleurs) :
-   dans le niveau, ajoute  leconCommune: { titre, texte, lien, qr }  → un bloc avec bouton et QR code
-   s'affiche en haut de la page du niveau, et un bouton dans chaque chapitre du niveau.
+   dans le niveau, ajoute  leconCommune: { titre, texte, lien, qr }  → un onglet « Leçon » (bouton + QR code)
+   apparaît dans la classe, à côté de Chapitres / Ascension / Évaluations.
    Tests d'ascension (onglet « Ascension » d'une classe) :
    un chapitre a son test dès qu'il a un bloc dans assets/questions.js (ASC.inscrire("<id du chapitre>", …)).
    Le test d'un chapitre est cumulatif : il reprend aussi les questions des chapitres précédents du même niveau.
