@@ -29,6 +29,9 @@
             savoir: "ce que l'élève doit savoir faire (complète « Je sais… »)" }
         ]
 
+   Leçon commune d'un niveau (ex. 6e, leçon faite par une collègue et hébergée ailleurs) :
+   dans le niveau, ajoute  leconCommune: { titre, texte, lien, qr }  → un bloc avec bouton et QR code
+   s'affiche en haut de la page du niveau, et un bouton dans chaque chapitre du niveau.
    Tests d'ascension (onglet « Ascension » d'une classe) :
    un chapitre a son test dès qu'il a un bloc dans assets/questions.js (ASC.inscrire("<id du chapitre>", …)).
    Le test d'un chapitre est cumulatif : il reprend aussi les questions des chapitres précédents du même niveau.
@@ -55,6 +58,12 @@ window.SITE = {
     {
       id: "6e", nom: "6e", couleur: "vert",
       accroche: "Fractions, nombres décimaux, géométrie",
+      leconCommune: {
+        titre: "Le cahier de leçons de 6e",
+        texte: "La leçon est commune à toutes les classes de 6e. Pour mettre ton cahier à jour, ouvre le lien ou scanne le QR code. Il est inutile de se connecter !",
+        lien: "https://bit.ly/maths6lexy",
+        qr: "assets/qr-lecon-6e.png"
+      },
       evaluations: [
         { etiquette: "Chapitres 1 et 2", titre: "Évaluation — Numération & Géométrie",
           resume: "Rang des chiffres, nombres décimaux, vocabulaire et notations, distances. 50 min, sur 20.", ajout: "2026-10-14",

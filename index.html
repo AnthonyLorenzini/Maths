@@ -92,6 +92,16 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(-
 .choix{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .choix.seul{grid-template-columns:1fr}
 .choix .btn{width:100%}
+/* leçon commune d'un niveau (lien + QR code) */
+.commune{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:16px;border-radius:20px;background:var(--carte);border:2px solid var(--c);box-shadow:0 4px 0 var(--cc)}
+.commune h2{font-size:1.15rem;margin:0}
+.commune p{margin:4px 0 12px}
+.commune .btn{width:100%}
+.commune .qr{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.78rem;color:var(--encre-2);text-align:center}
+.commune .qr img{width:112px;height:112px;border:1px solid var(--trait);border-radius:10px;background:#fff;image-rendering:pixelated}
+.commune-mini{display:flex;align-items:center;justify-content:center;gap:10px;padding:12px 14px;border-radius:14px;border:2px dashed var(--c);color:var(--c);font-weight:800;text-decoration:none;background:var(--carte)}
+.commune-mini svg{width:20px;height:20px;flex:none}
+@media(max-width:420px){.commune{grid-template-columns:1fr}.commune .qr{order:-1}.commune .qr img{width:140px;height:140px}}
 .seance{border-radius:20px;background:var(--carte);border:1px solid var(--trait);overflow:hidden}
 .seance .tete{display:flex;gap:12px;align-items:center;padding:14px 16px;background:var(--cc)}
 .seance .tete .num{background:var(--c);color:var(--blanc)}
@@ -783,10 +793,24 @@ function accueil(){
  },{pied:piedAscension(AS.actif())});
 }
 
+function leconCommune(n){
+ const L=n.leconCommune;if(!L)return '';
+ return `<section class="commune a-monte" aria-label="${esc(L.titre)}">
+  <div><h2>${esc(L.titre)}</h2><p class="doux">${esc(L.texte||'')}</p>
+   <a class="btn" href="${esc(L.lien)}" target="_blank" rel="noopener">${ICO.lecon} Ouvrir la leçon</a></div>
+  ${L.qr?`<div class="qr"><img src="${esc(L.qr)}" alt="QR code vers le cahier de leçons de ${esc(n.nom)}" width="112" height="112"><span>ou scanne-moi</span></div>`:''}
+ </section>`;
+}
+function leconCommuneMini(n){
+ const L=n.leconCommune;if(!L)return '';
+ return `<a class="commune-mini a-monte" href="${esc(L.lien)}" target="_blank" rel="noopener">${ICO.lecon} ${esc(L.titre)} (s’ouvre dans un nouvel onglet)</a>`;
+}
+
 function niveau(n){
  ouvrir(`<div class="vue c-${n.couleur}">
   <button class="retour a-haut" data-parent="#">${ICO.gauche} Accueil</button>
   <section class="bandeau a-pop" ${d(0,.05)}><span class="gros">${esc(n.nom)}</span><span>${esc(n.accroche)}</span><canvas id="fractale" aria-hidden="true"></canvas><button class="rejouer" onclick="rejouerFn&&rejouerFn()">↻ Rejouer</button></section>
+  ${leconCommune(n)}
   ${onglets(n,'chap')}
   <div class="chapitres">
    ${n.chapitres.map((c,i)=>{const ns=(c.seances||[]).length,nj=nbJeux(c),le=c.ressources.some(r=>r.type==='lecon');
@@ -820,6 +844,7 @@ function chapitre(n,c){
   <button class="retour a-haut" data-parent="#${n.id}">${ICO.gauche} ${esc(n.nom)}</button>
   <section class="bandeau a-pop" ${d(0,.05)}><span class="eti">${esc(n.nom)}${c.num?' · Chapitre '+c.num:''}</span><h2 style="font-size:1.8rem">${esc(c.titre)}</h2>${c.resume?`<span class="doux">${esc(c.resume)}</span>`:''}${frac(n.id).replace('<svg','<svg class="deco"')}</section>
   ${c.bientot?'<div class="enigme"><p class="q">Ce chapitre arrive bientôt.</p><p class="doux">Les pages seront mises en ligne au fil des séances.</p></div>':`
+  ${leconCommuneMini(n)}
   ${choix}
   ${seances.length?`<h2>Les séances</h2>${blocSeances}`:''}
   ${restant.length?`<section class="vue" style="gap:12px"><h2>${seances.length?'Autres ressources du chapitre':'Exercices et activités'}</h2><div class="liens">${restant.map(lien).join('')}</div></section>`:''}
