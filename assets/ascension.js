@@ -177,6 +177,62 @@
     return res;
   }
 
+  /* ---------- Code de sauvegarde : changer d'appareil sans rien envoyer ----------
+     Le code ne contient QUE l'étape (donc l'altitude) de chaque classe : jamais de pseudo ni de nom.
+     Il se lit MONT-XXXX-XXXX : 8 signes (alphabet de 32 signes sans I, L, O, U) =
+       2 bits de version + 3 × 6 bits (étape 6e, 5e, 4e) + 20 bits de contrôle contre les fautes de frappe.
+     Restaurer ne fait jamais redescendre : on garde la plus haute des deux altitudes. */
+  var CODE_NIVEAUX = ["6e", "5e", "4e"];            // ordre figé du code (version 0)
+  var CODE_ALPHA = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
+  function controle20(d) {
+    var h = (d ^ 0x5bd1e995) >>> 0;
+    h = Math.imul(h ^ (h >>> 15), 0x2c1b3c6d) >>> 0;
+    h = Math.imul(h ^ (h >>> 12), 0x297a2d39) >>> 0;
+    h = (h ^ (h >>> 15)) >>> 0;
+    return h & 0xFFFFF;
+  }
+  function coder() {
+    var d = 0; // version 0 sur les 2 bits de poids fort
+    CODE_NIVEAUX.forEach(function (id) { d = d * 64 + Math.min(NET, ne(id).et); });
+    var v = d * 1048576 + controle20(d), c = "";
+    for (var i = 0; i < 8; i++) { c = CODE_ALPHA.charAt(v % 32) + c; v = Math.floor(v / 32); }
+    return "MONT-" + c.slice(0, 4) + "-" + c.slice(4);
+  }
+  function aDuProgres() { return CODE_NIVEAUX.some(function (id) { return ne(id).et > 0; }); }
+  // Lit un code saisi : tolère minuscules, espaces, tirets manquants et confusions O/0, I/L/1.
+  function lireCode(txt) {
+    var t = String(txt == null ? "" : txt).toUpperCase().replace(/[^0-9A-Z]/g, "");
+    if (t.indexOf("MONT") === 0) t = t.slice(4);
+    t = t.replace(/O/g, "0").replace(/[IL]/g, "1");
+    if (t.length !== 8) return { ok: false, raison: "forme" };
+    var v = 0;
+    for (var i = 0; i < 8; i++) {
+      var k = CODE_ALPHA.indexOf(t.charAt(i));
+      if (k < 0) return { ok: false, raison: "forme" };
+      v = v * 32 + k;
+    }
+    var chk = v % 1048576, d = Math.floor(v / 1048576);
+    if (chk !== controle20(d)) return { ok: false, raison: "controle" };
+    if (Math.floor(d / 262144) !== 0) return { ok: false, raison: "version" };
+    var et = {}, r = d;
+    for (var j = CODE_NIVEAUX.length - 1; j >= 0; j--) { et[CODE_NIVEAUX[j]] = r % 64; r = Math.floor(r / 64); }
+    for (var id in et) if (et[id] > NET) return { ok: false, raison: "forme" };
+    return { ok: true, et: et };
+  }
+  // Applique un code : monte chaque classe jusqu'à l'étape du code, sans jamais redescendre.
+  function restaurer(txt) {
+    var l = lireCode(txt);
+    if (!l.ok) return l;
+    var liste = [];
+    CODE_NIVEAUX.forEach(function (id) {
+      var n = ne(id), avant = n.alt;
+      if (l.et[id] > n.et) { n.et = l.et[id]; n.alt = altDe(n.et); }
+      if (l.et[id] > 0) liste.push({ id: id, alt: n.alt, avant: avant, monte: n.alt > avant });
+    });
+    sauver();
+    return { ok: true, niveaux: liste };
+  }
+
   /* ---------- Outils pour écrire des questions ---------- */
   function rng(seed) { // générateur reproductible (mulberry32), utile pour les vérifications
     var a = seed >>> 0;
@@ -324,6 +380,7 @@
     altDe: altDe, etDe: etDe, plafondEt: plafondEt, NP: NP, NET: NET, suivant: suivant, dernier: dernier,
     charger: charger, sauver: sauver, pseudo: pseudo, setPseudo: setPseudo, actif: actif, memoriserActif: memoriserActif,
     alt: alt, stats: stats, dejaAujourdhui: dejaAujourdhui, reinitialiser: reinitialiser, resume: resume, enregistrer: enregistrer,
+    coder: coder, lireCode: lireCode, restaurer: restaurer, aDuProgres: aDuProgres,
     rng: rng, entier: entier, parmi: parmi, melanger: melanger, nb: nb, euro: euro, pct: pct, qcm: qcm,
     inscrire: inscrire, aTest: aTest, testables: testables, couverts: couverts, tirer: tirer
   };

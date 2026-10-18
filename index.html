@@ -30,7 +30,7 @@ strong{font-weight:700}
 .doux{color:var(--encre-2)}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left}
 a,button{-webkit-tap-highlight-color:transparent}
-button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--soleil);outline-offset:3px;border-radius:10px}
+button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--soleil);outline-offset:3px;border-radius:10px}
 .vue{display:flex;flex-direction:column;gap:20px}
 .c-vert{--c:var(--vert);--cc:var(--vert-clair)} .c-orange{--c:var(--orange);--cc:var(--orange-clair)} .c-violet{--c:var(--violet);--cc:var(--violet-clair)}
 
@@ -67,6 +67,47 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(-
 .enigme{border-radius:20px;padding:16px;background:var(--soleil-clair);border:2px dashed var(--soleil);display:flex;flex-direction:column;gap:10px}
 .enigme .q{font-size:1.08rem;font-weight:700}
 .enigme .rep{padding:10px 12px;border-radius:12px;background:var(--carte);font-weight:700}
+/* archive des énigmes : les 7 jours précédents, réponse cachée */
+.archive{display:flex;flex-direction:column;gap:8px}
+.eg{border:2px solid var(--trait);border-radius:14px;background:var(--carte)}
+.eg summary{list-style:none;cursor:pointer;padding:12px 14px;display:grid;gap:3px}
+.eg summary::-webkit-details-marker{display:none}
+.eg .ed{font-family:var(--f-titre);font-weight:800;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--encre-2)}
+.eg .eq{font-weight:700}
+.eg .er{font-weight:700;color:var(--violet);font-size:.92rem}
+.eg[open] .er{display:none}
+.eg .ea{padding:0 14px 14px;font-weight:700}
+/* code de sauvegarde de la montgolfière */
+.sauv{--c:var(--violet);display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:20px;background:var(--carte);border:2px solid var(--trait)}
+.sauv .code{font-family:var(--f-texte);font-weight:700;font-size:1.5rem;letter-spacing:.14em;padding:12px 14px;border-radius:12px;background:var(--fond);border:2px dashed var(--encre-2);text-align:center;user-select:all}
+.sauv .rang{display:flex;gap:8px;flex-wrap:wrap}
+.sauv input{flex:1 1 160px;min-width:0;font:inherit;font-size:.95rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:11px 12px;border:2px solid var(--trait);border-radius:12px;background:var(--carte);color:var(--encre)}
+.sauv hr{border:0;border-top:2px solid var(--trait);margin:0;width:100%}
+.sauv .etat{font-size:.92rem;min-height:1.3em}
+.btn.mini{padding:10px 14px;font-size:.95rem}
+.btn.clair{background:var(--carte);color:var(--encre);border:2px solid var(--encre);box-shadow:0 4px 0 var(--trait)}
+/* fiche de révision à imprimer */
+.fiche-ligne{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.sans-ecran{display:inline-block;padding:3px 9px;border-radius:99px;background:var(--soleil-clair);font-size:.85rem;font-weight:700}
+#fiche-a4{display:none}
+@media print{
+ @page{size:A4;margin:14mm}
+ body.imprime-fiche{background:#fff;padding:0;color:#000}
+ body.imprime-fiche>*:not(#fiche-a4){display:none!important}
+ body.imprime-fiche #fiche-a4{display:flex;flex-direction:column;gap:12px;color:#000;background:#fff;font-size:11.5pt;line-height:1.4}
+ #fiche-a4 .tete{display:flex;justify-content:space-between;gap:10px;align-items:flex-end;border-bottom:2px solid #000;padding-bottom:8px}
+ #fiche-a4 .tete .t{font-family:var(--f-titre);font-weight:800;font-size:15pt;line-height:1.1}
+ #fiche-a4 .tete .t span{font-weight:600;font-size:11.5pt}
+ #fiche-a4 .tete .n{font-size:10.5pt;text-align:right;white-space:nowrap}
+ #fiche-a4 .fs{break-inside:avoid;display:flex;flex-direction:column;gap:4px;padding-top:2px}
+ #fiche-a4 .fs h4{margin:0;font-family:var(--f-titre);font-size:12.5pt;font-weight:800;display:flex;gap:8px;align-items:center}
+ #fiche-a4 .fs h4 span{display:grid;place-items:center;width:20px;height:20px;border:1.5px solid #000;border-radius:50%;font-size:10pt;flex:none}
+ #fiche-a4 .fs ul{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:2px}
+ #fiche-a4 .fex{margin:0;padding-left:22px;font-style:italic}
+ #fiche-a4 .fsv{margin:0;padding-left:22px;display:flex;gap:8px;align-items:flex-start}
+ #fiche-a4 .box{flex:none;width:13px;height:13px;border:1.5px solid #000;margin-top:4px}
+ #fiche-a4 .pied{border-top:1px solid #000;padding-top:6px;font-size:10pt;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+}
 
 /* bandeau de niveau / chapitre */
 .bandeau{position:relative;overflow:hidden;border-radius:24px;padding:20px 18px;background:var(--cc);display:flex;flex-direction:column;gap:6px;min-height:110px}
@@ -137,7 +178,7 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(-
 svg .ciel1{stop-color:var(--ciel-haut)} svg .ciel2{stop-color:var(--ciel-bas)}
 svg .nuage{fill:var(--nuage)} svg .colline{fill:var(--colline)} svg .colline2{fill:var(--colline-2)}
 svg .repere{stroke:var(--encre-2);stroke-width:1;stroke-dasharray:3 5;opacity:.35}
-svg .lbl{font-family:var(--f-texte);font-weight:700;font-size:10.5px;fill:var(--encre-2)}
+svg .lbl{font-family:var(--f-texte);font-weight:700;font-size:13px;fill:var(--encre-2)}
 svg .soleil{fill:var(--soleil)}
 /* paliers collectionnés */
 .coll{display:grid;grid-template-columns:repeat(11,1fr);gap:4px}
@@ -234,7 +275,7 @@ svg .lbl{paint-order:stroke;stroke:rgba(255,255,255,.72);stroke-width:3px;stroke
 svg .lbl.ok{fill:var(--encre);font-weight:800}
 svg .rep-i{color:#8A95A8} svg .rep-i.ok{color:var(--c,var(--violet))}
 svg .plafond{stroke:var(--orange);stroke-width:1.6;stroke-dasharray:6 5}
-svg .pastille{fill:var(--orange)} svg .pastille-t{fill:#fff;font-family:var(--f-texte);font-weight:700;font-size:10.5px}
+svg .pastille{fill:var(--orange)} svg .pastille-t{fill:#fff;font-family:var(--f-texte);font-weight:700;font-size:13px}
 .pied-asc{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:20px;background:var(--carte);border:1px solid var(--trait)}
 .pied-asc svg.mini{width:46px;height:50px;flex:none}
 .pied-asc .alt{font-size:1.7rem}
@@ -277,7 +318,7 @@ svg .pastille{fill:var(--orange)} svg .pastille-t{fill:#fff;font-family:var(--f-
 <div id="voile" class="voile" hidden></div>
 <div id="toast" class="toast" role="status" hidden></div>
 <script src="assets/catalogue.js?v=20261016b"></script>
-<script src="assets/ascension.js?v=20261016b"></script>
+<script src="assets/ascension.js?v=20261018a"></script>
 <script src="assets/questions.js?v=20261016b"></script>
 <script>
 
@@ -289,6 +330,7 @@ const ICO={
  exos:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14v18H5Z"/><path d="m8.5 9 2 2 4-4M8.5 15h7"/></svg>',
  classe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 4h18v12H3Z"/><path d="M8 20h8M12 16v4"/></svg>',
  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+ imprimer:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="9" rx="2"/><path d="M6 14h12v7H6z"/></svg>',
  retenir:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3Z"/></svg>',
  loupe:'<svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="5.5"/><path d="m12 12 4.5 4.5"/></svg>',
  gauche:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>',
@@ -425,7 +467,14 @@ const ENIGMES=[
  ["Un livre a 200 pages. J'en lis 25 %, puis la moitié de ce qui reste. Combien de pages me reste-t-il à lire ?","75 pages : il en reste 150, j'en lis 75."],
  ["Combien de diagonales a un hexagone (6 côtés) ?","9 diagonales : 6 × 3 ÷ 2."]
 ];
-function enigmeDuJour(){const d=new Date();const j=Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);return ENIGMES[j%ENIGMES.length]}
+const numJour=d=>Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);
+function enigmeDuJour(){return ENIGMES[numJour(new Date())%ENIGMES.length]}
+/* Les 7 jours précédents (le plus récent d'abord) : la même règle que l'énigme du jour, appliquée aux dates passées. */
+function archiveEnigmes(){const t=new Date(),sortie=[];
+ for(let i=1;i<=7;i++){const j=new Date(t.getFullYear(),t.getMonth(),t.getDate()-i);
+  const [q,rep]=ENIGMES[numJour(j)%ENIGMES.length];
+  sortie.push({date:j.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}),q,rep})}
+ return sortie}
 
 /* ---------- Ascension : altitude, pseudo et résultats restent sur l'appareil de l'élève ---------- */
 const AS=window.ASC,CF=AS.CONFIG;
@@ -467,7 +516,7 @@ const objDe=e=>Math.min(NP,Math.floor(e/TT+1e-6)+1);                 // palier e
 const zlDe=e=>Math.log(Math.max(SC.MIN,HR[objDe(e)]*1.12));          // zoom visé (log de l'altitude visible)
 const altE=e=>{const u=e/TT,i=Math.min(NP-1,Math.floor(u+1e-9));return HR[i]+(HR[i+1]-HR[i])*(u-i)};
 const NUA=Array.from({length:14},(_,j)=>({u:.3+j*.8,x:(j*97)%360,k:.7+(j%3)*.25,v:4+(j%4)*2}));
-function pill(x,y,txt,col){const w=10+txt.length*6.1;return `<rect x="${x}" y="${y-13}" width="${w}" height="19" rx="9.5" fill="#fff" opacity=".93"/><text x="${x+w/2}" y="${y+.5}" text-anchor="middle" font-size="11" font-weight="800" fill="${col}" font-family="inherit">${txt}</text>`}
+function pill(x,y,txt,col){const w=12+txt.length*7.3;return `<rect x="${x}" y="${y-15}" width="${w}" height="23" rx="11.5" fill="#fff" opacity=".93"/><text x="${x+w/2}" y="${y+1.5}" text-anchor="middle" font-size="13" font-weight="800" fill="${col}" font-family="inherit">${txt}</text>`}
 const etatFixe=e=>({e,zl:zlDe(e),rev:Object.fromEntries(Array.from({length:NP},(_,i)=>[i+1,1])),t:0,anim:false});
 function sceneInner(nid,st){
  const R=AS.resume(nid),top=Math.exp(st.zl),ppm=(SC.SOL-40)/top,Y=a=>SC.SOL-a*ppm,e=st.e,o=objDe(e),sk=Math.min(1,e/(NP*TT));
@@ -486,7 +535,7 @@ function sceneInner(nid,st){
  s+=`<line x1="0" y1="${yo.toFixed(1)}" x2="360" y2="${yo.toFixed(1)}" stroke="#1B2333" stroke-width="1.6" stroke-dasharray="5 5" opacity=".6"/>${pill(8,yo-8,'Objectif · '+R_[o-1].nom+' · '+fr(HR[o])+' m','#6E4FE0')}`;
  if(o>1&&(st.rev[o]||0)>.9){const yp=Y(HR[o-1]);if(yp>yo+30)s+=`<line x1="0" y1="${yp.toFixed(1)}" x2="360" y2="${yp.toFixed(1)}" stroke="#0F9562" stroke-width="1.4" opacity=".6"/>${pill(8,yp-8,R_[o-2].nom+' · '+fr(HR[o-1])+' m ✓','#0A7A4E')}`}
  if(R.plafondEt<NP*TT&&pl<HR[o]&&pl>=alt-.5){const y=Y(pl);
-  s+=`<line x1="0" y1="${y.toFixed(1)}" x2="360" y2="${y.toFixed(1)}" stroke="#E8700F" stroke-width="2.2" stroke-dasharray="7 5"/><g transform="translate(150 ${(y-20).toFixed(1)})"><rect width="124" height="18" rx="9" fill="#E8700F"/><text x="62" y="12.6" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" font-family="inherit">Plafond de la semaine</text></g>`}
+  s+=`<line x1="0" y1="${y.toFixed(1)}" x2="360" y2="${y.toFixed(1)}" stroke="#E8700F" stroke-width="2.2" stroke-dasharray="7 5"/><g transform="translate(126 ${(y-24).toFixed(1)})"><rect width="160" height="22" rx="11" fill="#E8700F"/><text x="80" y="15.4" text-anchor="middle" font-size="13" font-weight="800" fill="#fff" font-family="inherit">Plafond de la semaine</text></g>`}
  const by=Y(alt),vrai=22*ppm,hb=Math.max(15,Math.min(110,vrai)),kb=hb/62.4;
  const halo=vrai<15?`<circle cx="${SC.BX}" cy="${(by-hb*.5).toFixed(1)}" r="${(hb*.75+(st.anim?3*Math.sin(t*3):0)).toFixed(1)}" fill="none" stroke="#fff" stroke-width="1.6" opacity=".85"/>`:'';
  const bal=`<g transform="translate(${SC.BX} ${by.toFixed(1)}) rotate(${st.anim?(Math.sin(t*1.6)*2.2).toFixed(2):0}) scale(${kb.toFixed(3)})"><use href="#bal"/></g>`;
@@ -558,6 +607,58 @@ function piedAscension(nid){
  return `<footer class="pied-asc a-monte"><svg class="mini" viewBox="-38 -68 76 74" aria-hidden="true">${ballon(0,0,1)}</svg>
   <div><div class="eti doux">Ma montgolfière · ${esc(n.nom)}</div><div class="alt">${fr(R.alt)} <small>m</small></div><div class="doux" style="font-size:.85rem">Plafond de la semaine : ${fr(R.plafond)} m</div></div>
   <a class="btn" href="#${nid}/ascension">Monter</a></footer>`;
+}
+
+/* ---------- Fiche de révision A4 : les bilans de séance du chapitre, sans écran ni couleurs ---------- */
+function ficheA4(n,c){
+ const blocs=(c.seances||[]).map((s,i)=>(s.retenir||[]).length?`<section class="fs"><h4><span>${i+1}</span>${esc(s.titre)}</h4><ul>${s.retenir.map(t=>`<li>${gras(t)}</li>`).join('')}</ul>${s.exemple?`<p class="fex">Exemple : ${gras(s.exemple)}</p>`:''}${s.savoir?`<p class="fsv"><span class="box"></span><span>Je sais ${gras(s.savoir)}</span></p>`:''}</section>`:'').join('');
+ return `<div class="tete"><div class="t">Les maths de M. Lorenzini<br><span>${esc(n.nom)} · ${esc(c.titre)}</span></div><div class="n">Nom : ____________</div></div>${blocs}<div class="pied"><span>Fiche de révision</span><span>anthonylorenzini.github.io/Maths</span></div>`;
+}
+function imprimerFiche(nid,cid){
+ const n=niveauDe(nid),c=n&&n.chapitres.find(x=>x.id===cid);if(!c)return;
+ let f=document.getElementById('fiche-a4');
+ if(!f){f=document.createElement('div');f.id='fiche-a4';document.body.appendChild(f)}
+ f.innerHTML=ficheA4(n,c);
+ const fin=()=>{document.body.classList.remove('imprime-fiche');f.innerHTML='';removeEventListener('afterprint',fin)};
+ addEventListener('afterprint',fin);
+ document.body.classList.add('imprime-fiche');
+ setTimeout(()=>print(),60);
+}
+
+/* ---------- Code de sauvegarde : retrouver sa montgolfière sur un autre appareil ---------- */
+let msgSauv='';
+function blocSauvegarde(){
+ const code=AS.aDuProgres()?AS.coder():'';
+ return `<section class="sauv a-monte" ${d(0,.9)} aria-labelledby="sauv-t">
+  <h2 id="sauv-t" class="eti doux">Ma montgolfière · changer d’appareil</h2>
+  ${code?`<div class="code" id="code-sauv">${esc(code)}</div>
+   <div class="rang"><button class="btn mini" type="button" onclick="copierCode()">Copier mon code</button></div>
+   <p class="etat" id="etat-copie" role="status"></p>
+   <p class="note" style="text-align:left">Ce code ne contient que ton altitude, jamais ton nom ni ton pseudo. Il change quand tu montes : recopie-le de temps en temps.</p>`
+  :`<p class="doux">Ton code apparaîtra ici dès que ta montgolfière aura décollé.</p>`}
+  <hr>
+  <form onsubmit="return retrouverCode(event)">
+   <label for="saisie-code" style="font-weight:700">J’ai changé de téléphone : je saisis mon code</label>
+   <div class="rang" style="margin-top:8px"><input id="saisie-code" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="MONT-XXXX-XXXX"><button class="btn clair mini" type="submit">Retrouver</button></div>
+  </form>
+  <p class="etat" id="etat-code" role="status"></p>
+ </section>`;
+}
+function copierCode(){
+ const el=document.getElementById('code-sauv'),m=document.getElementById('etat-copie');if(!el||!m)return;
+ const choisir=()=>{const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);m.textContent='Code sélectionné : copie-le avec ton téléphone.'};
+ try{navigator.clipboard.writeText(el.textContent.trim()).then(()=>{m.textContent='Code copié. Garde-le dans ton cahier.'},choisir)}catch(e){choisir()}
+}
+function retrouverCode(e){
+ e.preventDefault();
+ const m=document.getElementById('etat-code'),r=AS.restaurer(document.getElementById('saisie-code').value);
+ if(!r.ok){m.textContent=r.raison==='controle'?'Ce code ne marche pas : vérifie chaque signe, il y a peut-être une faute de frappe.':'Ce code n’a pas la bonne forme. Il ressemble à MONT-7K2P-9QXA.';return false}
+ if(!r.niveaux.length){m.textContent='Ce code est celui d’une montgolfière encore au sol : rien à retrouver.';return false}
+ const liste=r.niveaux.map(n=>niveauDe(n.id).nom+' : '+fr(n.alt)+' m').join(' · ');
+ msgSauv=(r.niveaux.some(n=>n.monte)?'Montgolfière retrouvée ! ':'Rien ne change : ta montgolfière ne redescend jamais. ')+liste+'.';
+ if(!AS.actif()){const h=r.niveaux.reduce((a,b)=>b.alt>a.alt?b:a);AS.memoriserActif(h.id)}
+ const y=scrollY;router();scrollTo(0,y);
+ return false;
 }
 
 /* ---------- Pseudo (facultatif : il ne sert qu'à personnaliser la montgolfière) ---------- */
@@ -796,7 +897,13 @@ function accueil(){
    <button class="lien-texte" onclick="this.hidden=true;this.nextElementSibling.hidden=false">Voir la réponse</button>
    <p class="rep" hidden>${esc(rep)}</p>
   </section>
+  <section class="archive a-monte" ${d(0,.78)} aria-labelledby="arch-t">
+   <h2 id="arch-t" class="eti doux">Les énigmes des jours précédents</h2>
+   ${archiveEnigmes().map(e=>`<details class="eg"><summary><span class="ed">${esc(e.date)}</span><span class="eq">${esc(e.q)}</span><span class="er">Voir la réponse</span></summary><p class="ea">${esc(e.rep)}</p></details>`).join('')}
+  </section>
+  ${blocSauvegarde()}
  </div>`,()=>{
+  if(msgSauv){const m=document.getElementById('etat-code');if(m)m.textContent=msgSauv;msgSauv=''}
   lancer('mandel',9500,trMandel);
   const champ=document.getElementById('q'),res=document.getElementById('resultats'),tout=toutes();
   champ.addEventListener('input',()=>{
@@ -829,6 +936,7 @@ function chapitre(n,c){
    ${lecon?`<a class="btn" href="${url(lecon)}">${ICO.lecon} La leçon</a>`:''}
    ${jeux.length?`<a class="btn jaune" href="#jeux" onclick="event.preventDefault();document.getElementById('jeux').scrollIntoView({behavior:'smooth'})">${ICO.jeu} Les mini-jeux</a>`:''}
   </div>`:'';
+ const fiche=seances.some(s=>(s.retenir||[]).length)&&!c.bientot?`<div class="fiche-ligne a-monte" ${d(0,.2)}><button class="btn clair mini" type="button" onclick="imprimerFiche('${n.id}','${c.id}')">${ICO.imprimer} Imprimer la fiche</button><span class="sans-ecran">Pour réviser sans écran</span></div>`:'';
  const blocSeances=seances.map((s,i)=>{
   const res=(s.ressources||[]).map(trouver).filter(Boolean);
   const exos=res.filter(r=>r.type!=='jeu'&&r.type!=='lecon'),sj=res.filter(r=>r.type==='jeu');
@@ -846,6 +954,7 @@ function chapitre(n,c){
   <section class="bandeau a-pop" ${d(0,.05)}><span class="eti">${esc(n.nom)}${c.num?' · Chapitre '+c.num:''}</span><h2 style="font-size:1.8rem">${esc(c.titre)}</h2>${c.resume?`<span class="doux">${esc(c.resume)}</span>`:''}${frac(n.id).replace('<svg','<svg class="deco"')}</section>
   ${c.bientot?'<div class="enigme"><p class="q">Ce chapitre arrive bientôt.</p><p class="doux">Les pages seront mises en ligne au fil des séances.</p></div>':`
   ${choix}
+  ${fiche}
   ${seances.length?`<h2>Les séances</h2>${blocSeances}`:''}
   ${restant.length?`<section class="vue" style="gap:12px"><h2>${seances.length?'Autres ressources du chapitre':'Exercices et activités'}</h2><div class="liens">${restant.map(lien).join('')}</div></section>`:''}
   ${jeux.length?`<section class="vue" style="gap:12px" id="jeux"><h2>Tous les mini-jeux du chapitre</h2><div class="jeux">${jeux.map(carteJeu).join('')}</div></section>`:''}
@@ -868,7 +977,7 @@ function router(){
  else if(t){niveau(t.n);document.title='Classe de '+t.n.nom+' — '+S.titre}
  else{accueil();document.title=S.titre}
 }
-addEventListener('hashchange',()=>{const h=location.hash;if(pile.length>1&&pile[pile.length-2]===h)pile.pop();else pile.push(h);fermer();router()});
+addEventListener('hashchange',()=>{document.body.classList.remove('imprime-fiche');const h=location.hash;if(pile.length>1&&pile[pile.length-2]===h)pile.pop();else pile.push(h);fermer();router()});
 document.addEventListener('click',e=>{const b=e.target.closest('.retour');if(!b)return;
  const cible=b.getAttribute('data-parent')||'#',nor=x=>String(x||'').replace(/^#/,'');
  /* le bouton va TOUJOURS à sa destination (Accueil, 4e, Ascension…) : on ne revient en arrière que si la page précédente est déjà cette destination */
