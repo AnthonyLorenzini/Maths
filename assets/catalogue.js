@@ -625,9 +625,28 @@ window.SITE = {
         },
         {
           id: "4e-ch4", num: 4, titre: "Le théorème de Pythagore",
-          resume: "Calculer une longueur dans un triangle rectangle.",
-          bientot: true,
-          ressources: []
+          resume: "Découvrir le théorème, puis calculer une longueur dans un triangle rectangle.",
+          seances: [
+            {
+              titre: "Découvrir le théorème de Pythagore", duree: "50 min",
+              contenu: [
+                "Pas d'automatisme : toute la séance est consacrée à la découverte.",
+                "Puzzle des aires, sur écran ou sur papier : les 4 morceaux du carré construit sur le grand côté de l'angle droit et le petit carré recouvrent exactement le carré construit sur l'hypoténuse.",
+                "Vérification par le calcul pour des triangles rectangles quelconques, puis cas d'un triangle qui n'est pas rectangle : l'égalité des aires n'est plus vraie."
+              ],
+              ressources: ["4e-ch4-s1"],
+              retenir: [
+                "Dans un triangle rectangle, l'**hypoténuse** est le côté opposé à l'angle droit : c'est le plus long côté.",
+                "**Théorème de Pythagore** : dans un triangle rectangle, l'aire du carré construit sur l'hypoténuse est égale à la somme des aires des carrés construits sur les deux autres côtés.",
+                "Si le triangle ABC est **rectangle en A**, alors **BC² = AB² + AC²**. Le théorème ne s'applique qu'aux triangles rectangles."
+              ],
+              exemple: "Côtés de l'angle droit : 3 cm et 4 cm. 3² + 4² = 9 + 16 = 25 : le carré de l'hypoténuse a une aire de 25 cm².",
+              savoir: "reconnaître l'hypoténuse et calculer l'aire du carré construit sur l'hypoténuse."
+            }
+          ],
+          ressources: [
+            { id: "4e-ch4-s1", type: "exos", titre: "Séance 1 — Découvrir le théorème de Pythagore", resume: "Un puzzle d'aires, une vérification par le calcul et le cas du triangle non rectangle.", ajout: "2026-10-20" }
+          ]
         }
       ]
     }
