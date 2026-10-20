@@ -645,7 +645,8 @@ window.SITE = {
             }
           ],
           ressources: [
-            { id: "4e-ch4-s1", type: "exos", titre: "Séance 1 — Découvrir le théorème de Pythagore", resume: "Un puzzle d'aires, une vérification par le calcul et le cas du triangle non rectangle.", ajout: "2026-10-20" }
+            { id: "4e-ch4-s1", type: "exos", titre: "Séance 1 — Découvrir le théorème de Pythagore", resume: "Un puzzle d'aires, une vérification par le calcul et le cas du triangle non rectangle.", ajout: "2026-10-20" },
+            { id: "4e-ch4-minijeux", type: "jeu", titre: "Mini-jeux — Trouve l'hypoténuse", resume: "Figures tournées, phrases « rectangle en… » et défi de 60 secondes pour que l'identification devienne un réflexe.", ajout: "2026-10-20" }
           ]
         }
       ]

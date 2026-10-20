@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini-jeux — Le théorème de Pythagore (4e)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange-b: #F0B25B; --orange-bg: #FEF2E3; --orange-t: #B5680A;
+    --green-b: #4CAF7D; --green-bg: #E9F7EF; --green-t: #1E7A4C;
+    --red-b: #E5544F; --red-bg: #FDEBEC; --red-t: #B5322E;
+    --blue: #2B6CB0; --ink: #22303F;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+  .wrap { max-width: 780px; margin: 0 auto; }
+  header { text-align:center; margin-bottom:20px; }
+  h1 { font-family:'Baloo 2',sans-serif; font-size:24px; margin:0 0 4px 0; }
+  header p { color:#6B7A8A; margin:0; font-size:14px; }
+  .tabs { display:flex; gap:8px; justify-content:center; margin-bottom:18px; flex-wrap:wrap; }
+  .tab-btn { font-family:'Baloo 2',sans-serif; font-size:14px; padding:8px 14px; border-radius:20px; border:2px solid var(--ink); background:#fff; cursor:pointer; color:var(--ink); }
+  .tab-btn[aria-selected="true"] { background:var(--ink); color:#fff; }
+  .game { display:none; background:#fff; border-radius:18px; padding:22px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+  .game.active { display:block; }
+  .game h2 { font-family:'Baloo 2',sans-serif; font-size:20px; margin:0 0 6px 0; }
+  .desc { font-size:14px; color:#51657A; margin-bottom:12px; line-height:1.45; }
+  .rappel { background:#FFF9EC; border:2px dashed #D8B24C; border-radius:10px; padding:8px 14px; margin-bottom:12px; font-size:14px; }
+  .rappel summary { cursor:pointer; font-family:'Baloo 2',sans-serif; font-weight:700; color:#8A6A10; }
+  .rappel p { margin:6px 0 2px; line-height:1.5; }
+  .scorebar { display:flex; justify-content:space-between; align-items:center; font-family:'Baloo 2',sans-serif; font-size:14px; margin-bottom:12px; background:#F4F1EA; border-radius:10px; padding:8px 14px; flex-wrap:wrap; gap:6px 14px; }
+  .niveaux { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
+  .abtn { font-family:'Baloo 2',sans-serif; font-size:14px; padding:7px 16px; border-radius:20px; border:2px solid var(--blue); background:#fff; color:var(--blue); cursor:pointer; }
+  .abtn[aria-pressed="true"] { background:var(--blue); color:#fff; }
+  .abtn.plein { background:var(--ink); border-color:var(--ink); color:#fff; }
+  .abtn:disabled { opacity:.45; cursor:default; }
+  .zone { background:#FBFAF6; border:2px solid #E3DDCD; border-radius:14px; padding:8px; margin-bottom:10px; }
+  .zone svg { display:block; width:100%; height:auto; max-height:340px; margin:0 auto; }
+  .zone[hidden], .choix[hidden], .fin[hidden], .fb[hidden] { display:none; }
+  .question { font-family:'Baloo 2',sans-serif; font-size:21px; line-height:1.35; text-align:center; background:var(--orange-bg); border:2px solid var(--orange-b); border-radius:14px; padding:18px 16px; margin-bottom:12px; }
+  .choix { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:10px; }
+  .choix button { font-family:'Baloo 2',sans-serif; font-size:22px; min-width:96px; padding:12px 20px; border-radius:14px; border:2px solid var(--ink); background:#fff; color:var(--ink); cursor:pointer; }
+  .choix button:hover:not(:disabled) { background:#F4F1EA; }
+  .choix button.bon { background:var(--green-bg); border-color:var(--green-b); color:var(--green-t); }
+  .choix button.mauvais { background:var(--red-bg); border-color:var(--red-b); color:var(--red-t); }
+  .choix button:disabled { cursor:default; }
+  .fb { font-size:15px; line-height:1.45; min-height:1.5em; padding:8px 12px; border-radius:10px; margin-bottom:8px; font-weight:600; }
+  .fb.bon { background:var(--green-bg); color:var(--green-t); }
+  .fb.mauvais { background:var(--red-bg); color:var(--red-t); }
+  .timer { font-family:'Baloo 2',sans-serif; font-size:34px; text-align:center; color:var(--orange-t); margin-bottom:6px; }
+  .fin { background:var(--green-bg); border:2px solid var(--green-b); border-radius:14px; padding:14px 16px; font-size:15px; line-height:1.5; margin-bottom:10px; }
+  .cote-hit { fill:none; stroke:transparent; stroke-width:26px; cursor:pointer; pointer-events:stroke; }
+  svg text.lbl { font-family:'Work Sans',Arial,sans-serif; font-weight:700; fill:#22303F; paint-order:stroke; stroke:#fff; stroke-linejoin:round; pointer-events:none; }
+  footer { text-align:center; margin-top:20px; font-size:11.5px; color:#8894A0; }
+</style>
+<style>@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Mini-jeux — Le théorème de Pythagore</h1>
+    <p>Chapitre 4 — 4e — entraînement libre, à volonté</p>
+  </header>
+
+  <div class="tabs" role="tablist" aria-label="Choix du jeu">
+    <button class="tab-btn" role="tab" id="tab-a" aria-selected="true" aria-controls="game-a">🎯 Clique sur l'hypoténuse</button>
+    <button class="tab-btn" role="tab" id="tab-b" aria-selected="false" aria-controls="game-b">✍️ Rectangle en… ?</button>
+    <button class="tab-btn" role="tab" id="tab-c" aria-selected="false" aria-controls="game-c">⏱ Défi 60 secondes</button>
+  </div>
+
+  <!-- JEU A : cliquer sur l'hypoténuse dans une figure -->
+  <section class="game active" id="game-a" role="tabpanel" aria-labelledby="tab-a">
+    <h2>Clique sur l'hypoténuse</h2>
+    <p class="desc">Un triangle rectangle est dessiné, dans une position au hasard. Clique sur son <b>hypoténuse</b>. Pour viser le bon côté, regarde d'abord où est l'angle droit.</p>
+    <details class="rappel"><summary>Besoin d'un rappel ?</summary><p>L'<b>hypoténuse</b> est le côté <b>en face de l'angle droit</b> : c'est le seul côté qui ne le touche pas. C'est aussi le <b>plus long</b> côté du triangle.</p></details>
+    <div class="niveaux" role="group" aria-label="Niveau">
+      <button type="button" class="abtn" id="a-niv1" aria-pressed="true">Niveau 1 : figure bien posée</button>
+      <button type="button" class="abtn" id="a-niv2" aria-pressed="false">Niveau 2 : figure tournée</button>
+    </div>
+    <div class="scorebar" aria-live="off">
+      <span>Série : <b id="a-serie">0</b></span><span>Meilleure série : <b id="a-best">0</b></span>
+      <span>Réussites : <b id="a-ok">0</b> / <b id="a-total">0</b></span><span>Temps moyen : <b id="a-tps">–</b></span>
+    </div>
+    <div class="zone"><svg id="a-svg" data-fix xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 300"></svg></div>
+    <div class="fb" id="a-fb" role="status" aria-live="polite" hidden></div>
+    <button type="button" class="abtn plein" id="a-next" hidden>Suivant →</button>
+  </section>
+
+  <!-- JEU B : à partir de la phrase « rectangle en … » -->
+  <section class="game" id="game-b" role="tabpanel" aria-labelledby="tab-b">
+    <h2>Rectangle en… ?</h2>
+    <p class="desc">Ici, pas de dessin : il faut lire la phrase. Le triangle est rectangle en un sommet, et l'hypoténuse est le côté qui <b>ne touche pas</b> ce sommet. Attention, l'angle droit n'est pas toujours au milieu du nom du triangle !</p>
+    <details class="rappel"><summary>Besoin d'un rappel ?</summary><p>Triangle <b>ABC rectangle en B</b> : les côtés de l'angle droit sont [BA] et [BC], donc l'hypoténuse est <b>[AC]</b>, le côté qui ne contient pas la lettre B.</p></details>
+    <div class="scorebar" aria-live="off">
+      <span>Série : <b id="b-serie">0</b></span><span>Meilleure série : <b id="b-best">0</b></span>
+      <span>Réussites : <b id="b-ok">0</b> / <b id="b-total">0</b></span><span>Temps moyen : <b id="b-tps">–</b></span>
+    </div>
+    <div class="question" id="b-txt"></div>
+    <div class="choix" id="b-choix" role="group" aria-label="Réponses possibles"></div>
+    <div class="zone" id="b-zone" hidden><svg id="b-svg" data-fix xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 300"></svg></div>
+    <div class="fb" id="b-fb" role="status" aria-live="polite" hidden></div>
+    <button type="button" class="abtn plein" id="b-next" hidden>Suivant →</button>
+  </section>
+
+  <!-- JEU C : défi chronométré -->
+  <section class="game" id="game-c" role="tabpanel" aria-labelledby="tab-c">
+    <h2>Défi 60 secondes</h2>
+    <p class="desc">Combien d'hypoténuses peux-tu trouver en une minute ? Les questions mélangent les figures tournées et les phrases « rectangle en… ». Une erreur ne retire rien, mais fait perdre du temps !</p>
+    <div class="scorebar" aria-live="off">
+      <span>Bonnes réponses : <b id="c-ok">0</b></span><span>Réponses données : <b id="c-total">0</b></span><span>Meilleur score : <b id="c-best">0</b></span>
+    </div>
+    <div class="timer" id="c-timer" aria-hidden="true">1:00</div>
+    <div id="c-jeu" hidden>
+      <div class="question" id="c-txt" hidden></div>
+      <div class="zone" id="c-zone" hidden><svg id="c-svg" data-fix xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 300"></svg></div>
+      <div class="choix" id="c-choix" role="group" aria-label="Réponses possibles" hidden></div>
+      <div class="fb" id="c-fb" role="status" aria-live="polite" hidden></div>
+    </div>
+    <div class="fin" id="c-fin" role="status" hidden></div>
+    <button type="button" class="abtn plein" id="c-start">▶ C'est parti !</button>
+  </section>
+
+  <footer>Les mini-jeux sont là pour s'entraîner : ils ne comptent pas pour l'ascension de la montgolfière.</footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  var LETTRES = "ABCDEFGHKLMNPRSTUVXYZ";
+
+  /* ---------- outils ---------- */
+  function $(id) { return document.getElementById(id); }
+  function el(tag, attrs, parent) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) { if (Object.prototype.hasOwnProperty.call(attrs, k)) e.setAttribute(k, attrs[k]); }
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function alea(n) { return Math.floor(Math.random() * n); }
+  function melange(t) { for (var i = t.length - 1; i > 0; i--) { var j = alea(i + 1), x = t[i]; t[i] = t[j]; t[j] = x; } return t; }
+  function fmtSec(x) { return (Math.round(x * 10) / 10).toString().replace(".", ","); }
+  function fixLabels(svg) {            /* étiquettes : 13 px minimum à l'écran */
+    var vb = svg.viewBox.baseVal, r = svg.getBoundingClientRect();
+    if (!vb || !vb.width || !r.width || !r.height) return;
+    var k = Math.min(r.width / vb.width, r.height / vb.height);
+    var ts = svg.querySelectorAll("text.lbl");
+    for (var i = 0; i < ts.length; i++) {
+      ts[i].setAttribute("font-size", (Math.max(13, parseFloat(ts[i].getAttribute("data-px") || "18")) / k).toFixed(3));
+      ts[i].setAttribute("stroke-width", (3 / k).toFixed(3));
+    }
+  }
+  var vus = [];
+  function surveiller(svg) {
+    if (vus.indexOf(svg) !== -1) return;
+    vus.push(svg);
+    if (window.ResizeObserver) new ResizeObserver(function () { fixLabels(svg); }).observe(svg);
+    else window.addEventListener("resize", function () { fixLabels(svg); });
+  }
+
+  /* ---------- questions ----------
+     Un triangle : 3 noms de sommets, r = indice du sommet de l'angle droit.
+     Le côté k est celui qui est en face du sommet k (entre les deux autres) ; l'hypoténuse est donc le côté r. */
+  function nouvelleQuestion(type, niveau) {
+    var pool = LETTRES.split("");
+    melange(pool);
+    var q = { type: type, noms: pool.slice(0, 3), r: alea(3), inv: [alea(2) === 1, alea(2) === 1, alea(2) === 1] };
+    if (type === "fig") q.pts = geometrie(niveau, q.r);
+    return q;
+  }
+  function cote(q, k) {
+    var a = q.noms[(k + 1) % 3], b = q.noms[(k + 2) % 3];
+    return "[" + (q.inv[k] ? b + a : a + b) + "]";
+  }
+  function phrase(q) {
+    var T = q.noms.join(""), X = q.noms[q.r];
+    var modeles = [
+      "Le triangle " + T + " est rectangle en " + X + ". Quelle est son hypoténuse ?",
+      "Dans le triangle " + T + " rectangle en " + X + ", quel est le plus long côté ?",
+      T + " est un triangle rectangle en " + X + ". Quel segment est son hypoténuse ?"
+    ];
+    return modeles[alea(modeles.length)];
+  }
+  /* triangle rectangle de forme et d'orientation aléatoires, ajusté à la zone de dessin */
+  function geometrie(niveau, r) {
+    var W = 420, H = 300, m = 56;
+    var l1 = 100 + Math.random() * 50, l2 = l1 * (0.42 + Math.random() * 0.58);
+    if (alea(2)) { var t = l1; l1 = l2; l2 = t; }
+    var deg = niveau === 1 ? 90 * alea(4) : 90 * alea(4) + 12 + Math.random() * 66;
+    var th = deg * Math.PI / 180, flip = alea(2) ? 1 : -1, c = Math.cos(th), s = Math.sin(th);
+    var R = [0, 0], P = [l1 * c, l1 * s], Q = [-flip * l2 * s, flip * l2 * c];
+    var xs = [R[0], P[0], Q[0]], ys = [R[1], P[1], Q[1]];
+    var x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs), y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
+    var k = Math.min((W - 2 * m) / (x1 - x0), (H - 2 * m) / (y1 - y0)) * (0.8 + Math.random() * 0.2);
+    var cx = W / 2 - k * (x0 + x1) / 2, cy = H / 2 - k * (y0 + y1) / 2;
+    function f(p) { return [cx + k * p[0], cy + k * p[1]]; }
+    var autres = melange([f(P), f(Q)]), pts = [null, null, null], j = 0;
+    pts[r] = f(R);
+    for (var i = 0; i < 3; i++) if (i !== r) pts[i] = autres[j++];
+    return pts;
+  }
+
+  /* ---------- dessin ---------- */
+  function dessiner(svg, q, reveler, choisi, surClic) {
+    svg.innerHTML = "";
+    var P = q.pts, hyp = q.r;
+    var G = [(P[0][0] + P[1][0] + P[2][0]) / 3, (P[0][1] + P[1][1] + P[2][1]) / 3];
+    el("polygon", { points: P.map(function (p) { return p.join(","); }).join(" "), fill: "#FFF8E1" }, svg);
+    for (var k = 0; k < 3; k++) {
+      var a = P[(k + 1) % 3], b = P[(k + 2) % 3];
+      var coul = "#22303F", ep = 4;
+      if (reveler && k === hyp) { coul = "#2E9B5E"; ep = 8; }
+      else if (reveler && k === choisi) { coul = "#D8523A"; ep = 8; }
+      el("line", { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: coul, "stroke-width": ep, "stroke-linecap": "round", "vector-effect": "non-scaling-stroke" }, svg);
+    }
+    /* marque de l'angle droit */
+    var R = P[q.r], A = P[(q.r + 1) % 3], B = P[(q.r + 2) % 3];
+    function unit(u) { var d = Math.hypot(u[0] - R[0], u[1] - R[1]); return [(u[0] - R[0]) / d, (u[1] - R[1]) / d]; }
+    var e1 = unit(A), e2 = unit(B), s = 18;
+    el("polyline", { points: [[R[0] + e1[0] * s, R[1] + e1[1] * s], [R[0] + (e1[0] + e2[0]) * s, R[1] + (e1[1] + e2[1]) * s], [R[0] + e2[0] * s, R[1] + e2[1] * s]].map(function (p) { return p.join(","); }).join(" "),
+      fill: "none", stroke: "#22303F", "stroke-width": 2, "vector-effect": "non-scaling-stroke" }, svg);
+    /* lettres des sommets, placées vers l'extérieur */
+    for (var i = 0; i < 3; i++) {
+      var vx = P[i][0] - G[0], vy = P[i][1] - G[1], l = Math.hypot(vx, vy) || 1;
+      var t = el("text", { x: P[i][0] + vx / l * 22, y: P[i][1] + vy / l * 22, "text-anchor": "middle", "dominant-baseline": "central", "class": "lbl", "data-px": 20 }, svg);
+      t.textContent = q.noms[i];
+    }
+    /* zones cliquables */
+    if (surClic) {
+      for (var kk = 0; kk < 3; kk++) (function (k) {
+        var a = P[(k + 1) % 3], b = P[(k + 2) % 3];
+        var h = el("line", { x1: a[0], y1: a[1], x2: b[0], y2: b[1], "class": "cote-hit", "vector-effect": "non-scaling-stroke", tabindex: 0, role: "button",
+          "aria-label": "Côté " + cote(q, k) }, svg);
+        h.addEventListener("click", function () { surClic(k); });
+        h.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); surClic(k); } });
+      })(kk);
+    }
+    svg.setAttribute("aria-label", "Triangle " + q.noms.join("") + ", l'angle droit est marqué en " + q.noms[q.r]);
+    svg.setAttribute("role", "group");
+    surveiller(svg); fixLabels(svg);
+  }
+
+  /* ---------- moteur d'un jeu ----------
+     cfg.p : préfixe des identifiants ; cfg.mode : "fig", "txt" ou "mix" ; cfg.niveau() : niveau des figures. */
+  function Jeu(cfg) {
+    var p = cfg.p, e = function (s) { return $(p + "-" + s); };
+    var S = { serie: 0, best: 0, ok: 0, total: 0, tps: 0, q: null, t0: 0, rep: false, minuteur: null };
+    function maj() {
+      if (e("serie")) e("serie").textContent = S.serie;
+      if (e("best")) e("best").textContent = S.best;
+      e("ok").textContent = S.ok;
+      e("total").textContent = S.total;
+      if (e("tps")) e("tps").textContent = S.ok ? fmtSec(S.tps / S.ok) + " s" : "–";
+    }
+    function montrer(id, oui) { if (e(id)) e(id).hidden = !oui; }
+    function suivante() {
+      clearTimeout(S.minuteur);
+      var type = cfg.mode === "mix" ? (alea(2) ? "fig" : "txt") : cfg.mode;
+      var niv = cfg.niveau();
+      if (cfg.mode === "mix") niv = 1 + alea(2);
+      var q = nouvelleQuestion(type, niv);
+      S.q = q; S.rep = false; S.t0 = performance.now();
+      montrer("fb", false); montrer("next", false);
+      if (type === "fig") {
+        dessiner(e("svg"), q, false, null, repondre);
+        montrer("zone", true); montrer("txt", false); montrer("choix", false);
+      } else {
+        e("txt").textContent = phrase(q);
+        montrer("txt", true); montrer("choix", true);
+        montrer("zone", false);
+        var c = e("choix"); c.innerHTML = "";
+        melange([0, 1, 2]).forEach(function (k) {
+          var b = document.createElement("button");
+          b.type = "button"; b.textContent = cote(q, k); b.setAttribute("data-k", k);
+          b.addEventListener("click", function () { repondre(k); });
+          c.appendChild(b);
+        });
+      }
+    }
+    function repondre(k) {
+      if (S.rep || !S.q) return;
+      S.rep = true;
+      var q = S.q, duree = (performance.now() - S.t0) / 1000, bon = k === q.r;
+      S.total++;
+      if (bon) { S.ok++; S.serie++; S.tps += duree; if (S.serie > S.best) S.best = S.serie; } else { S.serie = 0; }
+      maj();
+      if (q.type === "fig") {
+        dessiner(e("svg"), q, true, k, null);
+      } else {
+        Array.prototype.forEach.call(e("choix").children, function (b) {
+          b.disabled = true;
+          var kb = +b.getAttribute("data-k");
+          if (kb === q.r) b.className = "bon"; else if (kb === k) b.className = "mauvais";
+        });
+        if (!q.pts) q.pts = geometrie(2, q.r);
+        dessiner(e("svg"), q, true, k, null);
+        montrer("zone", true);
+      }
+      var X = q.noms[q.r], fb = e("fb");
+      fb.hidden = false;
+      fb.className = "fb " + (bon ? "bon" : "mauvais");
+      fb.textContent = bon
+        ? "✅ Oui ! " + cote(q, q.r) + " est l'hypoténuse : c'est le côté en face de l'angle droit (en " + X + ")."
+        : "❌ Non. L'angle droit est en " + X + " : l'hypoténuse est le côté en face, " + cote(q, q.r) + ". Tu avais choisi " + cote(q, k) + ".";
+      if (cfg.apres) cfg.apres(bon);
+      else if (bon) S.minuteur = setTimeout(suivante, 900);
+      else montrer("next", true);
+    }
+    if (e("next")) e("next").addEventListener("click", suivante);
+    maj();
+    return { suivante: suivante, repondre: repondre, etat: S, maj: maj };
+  }
+
+  /* ---------- jeu A ---------- */
+  var niveauA = 1;
+  var jeuA = Jeu({ p: "a", mode: "fig", niveau: function () { return niveauA; } });
+  [1, 2].forEach(function (n) {
+    $("a-niv" + n).addEventListener("click", function () {
+      niveauA = n;
+      $("a-niv1").setAttribute("aria-pressed", String(n === 1));
+      $("a-niv2").setAttribute("aria-pressed", String(n === 2));
+      jeuA.suivante();
+    });
+  });
+
+  /* ---------- jeu B ---------- */
+  var jeuB = Jeu({ p: "b", mode: "txt", niveau: function () { return 2; } });
+
+  /* ---------- jeu C : défi 60 s ---------- */
+  var chrono = { reste: 60, id: null, actif: false };
+  var meilleur = 0;
+  try { meilleur = parseInt(localStorage.getItem("mlPythHypBest") || "0", 10) || 0; } catch (x) {}
+  $("c-best").textContent = meilleur;
+  var jeuC = Jeu({ p: "c", mode: "mix", niveau: function () { return 2; },
+    apres: function (bon) {
+      jeuC.etat.minuteur = setTimeout(function () { if (chrono.actif) jeuC.suivante(); }, bon ? 600 : 1800);
+    } });
+  function affTemps() { var s = Math.max(0, chrono.reste); $("c-timer").textContent = "0:" + (s < 10 ? "0" : "") + s; }
+  function finChrono() {
+    chrono.actif = false; clearInterval(chrono.id); clearTimeout(jeuC.etat.minuteur);
+    $("c-jeu").hidden = true; $("c-start").hidden = false; $("c-start").textContent = "↺ Rejouer";
+    var sc = jeuC.etat.ok, rec = sc > meilleur;
+    if (rec) { meilleur = sc; try { localStorage.setItem("mlPythHypBest", String(sc)); } catch (x) {} }
+    $("c-best").textContent = meilleur;
+    var fin = $("c-fin"); fin.hidden = false;
+    fin.textContent = "⏱ Temps écoulé ! " + sc + " bonne" + (sc > 1 ? "s" : "") + " réponse" + (sc > 1 ? "s" : "") + " sur " + jeuC.etat.total + "." +
+      (rec && sc > 0 ? " 🏆 Nouveau record !" : "") + (jeuC.etat.ok ? " Temps moyen par bonne réponse : " + fmtSec(jeuC.etat.tps / jeuC.etat.ok) + " s." : "");
+  }
+  $("c-start").addEventListener("click", function () {
+    var S = jeuC.etat; S.ok = 0; S.total = 0; S.serie = 0; S.tps = 0; jeuC.maj();
+    $("c-fin").hidden = true; $("c-start").hidden = true; $("c-jeu").hidden = false;
+    chrono.reste = 60; chrono.actif = true; affTemps();
+    clearInterval(chrono.id);
+    chrono.id = setInterval(function () { chrono.reste--; affTemps(); if (chrono.reste <= 0) finChrono(); }, 1000);
+    jeuC.suivante();
+  });
+
+  /* ---------- onglets ---------- */
+  var onglets = ["a", "b", "c"];
+  onglets.forEach(function (id) {
+    $("tab-" + id).addEventListener("click", function () {
+      if (id !== "c" && chrono.actif) finChrono();
+      onglets.forEach(function (o) {
+        $("game-" + o).classList.toggle("active", o === id);
+        $("tab-" + o).setAttribute("aria-selected", String(o === id));
+      });
+      [$("a-svg"), $("b-svg"), $("c-svg")].forEach(fixLabels);
+    });
+  });
+
+  /* ---------- démarrage ---------- */
+  jeuA.suivante();
+  jeuB.suivante();
+  window.PythJeux = { nouvelleQuestion: nouvelleQuestion, cote: cote, geometrie: geometrie };
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>
