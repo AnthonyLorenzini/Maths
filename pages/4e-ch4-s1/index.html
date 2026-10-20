@@ -55,6 +55,23 @@ table.tab { border-collapse:collapse; width:100%; font-size:13.5px; background:#
 table.tab caption { text-align:left; font-weight:700; padding:2px 0 4px; font-family:'Baloo 2',sans-serif; }
 table.tab th, table.tab td { border:1.5px solid #C5D3E3; padding:4px 8px; text-align:center; }
 table.tab th { background:#E4EEFA; font-weight:700; }
+.somme { margin:10px 0 4px; }
+.eq { display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; }
+.terme { border:2.5px solid #C5D3E3; background:#fff; border-radius:12px; padding:6px 14px; text-align:center; min-width:96px; }
+.terme small { display:block; font-size:13px; color:#51657A; font-weight:600; }
+.terme b { font-family:'Baloo 2',sans-serif; font-size:24px; line-height:1.15; }
+.terme.ta { border-color:#E4553F; background:#FDEEEA; }
+.terme.tb { border-color:#E0AE1B; background:#FFF6D6; }
+.terme.tc { border-color:#3FA766; background:#E8F6EE; }
+.terme.tsom { border:4px solid #6E4FE0; background:#EFEAFE; padding:8px 18px; }
+.terme.tsom small { color:#4B2FB5; font-weight:700; }
+.terme.tsom b { font-size:34px; color:#4B2FB5; }
+.op { font-family:'Baloo 2',sans-serif; font-size:30px; font-weight:700; color:#22303F; }
+.piles { display:grid; grid-template-columns:auto 1fr; gap:6px 10px; align-items:center; font-size:13.5px; margin:10px 0 4px; }
+.pile { display:flex; height:26px; background:#EEF2F7; border-radius:6px; overflow:hidden; }
+.pile i { display:block; height:100%; min-width:2px; transition:width .3s ease; }
+.pile .pa { background:#E4553F; } .pile .pb { background:#F3C94B; } .pile .pc { background:#6CC686; }
+table.tab th.som, table.tab td.som { background:#EFEAFE; color:#4B2FB5; font-weight:700; }
 .barres { display:grid; grid-template-columns:auto 1fr; gap:4px 10px; align-items:center; font-size:13.5px; margin:8px 0; }
 .barre { height:18px; border-radius:5px; background:#3FA766; transition:width .3s ease; }
 .barre.autre { background:#E0AE1B; }
@@ -159,12 +176,22 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     <div class="fig">
       <svg id="svg-calc" data-fix role="img" aria-label="Triangle rectangle de côtés a et b avec un carré sur chaque côté" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"></svg>
     </div>
-    <div class="cartes" aria-live="polite">
-      <div class="carte ca"><b>Carré rouge (côté a)</b><span class="v" id="c-a2"></span></div>
-      <div class="carte cb"><b>Carré jaune (côté b)</b><span class="v" id="c-b2"></span></div>
-      <div class="carte cc"><b>Grand carré vert (hypoténuse)</b><span class="v" id="c-c2"></span></div>
+    <div class="somme" aria-live="polite">
+      <div class="eq">
+        <div class="terme ta"><small id="s-a-txt">carré rouge</small><b id="s-a2">9</b></div>
+        <span class="op" aria-label="plus">+</span>
+        <div class="terme tb"><small id="s-b-txt">carré jaune</small><b id="s-b2">16</b></div>
+        <span class="op" aria-label="égale">=</span>
+        <div class="terme tsom"><small>SOMME des deux aires</small><b id="s-som">25</b></div>
+        <span class="op" id="s-signe" aria-label="égale">=</span>
+        <div class="terme tc"><small>grand carré vert</small><b id="s-c2">25</b></div>
+      </div>
+      <div class="piles" aria-hidden="true">
+        <span>Rouge + jaune</span><div class="pile"><i class="pa" id="p-a"></i><i class="pb" id="p-b"></i></div>
+        <span>Grand carré</span><div class="pile"><i class="pc" id="p-c"></i></div>
+      </div>
     </div>
-    <p style="font-size:13px;color:#51657A;margin-top:0">L'aire du grand carré est calculée par l'ordinateur à partir des coordonnées de ses quatre sommets, sans utiliser le résultat de a² + b².</p>
+    <p style="font-size:13px;color:#51657A;margin-top:0">L'aire du grand carré est calculée par l'ordinateur à partir des coordonnées de ses quatre sommets, sans utiliser le résultat de la somme.</p>
     <div class="egal" id="c-egal" role="status" aria-live="polite"></div>
     <div class="ctrl">
       <button type="button" class="abtn" id="btn-ajout">➕ Ajouter ce triangle à mon tableau</button>
@@ -172,7 +199,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     </div>
     <table class="tab" id="tab">
       <caption>Mes triangles rectangles</caption>
-      <thead><tr><th scope="col">a</th><th scope="col">b</th><th scope="col">a² + b²</th><th scope="col">Aire du carré sur l'hypoténuse</th><th scope="col">Égaux ?</th></tr></thead>
+      <thead><tr><th scope="col">a</th><th scope="col">b</th><th scope="col" class="som">a² + b²</th><th scope="col">Aire du carré sur l'hypoténuse</th><th scope="col">Égaux ?</th></tr></thead>
       <tbody id="tab-corps"><tr><td colspan="5" style="color:#6B7A8A">Ajoute au moins 4 triangles différents.</td></tr></tbody>
     </table>
     <p><b>Que remarques-tu ?</b> Écris une phrase dans ton cahier avec les mots « triangle rectangle », « hypoténuse » et « aires ».</p>
@@ -628,21 +655,29 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     $("a-val").textContent = fmt(a); $("b-val").textContent = fmt(b);
     var r = dessiner($("svg-calc"), a, b, 90, { lettres: true });
     var a2 = a * a, b2 = b * b, somme = a2 + b2;
-    $("c-a2").textContent = "a² = " + fmt(a) + "² = " + fmt(a2);
-    $("c-b2").textContent = "b² = " + fmt(b) + "² = " + fmt(b2);
-    $("c-c2").textContent = fmt(r.aireC);
-    var e = $("c-egal");
     var ok = Math.abs(r.aireC - somme) < 1e-9;
+    $("s-a-txt").textContent = "carré rouge : a² = " + fmt(a) + "²";
+    $("s-b-txt").textContent = "carré jaune : b² = " + fmt(b) + "²";
+    $("s-a2").textContent = fmt(a2);
+    $("s-b2").textContent = fmt(b2);
+    $("s-som").textContent = fmt(somme);
+    $("s-c2").textContent = fmt(r.aireC);
+    $("s-signe").textContent = ok ? "=" : "≠";
+    var maxi = 288;                                   /* 12² + 12² : somme maximale des curseurs */
+    $("p-a").style.width = (a2 / maxi * 100) + "%";
+    $("p-b").style.width = (b2 / maxi * 100) + "%";
+    $("p-c").style.width = (r.aireC / maxi * 100) + "%";
+    var e = $("c-egal");
     e.className = "egal" + (ok ? "" : " non");
-    e.textContent = (ok ? "✅ " : "❌ ") + "a² + b² = " + fmt(a2) + " + " + fmt(b2) + " = " + fmt(somme) +
-      (ok ? " : c'est exactement l'aire du grand carré." : " : différent de l'aire du grand carré.");
+    e.textContent = (ok ? "✅ " : "❌ ") + fmt(a2) + " + " + fmt(b2) + " = " + fmt(somme) +
+      (ok ? " : la somme des aires des deux petits carrés est égale à l'aire du grand carré." : " : différent de l'aire du grand carré.");
     return { a: a, b: b, somme: somme, aireC: r.aireC, ok: ok };
   }
   function majTable() {
     var tb = $("tab-corps");
     if (!rows.length) { tb.innerHTML = '<tr><td colspan="5" style="color:#6B7A8A">Ajoute au moins 4 triangles différents.</td></tr>'; return; }
     tb.innerHTML = rows.map(function (r) {
-      return "<tr><td>" + fmt(r.a) + "</td><td>" + fmt(r.b) + "</td><td>" + fmt(r.somme) + "</td><td>" + fmt(r.aireC) + "</td><td>" + (r.ok ? "oui ✅" : "non ❌") + "</td></tr>";
+      return "<tr><td>" + fmt(r.a) + "</td><td>" + fmt(r.b) + "</td><td class=\"som\">" + fmt(r.somme) + "</td><td>" + fmt(r.aireC) + "</td><td>" + (r.ok ? "oui ✅" : "non ❌") + "</td></tr>";
     }).join("");
   }
   var cur = majCalc();
