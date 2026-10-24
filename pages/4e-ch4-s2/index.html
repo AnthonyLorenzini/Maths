@@ -103,6 +103,42 @@ svg text.lbl { font-family:'Work Sans',Arial,sans-serif; font-weight:700; fill:#
 .solution-panel .label { color:#1E7A4C; }
 footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
 
+
+/* ---------- calculatrice projetée ---------- */
+.zone-calc { display:grid; grid-template-columns:minmax(300px,390px) 1fr; gap:22px; align-items:start; margin:10px 0; }
+@media (max-width:780px) { .zone-calc { grid-template-columns:1fr; } }
+.calc { background:#8FD3BC; border-radius:34px 34px 40px 40px; padding:14px 16px 20px; box-shadow:inset 0 0 0 3px #7CC1AA, 0 8px 22px rgba(34,48,63,.25); user-select:none; -webkit-user-select:none; }
+.calc .tit { font:700 14px 'Work Sans',Arial,sans-serif; color:#1C4A3D; margin:2px 6px 8px; }
+.ecran { background:#CFEBD9; border:3px solid #7CC1AA; border-radius:10px; padding:8px 12px; height:116px; display:flex; flex-direction:column; justify-content:space-between; color:#13302A; overflow:hidden; }
+.ligne-expr { font:600 24px 'Work Sans',Arial,sans-serif; min-height:34px; white-space:nowrap; overflow:hidden; text-align:left; }
+.ligne-res { font:700 32px 'Work Sans',Arial,sans-serif; text-align:right; min-height:42px; white-space:nowrap; }
+.ligne-res.err { font-size:22px; }
+.rad { display:inline-flex; align-items:flex-start; vertical-align:baseline; }
+.rad > i { font-style:normal; margin-right:1px; }
+.rad > b { font-weight:inherit; border-top:2.5px solid currentColor; padding:0 3px 0 2px; margin-top:3px; min-width:.65em; line-height:1.1; }
+.rad > b.vide:empty::after, .vide { content:""; display:inline-block; width:.5em; height:.8em; border:2px dotted currentColor; vertical-align:middle; }
+.curseur { display:inline-block; width:2px; height:1em; background:currentColor; vertical-align:middle; margin-left:1px; animation:clig 1s steps(1) infinite; }
+@keyframes clig { 50% { opacity:0; } }
+.kg6 { display:grid; grid-template-columns:repeat(6,1fr); gap:9px 7px; margin-top:14px; }
+.kg5 { display:grid; grid-template-columns:repeat(5,1fr); gap:11px 8px; margin-top:12px; }
+.key { border:0; border-radius:999px; font:700 15px 'Work Sans',Arial,sans-serif; height:36px; background:#E5E9E6; color:#22303F; cursor:pointer; box-shadow:0 2px 0 #97A9A2; display:flex; align-items:center; justify-content:center; padding:0; line-height:1; }
+.key.num { height:48px; font-size:23px; background:#F7F8F6; }
+.key.nav { background:#7CC8AE; color:#1C4A3D; box-shadow:0 2px 0 #5AA68C; }
+.key.sec { background:#2F7FD0; color:#fff; box-shadow:0 2px 0 #1D5A9C; }
+.key.ac { background:#F7F8F6; }
+.key.inert { cursor:default; }
+.key:not(.inert):hover { filter:brightness(.95); }
+.key:active, .key.press { transform:translateY(2px); box-shadow:none; outline:4px solid #FFC83D; outline-offset:1px; }
+.key small { font-size:11px; font-weight:700; }
+.demo { display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; margin:12px 0 4px; font-size:15px; font-weight:600; }
+.conseil { font-size:15px; margin:0 0 8px; }
+.cartes-carres { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; }
+.cc { background:#fff; border:2px solid #C5D3E3; border-radius:12px; padding:8px 10px 10px; text-align:center; }
+.cc svg { display:block; margin:0 auto 6px; width:100%; max-width:132px; height:auto; }
+.cc .aire { font-family:'Baloo 2',sans-serif; font-size:17px; font-weight:700; }
+.cc .cote { min-height:2.6em; font-size:15px; font-weight:700; color:#1E7A4C; margin-top:4px; }
+.cc .cote.cache { color:#6B7A8A; font-weight:600; }
+.cc button { margin-top:4px; }
 </style>
 <style>@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}</style>
 </head>
@@ -189,32 +225,34 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     </div>
   </section>
 
-  <!-- ===================== ACTIVITÉ 3 : SE RAPPROCHER ===================== -->
+  <!-- ===================== ACTIVITÉ 3 : LA CALCULATRICE ET LA TOUCHE √ ===================== -->
   <section class="act" aria-labelledby="t-act3">
-    <h2 id="t-act3">Activité 3 — Se rapprocher de √n <span class="duree">environ 12 min</span></h2>
-    <p>On sait que le côté est entre deux entiers. Pour mieux le connaître, on essaie des nombres avec <b>un chiffre après la virgule</b> : on calcule leur carré et on le compare à l'aire.</p>
-    <div class="ctrl" role="group" aria-label="Choix de l'aire">
-      <span style="font-size:15px;font-weight:600">Aire n :</span>
-      <button type="button" class="abtn" data-ess="13" aria-pressed="true">13</button>
-      <button type="button" class="abtn" data-ess="20" aria-pressed="false">20</button>
-      <button type="button" class="abtn" data-ess="50" aria-pressed="false">50</button>
+    <h2 id="t-act3">Activité 3 — La calculatrice et la touche √ <span class="duree">environ 10 min</span></h2>
+    <p>Pour trouver le côté d'un carré dont on connaît l'aire, on utilise la touche <b>√</b> de la calculatrice : on appuie sur <b>√</b>, on tape l'aire, puis <b>EXE</b>. Si l'écran affiche une racine (comme √13), la touche <b>FORMAT</b> donne l'écriture décimale.</p>
+    <div class="zone-calc">
+      <div>
+        <div class="calc" id="calc" role="group" aria-label="Calculatrice collège">
+          <div class="tit">Calculatrice collège</div>
+          <div class="ecran" aria-live="polite"><div class="ligne-expr" id="calc-expr"></div><div class="ligne-res" id="calc-res"></div></div>
+          <div class="kg6" id="kg6"></div>
+          <div class="kg5" id="kg5"></div>
+        </div>
+        <div class="demo" role="group" aria-label="Démonstrations guidées">
+          <span>Démonstration :</span>
+          <button type="button" class="abtn" data-demo="13">√13</button>
+          <button type="button" class="abtn" data-demo="169">√169</button>
+          <button type="button" class="abtn" data-demo="50">√50</button>
+        </div>
+      </div>
+      <div>
+        <p class="conseil"><b>Trouve le côté de chaque carré</b> (arrondi au centième si ce n'est pas un nombre entier).</p>
+        <div class="cartes-carres" id="cartes-carres"></div>
+        <div class="ctrl"><button type="button" class="abtn" id="carres-tout">👀 Tout afficher</button></div>
+      </div>
     </div>
-    <table class="tab" id="tab-ess">
-      <caption id="ess-cap">Essais</caption>
-      <thead><tr><th scope="col">Je teste x =</th><th scope="col">x²</th><th scope="col">Comparé à n</th></tr></thead>
-      <tbody id="ess-corps"></tbody>
-    </table>
-    <div class="egal neutre" id="ess-msg" role="status" aria-live="polite"></div>
-    <div class="ctrl">
-      <button type="button" class="abtn plein" id="ess-next">Essai suivant ▶</button>
-      <button type="button" class="abtn" id="ess-cent" hidden>Passer aux centièmes ⏩</button>
-      <button type="button" class="abtn" id="ess-calc" hidden>🧮 Touche √ de la calculatrice</button>
-      <button type="button" class="abtn" id="ess-reset">↺ Recommencer</button>
-    </div>
-    <div class="egal neutre" id="calc-out" role="status" aria-live="polite" hidden></div>
     <div class="def">
       <b class="tag">À retenir</b>
-      Si n n'est pas un carré parfait, √n n'est pas un nombre entier. Sans calculatrice, on <b>encadre</b> : 3² = 9 &lt; 13 &lt; 16 = 4², donc <b>3 &lt; √13 &lt; 4</b>. La calculatrice donne une <b>valeur approchée</b> : √13 ≈ 3,61 (arrondi au centième).
+      Un carré d'aire A a un côté de <b>√A</b>. Si A est un carré parfait (25, 144…), le côté est un nombre entier. Sinon, la calculatrice donne une <b>valeur approchée</b> : √13 ≈ 3,61 (au centième) ; on sait seulement que 3 &lt; √13 &lt; 4.
     </div>
   </section>
 
@@ -262,8 +300,8 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
       <button type="button" class="toggle-btn astuce" onclick="toggle('astuce-3')">💡 Astuce</button>
       <button type="button" class="toggle-btn solution" onclick="toggle('solution-3')">✅ Solution</button>
     </div>
-    <div class="panel astuce-panel" id="astuce-3"><span class="label">Astuce</span>Arrondir au centième, c'est garder deux chiffres après la virgule : regarde le troisième chiffre. Vérifie avec l'encadrement : √50 est entre 7 et 8.</div>
-    <div class="panel solution-panel" id="solution-3"><span class="label">Solution</span>a) √2 = 1,41421… donc <b>1,41</b>. b) √7 = 2,64575… donc <b>2,65</b>. c) √19 = 4,35889… donc <b>4,36</b>. d) √50 = 7,07106… donc <b>7,07</b>.</div>
+    <div class="panel astuce-panel" id="astuce-3"><span class="label">Astuce</span>Tape la touche √, le nombre, puis EXE. Si l'écran affiche une racine (par exemple 5√2), appuie sur FORMAT pour obtenir l'écriture décimale. Arrondir au centième, c'est garder deux chiffres après la virgule : regarde le troisième chiffre.</div>
+    <div class="panel solution-panel" id="solution-3"><span class="label">Solution</span>a) √2 = 1,41421… donc <b>1,41</b>. b) √7 = 2,64575… donc <b>2,65</b>. c) √19 = 4,35889… donc <b>4,36</b>. d) √50 = 7,07106… donc <b>7,07</b> (la calculatrice affiche d'abord 5√2 : on appuie sur FORMAT).</div>
   </div>
 
   <div class="exo">
@@ -412,69 +450,212 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     b2.addEventListener("click", function () { SN = +b2.getAttribute("data-sand"); sEtape = 0; sable(); });
   });
 
-  /* ===================== ACTIVITÉ 3 : SE RAPPROCHER ===================== */
-  /* x est compté en centièmes (entier) : les comparaisons sont exactes. */
-  var E = { n: 13, stage: 1, X: 0, lo: 0, hi: 0, fini: false };
-  function cent(X) { return fmt(X / 100, 2); }
-  function dixieme(X) { return fmt(X / 100, 2); }
-  function essaisInit(n) {
-    E.n = n; E.stage = 1; E.fini = false;
-    E.X = Math.floor(Math.sqrt(n)) * 100; E.lo = E.X; E.hi = E.X + 100;
-    $("ess-corps").innerHTML = "";
-    $("ess-cap").textContent = "Essais avec un chiffre après la virgule (n = " + n + ")";
-    $("ess-msg").className = "egal neutre";
-    $("ess-msg").textContent = "On part de " + Math.floor(Math.sqrt(n)) + " < √" + n + " < " + (Math.floor(Math.sqrt(n)) + 1) + ". Premier essai : " + fmt((E.X + 10) / 100, 1) + ".";
-    $("ess-next").hidden = false; $("ess-next").disabled = false; $("ess-next").textContent = "Essai suivant ▶";
-    $("ess-cent").hidden = true; $("ess-calc").hidden = true; $("calc-out").hidden = true;
-    Array.prototype.forEach.call(document.querySelectorAll("[data-ess]"), function (b2) { b2.setAttribute("aria-pressed", String(+b2.getAttribute("data-ess") === n)); });
+  /* ===================== ACTIVITÉ 3 : CALCULATRICE ===================== */
+  var C = { t: [], done: false, res: null, mode: "S", ans: 0, err: null };
+  var OUV = ["(", "√("];
+  function ouverts() { var n = 0; C.t.forEach(function (x) { if (OUV.indexOf(x) >= 0) n++; else if (x === ")") n--; }); return n; }
+  function estChiffre(k) { return k !== undefined && /^[0-9]$/.test(k); }
+
+  /* analyse de l'expression : + − × ÷ ( ) √( ² Rép, multiplication implicite (2√3), parenthèses fermées automatiquement */
+  function analyser(t) {
+    var p = 0;
+    function peek() { return t[p]; }
+    function debut(k) { return k !== undefined && (estChiffre(k) || k === "," || k === "(" || k === "√(" || k === "Ans"); }
+    function expr() { var a = terme(); while (peek() === "+" || peek() === "−") { var op = t[p++]; a = { t: "bin", op: op, a: a, b: terme() }; } return a; }
+    function terme() {
+      var a = unaire();
+      for (;;) {
+        var k = peek();
+        if (k === "×" || k === "÷") { p++; a = { t: "bin", op: k, a: a, b: unaire() }; }
+        else if (debut(k)) { a = { t: "bin", op: "×", a: a, b: unaire() }; }
+        else break;
+      }
+      return a;
+    }
+    function unaire() { if (peek() === "−") { p++; return { t: "neg", a: unaire() }; } if (peek() === "+") { p++; return unaire(); } return post(); }
+    function post() { var a = prim(); while (peek() === "²") { p++; a = { t: "sq", a: a }; } return a; }
+    function prim() {
+      var k = peek();
+      if (k === undefined || k === ")") throw "syn";
+      if (k === "(") { p++; var e = expr(); if (peek() === ")") p++; return e; }
+      if (k === "√(") { p++; var e2 = expr(); if (peek() === ")") p++; return { t: "sqrt", a: e2 }; }
+      if (k === "Ans") { p++; return { t: "ans" }; }
+      if (estChiffre(k) || k === ",") {
+        var s = "";
+        while (peek() !== undefined && (estChiffre(peek()) || peek() === ",")) { var ch = t[p++]; s += ch === "," ? "." : ch; }
+        if (s === "." || (s.match(/\./g) || []).length > 1) throw "syn";
+        return { t: "num", v: parseFloat(s) };
+      }
+      throw "syn";
+    }
+    var r = expr();
+    if (p < t.length) throw "syn";
+    return r;
   }
-  function essaiSuivant() {
-    if (E.fini) return;
-    var pas = E.stage === 1 ? 10 : 1;
-    var X = E.X + pas, carre = X * X, cible = E.n * 10000, tx = fmt(X / 100, E.stage === 1 ? 1 : 2);
-    var petit = carre < cible;
-    var tr = document.createElement("tr");
-    tr.className = petit ? "petit" : "grand";
-    tr.innerHTML = "<td>" + tx + "</td><td>" + tx + "² = " + fmt(carre / 10000, 4) + "</td><td>" + fmt(carre / 10000, 4) + (petit ? " < " : " > ") + E.n + (petit ? " : trop petit" : " : trop grand") + "</td>";
-    $("ess-corps").appendChild(tr);
-    E.X = X;
-    if (petit) {
-      E.lo = X;
-      $("ess-msg").className = "egal neutre";
-      $("ess-msg").textContent = tx + " est trop petit : on essaie le suivant.";
-    } else {
-      E.hi = X; E.fini = true;
-      tr.classList.add("borne");
-      var d = E.stage === 1 ? 1 : 2;
-      $("ess-msg").className = "egal";
-      $("ess-msg").textContent = "✅ " + fmt(E.lo / 100, d) + " < √" + E.n + " < " + fmt(E.hi / 100, d) + (E.stage === 1 ? " : on connaît √" + E.n + " à un dixième près." : " : on connaît √" + E.n + " à un centième près.");
-      $("ess-next").hidden = true;
-      if (E.stage === 1) $("ess-cent").hidden = false; else $("ess-calc").hidden = false;
+  function evaluer(n) {
+    switch (n.t) {
+      case "num": return n.v;
+      case "ans": return C.ans;
+      case "neg": return -evaluer(n.a);
+      case "sq": var v = evaluer(n.a); return v * v;
+      case "sqrt": var w = evaluer(n.a); if (w < 0) throw "math"; return Math.sqrt(w);
+      default:
+        var x = evaluer(n.a), y = evaluer(n.b);
+        if (n.op === "+") return x + y;
+        if (n.op === "−") return x - y;
+        if (n.op === "×") return x * y;
+        if (y === 0) throw "math";
+        return x / y;
     }
   }
-  $("ess-next").addEventListener("click", essaiSuivant);
-  $("ess-reset").addEventListener("click", function () { essaisInit(E.n); });
-  Array.prototype.forEach.call(document.querySelectorAll("[data-ess]"), function (b2) {
-    b2.addEventListener("click", function () { essaisInit(+b2.getAttribute("data-ess")); });
+  function simplifier(n) {                      /* √n = a√b avec b sans facteur carré */
+    var a = 1, b = n;
+    for (var f = 2; f * f <= b; f++) { while (b % (f * f) === 0) { b /= f * f; a *= f; } }
+    return { a: a, b: b };
+  }
+  function dec(v) {
+    var s = String(parseFloat(v.toPrecision(10)));
+    if (/e/.test(s)) s = v.toExponential(6);
+    return s.replace(".", ",");
+  }
+  function calculer() {
+    if (!C.t.length) return;
+    try {
+      var ast = analyser(C.t), v = evaluer(ast);
+      if (!isFinite(v)) throw "math";
+      C.err = null; C.mode = "S"; C.res = { kind: "num", val: v };
+      if (ast.t === "sqrt") {                  /* comme la calculatrice : √13 reste √13, √50 devient 5√2 */
+        var inner = evaluer(ast.a);
+        if (Math.abs(inner - Math.round(inner)) < 1e-9 && inner > 0) {
+          var sm = simplifier(Math.round(inner));
+          if (sm.b !== 1) C.res = { kind: "rad", a: sm.a, b: sm.b, val: v };
+        }
+      }
+      C.ans = v;
+    } catch (e) { C.res = null; C.err = e === "math" ? "Erreur Math" : "Erreur Syntaxe"; }
+    C.done = true;
+  }
+  /* affichage : les racines s'écrivent avec leur barre, parenthèses manquantes fermées visuellement */
+  function rendre(t, i, prof) {
+    var out = "";
+    while (i < t.length) {
+      var k = t[i];
+      if (k === ")" && prof > 0) return { h: out, i: i };
+      if (k === "(" || k === "√(") {
+        var r = rendre(t, i + 1, prof + 1), ferme = r.i < t.length && t[r.i] === ")";
+        out += k === "(" ? "(" + r.h + (ferme ? ")" : "") : '<span class="rad"><i>√</i><b>' + (r.h || '<u class="vide"></u>') + "</b></span>";
+        i = ferme ? r.i + 1 : r.i;
+        continue;
+      }
+      out += k === "Ans" ? "Rép" : k === "²" ? "²" : k;
+      i++;
+    }
+    return { h: out, i: i };
+  }
+  function afficheCalc() {
+    $("calc-expr").innerHTML = rendre(C.t, 0, 0).h + (C.done ? "" : '<span class="curseur"></span>');
+    var r = $("calc-res"); r.className = "ligne-res";
+    if (C.err) { r.classList.add("err"); r.textContent = C.err; }
+    else if (!C.res) r.textContent = "";
+    else if (C.res.kind === "rad" && C.mode === "S") r.innerHTML = (C.res.a > 1 ? C.res.a : "") + '<span class="rad"><i>√</i><b>' + C.res.b + "</b></span>";
+    else r.textContent = dec(C.res.val);
+  }
+  function reinit() { C.t = []; C.done = false; C.res = null; C.err = null; C.mode = "S"; }
+  function appui(k) {
+    if (k === "AC" || k === "ON") reinit();
+    else if (k === "DEL") { if (C.done) reinit(); else C.t.pop(); }
+    else if (k === "EXE") calculer();
+    else if (k === "FMT") { if (C.res && C.res.kind === "rad") C.mode = C.mode === "S" ? "D" : "S"; }
+    else if (k === "RIGHT") { if (!C.done && ouverts() > 0) C.t.push(")"); }
+    else {
+      var op = k === "+" || k === "−" || k === "×" || k === "÷";
+      if (C.done) { C.t = (op || k === "²") && !C.err ? ["Ans"] : []; C.done = false; C.res = null; C.err = null; C.mode = "S"; }
+      if (k === ")" && ouverts() <= 0) { afficheCalc(); return; }
+      C.t.push(k);
+    }
+    afficheCalc();
+  }
+  (function construire() {
+    /* [libellé, code (ou null = touche sans effet ici), classe, colonne, ligne] */
+    var haut = [
+      ["ON", "ON", "", 1, 1], ["⌂", null, "", 2, 1], ["▲", null, "nav", 4, 1],
+      ["≡", null, "", 1, 2], ["↩", null, "", 2, 2], ["◀", null, "nav", 3, 2], ["OK", null, "nav", 4, 2], ["▶", "RIGHT", "nav", 5, 2],
+      ["⇧", null, "sec", 1, 3], ["⇄𝑥", null, "", 2, 3], ["f(𝑥)", null, "", 3, 3], ["▼", null, "nav", 4, 3], ["▤", null, "", 5, 3], ["•••", null, "", 6, 3],
+      ["𝑥", null, "", 1, 4], ["▭/▭", null, "", 2, 4], ["√▯", "√(", "", 3, 4], ["▯^▯", null, "", 4, 4], ["▯²", "²", "", 5, 4], [";", null, "", 6, 4],
+      ["Rép", "Ans", "", 1, 5], ["sin", null, "", 2, 5], ["cos", null, "", 3, 5], ["tan", null, "", 4, 5], ["(", "(", "", 5, 5], [")", ")", "", 6, 5]
+    ];
+    var g6 = $("kg6");
+    haut.forEach(function (d) { g6.appendChild(touche(d)); });
+    var roc = touche(["⇈\n⇊", null, "nav", 6, 1]); roc.style.gridRow = "1 / 3"; roc.style.height = "auto"; roc.style.whiteSpace = "pre"; roc.style.borderRadius = "20px"; g6.appendChild(roc);
+    var bas = [
+      ["7", "7", "num"], ["8", "8", "num"], ["9", "9", "num"], ["⌫", "DEL", "num"], ["AC", "AC", "num ac"],
+      ["4", "4", "num"], ["5", "5", "num"], ["6", "6", "num"], ["×", "×", "num"], ["÷", "÷", "num"],
+      ["1", "1", "num"], ["2", "2", "num"], ["3", "3", "num"], ["+", "+", "num"], ["−", "−", "num"],
+      ["0", "0", "num"], [",", ",", "num"], ["×10▯", null, "num"], ["FORMAT", "FMT", "num"], ["EXE", "EXE", "num"]
+    ];
+    var g5 = $("kg5");
+    bas.forEach(function (d) { var b = touche(d); if (d[0] === "FORMAT") b.style.fontSize = "11px"; if (d[0] === "AC" || d[0] === "EXE") b.style.fontSize = "17px"; if (d[0] === "×10▯") b.style.fontSize = "15px"; g5.appendChild(b); });
+    function touche(d) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "key " + d[2] + (d[1] ? "" : " inert");
+      b.textContent = d[0];
+      if (d[1]) { b.setAttribute("data-k", d[1]); b.addEventListener("click", function () { appui(d[1]); }); }
+      else b.setAttribute("aria-disabled", "true");
+      if (d[3]) { b.style.gridColumn = d[3]; b.style.gridRow = d[4]; }
+      b.setAttribute("aria-label", d[0] === "⌫" ? "Effacer" : d[0] === "√▯" ? "Racine carrée" : d[0] === "▯²" ? "Carré" : d[0]);
+      return b;
+    }
+  })();
+  /* démonstrations guidées : les touches s'illuminent l'une après l'autre */
+  var demoId = 0;
+  var DEMOS = { "13": ["√(", "1", "3", "EXE", "FMT"], "169": ["√(", "1", "6", "9", "EXE"], "50": ["√(", "5", "0", "EXE", "FMT"] };
+  Array.prototype.forEach.call(document.querySelectorAll("[data-demo]"), function (bt) {
+    bt.addEventListener("click", function () {
+      var id = ++demoId, seq = DEMOS[bt.getAttribute("data-demo")], i = 0;
+      appui("AC");
+      (function pas() {
+        if (id !== demoId || i >= seq.length) return;
+        var k = seq[i++], touche = document.querySelector('#calc [data-k="' + k + '"]');
+        if (touche) { touche.classList.add("press"); setTimeout(function () { touche.classList.remove("press"); }, 650); }
+        setTimeout(function () { if (id === demoId) { appui(k); setTimeout(pas, 450); } }, 450);
+      })();
+    });
   });
-  $("ess-cent").addEventListener("click", function () {
-    E.stage = 2; E.fini = false; E.X = E.lo;
-    $("ess-corps").innerHTML = "";
-    $("ess-cap").textContent = "Essais avec deux chiffres après la virgule (n = " + E.n + ")";
-    $("ess-msg").className = "egal neutre";
-    $("ess-msg").textContent = "On repart de " + fmt(E.lo / 100, 1) + " < √" + E.n + " < " + fmt(E.hi / 100, 1) + " et on teste les centièmes.";
-    $("ess-cent").hidden = true; $("ess-next").hidden = false;
-  });
-  $("ess-calc").addEventListener("click", function () {
-    var r = Math.sqrt(E.n), o = $("calc-out");
-    o.hidden = false;
-    o.textContent = "🧮 La touche √ donne √" + E.n + " ≈ " + r.toFixed(9).replace(".", ",") + "… Le nombre ne s'arrête jamais : on en donne une valeur approchée, par exemple " + r.toFixed(2).replace(".", ",") + " (au centième).";
+  /* carrés d'aire donnée */
+  var AIRES = [25, 13, 144, 20, 50, 7], reveles = {};
+  function coteTexte(a) {
+    var r = Math.sqrt(a);
+    return Math.abs(r - Math.round(r)) < 1e-12 ? "côté = √" + a + " = " + Math.round(r) + " cm" : "côté = √" + a + " ≈ " + r.toFixed(2).replace(".", ",") + " cm";
+  }
+  function cartes() {
+    var h = $("cartes-carres"); h.innerHTML = "";
+    AIRES.forEach(function (a) {
+      var c = document.createElement("div"); c.className = "cc";
+      var sz = Math.sqrt(a) * 9;
+      c.innerHTML = '<svg viewBox="0 0 120 120" role="img" aria-label="Carré d\'aire ' + a + ' centimètres carrés"><rect x="6" y="' + (114 - sz) + '" width="' + sz + '" height="' + sz + '" fill="#CFEBD7" stroke="#2E8B57" stroke-width="2.5"/></svg>' +
+        '<div class="aire">aire = ' + a + ' cm²</div><div class="cote cache" aria-live="polite">côté = ?</div><button type="button" class="abtn">Voir le côté</button>';
+      var cote = c.querySelector(".cote"), bt = c.querySelector("button");
+      function maj() { var on = !!reveles[a]; cote.textContent = on ? coteTexte(a) : "côté = ?"; cote.classList.toggle("cache", !on); bt.textContent = on ? "Masquer" : "Voir le côté"; }
+      bt.addEventListener("click", function () { reveles[a] = !reveles[a]; maj(); majTout(); });
+      c.maj = maj; h.appendChild(c);
+    });
+  }
+  function majTout() {
+    var tous = AIRES.every(function (a) { return reveles[a]; });
+    $("carres-tout").textContent = tous ? "🙈 Tout masquer" : "👀 Tout afficher";
+  }
+  $("carres-tout").addEventListener("click", function () {
+    var tous = AIRES.every(function (a) { return reveles[a]; });
+    AIRES.forEach(function (a) { reveles[a] = !tous; });
+    Array.prototype.forEach.call(document.querySelectorAll(".cc"), function (c) { c.maj(); });
+    majTout();
   });
 
   /* ===================== DÉMARRAGE ===================== */
   carre();
   sable();
-  essaisInit(13);
+  cartes();
+  afficheCalc();
   window.addEventListener("load", function () { fixLabels($("svg-carre")); });
 })();
 </script>
