@@ -98,6 +98,30 @@ svg text.lbl { font-family:'Work Sans',Arial,sans-serif; font-weight:700; fill:#
 .solution-panel .label { color:#1E7A4C; }
 footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
 
+/* ---------- exercices sur écran ---------- */
+.aide-ex { font-size:13.5px; line-height:1.5; margin:0 0 12px; color:#3B4C5E; }
+.progres { display:inline-block; margin-left:6px; padding:2px 10px; border-radius:12px; background:#E8F6EE; border:1.5px solid #4CAF7D; font-weight:700; color:#1E7A4C; }
+.rep { margin:8px 0 4px; }
+.rep .ligne { display:flex; flex-wrap:wrap; align-items:center; gap:6px 12px; margin:7px 0; font-size:14px; line-height:1.5; }
+.rep .ligne label { display:inline-flex; flex-wrap:wrap; align-items:center; gap:4px 6px; }
+.rep .ligne .enonce { flex:1 1 280px; }
+.rep p.sous { margin:10px 0 2px; font-size:14px; }
+.rep input[type=text] { font:600 16px 'Work Sans',Arial,sans-serif; width:104px; padding:5px 8px; border:2px solid #C9B58A; border-radius:8px; background:#fff; color:var(--ink); }
+.rep input[type=text].large { width:190px; }
+.rep input[type=text].ok { border-color:#2E9B5E; background:#E8F6EE; }
+.rep input[type=text].ko { border-color:#D8523A; background:#FDECE8; }
+.rep .vf { display:inline-flex; flex-wrap:wrap; align-items:center; gap:4px 14px; }
+.rep .vf label { display:inline-flex; align-items:center; gap:5px; cursor:pointer; padding:3px 4px; }
+.rep .vf input[type=radio] { width:18px; height:18px; accent-color:var(--bleu); }
+.rep .vf.ok { background:#E8F6EE; border-radius:8px; padding:1px 8px; }
+.rep .vf.ko { background:#FDECE8; border-radius:8px; padding:1px 8px; }
+.mk { font-size:13px; font-weight:700; }
+.mk.ok { color:#1E7A4C; } .mk.ko { color:#B5322E; } .mk.vide { color:#7A5210; }
+.ctrl-rep { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+.bilan-exo { margin-top:8px; font-size:14px; font-weight:600; min-height:1.4em; }
+.bilan-exo.ok { color:#1E7A4C; } .bilan-exo.ko { color:#7A3A10; }
+.exo.reussi { border-color:#4CAF7D; background:#F1FAF4; }
+
 /* ---------- planche A4 du puzzle (impression) ---------- */
 #planche { display:none; }
 @page { size:A4; margin:10mm; }
@@ -234,13 +258,27 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     <div class="panel solution-panel" id="rep-ang"><span class="label">Réponse</span>Les deux aires ne sont égales que pour un angle de <b>90°</b>, c'est-à-dire quand le triangle est <b>rectangle</b>. Avec un angle plus petit, le troisième carré est plus petit que 25 ; avec un angle plus grand, il est plus grand. C'est pourquoi on dit toujours : « dans un <b>triangle rectangle</b>… ».</div>
   </section>
 
-  <!-- ===================== EXERCICES ===================== -->
+  <!-- ===================== EXERCICES (à faire sur écran ou sur papier) ===================== -->
   <div class="section-title">Exercices</div>
+  <p class="aide-ex">Sur ordinateur : tape ta réponse (virgule ou point pour les décimaux), puis clique sur <b>Vérifier</b>. Le corrigé n'apparaît pas : cherche d'abord, utilise l'astuce si tu bloques, et la solution en dernier. <span class="progres" role="status" aria-live="polite">Exercices réussis : <b id="nb-ok">0</b> / <b id="nb-tot">5</b></span></p>
 
-  <div class="exo">
-    <div class="exo-title">★ Exercice</div>
-    <p>Pour chacun des triangles rectangles ci-dessous, nomme <b>l'hypoténuse</b> puis les <b>deux côtés de l'angle droit</b>.</p>
-    <div class="schema"><svg id="svg-ex1" data-fix role="img" aria-label="Trois triangles rectangles ABC rectangle en B, EFG rectangle en G et RST rectangle en S, dans des positions différentes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 210" style="max-width:660px"></svg></div>
+  <div class="exo" data-exo>
+    <div class="exo-title">★ Exercice 1</div>
+    <p>Pour chacun des triangles rectangles ci-dessous, repère l'angle droit, puis donne <b>l'hypoténuse</b> et les <b>deux côtés de l'angle droit</b> (exemple de réponse : [AB] ; pour les deux côtés, écris par exemple « AB et AC »).</p>
+    <div class="schema"><svg id="svg-ex1" data-fix role="img" aria-label="Trois triangles rectangles ABC, EFG et RST, dans des positions différentes, avec l'angle droit marqué" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 210" style="max-width:660px"></svg></div>
+    <div class="rep">
+      <div class="ligne"><b>Triangle ABC</b>
+        <label>hypoténuse : <input type="text" data-seg="AC" placeholder="[…]" autocomplete="off" aria-label="Exercice 1, triangle ABC, hypoténuse"><span class="mk"></span></label>
+        <label>côtés de l'angle droit : <input type="text" class="large" data-segset="BA,BC" placeholder="… et …" autocomplete="off" aria-label="Exercice 1, triangle ABC, côtés de l'angle droit"><span class="mk"></span></label></div>
+      <div class="ligne"><b>Triangle EFG</b>
+        <label>hypoténuse : <input type="text" data-seg="EF" placeholder="[…]" autocomplete="off" aria-label="Exercice 1, triangle EFG, hypoténuse"><span class="mk"></span></label>
+        <label>côtés de l'angle droit : <input type="text" class="large" data-segset="GE,GF" placeholder="… et …" autocomplete="off" aria-label="Exercice 1, triangle EFG, côtés de l'angle droit"><span class="mk"></span></label></div>
+      <div class="ligne"><b>Triangle RST</b>
+        <label>hypoténuse : <input type="text" data-seg="RT" placeholder="[…]" autocomplete="off" aria-label="Exercice 1, triangle RST, hypoténuse"><span class="mk"></span></label>
+        <label>côtés de l'angle droit : <input type="text" class="large" data-segset="SR,ST" placeholder="… et …" autocomplete="off" aria-label="Exercice 1, triangle RST, côtés de l'angle droit"><span class="mk"></span></label></div>
+      <div class="ctrl-rep"><button type="button" class="abtn verif">Vérifier</button><button type="button" class="abtn raz">Effacer mes réponses</button></div>
+      <div class="bilan-exo" role="status" aria-live="polite"></div>
+    </div>
     <div class="btn-row">
       <button type="button" class="toggle-btn astuce" onclick="toggle('astuce-0')">💡 Astuce</button>
       <button type="button" class="toggle-btn solution" onclick="toggle('solution-0')">✅ Solution</button>
@@ -249,9 +287,17 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     <div class="panel solution-panel" id="solution-0"><span class="label">Solution</span>ABC est rectangle en B : l'hypoténuse est <b>[AC]</b>, les côtés de l'angle droit sont [BA] et [BC]. EFG est rectangle en G : l'hypoténuse est <b>[EF]</b>, les côtés de l'angle droit sont [GE] et [GF]. RST est rectangle en S : l'hypoténuse est <b>[RT]</b>, les côtés de l'angle droit sont [SR] et [ST].</div>
   </div>
 
-  <div class="exo">
-    <div class="exo-title">★★ Exercice</div>
-    <p>Pour chaque triangle rectangle, calcule l'aire du carré construit sur l'hypoténuse, à partir des longueurs des côtés de l'angle droit :<br><span class='q'>a) 6 cm et 8 cm</span><br><span class='q'>b) 5 cm et 12 cm</span><br><span class='q'>c) 9 cm et 12 cm</span><br><span class='q'>d) 1,5 cm et 2 cm</span></p>
+  <div class="exo" data-exo>
+    <div class="exo-title">★★ Exercice 2</div>
+    <p>Pour chaque triangle rectangle, calcule l'aire du carré construit sur l'hypoténuse, à partir des longueurs des côtés de l'angle droit.</p>
+    <div class="rep">
+      <div class="ligne"><label>a) 6 cm et 8 cm : aire = <input type="text" inputmode="decimal" data-num="100" autocomplete="off" aria-label="Exercice 2 a, aire en cm²"> cm²<span class="mk"></span></label></div>
+      <div class="ligne"><label>b) 5 cm et 12 cm : aire = <input type="text" inputmode="decimal" data-num="169" autocomplete="off" aria-label="Exercice 2 b, aire en cm²"> cm²<span class="mk"></span></label></div>
+      <div class="ligne"><label>c) 9 cm et 12 cm : aire = <input type="text" inputmode="decimal" data-num="225" autocomplete="off" aria-label="Exercice 2 c, aire en cm²"> cm²<span class="mk"></span></label></div>
+      <div class="ligne"><label>d) 1,5 cm et 2 cm : aire = <input type="text" inputmode="decimal" data-num="6.25" autocomplete="off" aria-label="Exercice 2 d, aire en cm²"> cm²<span class="mk"></span></label></div>
+      <div class="ctrl-rep"><button type="button" class="abtn verif">Vérifier</button><button type="button" class="abtn raz">Effacer mes réponses</button></div>
+      <div class="bilan-exo" role="status" aria-live="polite"></div>
+    </div>
     <div class="btn-row">
       <button type="button" class="toggle-btn astuce" onclick="toggle('astuce-1')">💡 Astuce</button>
       <button type="button" class="toggle-btn solution" onclick="toggle('solution-1')">✅ Solution</button>
@@ -260,9 +306,15 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     <div class="panel solution-panel" id="solution-1"><span class="label">Solution</span>a) 6² + 8² = 36 + 64 = <b>100 cm²</b>. b) 5² + 12² = 25 + 144 = <b>169 cm²</b>. c) 9² + 12² = 81 + 144 = <b>225 cm²</b>. d) 1,5² + 2² = 2,25 + 4 = <b>6,25 cm²</b>.</div>
   </div>
 
-  <div class="exo">
-    <div class="exo-title">★★ Exercice</div>
+  <div class="exo" data-exo>
+    <div class="exo-title">★★ Exercice 3</div>
     <p>Dans les deux situations, le triangle est rectangle. Calcule l'aire du carré construit sur le côté demandé.<br><span class='q'>a) Lila pose une échelle contre un mur vertical. Le pied de l'échelle est à 1,5 m du mur et l'échelle touche le mur à 2 m de hauteur. Quelle est l'aire du carré construit sur l'échelle ?</span><br><span class='q'>b) Un écran de tablette mesure 12 cm de large et 16 cm de haut. Quelle est l'aire du carré construit sur sa diagonale ?</span></p>
+    <div class="rep">
+      <div class="ligne"><label>a) aire du carré sur l'échelle = <input type="text" inputmode="decimal" data-num="6.25" autocomplete="off" aria-label="Exercice 3 a, aire en m²"> m²<span class="mk"></span></label></div>
+      <div class="ligne"><label>b) aire du carré sur la diagonale = <input type="text" inputmode="decimal" data-num="400" autocomplete="off" aria-label="Exercice 3 b, aire en cm²"> cm²<span class="mk"></span></label></div>
+      <div class="ctrl-rep"><button type="button" class="abtn verif">Vérifier</button><button type="button" class="abtn raz">Effacer mes réponses</button></div>
+      <div class="bilan-exo" role="status" aria-live="polite"></div>
+    </div>
     <div class="btn-row">
       <button type="button" class="toggle-btn astuce" onclick="toggle('astuce-2')">💡 Astuce</button>
       <button type="button" class="toggle-btn solution" onclick="toggle('solution-2')">✅ Solution</button>
@@ -271,9 +323,21 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     <div class="panel solution-panel" id="solution-2"><span class="label">Solution</span>a) L'échelle est l'hypoténuse : 1,5² + 2² = 2,25 + 4 = <b>6,25 m²</b>. b) La diagonale est l'hypoténuse : 12² + 16² = 144 + 256 = <b>400 cm²</b>. On ne sait pas encore retrouver la longueur elle-même (on le fera dans les prochaines séances).</div>
   </div>
 
-  <div class="exo">
-    <div class="exo-title">★★ Exercice</div>
-    <p>Réponds par vrai ou faux et corrige les réponses fausses :<br><span class='q'>a) L'hypoténuse est le côté opposé à l'angle droit.</span><br><span class='q'>b) Dans le triangle ABC rectangle en A, on a AB² + AC² = BC².</span><br><span class='q'>c) Dans le triangle ABC rectangle en A, on a AB² + BC² = AC².</span><br><span class='q'>d) Dans n'importe quel triangle, la somme des aires des carrés construits sur deux côtés est égale à l'aire du carré construit sur le troisième côté.</span></p>
+  <div class="exo" data-exo>
+    <div class="exo-title">★★ Exercice 4</div>
+    <p>Réponds par vrai ou faux. Pour chaque affirmation fausse, écris dans ton cahier une version corrigée.</p>
+    <div class="rep">
+      <div class="ligne"><span class="enonce">a) L'hypoténuse est le côté opposé à l'angle droit.</span>
+        <span class="vf" data-bon="V" role="radiogroup" aria-label="Exercice 4 a"><label><input type="radio" name="e4a" value="V"> Vrai</label><label><input type="radio" name="e4a" value="F"> Faux</label><span class="mk"></span></span></div>
+      <div class="ligne"><span class="enonce">b) Dans le triangle ABC rectangle en A, on a AB² + AC² = BC².</span>
+        <span class="vf" data-bon="V" role="radiogroup" aria-label="Exercice 4 b"><label><input type="radio" name="e4b" value="V"> Vrai</label><label><input type="radio" name="e4b" value="F"> Faux</label><span class="mk"></span></span></div>
+      <div class="ligne"><span class="enonce">c) Dans le triangle ABC rectangle en A, on a AB² + BC² = AC².</span>
+        <span class="vf" data-bon="F" role="radiogroup" aria-label="Exercice 4 c"><label><input type="radio" name="e4c" value="V"> Vrai</label><label><input type="radio" name="e4c" value="F"> Faux</label><span class="mk"></span></span></div>
+      <div class="ligne"><span class="enonce">d) Dans n'importe quel triangle, la somme des aires des carrés construits sur deux côtés est égale à l'aire du carré construit sur le troisième côté.</span>
+        <span class="vf" data-bon="F" role="radiogroup" aria-label="Exercice 4 d"><label><input type="radio" name="e4d" value="V"> Vrai</label><label><input type="radio" name="e4d" value="F"> Faux</label><span class="mk"></span></span></div>
+      <div class="ctrl-rep"><button type="button" class="abtn verif">Vérifier</button><button type="button" class="abtn raz">Effacer mes réponses</button></div>
+      <div class="bilan-exo" role="status" aria-live="polite"></div>
+    </div>
     <div class="btn-row">
       <button type="button" class="toggle-btn astuce" onclick="toggle('astuce-3')">💡 Astuce</button>
       <button type="button" class="toggle-btn solution" onclick="toggle('solution-3')">✅ Solution</button>
@@ -282,9 +346,17 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     <div class="panel solution-panel" id="solution-3"><span class="label">Solution</span>a) <b>Vrai</b>. b) <b>Vrai</b> : l'hypoténuse est [BC]. c) <b>Faux</b> : l'hypoténuse est [BC], donc c'est BC² qui est seul d'un côté : AB² + AC² = BC². d) <b>Faux</b> : cela ne marche que dans un triangle rectangle. Avec un angle de 60° entre deux côtés de 3 et 4, le troisième carré a une aire de 13, et non 25.</div>
   </div>
 
-  <div class="exo">
-    <div class="exo-title">★★★ Exercice</div>
-    <p>Dans un triangle rectangle, on construit un carré sur chaque côté. Complète avec les aires qui manquent :<br><span class='q'>a) carrés des côtés de l'angle droit : 9 cm² et 16 cm². Carré de l'hypoténuse ?</span><br><span class='q'>b) carrés des côtés de l'angle droit : 36 cm² et 64 cm². Carré de l'hypoténuse ?</span><br><span class='q'>c) carré de l'hypoténuse : 169 cm² ; un carré d'un côté de l'angle droit : 25 cm². Carré de l'autre côté de l'angle droit ?</span><br><span class='q'>d) carré de l'hypoténuse : 100 cm² ; un carré d'un côté de l'angle droit : 64 cm². Carré de l'autre côté ?</span></p>
+  <div class="exo" data-exo>
+    <div class="exo-title">★★★ Exercice 5</div>
+    <p>Dans un triangle rectangle, on construit un carré sur chaque côté. Complète avec l'aire qui manque.</p>
+    <div class="rep">
+      <div class="ligne"><label>a) carrés des côtés de l'angle droit : 9 cm² et 16 cm². Carré de l'hypoténuse : <input type="text" inputmode="decimal" data-num="25" autocomplete="off" aria-label="Exercice 5 a, aire en cm²"> cm²<span class="mk"></span></label></div>
+      <div class="ligne"><label>b) carrés des côtés de l'angle droit : 36 cm² et 64 cm². Carré de l'hypoténuse : <input type="text" inputmode="decimal" data-num="100" autocomplete="off" aria-label="Exercice 5 b, aire en cm²"> cm²<span class="mk"></span></label></div>
+      <div class="ligne"><label>c) carré de l'hypoténuse : 169 cm² ; un carré d'un côté de l'angle droit : 25 cm². Carré de l'autre côté de l'angle droit : <input type="text" inputmode="decimal" data-num="144" autocomplete="off" aria-label="Exercice 5 c, aire en cm²"> cm²<span class="mk"></span></label></div>
+      <div class="ligne"><label>d) carré de l'hypoténuse : 100 cm² ; un carré d'un côté de l'angle droit : 64 cm². Carré de l'autre côté : <input type="text" inputmode="decimal" data-num="36" autocomplete="off" aria-label="Exercice 5 d, aire en cm²"> cm²<span class="mk"></span></label></div>
+      <div class="ctrl-rep"><button type="button" class="abtn verif">Vérifier</button><button type="button" class="abtn raz">Effacer mes réponses</button></div>
+      <div class="bilan-exo" role="status" aria-live="polite"></div>
+    </div>
     <div class="btn-row">
       <button type="button" class="toggle-btn astuce" onclick="toggle('astuce-4')">💡 Astuce</button>
       <button type="button" class="toggle-btn solution" onclick="toggle('solution-4')">✅ Solution</button>
@@ -295,9 +367,27 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
 
   <div class="advanced-title">Pour aller plus loin (facultatif)</div>
 
-  <div class="exo">
+  <div class="exo" data-exo data-opt>
     <div class="exo-title">★★★★ Exercice</div>
-    <p>Les bâtisseurs utilisaient une corde de 12 nœuds également espacés pour tracer des angles droits : on la tend pour former un triangle de côtés 3, 4 et 5 intervalles.<br><span class='q'>a) Vérifie que 3² + 4² = 5².</span><br><span class='q'>b) Parmi ces trios de nombres (a, b, c), lesquels vérifient a² + b² = c² ? (6, 8, 10) ; (7, 9, 12) ; (8, 15, 17) ; (9, 12, 15) ; (10, 11, 15).</span></p>
+    <p>Les bâtisseurs utilisaient une corde de 12 nœuds également espacés pour tracer des angles droits : on la tend pour former un triangle de côtés 3, 4 et 5 intervalles.</p>
+    <div class="rep">
+      <div class="ligne"><span class="enonce">a) Vérifie que 3² + 4² = 5² :</span>
+        <label>3² + 4² = <input type="text" inputmode="decimal" data-num="25" autocomplete="off" aria-label="Exercice facultatif a, valeur de 3² + 4²"><span class="mk"></span></label>
+        <label>5² = <input type="text" inputmode="decimal" data-num="25" autocomplete="off" aria-label="Exercice facultatif a, valeur de 5²"><span class="mk"></span></label></div>
+      <p class="sous">b) Parmi ces trios de nombres (a, b, c), lesquels vérifient a² + b² = c² ? Réponds oui ou non pour chacun.</p>
+      <div class="ligne"><span class="enonce">(6 ; 8 ; 10)</span>
+        <span class="vf" data-bon="V" role="radiogroup" aria-label="Trio 6, 8, 10"><label><input type="radio" name="e6a" value="V"> Oui</label><label><input type="radio" name="e6a" value="F"> Non</label><span class="mk"></span></span></div>
+      <div class="ligne"><span class="enonce">(7 ; 9 ; 12)</span>
+        <span class="vf" data-bon="F" role="radiogroup" aria-label="Trio 7, 9, 12"><label><input type="radio" name="e6b" value="V"> Oui</label><label><input type="radio" name="e6b" value="F"> Non</label><span class="mk"></span></span></div>
+      <div class="ligne"><span class="enonce">(8 ; 15 ; 17)</span>
+        <span class="vf" data-bon="V" role="radiogroup" aria-label="Trio 8, 15, 17"><label><input type="radio" name="e6c" value="V"> Oui</label><label><input type="radio" name="e6c" value="F"> Non</label><span class="mk"></span></span></div>
+      <div class="ligne"><span class="enonce">(9 ; 12 ; 15)</span>
+        <span class="vf" data-bon="V" role="radiogroup" aria-label="Trio 9, 12, 15"><label><input type="radio" name="e6d" value="V"> Oui</label><label><input type="radio" name="e6d" value="F"> Non</label><span class="mk"></span></span></div>
+      <div class="ligne"><span class="enonce">(10 ; 11 ; 15)</span>
+        <span class="vf" data-bon="F" role="radiogroup" aria-label="Trio 10, 11, 15"><label><input type="radio" name="e6e" value="V"> Oui</label><label><input type="radio" name="e6e" value="F"> Non</label><span class="mk"></span></span></div>
+      <div class="ctrl-rep"><button type="button" class="abtn verif">Vérifier</button><button type="button" class="abtn raz">Effacer mes réponses</button></div>
+      <div class="bilan-exo" role="status" aria-live="polite"></div>
+    </div>
     <div class="btn-row">
       <button type="button" class="toggle-btn astuce" onclick="toggle('astuce-5')">💡 Astuce</button>
       <button type="button" class="toggle-btn solution" onclick="toggle('solution-5')">✅ Solution</button>
@@ -306,7 +396,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     <div class="panel solution-panel" id="solution-5"><span class="label">Solution</span>a) 9 + 16 = 25 = 5². b) (6, 8, 10) : 36 + 64 = 100 = 10², <b>oui</b>. (7, 9, 12) : 49 + 81 = 130 et 12² = 144, <b>non</b>. (8, 15, 17) : 64 + 225 = 289 = 17², <b>oui</b>. (9, 12, 15) : 81 + 144 = 225 = 15², <b>oui</b>. (10, 11, 15) : 100 + 121 = 221 et 15² = 225, <b>non</b>.</div>
   </div>
 
-  <footer>Cherche seul(e) d'abord. Utilise l'astuce si tu bloques, puis vérifie avec la solution.</footer>
+  <footer>Cherche seul(e) d'abord. Sur ordinateur, tape ta réponse puis clique sur Vérifier. Utilise l'astuce si tu bloques, puis ouvre la solution.</footer>
 </div>
 
 <!-- Planche A4 du puzzle : construite par le script, visible seulement à l'impression -->
@@ -748,6 +838,91 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
   window.addEventListener("load", function () {
     [$("svg-puz"), $("svg-calc"), $("svg-ang"), $("svg-ex1")].forEach(fixLabels);
   });
+})();
+</script>
+<script>
+/* Vérification des exercices sur écran : ne montre jamais la solution, seulement juste / à revoir. */
+(function () {
+  "use strict";
+  function nombre(s) {
+    s = String(s).trim().replace(",", ".");
+    var m = s.match(/^-?\d+(?:\.\d+)?/);
+    if (!m) return NaN;
+    var reste = s.slice(m[0].length).trim();
+    if (reste !== "" && !/^[a-zA-Z²]+$/.test(reste)) return NaN;
+    return parseFloat(m[0]);
+  }
+  function seg(s) {
+    var t = String(s).toUpperCase().replace(/[^A-Z]/g, "");
+    return t.length === 2 ? t.split("").sort().join("") : null;
+  }
+  function segs(s) {
+    var tok = String(s).toUpperCase().split(/[^A-Z]+/).filter(Boolean);
+    if (tok.length === 3 && tok[1] === "ET") tok.splice(1, 1);
+    if (tok.length === 1 && tok[0].length === 4) tok = [tok[0].slice(0, 2), tok[0].slice(2)];
+    if (tok.length !== 2 || tok[0].length !== 2 || tok[1].length !== 2) return null;
+    return tok.map(function (t) { return t.split("").sort().join(""); }).sort();
+  }
+  function marque(el) { return el.classList.contains("vf") ? el.querySelector(".mk") : el.parentNode.querySelector(".mk"); }
+  function etat(el, s) {                       /* s : "ok" | "ko" | "vide" | "" */
+    var mk = marque(el);
+    el.classList.remove("ok", "ko");
+    if (s === "ok" || s === "ko") el.classList.add(s);
+    mk.className = "mk" + (s ? " " + s : "");
+    mk.textContent = s === "ok" ? "✅ juste" : s === "ko" ? "❌ à revoir" : s === "vide" ? "⚠ à remplir" : "";
+  }
+  function juste(el) {
+    if (el.classList.contains("vf")) {
+      var c = el.querySelector("input:checked");
+      return c ? (c.value === el.getAttribute("data-bon") ? "ok" : "ko") : "vide";
+    }
+    var v = el.value;
+    if (!v.trim()) return "vide";
+    if (el.hasAttribute("data-num")) { var n = nombre(v); return isNaN(n) ? "ko" : (Math.abs(n - parseFloat(el.getAttribute("data-num"))) < 1e-9 ? "ok" : "ko"); }
+    if (el.hasAttribute("data-seg")) return seg(v) === seg(el.getAttribute("data-seg")) ? "ok" : "ko";
+    var a = segs(v), b = segs(el.getAttribute("data-segset"));
+    return a && a[0] === b[0] && a[1] === b[1] ? "ok" : "ko";
+  }
+  function compte() {
+    var exos = document.querySelectorAll(".exo[data-exo]:not([data-opt])"), n = 0;
+    Array.prototype.forEach.call(exos, function (e) { if (e.classList.contains("reussi")) n++; });
+    document.getElementById("nb-ok").textContent = n;
+    document.getElementById("nb-tot").textContent = exos.length;
+  }
+  function verifier(exo) {
+    var champs = exo.querySelectorAll("[data-num],[data-seg],[data-segset],.vf");
+    var ok = 0, vides = 0;
+    Array.prototype.forEach.call(champs, function (c) {
+      var s = juste(c); etat(c, s);
+      if (s === "ok") ok++; else if (s === "vide") vides++;
+    });
+    var tot = champs.length, b = exo.querySelector(".bilan-exo");
+    var bon = ok === tot;
+    exo.classList.toggle("reussi", bon);
+    b.className = "bilan-exo " + (bon ? "ok" : "ko");
+    var faux = tot - ok - vides;
+    b.textContent = bon ? "🎉 Bravo, tout est juste !"
+      : ok + " / " + tot + " réponses justes" + (vides ? " (" + vides + " à remplir)" : "") + ". " +
+        (faux ? "Corrige celles marquées ❌ " : "Remplis les cases vides ") + "puis clique de nouveau sur Vérifier" + (faux ? " ; au besoin, ouvre l'astuce." : ".");
+    compte();
+  }
+  function effacer(exo) {
+    Array.prototype.forEach.call(exo.querySelectorAll("input[type=text]"), function (i) { i.value = ""; });
+    Array.prototype.forEach.call(exo.querySelectorAll("input[type=radio]"), function (i) { i.checked = false; });
+    Array.prototype.forEach.call(exo.querySelectorAll("[data-num],[data-seg],[data-segset],.vf"), function (c) { etat(c, ""); });
+    var b = exo.querySelector(".bilan-exo"); b.className = "bilan-exo"; b.textContent = "";
+    exo.classList.remove("reussi"); compte();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".exo[data-exo]"), function (exo) {
+    exo.querySelector(".verif").addEventListener("click", function () { verifier(exo); });
+    exo.querySelector(".raz").addEventListener("click", function () { effacer(exo); });
+    exo.addEventListener("input", function (e) {              /* modifier une réponse efface sa marque */
+      var c = e.target.closest ? (e.target.closest(".vf") || e.target) : e.target;
+      if (c.matches && c.matches("[data-num],[data-seg],[data-segset],.vf")) { etat(c, ""); exo.classList.remove("reussi"); compte(); }
+    });
+    exo.addEventListener("keydown", function (e) { if (e.key === "Enter" && e.target.matches("input[type=text]")) { e.preventDefault(); verifier(exo); } });
+  });
+  compte();
 })();
 </script>
 <script src="../../assets/catalogue.js"></script>
