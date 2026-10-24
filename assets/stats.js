@@ -48,7 +48,38 @@
       });
     });
   }
-  if (!res) return;
+  if (!res) { compteurEnseignant(); return; }
+
+  /* ---------- compteur de visites, réservé à l'enseignant, sur la page d'accueil ----------
+     Activé dans ce navigateur en ajoutant #prof à l'adresse de l'accueil (retiré avec #prof-off).
+     Les élèves ne le voient jamais. Nécessite, dans les réglages GoatCounter, l'option
+     « Allow adding visitor counts on your website ». Les chiffres sont mis à jour environ toutes les 4 h. */
+  function compteurEnseignant() {
+    var prof = false;
+    try {
+      if (location.hash === "#prof") localStorage.setItem("mlProf", "1");
+      else if (location.hash === "#prof-off") localStorage.removeItem("mlProf");
+      prof = localStorage.getItem("mlProf") === "1";
+    } catch (e) {}
+    if (!prof) return;
+    function afficher() {
+      if (document.getElementById("ml-visites")) return;
+      var base = ENDPOINT.replace(/\/count$/, "") + "/counter/TOTAL.html?no_branding=true";
+      var boite = document.createElement("div");
+      boite.id = "ml-visites";
+      boite.style.cssText = "position:fixed;right:12px;bottom:12px;z-index:2147483000;background:#fff;color:#1B2333;" +
+        "border:2px solid #1B2333;border-radius:12px;padding:8px 10px;font:700 12px/1.3 sans-serif;box-shadow:0 6px 20px rgba(34,48,63,.22)";
+      boite.innerHTML =
+        '<div>Visites du site <span style="font-weight:400">(visible par toi seul)</span></div>' +
+        '<div style="display:flex;gap:8px;margin-top:6px">' +
+          '<div>Cette semaine<br><iframe title="Visites cette semaine" src="' + base + '&start=week" width="150" height="50" style="border:0"></iframe></div>' +
+          '<div>Au total<br><iframe title="Visites au total" src="' + base + '" width="150" height="50" style="border:0"></iframe></div>' +
+        '</div>' +
+        '<div style="font-weight:400;margin-top:4px">Mis à jour toutes les 4 h environ · #prof-off pour masquer</div>';
+      document.body.appendChild(boite);
+    }
+    if (document.body) afficher(); else document.addEventListener("DOMContentLoaded", afficher);
+  }
 
   /* ---------- astuces et solutions ouvertes (boutons .toggle-btn des séances) ---------- */
   document.addEventListener("click", function (e) {
