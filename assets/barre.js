@@ -2,6 +2,16 @@
    retour au chapitre, ressource suivante, accueil. Ne rien modifier ici
    pour ajouter du contenu : tout se règle dans catalogue.js. */
 (function () {
+  /* Statistiques de fréquentation (GoatCounter) : stats.js est chargé ici pour que toute nouvelle page de ressource soit comptée sans rien ajouter. */
+  try {
+    var cs = document.currentScript;
+    if (cs && cs.src) {
+      var st = document.createElement("script");
+      st.src = cs.src.replace(/barre\.js(\?.*)?$/, "stats.js$1");
+      document.head.appendChild(st);
+    }
+  } catch (e) {}
+
   var S = window.SITE;
   if (!S) return;
   var parts = location.pathname.split("/").filter(Boolean);

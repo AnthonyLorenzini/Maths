@@ -174,6 +174,7 @@
       }
     }
     sauver();
+    if (window.mlStat) window.mlStat("ascension/" + niv + "/" + chap + "/" + (reussi ? "reussi" : "rate")); // statistiques (stats.js) : aucune donnée personnelle
     return res;
   }
 
