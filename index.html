@@ -67,16 +67,31 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{o
 .enigme{border-radius:20px;padding:16px;background:var(--soleil-clair);border:2px dashed var(--soleil);display:flex;flex-direction:column;gap:10px}
 .enigme .q{font-size:1.08rem;font-weight:700}
 .enigme .rep{padding:10px 12px;border-radius:12px;background:var(--carte);font-weight:700}
-/* archive des énigmes : les 7 jours précédents, réponse cachée */
-.archive{display:flex;flex-direction:column;gap:8px}
-.eg{border:2px solid var(--trait);border-radius:14px;background:var(--carte)}
-.eg summary{list-style:none;cursor:pointer;padding:12px 14px;display:grid;gap:3px}
-.eg summary::-webkit-details-marker{display:none}
-.eg .ed{font-family:var(--f-titre);font-weight:800;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--encre-2)}
-.eg .eq{font-weight:700}
-.eg .er{font-weight:700;color:var(--violet);font-size:.92rem}
-.eg[open] .er{display:none}
-.eg .ea{padding:0 14px 14px;font-weight:700}
+/* énigme du jour : un énoncé de logique, son schéma, un indice et la réponse (qui anime le schéma) */
+.eni{border-radius:22px;padding:16px;background:var(--soleil-clair);border:2px solid var(--soleil);display:flex;flex-direction:column;gap:12px}
+.eni .tete{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.eni h1,.eni h2,.eni h3{font-size:1.4rem}
+.eni .meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:.82rem;font-weight:700;color:var(--encre-2)}
+.eni .genre{padding:3px 10px;border-radius:999px;background:var(--carte);border:1px solid var(--soleil)}
+.eni .etoiles{letter-spacing:.12em;color:var(--orange)}
+.eni .enonce{font-weight:700}
+.fig{background:var(--carte);border:2px solid var(--trait);border-radius:16px;padding:6px}
+.fig svg{display:block;width:100%;height:auto;font-family:var(--f-texte)}
+.fig .ap{animation:pop .5s cubic-bezier(.3,1.5,.5,1) backwards;transform-box:fill-box;transform-origin:center}
+.fig .fond{animation:fondre .6s ease-out backwards}
+.eni .actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn.violet{--c:var(--violet)}
+.eni .indice,.eni .sol{padding:12px 14px;border-radius:14px;background:var(--carte);border:2px solid var(--trait)}
+.eni .indice{border-color:var(--violet);background:var(--violet-clair)}
+.eni .sol .rep{padding:0;background:none;font-size:1.08rem;color:var(--vert);margin-bottom:8px}
+.eni .sol .expl{line-height:1.55}
+.suite-enigmes{display:flex;gap:10px;flex-wrap:wrap}
+.suite-enigmes .btn{flex:1 1 200px}
+.groupe-enigmes{display:flex;flex-direction:column;gap:8px}
+.groupe-enigmes h2{font-size:1.15rem}
+.lien.eni-lien{align-items:flex-start}
+.lien.eni-lien .res small{display:block}
+.lien.eni-lien .etoiles{color:var(--orange);letter-spacing:.12em}
 /* code de sauvegarde de la montgolfière */
 .sauv{--c:var(--violet);display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:20px;background:var(--carte);border:2px solid var(--trait)}
 .sauv .code{font-family:var(--f-texte);font-weight:700;font-size:1.5rem;letter-spacing:.14em;padding:12px 14px;border-radius:12px;background:var(--fond);border:2px dashed var(--encre-2);text-align:center;user-select:all}
@@ -261,6 +276,9 @@ svg .nacelle{fill:#A9733F}
 @keyframes pop{from{opacity:0;transform:scale(.85)}}
 @keyframes decolle{from{transform:translateY(var(--dy))}}
 @keyframes flotte{50%{transform:translateY(-4px)}}
+@keyframes fondre{from{opacity:0}}
+@keyframes incline{from{transform:rotate(0deg)}}
+@keyframes pan-h{from{transform:translateY(0)}}
 @keyframes remplit{from{width:0}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
@@ -369,6 +387,7 @@ svg .pastille{fill:var(--orange)} svg .pastille-t{fill:#fff;font-family:var(--f-
 <script src="assets/catalogue.js?v=20261016b"></script>
 <script src="assets/ascension.js?v=20261018a"></script>
 <script src="assets/questions.js?v=20261016b"></script>
+<script src="assets/enigmes.js?v=20261024c"></script>
 <script>
 
 const S=window.SITE;
@@ -483,47 +502,37 @@ function trArbre(ctx,W,H,p,cv){
 }
 const FRACTALES={'6e':[7000,trSierp],'5e':[7000,trKoch],'4e':[8500,trArbre]};
 
-/* ---------- Énigmes du jour : 30 énigmes, une par jour, choisie d'après la date ---------- */
-const ENIGMES=[
- ["Je suis un nombre à deux chiffres. Le produit de mes chiffres vaut 24 et leur somme vaut 11. Qui suis-je ?","38 ou 83 : 3 × 8 = 24 et 3 + 8 = 11."],
- ["Un escargot est au fond d'un puits de 10 m. Le jour il monte de 3 m, la nuit il glisse de 2 m. Quel jour sort-il du puits ?","Le 8e jour : au matin du 8e jour il est à 7 m, il monte de 3 m et atteint le bord."],
- ["Une brique pèse 1 kg plus la moitié d'une brique. Combien pèse une brique ?","2 kg : la demi-brique pèse 1 kg."],
- ["Combien de carrés de toutes tailles voit-on sur un quadrillage de 3 cases sur 3 ?","14 carrés : 9 petits, 4 moyens et 1 grand."],
- ["Une raquette et une balle coûtent 1,10 € en tout. La raquette coûte 1 € de plus que la balle. Combien coûte la balle ?","0,05 € : la raquette coûte 1,05 € et 1,05 + 0,05 = 1,10."],
- ["Avec trois fois le chiffre 5 et des opérations, comment obtenir 30 ?","5 × 5 + 5 = 30."],
- ["Quel est le plus petit nombre entier non nul divisible à la fois par 2, 3, 4, 5 et 6 ?","60."],
- ["Pour numéroter les pages d'un cahier de 1 à 100, combien de fois écrit-on le chiffre 9 ?","20 fois : 10 fois aux unités (9, 19, …, 99) et 10 fois aux dizaines (90 à 99)."],
- ["Mon double augmenté de 7 donne 25. Qui suis-je ?","9 : 2 × 9 + 7 = 25."],
- ["Un rectangle a un périmètre de 20 cm et des côtés entiers. Quelle est la plus grande aire possible ?","25 cm², pour le carré de 5 cm de côté."],
- ["Il est 15 h. Quelle heure sera-t-il dans 100 heures ?","19 h : 100 h = 4 jours et 4 heures."],
- ["Cinq amis se serrent tous la main, une seule fois chacun avec chacun. Combien de poignées de main ?","10 poignées de main : 4 + 3 + 2 + 1."],
- ["Je suis une fraction égale à 1/2. Mon numérateur et mon dénominateur ont pour somme 27. Qui suis-je ?","9/18."],
- ["Le prix d'un jeu augmente de 10 %, puis baisse de 10 %. Revient-il à son prix de départ ?","Non : il vaut 1,1 × 0,9 = 0,99 fois le prix de départ, soit 1 % de moins."],
- ["La somme de trois nombres entiers qui se suivent vaut 48. Quels sont ces nombres ?","15, 16 et 17."],
- ["Une horloge sonne 6 coups en 5 secondes. Combien de temps lui faut-il pour sonner 12 coups ?","11 secondes : 6 coups font 5 intervalles d'une seconde, 12 coups en font 11."],
- ["Je suis un nombre premier compris entre 90 et 100. Qui suis-je ?","97 : 91 = 7 × 13, et les autres sont divisibles par 2, 3 ou 5."],
- ["Quel nombre est exactement au milieu de 2,4 et 2,5 ?","2,45."],
- ["Sur un étang, les nénuphars couvrent chaque jour deux fois plus de surface que la veille. L'étang est couvert le 30e jour. Quel jour était-il à moitié couvert ?","Le 29e jour."],
- ["Combien de nombres entiers de 1 à 100 sont multiples de 3 ou de 5 ?","47 : 33 multiples de 3, plus 20 multiples de 5, moins les 6 multiples de 15 comptés deux fois."],
- ["Un train part à 8 h 45 et roule pendant 2 h 30 min. À quelle heure arrive-t-il ?","11 h 15."],
- ["On partage un tiers de gâteau en 4 parts égales. Quelle fraction du gâteau entier représente une part ?","1/12."],
- ["Combien y a-t-il de minutes dans une semaine ?","10 080 minutes : 7 × 24 × 60."],
- ["J'ai 13 pièces, des pièces de 1 € et de 2 €, pour un total de 20 €. Combien ai-je de pièces de 2 € ?","7 pièces de 2 € et 6 pièces de 1 € : 14 + 6 = 20."],
- ["Un cube de 3 cm d'arête est peint en rouge, puis découpé en cubes de 1 cm. Combien de petits cubes n'ont aucune face peinte ?","1 seul : celui du centre."],
- ["Un triangle rectangle a deux côtés de l'angle droit de 3 cm et 4 cm. Combien mesure le troisième côté ?","5 cm : 3² + 4² = 9 + 16 = 25 = 5²."],
- ["On multiplie 2 par lui-même jusqu'à avoir dix facteurs 2. Quel est le chiffre des unités du résultat ?","4 : le produit vaut 1 024."],
- ["Lequel est le plus grand : 0,7 ; 0,69 ; 0,701 ; 0,7001 ?","0,701 : on compare 0,7000 ; 0,6900 ; 0,7010 et 0,7001."],
- ["Un livre a 200 pages. J'en lis 25 %, puis la moitié de ce qui reste. Combien de pages me reste-t-il à lire ?","75 pages : il en reste 150, j'en lis 75."],
- ["Combien de diagonales a un hexagone (6 côtés) ?","9 diagonales : 6 × 3 ÷ 2."]
-];
+/* ---------- Énigmes du jour : des énigmes de logique illustrées (assets/enigmes.js), une par jour, choisie d'après la date ---------- */
+const ENIGMES=window.ENIGMES;
 const numJour=d=>Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);
-function enigmeDuJour(){return ENIGMES[numJour(new Date())%ENIGMES.length]}
-/* Les 7 jours précédents (le plus récent d'abord) : la même règle que l'énigme du jour, appliquée aux dates passées. */
-function archiveEnigmes(){const t=new Date(),sortie=[];
- for(let i=1;i<=7;i++){const j=new Date(t.getFullYear(),t.getMonth(),t.getDate()-i);
-  const [q,rep]=ENIGMES[numJour(j)%ENIGMES.length];
-  sortie.push({date:j.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}),q,rep})}
- return sortie}
+const enigmeDuJour=()=>ENIGMES[numJour(new Date())%ENIGMES.length];
+const NIV_ENIGME=['','Facile','Moyen','Costaud'];
+const etoiles=n=>'★'.repeat(n)+'☆'.repeat(3-n);
+let eCourante=null;
+/* La carte d'une énigme : énoncé, schéma, indice (au choix) et réponse (qui anime le schéma). */
+function carteEnigme(e,o){
+ o=o||{};eCourante=e;const H=o.tag||'h3';
+ return `<article class="eni" aria-labelledby="eni-t">
+  <span class="eti" style="color:var(--orange)">${esc(o.label||'Énigme du jour')}</span>
+  <${H} id="eni-t">${esc(e.titre)}</${H}>
+  <div class="meta"><span class="genre">${esc(e.genre)}</span><span class="etoiles" aria-hidden="true">${etoiles(e.niv)}</span><span>${NIV_ENIGME[e.niv]}</span></div>
+  <p class="enonce">${esc(e.q).replace(/\n/g,'<br>')}</p>
+  <div class="fig" id="eni-fig">${e.fig(false)}</div>
+  <div class="actions">
+   <button class="btn mini clair" id="eni-b-ind" onclick="enigmeIndice()">Un indice</button>
+   <button class="btn mini violet" id="eni-b-rep" onclick="enigmeReponse()">Voir la réponse</button>
+  </div>
+  <div class="indice" id="eni-ind" hidden><strong>Indice : </strong>${esc(e.indice)}</div>
+  <div class="sol" id="eni-sol" hidden aria-live="polite"><p class="rep">${gras(e.rep)}</p><p class="expl">${gras(e.expl).replace(/\n/g,'<br>')}</p></div>
+ </article>`}
+function enigmeIndice(){const p=document.getElementById('eni-ind'),b=document.getElementById('eni-b-ind');if(!p||!b)return;p.hidden=!p.hidden;b.textContent=p.hidden?'Un indice':'Cacher l’indice'}
+function enigmeReponse(){
+ const e=eCourante,f=document.getElementById('eni-fig'),sol=document.getElementById('eni-sol'),b=document.getElementById('eni-b-rep');
+ if(!e||!f||!sol)return;
+ f.innerHTML=e.fig(true);sol.hidden=false;if(b)b.hidden=true;
+ try{window.mlStat&&window.mlStat('enigme/'+e.id+'/reponse')}catch(_){}
+ try{sol.scrollIntoView({block:'nearest',behavior:REDUIT?'auto':'smooth'})}catch(_){}
+}
 
 /* ---------- Ascension : altitude, pseudo et résultats restent sur l'appareil de l'élève ---------- */
 const AS=window.ASC,CF=AS.CONFIG;
@@ -948,7 +957,6 @@ const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''
 
 /* ---------- pages ---------- */
 function accueil(){
- const [q,rep]=enigmeDuJour();
  let der=null;try{der=JSON.parse(localStorage.getItem('mathsLorenzini.derniere')||'null')}catch(e){}
  ouvrir(`<div class="vue">
   <section class="heros a-pop" ${d(0,.05)}>
@@ -968,15 +976,9 @@ function accueil(){
    <div class="champ">${ICO.loupe}<input id="q" type="search" placeholder="vitesse, fractions, nombres premiers…" autocomplete="off"></div>
    <div id="resultats" class="liens" aria-live="polite"></div>
   </section>
-  <section class="enigme a-monte" ${d(0,.7)}>
-   <div class="eti">Énigme du jour</div>
-   <p class="q">${esc(q)}</p>
-   <button class="lien-texte" onclick="this.hidden=true;this.nextElementSibling.hidden=false">Voir la réponse</button>
-   <p class="rep" hidden>${esc(rep)}</p>
-  </section>
-  <section class="archive a-monte" ${d(0,.78)} aria-labelledby="arch-t">
-   <h2 id="arch-t" class="eti doux">Les énigmes des jours précédents</h2>
-   ${archiveEnigmes().map(e=>`<details class="eg"><summary><span class="ed">${esc(e.date)}</span><span class="eq">${esc(e.q)}</span><span class="er">Voir la réponse</span></summary><p class="ea">${esc(e.rep)}</p></details>`).join('')}
+  <section class="vue a-monte" ${d(0,.7)} style="gap:12px">
+   ${carteEnigme(enigmeDuJour())}
+   <a class="btn mini clair" href="#enigmes" style="align-self:flex-start">Toutes les énigmes ${ICO.fleche}</a>
   </section>
   ${blocSauvegarde()}
  </div>`,()=>{
@@ -990,6 +992,25 @@ function accueil(){
    res.innerHTML=l.length?`<p class="doux" style="margin:4px 0">${l.length} page${l.length>1?'s':''} trouvée${l.length>1?'s':''}</p>`+l.map(ligneRes).join(''):'<p class="doux">Aucune page ne correspond. Essaie le nom d’un chapitre.</p>';
   });
  },{pied:piedAscension(AS.actif())});
+}
+
+/* ---------- Les énigmes : liste (#enigmes) et une énigme (#enigmes/<id>) ---------- */
+const lienEnigme=(e,auj)=>`<a class="lien eni-lien" href="#enigmes/${esc(e.id)}"><span class="res"><strong>${esc(e.titre)}</strong><small>${esc(e.genre)}</small></span>${auj?'<span class="neuf">Aujourd’hui</span>':''}<span class="fl">${ICO.fleche}</span></a>`;
+function vueEnigmes(){
+ const auj=enigmeDuJour(),groupes=[[1,'Pour s’échauffer'],[2,'Pour réfléchir'],[3,'Costaudes']];
+ ouvrir(`<div class="vue">
+  <button class="retour a-haut" data-parent="#">${ICO.gauche} Accueil</button>
+  <section class="vue a-monte" ${d(0,.05)} style="gap:6px"><h1>Les énigmes</h1><p class="doux">De la logique, des schémas, pas de calculs. Une nouvelle énigme apparaît chaque jour sur l’accueil ; les voici toutes.</p></section>
+  ${groupes.map(([n,tit],k)=>`<section class="groupe-enigmes a-monte" ${d(k,.15,.08)}><h2>${tit}</h2><div class="liens">${ENIGMES.filter(e=>e.niv===n).map(e=>lienEnigme(e,e===auj)).join('')}</div></section>`).join('')}
+ </div>`,null,{note:false});
+}
+function vueEnigme(e){
+ const suiv=ENIGMES[(ENIGMES.indexOf(e)+1)%ENIGMES.length];
+ ouvrir(`<div class="vue">
+  <button class="retour a-haut" data-parent="#enigmes">${ICO.gauche} Les énigmes</button>
+  <div class="a-monte" ${d(0,.05)}>${carteEnigme(e,{tag:'h1',label:e===enigmeDuJour()?'Énigme du jour':'Énigme'})}</div>
+  <div class="suite-enigmes a-monte" ${d(0,.2)}><a class="btn mini clair" href="#enigmes/${esc(suiv.id)}">Énigme suivante ${ICO.fleche}</a><a class="btn mini clair" href="#enigmes">Toutes les énigmes</a></div>
+ </div>`,null,{note:false});
 }
 
 function niveau(n){
@@ -1043,7 +1064,12 @@ function chapitre(n,c){
 const pile=[location.hash];
 function router(){
  const h=decodeURIComponent(location.hash.replace(/^#/,'')),[a,b,c]=h.split('/'),t=a?trouverNC(a):null;
- if(t&&!t.c&&b==='ascension'&&AS.testables(t.n).length){
+ if(a==='enigmes'){
+  const e=b&&ENIGMES.find(x=>x.id===b);
+  if(e){vueEnigme(e);document.title=e.titre+' · Énigmes — '+S.titre}
+  else{vueEnigmes();document.title='Énigmes — '+S.titre}
+ }
+ else if(t&&!t.c&&b==='ascension'&&AS.testables(t.n).length){
   const ch=c&&AS.testables(t.n).find(x=>x.id===c);
   if(ch){vueTest(t.n,ch);document.title='Test · '+ch.titre+' — '+S.titre}
   else{vueAscension(t.n);document.title='Ascension · '+t.n.nom+' — '+S.titre}
