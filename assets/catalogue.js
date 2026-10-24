@@ -642,11 +642,29 @@ window.SITE = {
               ],
               exemple: "Côtés de l'angle droit : 3 cm et 4 cm. 3² + 4² = 9 + 16 = 25 : le carré de l'hypoténuse a une aire de 25 cm².",
               savoir: "reconnaître l'hypoténuse et calculer l'aire du carré construit sur l'hypoténuse."
+            },
+            {
+              titre: "Racine carrée", duree: "50 min",
+              contenu: [
+                "Automatisme sur les carrés de 1 à 15, avec une question flash sur l'hypoténuse.",
+                "De l'aire au côté : on découvre la racine carrée, d'abord pour les carrés parfaits.",
+                "On reprend les carrés penchés de la séance 1 : certaines aires donnent un côté entier (25, 169), d'autres non (13, 65). On encadre la racine entre deux entiers, puis on utilise la touche √ de la calculatrice."
+              ],
+              ressources: ["4e-ch4-s2"],
+              retenir: [
+                "La **racine carrée** d'un nombre positif est le nombre positif dont le carré est ce nombre : √49 = 7 car 7² = 49.",
+                "Un carré d'aire A a un côté de longueur **√A**. Attention : √36 = 6, et non 18.",
+                "Si le nombre n'est pas un carré parfait, on **encadre** la racine entre deux entiers consécutifs (√13 est entre 3 et 4), puis on donne une valeur approchée avec la calculatrice (√13 ≈ 3,61)."
+              ],
+              exemple: "Un carré d'aire 169 cm² a un côté de √169 = 13 cm. Un carré d'aire 13 cm² a un côté d'environ 3,61 cm, car 3² = 9 < 13 < 16 = 4².",
+              savoir: "calculer la racine carrée d'un carré parfait, encadrer une racine carrée et en donner une valeur approchée avec la calculatrice."
             }
           ],
           ressources: [
             { id: "4e-ch4-s1", type: "exos", titre: "Séance 1 — Découvrir le théorème de Pythagore", resume: "Un puzzle d'aires, une vérification par le calcul et le cas du triangle non rectangle.", ajout: "2026-10-20" },
-            { id: "4e-ch4-minijeux", type: "jeu", titre: "Mini-jeux — Trouve l'hypoténuse", resume: "Figures tournées, phrases « rectangle en… » et défi de 60 secondes pour que l'identification devienne un réflexe.", ajout: "2026-10-20" }
+            { id: "4e-ch4-s2", type: "exos", titre: "Séance 2 — Racine carrée", resume: "De l'aire au côté, carrés penchés de la séance 1, encadrement et calculatrice.", ajout: "2026-10-24" },
+            { id: "4e-ch4-minijeux", type: "jeu", titre: "Mini-jeux — Trouve l'hypoténuse", resume: "Figures tournées, phrases « rectangle en… » et défi de 60 secondes pour que l'identification devienne un réflexe.", ajout: "2026-10-20" },
+            { id: "4e-ch4-minijeux-racine", type: "jeu", titre: "Mini-jeux — Racine carrée", resume: "Carrés de 1 à 15, racines de carrés parfaits, encadrements et défi de 60 secondes.", ajout: "2026-10-24" }
           ]
         }
       ]

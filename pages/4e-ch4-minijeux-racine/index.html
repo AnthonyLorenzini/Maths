@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini-jeux — Racine carrée (4e)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange-b: #F0B25B; --orange-bg: #FEF2E3; --orange-t: #B5680A;
+    --green-b: #4CAF7D; --green-bg: #E9F7EF; --green-t: #1E7A4C;
+    --red-b: #E5544F; --red-bg: #FDEBEC; --red-t: #B5322E;
+    --blue: #2B6CB0; --ink: #22303F;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+  .wrap { max-width: 780px; margin: 0 auto; }
+  header { text-align:center; margin-bottom:20px; }
+  h1 { font-family:'Baloo 2',sans-serif; font-size:24px; margin:0 0 4px 0; }
+  header p { color:#6B7A8A; margin:0; font-size:14px; }
+  .tabs { display:flex; gap:8px; justify-content:center; margin-bottom:18px; flex-wrap:wrap; }
+  .tab-btn { font-family:'Baloo 2',sans-serif; font-size:14px; padding:8px 14px; border-radius:20px; border:2px solid var(--ink); background:#fff; cursor:pointer; color:var(--ink); }
+  .tab-btn[aria-selected="true"] { background:var(--ink); color:#fff; }
+  .game { display:none; background:#fff; border-radius:18px; padding:22px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+  .game.active { display:block; }
+  .game h2 { font-family:'Baloo 2',sans-serif; font-size:20px; margin:0 0 6px 0; }
+  .desc { font-size:14px; color:#51657A; margin-bottom:12px; line-height:1.45; }
+  .rappel { background:#FFF9EC; border:2px dashed #D8B24C; border-radius:10px; padding:8px 14px; margin-bottom:12px; font-size:14px; }
+  .rappel summary { cursor:pointer; font-family:'Baloo 2',sans-serif; font-weight:700; color:#8A6A10; }
+  .rappel p { margin:6px 0 2px; line-height:1.5; }
+  .scorebar { display:flex; justify-content:space-between; align-items:center; font-family:'Baloo 2',sans-serif; font-size:14px; margin-bottom:12px; background:#F4F1EA; border-radius:10px; padding:8px 14px; flex-wrap:wrap; gap:6px 14px; }
+  .niveaux { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
+  .abtn { font-family:'Baloo 2',sans-serif; font-size:14px; padding:7px 16px; border-radius:20px; border:2px solid var(--blue); background:#fff; color:var(--blue); cursor:pointer; }
+  .abtn[aria-pressed="true"] { background:var(--blue); color:#fff; }
+  .abtn.plein { background:var(--ink); border-color:var(--ink); color:#fff; }
+  .abtn:disabled { opacity:.45; cursor:default; }
+  .question { font-family:'Baloo 2',sans-serif; font-size:26px; line-height:1.35; text-align:center; background:var(--orange-bg); border:2px solid var(--orange-b); border-radius:14px; padding:18px 16px; margin-bottom:12px; }
+  .question small { display:block; font-family:'Work Sans',Arial,sans-serif; font-size:14px; color:#6B5A1E; font-weight:600; margin-top:2px; }
+  .saisie { display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap; margin-bottom:10px; }
+  .saisie input { font:700 26px 'Baloo 2',sans-serif; width:130px; text-align:center; padding:8px 10px; border:2.5px solid var(--ink); border-radius:14px; color:var(--ink); background:#fff; }
+  .saisie input:disabled { background:#F4F1EA; }
+  .saisie input.bon { border-color:var(--green-b); background:var(--green-bg); }
+  .saisie input.mauvais { border-color:var(--red-b); background:var(--red-bg); }
+  .choix { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:10px; }
+  .choix button { font-family:'Baloo 2',sans-serif; font-size:22px; min-width:120px; padding:12px 18px; border-radius:14px; border:2px solid var(--ink); background:#fff; color:var(--ink); cursor:pointer; }
+  .choix button:hover:not(:disabled) { background:#F4F1EA; }
+  .choix button.bon { background:var(--green-bg); border-color:var(--green-b); color:var(--green-t); }
+  .choix button.mauvais { background:var(--red-bg); border-color:var(--red-b); color:var(--red-t); }
+  .choix button:disabled { cursor:default; }
+  .fb { font-size:15px; line-height:1.45; min-height:1.5em; padding:8px 12px; border-radius:10px; margin-bottom:8px; font-weight:600; }
+  .fb.bon { background:var(--green-bg); color:var(--green-t); }
+  .fb.mauvais { background:var(--red-bg); color:var(--red-t); }
+  .timer { font-family:'Baloo 2',sans-serif; font-size:34px; text-align:center; color:var(--orange-t); margin-bottom:6px; }
+  .fin { background:var(--green-bg); border:2px solid var(--green-b); border-radius:14px; padding:14px 16px; font-size:15px; line-height:1.5; margin-bottom:10px; }
+  [hidden] { display:none !important; }
+  footer { text-align:center; margin-top:20px; font-size:11.5px; color:#8894A0; }
+</style>
+<style>@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Mini-jeux — Racine carrée</h1>
+    <p>Chapitre 4 — 4e — entraînement libre, à volonté</p>
+  </header>
+
+  <div class="tabs" role="tablist" aria-label="Choix du jeu">
+    <button class="tab-btn" role="tab" id="tab-a" aria-selected="true" aria-controls="game-a">🔢 Carrés et racines</button>
+    <button class="tab-btn" role="tab" id="tab-b" aria-selected="false" aria-controls="game-b">📏 Entre quels entiers ?</button>
+    <button class="tab-btn" role="tab" id="tab-c" aria-selected="false" aria-controls="game-c">⏱ Défi 60 secondes</button>
+  </div>
+
+  <!-- JEU A : carrés de 1 à 15 et racines de carrés parfaits -->
+  <section class="game active" id="game-a" role="tabpanel" aria-labelledby="tab-a">
+    <h2>Carrés et racines</h2>
+    <p class="desc">Tape la réponse, puis appuie sur Entrée. Pour devenir rapide sur les carrés de 1 à 15 et leurs racines.</p>
+    <details class="rappel"><summary>Besoin d'un rappel ?</summary><p>Le <b>carré</b> de 7, noté 7², c'est 7 × 7 = 49. La <b>racine carrée</b> fait le chemin inverse : √49 est le nombre positif dont le carré est 49, donc √49 = 7.</p></details>
+    <div class="niveaux" role="group" aria-label="Niveau">
+      <button type="button" class="abtn" id="a-niv1" aria-pressed="true">Niveau 1 : les carrés</button>
+      <button type="button" class="abtn" id="a-niv2" aria-pressed="false">Niveau 2 : les racines</button>
+      <button type="button" class="abtn" id="a-niv3" aria-pressed="false">Niveau 3 : mélange</button>
+    </div>
+    <div class="scorebar" aria-live="off">
+      <span>Série : <b id="a-serie">0</b></span><span>Meilleure série : <b id="a-best">0</b></span>
+      <span>Réussites : <b id="a-ok">0</b> / <b id="a-total">0</b></span><span>Temps moyen : <b id="a-tps">–</b></span>
+    </div>
+    <div class="question" id="a-txt"></div>
+    <div class="saisie">
+      <input type="text" id="a-in" inputmode="numeric" autocomplete="off" aria-label="Ta réponse">
+      <button type="button" class="abtn plein" id="a-val">Valider</button>
+    </div>
+    <div class="fb" id="a-fb" role="status" aria-live="polite" hidden></div>
+    <button type="button" class="abtn plein" id="a-next" hidden>Suivant →</button>
+  </section>
+
+  <!-- JEU B : encadrer une racine entre deux entiers -->
+  <section class="game" id="game-b" role="tabpanel" aria-labelledby="tab-b">
+    <h2>Entre quels entiers ?</h2>
+    <p class="desc">Le nombre sous la racine n'est pas un carré parfait : la racine n'est donc pas un entier. Choisis les deux entiers consécutifs qui l'encadrent, sans calculatrice.</p>
+    <details class="rappel"><summary>Besoin d'un rappel ?</summary><p>Cherche les deux carrés parfaits qui entourent le nombre. Exemple : pour √40, on a 6² = 36 et 7² = 49, donc 36 &lt; 40 &lt; 49 et <b>6 &lt; √40 &lt; 7</b>.</p></details>
+    <div class="scorebar" aria-live="off">
+      <span>Série : <b id="b-serie">0</b></span><span>Meilleure série : <b id="b-best">0</b></span>
+      <span>Réussites : <b id="b-ok">0</b> / <b id="b-total">0</b></span><span>Temps moyen : <b id="b-tps">–</b></span>
+    </div>
+    <div class="question" id="b-txt"></div>
+    <div class="choix" id="b-choix" role="group" aria-label="Réponses possibles"></div>
+    <div class="fb" id="b-fb" role="status" aria-live="polite" hidden></div>
+    <button type="button" class="abtn plein" id="b-next" hidden>Suivant →</button>
+  </section>
+
+  <!-- JEU C : défi chronométré -->
+  <section class="game" id="game-c" role="tabpanel" aria-labelledby="tab-c">
+    <h2>Défi 60 secondes</h2>
+    <p class="desc">Combien de bonnes réponses en une minute ? Les questions mélangent carrés, racines de carrés parfaits et encadrements. Une erreur ne retire rien, mais fait perdre du temps !</p>
+    <div class="scorebar" aria-live="off">
+      <span>Bonnes réponses : <b id="c-ok">0</b></span><span>Réponses données : <b id="c-total">0</b></span><span>Meilleur score : <b id="c-best">0</b></span>
+    </div>
+    <div class="timer" id="c-timer" aria-hidden="true">1:00</div>
+    <div id="c-jeu" hidden>
+      <div class="question" id="c-txt"></div>
+      <div class="saisie" id="c-saisie" hidden>
+        <input type="text" id="c-in" inputmode="numeric" autocomplete="off" aria-label="Ta réponse">
+        <button type="button" class="abtn plein" id="c-val">Valider</button>
+      </div>
+      <div class="choix" id="c-choix" role="group" aria-label="Réponses possibles" hidden></div>
+      <div class="fb" id="c-fb" role="status" aria-live="polite" hidden></div>
+    </div>
+    <div class="fin" id="c-fin" role="status" hidden></div>
+    <button type="button" class="abtn plein" id="c-start">▶ C'est parti !</button>
+  </section>
+
+  <footer>Les mini-jeux sont là pour s'entraîner : ils ne comptent pas pour l'ascension de la montgolfière.</footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- outils ---------- */
+  function $(id) { return document.getElementById(id); }
+  function alea(n) { return Math.floor(Math.random() * n); }
+  function melange(t) { for (var i = t.length - 1; i > 0; i--) { var j = alea(i + 1), x = t[i]; t[i] = t[j]; t[j] = x; } return t; }
+  function fmtSec(x) { return (Math.round(x * 10) / 10).toString().replace(".", ","); }
+  function estCarre(n) { var r = Math.round(Math.sqrt(n)); return r * r === n; }
+
+  /* ---------- questions ----------
+     "car"  : n²            (n de 1 à 15)
+     "rac"  : √(n²)         (n de 1 à 15)
+     "enc"  : encadrer √m   (m non carré parfait, de 2 à 224), 4 propositions « k et k+1 » */
+  var dernier = "";
+  function nouvelle(type) {
+    var q, essais = 0;
+    do {
+      if (type === "car") { var n = 1 + alea(15); q = { type: "car", n: n, rep: n * n, txt: n + "² = ?", expl: n + "² = " + n + " × " + n + " = " + (n * n) + "." }; }
+      else if (type === "rac") { var p = 1 + alea(15); q = { type: "rac", n: p, rep: p, txt: "√" + (p * p) + " = ?", expl: "√" + (p * p) + " = " + p + " car " + p + "² = " + (p * p) + "." }; }
+      else {
+        var m; do { m = 2 + alea(223); } while (estCarre(m));
+        var k = Math.floor(Math.sqrt(m));
+        var opts = [k];
+        [-2, -1, 1, 2].forEach(function (d) { if (k + d >= 1 && k + d <= 14) opts.push(k + d); });
+        melange(opts); opts = opts.slice(0, 3);
+        if (opts.indexOf(k) < 0) opts[alea(3)] = k;
+        opts.sort(function (a, b) { return a - b; });
+        q = { type: "enc", m: m, k: k, opts: opts, txt: "√" + m + " est compris entre …", expl: k + "² = " + (k * k) + " < " + m + " < " + ((k + 1) * (k + 1)) + " = " + (k + 1) + "², donc " + k + " < √" + m + " < " + (k + 1) + "." };
+      }
+      essais++;
+    } while (q.txt === dernier && essais < 10);
+    dernier = q.txt;
+    return q;
+  }
+
+  /* ---------- moteur d'un jeu ----------
+     cfg.p : préfixe ; cfg.choisir() : type de la prochaine question ; cfg.apres(bon) : suite après une réponse (défi). */
+  function Jeu(cfg) {
+    var p = cfg.p, e = function (s) { return $(p + "-" + s); };
+    var S = { serie: 0, best: 0, ok: 0, total: 0, tps: 0, q: null, t0: 0, rep: false, minuteur: null };
+    function maj() {
+      if (e("serie")) e("serie").textContent = S.serie;
+      if (e("best")) e("best").textContent = S.best;
+      e("ok").textContent = S.ok;
+      e("total").textContent = S.total;
+      if (e("tps")) e("tps").textContent = S.ok ? fmtSec(S.tps / S.ok) + " s" : "–";
+    }
+    function montrer(id, oui) { if (e(id)) e(id).hidden = !oui; }
+    function suivante() {
+      clearTimeout(S.minuteur);
+      var q = nouvelle(cfg.choisir());
+      S.q = q; S.rep = false; S.t0 = performance.now();
+      montrer("fb", false); montrer("next", false);
+      e("txt").textContent = q.txt;
+      if (q.type === "enc") {
+        montrer("saisie", false); montrer("choix", true);
+        var c = e("choix"); c.innerHTML = "";
+        q.opts.forEach(function (k) {
+          var b = document.createElement("button");
+          b.type = "button"; b.textContent = k + " et " + (k + 1); b.setAttribute("data-k", k);
+          b.addEventListener("click", function () { repondre(k); });
+          c.appendChild(b);
+        });
+      } else {
+        montrer("choix", false); montrer("saisie", true);
+        var inp = e("in"); inp.value = ""; inp.disabled = false; inp.className = "";
+        if (e("val")) e("val").disabled = false;
+        inp.focus({ preventScroll: true });
+      }
+    }
+    function repondre(r) {
+      if (S.rep || !S.q) return;
+      var q = S.q;
+      if (q.type !== "enc" && (r === null || r === "" || isNaN(r))) return;      /* case vide : on ne compte pas */
+      S.rep = true;
+      var duree = (performance.now() - S.t0) / 1000;
+      var bon = q.type === "enc" ? r === q.k : r === q.rep;
+      S.total++;
+      if (bon) { S.ok++; S.serie++; S.tps += duree; if (S.serie > S.best) S.best = S.serie; } else { S.serie = 0; }
+      maj();
+      if (q.type === "enc") {
+        Array.prototype.forEach.call(e("choix").children, function (b) {
+          b.disabled = true;
+          var kb = +b.getAttribute("data-k");
+          if (kb === q.k) b.className = "bon"; else if (kb === r) b.className = "mauvais";
+        });
+      } else {
+        e("in").disabled = true; e("in").className = bon ? "bon" : "mauvais";
+        if (e("val")) e("val").disabled = true;
+      }
+      var fb = e("fb");
+      fb.hidden = false;
+      fb.className = "fb " + (bon ? "bon" : "mauvais");
+      fb.textContent = (bon ? "✅ Oui ! " : "❌ Non. ") + q.expl;
+      if (cfg.apres) cfg.apres(bon);
+      else if (bon) S.minuteur = setTimeout(suivante, 900);
+      else montrer("next", true);
+    }
+    function lireSaisie() {
+      var v = e("in").value.trim().replace(",", ".");
+      return /^\d+$/.test(v) ? parseInt(v, 10) : NaN;
+    }
+    if (e("in")) {
+      e("in").addEventListener("keydown", function (ev) { if (ev.key === "Enter") { ev.preventDefault(); repondre(lireSaisie()); } });
+      e("val").addEventListener("click", function () { repondre(lireSaisie()); });
+    }
+    if (e("next")) e("next").addEventListener("click", suivante);
+    maj();
+    return { suivante: suivante, repondre: repondre, etat: S, maj: maj };
+  }
+
+  /* ---------- jeu A ---------- */
+  var niveauA = 1;
+  var jeuA = Jeu({ p: "a", choisir: function () { return niveauA === 1 ? "car" : niveauA === 2 ? "rac" : (alea(2) ? "car" : "rac"); } });
+  [1, 2, 3].forEach(function (n) {
+    $("a-niv" + n).addEventListener("click", function () {
+      niveauA = n;
+      [1, 2, 3].forEach(function (k) { $("a-niv" + k).setAttribute("aria-pressed", String(k === n)); });
+      jeuA.suivante();
+    });
+  });
+
+  /* ---------- jeu B ---------- */
+  var jeuB = Jeu({ p: "b", choisir: function () { return "enc"; } });
+
+  /* ---------- jeu C : défi 60 s ---------- */
+  var chrono = { reste: 60, id: null, actif: false };
+  var meilleur = 0;
+  try { meilleur = parseInt(localStorage.getItem("mlPythRacBest") || "0", 10) || 0; } catch (x) {}
+  $("c-best").textContent = meilleur;
+  var jeuC = Jeu({ p: "c", choisir: function () { var t = alea(3); return t === 0 ? "car" : t === 1 ? "rac" : "enc"; },
+    apres: function (bon) {
+      jeuC.etat.minuteur = setTimeout(function () { if (chrono.actif) jeuC.suivante(); }, bon ? 600 : 1800);
+    } });
+  function affTemps() { var s = Math.max(0, chrono.reste); $("c-timer").textContent = "0:" + (s < 10 ? "0" : "") + s; }
+  function finChrono() {
+    chrono.actif = false; clearInterval(chrono.id); clearTimeout(jeuC.etat.minuteur);
+    $("c-jeu").hidden = true; $("c-start").hidden = false; $("c-start").textContent = "↺ Rejouer";
+    var sc = jeuC.etat.ok, rec = sc > meilleur;
+    if (rec) { meilleur = sc; try { localStorage.setItem("mlPythRacBest", String(sc)); } catch (x) {} }
+    $("c-best").textContent = meilleur;
+    var fin = $("c-fin"); fin.hidden = false;
+    fin.textContent = "⏱ Temps écoulé ! " + sc + " bonne" + (sc > 1 ? "s" : "") + " réponse" + (sc > 1 ? "s" : "") + " sur " + jeuC.etat.total + "." +
+      (rec && sc > 0 ? " 🏆 Nouveau record !" : "") + (jeuC.etat.ok ? " Temps moyen par bonne réponse : " + fmtSec(jeuC.etat.tps / jeuC.etat.ok) + " s." : "");
+  }
+  $("c-start").addEventListener("click", function () {
+    var S = jeuC.etat; S.ok = 0; S.total = 0; S.serie = 0; S.tps = 0; jeuC.maj();
+    $("c-fin").hidden = true; $("c-start").hidden = true; $("c-jeu").hidden = false;
+    chrono.reste = 60; chrono.actif = true; affTemps();
+    clearInterval(chrono.id);
+    chrono.id = setInterval(function () { chrono.reste--; affTemps(); if (chrono.reste <= 0) finChrono(); }, 1000);
+    jeuC.suivante();
+  });
+
+  /* ---------- onglets ---------- */
+  var onglets = ["a", "b", "c"];
+  onglets.forEach(function (id) {
+    $("tab-" + id).addEventListener("click", function () {
+      if (id !== "c" && chrono.actif) finChrono();
+      onglets.forEach(function (o) {
+        $("game-" + o).classList.toggle("active", o === id);
+        $("tab-" + o).setAttribute("aria-selected", String(o === id));
+      });
+      if (id === "a" && !jeuA.etat.rep) $("a-in").focus({ preventScroll: true });
+    });
+  });
+
+  /* ---------- démarrage ---------- */
+  jeuA.suivante();
+  jeuB.suivante();
+  window.PythRacine = { nouvelle: nouvelle };
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

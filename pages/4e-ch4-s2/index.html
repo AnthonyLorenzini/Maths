@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 2 — Racine carrée</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --acc-b:#F0B25B; --acc-bg:#FEF2E3; --acc-t:#B5680A; --ink:#22303F; --bleu:#2B6CB0; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 860px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:22px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:25px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+.section-title { font-family:'Baloo 2',sans-serif; font-size:18px; margin:18px 0 12px 0; }
+.advanced-title { font-family:'Baloo 2',sans-serif; font-size:15px; color:var(--acc-t); margin:18px 0 10px 0; padding-top:12px; border-top:2px dashed var(--acc-b); }
+
+/* ---------- automatisme ---------- */
+.automatisme { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:12px 16px; margin-bottom:14px; }
+.automatisme h2 { font-family:'Baloo 2',sans-serif; font-size:15px; color:#2B6CB0; margin:0 0 8px 0; }
+.automatisme ol { margin:0; padding-left:20px; font-size:13.5px; }
+.automatisme li { margin-bottom:2px; }
+.reveal-panel { display:none; margin-top:8px; font-size:12.5px; font-style:italic; color:#3B4C5E; border-top:1px dashed #B7CBE3; padding-top:6px; }
+.reveal-panel.show { display:block; }
+.carres-bloc { background:#FFF9EC; border:2px dashed #D8B24C; border-radius:10px; padding:10px 16px 12px; margin-bottom:18px; }
+.carres-bloc b.tag { font-family:'Baloo 2',sans-serif; color:#9C7A17; display:block; margin-bottom:6px; font-size:13.5px; }
+.carres { display:grid; grid-template-columns:repeat(auto-fit,minmax(86px,1fr)); gap:6px; }
+.cq { background:#fff; border:1.5px solid #E3D3A2; border-radius:8px; padding:3px 6px; text-align:center; font-size:13.5px; }
+.cq span { color:#6B5A1E; font-weight:600; }
+.cq b { font-family:'Baloo 2',sans-serif; font-size:16px; margin-left:4px; }
+
+/* ---------- activités interactives ---------- */
+.act { border:2px solid var(--bleu); background:#F3F8FE; border-radius:14px; padding:14px 18px 16px; margin-bottom:18px; }
+.act h2 { font-family:'Baloo 2',sans-serif; font-size:17px; margin:0 0 6px 0; color:var(--bleu); }
+.act h2 .duree { font-family:'Work Sans',sans-serif; font-size:13px; color:#51657A; font-weight:600; margin-left:6px; }
+.act p, .act li { font-size:13.5px; line-height:1.5; }
+.act p { margin:6px 0; }
+.act ol { margin:6px 0 6px 0; padding-left:22px; }
+.act li { margin-bottom:3px; }
+.fig { background:#fff; border:1px solid #D2E0F1; border-radius:10px; padding:6px; margin:10px 0; }
+.fig svg { display:block; width:100%; height:auto; max-height:420px; margin:0 auto; }
+.ctrl { display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center; margin:8px 0; }
+.ctrl label { font-size:13.5px; font-weight:600; display:flex; align-items:center; gap:8px; }
+.ctrl output { display:inline-block; min-width:2.6em; text-align:center; font-family:'Baloo 2',sans-serif; font-size:15px; background:#fff; border:1.5px solid var(--bleu); border-radius:8px; padding:1px 6px; }
+.ctrl input[type=range] { width:190px; accent-color:var(--bleu); }
+.ctrl input[type=text], .ctrl input[type=number] { font:600 16px 'Work Sans',Arial,sans-serif; width:92px; padding:5px 8px; border:2px solid #9DB8D8; border-radius:8px; background:#fff; color:var(--ink); }
+.abtn { font-family:'Baloo 2',sans-serif; font-size:13.5px; padding:6px 14px; border-radius:18px; border:2px solid var(--bleu); background:#fff; color:var(--bleu); cursor:pointer; }
+.abtn:hover { filter:brightness(0.96); }
+.abtn[aria-pressed="true"] { background:var(--bleu); color:#fff; }
+.abtn.pas { padding:5px 10px; }
+.egal { font-size:14px; font-weight:700; padding:8px 12px; border-radius:10px; background:#E8F6EE; border:2px solid #4CAF7D; margin:6px 0; }
+.egal.non { background:#FDECE8; border-color:#D8523A; }
+.egal.neutre { background:#EEF3FA; border-color:#9DB8D8; }
+.def { background:#EFEAFE; border:2px solid #6E4FE0; border-radius:12px; padding:10px 16px; margin:10px 0; font-size:14px; line-height:1.55; }
+.def b.tag { font-family:'Baloo 2',sans-serif; color:#4B2FB5; display:block; margin-bottom:2px; font-size:14px; }
+.somme { margin:10px 0 4px; }
+.eq { display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; }
+.terme { border:2.5px solid #C5D3E3; background:#fff; border-radius:12px; padding:6px 14px; text-align:center; min-width:96px; }
+.terme small { display:block; font-size:13px; color:#51657A; font-weight:600; }
+.terme b { font-family:'Baloo 2',sans-serif; font-size:24px; line-height:1.15; }
+.terme.ta { border-color:#E4553F; background:#FDEEEA; }
+.terme.tb { border-color:#E0AE1B; background:#FFF6D6; }
+.terme.tc { border-color:#3FA766; background:#E8F6EE; }
+.op { font-family:'Baloo 2',sans-serif; font-size:30px; font-weight:700; color:#22303F; }
+table.tab { border-collapse:collapse; width:100%; font-size:13.5px; background:#fff; margin:8px 0; }
+table.tab caption { text-align:left; font-weight:700; padding:2px 0 4px; font-family:'Baloo 2',sans-serif; }
+table.tab th, table.tab td { border:1.5px solid #C5D3E3; padding:4px 8px; text-align:center; }
+table.tab th { background:#E4EEFA; font-weight:700; }
+table.tab tr.sel td { background:#E8F6EE; font-weight:700; }
+.barres { display:grid; grid-template-columns:auto 1fr; gap:4px 10px; align-items:center; font-size:13.5px; margin:8px 0; }
+.barre { height:18px; border-radius:5px; background:#3FA766; transition:width .25s ease; }
+.barre.autre { background:#E0AE1B; }
+.barre.ecart { background:#D8523A; }
+svg text.lbl { font-family:'Work Sans',Arial,sans-serif; font-weight:700; fill:#22303F; paint-order:stroke; stroke:#fff; stroke-linejoin:round; }
+
+/* ---------- exercices ---------- */
+.exo { border:2px solid var(--acc-b); background:var(--acc-bg); border-radius:12px; padding:14px 18px; margin-bottom:14px; }
+.exo-title { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:var(--acc-t); margin-bottom:6px; }
+.exo p { font-size:13px; margin:4px 0; line-height:1.5; }
+.exo p.q { margin:6px 0 2px 4px; }
+.btn-row { display:flex; gap:10px; margin-top:8px; flex-wrap:wrap; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:13px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:12.5px; line-height:1.5; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel.solution-panel { border:1.5px dashed #4CAF7D; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; }
+.astuce-panel .label { color:#B5680A; }
+.solution-panel .label { color:#1E7A4C; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+
+/* ---------- exercices sur écran ---------- */
+.aide-ex { font-size:13.5px; line-height:1.5; margin:0 0 12px; color:#3B4C5E; }
+.progres { display:inline-block; margin-left:6px; padding:2px 10px; border-radius:12px; background:#E8F6EE; border:1.5px solid #4CAF7D; font-weight:700; color:#1E7A4C; }
+.rep { margin:8px 0 4px; }
+.rep .ligne { display:flex; flex-wrap:wrap; align-items:center; gap:6px 12px; margin:7px 0; font-size:14px; line-height:1.5; }
+.rep .ligne label { display:inline-flex; flex-wrap:wrap; align-items:center; gap:4px 6px; }
+.rep .ligne .enonce { flex:1 1 280px; }
+.rep input[type=text] { font:600 16px 'Work Sans',Arial,sans-serif; width:92px; padding:5px 8px; border:2px solid #C9B58A; border-radius:8px; background:#fff; color:var(--ink); }
+.rep input[type=text].ok { border-color:#2E9B5E; background:#E8F6EE; }
+.rep input[type=text].ko { border-color:#D8523A; background:#FDECE8; }
+.rep .vf { display:inline-flex; flex-wrap:wrap; align-items:center; gap:4px 14px; }
+.rep .vf label { display:inline-flex; align-items:center; gap:5px; cursor:pointer; padding:3px 4px; }
+.rep .vf input[type=radio] { width:18px; height:18px; accent-color:var(--bleu); }
+.rep .vf.ok { background:#E8F6EE; border-radius:8px; padding:1px 8px; }
+.rep .vf.ko { background:#FDECE8; border-radius:8px; padding:1px 8px; }
+.mk { font-size:13px; font-weight:700; }
+.mk.ok { color:#1E7A4C; } .mk.ko { color:#B5322E; } .mk.vide { color:#7A5210; }
+.ctrl-rep { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+.bilan-exo { margin-top:8px; font-size:14px; font-weight:600; min-height:1.4em; }
+.bilan-exo.ok { color:#1E7A4C; } .bilan-exo.ko { color:#7A3A10; }
+.exo.reussi { border-color:#4CAF7D; background:#F1FAF4; }
+</style>
+<style>@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="badge">S2</div>
+    <div>
+      <h1>Racine carrée</h1>
+      <div class="subtitle">Chapitre 4 — Le théorème de Pythagore — 4e — Séance 2</div>
+    </div>
+  </header>
+  <div class="objectifs"><b>Objectifs :</b> passer de l'aire d'un carré à la longueur de son côté ; savoir ce que signifie √ ; encadrer une racine carrée entre deux entiers et en donner une valeur approchée avec la calculatrice.</div>
+  <noscript><p><b>Cette séance utilise des animations : active JavaScript dans ton navigateur pour les voir.</b></p></noscript>
+
+  <!-- ===================== AUTOMATISME ===================== -->
+  <div class="automatisme">
+    <h2>Automatisme</h2>
+    <ol>
+      <li>8² =</li>
+      <li>12² =</li>
+      <li>15² =</li>
+      <li>13² =</li>
+      <li>Le triangle RST est rectangle en S. Quel côté est l'hypoténuse ?</li>
+      <li>Un carré a un côté de 9 cm. Quelle est son aire ?</li>
+    </ol>
+    <button type="button" class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
+    <div class="reveal-panel" id="auto-corrige">Corrigé : 64 ; 144 ; 225 ; 169 ; [RT] (le côté en face de l'angle droit, en S) ; 9² = 81 cm²</div>
+  </div>
+  <div class="carres-bloc">
+    <b class="tag">À connaître par cœur : les carrés de 1 à 15</b>
+    <div class="carres" id="carres" role="list" aria-label="Les carrés des nombres de 1 à 15"></div>
+  </div>
+
+  <!-- ===================== ACTIVITÉ 1 : DE L'AIRE AU CÔTÉ ===================== -->
+  <section class="act" aria-labelledby="t-act1">
+    <h2 id="t-act1">Activité 1 — De l'aire au côté <span class="duree">environ 8 min</span></h2>
+    <p>Tu sais calculer l'aire d'un carré quand tu connais son côté. Choisis un côté : on compte les petits carrés de 1 cm sur 1 cm.</p>
+    <div class="ctrl">
+      <label for="c-rng">Côté c = <output id="c-val" for="c-rng">4</output> cm<input type="range" id="c-rng" min="1" max="12" step="1" value="4"></label>
+      <button type="button" class="abtn" id="c-hasard">🎲 Au hasard</button>
+    </div>
+    <div class="fig">
+      <svg id="svg-carre" data-fix role="img" aria-label="Un carré quadrillé dont on choisit le côté" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"></svg>
+    </div>
+    <div class="egal neutre" id="c-info" role="status" aria-live="polite"></div>
+    <p><b>Et maintenant, dans l'autre sens :</b> on connaît l'aire du carré et on cherche son côté.</p>
+    <ol>
+      <li>Un carré a une aire de 36 cm². Combien mesure son côté ?</li>
+      <li>Un carré a une aire de 144 cm². Combien mesure son côté ?</li>
+      <li>Un carré a une aire de 20 cm². Entre quels deux nombres entiers se trouve son côté ?</li>
+    </ol>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn solution" onclick="toggle('rep-act1')">✅ Voir les réponses</button>
+    </div>
+    <div class="panel solution-panel" id="rep-act1"><span class="label">Réponses</span>1) 6 cm, car 6 × 6 = 36. 2) 12 cm, car 12 × 12 = 144. 3) Entre 4 cm et 5 cm, car 4² = 16 et 5² = 25 : le côté n'est pas un nombre entier. On y revient dans les activités suivantes.</div>
+    <div class="def">
+      <b class="tag">Racine carrée</b>
+      Chercher le côté d'un carré dont on connaît l'aire est l'opération <b>contraire</b> de « mettre au carré ». Elle s'appelle la <b>racine carrée</b>.<br>
+      <b>√49</b> se lit « racine carrée de 49 » : c'est le <b>nombre positif dont le carré est 49</b>. Ici, √49 = 7 car 7² = 49.<br>
+      Un carré d'aire A a donc un côté de longueur <b>√A</b>.
+    </div>
+  </section>
+
+  <!-- ===================== ACTIVITÉ 2 : LES CARRÉS PENCHÉS DE LA S1 ===================== -->
+  <section class="act" aria-labelledby="t-act2">
+    <h2 id="t-act2">Activité 2 — Les carrés penchés de la séance 1 <span class="duree">environ 10 min</span></h2>
+    <p>En séance 1, tu as construit un carré sur l'hypoténuse de triangles rectangles. Ce carré est « penché » : voici comment on peut calculer son aire. On choisit les côtés <b>a</b> et <b>b</b> de l'angle droit du triangle.</p>
+    <div class="ctrl" role="group" aria-label="Choix du triangle" id="choix-tri"></div>
+    <div class="fig">
+      <svg id="svg-penche" data-fix role="img" aria-label="Un grand carré quadrillé contenant quatre triangles rectangles identiques et un carré penché" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"></svg>
+    </div>
+    <div class="somme" aria-live="polite">
+      <div class="eq">
+        <div class="terme tb"><small id="g-gr-t">grand carré</small><b id="g-gr">49</b></div>
+        <span class="op" aria-label="moins">−</span>
+        <div class="terme ta"><small id="g-tr-t">4 triangles</small><b id="g-tr">24</b></div>
+        <span class="op" aria-label="égale">=</span>
+        <div class="terme tc"><small>carré penché</small><b id="g-pe">25</b></div>
+      </div>
+    </div>
+    <div class="egal" id="g-ctrl" role="status" aria-live="polite"></div>
+    <table class="tab" id="tab-penche">
+      <caption>Les carrés penchés pour chaque triangle</caption>
+      <thead><tr><th scope="col">a</th><th scope="col">b</th><th scope="col">Aire du carré penché</th></tr></thead>
+      <tbody id="tab-penche-corps"></tbody>
+    </table>
+    <p><b>Question :</b> pour lesquels de ces carrés penchés connais-tu la longueur du côté sans calculatrice ? Pour les autres, que peux-tu dire de leur côté ?</p>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn solution" onclick="toggle('rep-act2')">✅ Voir la réponse</button>
+    </div>
+    <div class="panel solution-panel" id="rep-act2"><span class="label">Réponse</span>Pour les aires <b>25</b> et <b>169</b> : ce sont des carrés parfaits (5² = 25 et 13² = 169), donc les côtés mesurent <b>5</b> et <b>13</b>. Pour les aires 2, 5, 13 et 65, ce ne sont pas des carrés parfaits : le côté n'est pas un nombre entier. On peut seulement l'encadrer, par exemple 8² = 64 &lt; 65 &lt; 81 = 9², donc le côté de l'aire 65 est entre 8 et 9.<br>Dans la séance 3, on utilisera cela pour calculer la longueur de l'hypoténuse.</div>
+  </section>
+
+  <!-- ===================== ACTIVITÉ 3 : ENCADRER ET CALCULER ===================== -->
+  <section class="act" aria-labelledby="t-act3">
+    <h2 id="t-act3">Activité 3 — Encadrer √n et utiliser la calculatrice <span class="duree">environ 12 min</span></h2>
+    <p>On cherche le côté d'un carré d'aire <b>n</b>, c'est-à-dire √n, en essayant des longueurs <b>x</b> : on calcule x² et on le compare à n. Commence avec n = 13 (le carré penché du triangle de côtés 2 et 3).</p>
+    <div class="ctrl" role="group" aria-label="Choix de l'aire n">
+      <span style="font-size:13.5px;font-weight:600">Aire n :</span>
+      <button type="button" class="abtn" data-n="13" aria-pressed="true">13</button>
+      <button type="button" class="abtn" data-n="65" aria-pressed="false">65</button>
+      <button type="button" class="abtn" data-n="20" aria-pressed="false">20</button>
+      <button type="button" class="abtn" data-n="50" aria-pressed="false">50</button>
+      <label for="n-lib">ou ton choix :<input type="number" id="n-lib" min="1" max="400" step="1" value="" placeholder="1 à 400" aria-label="Choisir une aire n entre 1 et 400"></label>
+      <button type="button" class="abtn" id="n-ok">OK</button>
+    </div>
+    <div class="ctrl">
+      <label for="t-in">Je teste x = <input type="text" id="t-in" inputmode="decimal" value="1" autocomplete="off"></label>
+      <button type="button" class="abtn" id="t-go">Tester</button>
+    </div>
+    <div class="ctrl" role="group" aria-label="Modifier x">
+      <button type="button" class="abtn pas" data-pas="-1">−1</button>
+      <button type="button" class="abtn pas" data-pas="-0.1">−0,1</button>
+      <button type="button" class="abtn pas" data-pas="-0.01">−0,01</button>
+      <button type="button" class="abtn pas" data-pas="0.01">+0,01</button>
+      <button type="button" class="abtn pas" data-pas="0.1">+0,1</button>
+      <button type="button" class="abtn pas" data-pas="1">+1</button>
+    </div>
+    <div class="somme" aria-live="polite">
+      <div class="eq">
+        <div class="terme tb"><small>x</small><b id="t-x">1</b></div>
+        <span class="op" aria-label="donne">→</span>
+        <div class="terme ta"><small id="t-x2-t">x²</small><b id="t-x2">1</b></div>
+        <span class="op" id="t-signe" aria-label="comparé à">?</span>
+        <div class="terme tc"><small>aire n</small><b id="t-n">13</b></div>
+      </div>
+    </div>
+    <div class="barres" aria-hidden="true">
+      <span>x²</span><div><div class="barre autre" id="t-bar-x"></div></div>
+      <span>n</span><div><div class="barre" id="t-bar-n"></div></div>
+    </div>
+    <div class="egal neutre" id="t-msg" role="status" aria-live="polite"></div>
+    <div class="egal neutre" id="t-enc" role="status" aria-live="polite"></div>
+    <p><b>À toi :</b> trouve un encadrement de √13 entre deux nombres qui ont <b>un seul chiffre après la virgule</b>, puis entre deux nombres qui ont <b>deux chiffres après la virgule</b>.</p>
+    <div class="ctrl">
+      <button type="button" class="abtn" id="btn-calc">🧮 Appuyer sur la touche √ de la calculatrice</button>
+    </div>
+    <div class="egal neutre" id="calc-out" role="status" aria-live="polite" hidden></div>
+    <div class="def">
+      <b class="tag">À retenir</b>
+      Si n n'est pas un carré parfait, √n n'est pas un nombre entier. La calculatrice affiche seulement une <b>valeur approchée</b> : √13 ≈ 3,61 (arrondi au centième). Sans calculatrice, on <b>encadre</b> : 3² = 9 &lt; 13 &lt; 16 = 4², donc <b>3 &lt; √13 &lt; 4</b>.
+    </div>
+  </section>
+
+  <!-- ===================== EXERCICES (à faire sur écran ou sur papier) ===================== -->
+  <div class="section-title">Exercices</div>
+  <p class="aide-ex">Sur ordinateur : tape ta réponse (virgule ou point pour les décimaux), puis clique sur <b>Vérifier</b>. Le corrigé n'apparaît pas : cherche d'abord, utilise l'astuce si tu bloques, et la solution en dernier. <span class="progres" role="status" aria-live="polite">Exercices réussis : <b id="nb-ok">0</b> / <b id="nb-tot">6</b></span></p>
+
+  <div class="exo" data-exo>
+    <div class="exo-title">★ Exercice 1</div>
+    <p>Calcule ces racines carrées de carrés parfaits (sans calculatrice, avec les carrés de 1 à 15).</p>
+    <div class="rep">
+      <div class="ligne">
+        <label>a) √49 = <input type="text" inputmode="decimal" data-num="7" autocomplete="off" aria-label="Exercice 1 a, racine carrée de 49"><span class="mk"></span></label>
+        <label>b) √81 = <input type="text" inputmode="decimal" data-num="9" autocomplete="off" aria-label="Exercice 1 b, racine carrée de 81"><span class="mk"></span></label>
+        <label>c) √121 = <input type="text" inputmode="decimal" data-num="11" autocomplete="off" aria-label="Exercice 1 c, racine carrée de 121"><span class="mk"></span></label>
+      </div>
+      <div class="ligne">
+        <label>d) √144 = <input type="text" inputmode="decimal" data-num="12" autocomplete="off" aria-label="Exercice 1 d, racine carrée de 144"><span class="mk"></span></label>
+        <label>e) √169 = <input type="text" inputmode="decimal" data-num="13" autocomplete="off" aria-label="Exercice 1 e, racine carrée de 169"><span class="mk"></span></label>
+        <label>f) √225 = <input type="text" inputmode="decimal" data-num="15" autocomplete="off" aria-label="Exercice 1 f, racine carrée de 225"><span class="mk"></span></label>
+      </div>
+      <div class="ctrl-rep"><button type="button" class="abtn verif">Vérifier</button><button type="button" class="abtn raz">Effacer mes réponses</button></div>
+      <div class="bilan-exo" role="status" aria-live="polite"></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('astuce-0')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="toggle('solution-0')">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="astuce-0"><span class="label">Astuce</span>√49, c'est « le nombre positif dont le carré est 49 ». Cherche dans la liste des carrés de 1 à 15 : quel nombre multiplié par lui-même donne 49 ?</div>
+    <div class="panel solution-panel" id="solution-0"><span class="label">Solution</span>a) √49 = <b>7</b> car 7² = 49. b) √81 = <b>9</b> car 9² = 81. c) √121 = <b>11</b>. d) √144 = <b>12</b>. e) √169 = <b>13</b>. f) √225 = <b>15</b>.</div>
+  </div>
+
+  <div class="exo" data-exo>
+    <div class="exo-title">★★ Exercice 2</div>
+    <p>Chaque carré a l'aire indiquée. Donne la longueur de son côté.</p>
+    <div class="rep">
+      <div class="ligne"><label>a) aire 36 cm² : côté = <input type="text" inputmode="decimal" data-num="6" autocomplete="off" aria-label="Exercice 2 a, côté en cm"> cm<span class="mk"></span></label></div>
+      <div class="ligne"><label>b) aire 169 cm² : côté = <input type="text" inputmode="decimal" data-num="13" autocomplete="off" aria-label="Exercice 2 b, côté en cm"> cm<span class="mk"></span></label></div>
+      <div class="ligne"><label>c) aire 2,25 m² : côté = <input type="text" inputmode="decimal" data-num="1.5" autocomplete="off" aria-label="Exercice 2 c, côté en m"> m<span class="mk"></span></label></div>
+      <div class="ligne"><label>d) aire 0,49 m² : côté = <input type="text" inputmode="decimal" data-num="0.7" autocomplete="off" aria-label="Exercice 2 d, côté en m"> m<span class="mk"></span></label></div>
+      <div class="ctrl-rep"><button type="button" class="abtn verif">Vérifier</button><button type="button" class="abtn raz">Effacer mes réponses</button></div>
+      <div class="bilan-exo" role="status" aria-live="polite"></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('astuce-1')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="toggle('solution-1')">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="astuce-1"><span class="label">Astuce</span>Le côté d'un carré d'aire A est √A. Pour c) et d), cherche un nombre décimal : essaie 1,5 × 1,5 et 0,7 × 0,7.</div>
+    <div class="panel solution-panel" id="solution-1"><span class="label">Solution</span>a) √36 = <b>6 cm</b>. b) √169 = <b>13 cm</b>. c) 1,5² = 2,25 donc le côté mesure <b>1,5 m</b>. d) 0,7² = 0,49 donc le côté mesure <b>0,7 m</b>.</div>
+  </div>
+
+  <div class="exo" data-exo>
+    <div class="exo-title">★★ Exercice 3</div>
+    <p>Encadre chaque racine carrée entre deux nombres entiers consécutifs, sans calculatrice. Repère les deux carrés parfaits qui entourent le nombre.</p>
+    <div class="rep">
+      <div class="ligne"><span class="enonce">a)
+        <label><input type="text" inputmode="numeric" data-num="4" autocomplete="off" aria-label="Exercice 3 a, entier inférieur"><span class="mk"></span></label> &lt; √20 &lt;
+        <label><input type="text" inputmode="numeric" data-num="5" autocomplete="off" aria-label="Exercice 3 a, entier supérieur"><span class="mk"></span></label></span></div>
+      <div class="ligne"><span class="enonce">b)
+        <label><input type="text" inputmode="numeric" data-num="7" autocomplete="off" aria-label="Exercice 3 b, entier inférieur"><span class="mk"></span></label> &lt; √50 &lt;
+        <label><input type="text" inputmode="numeric" data-num="8" autocomplete="off" aria-label="Exercice 3 b, entier supérieur"><span class="mk"></span></label></span></div>
+      <div class="ligne"><span class="enonce">c)
+        <label><input type="text" inputmode="numeric" data-num="9" autocomplete="off" aria-label="Exercice 3 c, entier inférieur"><span class="mk"></span></label> &lt; √90 &lt;
+        <label><input type="text" inputmode="numeric" data-num="10" autocomplete="off" aria-label="Exercice 3 c, entier supérieur"><span class="mk"></span></label></span></div>
+      <div class="ligne"><span class="enonce">d)
+        <label><input type="text" inputmode="numeric" data-num="11" autocomplete="off" aria-label="Exercice 3 d, entier inférieur"><span class="mk"></span></label> &lt; √130 &lt;
+        <label><input type="text" inputmode="numeric" data-num="12" autocomplete="off" aria-label="Exercice 3 d, entier supérieur"><span class="mk"></span></label></span></div>
+      <div class="ctrl-rep"><button type="button" class="abtn verif">Vérifier</button><button type="button" class="abtn raz">Effacer mes réponses</button></div>
+      <div class="bilan-exo" role="status" aria-live="polite"></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('astuce-2')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="toggle('solution-2')">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="astuce-2"><span class="label">Astuce</span>Pour √20 : cherche deux carrés parfaits consécutifs, l'un plus petit que 20 et l'autre plus grand. 4² = 16 et 5² = 25 : quel encadrement en déduis-tu ?</div>
+    <div class="panel solution-panel" id="solution-2"><span class="label">Solution</span>a) 16 &lt; 20 &lt; 25, donc <b>4 &lt; √20 &lt; 5</b>. b) 49 &lt; 50 &lt; 64, donc <b>7 &lt; √50 &lt; 8</b>. c) 81 &lt; 90 &lt; 100, donc <b>9 &lt; √90 &lt; 10</b>. d) 121 &lt; 130 &lt; 144, donc <b>11 &lt; √130 &lt; 12</b>.</div>
+  </div>
+
+  <div class="exo" data-exo>
+    <div class="exo-title">★★ Exercice 4</div>
+    <p>Avec la touche √ de ta calculatrice, donne une valeur approchée de chaque racine carrée, <b>arrondie au centième</b>.</p>
+    <div class="rep">
+      <div class="ligne">
+        <label>a) √2 ≈ <input type="text" inputmode="decimal" data-num="1.41" autocomplete="off" aria-label="Exercice 4 a, racine de 2 au centième"><span class="mk"></span></label>
+        <label>b) √7 ≈ <input type="text" inputmode="decimal" data-num="2.65" autocomplete="off" aria-label="Exercice 4 b, racine de 7 au centième"><span class="mk"></span></label>
+      </div>
+      <div class="ligne">
+        <label>c) √19 ≈ <input type="text" inputmode="decimal" data-num="4.36" autocomplete="off" aria-label="Exercice 4 c, racine de 19 au centième"><span class="mk"></span></label>
+        <label>d) √50 ≈ <input type="text" inputmode="decimal" data-num="7.07" autocomplete="off" aria-label="Exercice 4 d, racine de 50 au centième"><span class="mk"></span></label>
+      </div>
+      <div class="ctrl-rep"><button type="button" class="abtn verif">Vérifier</button><button type="button" class="abtn raz">Effacer mes réponses</button></div>
+      <div class="bilan-exo" role="status" aria-live="polite"></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('astuce-3')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="toggle('solution-3')">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="astuce-3"><span class="label">Astuce</span>Arrondir au centième, c'est garder deux chiffres après la virgule : regarde le troisième chiffre pour arrondir. Vérifie avec l'encadrement : √50 est entre 7 et 8.</div>
+    <div class="panel solution-panel" id="solution-3"><span class="label">Solution</span>a) √2 = 1,41421… donc <b>1,41</b>. b) √7 = 2,64575… donc <b>2,65</b>. c) √19 = 4,35889… donc <b>4,36</b>. d) √50 = 7,07106… donc <b>7,07</b>.</div>
+  </div>
+
+  <div class="exo" data-exo>
+    <div class="exo-title">★★ Exercice 5</div>
+    <p>Réponds par vrai ou faux. Pour chaque affirmation fausse, écris dans ton cahier une version corrigée.</p>
+    <div class="rep">
+      <div class="ligne"><span class="enonce">a) √49 = 7</span>
+        <span class="vf" data-bon="V" role="radiogroup" aria-label="Exercice 5 a"><label><input type="radio" name="e5a" value="V"> Vrai</label><label><input type="radio" name="e5a" value="F"> Faux</label><span class="mk"></span></span></div>
+      <div class="ligne"><span class="enonce">b) √36 = 18</span>
+        <span class="vf" data-bon="F" role="radiogroup" aria-label="Exercice 5 b"><label><input type="radio" name="e5b" value="V"> Vrai</label><label><input type="radio" name="e5b" value="F"> Faux</label><span class="mk"></span></span></div>
+      <div class="ligne"><span class="enonce">c) √9 + √16 = √25</span>
+        <span class="vf" data-bon="F" role="radiogroup" aria-label="Exercice 5 c"><label><input type="radio" name="e5c" value="V"> Vrai</label><label><input type="radio" name="e5c" value="F"> Faux</label><span class="mk"></span></span></div>
+      <div class="ligne"><span class="enonce">d) Un carré d'aire 30 cm² a un côté qui mesure entre 5 cm et 6 cm.</span>
+        <span class="vf" data-bon="V" role="radiogroup" aria-label="Exercice 5 d"><label><input type="radio" name="e5d" value="V"> Vrai</label><label><input type="radio" name="e5d" value="F"> Faux</label><span class="mk"></span></span></div>
+      <div class="ligne"><span class="enonce">e) √13 est un nombre entier.</span>
+        <span class="vf" data-bon="F" role="radiogroup" aria-label="Exercice 5 e"><label><input type="radio" name="e5e" value="V"> Vrai</label><label><input type="radio" name="e5e" value="F"> Faux</label><span class="mk"></span></span></div>
+      <div class="ctrl-rep"><button type="button" class="abtn verif">Vérifier</button><button type="button" class="abtn raz">Effacer mes réponses</button></div>
+      <div class="bilan-exo" role="status" aria-live="polite"></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('astuce-4')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="toggle('solution-4')">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="astuce-4"><span class="label">Astuce</span>Pour vérifier une égalité avec √, élève le résultat au carré : si √36 = 18, alors 18² devrait valoir 36. Pour c), calcule chaque côté séparément.</div>
+    <div class="panel solution-panel" id="solution-4"><span class="label">Solution</span>a) <b>Vrai</b> : 7² = 49. b) <b>Faux</b> : √36 = 6 car 6² = 36 ; la racine carrée n'est pas la moitié. c) <b>Faux</b> : √9 + √16 = 3 + 4 = 7, alors que √25 = 5. d) <b>Vrai</b> : 5² = 25 &lt; 30 &lt; 36 = 6². e) <b>Faux</b> : 3² = 9 et 4² = 16, donc √13 est entre 3 et 4 (√13 ≈ 3,61).</div>
+  </div>
+
+  <div class="exo" data-exo>
+    <div class="exo-title">★★★ Exercice 6</div>
+    <p>Retour aux carrés de la séance 1 : on a construit des carrés d'aires 169 cm², 13 cm² et 65 cm². Donne la longueur du côté de chacun (arrondie au dixième quand ce n'est pas un nombre entier). Puis un problème.</p>
+    <div class="rep">
+      <div class="ligne"><label>a) aire 169 cm² : côté = <input type="text" inputmode="decimal" data-num="13" autocomplete="off" aria-label="Exercice 6 a, côté en cm"> cm<span class="mk"></span></label></div>
+      <div class="ligne"><label>b) aire 13 cm² : côté ≈ <input type="text" inputmode="decimal" data-num="3.6" autocomplete="off" aria-label="Exercice 6 b, côté en cm au dixième"> cm (au dixième)<span class="mk"></span></label></div>
+      <div class="ligne"><label>c) aire 65 cm² : côté ≈ <input type="text" inputmode="decimal" data-num="8.1" autocomplete="off" aria-label="Exercice 6 c, côté en cm au dixième"> cm (au dixième)<span class="mk"></span></label></div>
+      <div class="ligne"><span class="enonce">d) Un terrain carré a une aire de 900 m². On veut le clôturer. Quelle est la longueur de la clôture, c'est-à-dire le périmètre du terrain ?</span>
+        <label>périmètre = <input type="text" inputmode="decimal" data-num="120" autocomplete="off" aria-label="Exercice 6 d, périmètre en m"> m<span class="mk"></span></label></div>
+      <div class="ctrl-rep"><button type="button" class="abtn verif">Vérifier</button><button type="button" class="abtn raz">Effacer mes réponses</button></div>
+      <div class="bilan-exo" role="status" aria-live="polite"></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('astuce-5')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="toggle('solution-5')">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="astuce-5"><span class="label">Astuce</span>Le côté d'un carré d'aire A mesure √A. Pour d), cherche d'abord le côté du terrain, puis rappelle-toi qu'un carré a quatre côtés égaux.</div>
+    <div class="panel solution-panel" id="solution-5"><span class="label">Solution</span>a) √169 = <b>13 cm</b>. b) √13 ≈ 3,606 donc <b>3,6 cm</b>. c) √65 ≈ 8,062 donc <b>8,1 cm</b>. d) Le côté du terrain est √900 = 30 m, donc le périmètre est 4 × 30 = <b>120 m</b>.</div>
+  </div>
+
+  <div class="advanced-title">Pour aller plus loin (facultatif)</div>
+
+  <div class="exo" data-exo data-opt>
+    <div class="exo-title">★★★★ Exercice</div>
+    <p>On cherche les nombres entiers n tels que <b>5 &lt; √n &lt; 6</b>.</p>
+    <div class="rep">
+      <div class="ligne"><label>a) Quel est le plus petit entier n qui convient ? n = <input type="text" inputmode="numeric" data-num="26" autocomplete="off" aria-label="Exercice facultatif a, plus petit entier"><span class="mk"></span></label></div>
+      <div class="ligne"><label>b) Quel est le plus grand entier n qui convient ? n = <input type="text" inputmode="numeric" data-num="35" autocomplete="off" aria-label="Exercice facultatif b, plus grand entier"><span class="mk"></span></label></div>
+      <div class="ligne"><label>c) Combien d'entiers conviennent ? <input type="text" inputmode="numeric" data-num="10" autocomplete="off" aria-label="Exercice facultatif c, nombre d'entiers"><span class="mk"></span></label></div>
+      <div class="ctrl-rep"><button type="button" class="abtn verif">Vérifier</button><button type="button" class="abtn raz">Effacer mes réponses</button></div>
+      <div class="bilan-exo" role="status" aria-live="polite"></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('astuce-6')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="toggle('solution-6')">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="astuce-6"><span class="label">Astuce</span>5² = 25 et 6² = 36. Les entiers n doivent être strictement compris entre ces deux carrés.</div>
+    <div class="panel solution-panel" id="solution-6"><span class="label">Solution</span>On veut 25 &lt; n &lt; 36 : a) le plus petit est <b>26</b>. b) le plus grand est <b>35</b>. c) Il y en a <b>10</b> : 26, 27, 28, 29, 30, 31, 32, 33, 34 et 35.</div>
+  </div>
+
+  <footer>Cherche seul(e) d'abord. Sur ordinateur, tape ta réponse puis clique sur Vérifier. Utilise l'astuce si tu bloques, puis ouvre la solution.</footer>
+</div>
+
+<script>function toggle(id){document.getElementById(id).classList.toggle('show');}</script>
+<script>
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+
+  /* ---------- outils ---------- */
+  function $(id) { return document.getElementById(id); }
+  function el(tag, attrs, parent) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) { if (Object.prototype.hasOwnProperty.call(attrs, k)) e.setAttribute(k, attrs[k]); }
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function fmt(x, d) {                       /* arrondit à d décimales, virgule française, sans zéros inutiles */
+    var p = Math.pow(10, d === undefined ? 6 : d);
+    return String(Math.round(x * p) / p).replace(".", ",");
+  }
+  function pts(poly) { return poly.map(function (p) { return p[0].toFixed(4) + "," + p[1].toFixed(4); }).join(" "); }
+  function etiquette(svg, x, y, txt, px, ancre) {
+    var t = el("text", { x: x, y: y, "text-anchor": ancre || "middle", "dominant-baseline": "central", "class": "lbl", "data-px": px || 15 }, svg);
+    t.textContent = txt;
+    return t;
+  }
+  /* Étiquettes des figures : toujours 13 px minimum à l'écran, quelle que soit la taille de la figure. */
+  function fixLabels(svg) {
+    var vb = svg.viewBox && svg.viewBox.baseVal;
+    if (!vb || !vb.width) return;
+    var r = svg.getBoundingClientRect();
+    if (!r.width || !r.height) return;
+    var k = Math.min(r.width / vb.width, r.height / vb.height);
+    var ts = svg.querySelectorAll("text.lbl");
+    for (var i = 0; i < ts.length; i++) {
+      var px = Math.max(13, parseFloat(ts[i].getAttribute("data-px") || "14"));
+      ts[i].setAttribute("font-size", (px / k).toFixed(3));
+      ts[i].setAttribute("stroke-width", (3 / k).toFixed(3));
+    }
+  }
+  var observes = [];
+  function surveiller(svg) {
+    if (observes.indexOf(svg) !== -1) return;
+    observes.push(svg);
+    if (window.ResizeObserver) new ResizeObserver(function () { fixLabels(svg); }).observe(svg);
+    else window.addEventListener("resize", function () { fixLabels(svg); });
+  }
+
+  /* ---------- carrés de 1 à 15 ---------- */
+  (function () {
+    var h = $("carres"), s = "";
+    for (var n = 1; n <= 15; n++) s += '<div class="cq" role="listitem"><span>' + n + '² =</span><b>' + (n * n) + '</b></div>';
+    h.innerHTML = s;
+  })();
+
+  /* ===================== ACTIVITÉ 1 : CÔTÉ → AIRE ===================== */
+  function carre() {
+    var c = parseInt($("c-rng").value, 10), svg = $("svg-carre");
+    $("c-val").textContent = c;
+    svg.innerHTML = "";
+    svg.setAttribute("viewBox", [c / 2 - 7.3, -1.2, 14.6, 14.4].join(" "));   /* échelle constante, carré centré */
+    el("rect", { x: 0, y: 0, width: c, height: c, fill: "#CFEBD7", stroke: "none" }, svg);
+    for (var i = 0; i <= c; i++) {
+      el("line", { x1: i, y1: 0, x2: i, y2: c, stroke: "#6AA886", "stroke-width": 1, "vector-effect": "non-scaling-stroke" }, svg);
+      el("line", { x1: 0, y1: i, x2: c, y2: i, stroke: "#6AA886", "stroke-width": 1, "vector-effect": "non-scaling-stroke" }, svg);
+    }
+    el("rect", { x: 0, y: 0, width: c, height: c, fill: "none", stroke: "#22303F", "stroke-width": 2.2, "vector-effect": "non-scaling-stroke" }, svg);
+    etiquette(svg, c / 2, -0.6, "c = " + c + " cm", 16);
+    if (c >= 4) etiquette(svg, c / 2, c / 2, "aire = " + c * c + " cm²", 17);
+    else etiquette(svg, c / 2, c + 0.75, "aire = " + c * c + " cm²", 16);
+    var i2 = $("c-info");
+    i2.textContent = "Côté c = " + c + " cm → aire = " + c + " × " + c + " = " + c + "² = " + (c * c) + " cm². On compte bien " + (c * c) + " petits carrés.";
+    surveiller(svg); fixLabels(svg);
+  }
+  $("c-rng").addEventListener("input", carre);
+  $("c-hasard").addEventListener("click", function () { $("c-rng").value = 1 + Math.floor(Math.random() * 12); carre(); });
+
+  /* ===================== ACTIVITÉ 2 : CARRÉ PENCHÉ ===================== */
+  var TRI = [[1, 1], [1, 2], [2, 3], [3, 4], [4, 7], [5, 12]];
+  var triCur = 3;                                   /* indice : triangle 2 et 3 → aire 13 par défaut */
+  (function () {
+    var h = $("choix-tri");
+    var s = '<span style="font-size:13.5px;font-weight:600">Triangle :</span>';
+    TRI.forEach(function (t, i) {
+      s += '<button type="button" class="abtn" data-tri="' + i + '" aria-pressed="false">a = ' + t[0] + ", b = " + t[1] + "</button>";
+    });
+    h.innerHTML = s;
+    var tb = "";
+    TRI.forEach(function (t, i) { tb += '<tr data-lig="' + i + '"><td>' + t[0] + "</td><td>" + t[1] + "</td><td>" + (t[0] * t[0] + t[1] * t[1]) + "</td></tr>"; });
+    $("tab-penche-corps").innerHTML = tb;
+  })();
+  function penche() {
+    var a = TRI[triCur][0], b = TRI[triCur][1], S = a + b, svg = $("svg-penche");
+    svg.innerHTML = "";
+    /* marge autour du grand carré, calculée pour que les étiquettes (13 px minimum) tiennent même sur un petit écran */
+    var D = Math.min(svg.getBoundingClientRect().width || 600, 420);
+    var M = Math.max(0.9, 26 * S / Math.max(D - 52, 100));
+    svg.setAttribute("viewBox", [-M, -M, S + 2 * M, S + 2 * M].join(" "));
+    /* quadrillage et grand carré */
+    el("rect", { x: 0, y: 0, width: S, height: S, fill: "#FBFAF6", stroke: "none" }, svg);
+    for (var i = 0; i <= S; i++) {
+      el("line", { x1: i, y1: 0, x2: i, y2: S, stroke: "#D9DEE5", "stroke-width": 1, "vector-effect": "non-scaling-stroke" }, svg);
+      el("line", { x1: 0, y1: i, x2: S, y2: i, stroke: "#D9DEE5", "stroke-width": 1, "vector-effect": "non-scaling-stroke" }, svg);
+    }
+    /* carré penché : sommets (a,0), (a+b,a), (b,a+b), (0,b) ; chaque côté a pour vecteur (b ; a) en valeur absolue */
+    var P = [[a, 0], [a + b, a], [b, a + b], [0, b]];
+    el("polygon", { points: pts(P), fill: "#CFEBD7", stroke: "#2E8B57", "stroke-width": 2.4, "stroke-linejoin": "round", "vector-effect": "non-scaling-stroke" }, svg);
+    /* 4 triangles rectangles identiques (côtés a et b) dans les coins */
+    [[[0, 0], [a, 0], [0, b]], [[a, 0], [S, 0], [S, a]], [[S, a], [S, S], [b, S]], [[0, b], [0, S], [b, S]]].forEach(function (t) {
+      el("polygon", { points: pts(t), fill: "#FFF8E1", stroke: "#22303F", "stroke-width": 1.6, "stroke-linejoin": "round", "vector-effect": "non-scaling-stroke" }, svg);
+    });
+    el("rect", { x: 0, y: 0, width: S, height: S, fill: "none", stroke: "#22303F", "stroke-width": 1.8, "stroke-dasharray": "6 4", "vector-effect": "non-scaling-stroke" }, svg);
+    /* repères a et b sur le triangle en haut à gauche */
+    etiquette(svg, a / 2, -M / 2, "a = " + a, 16);
+    etiquette(svg, -M / 2, b / 2, "b = " + b, 16).setAttribute("transform", "rotate(-90 " + (-M / 2) + " " + (b / 2) + ")");   /* tournée : ne déborde pas à gauche sur mobile */
+    var aire = a * a + b * b;
+    etiquette(svg, S / 2, S / 2, "aire = " + aire, 17);
+    svg.setAttribute("aria-label", "Grand carré de côté " + S + " contenant 4 triangles rectangles de côtés " + a + " et " + b + " et un carré penché d'aire " + aire);
+    /* calculs */
+    var gr = S * S, tr = 4 * (a * b / 2), pe = gr - tr;
+    $("g-gr-t").textContent = "grand carré : (" + a + " + " + b + ")² = " + S + "²";
+    $("g-gr").textContent = fmt(gr);
+    $("g-tr-t").textContent = "4 triangles : 4 × (" + a + " × " + b + " ÷ 2)";
+    $("g-tr").textContent = fmt(tr);
+    $("g-pe").textContent = fmt(pe);
+    var e = $("g-ctrl");
+    var ok = Math.abs(pe - aire) < 1e-9;
+    e.className = "egal" + (ok ? "" : " non");
+    e.textContent = (ok ? "✅ " : "❌ ") + "Contrôle avec la séance 1 : a² + b² = " + a + "² + " + b + "² = " + (a * a) + " + " + (b * b) + " = " + aire + ".";
+    Array.prototype.forEach.call(document.querySelectorAll("[data-tri]"), function (bt) { bt.setAttribute("aria-pressed", String(+bt.getAttribute("data-tri") === triCur)); });
+    Array.prototype.forEach.call(document.querySelectorAll("#tab-penche-corps tr"), function (tr2) { tr2.classList.toggle("sel", +tr2.getAttribute("data-lig") === triCur); });
+    surveiller(svg); fixLabels(svg);
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("[data-tri]"), function (bt) {
+    bt.addEventListener("click", function () { triCur = +bt.getAttribute("data-tri"); penche(); });
+  });
+
+  /* ===================== ACTIVITÉ 3 : ENCADRER √n ===================== */
+  var N = 13, loI = null, hiI = null;                 /* x et bornes en millièmes : arithmétique entière, sans erreur d'arrondi */
+  function nombreSaisi(s) {
+    var m = String(s).trim().replace(",", ".");
+    if (!/^\d+(\.\d+)?$/.test(m)) return NaN;
+    return parseFloat(m);
+  }
+  function tester(init) {                              /* init : simple affichage de départ, sans compter comme un essai */
+    var x = nombreSaisi($("t-in").value), msg = $("t-msg");
+    if (!isFinite(x) || x <= 0 || x > 30) {
+      msg.className = "egal non";
+      msg.textContent = "Tape un nombre positif (par exemple 3,6), puis clique sur Tester.";
+      return;
+    }
+    var xi = Math.round(x * 1000), x2 = xi * xi, cible = N * 1000000;
+    var x2val = x2 / 1000000;
+    $("t-x").textContent = fmt(xi / 1000);
+    $("t-x2-t").textContent = fmt(xi / 1000) + "²";
+    $("t-x2").textContent = fmt(x2val);
+    $("t-n").textContent = N;
+    var m = Math.max(N, x2val) * 1.05;
+    $("t-bar-x").style.width = (x2val / m * 100) + "%";
+    $("t-bar-n").style.width = (N / m * 100) + "%";
+    var etat = x2 < cible ? -1 : x2 > cible ? 1 : 0;
+    $("t-signe").textContent = etat < 0 ? "<" : etat > 0 ? ">" : "=";
+    $("t-bar-x").className = etat === 0 ? "barre" : "barre ecart";
+    if (init) return;
+    if (etat < 0) { if (loI === null || xi > loI) loI = xi; }
+    if (etat > 0) { if (hiI === null || xi < hiI) hiI = xi; }
+    msg.className = "egal" + (etat === 0 ? "" : " non");
+    msg.textContent = etat === 0
+      ? "✅ " + fmt(xi / 1000) + "² = " + N + " exactement : √" + N + " = " + fmt(xi / 1000) + "."
+      : etat < 0 ? "x² = " + fmt(x2val) + " est plus petit que " + N + " : x est trop petit."
+                 : "x² = " + fmt(x2val) + " est plus grand que " + N + " : x est trop grand.";
+    var enc = $("t-enc");
+    if (etat === 0) { enc.textContent = "√" + N + " = " + fmt(xi / 1000) + " : c'est un carré parfait."; }
+    else if (loI !== null && hiI !== null) { enc.textContent = "Mon encadrement : " + fmt(loI / 1000) + " < √" + N + " < " + fmt(hiI / 1000) + " (écart : " + fmt((hiI - loI) / 1000) + ")."; }
+    else if (loI !== null) { enc.textContent = "Mon encadrement : " + fmt(loI / 1000) + " < √" + N + " (trouve maintenant un x trop grand)."; }
+    else if (hiI !== null) { enc.textContent = "Mon encadrement : √" + N + " < " + fmt(hiI / 1000) + " (trouve maintenant un x trop petit)."; }
+  }
+  function choisirN(n) {
+    N = n; loI = null; hiI = null;
+    $("t-in").value = "1";
+    $("t-enc").textContent = "Essaie des valeurs de x : l'encadrement de √" + N + " se construit tout seul.";
+    $("calc-out").hidden = true;
+    $("t-msg").className = "egal neutre";
+    $("t-msg").textContent = "Compare x² à " + N + " : trouve le x dont le carré est le plus proche de " + N + ".";
+    Array.prototype.forEach.call(document.querySelectorAll("[data-n]"), function (bt) { bt.setAttribute("aria-pressed", String(+bt.getAttribute("data-n") === n)); });
+    tester(true);
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("[data-n]"), function (bt) {
+    bt.addEventListener("click", function () { choisirN(+bt.getAttribute("data-n")); });
+  });
+  $("n-ok").addEventListener("click", function () {
+    var v = parseInt($("n-lib").value, 10);
+    if (isFinite(v) && v >= 1 && v <= 400) choisirN(v);
+    else { $("t-msg").className = "egal non"; $("t-msg").textContent = "Choisis un nombre entier entre 1 et 400."; }
+  });
+  $("n-lib").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); $("n-ok").click(); } });
+  $("t-go").addEventListener("click", function () { tester(false); });
+  $("t-in").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); tester(); } });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-pas]"), function (bt) {
+    bt.addEventListener("click", function () {
+      var x = nombreSaisi($("t-in").value);
+      if (!isFinite(x)) x = 1;
+      var nv = Math.round((x + parseFloat(bt.getAttribute("data-pas"))) * 1000) / 1000;
+      if (nv <= 0) nv = Math.abs(parseFloat(bt.getAttribute("data-pas")));
+      $("t-in").value = String(nv).replace(".", ",");
+      tester();
+    });
+  });
+  $("btn-calc").addEventListener("click", function () {
+    var r = Math.sqrt(N), o = $("calc-out"), parfait = Math.abs(r - Math.round(r)) < 1e-12;
+    o.hidden = false;
+    o.textContent = parfait
+      ? "🧮 √" + N + " = " + Math.round(r) + " exactement : " + N + " est un carré parfait."
+      : "🧮 √" + N + " ≈ " + r.toFixed(9).replace(".", ",") + " (la calculatrice n'affiche que le début : le nombre ne s'arrête jamais). Arrondi au dixième : " + r.toFixed(1).replace(".", ",") + " ; au centième : " + r.toFixed(2).replace(".", ",") + ".";
+  });
+
+  /* ===================== DÉMARRAGE ===================== */
+  carre();
+  penche();
+  choisirN(13);
+  window.addEventListener("load", function () { [$("svg-carre"), $("svg-penche")].forEach(fixLabels); });
+})();
+</script>
+<script>
+/* Vérification des exercices sur écran : ne montre jamais la solution, seulement juste / à revoir. */
+(function () {
+  "use strict";
+  function nombre(s) {
+    s = String(s).trim().replace(",", ".");
+    var m = s.match(/^-?\d+(?:\.\d+)?/);
+    if (!m) return NaN;
+    var reste = s.slice(m[0].length).trim();
+    if (reste !== "" && !/^[a-zA-Z²]+$/.test(reste)) return NaN;
+    return parseFloat(m[0]);
+  }
+  function marque(el) { return el.classList.contains("vf") ? el.querySelector(".mk") : el.parentNode.querySelector(".mk"); }
+  function etat(el, s) {                       /* s : "ok" | "ko" | "vide" | "" */
+    var mk = marque(el);
+    el.classList.remove("ok", "ko");
+    if (s === "ok" || s === "ko") el.classList.add(s);
+    mk.className = "mk" + (s ? " " + s : "");
+    mk.textContent = s === "ok" ? "✅ juste" : s === "ko" ? "❌ à revoir" : s === "vide" ? "⚠ à remplir" : "";
+  }
+  function juste(el) {
+    if (el.classList.contains("vf")) {
+      var c = el.querySelector("input:checked");
+      return c ? (c.value === el.getAttribute("data-bon") ? "ok" : "ko") : "vide";
+    }
+    var v = el.value;
+    if (!v.trim()) return "vide";
+    var n = nombre(v);
+    return isNaN(n) ? "ko" : (Math.abs(n - parseFloat(el.getAttribute("data-num"))) < 1e-9 ? "ok" : "ko");
+  }
+  function compte() {
+    var exos = document.querySelectorAll(".exo[data-exo]:not([data-opt])"), n = 0;
+    Array.prototype.forEach.call(exos, function (e) { if (e.classList.contains("reussi")) n++; });
+    document.getElementById("nb-ok").textContent = n;
+    document.getElementById("nb-tot").textContent = exos.length;
+  }
+  function verifier(exo) {
+    var champs = exo.querySelectorAll("[data-num],.vf");
+    var ok = 0, vides = 0;
+    Array.prototype.forEach.call(champs, function (c) {
+      var s = juste(c); etat(c, s);
+      if (s === "ok") ok++; else if (s === "vide") vides++;
+    });
+    var tot = champs.length, b = exo.querySelector(".bilan-exo");
+    var bon = ok === tot;
+    exo.classList.toggle("reussi", bon);
+    b.className = "bilan-exo " + (bon ? "ok" : "ko");
+    var faux = tot - ok - vides;
+    b.textContent = bon ? "🎉 Bravo, tout est juste !"
+      : ok + " / " + tot + " réponses justes" + (vides ? " (" + vides + " à remplir)" : "") + ". " +
+        (faux ? "Corrige celles marquées ❌ " : "Remplis les cases vides ") + "puis clique de nouveau sur Vérifier" + (faux ? " ; au besoin, ouvre l'astuce." : ".");
+    compte();
+  }
+  function effacer(exo) {
+    Array.prototype.forEach.call(exo.querySelectorAll("input[type=text]"), function (i) { i.value = ""; });
+    Array.prototype.forEach.call(exo.querySelectorAll("input[type=radio]"), function (i) { i.checked = false; });
+    Array.prototype.forEach.call(exo.querySelectorAll("[data-num],.vf"), function (c) { etat(c, ""); });
+    var b = exo.querySelector(".bilan-exo"); b.className = "bilan-exo"; b.textContent = "";
+    exo.classList.remove("reussi"); compte();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".exo[data-exo]"), function (exo) {
+    exo.querySelector(".verif").addEventListener("click", function () { verifier(exo); });
+    exo.querySelector(".raz").addEventListener("click", function () { effacer(exo); });
+    exo.addEventListener("input", function (e) {              /* modifier une réponse efface sa marque */
+      var c = e.target.closest ? (e.target.closest(".vf") || e.target) : e.target;
+      if (c.matches && c.matches("[data-num],.vf")) { etat(c, ""); exo.classList.remove("reussi"); compte(); }
+    });
+    exo.addEventListener("keydown", function (e) { if (e.key === "Enter" && e.target.matches("input[type=text]")) { e.preventDefault(); verifier(exo); } });
+  });
+  compte();
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>
