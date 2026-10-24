@@ -51,7 +51,14 @@ h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:25px; margin:0
 .abtn { font-family:'Baloo 2',sans-serif; font-size:13.5px; padding:6px 14px; border-radius:18px; border:2px solid var(--bleu); background:#fff; color:var(--bleu); cursor:pointer; }
 .abtn:hover { filter:brightness(0.96); }
 .abtn[aria-pressed="true"] { background:var(--bleu); color:#fff; }
-.abtn.pas { padding:5px 10px; }
+.abtn.plein { background:var(--ink); border-color:var(--ink); color:#fff; }
+.abtn:disabled { opacity:.45; cursor:default; }
+.leg { display:flex; flex-wrap:wrap; gap:8px 12px; margin:8px 0; min-height:2.2em; }
+.leg span { border:2.5px solid; border-radius:10px; padding:5px 12px; font-size:15px; font-weight:700; background:#fff; }
+.leg .inc { border-color:#E4553F; background:#FDEEEA; } .leg .pet { border-color:#2E8B57; background:#E8F6EE; } .leg .gra { border-color:#2B6CB0; background:#EAF1FB; }
+table.tab tr.petit td:last-child { background:#E8F6EE; } table.tab tr.grand td:last-child { background:#FDECE8; }
+table.tab tr.borne td { font-weight:700; }
+[hidden] { display:none !important; }
 .egal { font-size:14px; font-weight:700; padding:8px 12px; border-radius:10px; background:#E8F6EE; border:2px solid #4CAF7D; margin:6px 0; }
 .egal.non { background:#FDECE8; border-color:#D8523A; }
 .egal.neutre { background:#EEF3FA; border-color:#9DB8D8; }
@@ -160,84 +167,54 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     </div>
   </section>
 
-  <!-- ===================== ACTIVITÉ 2 : LES CARRÉS PENCHÉS DE LA S1 ===================== -->
+  <!-- ===================== ACTIVITÉ 2 : UN CARRÉ DONT LE CÔTÉ N'EST PAS ENTIER ===================== -->
   <section class="act" aria-labelledby="t-act2">
-    <h2 id="t-act2">Activité 2 — Les carrés penchés de la séance 1 <span class="duree">environ 10 min</span></h2>
-    <p>En séance 1, tu as construit un carré sur l'hypoténuse de triangles rectangles. Ce carré est « penché » : voici comment on peut calculer son aire. On choisit les côtés <b>a</b> et <b>b</b> de l'angle droit du triangle.</p>
-    <div class="ctrl" role="group" aria-label="Choix du triangle" id="choix-tri"></div>
+    <h2 id="t-act2">Activité 2 — Un côté qui n'est pas entier <span class="duree">environ 10 min</span></h2>
+    <p>Souviens-toi de la séance 1 : le carré construit sur l'hypoténuse du triangle de côtés 2 et 3 avait une aire de 2² + 3² = <b>13 cm²</b>. Combien mesure son côté ? Essayons des carrés qu'on connaît.</p>
+    <div class="ctrl" role="group" aria-label="Choix de l'aire">
+      <span style="font-size:15px;font-weight:600">Aire du carré :</span>
+      <button type="button" class="abtn" data-sand="13" aria-pressed="true">13 cm²</button>
+      <button type="button" class="abtn" data-sand="20" aria-pressed="false">20 cm²</button>
+      <button type="button" class="abtn" data-sand="50" aria-pressed="false">50 cm²</button>
+      <button type="button" class="abtn" data-sand="65" aria-pressed="false">65 cm²</button>
+    </div>
     <div class="fig">
-      <svg id="svg-penche" data-fix role="img" aria-label="Un grand carré quadrillé contenant quatre triangles rectangles identiques et un carré penché" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"></svg>
+      <svg id="svg-sand" role="img" aria-label="Carrés emboîtés dans un coin : le carré d'aire inconnue entouré de deux carrés connus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"></svg>
     </div>
-    <div class="somme" aria-live="polite">
-      <div class="eq">
-        <div class="terme tb"><small id="g-gr-t">grand carré</small><b id="g-gr">49</b></div>
-        <span class="op" aria-label="moins">−</span>
-        <div class="terme ta"><small id="g-tr-t">4 triangles</small><b id="g-tr">24</b></div>
-        <span class="op" aria-label="égale">=</span>
-        <div class="terme tc"><small>carré penché</small><b id="g-pe">25</b></div>
-      </div>
+    <div class="leg" id="sand-leg" aria-live="polite"></div>
+    <div class="egal neutre" id="sand-msg" role="status" aria-live="polite"></div>
+    <div class="ctrl">
+      <button type="button" class="abtn plein" id="sand-next">Étape suivante ▶</button>
+      <button type="button" class="abtn" id="sand-reset">↺ Recommencer</button>
     </div>
-    <div class="egal" id="g-ctrl" role="status" aria-live="polite"></div>
-    <table class="tab" id="tab-penche">
-      <caption>Les carrés penchés pour chaque triangle</caption>
-      <thead><tr><th scope="col">a</th><th scope="col">b</th><th scope="col">Aire du carré penché</th></tr></thead>
-      <tbody id="tab-penche-corps"></tbody>
-    </table>
-    <p><b>Question :</b> pour lesquels de ces carrés penchés connais-tu la longueur du côté sans calculatrice ? Pour les autres, que peux-tu dire de leur côté ?</p>
-    <div class="btn-row">
-      <button type="button" class="toggle-btn solution" onclick="toggle('rep-act2')">✅ Voir la réponse</button>
-    </div>
-    <div class="panel solution-panel" id="rep-act2"><span class="label">Réponse</span>Pour les aires <b>25</b> et <b>169</b> : ce sont des carrés parfaits (5² = 25 et 13² = 169), donc les côtés mesurent <b>5</b> et <b>13</b>. Pour les aires 2, 5, 13 et 65, ce ne sont pas des carrés parfaits : le côté n'est pas un nombre entier. On peut seulement l'encadrer, par exemple 8² = 64 &lt; 65 &lt; 81 = 9², donc le côté de l'aire 65 est entre 8 et 9.<br>Dans la séance 3, on utilisera cela pour calculer la longueur de l'hypoténuse.</div>
   </section>
 
-  <!-- ===================== ACTIVITÉ 3 : ENCADRER ET CALCULER ===================== -->
+  <!-- ===================== ACTIVITÉ 3 : SE RAPPROCHER ===================== -->
   <section class="act" aria-labelledby="t-act3">
-    <h2 id="t-act3">Activité 3 — Encadrer √n et utiliser la calculatrice <span class="duree">environ 12 min</span></h2>
-    <p>On cherche le côté d'un carré d'aire <b>n</b>, c'est-à-dire √n, en essayant des longueurs <b>x</b> : on calcule x² et on le compare à n. Commence avec n = 13 (le carré penché du triangle de côtés 2 et 3).</p>
-    <div class="ctrl" role="group" aria-label="Choix de l'aire n">
-      <span style="font-size:13.5px;font-weight:600">Aire n :</span>
-      <button type="button" class="abtn" data-n="13" aria-pressed="true">13</button>
-      <button type="button" class="abtn" data-n="65" aria-pressed="false">65</button>
-      <button type="button" class="abtn" data-n="20" aria-pressed="false">20</button>
-      <button type="button" class="abtn" data-n="50" aria-pressed="false">50</button>
-      <label for="n-lib">ou ton choix :<input type="number" id="n-lib" min="1" max="400" step="1" value="" placeholder="1 à 400" aria-label="Choisir une aire n entre 1 et 400"></label>
-      <button type="button" class="abtn" id="n-ok">OK</button>
+    <h2 id="t-act3">Activité 3 — Se rapprocher de √n <span class="duree">environ 12 min</span></h2>
+    <p>On sait que le côté est entre deux entiers. Pour mieux le connaître, on essaie des nombres avec <b>un chiffre après la virgule</b> : on calcule leur carré et on le compare à l'aire.</p>
+    <div class="ctrl" role="group" aria-label="Choix de l'aire">
+      <span style="font-size:15px;font-weight:600">Aire n :</span>
+      <button type="button" class="abtn" data-ess="13" aria-pressed="true">13</button>
+      <button type="button" class="abtn" data-ess="20" aria-pressed="false">20</button>
+      <button type="button" class="abtn" data-ess="50" aria-pressed="false">50</button>
     </div>
+    <table class="tab" id="tab-ess">
+      <caption id="ess-cap">Essais</caption>
+      <thead><tr><th scope="col">Je teste x =</th><th scope="col">x²</th><th scope="col">Comparé à n</th></tr></thead>
+      <tbody id="ess-corps"></tbody>
+    </table>
+    <div class="egal neutre" id="ess-msg" role="status" aria-live="polite"></div>
     <div class="ctrl">
-      <label for="t-in">Je teste x = <input type="text" id="t-in" inputmode="decimal" value="1" autocomplete="off"></label>
-      <button type="button" class="abtn" id="t-go">Tester</button>
-    </div>
-    <div class="ctrl" role="group" aria-label="Modifier x">
-      <button type="button" class="abtn pas" data-pas="-1">−1</button>
-      <button type="button" class="abtn pas" data-pas="-0.1">−0,1</button>
-      <button type="button" class="abtn pas" data-pas="-0.01">−0,01</button>
-      <button type="button" class="abtn pas" data-pas="0.01">+0,01</button>
-      <button type="button" class="abtn pas" data-pas="0.1">+0,1</button>
-      <button type="button" class="abtn pas" data-pas="1">+1</button>
-    </div>
-    <div class="somme" aria-live="polite">
-      <div class="eq">
-        <div class="terme tb"><small>x</small><b id="t-x">1</b></div>
-        <span class="op" aria-label="donne">→</span>
-        <div class="terme ta"><small id="t-x2-t">x²</small><b id="t-x2">1</b></div>
-        <span class="op" id="t-signe" aria-label="comparé à">?</span>
-        <div class="terme tc"><small>aire n</small><b id="t-n">13</b></div>
-      </div>
-    </div>
-    <div class="barres" aria-hidden="true">
-      <span>x²</span><div><div class="barre autre" id="t-bar-x"></div></div>
-      <span>n</span><div><div class="barre" id="t-bar-n"></div></div>
-    </div>
-    <div class="egal neutre" id="t-msg" role="status" aria-live="polite"></div>
-    <div class="egal neutre" id="t-enc" role="status" aria-live="polite"></div>
-    <p><b>À toi :</b> trouve un encadrement de √13 entre deux nombres qui ont <b>un seul chiffre après la virgule</b>, puis entre deux nombres qui ont <b>deux chiffres après la virgule</b>.</p>
-    <div class="ctrl">
-      <button type="button" class="abtn" id="btn-calc">🧮 Appuyer sur la touche √ de la calculatrice</button>
+      <button type="button" class="abtn plein" id="ess-next">Essai suivant ▶</button>
+      <button type="button" class="abtn" id="ess-cent" hidden>Passer aux centièmes ⏩</button>
+      <button type="button" class="abtn" id="ess-calc" hidden>🧮 Touche √ de la calculatrice</button>
+      <button type="button" class="abtn" id="ess-reset">↺ Recommencer</button>
     </div>
     <div class="egal neutre" id="calc-out" role="status" aria-live="polite" hidden></div>
     <div class="def">
       <b class="tag">À retenir</b>
-      Si n n'est pas un carré parfait, √n n'est pas un nombre entier. La calculatrice affiche seulement une <b>valeur approchée</b> : √13 ≈ 3,61 (arrondi au centième). Sans calculatrice, on <b>encadre</b> : 3² = 9 &lt; 13 &lt; 16 = 4², donc <b>3 &lt; √13 &lt; 4</b>.
+      Si n n'est pas un carré parfait, √n n'est pas un nombre entier. Sans calculatrice, on <b>encadre</b> : 3² = 9 &lt; 13 &lt; 16 = 4², donc <b>3 &lt; √13 &lt; 4</b>. La calculatrice donne une <b>valeur approchée</b> : √13 ≈ 3,61 (arrondi au centième).
     </div>
   </section>
 
@@ -402,150 +379,103 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
   $("c-rng").addEventListener("input", carre);
   $("c-hasard").addEventListener("click", function () { $("c-rng").value = 1 + Math.floor(Math.random() * 12); carre(); });
 
-  /* ===================== ACTIVITÉ 2 : CARRÉ PENCHÉ ===================== */
-  var TRI = [[1, 1], [1, 2], [2, 3], [3, 4], [4, 7], [5, 12]];
-  var triCur = 3;                                   /* indice : triangle 2 et 3 → aire 13 par défaut */
-  (function () {
-    var h = $("choix-tri");
-    var s = '<span style="font-size:13.5px;font-weight:600">Triangle :</span>';
-    TRI.forEach(function (t, i) {
-      s += '<button type="button" class="abtn" data-tri="' + i + '" aria-pressed="false">a = ' + t[0] + ", b = " + t[1] + "</button>";
-    });
-    h.innerHTML = s;
-    var tb = "";
-    TRI.forEach(function (t, i) { tb += '<tr data-lig="' + i + '"><td>' + t[0] + "</td><td>" + t[1] + "</td><td>" + (t[0] * t[0] + t[1] * t[1]) + "</td></tr>"; });
-    $("tab-penche-corps").innerHTML = tb;
-  })();
-  function penche() {
-    var a = TRI[triCur][0], b = TRI[triCur][1], S = a + b, svg = $("svg-penche");
+  /* ===================== ACTIVITÉ 2 : ENCADRER PAR DEUX CARRÉS ===================== */
+  var SN = 13, sEtape = 0;
+  function sable() {
+    var n = SN, k = Math.floor(Math.sqrt(n)), c = Math.sqrt(n), svg = $("svg-sand");
     svg.innerHTML = "";
-    /* marge autour du grand carré, calculée pour que les étiquettes (13 px minimum) tiennent même sur un petit écran */
-    var D = Math.min(svg.getBoundingClientRect().width || 600, 420);
-    var M = Math.max(0.9, 26 * S / Math.max(D - 52, 100));
-    svg.setAttribute("viewBox", [-M, -M, S + 2 * M, S + 2 * M].join(" "));
-    /* quadrillage et grand carré */
-    el("rect", { x: 0, y: 0, width: S, height: S, fill: "#FBFAF6", stroke: "none" }, svg);
-    for (var i = 0; i <= S; i++) {
-      el("line", { x1: i, y1: 0, x2: i, y2: S, stroke: "#D9DEE5", "stroke-width": 1, "vector-effect": "non-scaling-stroke" }, svg);
-      el("line", { x1: 0, y1: i, x2: S, y2: i, stroke: "#D9DEE5", "stroke-width": 1, "vector-effect": "non-scaling-stroke" }, svg);
+    svg.setAttribute("viewBox", [-0.5, -(k + 1) - 0.5, k + 2, k + 2].join(" "));
+    function carre(t, fill, stroke, dash) {
+      el("rect", { x: 0, y: -t, width: t, height: t, fill: fill, stroke: stroke, "stroke-width": 2.6, "stroke-dasharray": dash || "0", "vector-effect": "non-scaling-stroke" }, svg);
     }
-    /* carré penché : sommets (a,0), (a+b,a), (b,a+b), (0,b) ; chaque côté a pour vecteur (b ; a) en valeur absolue */
-    var P = [[a, 0], [a + b, a], [b, a + b], [0, b]];
-    el("polygon", { points: pts(P), fill: "#CFEBD7", stroke: "#2E8B57", "stroke-width": 2.4, "stroke-linejoin": "round", "vector-effect": "non-scaling-stroke" }, svg);
-    /* 4 triangles rectangles identiques (côtés a et b) dans les coins */
-    [[[0, 0], [a, 0], [0, b]], [[a, 0], [S, 0], [S, a]], [[S, a], [S, S], [b, S]], [[0, b], [0, S], [b, S]]].forEach(function (t) {
-      el("polygon", { points: pts(t), fill: "#FFF8E1", stroke: "#22303F", "stroke-width": 1.6, "stroke-linejoin": "round", "vector-effect": "non-scaling-stroke" }, svg);
-    });
-    el("rect", { x: 0, y: 0, width: S, height: S, fill: "none", stroke: "#22303F", "stroke-width": 1.8, "stroke-dasharray": "6 4", "vector-effect": "non-scaling-stroke" }, svg);
-    /* repères a et b sur le triangle en haut à gauche */
-    etiquette(svg, a / 2, -M / 2, "a = " + a, 16);
-    etiquette(svg, -M / 2, b / 2, "b = " + b, 16).setAttribute("transform", "rotate(-90 " + (-M / 2) + " " + (b / 2) + ")");   /* tournée : ne déborde pas à gauche sur mobile */
-    var aire = a * a + b * b;
-    etiquette(svg, S / 2, S / 2, "aire = " + aire, 17);
-    svg.setAttribute("aria-label", "Grand carré de côté " + S + " contenant 4 triangles rectangles de côtés " + a + " et " + b + " et un carré penché d'aire " + aire);
-    /* calculs */
-    var gr = S * S, tr = 4 * (a * b / 2), pe = gr - tr;
-    $("g-gr-t").textContent = "grand carré : (" + a + " + " + b + ")² = " + S + "²";
-    $("g-gr").textContent = fmt(gr);
-    $("g-tr-t").textContent = "4 triangles : 4 × (" + a + " × " + b + " ÷ 2)";
-    $("g-tr").textContent = fmt(tr);
-    $("g-pe").textContent = fmt(pe);
-    var e = $("g-ctrl");
-    var ok = Math.abs(pe - aire) < 1e-9;
-    e.className = "egal" + (ok ? "" : " non");
-    e.textContent = (ok ? "✅ " : "❌ ") + "Contrôle avec la séance 1 : a² + b² = " + a + "² + " + b + "² = " + (a * a) + " + " + (b * b) + " = " + aire + ".";
-    Array.prototype.forEach.call(document.querySelectorAll("[data-tri]"), function (bt) { bt.setAttribute("aria-pressed", String(+bt.getAttribute("data-tri") === triCur)); });
-    Array.prototype.forEach.call(document.querySelectorAll("#tab-penche-corps tr"), function (tr2) { tr2.classList.toggle("sel", +tr2.getAttribute("data-lig") === triCur); });
-    surveiller(svg); fixLabels(svg);
+    if (sEtape >= 2) carre(k + 1, "none", "#2B6CB0", "8 5");
+    carre(c, sEtape >= 1 ? "#FDEEEA" : "#FDEEEA", "#E4553F", sEtape >= 3 ? "0" : "0");
+    if (sEtape >= 1) carre(k, "#9ED7B4", "#2E8B57");
+    var leg = '<span class="inc">carré d\'aire ' + n + ' : côté ?</span>';
+    if (sEtape >= 1) leg += '<span class="pet">côté ' + k + ' → aire ' + k + '² = ' + (k * k) + '</span>';
+    if (sEtape >= 2) leg += '<span class="gra">côté ' + (k + 1) + ' → aire ' + (k + 1) + '² = ' + ((k + 1) * (k + 1)) + '</span>';
+    $("sand-leg").innerHTML = leg;
+    var m = [
+      "Un carré a une aire de " + n + " cm². Combien mesure son côté ?",
+      "Essayons un côté de " + k + " cm : l'aire est " + k + "² = " + (k * k) + ". C'est trop petit : " + (k * k) + " < " + n + ".",
+      "Essayons un côté de " + (k + 1) + " cm : l'aire est " + (k + 1) + "² = " + ((k + 1) * (k + 1)) + ". C'est trop grand : " + ((k + 1) * (k + 1)) + " > " + n + ".",
+      "Le carré d'aire " + n + " est pris entre les deux : " + (k * k) + " < " + n + " < " + ((k + 1) * (k + 1)) + ". Son côté est donc entre " + k + " et " + (k + 1) + " : " + k + " < √" + n + " < " + (k + 1) + "."
+    ];
+    $("sand-msg").textContent = m[sEtape];
+    $("sand-msg").className = "egal" + (sEtape === 3 ? "" : " neutre");
+    $("sand-next").disabled = sEtape >= 3;
+    Array.prototype.forEach.call(document.querySelectorAll("[data-sand]"), function (b2) { b2.setAttribute("aria-pressed", String(+b2.getAttribute("data-sand") === SN)); });
   }
-  Array.prototype.forEach.call(document.querySelectorAll("[data-tri]"), function (bt) {
-    bt.addEventListener("click", function () { triCur = +bt.getAttribute("data-tri"); penche(); });
+  $("sand-next").addEventListener("click", function () { if (sEtape < 3) { sEtape++; sable(); } });
+  $("sand-reset").addEventListener("click", function () { sEtape = 0; sable(); });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-sand]"), function (b2) {
+    b2.addEventListener("click", function () { SN = +b2.getAttribute("data-sand"); sEtape = 0; sable(); });
   });
 
-  /* ===================== ACTIVITÉ 3 : ENCADRER √n ===================== */
-  var N = 13, loI = null, hiI = null;                 /* x et bornes en millièmes : arithmétique entière, sans erreur d'arrondi */
-  function nombreSaisi(s) {
-    var m = String(s).trim().replace(",", ".");
-    if (!/^\d+(\.\d+)?$/.test(m)) return NaN;
-    return parseFloat(m);
+  /* ===================== ACTIVITÉ 3 : SE RAPPROCHER ===================== */
+  /* x est compté en centièmes (entier) : les comparaisons sont exactes. */
+  var E = { n: 13, stage: 1, X: 0, lo: 0, hi: 0, fini: false };
+  function cent(X) { return fmt(X / 100, 2); }
+  function dixieme(X) { return fmt(X / 100, 2); }
+  function essaisInit(n) {
+    E.n = n; E.stage = 1; E.fini = false;
+    E.X = Math.floor(Math.sqrt(n)) * 100; E.lo = E.X; E.hi = E.X + 100;
+    $("ess-corps").innerHTML = "";
+    $("ess-cap").textContent = "Essais avec un chiffre après la virgule (n = " + n + ")";
+    $("ess-msg").className = "egal neutre";
+    $("ess-msg").textContent = "On part de " + Math.floor(Math.sqrt(n)) + " < √" + n + " < " + (Math.floor(Math.sqrt(n)) + 1) + ". Premier essai : " + fmt((E.X + 10) / 100, 1) + ".";
+    $("ess-next").hidden = false; $("ess-next").disabled = false; $("ess-next").textContent = "Essai suivant ▶";
+    $("ess-cent").hidden = true; $("ess-calc").hidden = true; $("calc-out").hidden = true;
+    Array.prototype.forEach.call(document.querySelectorAll("[data-ess]"), function (b2) { b2.setAttribute("aria-pressed", String(+b2.getAttribute("data-ess") === n)); });
   }
-  function tester(init) {                              /* init : simple affichage de départ, sans compter comme un essai */
-    var x = nombreSaisi($("t-in").value), msg = $("t-msg");
-    if (!isFinite(x) || x <= 0 || x > 30) {
-      msg.className = "egal non";
-      msg.textContent = "Tape un nombre positif (par exemple 3,6), puis clique sur Tester.";
-      return;
+  function essaiSuivant() {
+    if (E.fini) return;
+    var pas = E.stage === 1 ? 10 : 1;
+    var X = E.X + pas, carre = X * X, cible = E.n * 10000, tx = fmt(X / 100, E.stage === 1 ? 1 : 2);
+    var petit = carre < cible;
+    var tr = document.createElement("tr");
+    tr.className = petit ? "petit" : "grand";
+    tr.innerHTML = "<td>" + tx + "</td><td>" + tx + "² = " + fmt(carre / 10000, 4) + "</td><td>" + fmt(carre / 10000, 4) + (petit ? " < " : " > ") + E.n + (petit ? " : trop petit" : " : trop grand") + "</td>";
+    $("ess-corps").appendChild(tr);
+    E.X = X;
+    if (petit) {
+      E.lo = X;
+      $("ess-msg").className = "egal neutre";
+      $("ess-msg").textContent = tx + " est trop petit : on essaie le suivant.";
+    } else {
+      E.hi = X; E.fini = true;
+      tr.classList.add("borne");
+      var d = E.stage === 1 ? 1 : 2;
+      $("ess-msg").className = "egal";
+      $("ess-msg").textContent = "✅ " + fmt(E.lo / 100, d) + " < √" + E.n + " < " + fmt(E.hi / 100, d) + (E.stage === 1 ? " : on connaît √" + E.n + " à un dixième près." : " : on connaît √" + E.n + " à un centième près.");
+      $("ess-next").hidden = true;
+      if (E.stage === 1) $("ess-cent").hidden = false; else $("ess-calc").hidden = false;
     }
-    var xi = Math.round(x * 1000), x2 = xi * xi, cible = N * 1000000;
-    var x2val = x2 / 1000000;
-    $("t-x").textContent = fmt(xi / 1000);
-    $("t-x2-t").textContent = fmt(xi / 1000) + "²";
-    $("t-x2").textContent = fmt(x2val);
-    $("t-n").textContent = N;
-    var m = Math.max(N, x2val) * 1.05;
-    $("t-bar-x").style.width = (x2val / m * 100) + "%";
-    $("t-bar-n").style.width = (N / m * 100) + "%";
-    var etat = x2 < cible ? -1 : x2 > cible ? 1 : 0;
-    $("t-signe").textContent = etat < 0 ? "<" : etat > 0 ? ">" : "=";
-    $("t-bar-x").className = etat === 0 ? "barre" : "barre ecart";
-    if (init) return;
-    if (etat < 0) { if (loI === null || xi > loI) loI = xi; }
-    if (etat > 0) { if (hiI === null || xi < hiI) hiI = xi; }
-    msg.className = "egal" + (etat === 0 ? "" : " non");
-    msg.textContent = etat === 0
-      ? "✅ " + fmt(xi / 1000) + "² = " + N + " exactement : √" + N + " = " + fmt(xi / 1000) + "."
-      : etat < 0 ? "x² = " + fmt(x2val) + " est plus petit que " + N + " : x est trop petit."
-                 : "x² = " + fmt(x2val) + " est plus grand que " + N + " : x est trop grand.";
-    var enc = $("t-enc");
-    if (etat === 0) { enc.textContent = "√" + N + " = " + fmt(xi / 1000) + " : c'est un carré parfait."; }
-    else if (loI !== null && hiI !== null) { enc.textContent = "Mon encadrement : " + fmt(loI / 1000) + " < √" + N + " < " + fmt(hiI / 1000) + " (écart : " + fmt((hiI - loI) / 1000) + ")."; }
-    else if (loI !== null) { enc.textContent = "Mon encadrement : " + fmt(loI / 1000) + " < √" + N + " (trouve maintenant un x trop grand)."; }
-    else if (hiI !== null) { enc.textContent = "Mon encadrement : √" + N + " < " + fmt(hiI / 1000) + " (trouve maintenant un x trop petit)."; }
   }
-  function choisirN(n) {
-    N = n; loI = null; hiI = null;
-    $("t-in").value = "1";
-    $("t-enc").textContent = "Essaie des valeurs de x : l'encadrement de √" + N + " se construit tout seul.";
-    $("calc-out").hidden = true;
-    $("t-msg").className = "egal neutre";
-    $("t-msg").textContent = "Compare x² à " + N + " : trouve le x dont le carré est le plus proche de " + N + ".";
-    Array.prototype.forEach.call(document.querySelectorAll("[data-n]"), function (bt) { bt.setAttribute("aria-pressed", String(+bt.getAttribute("data-n") === n)); });
-    tester(true);
-  }
-  Array.prototype.forEach.call(document.querySelectorAll("[data-n]"), function (bt) {
-    bt.addEventListener("click", function () { choisirN(+bt.getAttribute("data-n")); });
+  $("ess-next").addEventListener("click", essaiSuivant);
+  $("ess-reset").addEventListener("click", function () { essaisInit(E.n); });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-ess]"), function (b2) {
+    b2.addEventListener("click", function () { essaisInit(+b2.getAttribute("data-ess")); });
   });
-  $("n-ok").addEventListener("click", function () {
-    var v = parseInt($("n-lib").value, 10);
-    if (isFinite(v) && v >= 1 && v <= 400) choisirN(v);
-    else { $("t-msg").className = "egal non"; $("t-msg").textContent = "Choisis un nombre entier entre 1 et 400."; }
+  $("ess-cent").addEventListener("click", function () {
+    E.stage = 2; E.fini = false; E.X = E.lo;
+    $("ess-corps").innerHTML = "";
+    $("ess-cap").textContent = "Essais avec deux chiffres après la virgule (n = " + E.n + ")";
+    $("ess-msg").className = "egal neutre";
+    $("ess-msg").textContent = "On repart de " + fmt(E.lo / 100, 1) + " < √" + E.n + " < " + fmt(E.hi / 100, 1) + " et on teste les centièmes.";
+    $("ess-cent").hidden = true; $("ess-next").hidden = false;
   });
-  $("n-lib").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); $("n-ok").click(); } });
-  $("t-go").addEventListener("click", function () { tester(false); });
-  $("t-in").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); tester(); } });
-  Array.prototype.forEach.call(document.querySelectorAll("[data-pas]"), function (bt) {
-    bt.addEventListener("click", function () {
-      var x = nombreSaisi($("t-in").value);
-      if (!isFinite(x)) x = 1;
-      var nv = Math.round((x + parseFloat(bt.getAttribute("data-pas"))) * 1000) / 1000;
-      if (nv <= 0) nv = Math.abs(parseFloat(bt.getAttribute("data-pas")));
-      $("t-in").value = String(nv).replace(".", ",");
-      tester();
-    });
-  });
-  $("btn-calc").addEventListener("click", function () {
-    var r = Math.sqrt(N), o = $("calc-out"), parfait = Math.abs(r - Math.round(r)) < 1e-12;
+  $("ess-calc").addEventListener("click", function () {
+    var r = Math.sqrt(E.n), o = $("calc-out");
     o.hidden = false;
-    o.textContent = parfait
-      ? "🧮 √" + N + " = " + Math.round(r) + " exactement : " + N + " est un carré parfait."
-      : "🧮 √" + N + " ≈ " + r.toFixed(9).replace(".", ",") + " (la calculatrice n'affiche que le début : le nombre ne s'arrête jamais). Arrondi au dixième : " + r.toFixed(1).replace(".", ",") + " ; au centième : " + r.toFixed(2).replace(".", ",") + ".";
+    o.textContent = "🧮 La touche √ donne √" + E.n + " ≈ " + r.toFixed(9).replace(".", ",") + "… Le nombre ne s'arrête jamais : on en donne une valeur approchée, par exemple " + r.toFixed(2).replace(".", ",") + " (au centième).";
   });
 
   /* ===================== DÉMARRAGE ===================== */
   carre();
-  penche();
-  choisirN(13);
-  window.addEventListener("load", function () { [$("svg-carre"), $("svg-penche")].forEach(fixLabels); });
+  sable();
+  essaisInit(13);
+  window.addEventListener("load", function () { fixLabels($("svg-carre")); });
 })();
 </script>
 <script src="../../assets/catalogue.js"></script>

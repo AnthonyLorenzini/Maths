@@ -648,7 +648,7 @@ window.SITE = {
               contenu: [
                 "Automatisme sur les carrés de 1 à 15, avec une question flash sur l'hypoténuse.",
                 "Animations projetées : de l'aire au côté, on découvre la racine carrée, d'abord pour les carrés parfaits.",
-                "On reprend les carrés penchés de la séance 1 : certaines aires donnent un côté entier (25, 169), d'autres non (13, 65). Un testeur dynamique permet d'encadrer la racine, puis on utilise la touche √ de la calculatrice.",
+                "On reprend les carrés penchés de la séance 1 : certaines aires donnent un côté entier (25, 169), d'autres non (13, 65). Deux carrés connus encadrent le côté, puis un tableau d'essais (dixièmes, centièmes) précise la valeur et prépare la touche √ de la calculatrice.",
                 "Exercices projetés au tableau, faits sur le cahier ; le mini-jeu est là pour s'entraîner à part."
               ],
               ressources: ["4e-ch4-s2"],
