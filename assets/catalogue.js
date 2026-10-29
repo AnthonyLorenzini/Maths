@@ -724,7 +724,7 @@ window.SITE = {
 
 /* ---- Chapitres réservés (prive: true) : masqués tant que le mot de passe n'a pas été saisi ---- */
 (function () {
-  var CODE = "compas26", ouvert = false;
+  var CODE = "159951", ouvert = false;
   try { ouvert = localStorage.getItem("prof") === "1"; } catch (e) {}
   window.SITE_PROF = ouvert;
   window.SITE_ouvrir = function (mdp) {
