@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 6 — Problèmes de longueurs : roues, tours et pistes (interactif)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange-b:#F0B25B; --orange-bg:#FEF2E3; --orange-t:#B5680A;
+  --ink:#22303F;
+}
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 860px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:24px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:26px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+.automatisme { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:12px 16px; margin-bottom:14px; }
+.automatisme h2 { font-family:'Baloo 2',sans-serif; font-size:15px; color:#2B6CB0; margin:0 0 8px 0; }
+.automatisme ol { margin:0; padding-left:20px; font-size:13px; }
+.automatisme li { margin-bottom:2px; }
+.reveal-panel { display:none; margin-top:8px; font-size:12.5px; font-style:italic; color:#3B4C5E; border-top:1px dashed #B7CBE3; padding-top:6px; }
+.reveal-panel.show { display:block; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:12px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; margin-top:6px; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.toggle-btn:hover { filter:brightness(0.97); }
+.methode { background:#FFF9EC; border:2px dashed #D8B24C; border-radius:10px; padding:10px 16px; margin-bottom:18px; font-size:12.5px; }
+.methode b.tag { font-family:'Baloo 2',sans-serif; color:#9C7A17; display:block; margin-bottom:3px; font-size:13px; }
+.section-title { font-family:'Baloo 2',sans-serif; font-size:18px; margin:4px 0 12px 0; }
+.advanced-title { font-family:'Baloo 2',sans-serif; font-size:15px; color:var(--orange-t); margin:18px 0 10px 0; padding-top:12px; border-top:2px dashed var(--orange-b); }
+.exo { border:2px solid var(--orange-b); background:var(--orange-bg); border-radius:12px; padding:14px 18px; margin-bottom:14px; }
+.exo-title { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:var(--orange-t); margin-bottom:6px; }
+.exo p { font-size:13px; margin:4px 0; line-height:1.5; }
+.exo p.q { margin:6px 0 2px 4px; }
+.schema { background:#fff; border-radius:8px; padding:8px; margin:8px 0; text-align:center; }
+.schema svg { max-width:100%; height:auto; }
+.btn-row { display:flex; gap:10px; margin-top:8px; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:12.5px; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel.solution-panel { border:1.5px dashed #4CAF7D; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; }
+.astuce-panel .label { color:#B5680A; }
+.solution-panel .label { color:#1E7A4C; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+
+
+
+.activite{background:#EEF8F2;border:2px solid #4CAF7D;border-radius:12px;padding:12px 16px;margin-bottom:18px}
+.activite h2{font-family:'Baloo 2',sans-serif;font-size:15px;color:#1E7A4C;margin:0 0 6px 0}
+.activite p{font-size:13px;margin:4px 0;line-height:1.5}
+.activite .schema{border:1px solid #CFE6D8}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin:6px 0;font-size:13px}
+.ctrl button{font-family:'Baloo 2',sans-serif;font-size:13px;padding:5px 12px;border-radius:16px;border:2px solid #1E7A4C;background:#fff;color:#1E7A4C;cursor:pointer}
+.ctrl button.on{background:#1E7A4C;color:#fff}
+.lecture{font-weight:700;text-align:center;font-size:14px;min-height:22px}
+.num{font-variant-numeric:tabular-nums}
+table.t{border-collapse:collapse;margin:8px auto;font-size:13px}
+table.t td,table.t th{border:1.5px solid #8894A0;padding:5px 12px;text-align:center}
+table.t th{background:#F4F1EA}
+.ok{color:#1E7A4C;font-weight:700}.ko{color:#C0392B;font-weight:700}
+</style>
+<style>@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="badge">S6</div>
+    <div>
+      <h1>Problèmes de longueurs : roues, tours et pistes</h1>
+      <div class="subtitle">Chapitre 5 — Cercle et disque — 6e — Séance 6</div>
+    </div>
+  </header>
+
+  <div class="objectifs"><b>Objectifs :</b> résoudre des problèmes de longueurs mettant en jeu le périmètre d'un cercle : distance parcourue, nombre de tours, diamètre à retrouver (GM5).</div>
+
+  <div class="automatisme">
+    <h2>Automatisme</h2>
+    <ol><li>12 × 5 =</li><li>2,5 × 4 =</li><li>100 × 1,57 =</li><li>3 × 0,7 =</li><li>1,5 m = … cm</li><li>0,25 × 4 =</li></ol>
+    <button class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
+    <div class="reveal-panel" id="auto-corrige">Corrigé : 60 ; 10 ; 157 ; 2,1 ; 150 ; 1</div>
+  </div>
+
+  <div class="methode"><b class="tag">Méthode</b>Pour un problème de roue ou de piste : <b>1.</b> je fais un schéma ; <b>2.</b> je cherche ce qu'on me demande ; <b>3.</b> je calcule le périmètre du cercle (la distance parcourue en <b>un tour</b>) ; <b>4.</b> pour plusieurs tours, je multiplie : distance = nombre de tours × périmètre ; pour trouver un nombre de tours, je divise la distance par le périmètre ; <b>5.</b> je vérifie que l'ordre de grandeur est réaliste.</div>
+
+  <div class="section-title">Exercices</div>
+    <div class="exo">
+      <div class="exo-title">★ Exercice</div>
+      <p>Une roue de vélo a un diamètre de 70 cm. Quelle distance le vélo parcourt-il en un tour de roue ? Et en 10 tours ? (π ≈ 3,14)</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-0')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-0')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-0"><span class="label">Astuce</span>En un tour de roue, le vélo avance de la longueur du périmètre de la roue.</div>
+      <div class="panel solution-panel" id="solution-0"><span class="label">Solution</span>Un tour : 3,14 × 70 = 219,8 cm, soit environ <b>2,2 m</b>. Dix tours : 10 × 219,8 = 2 198 cm, soit environ <b>22 m</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★ Exercice</div>
+      <p>Une roue de trottinette a un diamètre de 20 cm. Quelle distance parcourt-elle en 50 tours ? Donne la réponse en mètres. (π ≈ 3,14)</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-1')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-1')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-1"><span class="label">Astuce</span>Calcule d'abord en centimètres, puis convertis : 100 cm = 1 m.</div>
+      <div class="panel solution-panel" id="solution-1"><span class="label">Solution</span>Un tour : 3,14 × 20 = 62,8 cm. 50 tours : 50 × 62,8 = 3 140 cm = <b>31,4 m</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Une roue a un diamètre de 0,5 m. a) Combien de tours fait-elle pour parcourir 157 m ? b) Et pour parcourir 1 000 m (arrondis à l'unité) ? (π ≈ 3,14)</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-2')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-2')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-2"><span class="label">Astuce</span>Un tour correspond à 3,14 × 0,5 m. Pour trouver le nombre de tours, divise la distance par la longueur d'un tour.</div>
+      <div class="panel solution-panel" id="solution-2"><span class="label">Solution</span>Un tour : 3,14 × 0,5 = 1,57 m. a) 157 ÷ 1,57 = <b>100 tours</b>. b) 1 000 ÷ 1,57 ≈ 636,9, soit environ <b>637 tours</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>Sur un manège, le cheval A est à 2 m du centre et le cheval B à 4 m du centre. Quelle distance parcourt chaque cheval en 8 tours ? Lequel va le plus vite ? (π ≈ 3,14)</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-3')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-3')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-3"><span class="label">Astuce</span>Chaque cheval décrit un cercle dont le rayon est sa distance au centre.</div>
+      <div class="panel solution-panel" id="solution-3"><span class="label">Solution</span>A : un tour = 2 × 3,14 × 2 = 12,56 m ; 8 tours = <b>100,48 m</b>. B : un tour = 2 × 3,14 × 4 = 25,12 m ; 8 tours = <b>200,96 m</b>. Ils font le même nombre de tours dans le même temps, mais B parcourt <b>deux fois plus de distance</b> : il va deux fois plus vite.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★ Exercice</div>
+      <p>On veut border une nappe ronde de 1,2 m de diamètre avec un galon vendu 2,50 € le mètre. Quel est le prix du galon ? (π ≈ 3,14)</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-4')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-4')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-4"><span class="label">Astuce</span>Le galon fait le tour de la nappe : quelle longueur ?</div>
+      <div class="panel solution-panel" id="solution-4"><span class="label">Solution</span>Longueur : 3,14 × 1,2 = 3,768 m. Prix : 3,768 × 2,5 = 9,42 €. Le prix est <b>9,42 €</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>Le tour de la Terre à l'équateur mesure environ 40 000 km. Quel est environ le diamètre de la Terre ? Arrondis à la centaine de km. (π ≈ 3,14)</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-5')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-5')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-5"><span class="label">Astuce</span>L'équateur est un cercle : P = 3,14 × d. Comment trouver d ?</div>
+      <div class="panel solution-panel" id="solution-5"><span class="label">Solution</span>d = 40 000 ÷ 3,14 ≈ 12 739 km, soit environ <b>12 700 km</b>.</div>
+    </div>
+    <div class="exo">
+      <div class="exo-title">★★★ Exercice</div>
+      <p>Léo s'entraîne sur une piste circulaire de diamètre 80 m. Il a couru 2 km. Combien de tours a-t-il fait environ ? (π ≈ 3,14)</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-6')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-6')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-6"><span class="label">Astuce</span>Convertis 2 km en mètres, puis divise par la longueur d'un tour.</div>
+      <div class="panel solution-panel" id="solution-6"><span class="label">Solution</span>Un tour : 3,14 × 80 = 251,2 m. 2 km = 2 000 m. 2 000 ÷ 251,2 ≈ 7,96. Il a fait environ <b>8 tours</b>.</div>
+    </div>
+  <div class="advanced-title">Pour aller plus loin</div>
+    <div class="exo">
+      <div class="exo-title">★★★★ Exercice</div>
+      <p>Deux roues ont pour rayons 30 cm et 45 cm. La grande roue fait 10 tours. Combien de tours la petite roue doit-elle faire pour parcourir la même distance ? (π ≈ 3,14)</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-7')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-7')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-7"><span class="label">Astuce</span>Calcule d'abord la distance parcourue par la grande roue.</div>
+      <div class="panel solution-panel" id="solution-7"><span class="label">Solution</span>Grande roue : un tour = 2 × 3,14 × 45 = 282,6 cm ; 10 tours = 2 826 cm. Petite roue : un tour = 2 × 3,14 × 30 = 188,4 cm. 2 826 ÷ 188,4 = <b>15 tours</b>.</div>
+    </div>
+
+  <footer>Cherche seul(e) d'abord. Utilise l'astuce si tu bloques, puis vérifie avec la solution.</footer>
+</div>
+<script>
+function toggle(id){
+  const el = document.getElementById(id);
+  el.classList.toggle('show');
+}
+
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

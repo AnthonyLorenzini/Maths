@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La Portée de l'antenne</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Work+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#EFEAE0;--card:#fff;--ink:#22303F;--muted:#6B7A8A;--line:#D8DEE4;--vert:#0F9562;--vert-bg:#DDF6EA;--rouge:#C0392B;--rouge-bg:#FBE7E7;--bleu:#2B6CB0;--bleu-bg:#E6EEFC;--ambre:#E8700F;--ambre-bg:#FFEBD9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Work Sans',Arial,sans-serif;padding:16px 12px 90px}
+.wrap{max-width:760px;margin:0 auto}
+h1{font:700 clamp(1.7rem,6vw,2.4rem)/1.1 'Baloo 2',sans-serif;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 14px;font-size:.95rem}
+.card{background:var(--card);border-radius:16px;padding:16px 18px;box-shadow:0 8px 24px rgba(34,48,63,.10);margin-bottom:14px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.pill{font:700 .9rem 'Baloo 2',sans-serif;background:var(--bleu-bg);color:var(--bleu);border-radius:999px;padding:3px 12px}
+.q{font-weight:600;font-size:1.05rem;margin:6px 0 10px}
+.btn{font:700 1rem 'Baloo 2',sans-serif;border:2px solid var(--ink);background:#fff;color:var(--ink);border-radius:12px;padding:8px 16px;cursor:pointer;min-height:44px}
+.btn:hover{background:#F4F1EA}
+.btn.main{background:var(--vert);border-color:var(--vert);color:#fff}
+.btn:disabled{opacity:.45;cursor:default}
+.choix{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}
+.choix .btn.ok{background:var(--vert-bg);border-color:var(--vert);color:var(--vert)}
+.choix .btn.ko{background:var(--rouge-bg);border-color:var(--rouge);color:var(--rouge)}
+input[type=text]{font:700 1.2rem 'Work Sans',sans-serif;width:150px;padding:8px 12px;border:2px solid var(--ink);border-radius:10px}
+.msg{min-height:1.6em;font-weight:600;margin:8px 0 4px}
+.msg.ok{color:var(--vert)}.msg.ko{color:var(--rouge)}
+.schema{text-align:center}.schema svg{max-width:100%;height:auto}
+button:focus-visible,input:focus-visible{outline:3px solid var(--ambre);outline-offset:2px}
+.fin{text-align:center}.fin .gros{font:700 2.4rem 'Baloo 2',sans-serif;color:var(--vert)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.carte{background:#EAF6EE;border-radius:12px;padding:6px}.maison{cursor:pointer}.maison:focus-visible rect{stroke:#E8700F;stroke-width:4}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>La Portée de l'antenne</h1>
+<p class="sub">Quelles maisons sont dans le disque de portée ? Compare les distances au rayon, avec des nombres décimaux.</p>
+<div class="card" id="jeu"></div>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=rnd(0,i);[a[i],a[j]]=[a[j],a[i]]}return a};
+const F=x=>String(Math.round(x*100)/100).replace('.',',');
+const num=s=>parseFloat(String(s).trim().replace(/\s/g,'').replace(',','.'));
+const NS='http://www.w3.org/2000/svg';
+function fin(score,total,again){
+  const m=score===total?'Parfait !':score>=total*0.75?'Très bien !':score>=total/2?'Bien, continue de t\'entraîner.':'Relis la méthode et recommence.';
+  $('#jeu').innerHTML='<div class="fin"><div class="gros">'+score+' / '+total+'</div><p>'+m+'</p><button class="btn main" id="again">Nouvelle série</button></div>';
+  $('#again').onclick=again;
+}
+
+const TOTAL=5;let n,score,R,H,sel,done;
+function manche(){
+  R=pick([3,4,5,6,8,10,12,15,20,25]);
+  const ds=new Set();ds.add(R);
+  const pas=R>=10?[1,2,3,5]:[0.5,1,1.5];
+  while(ds.size<6){
+    const k=pick(pas),sg=Math.random()<.5?-1:1,v=Math.round((R+sg*k*pick([1,1,2]))*10)/10;
+    if(v>0)ds.add(v);
+  }
+  // décimaux proches : ajouter un cas serré
+  const serre=Math.round((R+pick([-0.1,0.1,-0.5,0.5]))*10)/10;ds.add(serre);
+  H=shuffle([...ds]).slice(0,6);if(!H.includes(R))H[rnd(0,5)]=R;
+  H=H.map((d,i)=>({d,ang:i*60+rnd(-15,15)+rnd(0,1)*20}));
+  sel=new Set();done=false;
+}
+function carte(rev){
+  const W=520,Hh=330,cx=W/2,cy=Hh/2,K=130/Math.max(...H.map(h=>h.d),R)/1.0;
+  let s=`<svg viewBox="0 0 ${W} ${Hh}" width="${W}" class="carte" role="group" aria-label="Carte avec une antenne et six maisons">`;
+  if(rev)s+=`<circle cx="${cx}" cy="${cy}" r="${R*K}" fill="rgba(15,149,98,.18)" stroke="#0F9562" stroke-width="3" stroke-dasharray="7 5"/>`;
+  s+=`<g transform="translate(${cx} ${cy})"><line x1="0" y1="14" x2="0" y2="-12" stroke="#22303F" stroke-width="4"/><circle cx="0" cy="-16" r="5" fill="#E8700F"/></g>`;
+  H.forEach((h,i)=>{
+    const a=h.ang*Math.PI/180,x=cx+Math.cos(a)*h.d*K*(rev?1:1),y=cy-Math.sin(a)*h.d*K;
+    const ok=h.d<=R,ch=sel.has(i);
+    let fill='#fff',stroke='#22303F';
+    if(rev){fill=ok?(ch?'#DDF6EA':'#FFF3C4'):(ch?'#FBE7E7':'#fff');stroke=ok?'#0F9562':'#C0392B'}
+    else if(ch){fill='#FFEBD9';stroke='#E8700F'}
+    s+=`<g class="maison" data-i="${i}" tabindex="0" role="button" aria-label="Maison à ${F(h.d)} km"><rect x="${x-30}" y="${y-24}" width="60" height="40" rx="8" fill="${fill}" stroke="${stroke}" stroke-width="3"/><path d="M${x-30} ${y-24} L${x} ${y-42} L${x+30} ${y-24} Z" fill="${stroke}"/><text x="${x}" y="${y+4}" text-anchor="middle" font-size="14" font-weight="700" fill="#22303F">${F(h.d)} km</text></g>`;
+  });
+  return s+'</svg>';
+}
+function show(){
+  $('#jeu').innerHTML=`<div class="top"><span class="pill">Antenne ${n+1} / ${TOTAL}</span><span class="pill">Score : ${score}</span></div>
+  <div class="q">Cette antenne a une portée de <b>${F(R)} km</b>. Clique sur toutes les maisons qui reçoivent le signal, puis valide. (Chaque maison indique sa distance à l'antenne.)</div>
+  <div class="schema" id="carte">${carte(false)}</div><div class="msg" id="msg"></div>
+  <button class="btn main" id="val">Valider</button> <button class="btn main" id="suiv" hidden>Suite</button>`;
+  bind();
+  $('#val').onclick=valide;
+  $('#suiv').onclick=()=>{n++;if(n<TOTAL){manche();show()}else fin(score,TOTAL,start)};
+}
+function bind(){document.querySelectorAll('.maison').forEach(g=>{
+  const t=()=>{if(done)return;const i=+g.dataset.i;sel.has(i)?sel.delete(i):sel.add(i);$('#carte').innerHTML=carte(false);bind()};
+  g.onclick=t;g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t()}}})}
+function valide(){
+  done=true;const bons=H.map((h,i)=>h.d<=R?i:-1).filter(i=>i>=0);
+  const ok=bons.length===sel.size&&bons.every(i=>sel.has(i));
+  if(ok)score++;
+  $('#carte').innerHTML=carte(true);
+  $('#msg').className='msg '+(ok?'ok':'ko');
+  $('#msg').textContent=ok?'Bravo ! Une maison à exactement '+F(R)+' km reçoit encore le signal : elle est sur le cercle.':'Pas tout à fait. Reçoivent le signal : les maisons dont la distance est inférieure ou égale à '+F(R)+' km (cercle en vert).';
+  $('#val').hidden=true;$('#suiv').hidden=false;$('#suiv').textContent=n+1<TOTAL?'Antenne suivante':'Voir mon score';$('#suiv').focus();
+}
+function start(){n=0;score=0;manche();show()}
+start();
+
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

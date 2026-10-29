@@ -371,6 +371,114 @@ window.SITE = {
           ]
         },
         {
+          id: "6e-ch5", num: 5, titre: "Cercle et disque",
+          resume: "Vocabulaire du cercle, cercle et disque comme ensembles de points, périmètre d'un cercle et problèmes de longueurs.",
+          seances: [
+            {
+              titre: "Le cercle et son vocabulaire", duree: "50 min",
+              contenu: [
+                "Automatisme, puis on trace des cercles au compas et on nomme leurs éléments : centre, rayon, diamètre, corde.",
+                "On distingue le cercle (la ligne) du disque (la ligne et son intérieur), et on passe du rayon au diamètre."
+              ],
+              ressources: ["6e-ch5-s1", "cercle-et-ses-noms"],
+              retenir: [
+                "Un **rayon** relie le centre à un point du cercle ; une **corde** relie deux points du cercle ; un **diamètre** est une corde qui passe par le centre.",
+                "Le **diamètre** est le double du rayon : d = 2 × r.",
+                "Le **cercle** est une ligne ; le **disque** est le cercle avec tout son intérieur."
+              ],
+              exemple: "Un cercle de rayon 4,5 cm a un diamètre de 2 × 4,5 = 9 cm.",
+              savoir: "nommer rayon, diamètre et corde, distinguer cercle et disque, et passer du rayon au diamètre."
+            },
+            {
+              titre: "Cercle, disque et distances", duree: "50 min",
+              contenu: [
+                "Avec la chèvre attachée à son piquet, on découvre que le cercle est l'ensemble des points situés à la même distance du centre.",
+                "On résout des problèmes de distances : portée d'une antenne, trésor caché, deux disques qui se chevauchent."
+              ],
+              ressources: ["6e-ch5-s2", "portee-antenne"],
+              retenir: [
+                "Le **cercle** de centre O et de rayon r est l'ensemble des points M tels que **OM = r**.",
+                "Le **disque** de centre O et de rayon r est l'ensemble des points M tels que **OM ≤ r**.",
+                "Pour savoir où est un point, on **compare sa distance à O avec le rayon** : égale, plus petite ou plus grande."
+              ],
+              exemple: "Rayon 3 cm : un point à 2,95 cm de O est dans le disque, un point à 3,4 cm est en dehors.",
+              savoir: "dire si un point est sur le cercle, dans le disque ou en dehors, et résoudre un problème de distances."
+            },
+            {
+              titre: "Le périmètre d'un cercle", duree: "50 min",
+              contenu: [
+                "On déroule le tour d'un cercle sur une droite : il mesure un peu plus de 3 diamètres.",
+                "On mesure des objets ronds, on calcule P ÷ d et on constate que le périmètre est proportionnel au diamètre."
+              ],
+              ressources: ["6e-ch5-s3", "tour-de-roue"],
+              retenir: [
+                "Le **périmètre** d'un cercle est sa longueur.",
+                "Le périmètre est **proportionnel au diamètre** : P ÷ d est toujours le même nombre, noté **π**.",
+                "**π ≈ 3,14** : le tour d'un cercle mesure un peu plus de 3 fois son diamètre."
+              ],
+              exemple: "Un cercle de diamètre 10 cm a un périmètre d'environ 31,4 cm ; avec 20 cm de diamètre, on double : 62,8 cm.",
+              savoir: "expliquer que le périmètre est proportionnel au diamètre et en donner une valeur approchée."
+            },
+            {
+              titre: "Calculer le périmètre d'un cercle", duree: "50 min",
+              contenu: [
+                "On passe du constat à la formule et on calcule des périmètres à partir du diamètre ou du rayon, avec 3,14 puis avec la touche π de la calculatrice.",
+                "On retrouve aussi le diamètre quand on connaît le périmètre."
+              ],
+              ressources: ["6e-ch5-s4", "perimetres-eclair"],
+              retenir: [
+                "**P = π × d** et **P = 2 × π × r**.",
+                "Avec un rayon, on **double d'abord** pour avoir le diamètre.",
+                "Pour retrouver le diamètre : **d = P ÷ π**."
+              ],
+              exemple: "Rayon 6 cm : d = 12 cm, donc P = 3,14 × 12 = 37,68 cm.",
+              savoir: "calculer le périmètre d'un cercle à partir de son rayon ou de son diamètre, et retrouver le diamètre."
+            },
+            {
+              titre: "Périmètres de figures composées", duree: "50 min",
+              contenu: [
+                "On calcule le périmètre de demi-disques, de quarts de disque, d'une fenêtre et d'une piste d'athlétisme.",
+                "On découpe le contour en segments et en arcs de cercle, puis on additionne."
+              ],
+              ressources: ["6e-ch5-s5", "perimetres-eclair"],
+              retenir: [
+                "Pour une figure composée, on **découpe le contour** en segments et en arcs de cercle, puis on **additionne** les longueurs.",
+                "Un **demi-cercle** mesure la moitié du périmètre du cercle, un **quart de cercle** en mesure le quart.",
+                "Le contour d'un **demi-disque** comprend aussi son **diamètre**."
+              ],
+              exemple: "Demi-disque de diamètre 10 cm : 3,14 × 10 ÷ 2 + 10 = 15,7 + 10 = 25,7 cm.",
+              savoir: "calculer le périmètre d'une figure composée de segments et d'arcs de cercle."
+            },
+            {
+              titre: "Problèmes de longueurs : roues, tours et pistes", duree: "50 min",
+              contenu: [
+                "On résout des problèmes de roue de vélo, de manège et de piste : distance parcourue, nombre de tours, diamètre à retrouver.",
+                "La séance se termine par un petit test d'environ 15 minutes sur le périmètre du cercle."
+              ],
+              ressources: ["6e-ch5-s6", "tour-de-roue", "perimetres-eclair"],
+              retenir: [
+                "En **un tour**, une roue avance de la longueur de son **périmètre**.",
+                "Distance = **nombre de tours × périmètre** ; nombre de tours = **distance ÷ périmètre**.",
+                "On **convertit** les unités avant de calculer et on vérifie l'ordre de grandeur."
+              ],
+              exemple: "Roue de 70 cm de diamètre : un tour fait 3,14 × 70 = 219,8 cm ; 10 tours font environ 22 m.",
+              savoir: "résoudre un problème de longueurs avec des cercles : distance, nombre de tours, diamètre."
+            }
+          ],
+          ressources: [
+            { id: "6e-ch5-s1", type: "exos", titre: "Séance 1 — Le cercle et son vocabulaire", resume: "Rayon, diamètre, corde, cercle et disque.", ajout: "2026-10-29" },
+            { id: "6e-ch5-s2", type: "exos", titre: "Séance 2 — Cercle, disque et distances", resume: "La chèvre au piquet, la portée d'une antenne, le trésor du pirate.", ajout: "2026-10-29" },
+            { id: "6e-ch5-s3", type: "exos", titre: "Séance 3 — Le périmètre d'un cercle", resume: "Le cercle qui se déroule : le périmètre est proportionnel au diamètre.", ajout: "2026-10-29" },
+            { id: "6e-ch5-s4", type: "exos", titre: "Séance 4 — Calculer le périmètre d'un cercle", resume: "P = π × d et P = 2 × π × r, avec 3,14 puis la calculatrice.", ajout: "2026-10-29" },
+            { id: "6e-ch5-s5", type: "exos", titre: "Séance 5 — Périmètres de figures composées", resume: "Demi-disque, quart de disque, fenêtre, piste d'athlétisme.", ajout: "2026-10-29" },
+            { id: "6e-ch5-s6", type: "exos", titre: "Séance 6 — Problèmes de longueurs", resume: "Roues, manège, piste : distance parcourue et nombre de tours.", ajout: "2026-10-29" },
+            { id: "cercle-et-ses-noms", type: "jeu", titre: "Le Cercle et ses noms", resume: "Rayon, diamètre ou corde ? Nouvelles figures à chaque série.", ajout: "2026-10-29" },
+            { id: "portee-antenne", type: "jeu", titre: "La Portée de l'antenne", resume: "Quelles maisons sont dans le disque de portée ?", ajout: "2026-10-29" },
+            { id: "tour-de-roue", type: "jeu", titre: "Le Tour de roue", resume: "Calcule la distance parcourue ou compte les tours d'une roue.", ajout: "2026-10-29" },
+            { id: "perimetres-eclair", type: "jeu", titre: "Périmètres éclair", resume: "Cercles, demi-disques et pistes : huit calculs de périmètre.", ajout: "2026-10-29" }
+          ]
+        },
+        {
           id: "6e-defis", num: null, titre: "Défis calcul",
           resume: "Calculer avec les prix et les durées, en solo ou en équipes.",
           ressources: [
