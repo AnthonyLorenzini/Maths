@@ -394,8 +394,7 @@ window.SITE = {
               titre: "Le disque : dedans, dessus, dehors", duree: "50 min",
               contenu: [
                 "Activité : une chèvre est attachée à un piquet par une corde de 4 cm. On prévoit les objets qu'elle peut atteindre, puis on trace le cercle : ils sont dans un disque.",
-                "Fiche à imprimer (taille réelle) : deux antennes de portées différentes, deux box wifi avec une échelle, au compas et à la règle.",
-                "Défi final : la chèvre attachée au coin d'un bâtiment (corde de 6 cm) : la corde contourne les coins.",
+                "Fiche à imprimer (1 page, taille réelle) : exercice 1, deux antennes de portées différentes ; exercice 2, la chèvre attachée au coin d'un bâtiment (corde de 6 cm) : on cherche la zone où elle peut aller.",
                 "Mini-jeu par équipes en bonus."
               ],
               ressources: ["6e-ch5-s2", "dedans-dessus-dehors"],
@@ -411,7 +410,7 @@ window.SITE = {
           ressources: [
             { id: "6e-ch5-s1", type: "exos", titre: "Séance 1 — Le cercle et son vocabulaire", resume: "Des points à 4 cm de O, rayon, diamètre, corde, arc. Avec correction.", ajout: "2026-10-29" },
             { id: "cercle-et-ses-noms", type: "jeu", titre: "Le Cercle et ses noms", resume: "Rayon, diamètre, corde ou arc ? Course par équipes ou solo.", ajout: "2026-10-29" },
-            { id: "6e-ch5-s2", type: "exos", titre: "Séance 2 — Le disque : dedans, dessus, dehors", resume: "La chèvre au piquet, deux antennes, deux box wifi, la chèvre et le bâtiment. Fiches à imprimer et corrections.", ajout: "2026-10-29" },
+            { id: "6e-ch5-s2", type: "exos", titre: "Séance 2 — Le disque : dedans, dessus, dehors", resume: "La chèvre au piquet, deux antennes, la chèvre et le bâtiment. Fiche à imprimer et corrections.", ajout: "2026-10-29" },
             { id: "dedans-dessus-dehors", type: "jeu", titre: "Dedans, dessus, dehors", resume: "Compare OM au rayon : dans le disque, sur le cercle ou hors du disque ?", ajout: "2026-10-29" }
           ]
         },
