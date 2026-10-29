@@ -193,18 +193,7 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 </script>
 <style>
 /* ---- mise en page commune des séances du chapitre 5 (même esprit que la leçon 4) ---- */
-.wrap{max-width:1000px;gap:22px}
-.ex{display:flex;flex-direction:column;gap:14px;padding:18px 20px;background:var(--panel);border:2px solid var(--line);border-radius:14px}
-.ex .fig{background:var(--paper)}
-.ex .recit{background:var(--paper)}
-.step{display:inline-grid;place-items:center;width:1.45em;height:1.45em;border-radius:50%;background:var(--amber);color:var(--on-amber);font:800 .8em var(--f-title);margin-right:.4em;vertical-align:.08em}
-.flow{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
-.flow li{display:flex;gap:8px;align-items:baseline;background:var(--panel);border:2px solid var(--line);border-radius:999px;padding:6px 16px;font-weight:600}
-.flow b{font:800 1.2rem var(--f-title);color:var(--amber)}
-.flow small{color:var(--muted);font-weight:500}
-.split{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;align-items:start}
-@media (max-width:820px){.split{grid-template-columns:minmax(0,1fr)}}
-.split .fig svg{max-width:100%}
+.ex{display:flex;flex-direction:column;gap:12px;padding-top:8px;border-top:2px solid var(--line)}
 .ex-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px}
 .ex-h h2 small{font:600 .9rem var(--f-text);text-transform:none;letter-spacing:0;color:var(--muted);margin-left:.4em}
 .consigne{margin:0;max-width:75ch}
@@ -246,7 +235,6 @@ table.tb{border-collapse:collapse;font:600 1.1rem var(--f-text);background:var(-
 .chip[data-k=hors]{--bc:var(--ko);--bb:var(--ko-bg)}
 .next{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
 a.btn{text-decoration:none;display:inline-flex;align-items:center}
-.stack{display:flex;flex-direction:column;gap:12px;min-width:0}
 
 </style>
 <style>
@@ -267,16 +255,15 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
     <p class="sub">Chapitre 5, séance 1. Compas, cahier et vidéoprojecteur, environ 50 min. On découvre ce qu'est un cercle, puis on apprend à nommer ses éléments.</p></div>
   </header>
 
-  <ol class="flow">
-    <li><b>1</b> Activité <small>≈ 12 min</small></li>
-    <li><b>2</b> Atelier <small>≈ 10 min</small></li>
-    <li><b>3</b> Exercices au cahier <small>≈ 20 min</small></li>
-    <li><b>4</b> Mini-jeu <small>≈ 8 min</small></li>
-  </ol>
+  <div class="how">
+    <div class="panel"><span class="n">1</span><p><b>Activité</b> (≈ 12 min). On place des points à 4 cm d'un point O. Que remarque-t-on ?</p></div>
+    <div class="panel"><span class="n">2</span><p><b>Atelier</b> (≈ 13 min). On clique sur des points : le site donne le nom du segment ou de l'arc, et sa longueur.</p></div>
+    <div class="panel"><span class="n">3</span><p><b>Exercices</b> (≈ 20 min). Dans ton cahier, sans recopier les énoncés. Vérifie avec le bouton « Correction ».</p></div>
+  </div>
 
   <!-- ================= ACTIVITÉ DE DÉCOUVERTE ================= -->
   <section class="ex" id="act">
-    <div class="ex-h"><h2><span class="step">1</span>Activité <small>des points à 4 cm de O</small></h2><button class="btn" data-sol>Correction</button></div>
+    <div class="ex-h"><h2>Activité <small>des points à 4 cm de O</small></h2><button class="btn" data-sol>Correction</button></div>
     <p class="consigne">Sur la page, 1 cm est représenté par un carreau. On veut placer des points qui sont <b>tous à 4 cm du point O</b>. Où peuvent-ils se trouver ? Regarde-les apparaître, puis essaie de les placer toi-même.</p>
     <div class="row">
       <span class="grp"><span class="lvl">Mode</span>
@@ -294,7 +281,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 
   <!-- ================= ATELIER ================= -->
   <section class="ex" id="atel">
-    <div class="ex-h"><h2><span class="step">2</span>Atelier <small>rayon, diamètre, corde, arc</small></h2></div>
+    <div class="ex-h"><h2>Atelier <small>rayon, diamètre, corde, arc</small></h2></div>
     <p class="consigne">Ce cercle a pour centre O et pour rayon 3 cm. Clique sur deux points : le segment s'affiche avec son nom. Trouve <b>un rayon</b>, <b>une corde</b> et <b>un diamètre</b>, puis passe en mode « Arcs ».</p>
     <div class="row">
       <span class="grp"><span class="lvl">Mode</span>
@@ -309,21 +296,17 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 
   <!-- ================= EXERCICES ================= -->
   <section class="ex" id="ex1">
-    <div class="ex-h"><h2><span class="step">3</span>Exercice 1 <small>les noms des éléments</small></h2><button class="btn" data-sol>Correction</button></div>
-    <div class="split">
-      <div class="fig sm" id="f1"></div>
-      <div class="stack">
-        <p class="consigne">Observe la figure et réponds dans ton cahier.</p>
-        <ol class="qs" type="a">
-          <li>Quel est le centre du cercle ?<span class="sol s">Le point O.</span></li>
-          <li>Nomme trois rayons.<span class="sol s">[OA], [OB] et [OC]. Tout segment qui relie O à un point du cercle est un rayon.</span></li>
-          <li>Nomme un diamètre.<span class="sol s">[BC] : il passe par le centre O et ses deux extrémités sont sur le cercle.</span></li>
-          <li>Nomme deux cordes qui ne sont pas des diamètres.<span class="sol s">[DE] et [FG].</span></li>
-          <li>Pourquoi [DE] n'est-il pas un diamètre ?<span class="sol s">Il ne passe pas par le centre O.</span></li>
-        </ol>
-        <div class="chips sol"><span class="chip legend" data-k="rayon">rayon</span><span class="chip legend" data-k="diam">diamètre</span><span class="chip legend" data-k="corde">corde</span></div>
-      </div>
-    </div>
+    <div class="ex-h"><h2>Exercice 1 <small>les noms des éléments</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Observe la figure et réponds dans ton cahier.</p>
+    <div class="fig sm" id="f1"></div>
+    <div class="chips sol"><span class="chip legend" data-k="rayon">rayon</span><span class="chip legend" data-k="diam">diamètre</span><span class="chip legend" data-k="corde">corde</span></div>
+    <ol class="qs" type="a">
+      <li>Quel est le centre du cercle ?<span class="sol s">Le centre est le point O.</span></li>
+      <li>Nomme trois rayons.<span class="sol s">[OA], [OB] et [OC]. Tout segment qui relie O à un point du cercle est un rayon.</span></li>
+      <li>Nomme un diamètre.<span class="sol s">[BC] est un diamètre : il passe par le centre O et ses deux extrémités sont sur le cercle.</span></li>
+      <li>Nomme deux cordes qui ne sont pas des diamètres.<span class="sol s">[DE] et [FG].</span></li>
+      <li>Pourquoi [DE] n'est-il pas un diamètre ?<span class="sol s">Parce qu'il ne passe pas par le centre O.</span></li>
+    </ol>
   </section>
 
   <section class="ex" id="ex2">
@@ -339,7 +322,18 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
   </section>
 
   <section class="ex" id="ex4">
-    <div class="ex-h"><h2>Exercice 4 <small>construction au compas (avec un arc)</small></h2><button class="btn" data-sol>Correction</button></div>
+    <div class="ex-h"><h2>Exercice 4 <small>les deux arcs</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Deux points d'un cercle le partagent en <b>deux arcs</b>. Ici, les points A et B partagent le cercle en deux arcs.</p>
+    <div class="fig sm" id="f4"></div>
+    <ol class="qs" type="a">
+      <li>Quels points se trouvent sur le plus petit des deux arcs ? Et sur le plus grand ?<span class="sol s">Sur le petit arc (en trait épais) : D. Sur le grand arc (en pointillés) : E, C et F.</span></li>
+      <li>[AB] est-il un diamètre ? Justifie.<span class="sol s">Non : [AB] ne passe pas par le centre O.</span></li>
+      <li>Si [AB] était un diamètre, que dire des deux arcs ?<span class="sol s">Ils auraient la même longueur : ce seraient deux demi-cercles.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex5">
+    <div class="ex-h"><h2>Exercice 5 <small>construction au compas</small></h2><button class="btn" data-sol>Correction</button></div>
     <ol class="qs dec">
       <li>Trace un cercle de centre O et de rayon 3 cm.</li>
       <li>Place un point A sur le cercle, puis trace le rayon [OA].</li>
@@ -352,11 +346,15 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
     <p class="sol s">OA = OB = 3 cm, car A et B sont sur le cercle de centre O et de rayon 3 cm. AB = 6 cm, c'est le double du rayon.</p>
   </section>
 
-  <div class="ex">
-    <div class="next">
-      <p style="margin:0"><b><span class="step">4</span>Pour finir :</b> le mini-jeu par équipes « Le Cercle et ses noms ».</p>
-      <a class="btn main" href="../cercle-et-ses-noms/index.html">Lancer le mini-jeu</a>
-    </div>
+  <section class="ex" id="ex6">
+    <div class="ex-h"><h2>Défi <small>la plus longue corde</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Un cercle a pour rayon 3,5 cm. Quelle est la plus grande longueur possible pour une corde de ce cercle ? Explique.</p>
+    <p class="recit sol">C'est <b>7 cm</b> : la plus longue corde est un diamètre, et le diamètre est le double du rayon (2 × 3,5 = 7).</p>
+  </section>
+
+  <div class="panel next">
+    <p style="margin:0"><b>Pour finir :</b> le mini-jeu par équipes « Le Cercle et ses noms » (5 min).</p>
+    <a class="btn main" href="../cercle-et-ses-noms/index.html">Lancer le mini-jeu</a>
   </div>
 </div>
 <script>
@@ -516,6 +514,17 @@ seg($('#amode'),v=>{amode=v;store.set('c5s1amode',v);sel=null;res=null;atelier()
    ['Un cercle de rayon 5 cm a un diamètre de 5 cm.',false,'Le diamètre est le double du rayon : 2 × 5 = 10 cm.'],
    ['Le diamètre est la plus longue corde d\'un cercle.',true,'Aucune corde n\'est plus longue qu\'un diamètre.']];
   $('#vf').innerHTML=V.map(([t,v,j])=>`<li>${t}<span class="sol"><span class="vf ${v?'t':'f'}">${v?'Vrai.':'Faux.'}</span> <span class="s">${j}</span></span></li>`).join('');
+})();
+/* ex. 4 */
+(function(){
+  const cx=260,cy=215,R=130,P={A:150,B:30,D:90,E:210,C:270,F:330};
+  const pp=n=>G.pol(cx,cy,R,P[n]);
+  let s=`<svg viewBox="0 0 520 430" role="img" aria-label="cercle de centre O avec les points A, B, C, D, E et F">`+G.circ(cx,cy,R,{w:3.5,fill:'var(--paper)'});
+  s+=`<g class="sol">`+G.arc(cx,cy,R,30,150,'var(--amber)',9)+G.arc(cx,cy,R,150,390,'var(--muted)',5,'stroke-dasharray="3 12"')+`</g>`;
+  const a=pp('A'),b=pp('B');s+=G.line(a[0],a[1],b[0],b[1],'var(--ink)',3);
+  Object.keys(P).forEach(n=>{const [x,y]=pp(n);s+=G.cross(x,y,'var(--ink)',6,3)+G.lab(cx,cy,R,P[n],n,{size:21,gap:24});});
+  s+=G.cross(cx,cy,'var(--ink)',6,3)+G.text(cx+4,cy+26,'O',{size:22});
+  $('#f4').innerHTML=s+'</svg>';
 })();
 /* ex. 5 */
 (function(){
