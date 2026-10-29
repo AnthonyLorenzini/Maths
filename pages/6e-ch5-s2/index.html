@@ -302,9 +302,8 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
     <div class="ex-h"><h2>Exercice 1 <small>deux antennes</small></h2><button class="btn" data-sol>Correction</button></div>
     <div class="split">
       <div class="stack">
-        <p class="consigne">L'antenne A porte à <b>5 km</b>, l'antenne B à <b>4 km</b> (1 cm = 1 km). Trace les deux zones, puis colorie les maisons : bleu si elles captent A seule, orange B seule, vert les deux.</p>
-        <p class="consigne">Quelle maison est exactement à la limite d'une zone ?<br><span class="sol s">La maison 8 : elle est à 4 cm de A, sur le cercle.</span></p>
-        <div class="chips sol"><span class="chip"><span class="kc" style="background:#4f8fd6"></span>A seule</span><span class="chip"><span class="kc" style="background:#f2a22a"></span>B seule</span><span class="chip"><span class="kc" style="background:var(--ok)"></span>les deux</span></div>
+        <p class="consigne">L'antenne A porte à <b>4 km</b>, l'antenne B à <b>3 km</b> (1 cm = 1 km). Trace les deux zones. <b>Quelles maisons captent les deux antennes ?</b></p>
+        <p class="recit sol">Les maisons <b>2</b> et <b>7</b> sont dans les deux disques.</p>
       </div>
       <div class="fig" id="f1"></div>
     </div>
@@ -313,7 +312,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
   <!-- ================= 3. DÉFI ================= -->
   <section class="ex" id="defi">
     <div class="ex-h"><h2><span class="step">3</span>Exercice 2 <small>la chèvre et le bâtiment</small></h2><button class="btn" data-sol>Correction</button></div>
-    <div class="split">
+    <div class="split" style="grid-template-columns:1fr">
       <div class="stack">
         <p class="consigne">Une chèvre est attachée en A, au coin du bâtiment, par une corde de <b>6 cm</b>. Elle ne peut pas traverser le bâtiment. <b>Colorie la zone où elle peut aller.</b></p>
         <p class="consigne" style="margin:0">Pour tester un point, clique sur le plan.</p>
@@ -409,7 +408,7 @@ const flipY=(h)=>y=>(h-y)*S2;
   const E={W:17.5,H:8.3,A:[5.0,4.15],B:[10.5,4.15],rA:4.0,rB:3.0,houses:{'1':[2.0,6.5],'2':[7.8,5.2],'3':[12.0,6.0],'4':[5.5,1.0],'5':[8.3,7.8],'6':[9.0,2.2],'7':[8.6,3.2],'8':[7.4,7.35],'9':[15.5,2.0]}};
   const fy=flipY(E.H),X=x=>x*S2;
   const Ap=[X(E.A[0]),fy(E.A[1])],Bp=[X(E.B[0]),fy(E.B[1])];
-  const COL={A:'#2f6fb5',B:'#d9820a',AB:'var(--ok)','-':'var(--ink)'};
+  const COL={A:'var(--ink)',B:'var(--ink)',AB:'var(--ok)','-':'var(--ink)'};
   let s=`<svg viewBox="0 0 ${E.W*S2} ${E.H*S2}" role="img" aria-label="plan avec deux antennes et neuf maisons">`+G.grid(E.W*S2,E.H*S2,S2,0,0,'var(--grid)');
   s+=`<g class="sol">`+G.circ(Ap[0],Ap[1],E.rA*S2,{fill:'#4f8fd6',col:'#2f6fb5',w:3,extra:'fill-opacity=".22"'})+G.circ(Bp[0],Bp[1],E.rB*S2,{fill:'#f2a22a',col:'#c47a00',w:3,extra:'fill-opacity=".25"'})+`</g>`;
   Object.entries(E.houses).forEach(([n,[x,y]])=>{
@@ -424,7 +423,7 @@ const flipY=(h)=>y=>(h-y)*S2;
 
 /* =============== 3. DÉFI : la chèvre et le bâtiment =============== */
 (function(){
-  const D={W:12.4,H:12.2,A:[6.2,6.1],ab:4,ad:3,rope:6};
+  const D={W:17.5,H:12.2,A:[8.75,6.1],ab:4,ad:3,rope:6};
   const fy=flipY(D.H),S3=S2,X=x=>x*S3,P=p=>[X(p[0]),fy(p[1])];
   const A=D.A,B=[A[0]+D.ab,A[1]],Dd=[A[0],A[1]+D.ad],Cc=[B[0],Dd[1]];
   const need=p=>{const dx=p[0]-A[0],dy=p[1]-A[1];
