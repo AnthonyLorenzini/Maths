@@ -13,6 +13,12 @@
      "jeu"     → Mini-jeu
      "plus"    → Exercices supplémentaires corrigés (pour s'entraîner encore)
 
+   CHAPITRE RÉSERVÉ À L'ENSEIGNANT : ajoute  prive: true  dans un chapitre. Les élèves ne le voient pas
+   (ni dans l'accueil, ni dans la barre de navigation). Pour l'ouvrir aux élèves, supprime simplement
+   « prive: true ». Pour voir les chapitres privés toi-même, ouvre une fois le site avec
+   ?prof=compas26 à la fin de l'adresse (ex. …/Maths/?prof=compas26) : c'est mémorisé dans ce navigateur.
+   ?prof=0 désactive le mode. Les pages restent techniquement accessibles à qui connaît leur adresse exacte.
+
    Un chapitre avec  bientot: true  s'affiche grisé « Bientôt en ligne ».
 
    Dans un chapitre avec séances, la leçon et les mini-jeux sont affichés en onglets tout en haut ;
@@ -371,7 +377,7 @@ window.SITE = {
           ]
         },
         {
-          id: "6e-ch5", num: 5, titre: "Cercle et disque",
+          id: "6e-ch5", num: 5, titre: "Cercle et disque", prive: true,
           resume: "Vocabulaire du cercle, cercle et disque comme ensembles de points, périmètre d'un cercle et problèmes de longueurs.",
           seances: [
             {
@@ -716,3 +722,19 @@ window.SITE = {
     }
   ]
 };
+
+/* ---- Mode enseignant : les chapitres « prive: true » ne sont visibles qu'avec ?prof=compas26 ---- */
+(function () {
+  var CODE = "compas26", prof = false;
+  try {
+    var m = /[?&]prof=([^&#]*)/.exec(location.search);
+    if (m) { if (m[1] === CODE) localStorage.setItem("prof", "1"); else localStorage.removeItem("prof"); }
+    prof = localStorage.getItem("prof") === "1";
+  } catch (e) {}
+  window.SITE_PROF = prof;
+  if (!prof) {
+    window.SITE.niveaux.forEach(function (n) { n.chapitres = n.chapitres.filter(function (c) { return !c.prive; }); });
+  } else {
+    window.SITE.niveaux.forEach(function (n) { n.chapitres.forEach(function (c) { if (c.prive) c.titre += " (aperçu prof)"; }); });
+  }
+})();
