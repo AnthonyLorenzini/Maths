@@ -356,6 +356,11 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-sol]');if(
 (function(){
 const {$,$$}=L4;
 const G=GEO,SC=50,fm=x=>G.fmt1(x);
+const IC={
+  goat:(x,y,h)=>{const k=h/80;return `<g transform="translate(${x} ${y}) scale(${k})" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" fill="none"><ellipse cx="45" cy="-40" rx="28" ry="16" fill="#f6f1e7"/><path d="M27 -26V-2M36 -24V-2M56 -24V-2M65 -26V-2"/><path d="M66 -50L76 -62"/><circle cx="80" cy="-58" r="11" fill="#f6f1e7"/><path d="M76 -67C72 -82 64 -82 62 -76M84 -67C88 -82 96 -82 98 -74M86 -48L88 -40L83 -47M17 -48L8 -56"/><circle cx="83" cy="-60" r="1.8" fill="var(--ink)" stroke="none"/></g>`;},
+  ant:(x,y,h)=>{const k=h/80;return `<g transform="translate(${x} ${y}) scale(${k})" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round" fill="none"><path d="M-11 0L0 -52L11 0M-7 -18H7M-4 -34H4"/><circle cx="0" cy="-56" r="4.5" fill="var(--amber)"/><path d="M7 -68C15 -62 15 -50 7 -44M-7 -68C-15 -62 -15 -50 -7 -44M12 -75C26 -66 26 -46 12 -37M-12 -75C-26 -66 -26 -46 -12 -37"/></g>`;}
+};
+
 
 /* =============== 1. la chèvre : prévoir, puis tracer le cercle =============== */
 const W=700,H=500,OX=350,OY=250,R4=4*SC;
@@ -385,7 +390,7 @@ function scene(){
     if(checked&&p){const good=(p==='oui')===inside;s+=G.text(x+30,y-6,good?'✓':'✗',{size:22,col:good?'var(--ok)':'var(--ko)',halo:true});}
     s+='</g>';
   });
-  s+=`<rect x="${OX-5}" y="${OY-5}" width="10" height="26" rx="3" fill="var(--ink)" transform="translate(0,-8)"/>`+G.text(OX-18,OY+24,'O',{size:22});
+  s+=`<rect x="${OX-5}" y="${OY-5}" width="10" height="26" rx="3" fill="var(--ink)" transform="translate(0,-8)"/>`+G.text(OX-18,OY+24,'O',{size:22})+IC.goat(OX-100,OY+16,60);
   $('#gfig').innerHTML=s+'</svg>';
   $$('#gsvg [data-i]').forEach(g=>{const f=()=>cycle(+g.dataset.i);g.addEventListener('click',f);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f();}});});
   if(checked&&animate){const c=$('#cp');requestAnimationFrame(()=>requestAnimationFrame(()=>{c.style.strokeDashoffset=0;}));animate=false;}
@@ -416,7 +421,7 @@ const flipY=(h)=>y=>(h-y)*S2;
     const px=X(x),py=fy(y);
     s+=G.cross(px,py,'var(--ink)',9,3.5)+`<g class="sol">`+G.cross(px,py,COL[k],9,4.5)+`</g>`+G.text(px+14,py-10,n,{size:22,halo:true});
   });
-  s+=G.cross(Ap[0],Ap[1],'var(--ink)',10,4)+G.text(Ap[0]+16,Ap[1]-12,'A',{size:28,halo:true})+G.cross(Bp[0],Bp[1],'var(--ink)',10,4)+G.text(Bp[0]+16,Bp[1]-12,'B',{size:28,halo:true});
+  s+=IC.ant(Ap[0],Ap[1]-8,44)+IC.ant(Bp[0],Bp[1]-8,44)+G.cross(Ap[0],Ap[1],'var(--ink)',10,4)+G.text(Ap[0]+18,Ap[1]+30,'A',{size:28,halo:true})+G.cross(Bp[0],Bp[1],'var(--ink)',10,4)+G.text(Bp[0]+18,Bp[1]+30,'B',{size:28,halo:true});
   s+=G.line(14,E.H*S2-16,14+S2,E.H*S2-16,'var(--ink)',3)+G.text(14+S2/2,E.H*S2-26,'1 km',{size:20,col:'var(--muted)'});
   $('#f1').innerHTML=s+'</svg>';
 })();
@@ -444,7 +449,7 @@ const flipY=(h)=>y=>(h-y)*S2;
       s+=`<path d="M${d[0]} ${d[1]}L${d[0]+3*S3} ${d[1]}A${3*S3} ${3*S3} 0 0 0 ${d[0]} ${d[1]-3*S3}Z"/></g>`;
     }
     s+=`<rect x="${d[0]}" y="${d[1]}" width="${b[0]-a[0]}" height="${a[1]-d[1]}" fill="#d9d2c3" stroke="var(--ink)" stroke-width="3"/>`+G.text((a[0]+c[0])/2,(a[1]+d[1])/2+5,'bâtiment',{size:14,weight:400,col:'var(--muted)'});
-    s+=G.dot(a[0],a[1],6)+G.text(a[0]-12,a[1]+22,'A',{size:20,halo:true})+G.text(b[0]+10,b[1]+22,'B',{size:20,halo:true})+G.text(c[0]+10,c[1]-8,'C',{size:20,halo:true})+G.text(d[0]-12,d[1]-8,'D',{size:20,halo:true});
+    s+=IC.goat(a[0]-92,a[1]+4,62)+G.dot(a[0],a[1],6)+G.text(a[0]-12,a[1]+22,'A',{size:20,halo:true})+G.text(b[0]+10,b[1]+22,'B',{size:20,halo:true})+G.text(c[0]+10,c[1]-8,'C',{size:20,halo:true})+G.text(d[0]-12,d[1]-8,'D',{size:20,halo:true});
     if(pt){
       const r=need(pt),p=P(pt);
       if(!r){s+=G.dot(p[0],p[1],7,'var(--ko)');}
