@@ -183,6 +183,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{o
 .chap{display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:18px;background:var(--carte);border:2px solid var(--trait);transition:border-color .15s,transform .15s}
 .chap:hover:not([aria-disabled="true"]){border-color:var(--c);transform:translateY(-2px)}
 .chap[aria-disabled="true"]{cursor:default;opacity:.55;border-style:dashed}
+.chap.verrou{border-style:dashed;cursor:default}
+.chap.verrou form{display:flex;gap:8px;flex-wrap:wrap}
+.chap.verrou input{flex:1;min-width:120px;padding:8px 10px;border:2px solid var(--trait);border-radius:10px;font:inherit;background:var(--carte);color:inherit}
+.chap.verrou button{padding:8px 14px;border:0;border-radius:10px;background:var(--c);color:#fff;font:inherit;font-weight:700;cursor:pointer}
+.chap.verrou .err{color:#c0392b;font-size:.9rem;min-height:1.1em}
 .chap .haut{display:flex;align-items:center;gap:12px}
 .num{width:42px;height:42px;flex:none;border-radius:12px;background:var(--cc);color:var(--c);display:grid;place-items:center;font-family:var(--f-titre);font-weight:800;font-size:1.25rem}
 .chap .t{font-family:var(--f-titre);font-weight:800;font-size:1.15rem;line-height:1.15}
@@ -1013,16 +1018,19 @@ function vueEnigme(e){
  </div>`,null,{note:false});
 }
 
+function verrousApres(n,id){return (n.verrous||[]).filter(v=>v.apres===id).map(v=>`<div class="chap verrou a-monte"><span class="haut"><span class="num">${v.num??'★'}</span><span><span class="eti" style="color:var(--c)">${v.num?'Chapitre '+v.num:'Entraînement'}</span><br><span class="t">🔒 Pas encore vu en classe</span></span></span>
+ <form onsubmit="return ouvrirVerrou(event)"><input type="password" placeholder="Mot de passe" aria-label="Mot de passe" autocomplete="off"><button type="submit">Entrer</button></form><span class="err" aria-live="polite"></span></div>`).join('')}
+function ouvrirVerrou(e){e.preventDefault();const f=e.target;if(SITE_ouvrir(f.querySelector('input').value)){location.reload()}else{f.parentNode.querySelector('.err').textContent='Mot de passe incorrect.';f.querySelector('input').select()}return false}
 function niveau(n){
  ouvrir(`<div class="vue c-${n.couleur}">
   <button class="retour a-haut" data-parent="#">${ICO.gauche} Accueil</button>
   <section class="bandeau a-pop" ${d(0,.05)}><span class="gros">${esc(n.nom)}</span><span>${esc(n.accroche)}</span><canvas id="fractale" aria-hidden="true"></canvas><button class="rejouer" onclick="rejouerFn&&rejouerFn()">↻ Rejouer</button></section>
   ${onglets(n,'chap')}
   <div class="chapitres">
-   ${n.chapitres.map((c,i)=>{const ns=(c.seances||[]).length,nj=nbJeux(c),le=c.ressources.some(r=>r.type==='lecon');
+   ${verrousApres(n,null)}${n.chapitres.map((c,i)=>{const ns=(c.seances||[]).length,nj=nbJeux(c),le=c.ressources.some(r=>r.type==='lecon');
     const dedans=`<span class="haut"><span class="num">${c.num??'★'}</span><span><span class="eti" style="color:var(--c)">${c.num?'Chapitre '+c.num:'Entraînement'}</span><br><span class="t">${esc(c.titre)}</span></span></span>
      ${c.bientot?'<span class="s">Bientôt en ligne</span>':`<span class="puces">${le?`<span class="puce">${ICO.lecon} Leçon</span>`:''}${ns?`<span class="puce">${ICO.exos} ${ns} séance${ns>1?'s':''}</span>`:''}${nj?`<span class="puce jeu">${ICO.jeu} ${nj} mini-jeu${nj>1?'x':''}</span>`:''}</span>`}`;
-    return c.bientot?`<div class="chap a-monte" ${d(i,.2,.07)} aria-disabled="true">${dedans}</div>`:`<a class="chap a-monte" ${d(i,.2,.07)} href="#${c.id}">${dedans}</a>`}).join('')}
+    return (c.bientot?`<div class="chap a-monte" ${d(i,.2,.07)} aria-disabled="true">${dedans}</div>`:`<a class="chap a-monte" ${d(i,.2,.07)} href="#${c.id}">${dedans}</a>`)+verrousApres(n,c.id)}).join('')}
   </div>
  </div>`,()=>{const F=FRACTALES[n.id]||FRACTALES['6e'];lancer('fractale',F[0],F[1])},{pied:piedAscension(n.id)});
 }
