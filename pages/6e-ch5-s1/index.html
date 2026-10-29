@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 1 — Le cercle et son vocabulaire</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<style>
+/* Base commune Leçon 4 — titres condensés, texte Work Sans, nombres Space Mono ; ambre = action, vert = juste, rouge = faux */
+:root{
+  --bg:#f6f5f1; --panel:#ffffff; --paper:#ffffff; --ink:#221d12; --muted:#6d6656; --line:#cfc8b6; --grid:#ddd6c4;
+  --amber:#e8a400; --amber-ink:#8a5d00; --fill:#f5b81c; --fill-2:#fbe3a1; --on-amber:#1b1404;
+  --ok:#1f9a55; --ok-bg:#e3f5ea; --ko:#d23c3c; --ko-bg:#fbe7e7;
+  --blue:#2463d6; --blue-bg:#e6eefc; --magenta:#c0287f; --magenta-bg:#fbe6f2; --teal:#0e8f88; --teal-bg:#dff4f2;
+  --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16140f; --panel:#201d16; --paper:#2a261d; --ink:#f3eddf; --muted:#aaa18c; --line:#4a4334; --grid:#3d3729;
+  --amber:#f2b52a; --amber-ink:#f6c95a; --fill:#e9a90f; --fill-2:#5a4515; --on-amber:#1b1404;
+  --ok:#3fcf7d; --ok-bg:#163524; --ko:#ff6b6b; --ko-bg:#3d1a1a;
+  --blue:#6c9cff; --blue-bg:#1a2742; --magenta:#f06bc0; --magenta-bg:#3a1830; --teal:#3fd6cc; --teal-bg:#123634; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#16140f; --panel:#201d16; --paper:#2a261d; --ink:#f3eddf; --muted:#aaa18c; --line:#4a4334; --grid:#3d3729;
+  --amber:#f2b52a; --amber-ink:#f6c95a; --fill:#e9a90f; --fill-2:#5a4515; --on-amber:#1b1404;
+  --ok:#3fcf7d; --ok-bg:#163524; --ko:#ff6b6b; --ko-bg:#3d1a1a;
+  --blue:#6c9cff; --blue-bg:#1a2742; --magenta:#f06bc0; --magenta-bg:#3a1830; --teal:#3fd6cc; --teal-bg:#123634; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--f-text);padding-inline:16px;padding-block:16px 40px;margin:0}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+h1{font:800 clamp(2.1rem,7vw,3.5rem)/.9 var(--f-title);letter-spacing:.01em;margin:0;text-transform:uppercase;text-wrap:balance}
+h1 span{color:var(--amber)}
+h2{font:800 clamp(1.4rem,4.5vw,2rem)/1.05 var(--f-title);text-transform:uppercase;letter-spacing:.02em;margin:0;text-wrap:balance}
+.sub{margin:6px 0 0;color:var(--muted);font-size:.95rem;max-width:70ch}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:2px solid var(--line)}
+.tabs button{font:700 1.1rem var(--f-title);letter-spacing:.06em;text-transform:uppercase;background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;border-bottom:4px solid transparent;margin-bottom:-2px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--amber)}
+@media (max-width:440px){.tabs button{padding:8px 8px;font-size:1rem}}
+.seg{display:inline-flex;flex-wrap:wrap;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.seg button{font:600 .9rem var(--f-text);background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;min-height:40px}
+.seg button[aria-pressed="true"]{background:var(--amber);color:var(--on-amber)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:8px 14px;cursor:pointer;min-height:42px}
+.btn:hover{border-color:var(--amber)}
+.btn.main{background:var(--amber);border-color:var(--amber);color:var(--on-amber)}
+.btn:disabled{opacity:.45;cursor:default}
+button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:14px 16px}
+.hint{color:var(--muted);font-size:.9rem;margin:0}
+.recit{margin:0;padding:12px 16px;background:var(--panel);border-left:4px solid var(--amber);border-radius:0 8px 8px 0;max-width:75ch}
+.num{font-family:var(--f-num);font-weight:700}
+.fr{display:inline-flex;flex-direction:column;align-items:center;font:700 1em var(--f-num);line-height:1.05;vertical-align:middle}
+.fr>span:first-child{border-bottom:.09em solid currentColor;padding:0 .15em}
+.msg{min-height:1.5em;font-weight:600;margin:0}
+.msg.ok{color:var(--ok)}.msg.ko{color:var(--ko)}
+input.ans{font:700 1.25rem var(--f-num);text-align:center;border:2px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:6px 4px;width:6em;max-width:100%}
+input.ans:focus{outline:none;border-color:var(--amber)}
+input.ans.ok{border-color:var(--ok);background:var(--ok-bg)}
+input.ans.ko{border-color:var(--ko);background:var(--ko-bg)}
+.lvl{font:600 .85rem var(--f-text);color:var(--muted)}
+/* équipes */
+.teams{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.teams{grid-template-columns:minmax(0,1fr)}}
+.team{border:2px solid var(--tc);border-radius:12px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column}
+.team.t0{--tc:var(--blue);--tb:var(--blue-bg)}.team.t1{--tc:var(--magenta);--tb:var(--magenta-bg)}.team.t2{--tc:var(--teal);--tb:var(--teal-bg)}
+.team .th{background:var(--tb);display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px}
+.team .tn{font:800 1.3rem var(--f-title);text-transform:uppercase;letter-spacing:.05em;color:var(--tc)}
+.team .ts{font:700 1.5rem var(--f-num);color:var(--tc)}
+.team .tb{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.team .draw{display:flex;align-items:center;gap:10px}
+.team .draw button{font:600 .85rem var(--f-text);border:2px solid var(--tc);color:var(--tc);background:none;border-radius:8px;padding:6px 10px;cursor:pointer;min-height:38px}
+.team .who{font:700 1.4rem var(--f-num);color:var(--tc);min-width:2ch}
+.team.turn{box-shadow:0 0 0 4px var(--tc)}
+.team.win{animation:pop .5s}
+.team .res{font-weight:600;min-height:1.4em}
+.team .res.ok{color:var(--ok)}.team .res.ko{color:var(--ko)}
+@keyframes pop{50%{transform:scale(1.04)}}
+.settings{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:.85rem;color:var(--muted)}
+.settings input{width:4em;font:700 .95rem var(--f-num);border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:3px 6px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.team .slot:empty,.team .res:empty{display:none}
+.teams.compact{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.teams.compact .th{flex-direction:column;align-items:flex-start;gap:0;padding:6px 10px}
+.teams.compact .tn{font-size:1.05rem}
+.teams.compact .ts{font-size:1.3rem}
+.teams.compact .tb{padding:6px 10px}
+.teams.compact .draw{flex-wrap:wrap;gap:4px 8px}
+.teams.compact .draw button{padding:4px 8px;min-height:32px;font-size:.8rem}
+.teams.compact .who{font-size:1.1rem}
+@media (max-width:420px){.teams.compact .tn{font-size:.9rem;letter-spacing:.02em}}
+.pane{display:flex;flex-direction:column;gap:16px;min-width:0}
+.grp{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:100%}
+</style>
+<script>
+window.L4=(function(){
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const f=(n,d)=>`<span class="fr"><span>${n}</span><span>${d}</span></span>`;
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+/* nombre en écriture française, sans zéros inutiles (dp = nb max de décimales) */
+const fmt=(x,dp=3)=>{let s=(Math.round(x*10**dp)/10**dp).toFixed(dp);if(s.includes('.'))s=s.replace(/0+$/,'').replace(/\.$/,'');const [a,b]=s.split('.');return a.replace(/\B(?=(\d{3})+(?!\d))/g,' ')+(b?','+b:'');};
+const fmt2=x=>(Math.round(x*100)/100).toFixed(2).replace('.',',');
+/* lecture d'une réponse : "3,5" "3.5" "35/100" "35 %" "1 + 3/10" ; NaN si illisible */
+function parse(v){
+  if(v==null)return NaN;v=String(v).trim().replace(/\s+/g,'').replace(/%$/,'');
+  if(!v)return NaN;
+  if(v.includes('+'))return v.split('+').reduce((s,p)=>s+parse(p),0);
+  const m=v.match(/^(\d+(?:[.,]\d+)?)\/(\d+(?:[.,]\d+)?)$/);
+  if(m){const d=+m[2].replace(',','.');return d?(+m[1].replace(',','.'))/d:NaN;}
+  if(!/^-?\d+(?:[.,]\d+)?$/.test(v)&&!/^-?[.,]\d+$/.test(v))return NaN;
+  return +v.replace(',','.');
+}
+const same=(a,b)=>Math.abs(a-b)<1e-9;
+const store={get(k,d){try{const v=localStorage.getItem('l4.'+k);return v==null?d:JSON.parse(v);}catch(e){return d;}},
+             set(k,v){try{localStorage.setItem('l4.'+k,JSON.stringify(v));}catch(e){}}};
+/* onglets simples : <nav class="tabs"><button data-tab="x"> + éléments [data-pane="x"] */
+function tabs(nav,onChange){
+  nav.setAttribute('role','tablist');
+  const go=t=>{$$('[data-tab]',nav).forEach(b=>{b.setAttribute('role','tab');b.setAttribute('aria-selected',b.dataset.tab===t);});
+    $$('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!==t);onChange&&onChange(t);};
+  nav.addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)go(b.dataset.tab);});
+  return go;
+}
+/* contrôle segmenté : boutons [data-v] */
+function seg(el,onChange,init){
+  const set=v=>{$$('[data-v]',el).forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===String(v)));onChange&&onChange(v);};
+  el.addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(b)set(b.dataset.v);});
+  if(init!=null)set(init);return set;
+}
+/* ---- trois équipes : bleu, magenta, turquoise, tirage au sort d'un élève ---- */
+const TEAMS=['Bleus','Magentas','Turquoises'];
+function Teams(el,opt={}){
+  let size=store.get('teamSize',9);
+  const T=TEAMS.map((n,i)=>({i,name:n,score:0,pool:[],who:null}));
+  let turn=null;
+  el.classList.add('teams');if(opt.compact)el.classList.add('compact');
+  el.innerHTML=T.map(t=>`<section class="team t${t.i}" data-team="${t.i}">
+    <div class="th"><span class="tn">${t.name}</span><span class="ts" aria-label="score">0</span></div>
+    <div class="tb"><div class="draw"><button type="button" data-drawbtn>${opt.compact?'Tirer':'Tirer un élève'}</button><span class="who" aria-live="polite"></span></div>
+    <div class="slot"></div><div class="res" aria-live="polite"></div></div></section>`).join('');
+  const box=i=>el.querySelector(`[data-team="${i}"]`);
+  function refill(t){t.pool=shuffle(Array.from({length:size},(_,k)=>k+1));}
+  function draw(i){
+    const t=T[i];if(!t.pool.length)refill(t);
+    const n=t.pool.pop(),w=box(i).querySelector('.who');
+    const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce){w.textContent='n°'+n;return;}
+    let k=0;const iv=setInterval(()=>{w.textContent='n°'+rnd(1,size);if(++k>9){clearInterval(iv);w.textContent='n°'+n;}},55);
+  }
+  el.addEventListener('click',e=>{const b=e.target.closest('[data-drawbtn]');if(b)draw(+b.closest('[data-team]').dataset.team);});
+  const api={
+    slot:i=>box(i).querySelector('.slot'),
+    res(i,txt,ok){const r=box(i).querySelector('.res');r.textContent=txt||'';r.className='res'+(ok===true?' ok':ok===false?' ko':'');},
+    add(i,p=1){T[i].score+=p;box(i).querySelector('.ts').textContent=T[i].score;if(p>0){const b=box(i);b.classList.remove('win');void b.offsetWidth;b.classList.add('win');}},
+    setTurn(i){turn=i;T.forEach(t=>box(t.i).classList.toggle('turn',t.i===i));},
+    nextTurn(){api.setTurn(turn==null?0:(turn+1)%3);return turn;},
+    get turn(){return turn;},
+    scores:()=>T.map(t=>t.score),
+    reset(){T.forEach(t=>{t.score=0;box(t.i).querySelector('.ts').textContent=0;api.res(t.i,'');});},
+    clearWho(){T.forEach(t=>box(t.i).querySelector('.who').textContent='');},
+    name:i=>T[i].name,
+    settings(container){
+      container.innerHTML=`<label class="settings">Élèves par équipe <input type="number" id="teamsize" min="2" max="15" value="${size}"></label>`;
+      container.querySelector('input').addEventListener('change',e=>{size=Math.max(2,Math.min(15,+e.target.value||9));store.set('teamSize',size);T.forEach(refill);});
+    }
+  };
+  T.forEach(refill);
+  return api;
+}
+/* petit carré dessiné en SVG : n parts coloriées sur u (10 = bandes, 100 = quadrillage), plusieurs carrés si besoin */
+function squaresSVG(t,u,size=60){
+  const n=Math.max(1,Math.ceil(t/u)),gap=6,W=n*size+(n-1)*gap;
+  let s=`<svg viewBox="-1 -1 ${W+2} ${size+2}" width="${W+2}" height="${size+2}" role="img" aria-label="carré colorié">`;
+  for(let k=0;k<n;k++){const x0=k*(size+gap);
+    s+=`<rect x="${x0}" y="0" width="${size}" height="${size}" fill="var(--paper)"/>`;
+    const c=size/10;
+    for(let j=0;j<u;j++){const idx=k*u+j;if(idx>=t)break;
+      if(u===10)s+=`<rect x="${x0}" y="${j*c}" width="${size}" height="${c}" fill="var(--fill)"/>`;
+      else s+=`<rect x="${x0+(j%10)*c}" y="${Math.floor(j/10)*c}" width="${c}" height="${c}" fill="var(--fill)"/>`;}
+    for(let j=1;j<10;j++){s+=`<line x1="${x0}" x2="${x0+size}" y1="${j*c}" y2="${j*c}" stroke="var(--grid)" stroke-width="1"/>`;
+      if(u===100)s+=`<line y1="0" y2="${size}" x1="${x0+j*c}" x2="${x0+j*c}" stroke="var(--grid)" stroke-width="1"/>`;}
+    s+=`<rect x="${x0}" y="0" width="${size}" height="${size}" fill="none" stroke="var(--ink)" stroke-width="1.5"/>`;}
+  return s+'</svg>';
+}
+return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squaresSVG};
+})();
+</script>
+<style>
+/* ---- mise en page commune des séances du chapitre 5 (même esprit que la leçon 4) ---- */
+.ex{display:flex;flex-direction:column;gap:12px;padding-top:8px;border-top:2px solid var(--line)}
+.ex-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px}
+.ex-h h2 small{font:600 .9rem var(--f-text);text-transform:none;letter-spacing:0;color:var(--muted);margin-left:.4em}
+.consigne{margin:0;max-width:75ch}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.how .panel{display:flex;gap:10px;align-items:flex-start}
+.how .n{font:800 1.6rem/1 var(--f-title);color:var(--amber)}
+.how p{margin:0}
+.fig{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:8px;display:flex;justify-content:center}
+.fig svg{display:block;width:100%;height:auto;max-width:760px}
+.fig.sm svg{max-width:520px}
+.fig.plane svg{cursor:crosshair;touch-action:manipulation}
+.ex:not(.show) .sol{display:none}
+.ex.show .q{display:none}
+.s{color:var(--ok);font-weight:600}
+.qs{margin:0;padding-left:1.5em;display:flex;flex-direction:column;gap:8px;max-width:75ch}
+.qs li::marker{font-weight:700;color:var(--amber-ink)}
+.qs.dec{list-style:decimal}
+.qs .sol{display:block}
+.vf{font-weight:700}
+.vf.t{color:var(--ok)}.vf.f{color:var(--ko)}
+table.tb{border-collapse:collapse;font:600 1.1rem var(--f-text);background:var(--panel);max-width:100%}
+.tb th,.tb td{border:2px solid var(--line);padding:8px 18px;text-align:center}
+.tb th{font:800 1.05rem var(--f-title);text-transform:uppercase;letter-spacing:.05em;background:var(--fill-2)}
+.tb td.l{text-align:left;font-weight:700}
+.tb .q{color:var(--amber-ink);font:700 1.3rem var(--f-num)}
+.tb .sol{color:var(--ok);font:700 1.1rem var(--f-num)}
+.arcn{display:inline-block;position:relative;padding-top:.3em;line-height:1}
+.arcn::before{content:"";position:absolute;left:.04em;right:.04em;top:0;height:.3em;border:2px solid currentColor;border-bottom:0;border-radius:50% 50% 0 0/100% 100% 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:700 .95rem var(--f-title);text-transform:uppercase;letter-spacing:.06em;padding:4px 12px;border-radius:999px;border:2px solid var(--line);color:var(--muted);background:var(--panel)}
+.chip.on,.ex.show .chip.legend{border-color:var(--bc);color:var(--ink);background:var(--bb)}
+.chip[data-k=rayon]{--bc:var(--blue);--bb:var(--blue-bg)}
+.chip[data-k=diam]{--bc:var(--magenta);--bb:var(--magenta-bg)}
+.chip[data-k=corde]{--bc:var(--teal);--bb:var(--teal-bg)}
+.chip[data-k=arc]{--bc:var(--amber);--bb:var(--fill-2)}
+.chip[data-k=demi]{--bc:var(--ok);--bb:var(--ok-bg)}
+.chip[data-k=dans]{--bc:var(--ok);--bb:var(--ok-bg)}
+.chip[data-k=sur]{--bc:var(--amber);--bb:var(--fill-2)}
+.chip[data-k=hors]{--bc:var(--ko);--bb:var(--ko-bg)}
+.next{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+a.btn{text-decoration:none;display:inline-flex;align-items:center}
+
+</style>
+<style>
+.plane-info{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.plane-info .num{font-size:1.1rem}
+.recit.k-rayon{border-left-color:var(--blue)}
+.recit.k-diam{border-left-color:var(--magenta)}
+.recit.k-corde{border-left-color:var(--teal)}
+.recit.k-arc{border-left-color:var(--amber)}
+.recit.k-demi{border-left-color:var(--ok)}
+#atsvg [data-p]{cursor:pointer}
+#atsvg [data-p]:focus-visible{outline:none;stroke:var(--amber);stroke-width:3}
+#cp{transition:stroke-dashoffset 1.8s ease-in-out}
+</style>
+<div class="wrap">
+  <header class="top">
+    <div><h1>Le cercle et son <span>vocabulaire</span></h1>
+    <p class="sub">Chapitre 5, séance 1. Compas, cahier et vidéoprojecteur, environ 50 min. On découvre ce qu'est un cercle, puis on apprend à nommer ses éléments.</p></div>
+  </header>
+
+  <div class="how">
+    <div class="panel"><span class="n">1</span><p><b>Activité</b> (≈ 12 min). On place des points à 4 cm d'un point O. Que remarque-t-on ?</p></div>
+    <div class="panel"><span class="n">2</span><p><b>Atelier</b> (≈ 13 min). On clique sur des points : le site donne le nom du segment ou de l'arc, et sa longueur.</p></div>
+    <div class="panel"><span class="n">3</span><p><b>Exercices</b> (≈ 20 min). Dans ton cahier, sans recopier les énoncés. Vérifie avec le bouton « Correction ».</p></div>
+  </div>
+
+  <!-- ================= ACTIVITÉ DE DÉCOUVERTE ================= -->
+  <section class="ex" id="act">
+    <div class="ex-h"><h2>Activité <small>des points à 4 cm de O</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Sur la page, 1 cm est représenté par un carreau. On veut placer des points qui sont <b>tous à 4 cm du point O</b>. Où peuvent-ils se trouver ? Regarde-les apparaître, puis essaie de les placer toi-même.</p>
+    <div class="row">
+      <span class="grp"><span class="lvl">Mode</span>
+      <div class="seg" id="pmode"><button data-v="hasard">Au hasard</button><button data-v="toi">À toi de placer</button></div></span>
+      <button class="btn main" id="padd">Placer un point à 4 cm</button>
+      <button class="btn" id="pmore">+ 20 points</button>
+      <button class="btn" id="pcomp">Tracer au compas</button>
+      <button class="btn" id="pclear">Effacer</button>
+    </div>
+    <div class="fig plane" id="plane"></div>
+    <p class="msg" id="pmsg" aria-live="polite"></p>
+    <p class="consigne">Dans ton cahier, complète : « Tous les points situés à 4 cm de O sont placés sur … ».</p>
+    <p class="recit sol"><b>Le cercle de centre O et de rayon 4 cm</b> est l'ensemble de tous les points situés à 4 cm de O. Pour le tracer au compas, on pique la pointe en O et on règle l'écartement à 4 cm.</p>
+  </section>
+
+  <!-- ================= ATELIER ================= -->
+  <section class="ex" id="atel">
+    <div class="ex-h"><h2>Atelier <small>rayon, diamètre, corde, arc</small></h2></div>
+    <p class="consigne">Ce cercle a pour centre O et pour rayon 3 cm. Clique sur deux points : le segment s'affiche avec son nom. Trouve <b>un rayon</b>, <b>une corde</b> et <b>un diamètre</b>, puis passe en mode « Arcs ».</p>
+    <div class="row">
+      <span class="grp"><span class="lvl">Mode</span>
+      <div class="seg" id="amode"><button data-v="seg">Segments</button><button data-v="arc">Arcs</button></div></span>
+      <div class="chips" id="achips" aria-label="ce que tu as trouvé">
+        <span class="chip" data-k="rayon">rayon</span><span class="chip" data-k="corde">corde</span><span class="chip" data-k="diam">diamètre</span><span class="chip" data-k="arc">arc</span><span class="chip" data-k="demi">demi-cercle</span>
+      </div>
+    </div>
+    <div class="fig sm" id="atfig"></div>
+    <p class="recit" id="atmsg" aria-live="polite">Clique sur un premier point (O ou une lettre), puis sur un deuxième.</p>
+  </section>
+
+  <!-- ================= EXERCICES ================= -->
+  <section class="ex" id="ex1">
+    <div class="ex-h"><h2>Exercice 1 <small>les noms des éléments</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Observe la figure et réponds dans ton cahier.</p>
+    <div class="fig sm" id="f1"></div>
+    <div class="chips sol"><span class="chip legend" data-k="rayon">rayon</span><span class="chip legend" data-k="diam">diamètre</span><span class="chip legend" data-k="corde">corde</span></div>
+    <ol class="qs" type="a">
+      <li>Quel est le centre du cercle ?<span class="sol s">Le centre est le point O.</span></li>
+      <li>Nomme trois rayons.<span class="sol s">[OA], [OB] et [OC]. Tout segment qui relie O à un point du cercle est un rayon.</span></li>
+      <li>Nomme un diamètre.<span class="sol s">[BC] est un diamètre : il passe par le centre O et ses deux extrémités sont sur le cercle.</span></li>
+      <li>Nomme deux cordes qui ne sont pas des diamètres.<span class="sol s">[DE] et [FG].</span></li>
+      <li>Pourquoi [DE] n'est-il pas un diamètre ?<span class="sol s">Parce qu'il ne passe pas par le centre O.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex2">
+    <div class="ex-h"><h2>Exercice 2 <small>du rayon au diamètre</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Complète chaque ligne dans ton cahier. Rappel : le diamètre est le <b>double</b> du rayon.</p>
+    <div style="overflow-x:auto"><table class="tb" id="t2"></table></div>
+  </section>
+
+  <section class="ex" id="ex3">
+    <div class="ex-h"><h2>Exercice 3 <small>vrai ou faux ?</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Écris « Vrai » ou « Faux » dans ton cahier. Quand c'est faux, dis pourquoi.</p>
+    <ol class="qs dec" id="vf"></ol>
+  </section>
+
+  <section class="ex" id="ex4">
+    <div class="ex-h"><h2>Exercice 4 <small>les deux arcs</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Deux points d'un cercle le partagent en <b>deux arcs</b>. Ici, les points A et B partagent le cercle en deux arcs.</p>
+    <div class="fig sm" id="f4"></div>
+    <ol class="qs" type="a">
+      <li>Quels points se trouvent sur le plus petit des deux arcs ? Et sur le plus grand ?<span class="sol s">Sur le petit arc (en trait épais) : D. Sur le grand arc (en pointillés) : E, C et F.</span></li>
+      <li>[AB] est-il un diamètre ? Justifie.<span class="sol s">Non : [AB] ne passe pas par le centre O.</span></li>
+      <li>Si [AB] était un diamètre, que dire des deux arcs ?<span class="sol s">Ils auraient la même longueur : ce seraient deux demi-cercles.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex5">
+    <div class="ex-h"><h2>Exercice 5 <small>construction au compas</small></h2><button class="btn" data-sol>Correction</button></div>
+    <ol class="qs dec">
+      <li>Trace un cercle de centre O et de rayon 3 cm.</li>
+      <li>Place un point A sur le cercle, puis trace le rayon [OA].</li>
+      <li>Trace le diamètre [AB].</li>
+      <li>Place un point C sur le cercle, puis trace la corde [BC].</li>
+      <li>Mesure OA, OB et AB. Que remarques-tu ?</li>
+      <li>Repasse en rouge l'arc AC qui ne contient pas le point B.</li>
+    </ol>
+    <div class="fig sm sol" id="f5"></div>
+    <p class="sol s">OA = OB = 3 cm, car A et B sont sur le cercle de centre O et de rayon 3 cm. AB = 6 cm, c'est le double du rayon.</p>
+  </section>
+
+  <section class="ex" id="ex6">
+    <div class="ex-h"><h2>Défi <small>la plus longue corde</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Un cercle a pour rayon 3,5 cm. Quelle est la plus grande longueur possible pour une corde de ce cercle ? Explique.</p>
+    <p class="recit sol">C'est <b>7 cm</b> : la plus longue corde est un diamètre, et le diamètre est le double du rayon (2 × 3,5 = 7).</p>
+  </section>
+
+  <div class="panel next">
+    <p style="margin:0"><b>Pour finir :</b> le mini-jeu par équipes « Le Cercle et ses noms » (5 min).</p>
+    <a class="btn main" href="../cercle-et-ses-noms/index.html">Lancer le mini-jeu</a>
+  </div>
+</div>
+<script>
+/* ---- petite boîte à outils SVG pour le chapitre 5 (cercle et disque) ---- */
+const GEO=(function(){
+const rad=d=>d*Math.PI/180, n=x=>Math.round(x*100)/100;
+const pol=(cx,cy,r,deg)=>[cx+r*Math.cos(rad(deg)),cy-r*Math.sin(rad(deg))];
+const norm=a=>((a%360)+360)%360;
+function line(x1,y1,x2,y2,col,w,extra){return `<line x1="${n(x1)}" y1="${n(y1)}" x2="${n(x2)}" y2="${n(y2)}" stroke="${col||'var(--ink)'}" stroke-width="${w||3}" stroke-linecap="round" ${extra||''}/>`;}
+function circ(cx,cy,r,o){o=o||{};return `<circle cx="${n(cx)}" cy="${n(cy)}" r="${n(r)}" fill="${o.fill||'none'}" stroke="${o.col===undefined?'var(--ink)':o.col}" stroke-width="${o.w===undefined?3:o.w}" ${o.extra||''}/>`;}
+/* arc de cercle parcouru dans le sens inverse des aiguilles d'une montre, de a1 à a2 (degrés) */
+function arc(cx,cy,r,a1,a2,col,w,extra){const p1=pol(cx,cy,r,a1),p2=pol(cx,cy,r,a2);const d=norm(a2-a1);return `<path d="M${n(p1[0])} ${n(p1[1])} A${n(r)} ${n(r)} 0 ${d>180?1:0} 0 ${n(p2[0])} ${n(p2[1])}" fill="none" stroke="${col}" stroke-width="${w||5}" stroke-linecap="round" ${extra||''}/>`;}
+function cross(x,y,col,s,w){s=s||6;return `<path d="M${n(x-s)} ${n(y-s)}L${n(x+s)} ${n(y+s)}M${n(x-s)} ${n(y+s)}L${n(x+s)} ${n(y-s)}" stroke="${col||'var(--ink)'}" stroke-width="${w||2.4}" fill="none" stroke-linecap="round"/>`;}
+function dot(x,y,r,col){return `<circle cx="${n(x)}" cy="${n(y)}" r="${r||5}" fill="${col||'var(--ink)'}"/>`;}
+function text(x,y,t,o){o=o||{};return `<text x="${n(x)}" y="${n(y)}" text-anchor="${o.anchor||'middle'}" font-family="Space Mono, monospace" font-weight="${o.weight||700}" font-size="${o.size||19}" fill="${o.col||'var(--ink)'}" ${o.halo?'stroke="var(--panel)" stroke-width="6" paint-order="stroke" stroke-linejoin="round"':''} ${o.extra||''}>${t}</text>`;}
+/* étiquette placée autour du cercle de centre (cx,cy), dans la direction deg */
+function lab(cx,cy,r,deg,t,o){o=o||{};const p=pol(cx,cy,r+(o.gap||24),deg);return text(p[0],p[1]+(o.dy===undefined?7:o.dy),t,o);}
+function grid(W,H,step,ox,oy,col){let s='';for(let x=ox%step;x<=W;x+=step)s+=line(x,0,x,H,col||'var(--grid)',1);for(let y=oy%step;y<=H;y+=step)s+=line(0,y,W,y,col||'var(--grid)',1);return s;}
+const fmt1=x=>(Math.round(x*10)/10).toString().replace('.',',');
+return {rad,n,pol,norm,line,circ,arc,cross,dot,text,lab,grid,fmt1};
+})();
+
+document.addEventListener('click',e=>{const b=e.target.closest('[data-sol]');if(!b)return;const s=b.closest('.ex');const on=s.classList.toggle('show');b.textContent=on?'Cacher la correction':'Correction';b.classList.toggle('main',on);b.setAttribute('aria-pressed',on);});
+
+(function(){
+const {$,$$,fmt,store,seg}=L4;
+const G=GEO, SC=50;
+
+/* =============== ACTIVITÉ : des points à 4 cm de O =============== */
+const W=700,H=500,OX=350,OY=250,R4=4*SC;
+let mode=store.get('c5s1mode','hasard'),pts=[],circ=false,animate=false,lastGood=null,timer=null;
+function plane(){
+  let s=`<svg viewBox="0 0 ${W} ${H}" id="plsvg" role="img" aria-label="plan quadrillé avec le point O au centre">`;
+  s+=G.grid(W,H,SC,OX,OY,'var(--grid)');
+  s+=G.line(24,H-22,24+SC,H-22,'var(--ink)',3)+G.text(24+SC/2,H-30,'1 cm',{size:15,col:'var(--muted)'});
+  if(circ){const L=2*Math.PI*R4;s+=`<circle id="cp" cx="${OX}" cy="${OY}" r="${R4}" fill="none" stroke="var(--amber)" stroke-width="4.5" stroke-dasharray="${L.toFixed(1)}" stroke-dashoffset="${animate?L.toFixed(1):0}" transform="rotate(-90 ${OX} ${OY})"/>`;}
+  if(lastGood&&mode==='hasard'){s+=G.line(OX,OY,lastGood.x,lastGood.y,'var(--ink)',2.5,'stroke-dasharray="7 6"')+G.text((OX+lastGood.x)/2+(lastGood.y<OY?14:-14),(OY+lastGood.y)/2+(lastGood.x<OX?-8:16),'4 cm',{size:16,halo:true});}
+  pts.forEach(p=>{
+    if(p.ok)s+=G.dot(p.x,p.y,6.5,'var(--amber)')+`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="6.5" fill="none" stroke="var(--ink)" stroke-width="1.6"/>`;
+    else s+=G.cross(p.x,p.y,'var(--ko)',7,3)+G.text(p.x,p.y-12,G.fmt1(p.d)+' cm',{size:14,col:'var(--ko)',halo:true});
+  });
+  s+=G.cross(OX,OY,'var(--ink)',7,3)+G.text(OX-16,OY-12,'O',{size:22});
+  plane.el.innerHTML=s+'</svg>';
+  if(circ&&animate){const c=$('#cp');requestAnimationFrame(()=>requestAnimationFrame(()=>{c.style.strokeDashoffset=0;}));animate=false;}
+  const sv=$('#plsvg');sv.addEventListener('click',onPlane);
+}
+plane.el=$('#plane');
+function pmsg(t,cls){const m=$('#pmsg');m.textContent=t;m.className='msg'+(cls?' '+cls:'');}
+function status(){
+  const g=pts.filter(p=>p.ok).length,b=pts.length-g;
+  if(!pts.length){pmsg(mode==='hasard'?'Clique sur « Placer un point à 4 cm » : le site place un point au hasard, toujours à 4 cm de O.':'Clique sur le plan pour placer un point à 4 cm de O. Le site mesure la distance OM.');return;}
+  if(mode==='hasard'){pmsg(g+' point'+(g>1?'s':'')+' placé'+(g>1?'s':'')+', tous à 4 cm de O.'+(g>=8?' Que dessinent-ils ?':''),'ok');}
+  else{pmsg(g+' bien placé'+(g>1?'s':'')+(b?', '+b+' raté'+(b>1?'s':''):'')+'. '+(g>=8?'Que dessinent-ils ?':'Il faut OM = 4 cm, à 1 mm près.'),b&&!g?'ko':'ok');}
+}
+function addRandom(){
+  let a,tries=0;
+  do{a=Math.random()*360;tries++;}while(tries<40&&pts.some(p=>{const d=Math.abs(p.a-a);return Math.min(d,360-d)<7;}));
+  const [x,y]=G.pol(OX,OY,R4,a);const p={x,y,a,ok:true,d:4};pts.push(p);lastGood=p;
+}
+function onPlane(e){
+  if(mode!=='toi')return;
+  const sv=$('#plsvg'),r=sv.getBoundingClientRect(),x=(e.clientX-r.left)*W/r.width,y=(e.clientY-r.top)*H/r.height;
+  const d=Math.hypot(x-OX,y-OY)/SC;if(d<0.25)return;
+  const ok=Math.abs(d-4)<=0.1;pts.push({x,y,ok,d});plane();status();
+  if(!ok)pmsg('OM = '+G.fmt1(d)+' cm : '+(d<4?'trop près de O.':'trop loin de O.')+' Essaie encore !','ko');
+}
+$('#padd').addEventListener('click',()=>{addRandom();plane();status();});
+$('#pmore').addEventListener('click',()=>{
+  if(mode!=='hasard')return;clearInterval(timer);let k=0;
+  timer=setInterval(()=>{addRandom();plane();status();if(++k>=20)clearInterval(timer);},70);});
+$('#pcomp').addEventListener('click',()=>{circ=true;animate=true;plane();pmsg('Le compas (pointe en O, écartement 4 cm) trace tous les points à 4 cm de O : c\'est un cercle.','ok');});
+$('#pclear').addEventListener('click',()=>{clearInterval(timer);pts=[];circ=false;lastGood=null;plane();status();});
+seg($('#pmode'),v=>{mode=v;store.set('c5s1mode',v);clearInterval(timer);pts=[];circ=false;lastGood=null;
+  $('#padd').hidden=v!=='hasard';$('#pmore').hidden=v!=='hasard';plane();status();},mode);
+
+/* =============== ATELIER : rayon, diamètre, corde, arc =============== */
+const AC={x:260,y:225,R:150};
+const AP=[['A',20],['B',70],['C',130],['D',160],['E',200],['F',250],['G',310],['H',340]];
+const ANG=Object.fromEntries(AP);
+const pos=p=>p==='O'?[AC.x,AC.y]:G.pol(AC.x,AC.y,AC.R,ANG[p]);
+const KC={rayon:'var(--blue)',diam:'var(--magenta)',corde:'var(--teal)',arc:'var(--amber)',demi:'var(--ok)'};
+let amode=store.get('c5s1amode','seg'),sel=null,res=null;const found=new Set();
+function atelier(){
+  let s=`<svg viewBox="0 0 520 450" id="atsvg" role="img" aria-label="cercle de centre O, de rayon 3 cm, avec huit points A à H">`;
+  s+=G.circ(AC.x,AC.y,AC.R,{w:3.5,fill:'var(--paper)'});
+  if(res){
+    if(res.type==='seg'){const a=pos(res.a),b=pos(res.b);s+=G.line(a[0],a[1],b[0],b[1],KC[res.kind],7);
+      const mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2;s+=G.text(mx,my+(res.kind==='diam'?-12:-10),res.len+' cm',{size:16,halo:true,col:'var(--ink)'});}
+    else{
+      if(res.demi){s+=G.arc(AC.x,AC.y,AC.R,res.s,res.e,KC.demi,8)+G.arc(AC.x,AC.y,AC.R,res.e,res.s,KC.demi,8,'stroke-dasharray="3 14"');}
+      else{s+=G.arc(AC.x,AC.y,AC.R,res.s,res.e,KC.arc,9)+G.arc(AC.x,AC.y,AC.R,res.e,res.s,'var(--muted)',5,'stroke-dasharray="3 12"');}
+    }
+  }
+  AP.forEach(([n,a])=>{const [x,y]=pos(n);s+=G.cross(x,y,'var(--ink)',7,3)+G.lab(AC.x,AC.y,AC.R,a,n,{size:21,gap:26});});
+  s+=G.cross(AC.x,AC.y,'var(--ink)',7,3)+G.text(AC.x-16,AC.y-12,'O',{size:22});
+  const marks=sel?[sel]:[];if(res)marks.push(res.a,res.b);
+  marks.forEach(p=>{const q=pos(p);s+=`<circle cx="${q[0].toFixed(1)}" cy="${q[1].toFixed(1)}" r="15" fill="none" stroke="var(--amber)" stroke-width="3.5" stroke-dasharray="${res?'0':'5 4'}"/>`;});
+  ['O',...AP.map(x=>x[0])].forEach(n=>{const q=pos(n);s+=`<circle data-p="${n}" cx="${q[0].toFixed(1)}" cy="${q[1].toFixed(1)}" r="24" fill="transparent" tabindex="0" role="button" aria-label="point ${n}"/>`;});
+  $('#atfig').innerHTML=s+'</svg>';
+  $$('#atsvg [data-p]').forEach(c=>{c.addEventListener('click',()=>choose(c.dataset.p));c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose(c.dataset.p);}});});
+}
+function info(html,k){const m=$('#atmsg');m.innerHTML=html;m.className='recit'+(k?' k-'+k:'');}
+function chips(){$$('#achips .chip').forEach(c=>c.classList.toggle('on',found.has(c.dataset.k)));}
+function between(p,s,e){const t=G.norm(p-s),L=G.norm(e-s);return t>0&&t<L;}
+function names(list){return list.length?list.join(', '):'aucun autre point';}
+function choose(p){
+  if(amode==='arc'&&p==='O'){info('Pour un arc, choisis deux points <b>du cercle</b> (des lettres).');return;}
+  if(!sel||res){sel=p;res=null;atelier();info('Tu as choisi <b>'+p+'</b>. Choisis un deuxième point.');return;}
+  if(sel===p){sel=null;atelier();info('Point désélectionné. Choisis un premier point.');return;}
+  const a=sel,b=p;sel=null;
+  if(amode==='seg'){
+    if(a==='O'||b==='O'){const q=a==='O'?b:a;res={type:'seg',kind:'rayon',a,b,len:'3'};found.add('rayon');
+      info(`<b>[O${q}]</b> est un <b>rayon</b> : il relie le centre O à un point du cercle. O${q} = 3 cm.`,'rayon');}
+    else{const d=G.norm(ANG[a]-ANG[b]);
+      if(Math.abs(d-180)<0.01){res={type:'seg',kind:'diam',a,b,len:'6'};found.add('diam');
+        info(`<b>[${a}${b}]</b> est un <b>diamètre</b> : c'est une corde qui passe par le centre O. ${a}${b} = 6 cm, le double du rayon.`,'diam');}
+      else{const th=Math.min(d,360-d),len=2*3*Math.sin(G.rad(th)/2);res={type:'seg',kind:'corde',a,b,len:G.fmt1(len)};found.add('corde');
+        info(`<b>[${a}${b}]</b> est une <b>corde</b> : elle relie deux points du cercle mais ne passe pas par O. ${a}${b} ≈ ${G.fmt1(len)} cm, c'est moins que le diamètre.`,'corde');}}
+  }else{
+    const d=G.norm(ANG[b]-ANG[a]);
+    if(Math.abs(d-180)<0.01){res={type:'arc',a,b,s:ANG[a],e:ANG[b],demi:true};found.add('demi');found.add('arc');
+      info(`<b>${a}</b> et <b>${b}</b> sont opposés : [${a}${b}] est un diamètre. Il partage le cercle en <b>deux demi-cercles</b>, deux arcs de même longueur.`,'demi');}
+    else{const s=d<180?ANG[a]:ANG[b],e=d<180?ANG[b]:ANG[a];res={type:'arc',a,b,s,e};found.add('arc');
+      const sh=AP.map(x=>x[0]).filter(n=>n!==a&&n!==b&&between(ANG[n],s,e)),lg=AP.map(x=>x[0]).filter(n=>n!==a&&n!==b&&!between(ANG[n],s,e));
+      info(`${a} et ${b} partagent le cercle en <b>deux arcs</b>. Le plus court (trait épais) se note <span class="arcn">${a}${b}</span> : il contient ${names(sh)}. L'autre (pointillés) contient ${names(lg)}.`,'arc');}
+  }
+  atelier();chips();
+}
+seg($('#amode'),v=>{amode=v;store.set('c5s1amode',v);sel=null;res=null;atelier();info(v==='seg'?'Clique sur un premier point (O ou une lettre), puis sur un deuxième.':'Clique sur deux points du cercle (deux lettres) : le site montre les deux arcs.');},amode);
+
+/* =============== EXERCICES =============== */
+/* ex. 1 */
+(function(){
+  const cx=260,cy=215,R=140,P={A:25,B:160,C:340,D:245,E:295,F:60,G:120};
+  const pp=n=>G.pol(cx,cy,R,P[n]);
+  let s=`<svg viewBox="0 0 520 430" role="img" aria-label="cercle de centre O avec les points A à G">`+G.circ(cx,cy,R,{w:3.5,fill:'var(--paper)'});
+  const seg=(a,b,c,w)=>{const u=a==='O'?[cx,cy]:pp(a),v=pp(b);return G.line(u[0],u[1],v[0],v[1],c,w);};
+  s+=seg('O','A','var(--ink)',3)+seg('B','C','var(--ink)',3)+seg('D','E','var(--ink)',3)+seg('F','G','var(--ink)',3);
+  s+=`<g class="sol">`+seg('O','A','var(--blue)',7)+seg('B','C','var(--magenta)',7)+seg('D','E','var(--teal)',7)+seg('F','G','var(--teal)',7)+`</g>`;
+  Object.keys(P).forEach(n=>{const [x,y]=pp(n);s+=G.cross(x,y,'var(--ink)',6,3)+G.lab(cx,cy,R,P[n],n,{size:21,gap:24});});
+  s+=G.cross(cx,cy,'var(--ink)',6,3)+G.text(cx+4,cy+26,'O',{size:22});
+  $('#f1').innerHTML=s+'</svg>';
+})();
+/* ex. 2 */
+(function(){
+  const rows=[['r','3 cm','6 cm'],['r','4,5 cm','9 cm'],['d','10 cm','5 cm'],['d','7 cm','3,5 cm'],['r','12 mm','24 mm'],['d','2,6 m','1,3 m']];
+  const ph=(g,a)=>`<span class="q">?</span><span class="sol">${a}</span>`;
+  $('#t2').innerHTML='<tr><th>Rayon</th><th>Diamètre</th></tr>'+rows.map(([k,g,a])=>k==='r'?`<tr><td class="num">${g}</td><td>${ph(g,a)}</td></tr>`:`<tr><td>${ph(g,a)}</td><td class="num">${g}</td></tr>`).join('');
+})();
+/* ex. 3 */
+(function(){
+  const V=[
+   ['Un diamètre est une corde.',true,'C\'est une corde particulière : elle passe par le centre.'],
+   ['Une corde est toujours un diamètre.',false,'Une corde ne passe pas forcément par le centre.'],
+   ['Un rayon est une corde.',false,'Une extrémité d\'un rayon est le centre, qui n\'est pas sur le cercle.'],
+   ['Tous les rayons d\'un même cercle ont la même longueur.',true,'Tous les points du cercle sont à la même distance du centre.'],
+   ['Un cercle de rayon 5 cm a un diamètre de 5 cm.',false,'Le diamètre est le double du rayon : 2 × 5 = 10 cm.'],
+   ['Le diamètre est la plus longue corde d\'un cercle.',true,'Aucune corde n\'est plus longue qu\'un diamètre.']];
+  $('#vf').innerHTML=V.map(([t,v,j])=>`<li>${t}<span class="sol"><span class="vf ${v?'t':'f'}">${v?'Vrai.':'Faux.'}</span> <span class="s">${j}</span></span></li>`).join('');
+})();
+/* ex. 4 */
+(function(){
+  const cx=260,cy=215,R=130,P={A:150,B:30,D:90,E:210,C:270,F:330};
+  const pp=n=>G.pol(cx,cy,R,P[n]);
+  let s=`<svg viewBox="0 0 520 430" role="img" aria-label="cercle de centre O avec les points A, B, C, D, E et F">`+G.circ(cx,cy,R,{w:3.5,fill:'var(--paper)'});
+  s+=`<g class="sol">`+G.arc(cx,cy,R,30,150,'var(--amber)',9)+G.arc(cx,cy,R,150,390,'var(--muted)',5,'stroke-dasharray="3 12"')+`</g>`;
+  const a=pp('A'),b=pp('B');s+=G.line(a[0],a[1],b[0],b[1],'var(--ink)',3);
+  Object.keys(P).forEach(n=>{const [x,y]=pp(n);s+=G.cross(x,y,'var(--ink)',6,3)+G.lab(cx,cy,R,P[n],n,{size:21,gap:24});});
+  s+=G.cross(cx,cy,'var(--ink)',6,3)+G.text(cx+4,cy+26,'O',{size:22});
+  $('#f4').innerHTML=s+'</svg>';
+})();
+/* ex. 5 */
+(function(){
+  const cx=260,cy=210,R=150,A=160,B=340,C=70;
+  const pA=G.pol(cx,cy,R,A),pB=G.pol(cx,cy,R,B),pC=G.pol(cx,cy,R,C);
+  let s=`<svg viewBox="0 0 520 420" role="img" aria-label="figure modèle : cercle, rayon OA, diamètre AB, corde BC">`+G.circ(cx,cy,R,{w:3.5,fill:'var(--paper)'});
+  s+=G.arc(cx,cy,R,C,A,'var(--ko)',8);
+  s+=G.line(cx,cy,pA[0],pA[1],'var(--blue)',4)+G.line(pA[0],pA[1],pB[0],pB[1],'var(--magenta)',4)+G.line(pB[0],pB[1],pC[0],pC[1],'var(--teal)',4);
+  [['A',pA,A],['B',pB,B],['C',pC,C]].forEach(([n,p,a])=>{s+=G.cross(p[0],p[1],'var(--ink)',6,3)+G.lab(cx,cy,R,a,n,{size:21,gap:24});});
+  s+=G.cross(cx,cy,'var(--ink)',6,3)+G.text(cx+4,cy+26,'O',{size:22});
+  s+=G.text(cx,cy+R+44,'figure à l\'échelle 1 : rayon 3 cm',{size:14,col:'var(--muted)',weight:400});
+  $('#f5').innerHTML=s+'</svg>';
+})();
+/* mise en route */
+$('#padd').hidden=mode!=='hasard';$('#pmore').hidden=mode!=='hasard';
+plane();status();atelier();chips();
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>

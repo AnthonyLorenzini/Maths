@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 2 — Le disque : dedans, dessus, dehors</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<style>
+/* Base commune Leçon 4 — titres condensés, texte Work Sans, nombres Space Mono ; ambre = action, vert = juste, rouge = faux */
+:root{
+  --bg:#f6f5f1; --panel:#ffffff; --paper:#ffffff; --ink:#221d12; --muted:#6d6656; --line:#cfc8b6; --grid:#ddd6c4;
+  --amber:#e8a400; --amber-ink:#8a5d00; --fill:#f5b81c; --fill-2:#fbe3a1; --on-amber:#1b1404;
+  --ok:#1f9a55; --ok-bg:#e3f5ea; --ko:#d23c3c; --ko-bg:#fbe7e7;
+  --blue:#2463d6; --blue-bg:#e6eefc; --magenta:#c0287f; --magenta-bg:#fbe6f2; --teal:#0e8f88; --teal-bg:#dff4f2;
+  --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16140f; --panel:#201d16; --paper:#2a261d; --ink:#f3eddf; --muted:#aaa18c; --line:#4a4334; --grid:#3d3729;
+  --amber:#f2b52a; --amber-ink:#f6c95a; --fill:#e9a90f; --fill-2:#5a4515; --on-amber:#1b1404;
+  --ok:#3fcf7d; --ok-bg:#163524; --ko:#ff6b6b; --ko-bg:#3d1a1a;
+  --blue:#6c9cff; --blue-bg:#1a2742; --magenta:#f06bc0; --magenta-bg:#3a1830; --teal:#3fd6cc; --teal-bg:#123634; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#16140f; --panel:#201d16; --paper:#2a261d; --ink:#f3eddf; --muted:#aaa18c; --line:#4a4334; --grid:#3d3729;
+  --amber:#f2b52a; --amber-ink:#f6c95a; --fill:#e9a90f; --fill-2:#5a4515; --on-amber:#1b1404;
+  --ok:#3fcf7d; --ok-bg:#163524; --ko:#ff6b6b; --ko-bg:#3d1a1a;
+  --blue:#6c9cff; --blue-bg:#1a2742; --magenta:#f06bc0; --magenta-bg:#3a1830; --teal:#3fd6cc; --teal-bg:#123634; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--f-text);padding-inline:16px;padding-block:16px 40px;margin:0}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+h1{font:800 clamp(2.1rem,7vw,3.5rem)/.9 var(--f-title);letter-spacing:.01em;margin:0;text-transform:uppercase;text-wrap:balance}
+h1 span{color:var(--amber)}
+h2{font:800 clamp(1.4rem,4.5vw,2rem)/1.05 var(--f-title);text-transform:uppercase;letter-spacing:.02em;margin:0;text-wrap:balance}
+.sub{margin:6px 0 0;color:var(--muted);font-size:.95rem;max-width:70ch}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:2px solid var(--line)}
+.tabs button{font:700 1.1rem var(--f-title);letter-spacing:.06em;text-transform:uppercase;background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;border-bottom:4px solid transparent;margin-bottom:-2px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--amber)}
+@media (max-width:440px){.tabs button{padding:8px 8px;font-size:1rem}}
+.seg{display:inline-flex;flex-wrap:wrap;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.seg button{font:600 .9rem var(--f-text);background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;min-height:40px}
+.seg button[aria-pressed="true"]{background:var(--amber);color:var(--on-amber)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:8px 14px;cursor:pointer;min-height:42px}
+.btn:hover{border-color:var(--amber)}
+.btn.main{background:var(--amber);border-color:var(--amber);color:var(--on-amber)}
+.btn:disabled{opacity:.45;cursor:default}
+button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:14px 16px}
+.hint{color:var(--muted);font-size:.9rem;margin:0}
+.recit{margin:0;padding:12px 16px;background:var(--panel);border-left:4px solid var(--amber);border-radius:0 8px 8px 0;max-width:75ch}
+.num{font-family:var(--f-num);font-weight:700}
+.fr{display:inline-flex;flex-direction:column;align-items:center;font:700 1em var(--f-num);line-height:1.05;vertical-align:middle}
+.fr>span:first-child{border-bottom:.09em solid currentColor;padding:0 .15em}
+.msg{min-height:1.5em;font-weight:600;margin:0}
+.msg.ok{color:var(--ok)}.msg.ko{color:var(--ko)}
+input.ans{font:700 1.25rem var(--f-num);text-align:center;border:2px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:6px 4px;width:6em;max-width:100%}
+input.ans:focus{outline:none;border-color:var(--amber)}
+input.ans.ok{border-color:var(--ok);background:var(--ok-bg)}
+input.ans.ko{border-color:var(--ko);background:var(--ko-bg)}
+.lvl{font:600 .85rem var(--f-text);color:var(--muted)}
+/* équipes */
+.teams{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.teams{grid-template-columns:minmax(0,1fr)}}
+.team{border:2px solid var(--tc);border-radius:12px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column}
+.team.t0{--tc:var(--blue);--tb:var(--blue-bg)}.team.t1{--tc:var(--magenta);--tb:var(--magenta-bg)}.team.t2{--tc:var(--teal);--tb:var(--teal-bg)}
+.team .th{background:var(--tb);display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px}
+.team .tn{font:800 1.3rem var(--f-title);text-transform:uppercase;letter-spacing:.05em;color:var(--tc)}
+.team .ts{font:700 1.5rem var(--f-num);color:var(--tc)}
+.team .tb{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.team .draw{display:flex;align-items:center;gap:10px}
+.team .draw button{font:600 .85rem var(--f-text);border:2px solid var(--tc);color:var(--tc);background:none;border-radius:8px;padding:6px 10px;cursor:pointer;min-height:38px}
+.team .who{font:700 1.4rem var(--f-num);color:var(--tc);min-width:2ch}
+.team.turn{box-shadow:0 0 0 4px var(--tc)}
+.team.win{animation:pop .5s}
+.team .res{font-weight:600;min-height:1.4em}
+.team .res.ok{color:var(--ok)}.team .res.ko{color:var(--ko)}
+@keyframes pop{50%{transform:scale(1.04)}}
+.settings{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:.85rem;color:var(--muted)}
+.settings input{width:4em;font:700 .95rem var(--f-num);border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:3px 6px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.team .slot:empty,.team .res:empty{display:none}
+.teams.compact{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.teams.compact .th{flex-direction:column;align-items:flex-start;gap:0;padding:6px 10px}
+.teams.compact .tn{font-size:1.05rem}
+.teams.compact .ts{font-size:1.3rem}
+.teams.compact .tb{padding:6px 10px}
+.teams.compact .draw{flex-wrap:wrap;gap:4px 8px}
+.teams.compact .draw button{padding:4px 8px;min-height:32px;font-size:.8rem}
+.teams.compact .who{font-size:1.1rem}
+@media (max-width:420px){.teams.compact .tn{font-size:.9rem;letter-spacing:.02em}}
+.pane{display:flex;flex-direction:column;gap:16px;min-width:0}
+.grp{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:100%}
+</style>
+<script>
+window.L4=(function(){
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const f=(n,d)=>`<span class="fr"><span>${n}</span><span>${d}</span></span>`;
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+/* nombre en écriture française, sans zéros inutiles (dp = nb max de décimales) */
+const fmt=(x,dp=3)=>{let s=(Math.round(x*10**dp)/10**dp).toFixed(dp);if(s.includes('.'))s=s.replace(/0+$/,'').replace(/\.$/,'');const [a,b]=s.split('.');return a.replace(/\B(?=(\d{3})+(?!\d))/g,' ')+(b?','+b:'');};
+const fmt2=x=>(Math.round(x*100)/100).toFixed(2).replace('.',',');
+/* lecture d'une réponse : "3,5" "3.5" "35/100" "35 %" "1 + 3/10" ; NaN si illisible */
+function parse(v){
+  if(v==null)return NaN;v=String(v).trim().replace(/\s+/g,'').replace(/%$/,'');
+  if(!v)return NaN;
+  if(v.includes('+'))return v.split('+').reduce((s,p)=>s+parse(p),0);
+  const m=v.match(/^(\d+(?:[.,]\d+)?)\/(\d+(?:[.,]\d+)?)$/);
+  if(m){const d=+m[2].replace(',','.');return d?(+m[1].replace(',','.'))/d:NaN;}
+  if(!/^-?\d+(?:[.,]\d+)?$/.test(v)&&!/^-?[.,]\d+$/.test(v))return NaN;
+  return +v.replace(',','.');
+}
+const same=(a,b)=>Math.abs(a-b)<1e-9;
+const store={get(k,d){try{const v=localStorage.getItem('l4.'+k);return v==null?d:JSON.parse(v);}catch(e){return d;}},
+             set(k,v){try{localStorage.setItem('l4.'+k,JSON.stringify(v));}catch(e){}}};
+/* onglets simples : <nav class="tabs"><button data-tab="x"> + éléments [data-pane="x"] */
+function tabs(nav,onChange){
+  nav.setAttribute('role','tablist');
+  const go=t=>{$$('[data-tab]',nav).forEach(b=>{b.setAttribute('role','tab');b.setAttribute('aria-selected',b.dataset.tab===t);});
+    $$('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!==t);onChange&&onChange(t);};
+  nav.addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)go(b.dataset.tab);});
+  return go;
+}
+/* contrôle segmenté : boutons [data-v] */
+function seg(el,onChange,init){
+  const set=v=>{$$('[data-v]',el).forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===String(v)));onChange&&onChange(v);};
+  el.addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(b)set(b.dataset.v);});
+  if(init!=null)set(init);return set;
+}
+/* ---- trois équipes : bleu, magenta, turquoise, tirage au sort d'un élève ---- */
+const TEAMS=['Bleus','Magentas','Turquoises'];
+function Teams(el,opt={}){
+  let size=store.get('teamSize',9);
+  const T=TEAMS.map((n,i)=>({i,name:n,score:0,pool:[],who:null}));
+  let turn=null;
+  el.classList.add('teams');if(opt.compact)el.classList.add('compact');
+  el.innerHTML=T.map(t=>`<section class="team t${t.i}" data-team="${t.i}">
+    <div class="th"><span class="tn">${t.name}</span><span class="ts" aria-label="score">0</span></div>
+    <div class="tb"><div class="draw"><button type="button" data-drawbtn>${opt.compact?'Tirer':'Tirer un élève'}</button><span class="who" aria-live="polite"></span></div>
+    <div class="slot"></div><div class="res" aria-live="polite"></div></div></section>`).join('');
+  const box=i=>el.querySelector(`[data-team="${i}"]`);
+  function refill(t){t.pool=shuffle(Array.from({length:size},(_,k)=>k+1));}
+  function draw(i){
+    const t=T[i];if(!t.pool.length)refill(t);
+    const n=t.pool.pop(),w=box(i).querySelector('.who');
+    const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce){w.textContent='n°'+n;return;}
+    let k=0;const iv=setInterval(()=>{w.textContent='n°'+rnd(1,size);if(++k>9){clearInterval(iv);w.textContent='n°'+n;}},55);
+  }
+  el.addEventListener('click',e=>{const b=e.target.closest('[data-drawbtn]');if(b)draw(+b.closest('[data-team]').dataset.team);});
+  const api={
+    slot:i=>box(i).querySelector('.slot'),
+    res(i,txt,ok){const r=box(i).querySelector('.res');r.textContent=txt||'';r.className='res'+(ok===true?' ok':ok===false?' ko':'');},
+    add(i,p=1){T[i].score+=p;box(i).querySelector('.ts').textContent=T[i].score;if(p>0){const b=box(i);b.classList.remove('win');void b.offsetWidth;b.classList.add('win');}},
+    setTurn(i){turn=i;T.forEach(t=>box(t.i).classList.toggle('turn',t.i===i));},
+    nextTurn(){api.setTurn(turn==null?0:(turn+1)%3);return turn;},
+    get turn(){return turn;},
+    scores:()=>T.map(t=>t.score),
+    reset(){T.forEach(t=>{t.score=0;box(t.i).querySelector('.ts').textContent=0;api.res(t.i,'');});},
+    clearWho(){T.forEach(t=>box(t.i).querySelector('.who').textContent='');},
+    name:i=>T[i].name,
+    settings(container){
+      container.innerHTML=`<label class="settings">Élèves par équipe <input type="number" id="teamsize" min="2" max="15" value="${size}"></label>`;
+      container.querySelector('input').addEventListener('change',e=>{size=Math.max(2,Math.min(15,+e.target.value||9));store.set('teamSize',size);T.forEach(refill);});
+    }
+  };
+  T.forEach(refill);
+  return api;
+}
+/* petit carré dessiné en SVG : n parts coloriées sur u (10 = bandes, 100 = quadrillage), plusieurs carrés si besoin */
+function squaresSVG(t,u,size=60){
+  const n=Math.max(1,Math.ceil(t/u)),gap=6,W=n*size+(n-1)*gap;
+  let s=`<svg viewBox="-1 -1 ${W+2} ${size+2}" width="${W+2}" height="${size+2}" role="img" aria-label="carré colorié">`;
+  for(let k=0;k<n;k++){const x0=k*(size+gap);
+    s+=`<rect x="${x0}" y="0" width="${size}" height="${size}" fill="var(--paper)"/>`;
+    const c=size/10;
+    for(let j=0;j<u;j++){const idx=k*u+j;if(idx>=t)break;
+      if(u===10)s+=`<rect x="${x0}" y="${j*c}" width="${size}" height="${c}" fill="var(--fill)"/>`;
+      else s+=`<rect x="${x0+(j%10)*c}" y="${Math.floor(j/10)*c}" width="${c}" height="${c}" fill="var(--fill)"/>`;}
+    for(let j=1;j<10;j++){s+=`<line x1="${x0}" x2="${x0+size}" y1="${j*c}" y2="${j*c}" stroke="var(--grid)" stroke-width="1"/>`;
+      if(u===100)s+=`<line y1="0" y2="${size}" x1="${x0+j*c}" x2="${x0+j*c}" stroke="var(--grid)" stroke-width="1"/>`;}
+    s+=`<rect x="${x0}" y="0" width="${size}" height="${size}" fill="none" stroke="var(--ink)" stroke-width="1.5"/>`;}
+  return s+'</svg>';
+}
+return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squaresSVG};
+})();
+</script>
+<style>
+/* ---- mise en page commune des séances du chapitre 5 (même esprit que la leçon 4) ---- */
+.ex{display:flex;flex-direction:column;gap:12px;padding-top:8px;border-top:2px solid var(--line)}
+.ex-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px}
+.ex-h h2 small{font:600 .9rem var(--f-text);text-transform:none;letter-spacing:0;color:var(--muted);margin-left:.4em}
+.consigne{margin:0;max-width:75ch}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.how .panel{display:flex;gap:10px;align-items:flex-start}
+.how .n{font:800 1.6rem/1 var(--f-title);color:var(--amber)}
+.how p{margin:0}
+.fig{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:8px;display:flex;justify-content:center}
+.fig svg{display:block;width:100%;height:auto;max-width:760px}
+.fig.sm svg{max-width:520px}
+.fig.plane svg{cursor:crosshair;touch-action:manipulation}
+.ex:not(.show) .sol{display:none}
+.ex.show .q{display:none}
+.s{color:var(--ok);font-weight:600}
+.qs{margin:0;padding-left:1.5em;display:flex;flex-direction:column;gap:8px;max-width:75ch}
+.qs li::marker{font-weight:700;color:var(--amber-ink)}
+.qs.dec{list-style:decimal}
+.qs .sol{display:block}
+.vf{font-weight:700}
+.vf.t{color:var(--ok)}.vf.f{color:var(--ko)}
+table.tb{border-collapse:collapse;font:600 1.1rem var(--f-text);background:var(--panel);max-width:100%}
+.tb th,.tb td{border:2px solid var(--line);padding:8px 18px;text-align:center}
+.tb th{font:800 1.05rem var(--f-title);text-transform:uppercase;letter-spacing:.05em;background:var(--fill-2)}
+.tb td.l{text-align:left;font-weight:700}
+.tb .q{color:var(--amber-ink);font:700 1.3rem var(--f-num)}
+.tb .sol{color:var(--ok);font:700 1.1rem var(--f-num)}
+.arcn{display:inline-block;position:relative;padding-top:.3em;line-height:1}
+.arcn::before{content:"";position:absolute;left:.04em;right:.04em;top:0;height:.3em;border:2px solid currentColor;border-bottom:0;border-radius:50% 50% 0 0/100% 100% 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:700 .95rem var(--f-title);text-transform:uppercase;letter-spacing:.06em;padding:4px 12px;border-radius:999px;border:2px solid var(--line);color:var(--muted);background:var(--panel)}
+.chip.on,.ex.show .chip.legend{border-color:var(--bc);color:var(--ink);background:var(--bb)}
+.chip[data-k=rayon]{--bc:var(--blue);--bb:var(--blue-bg)}
+.chip[data-k=diam]{--bc:var(--magenta);--bb:var(--magenta-bg)}
+.chip[data-k=corde]{--bc:var(--teal);--bb:var(--teal-bg)}
+.chip[data-k=arc]{--bc:var(--amber);--bb:var(--fill-2)}
+.chip[data-k=demi]{--bc:var(--ok);--bb:var(--ok-bg)}
+.chip[data-k=dans]{--bc:var(--ok);--bb:var(--ok-bg)}
+.chip[data-k=sur]{--bc:var(--amber);--bb:var(--fill-2)}
+.chip[data-k=hors]{--bc:var(--ko);--bb:var(--ko-bg)}
+.next{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+a.btn{text-decoration:none;display:inline-flex;align-items:center}
+
+</style>
+<style>
+.recit.k-dans{border-left-color:var(--ok)}
+.recit.k-sur{border-left-color:var(--amber)}
+.recit.k-hors{border-left-color:var(--ko)}
+#mfig{touch-action:none}
+#mfig [data-m]{cursor:grab}
+.rrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.rrow input[type=range]{width:min(320px,100%);accent-color:var(--amber);height:34px}
+.rrow .num{font-size:1.15rem}
+.vd{font-weight:700}
+.vd.dans{color:var(--ok)}.vd.sur{color:var(--amber-ink)}.vd.hors{color:var(--ko)}
+</style>
+<div class="wrap">
+  <header class="top">
+    <div><h1>Le disque : dedans, dessus, <span>dehors</span></h1>
+    <p class="sub">Chapitre 5, séance 2. Compas, cahier et vidéoprojecteur, environ 50 min. On compare une distance au rayon pour savoir où se trouve un point.</p></div>
+  </header>
+
+  <div class="how">
+    <div class="panel"><span class="n">1</span><p><b>Activité</b> (≈ 12 min). Une chèvre est attachée à un piquet par une corde de 4 cm. Où peut-elle aller ?</p></div>
+    <div class="panel"><span class="n">2</span><p><b>Atelier</b> (≈ 8 min). On déplace un point : le site compare la distance OM au rayon.</p></div>
+    <div class="panel"><span class="n">3</span><p><b>Exercices</b> (≈ 22 min). Dans ton cahier, sans recopier les énoncés. Vérifie avec le bouton « Correction ».</p></div>
+  </div>
+
+  <!-- ================= ACTIVITÉ : la chèvre ================= -->
+  <section class="ex" id="act">
+    <div class="ex-h"><h2>Activité <small>la chèvre au piquet</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Une chèvre est attachée au piquet O par une corde de <b>4 cm</b> (1 cm = un carreau). Clique sur le plan pour l'envoyer brouter l'herbe en un point M : le site montre jusqu'où elle peut aller.</p>
+    <div class="row">
+      <div class="chips" id="gchips" aria-label="résultats de la chèvre">
+        <span class="chip" data-k="dans">dans le disque : <span id="n-dans">0</span></span>
+        <span class="chip" data-k="sur">corde tendue : <span id="n-sur">0</span></span>
+        <span class="chip" data-k="hors">hors d'atteinte : <span id="n-hors">0</span></span>
+      </div>
+      <button class="btn" id="gall">Tout ce que la chèvre peut brouter</button>
+      <button class="btn" id="gclear">Effacer</button>
+    </div>
+    <div class="fig plane" id="plane"></div>
+    <p class="msg" id="gmsg" aria-live="polite"></p>
+    <p class="consigne">Dans ton cahier, complète : « La chèvre peut atteindre un point M quand OM … 4 cm. »</p>
+    <p class="recit sol">La chèvre atteint M quand <b>OM ≤ 4 cm</b>. L'ensemble de ces points est le <b>disque</b> de centre O et de rayon 4 cm. Les points tels que <b>OM = 4 cm</b>, où la corde est tendue, forment le <b>cercle</b>. Si OM &gt; 4 cm, M est <b>hors du disque</b>.</p>
+  </section>
+
+  <!-- ================= ATELIER ================= -->
+  <section class="ex" id="atel">
+    <div class="ex-h"><h2>Atelier <small>dans, sur ou hors du disque ?</small></h2></div>
+    <p class="consigne">Déplace le point M (en le faisant glisser ou en cliquant) et change le rayon. Compare à chaque fois <b>OM</b> et le <b>rayon</b>.</p>
+    <div class="rrow"><label for="rr">Rayon du cercle</label><input type="range" id="rr" min="2" max="4" step="0.5" value="3"><span class="num" id="rrv">3 cm</span>
+      <div class="chips" id="achips" aria-label="ce que tu as trouvé"><span class="chip" data-k="dans">dans</span><span class="chip" data-k="sur">sur</span><span class="chip" data-k="hors">hors</span></div></div>
+    <div class="fig sm" id="mfig"></div>
+    <p class="recit" id="mmsg" aria-live="polite"></p>
+  </section>
+
+  <!-- ================= EXERCICES ================= -->
+  <section class="ex" id="ex1">
+    <div class="ex-h"><h2>Exercice 1 <small>dedans, dessus ou dehors ?</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Un cercle a pour centre O et pour rayon <b>3 cm</b>. Pour chaque point, écris dans ton cahier s'il est <b>dans le disque</b>, <b>sur le cercle</b> ou <b>hors du disque</b>.</p>
+    <div style="overflow-x:auto"><table class="tb" id="t1"></table></div>
+  </section>
+
+  <section class="ex" id="ex2">
+    <div class="ex-h"><h2>Exercice 2 <small>l'antenne</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Une antenne est placée en O. Son signal porte jusqu'à <b>3 km</b> (sur le plan, 1 cm représente 1 km). Les distances à l'antenne sont indiquées. Quelles maisons captent le signal ?</p>
+    <div class="fig" id="f2"></div>
+    <div class="chips sol"><span class="chip legend" data-k="dans">capte le signal</span><span class="chip legend" data-k="hors">ne le capte pas</span></div>
+    <p class="recit sol">Les maisons <b>A, B, E</b> sont dans le disque de rayon 3 km. <b>C</b> est exactement sur le cercle (3 km) : elle capte le signal, tout juste. <b>D</b> (3,4 km) et <b>F</b> (4,1 km) sont hors du disque : elles ne le captent pas.</p>
+  </section>
+
+  <section class="ex" id="ex3">
+    <div class="ex-h"><h2>Exercice 3 <small>le trésor du pirate</small></h2><button class="btn" data-sol>Correction</button></div>
+    <ol class="qs dec">
+      <li>Trace un segment [AB] de 6 cm.</li>
+      <li>Le trésor T est à <b>4 cm de A</b>. Sur quelle ligne se trouve-t-il ? Trace-la.</li>
+      <li>Le trésor T est aussi à <b>5 cm de B</b>. Trace l'autre ligne.</li>
+      <li>Place T. Combien de positions sont possibles ?</li>
+    </ol>
+    <div class="fig sol" id="f3"></div>
+    <p class="sol s">T est sur le cercle de centre A et de rayon 4 cm, et sur le cercle de centre B et de rayon 5 cm. Ces deux cercles se coupent en <b>deux points</b> : il y a deux positions possibles, T et T′.</p>
+  </section>
+
+  <section class="ex" id="ex4">
+    <div class="ex-h"><h2>Exercice 4 <small>problème de distances</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Léa trace un cercle de centre O et de rayon <b>5 cm</b>. Le point A est sur le cercle. Le point B est placé sur la demi-droite [OA) tel que <b>OB = 7 cm</b>.</p>
+    <ol class="qs" type="a">
+      <li>Le point B est-il dans le disque, sur le cercle ou hors du disque ?<span class="sol s">Hors du disque : OB = 7 cm, et 7 &gt; 5.</span></li>
+      <li>Fais un schéma, puis calcule la distance AB.<span class="sol s">A est sur [OB], car A et B sont sur la même demi-droite d'origine O avec OA &lt; OB. Donc OA + AB = OB, d'où AB = 7 − 5 = <b>2 cm</b>.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex5">
+    <div class="ex-h"><h2>Défi <small>deux disques</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Un disque de centre A a pour rayon <b>3 cm</b>. Un disque de centre B a pour rayon <b>2 cm</b>. Ces deux disques se touchent-ils quand <b>a.</b> AB = 6 cm ? <b>b.</b> AB = 4 cm ? <b>c.</b> AB = 5 cm ?</p>
+    <div class="sol">
+      <ol class="qs" type="a">
+        <li><span class="s">Non. 3 + 2 = 5 et 5 &lt; 6 : il reste 1 cm entre les deux disques.</span></li>
+        <li><span class="s">Oui, ils se chevauchent. 3 + 2 = 5 et 5 &gt; 4.</span></li>
+        <li><span class="s">Ils se touchent en un seul point, sur le segment [AB] : 3 + 2 = 5 = AB.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="panel next">
+    <p style="margin:0"><b>Pour finir :</b> le mini-jeu par équipes « Dedans, dessus, dehors » (5 min).</p>
+    <a class="btn main" href="../dedans-dessus-dehors/index.html">Lancer le mini-jeu</a>
+  </div>
+</div>
+<script>
+/* ---- petite boîte à outils SVG pour le chapitre 5 (cercle et disque) ---- */
+const GEO=(function(){
+const rad=d=>d*Math.PI/180, n=x=>Math.round(x*100)/100;
+const pol=(cx,cy,r,deg)=>[cx+r*Math.cos(rad(deg)),cy-r*Math.sin(rad(deg))];
+const norm=a=>((a%360)+360)%360;
+function line(x1,y1,x2,y2,col,w,extra){return `<line x1="${n(x1)}" y1="${n(y1)}" x2="${n(x2)}" y2="${n(y2)}" stroke="${col||'var(--ink)'}" stroke-width="${w||3}" stroke-linecap="round" ${extra||''}/>`;}
+function circ(cx,cy,r,o){o=o||{};return `<circle cx="${n(cx)}" cy="${n(cy)}" r="${n(r)}" fill="${o.fill||'none'}" stroke="${o.col===undefined?'var(--ink)':o.col}" stroke-width="${o.w===undefined?3:o.w}" ${o.extra||''}/>`;}
+/* arc de cercle parcouru dans le sens inverse des aiguilles d'une montre, de a1 à a2 (degrés) */
+function arc(cx,cy,r,a1,a2,col,w,extra){const p1=pol(cx,cy,r,a1),p2=pol(cx,cy,r,a2);const d=norm(a2-a1);return `<path d="M${n(p1[0])} ${n(p1[1])} A${n(r)} ${n(r)} 0 ${d>180?1:0} 0 ${n(p2[0])} ${n(p2[1])}" fill="none" stroke="${col}" stroke-width="${w||5}" stroke-linecap="round" ${extra||''}/>`;}
+function cross(x,y,col,s,w){s=s||6;return `<path d="M${n(x-s)} ${n(y-s)}L${n(x+s)} ${n(y+s)}M${n(x-s)} ${n(y+s)}L${n(x+s)} ${n(y-s)}" stroke="${col||'var(--ink)'}" stroke-width="${w||2.4}" fill="none" stroke-linecap="round"/>`;}
+function dot(x,y,r,col){return `<circle cx="${n(x)}" cy="${n(y)}" r="${r||5}" fill="${col||'var(--ink)'}"/>`;}
+function text(x,y,t,o){o=o||{};return `<text x="${n(x)}" y="${n(y)}" text-anchor="${o.anchor||'middle'}" font-family="Space Mono, monospace" font-weight="${o.weight||700}" font-size="${o.size||19}" fill="${o.col||'var(--ink)'}" ${o.halo?'stroke="var(--panel)" stroke-width="6" paint-order="stroke" stroke-linejoin="round"':''} ${o.extra||''}>${t}</text>`;}
+/* étiquette placée autour du cercle de centre (cx,cy), dans la direction deg */
+function lab(cx,cy,r,deg,t,o){o=o||{};const p=pol(cx,cy,r+(o.gap||24),deg);return text(p[0],p[1]+(o.dy===undefined?7:o.dy),t,o);}
+function grid(W,H,step,ox,oy,col){let s='';for(let x=ox%step;x<=W;x+=step)s+=line(x,0,x,H,col||'var(--grid)',1);for(let y=oy%step;y<=H;y+=step)s+=line(0,y,W,y,col||'var(--grid)',1);return s;}
+const fmt1=x=>(Math.round(x*10)/10).toString().replace('.',',');
+return {rad,n,pol,norm,line,circ,arc,cross,dot,text,lab,grid,fmt1};
+})();
+
+document.addEventListener('click',e=>{const b=e.target.closest('[data-sol]');if(!b)return;const s=b.closest('.ex');const on=s.classList.toggle('show');b.textContent=on?'Cacher la correction':'Correction';b.classList.toggle('main',on);b.setAttribute('aria-pressed',on);});
+
+(function(){
+const {$,$$,store}=L4;
+const G=GEO,SC=50;
+const fm=x=>G.fmt1(x);
+
+/* =============== ACTIVITÉ : la chèvre =============== */
+const W=700,H=500,OX=350,OY=250,R4=4*SC;
+let tries=[],all=false,cnt={dans:0,sur:0,hors:0};
+function plane(){
+  let s=`<svg viewBox="0 0 ${W} ${H}" id="plsvg" role="img" aria-label="plan quadrillé avec le piquet O au centre">`;
+  s+=G.grid(W,H,SC,OX,OY,'var(--grid)');
+  s+=G.line(24,H-22,24+SC,H-22,'var(--ink)',3)+G.text(24+SC/2,H-30,'1 cm',{size:15,col:'var(--muted)'});
+  if(all)s+=G.circ(OX,OY,R4,{fill:'var(--fill-2)',col:'var(--amber)',w:4.5,extra:'fill-opacity=".75"'});
+  tries.forEach((t,i)=>{
+    const c=t.k==='dans'?'var(--ok)':t.k==='sur'?'var(--amber)':'var(--ko)';
+    if(t.k==='hors')s+=G.line(OX,OY,t.gx,t.gy,'var(--ink)',3.5)+G.line(t.gx,t.gy,t.x,t.y,'var(--ko)',2.5,'stroke-dasharray="6 6"')+G.cross(t.x,t.y,'var(--ko)',7,3)+G.dot(t.gx,t.gy,7.5,'var(--ko)');
+    else s+=G.line(OX,OY,t.x,t.y,'var(--ink)',3.5)+G.dot(t.x,t.y,7.5,c);
+    if(i===tries.length-1)s+=G.text((OX+t.x)/2+(t.y<OY?16:-16),(OY+t.y)/2+(t.x<OX?-8:16),'OM = '+fm(t.d)+' cm',{size:16,halo:true});
+  });
+  s+=G.dot(OX,OY,8,'var(--ink)')+G.text(OX-16,OY-14,'O',{size:22});
+  $('#plane').innerHTML=s+'</svg>';
+  $('#plsvg').addEventListener('click',onPlane);
+}
+function gmsg(t,c){const m=$('#gmsg');m.innerHTML=t;m.className='msg'+(c?' '+c:'');}
+function counts(){['dans','sur','hors'].forEach(k=>$('#n-'+k).textContent=cnt[k]);$$('#gchips .chip').forEach(c=>c.classList.toggle('on',cnt[c.dataset.k]>0));}
+function onPlane(e){
+  const r=$('#plsvg').getBoundingClientRect(),x=(e.clientX-r.left)*W/r.width,y=(e.clientY-r.top)*H/r.height;
+  const dpx=Math.hypot(x-OX,y-OY),d=dpx/SC;if(d<0.2)return;
+  const ra=Math.round(d*10)/10;let k=ra<4?'dans':ra===4?'sur':'hors';
+  const gx=OX+(x-OX)*Math.min(1,R4/dpx),gy=OY+(y-OY)*Math.min(1,R4/dpx);
+  tries.push({x,y,d:ra,k,gx,gy});cnt[k]++;plane();counts();
+  gmsg(k==='dans'?`OM = ${fm(ra)} cm, c'est moins que 4 cm : la corde est détendue, la chèvre arrive en M.`:
+       k==='sur'?`OM = 4 cm : la corde est exactement tendue, la chèvre arrive tout juste en M.`:
+       `OM = ${fm(ra)} cm, c'est plus que 4 cm : la corde est trop courte, la chèvre s'arrête avant M.`,k==='hors'?'ko':'ok');
+}
+$('#gall').addEventListener('click',()=>{all=true;plane();gmsg('Voilà tout ce que la chèvre peut brouter : un <b>disque</b> de centre O et de rayon 4 cm.','ok');});
+$('#gclear').addEventListener('click',()=>{tries=[];all=false;cnt={dans:0,sur:0,hors:0};plane();counts();gmsg('Clique sur le plan pour envoyer la chèvre brouter.');});
+
+/* =============== ATELIER : M déplaçable =============== */
+const C={x:260,y:225};let rr=3,M={x:C.x+1.4*SC,y:C.y-1.9*SC},seen=new Set(),drag=false;
+function atelier(){
+  const R=rr*SC,d=Math.round(Math.hypot(M.x-C.x,M.y-C.y)/SC*10)/10;
+  const k=d<rr?'dans':d===rr?'sur':'hors',col=k==='dans'?'var(--ok)':k==='sur'?'var(--amber)':'var(--ko)';
+  let s=`<svg viewBox="0 0 520 450" role="img" aria-label="cercle de centre O avec un point M déplaçable">`;
+  s+=G.circ(C.x,C.y,R,{fill:'var(--fill-2)',col:'var(--ink)',w:3.5,extra:'fill-opacity=".6"'});
+  s+=G.line(C.x,C.y,M.x,M.y,col,5)+G.cross(C.x,C.y,'var(--ink)',7,3)+G.text(C.x-16,C.y-12,'O',{size:22});
+  s+=G.text((C.x+M.x)/2+(M.y<C.y?16:-16),(C.y+M.y)/2+(M.x<C.x?-8:18),'OM = '+fm(d)+' cm',{size:16,halo:true});
+  s+=G.dot(M.x,M.y,9,col)+`<circle cx="${M.x.toFixed(1)}" cy="${M.y.toFixed(1)}" r="26" fill="transparent" data-m="1"/>`+G.text(M.x+(M.x<C.x?-18:18),M.y-14,'M',{size:22});
+  $('#mfig').innerHTML=s+'</svg>';
+  const t=k==='dans'?`OM = ${fm(d)} cm &lt; ${fm(rr)} cm : M est <span class="vd dans">dans le disque</span>, à l'intérieur du cercle.`:
+          k==='sur'?`OM = ${fm(d)} cm = ${fm(rr)} cm : M est <span class="vd sur">sur le cercle</span> (donc aussi dans le disque, qui contient son bord).`:
+          `OM = ${fm(d)} cm &gt; ${fm(rr)} cm : M est <span class="vd hors">hors du disque</span>.`;
+  const m=$('#mmsg');m.innerHTML=t;m.className='recit k-'+k;
+  seen.add(k);$$('#achips .chip').forEach(c=>c.classList.toggle('on',seen.has(c.dataset.k)));
+  $('#rrv').textContent=fm(rr)+' cm';
+}
+function movePt(e){const sv=$('#mfig svg'),r=sv.getBoundingClientRect();
+  let x=(e.clientX-r.left)*520/r.width,y=(e.clientY-r.top)*450/r.height;x=Math.max(14,Math.min(506,x));y=Math.max(14,Math.min(436,y));
+  if(Math.hypot(x-C.x,y-C.y)<0.2*SC)return;M={x,y};atelier();}
+$('#mfig').addEventListener('pointerdown',e=>{drag=true;try{$('#mfig').setPointerCapture(e.pointerId);}catch(_){}movePt(e);});
+$('#mfig').addEventListener('pointermove',e=>{if(drag)movePt(e);});
+$('#mfig').addEventListener('pointerup',()=>{drag=false;});
+$('#mfig').addEventListener('pointercancel',()=>{drag=false;});
+$('#rr').addEventListener('input',e=>{rr=+e.target.value;atelier();});
+
+/* =============== EXERCICES =============== */
+/* ex. 1 */
+(function(){
+  const rows=[['A','2,4 cm','dans'],['B','3 cm','sur'],['C','3,5 cm','hors'],['D','2,95 cm','dans'],['E','3,05 cm','hors'],['F','30 mm','sur']];
+  const T={dans:'dans le disque',sur:'sur le cercle',hors:'hors du disque'};
+  $('#t1').innerHTML='<tr><th>Point</th><th>Distance à O</th><th>Position</th></tr>'+rows.map(([p,d,k])=>`<tr><td class="l">${p}</td><td class="num">OM = ${d}`.replace('OM',`O${p}`)+`</td><td><span class="q">?</span><span class="sol"><span class="vd ${k}">${T[k]}</span></span></td></tr>`).join('');
+})();
+/* ex. 2 */
+(function(){
+  const cx=300,cy=215,R=150,P=[['A',1.8,40],['B',2.6,160],['C',3,250],['D',3.4,320],['E',2.2,100],['F',4.1,205]];
+  let s=`<svg viewBox="0 0 600 440" role="img" aria-label="plan avec l'antenne O et six maisons A à F">`+G.grid(600,440,SC,cx,cy,'var(--grid)');
+  s+=`<g class="sol">`+G.circ(cx,cy,R,{fill:'var(--ok-bg)',col:'var(--ok)',w:4,extra:'fill-opacity=".8"'})+`</g>`;
+  P.forEach(([n,d,a])=>{const [x,y]=G.pol(cx,cy,d*SC,a),ok=d<=3,c=ok?'var(--ok)':'var(--ko)';
+    s+=`<rect x="${x-9}" y="${y-9}" width="18" height="18" rx="3" fill="var(--paper)" stroke="var(--ink)" stroke-width="2.4"/>`;
+    s+=`<g class="sol"><rect x="${x-9}" y="${y-9}" width="18" height="18" rx="3" fill="${c}" stroke="var(--ink)" stroke-width="2.4"/></g>`;
+    s+=G.text(x,y-16,n+' · '+fm(d)+' km',{size:15,halo:true});});
+  s+=G.cross(cx,cy,'var(--ink)',8,3.5)+G.text(cx-18,cy-12,'O',{size:22})+G.line(24,414,24+SC,414,'var(--ink)',3)+G.text(24+SC/2,404,'1 km',{size:14,col:'var(--muted)'});
+  $('#f2').innerHTML=s+'</svg>';
+})();
+/* ex. 3 */
+(function(){
+  const k=32,A=[150,230],B=[150+6*k,230],ra=4*k,rb=5*k,dx=(36+16-25)/12,dy=Math.sqrt(16-dx*dx);
+  const T1=[A[0]+dx*k,A[1]-dy*k],T2=[A[0]+dx*k,A[1]+dy*k];
+  let s=`<svg viewBox="0 0 540 460" role="img" aria-label="deux cercles de centres A et B qui se coupent en deux points">`+G.circ(A[0],A[1],ra,{col:'var(--blue)',w:3.5})+G.circ(B[0],B[1],rb,{col:'var(--magenta)',w:3.5});
+  s+=G.line(A[0],A[1],B[0],B[1],'var(--ink)',3);
+  [['A',A,-1],['B',B,1]].forEach(([n,p,sg])=>{s+=G.cross(p[0],p[1],'var(--ink)',7,3)+G.text(p[0]+sg*2,p[1]+28,n,{size:22});});
+  [['T',T1,-14],['T′',T2,24]].forEach(([n,p,dy2])=>{s+=G.dot(p[0],p[1],7,'var(--ko)')+G.text(p[0]+16,p[1]+dy2,n,{size:22,col:'var(--ko)'});});
+  s+=G.text(270,448,'figure à l\'échelle : AB = 6 cm',{size:14,col:'var(--muted)',weight:400});
+  $('#f3').innerHTML=s+'</svg>';
+})();
+plane();counts();gmsg('Clique sur le plan pour envoyer la chèvre brouter.');atelier();
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>

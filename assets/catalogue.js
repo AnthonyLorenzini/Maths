@@ -371,6 +371,50 @@ window.SITE = {
           ]
         },
         {
+          id: "6e-ch5", num: 5, titre: "Cercle et disque",
+          resume: "Vocabulaire du cercle, cercle et disque comme ensembles de points, périmètre d'un cercle et problèmes de longueurs.",
+          seances: [
+            {
+              titre: "Le cercle et son vocabulaire", duree: "50 min",
+              contenu: [
+                "Activité : on place des points à 4 cm d'un point O et on découvre qu'ils dessinent un cercle.",
+                "Atelier : on clique sur des points du cercle pour trouver un rayon, une corde, un diamètre et un arc, avec leur longueur.",
+                "Exercices au cahier avec correction, puis mini-jeu par équipes."
+              ],
+              ressources: ["6e-ch5-s1", "cercle-et-ses-noms"],
+              retenir: [
+                "Le **cercle** de centre O et de rayon r est l'ensemble des points situés à la distance r de O.",
+                "Un **rayon** relie le centre à un point du cercle ; une **corde** relie deux points du cercle ; un **diamètre** est une corde qui passe par le centre.",
+                "Le **diamètre** est le double du rayon. Deux points d'un cercle le partagent en **deux arcs**."
+              ],
+              exemple: "Un cercle de rayon 4,5 cm a un diamètre de 2 × 4,5 = 9 cm.",
+              savoir: "nommer rayon, diamètre, corde et arc, et passer du rayon au diamètre."
+            },
+            {
+              titre: "Le disque : dedans, dessus, dehors", duree: "50 min",
+              contenu: [
+                "Activité : une chèvre est attachée à un piquet par une corde de 4 cm. On découvre jusqu'où elle peut aller : c'est un disque.",
+                "Atelier : on déplace un point M et on compare OM au rayon.",
+                "Exercices au cahier avec correction (antenne, trésor du pirate, distances), puis mini-jeu par équipes."
+              ],
+              ressources: ["6e-ch5-s2", "dedans-dessus-dehors"],
+              retenir: [
+                "Le **disque** de centre O et de rayon r est l'ensemble des points M tels que **OM ≤ r**. Le cercle est son bord : **OM = r**.",
+                "Pour situer un point, on **compare sa distance à O avec le rayon** : plus petite (dans le disque), égale (sur le cercle) ou plus grande (hors du disque).",
+                "On compare dans la **même unité**."
+              ],
+              exemple: "Rayon 3 cm : un point à 2,95 cm de O est dans le disque, un point à 3,05 cm est hors du disque.",
+              savoir: "dire si un point est dans le disque, sur le cercle ou hors du disque."
+            }
+          ],
+          ressources: [
+            { id: "6e-ch5-s1", type: "exos", titre: "Séance 1 — Le cercle et son vocabulaire", resume: "Des points à 4 cm de O, rayon, diamètre, corde, arc. Avec correction.", ajout: "2026-10-29" },
+            { id: "cercle-et-ses-noms", type: "jeu", titre: "Le Cercle et ses noms", resume: "Rayon, diamètre, corde ou arc ? Course par équipes ou solo.", ajout: "2026-10-29" },
+            { id: "6e-ch5-s2", type: "exos", titre: "Séance 2 — Le disque : dedans, dessus, dehors", resume: "La chèvre au piquet, l'antenne, le trésor du pirate. Avec correction.", ajout: "2026-10-29" },
+            { id: "dedans-dessus-dehors", type: "jeu", titre: "Dedans, dessus, dehors", resume: "Compare OM au rayon : dans le disque, sur le cercle ou hors du disque ?", ajout: "2026-10-29" }
+          ]
+        },
+        {
           id: "6e-defis", num: null, titre: "Défis calcul",
           resume: "Calculer avec les prix et les durées, en solo ou en équipes.",
           ressources: [
