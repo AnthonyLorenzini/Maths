@@ -393,9 +393,9 @@ window.SITE = {
             {
               titre: "Le disque : dedans, dessus, dehors", duree: "50 min",
               contenu: [
-                "Activité : une chèvre est attachée à un piquet par une corde de 4 cm. On découvre jusqu'où elle peut aller : c'est un disque.",
-                "Atelier : on déplace un point M et on compare OM au rayon.",
-                "Exercices au cahier avec correction (antenne, trésor du pirate, distances), puis mini-jeu par équipes."
+                "Activité : une chèvre est attachée à un piquet par une corde de 4 cm. On prévoit les objets qu'elle peut atteindre, puis on vérifie : ils sont dans un disque.",
+                "Exercices au cahier avec correction : comparer OM au rayon, portée d'une antenne, portée d'un wifi (avec une échelle), distances.",
+                "Mini-jeu par équipes."
               ],
               ressources: ["6e-ch5-s2", "dedans-dessus-dehors"],
               retenir: [
@@ -410,7 +410,7 @@ window.SITE = {
           ressources: [
             { id: "6e-ch5-s1", type: "exos", titre: "Séance 1 — Le cercle et son vocabulaire", resume: "Des points à 4 cm de O, rayon, diamètre, corde, arc. Avec correction.", ajout: "2026-10-29" },
             { id: "cercle-et-ses-noms", type: "jeu", titre: "Le Cercle et ses noms", resume: "Rayon, diamètre, corde ou arc ? Course par équipes ou solo.", ajout: "2026-10-29" },
-            { id: "6e-ch5-s2", type: "exos", titre: "Séance 2 — Le disque : dedans, dessus, dehors", resume: "La chèvre au piquet, l'antenne, le trésor du pirate. Avec correction.", ajout: "2026-10-29" },
+            { id: "6e-ch5-s2", type: "exos", titre: "Séance 2 — Le disque : dedans, dessus, dehors", resume: "La chèvre au piquet, l'antenne, le wifi, les distances. Avec correction.", ajout: "2026-10-29" },
             { id: "dedans-dessus-dehors", type: "jeu", titre: "Dedans, dessus, dehors", resume: "Compare OM au rayon : dans le disque, sur le cercle ou hors du disque ?", ajout: "2026-10-29" }
           ]
         },
