@@ -255,84 +255,105 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 #gfig [data-i]{cursor:pointer}
 #gfig [data-i]:focus-visible .pill{stroke:var(--amber);stroke-width:4}
 #cp{transition:stroke-dashoffset 1.8s ease-in-out}
-.legend-row{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:.95rem;color:var(--muted)}
+.dl{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.dl a.btn{text-decoration:none}
+.tb td,.tb th{padding:6px 10px}
+.kc{display:inline-block;width:14px;height:14px;border-radius:3px;border:2px solid var(--ink);vertical-align:-2px;margin-right:6px}
+.mpts{display:flex;flex-wrap:wrap;gap:8px}
+#dfig{cursor:crosshair;touch-action:manipulation}
+.big{font:700 .95rem var(--f-num);line-height:1.5}
 </style>
 <div class="wrap">
   <header class="top">
     <div><h1>Le disque : dedans, dessus, <span>dehors</span></h1>
-    <p class="sub">Chapitre 5, séance 2. Compas, cahier et vidéoprojecteur. Pour savoir où est un point, on compare sa distance au centre avec le rayon.</p></div>
+    <p class="sub">Chapitre 5, séance 2. Compas, règle et fiche à imprimer. Un point est atteint par un signal, ou par une chèvre, quand sa distance au centre ne dépasse pas le rayon.</p></div>
   </header>
   <ol class="flow">
-    <li><b>1</b> Activité <small>≈ 15 min</small></li>
-    <li><b>2</b> Exercices au cahier <small>≈ 27 min</small></li>
-    <li><b>3</b> Mini-jeu par équipes <small>≈ 8 min</small></li>
+    <li><b>1</b> La chèvre au piquet <small>≈ 8 min</small></li>
+    <li><b>2</b> Fiche : antennes et wifi <small>≈ 25 min</small></li>
+    <li><b>3</b> Défi : la chèvre et le bâtiment <small>≈ 15 min</small></li>
   </ol>
 
-  <!-- ================= ACTIVITÉ : la chèvre ================= -->
+  <!-- ================= 1. INTRO ================= -->
   <section class="ex" id="act">
     <div class="ex-h"><h2><span class="step">1</span>Activité <small>la chèvre au piquet</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="consigne">Une chèvre est attachée au piquet O par une corde de <b>4 cm</b> (1 cm = un carreau). Elle voudrait brouter six objets. <b>Prévois</b> ceux qu'elle peut atteindre : clique sur un objet pour répondre « oui », clique encore pour répondre « non ». Puis vérifie avec la corde.</p>
+    <p class="consigne">Une chèvre est attachée au piquet O par une corde de <b>4 cm</b> (1 cm = un carreau). Elle voudrait brouter six objets. Clique sur un objet pour <b>prévoir</b> : « oui », puis « non ». Puis trace le cercle que dessine la corde pour répondre.</p>
     <div class="fig plane" id="gfig"></div>
     <div class="row">
-      <button class="btn main" id="gcheck">Vérifier avec la corde</button>
+      <button class="btn main" id="gcheck">Tracer le cercle</button>
       <button class="btn" id="greset">Recommencer</button>
     </div>
-    <p class="msg" id="gmsg" aria-live="polite">Fais une prévision pour chacun des six objets.</p>
+    <p class="msg" id="gmsg" aria-live="polite">Fais tes prévisions (facultatif), puis trace le cercle.</p>
     <p class="consigne">Dans ton cahier, complète : « La chèvre peut atteindre un point M quand OM … 4 cm. »</p>
-    <p class="recit sol">La chèvre atteint M quand <b>OM ≤ 4 cm</b>. Ces points forment le <b>disque</b> de centre O et de rayon 4 cm. Ceux qui sont tels que <b>OM = 4 cm</b>, où la corde est tendue, forment le <b>cercle</b>, bord du disque. Si OM &gt; 4 cm, le point est <b>hors du disque</b>.</p>
+    <p class="recit sol">La chèvre atteint M quand <b>OM ≤ 4 cm</b>. Ces points forment le <b>disque</b> de centre O et de rayon 4 cm. Ceux pour lesquels <b>OM = 4 cm</b>, où la corde est tendue, forment le <b>cercle</b>, bord du disque. Si OM &gt; 4 cm, le point est <b>hors du disque</b>.</p>
   </section>
 
-  <!-- ================= EXERCICES ================= -->
+  <!-- ================= 2. FICHE ================= -->
+  <section class="ex" id="fiche">
+    <div class="ex-h"><h2><span class="step">2</span>La fiche <small>à imprimer à 100 %, taille réelle</small></h2></div>
+    <p class="consigne">Les élèves font les exercices directement sur la feuille, au compas et à la règle : le plan est à l'échelle, 1 cm sur la feuille = 1 cm sur le plan (ou l'échelle indiquée).</p>
+    <div class="dl">
+      <a class="btn main" href="../../fiches/6e/6e-ch5-s2-fiche-portees.pdf" target="_blank" rel="noopener">Fiche élève : antennes et wifi (2 pages)</a>
+      <a class="btn" href="../../fiches/6e/6e-ch5-s2-fiche-chevre.pdf" target="_blank" rel="noopener">Fiche du défi : la chèvre (1 page)</a>
+      <a class="btn" href="../../fiches/6e/6e-ch5-s2-corrige.pdf" target="_blank" rel="noopener">Corrigé (3 pages)</a>
+    </div>
+  </section>
+
   <section class="ex" id="ex1">
-    <div class="ex-h"><h2>Exercice 1 <small>dans le disque, sur le cercle ou hors du disque ?</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="consigne">Un cercle a pour centre O et pour rayon <b>3 cm</b>. Pour chaque point, écris sa position dans ton cahier.</p>
-    <div style="overflow-x:auto"><table class="tb" id="t1"></table></div>
+    <div class="ex-h"><h2>Exercice 1 <small>deux antennes</small></h2><button class="btn" data-sol>Correction</button></div>
+    <div class="split">
+      <div class="stack">
+        <p class="consigne">Deux antennes A et B. Sur le plan, 1 cm représente 1 km. La portée de A est de <b>5 km</b>, celle de B de <b>4 km</b>. Huit maisons sont repérées.</p>
+        <ol class="qs">
+          <li>Trace au compas la zone de portée de chaque antenne.</li>
+          <li>Mesure la distance de chaque maison aux antennes et complète le tableau.</li>
+          <li>Colorie : en bleu A seulement, en orange B seulement, en vert les deux.</li>
+          <li>Quelle maison est exactement à la limite d'une zone ?<span class="sol s">La maison 8 : elle est à 5,0 cm de A, c'est le rayon, donc elle est sur le cercle.</span></li>
+        </ol>
+        <div class="chips sol"><span class="chip"><span class="kc" style="background:#4f8fd6"></span>A seulement</span><span class="chip"><span class="kc" style="background:#f2a22a"></span>B seulement</span><span class="chip"><span class="kc" style="background:var(--ok)"></span>les deux</span></div>
+      </div>
+      <div class="fig" id="f1"></div>
+    </div>
+    <div class="sol" style="overflow-x:auto;margin-top:10px"><table class="tb" id="t1"></table></div>
   </section>
 
   <section class="ex" id="ex2">
-    <div class="ex-h"><h2>Exercice 2 <small>l'antenne</small></h2><button class="btn" data-sol>Correction</button></div>
+    <div class="ex-h"><h2>Exercice 2 <small>deux box wifi</small></h2><button class="btn" data-sol>Correction</button></div>
     <div class="split">
-      <div class="fig" id="f2"></div>
       <div class="stack">
-        <p class="consigne">Une antenne est placée en O. Son signal porte jusqu'à <b>3 km</b> (sur le plan, 1 cm représente 1 km). Les distances à l'antenne sont indiquées.</p>
-        <ol class="qs" type="a">
-          <li>Quelles maisons captent le signal ?<span class="sol s">A, B, E, et C : elle est exactement à 3 km, sur le cercle, donc tout juste dans la zone.</span></li>
-          <li>Une maison ne capte pas le signal de très peu. Laquelle ?<span class="sol s">D (3,4 km). F (4,1 km) est encore plus loin.</span></li>
-          <li>La portée passe à <b>2 km</b>. Quelles maisons captent encore le signal ?<span class="sol s">Seulement A (1,8 km). E est à 2,2 km : trop loin.</span></li>
+        <p class="consigne">Dans un appartement, deux box W1 et W2. Sur le plan, <b>1 cm représente 2 m</b>. La portée de W1 est de <b>8 m</b>, celle de W2 de <b>6 m</b>.</p>
+        <ol class="qs">
+          <li>Calcule le rayon de chaque zone sur le plan.<span class="sol s">W1 : 8 ÷ 2 = 4 cm. W2 : 6 ÷ 2 = 3 cm.</span></li>
+          <li>Trace les deux zones. Colorie en vert la partie captée par les deux box.</li>
+          <li>Les pièces C et S captent-elles le wifi ?<span class="sol s">C est à 3,5 cm de W1 (moins de 4) : elle capte W1. S est à 2,8 cm de W2 (moins de 3) : elle capte W2.</span></li>
+          <li>Un ordinateur T est à 5 m de W1 et à 7 m de W2. Construis tous les points T possibles : lequel est dans l'appartement ?<span class="sol s">5 ÷ 2 = 2,5 cm de W1 et 7 ÷ 2 = 3,5 cm de W2 : les deux cercles se coupent en 2 points. Seul T1 est dans l'appartement, T2 est dans le jardin.</span></li>
         </ol>
-        <div class="chips sol"><span class="chip legend" data-k="dans">capte à 3 km</span><span class="chip legend" data-k="hors">ne capte pas à 3 km</span></div>
       </div>
+      <div class="fig sol" id="f2"></div>
     </div>
   </section>
 
-  <section class="ex" id="ex3">
-    <div class="ex-h"><h2>Exercice 3 <small>le wifi</small></h2><button class="btn" data-sol>Correction</button></div>
+  <!-- ================= 3. DÉFI ================= -->
+  <section class="ex" id="defi">
+    <div class="ex-h"><h2><span class="step">3</span>Défi <small>la chèvre et le bâtiment</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">La chèvre est attachée en A, au coin du bâtiment ABCD (AB = 4 cm, AD = 3 cm), par une corde de <b>6 cm</b>. Elle ne traverse pas le bâtiment, mais la corde peut tourner autour des coins B et D. <b>Sur la fiche</b> : construis la zone qu'elle peut brouter et dis si elle atteint M1, M2, M3, M4.</p>
     <div class="split">
+      <div class="fig" id="dfig"></div>
       <div class="stack">
-        <p class="consigne">Une box wifi W a une portée de <b>6 m</b>. Sur ton plan, <b>1 cm représente 2 m</b>.</p>
-        <ol class="qs" type="a">
-          <li>Quel est le rayon de la zone wifi sur ton plan ?<span class="sol s">6 m ÷ 2 = 3 cm.</span></li>
-          <li>Place W au milieu de ta page et trace la zone de portée.</li>
-          <li>Place le canapé C à 5 m de W et la terrasse T à 7 m de W (dans la direction que tu veux).<span class="sol s">C à 5 ÷ 2 = 2,5 cm de W, et T à 7 ÷ 2 = 3,5 cm de W.</span></li>
-          <li>Lequel des deux est dans la zone wifi ?<span class="sol s">Le canapé C : 2,5 cm &lt; 3 cm. La terrasse T est hors de la zone : 3,5 cm &gt; 3 cm.</span></li>
-        </ol>
+        <p class="consigne" style="margin:0">Teste un point : <b>clique sur le plan</b> ou choisis M1 à M4.</p>
+        <div class="mpts" id="mpts"></div>
+        <p class="msg big" id="dmsg" aria-live="polite">Clique sur le plan.</p>
+        <div class="row"><button class="btn" id="dzone">Montrer la zone</button></div>
+        <div class="sol">
+          <p class="recit"><b>1.</b> Il reste 6 − 4 = 2 cm en B et 6 − 3 = 3 cm en D.<br><b>2.</b> Zone = trois quarts de disque de centre A et de rayon 6 cm + un quart de disque de centre B et de rayon 2 cm + un quart de disque de centre D et de rayon 3 cm.<br><b>3.</b> M1 oui, M2 oui, M3 non, M4 non : M3 et M4 sont à moins de 6 cm de A à vol d'oiseau, mais la corde doit contourner le bâtiment.</p>
+        </div>
       </div>
-      <div class="fig sol" id="f3"></div>
     </div>
-  </section>
-
-  <section class="ex" id="ex4">
-    <div class="ex-h"><h2>Exercice 4 <small>problème de distances</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="consigne">Léa trace un cercle de centre O et de rayon <b>5 cm</b>. Le point A est sur le cercle. Le point B est placé sur la demi-droite [OA) tel que <b>OB = 7 cm</b>.</p>
-    <ol class="qs" type="a">
-      <li>Le point B est-il dans le disque, sur le cercle ou hors du disque ?<span class="sol s">Hors du disque : OB = 7 cm, et 7 &gt; 5.</span></li>
-      <li>Fais un schéma, puis calcule la distance AB.<span class="sol s">A est sur [OB], car A et B sont sur la même demi-droite d'origine O avec OA &lt; OB. Donc OA + AB = OB, d'où AB = 7 − 5 = <b>2 cm</b>.</span></li>
-    </ol>
   </section>
 
   <div class="ex">
     <div class="next">
-      <p style="margin:0"><b><span class="step">3</span>Pour finir :</b> le mini-jeu par équipes « Dedans, dessus, dehors ».</p>
+      <p style="margin:0"><b>Bonus :</b> le mini-jeu par équipes « Dedans, dessus, dehors ».</p>
       <a class="btn main" href="../dedans-dessus-dehors/index.html">Lancer le mini-jeu</a>
     </div>
   </div>
@@ -363,7 +384,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-sol]');if(
 const {$,$$}=L4;
 const G=GEO,SC=50,fm=x=>G.fmt1(x);
 
-/* =============== ACTIVITÉ : prévoir, puis vérifier avec la corde =============== */
+/* =============== 1. la chèvre : prévoir, puis tracer le cercle =============== */
 const W=700,H=500,OX=350,OY=250,R4=4*SC;
 const ITEMS=[['A','le pommier',2,35],['B','le buisson',3.5,150],['C','la botte de foin',4,250],['D','la mare',4.5,320],['E','la carotte',1.5,120],['F','l\'abreuvoir',5.5,200]];
 const pos=(d,a)=>G.pol(OX,OY,d*SC,a);
@@ -398,43 +419,117 @@ function scene(){
 }
 function gmsg(t,c){const m=$('#gmsg');m.innerHTML=t;m.className='msg'+(c?' '+c:'');}
 function cycle(i){if(checked)return;const n=ITEMS[i][0];pred[n]=pred[n]===undefined?'oui':pred[n]==='oui'?'non':undefined;if(pred[n]===undefined)delete pred[n];scene();
-  const k=Object.keys(pred).length;gmsg(k<6?`${k} prévision${k>1?'s':''} sur 6.`:'Les six prévisions sont faites : vérifie avec la corde !');}
+  const k=Object.keys(pred).length;gmsg(k?`${k} prévision${k>1?'s':''} sur 6. Trace le cercle pour vérifier.`:'Fais tes prévisions (facultatif), puis trace le cercle.');}
 $('#gcheck').addEventListener('click',()=>{
-  if(Object.keys(pred).length<6){gmsg('Fais d\'abord une prévision pour chacun des six objets.','ko');return;}
   checked=true;animate=true;scene();
-  const bon=ITEMS.filter(([n,,d])=>(pred[n]==='oui')===(d<=4)).length;
-  gmsg(`${bon} bonne${bon>1?'s':''} prévision${bon>1?'s':''} sur 6. La corde dessine un <b>disque</b> de rayon 4 cm. Attention à C : OC = 4 cm, la corde est exactement tendue, la chèvre atteint la botte de foin.`,bon===6?'ok':'');});
-$('#greset').addEventListener('click',()=>{pred={};checked=false;scene();gmsg('Fais une prévision pour chacun des six objets.');});
+  const k=Object.keys(pred).length;
+  const bon=ITEMS.filter(([n,,d])=>pred[n]&&(pred[n]==='oui')===(d<=4)).length;
+  gmsg((k?`${bon} bonne${bon>1?'s':''} prévision${bon>1?'s':''} sur ${k}. `:'')+`La corde dessine un <b>disque</b> de rayon 4 cm : la chèvre atteint A, B, E et même C (OC = 4 cm, corde exactement tendue), mais ni D ni F.`,k&&bon===k?'ok':'');});
+$('#greset').addEventListener('click',()=>{pred={};checked=false;scene();gmsg('Fais tes prévisions (facultatif), puis trace le cercle.');});
 
-/* =============== EXERCICES =============== */
-/* ex. 1 */
+/* =============== 2. EXERCICES =============== */
+const S2=40;
+const flipY=(h)=>y=>(h-y)*S2;
+/* ex. 1 : deux antennes */
 (function(){
-  const rows=[['A','2,4 cm','dans'],['B','3 cm','sur'],['C','3,5 cm','hors'],['D','2,95 cm','dans'],['E','3,05 cm','hors'],['F','30 mm','sur']];
-  const T={dans:'dans le disque',sur:'sur le cercle',hors:'hors du disque'};
-  $('#t1').innerHTML='<tr><th>Point</th><th>Distance à O</th><th>Position</th></tr>'+rows.map(([p,d,k])=>`<tr><td class="l">${p}</td><td class="num">O${p} = ${d}</td><td><span class="q">?</span><span class="sol"><span class="vd ${k}">${T[k]}</span></span></td></tr>`).join('');
+  const E={W:17.5,H:11.0,A:[5.5,5.5],B:[13.0,5.5],rA:5.0,rB:4.0,houses:{'1':[3.0,7.5],'2':[9.8,6.5],'3':[15.5,3.5],'4':[7.5,1.5],'5':[10.5,9.2],'6':[9.6,4.2],'7':[1.2,2.0],'8':[8.5,9.5]}};
+  const fy=flipY(E.H),X=x=>x*S2;
+  const Ap=[X(E.A[0]),fy(E.A[1])],Bp=[X(E.B[0]),fy(E.B[1])];
+  const rows=[],COL={A:'#4f8fd6',B:'#f2a22a',AB:'var(--ok)',none:'var(--paper)'};
+  let s=`<svg viewBox="0 0 ${E.W*S2} ${E.H*S2}" role="img" aria-label="plan avec deux antennes et huit maisons">`+G.grid(E.W*S2,E.H*S2,S2,0,0,'var(--grid)');
+  s+=`<g class="sol">`+G.circ(Ap[0],Ap[1],E.rA*S2,{fill:'#4f8fd6',col:'#2f6fb5',w:3,extra:'fill-opacity=".22"'})+G.circ(Bp[0],Bp[1],E.rB*S2,{fill:'#f2a22a',col:'#c47a00',w:3,extra:'fill-opacity=".25"'})+`</g>`;
+  Object.entries(E.houses).forEach(([n,[x,y]])=>{
+    const dA=Math.hypot(x-E.A[0],y-E.A[1]),dB=Math.hypot(x-E.B[0],y-E.B[1]);
+    const a=dA<=E.rA+1e-9,b=dB<=E.rB+1e-9,k=a&&b?'AB':a?'A':b?'B':'none';
+    rows.push([n,dA,dB,k]);
+    const px=X(x),py=fy(y);
+    s+=`<rect x="${px-12}" y="${py-12}" width="24" height="24" rx="3" fill="var(--paper)" stroke="var(--ink)" stroke-width="3.5"/>`;
+    s+=`<g class="sol"><rect x="${px-12}" y="${py-12}" width="24" height="24" rx="3" fill="${COL[k]}" stroke="var(--ink)" stroke-width="3.5"/></g>`;
+    s+=G.text(px,py-19,n,{size:23,halo:true});
+  });
+  s+=G.cross(Ap[0],Ap[1],'var(--ink)',8,3.5)+G.text(Ap[0]-14,Ap[1]-12,'A',{size:34})+G.cross(Bp[0],Bp[1],'var(--ink)',8,3.5)+G.text(Bp[0]-14,Bp[1]-12,'B',{size:34});
+  s+=G.line(14,E.H*S2-16,14+S2,E.H*S2-16,'var(--ink)',3)+G.text(14+S2/2,E.H*S2-24,'1 km',{size:22,col:'var(--muted)'});
+  $('#f1').innerHTML=s+'</svg>';
+  const T={A:'A seulement',B:'B seulement',AB:'les deux',none:'aucune'};
+  $('#t1').innerHTML='<tr><th>Maison</th><th>Distance à A</th><th>Distance à B</th><th>Capte</th></tr>'+rows.map(([n,a,b,k])=>`<tr><td class="l">${n}</td><td class="num">${fm(a)} km</td><td class="num">${fm(b)} km</td><td><b>${T[k]}</b></td></tr>`).join('');
 })();
-/* ex. 2 */
+/* ex. 2 : wifi */
 (function(){
-  const cx=300,cy=215,R=150,P=[['A',1.8,40],['B',2.6,160],['C',3,250],['D',3.4,320],['E',2.2,100],['F',4.1,205]];
-  let s=`<svg viewBox="0 0 600 440" role="img" aria-label="plan avec l'antenne O et six maisons A à F">`+G.grid(600,440,SC,cx,cy,'var(--grid)');
-  s+=`<g class="sol">`+G.circ(cx,cy,R,{fill:'var(--ok-bg)',col:'var(--ok)',w:4,extra:'fill-opacity=".8"'})+`</g>`;
-  P.forEach(([n,d,a])=>{const [x,y]=G.pol(cx,cy,d*SC,a),c=d<=3?'var(--ok)':'var(--ko)';
-    s+=`<rect x="${x-9}" y="${y-9}" width="18" height="18" rx="3" fill="var(--paper)" stroke="var(--ink)" stroke-width="2.4"/>`;
-    s+=`<g class="sol"><rect x="${x-9}" y="${y-9}" width="18" height="18" rx="3" fill="${c}" stroke="var(--ink)" stroke-width="2.4"/></g>`;
-    s+=G.text(x,y-16,n+' · '+fm(d)+' km',{size:15,halo:true});});
-  s+=G.cross(cx,cy,'var(--ink)',8,3.5)+G.text(cx-18,cy-12,'O',{size:22})+G.line(24,414,24+SC,414,'var(--ink)',3)+G.text(24+SC/2,404,'1 km',{size:14,col:'var(--muted)'});
+  const E={W:17.5,H:10.0,flat:[0.5,4.5,16.5,9.0],W1:[4.5,5.5],W2:[9.5,5.5],r1:4,r2:3,C:[2.0,8.0],S:[11.8,7.0],d1:2.5,d2:3.5};
+  const fy=flipY(E.H),X=x=>x*S2,P=p=>[X(p[0]),fy(p[1])];
+  const w1=P(E.W1),w2=P(E.W2),c=P(E.C),sp=P(E.S);
+  // intersections des cercles (W1,2.5) et (W2,3.5)
+  const dx=E.W2[0]-E.W1[0],dd=Math.abs(dx),a=(E.d1*E.d1-E.d2*E.d2+dd*dd)/(2*dd),h=Math.sqrt(E.d1*E.d1-a*a);
+  const mx=E.W1[0]+a,Ts=[[mx,E.W1[1]+h],[mx,E.W1[1]-h]].map(p=>({m:p,p:P(p),in:p[1]>=E.flat[1]&&p[1]<=E.flat[3]}));
+  const f=E.flat;
+  let s=`<svg viewBox="0 0 ${E.W*S2} ${E.H*S2}" role="img" aria-label="plan de l'appartement avec deux box wifi">`;
+  s+=`<rect x="0" y="0" width="${E.W*S2}" height="${E.H*S2}" fill="var(--ok-bg)" fill-opacity=".45"/>`+G.grid(E.W*S2,E.H*S2,S2,0,0,'var(--grid)');
+  s+=`<rect x="${X(f[0])}" y="${fy(f[3])}" width="${X(f[2]-f[0])}" height="${X(f[3]-f[1])}" fill="var(--paper)" stroke="var(--ink)" stroke-width="3"/>`;
+  s+=`<defs><clipPath id="c1"><circle cx="${w1[0]}" cy="${w1[1]}" r="${E.r1*S2}"/></clipPath></defs>`;
+  s+=`<g class="sol"><circle cx="${w1[0]}" cy="${w1[1]}" r="${E.r1*S2}" fill="#4f8fd6" fill-opacity=".18" stroke="#2f6fb5" stroke-width="3"/><circle cx="${w2[0]}" cy="${w2[1]}" r="${E.r2*S2}" fill="#f2a22a" fill-opacity=".2" stroke="#c47a00" stroke-width="3"/>`;
+  s+=`<g clip-path="url(#c1)"><circle cx="${w2[0]}" cy="${w2[1]}" r="${E.r2*S2}" fill="var(--ok)" fill-opacity=".45" stroke="none"/></g>`;
+  s+=`<circle cx="${w1[0]}" cy="${w1[1]}" r="${E.d1*S2}" fill="none" stroke="var(--ink)" stroke-width="1.8" stroke-dasharray="6 5"/><circle cx="${w2[0]}" cy="${w2[1]}" r="${E.d2*S2}" fill="none" stroke="var(--ink)" stroke-width="1.8" stroke-dasharray="6 5"/>`;
+  Ts.forEach((t,i)=>{s+=G.dot(t.p[0],t.p[1],7,t.in?'var(--ok)':'var(--ko)')+G.text(t.p[0]+(i?18:18),t.p[1]+(i?20:-8),'T'+(i+1),{size:28,halo:true});});
+  s+=`</g>`;
+  [[w1,'W1'],[w2,'W2']].forEach(([p,n])=>{s+=`<rect x="${p[0]-8}" y="${p[1]-8}" width="16" height="16" fill="var(--amber)" stroke="var(--ink)" stroke-width="3.5"/>`+G.text(p[0]+4,p[1]+30,n,{size:26,halo:true});});
+  s+=G.cross(c[0],c[1],'var(--ink)',7,3)+G.text(c[0]+14,c[1]-8,'C',{size:29,halo:true})+G.cross(sp[0],sp[1],'var(--ink)',7,3)+G.text(sp[0]+14,sp[1]-8,'S',{size:29,halo:true});
+  s+=G.text(X(f[0])+330,fy(f[3])+30,'Appartement',{size:20,weight:400,col:'var(--muted)'})+G.text(70,E.H*S2-12,'Jardin',{size:20,weight:400,col:'var(--muted)'});
+  s+=G.line(E.W*S2-14-S2/2,E.H*S2-16,E.W*S2-14,E.H*S2-16,'var(--ink)',3)+G.text(E.W*S2-14,E.H*S2-26,'1 cm = 2 m',{size:20,col:'var(--muted)',anchor:'end'});
   $('#f2').innerHTML=s+'</svg>';
 })();
-/* ex. 3 */
+
+/* =============== 3. DÉFI : la chèvre et le bâtiment =============== */
 (function(){
-  const cx=240,cy=200,R=150,C=G.pol(cx,cy,2.5*SC,40),T=G.pol(cx,cy,3.5*SC,215);
-  let s=`<svg viewBox="0 0 480 400" role="img" aria-label="zone wifi de rayon 3 cm autour de la box W, avec le canapé C et la terrasse T">`;
-  s+=G.circ(cx,cy,R,{fill:'var(--ok-bg)',col:'var(--ok)',w:4,extra:'fill-opacity=".8"'})+G.line(cx,cy,C[0],C[1],'var(--ink)',2.5,'stroke-dasharray="7 6"')+G.line(cx,cy,T[0],T[1],'var(--ink)',2.5,'stroke-dasharray="7 6"');
-  s+=G.dot(C[0],C[1],8,'var(--ok)')+G.text(C[0]-6,C[1]-16,'C',{size:22})+G.dot(T[0],T[1],8,'var(--ko)')+G.text(T[0]-18,T[1]+8,'T',{size:22});
-  s+=G.text((cx+C[0])/2+16,(cy+C[1])/2-8,'2,5 cm',{size:15,halo:true})+G.text((cx+T[0])/2-6,(cy+T[1])/2+24,'3,5 cm',{size:15,halo:true});
-  s+=G.cross(cx,cy,'var(--ink)',8,3.5)+G.text(cx+4,cy+26,'W',{size:22});
-  s+=G.text(240,388,'plan à l\'échelle : 1 cm représente 2 m',{size:14,col:'var(--muted)',weight:400});
-  $('#f3').innerHTML=s+'</svg>';
+  const D={W:13,H:13,A:[6.5,6.5],ab:4,ad:3,rope:6,M:{M1:[3.0,10.0],M2:[11.5,7.5],M3:[11.5,8.5],M4:[8.5,12.0]}};
+  const fy=flipY(D.H),S3=S2,X=x=>x*S3,P=p=>[X(p[0]),fy(p[1])];
+  const A=D.A,B=[A[0]+D.ab,A[1]],Dd=[A[0],A[1]+D.ad],Cc=[B[0],Dd[1]];
+  const need=p=>{const dx=p[0]-A[0],dy=p[1]-A[1];
+    if(dx>0&&dx<D.ab&&dy>0&&dy<D.ad)return null;
+    if(dx<=0||dy<=0)return {len:Math.hypot(dx,dy),path:[A,p],via:null};
+    const o=[];
+    if(dx>=D.ab)o.push({len:D.ab+Math.hypot(p[0]-B[0],p[1]-B[1]),path:[A,B,p],via:'B'});
+    if(dy>=D.ad)o.push({len:D.ad+Math.hypot(p[0]-Dd[0],p[1]-Dd[1]),path:[A,Dd,p],via:'D'});
+    return o.sort((a,b)=>a.len-b.len)[0];};
+  let pt=null,zone=false;
+  function draw(){
+    const a=P(A),b=P(B),d=P(Dd),c=P(Cc),R=D.rope*S3;
+    let s=`<svg viewBox="0 0 ${D.W*S3} ${D.H*S3}" id="dsvg" role="img" aria-label="la chèvre attachée au coin A du bâtiment">`+G.grid(D.W*S3,D.H*S3,S3,0,0,'var(--grid)');
+    if(zone){
+      s+=`<g fill="var(--ok)" fill-opacity=".3" stroke="var(--ok)" stroke-width="3" stroke-linejoin="round">`;
+      s+=`<path d="M${a[0]} ${a[1]}L${a[0]} ${a[1]-R}A${R} ${R} 0 1 0 ${a[0]+R} ${a[1]}Z"/>`;
+      s+=`<path d="M${b[0]} ${b[1]}L${b[0]+2*S3} ${b[1]}A${2*S3} ${2*S3} 0 0 0 ${b[0]} ${b[1]-2*S3}Z"/>`;
+      s+=`<path d="M${d[0]} ${d[1]}L${d[0]+3*S3} ${d[1]}A${3*S3} ${3*S3} 0 0 0 ${d[0]} ${d[1]-3*S3}Z"/></g>`;
+    }
+    s+=`<rect x="${d[0]}" y="${d[1]}" width="${b[0]-a[0]}" height="${a[1]-d[1]}" fill="#d9d2c3" stroke="var(--ink)" stroke-width="3"/>`+G.text((a[0]+c[0])/2,(a[1]+d[1])/2+5,'bâtiment',{size:14,weight:400,col:'var(--muted)'});
+    s+=G.dot(a[0],a[1],6)+G.text(a[0]-12,a[1]+22,'A',{size:20,halo:true})+G.text(b[0]+10,b[1]+22,'B',{size:20,halo:true})+G.text(c[0]+10,c[1]-8,'C',{size:20,halo:true})+G.text(d[0]-12,d[1]-8,'D',{size:20,halo:true});
+    Object.entries(D.M).forEach(([n,m])=>{const p=P(m);s+=G.cross(p[0],p[1],'var(--ink)',7,3)+G.text(p[0]+16,p[1]-8,n,{size:16,halo:true});});
+    if(pt){
+      const r=need(pt),p=P(pt);
+      if(!r){s+=G.dot(p[0],p[1],7,'var(--ko)');}
+      else{
+        const ok=r.len<=D.rope+1e-9;
+        if(r.via)s+=G.line(a[0],a[1],p[0],p[1],'var(--muted)',2,'stroke-dasharray="5 5"');
+        const pp=r.path.map(P);
+        s+=`<polyline points="${pp.map(q=>q.join(',')).join(' ')}" fill="none" stroke="${ok?'var(--ok)':'var(--ko)'}" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+        s+=G.dot(p[0],p[1],8,ok?'var(--ok)':'var(--ko)');
+      }
+    }
+    $('#dfig').innerHTML=s+'</svg>';
+    const m=$('#dmsg');
+    if(!pt){m.className='msg big';m.textContent='Clique sur le plan.';return;}
+    const r=need(pt);
+    if(!r){m.className='msg big ko';m.textContent='Ce point est dans le bâtiment.';return;}
+    const ok=r.len<=D.rope+1e-9,vol=Math.hypot(pt[0]-A[0],pt[1]-A[1]);
+    m.className='msg big '+(ok?'ok':'ko');
+    m.innerHTML=(r.via?`À vol d'oiseau : ${fm(vol)} cm. Mais la corde doit passer par ${r.via} : <br>`:'')+`Corde nécessaire : <span class="num">${fm(r.len)} cm</span>${r.len>D.rope?' > 6 cm':' ≤ 6 cm'}<br>${ok?'La chèvre peut atteindre ce point.':'La chèvre ne peut pas atteindre ce point.'}`;
+  }
+  $('#mpts').innerHTML=Object.keys(D.M).map(n=>`<button class="btn" data-m="${n}">${n}</button>`).join('');
+  $('#mpts').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;pt=D.M[b.dataset.m].slice();draw();});
+  $('#dfig').addEventListener('click',e=>{const sv=$('#dsvg'),r=sv.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width*D.W,y=D.H-(e.clientY-r.top)/r.height*D.H;
+    pt=[Math.round(x*10)/10,Math.round(y*10)/10];draw();});
+  $('#dzone').addEventListener('click',()=>{zone=!zone;$('#dzone').textContent=zone?'Cacher la zone':'Montrer la zone';draw();});
+  draw();
 })();
 scene();
 })();
