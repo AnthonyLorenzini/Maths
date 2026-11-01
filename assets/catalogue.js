@@ -416,7 +416,7 @@ window.SITE = {
               contenu: [
                 "Je prévois (8 min) : une roue fait un tour sur le sol. La prévision se fait à l'oral (combien de diamètres dans le tour ?), puis on déroule : 3 diamètres et un petit reste, pour trois tailles de roue.",
                 "Je mesure (18 min, cahier) : chaque équipe trace un cercle (rayon 3, 4 ou 5 cm) et mesure son tour avec des pas de compas de 1 cm. Aucune fiche : les élèves tracent eux-mêmes leur cercle.",
-                "Je retiens (12 min, au tableau) : on saisit les mesures de la classe, la calculatrice affiche P ÷ d à chaque ligne : presque le même nombre. Puis on divise les pas par 2 (6, 12, 24… 1 536 pas) dans un cercle de diamètre 10 cm : on calcule à chaque fois périmètre du polygone ÷ diamètre, et les chiffres 3 ; 3,1 ; 3,141 ; 3,1415… apparaissent un à un. Le polygone est plus court que le cercle (corde < arc) ; que ces nombres se rapprochent de π est admis en 6e. On nomme alors π.",,
+                "Je retiens (12 min, au tableau) : on saisit les mesures de la classe, la calculatrice affiche P ÷ d à chaque ligne : presque le même nombre. Puis on divise les pas par 2 (6, 12, 24… 1 536 pas) dans un cercle de diamètre 10 cm : on calcule à chaque fois périmètre du polygone ÷ diamètre, et les chiffres 3 ; 3,1 ; 3,141 ; 3,1415… apparaissent un à un. Le polygone est plus court que le cercle (corde < arc) ; que ces nombres se rapprochent de π est admis en 6e. On nomme alors π.",
                 "Je calcule (8 min, cahier) : un exemple puis trois calculs avec 3,14 × d. Je repère l'erreur (4 min, cahier) : rayon ou diamètre ? Mini-jeu par équipes en bonus."
               ],
               ressources: ["6e-ch5-s3", "tour-du-cercle"],
@@ -427,6 +427,23 @@ window.SITE = {
               ],
               exemple: "Une canette de diamètre 6,6 cm a un tour d'environ 3,14 × 6,6 ≈ 20,7 cm.",
               savoir: "dire que le périmètre d'un cercle est un peu plus de 3 fois son diamètre, connaître π ≈ 3,14 et calculer un tour à partir du diamètre."
+            },
+            {
+              titre: "Les formules du tour", duree: "50 min",
+              contenu: [
+                "Je relie (7 min, projeté) : la machine à tours. Du rayon au diamètre (× 2), puis du diamètre au tour (× π). Si on connaît le diamètre, il n'y a qu'une étape.",
+                "Je construis (10 min, projeté puis cahier) : le chemin de la machine s'écrit avec des lettres, P = π × d puis P = 2 × π × r. Deux choix rapides pour s'entraîner à prendre la bonne ligne.",
+                "Je compare (10 min, projeté) : la touche π ou 3,14 ? Pour un CD, une roue de vélo, un trampoline et un rond-point, l'écart grandit avec la taille du cercle. Valeur exacte, valeur approchée, arrondi au centième.",
+                "Je calcule (15 min, cahier) : un exemple, trois calculs avec la touche π (rayon ou diamètre donné, une longueur en mètres) et un défi sans calculatrice. Je repère l'erreur (5 min, cahier) : quatre élèves, une erreur chacun (rayon non doublé, 3,14, unité oubliée) ou rien à corriger."
+              ],
+              ressources: ["6e-ch5-s4"],
+              retenir: [
+                "Pour un cercle de diamètre **d** et de rayon **r** : **P = π × d** et **P = 2 × π × r** (car d = 2 × r).",
+                "**π × d** est la valeur **exacte** du tour. **3,14** n'est qu'une valeur approchée de π : on utilise la **touche π** de la calculatrice.",
+                "On arrondit **à la fin** du calcul, ici **au centième**, et on écrit l'**unité**."
+              ],
+              exemple: "Un jeton de rayon 1,5 cm : P = 2 × π × 1,5 ≈ 9,42 cm.",
+              savoir: "calculer le périmètre d'un cercle à partir de son rayon ou de son diamètre avec la touche π, et arrondir au centième."
             }
           ],
           ressources: [
@@ -435,7 +452,8 @@ window.SITE = {
             { id: "6e-ch5-s2", type: "exos", titre: "Séance 2 — Le disque : dedans, dessus, dehors", resume: "La chèvre au piquet, deux antennes, la chèvre et le bâtiment. Fiche à imprimer et corrections.", ajout: "2026-10-29" },
             { id: "dedans-dessus-dehors", type: "jeu", titre: "Dedans, dessus, dehors", resume: "Compare OM au rayon : dans le disque, sur le cercle ou hors du disque ?", ajout: "2026-10-29" },
             { id: "6e-ch5-s3", type: "exos", titre: "Séance 3 — Le tour d'un cercle", resume: "Je prévois avec une roue, je mesure un cercle au compas dans le cahier, je découvre π ≈ 3,14, je calcule un tour. Avec corrections.", ajout: "2026-10-29" },
-            { id: "tour-du-cercle", type: "jeu", titre: "Le Tour du cercle", resume: "Une ficelle peut-elle faire le tour ? Quel est le périmètre ? Estime avec π ≈ 3,14.", ajout: "2026-10-29" }
+            { id: "tour-du-cercle", type: "jeu", titre: "Le Tour du cercle", resume: "Une ficelle peut-elle faire le tour ? Quel est le périmètre ? Estime avec π ≈ 3,14.", ajout: "2026-10-29" },
+            { id: "6e-ch5-s4", type: "exos", titre: "Séance 4 — Les formules du tour", resume: "La machine à tours, P = π × d et P = 2 × π × r, la touche π ou 3,14, des calculs au centième et la chasse à l'erreur. Avec corrections.", ajout: "2026-11-01" }
           ]
         },
         {
