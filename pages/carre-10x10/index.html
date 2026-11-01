@@ -11,28 +11,22 @@
 <style>
 /* Mise en page : bandeau titre + onglets du récit, plateau de carrés à colorier, compteur qui « parle » comme l'histoire */
 :root{
-  --bg:#f6f5f1; --panel:#ffffff; --paper:#ffffff; --ink:#221d12; --muted:#6d6656; --line:#cfc8b6; --grid:#ddd6c4;
-  --amber:#e8a400; --amber-ink:#8a5d00; --fill:#f5b81c; --fill-2:#fbe3a1;
-  --ok:#1f9a55; --ok-bg:#e3f5ea; --ko:#d23c3c; --ko-bg:#fbe7e7;
+  color-scheme:light;
+  --bg:#fffef8; --panel:#ffffff; --paper:#ffffff; --ink:#1b2a5e; --muted:#56608a; --line:#c3d1ec; --grid:#dbe5f6;
+  --amber:#ffc61a; --amber-text:#d62839; --amber-ink:#9c1c2a; --fill:#ffe45e; --fill-2:#fff4b8; --on-amber:#1b2a5e;
+  --ok:#17703f; --ok-bg:#dff5e6; --ko:#b3261e; --ko-bg:#ffe5e2;
+  --blue:#1f56d6; --blue-bg:#e6eeff; --magenta:#b8217a; --magenta-bg:#ffe6f3; --teal:#08766f; --teal-bg:#dcf5f2;
   --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
   --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#16140f; --panel:#201d16; --paper:#2a261d; --ink:#f3eddf; --muted:#aaa18c; --line:#4a4334; --grid:#3d3729;
-  --amber:#f2b52a; --amber-ink:#f6c95a; --fill:#e9a90f; --fill-2:#5a4515;
-  --ok:#3fcf7d; --ok-bg:#163524; --ko:#ff6b6b; --ko-bg:#3d1a1a; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#16140f; --panel:#201d16; --paper:#2a261d; --ink:#f3eddf; --muted:#aaa18c; --line:#4a4334; --grid:#3d3729;
-  --amber:#f2b52a; --amber-ink:#f6c95a; --fill:#e9a90f; --fill-2:#5a4515;
-  --ok:#3fcf7d; --ok-bg:#163524; --ko:#ff6b6b; --ko-bg:#3d1a1a; color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--f-text);padding-inline:16px;padding-block:16px 40px}
+body{background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;color:var(--ink);font:16px/1.5 var(--f-text);padding-inline:16px;padding-block:16px 40px}
 .wrap{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
 header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
 h1{font:800 clamp(2.2rem,7vw,3.6rem)/.9 var(--f-title);letter-spacing:.01em;margin:0;text-transform:uppercase}
-h1 span{color:var(--amber)}
+h1 span{color:var(--amber-text)}
 .sub{margin:6px 0 0;color:var(--muted);font-size:.95rem}
 .switch{display:flex;align-items:center;gap:8px;font-size:.9rem;color:var(--muted);cursor:pointer;user-select:none}
 .switch input{width:20px;height:20px;accent-color:var(--amber)}
