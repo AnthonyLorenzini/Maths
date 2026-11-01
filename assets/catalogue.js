@@ -410,13 +410,32 @@ window.SITE = {
               ],
               exemple: "Rayon 3 cm : un point à 2,95 cm de O est dans le disque, un point à 3,05 cm est hors du disque.",
               savoir: "dire si un point est dans le disque, sur le cercle ou hors du disque."
+            },
+            {
+              titre: "Le tour d'un cercle", duree: "50 min",
+              contenu: [
+                "Je prévois (8 min) : une roue fait un tour sur le sol. La prévision se fait à l'oral (combien de diamètres dans le tour ?), puis on déroule : 3 diamètres et un petit reste, pour trois tailles de roue.",
+                "Je mesure (18 min, cahier) : chaque équipe trace un cercle (rayon 3, 4 ou 5 cm) et mesure son tour avec des pas de compas de 1 cm. Aucune fiche : les élèves tracent eux-mêmes leur cercle.",
+                "Je retiens (12 min, au tableau) : on saisit les mesures de la classe, la calculatrice affiche P ÷ d à chaque ligne : presque le même nombre. Puis on divise les pas par 2 (6, 12, 24… 1 536 pas) dans un cercle de diamètre 10 cm : on calcule à chaque fois périmètre du polygone ÷ diamètre, et les chiffres 3 ; 3,1 ; 3,141 ; 3,1415… apparaissent un à un. Le polygone est plus court que le cercle (corde < arc) ; que ces nombres se rapprochent de π est admis en 6e. On nomme alors π.",,
+                "Je calcule (8 min, cahier) : un exemple puis trois calculs avec 3,14 × d. Je repère l'erreur (4 min, cahier) : rayon ou diamètre ? Mini-jeu par équipes en bonus."
+              ],
+              ressources: ["6e-ch5-s3", "tour-du-cercle"],
+              retenir: [
+                "Le tour d'un cercle s'appelle son **périmètre**.",
+                "Le périmètre d'un cercle est **un peu plus de 3 fois son diamètre**. Le quotient **périmètre ÷ diamètre** est le même pour tous les cercles : c'est le nombre **π** (lu « pi »), et **π ≈ 3,14**.",
+                "Pour calculer un tour : **périmètre ≈ 3,14 × diamètre**. On multiplie le diamètre, pas le rayon."
+              ],
+              exemple: "Une canette de diamètre 6,6 cm a un tour d'environ 3,14 × 6,6 ≈ 20,7 cm.",
+              savoir: "dire que le périmètre d'un cercle est un peu plus de 3 fois son diamètre, connaître π ≈ 3,14 et calculer un tour à partir du diamètre."
             }
           ],
           ressources: [
             { id: "6e-ch5-s1", type: "exos", titre: "Séance 1 — Le cercle et son vocabulaire", resume: "Des points à 4 cm de O, rayon, diamètre, corde, arc. Avec correction.", ajout: "2026-10-29" },
             { id: "cercle-et-ses-noms", type: "jeu", titre: "Le Cercle et ses noms", resume: "Rayon, diamètre, corde ou arc ? Course par équipes ou solo.", ajout: "2026-10-29" },
             { id: "6e-ch5-s2", type: "exos", titre: "Séance 2 — Le disque : dedans, dessus, dehors", resume: "La chèvre au piquet, deux antennes, la chèvre et le bâtiment. Fiche à imprimer et corrections.", ajout: "2026-10-29" },
-            { id: "dedans-dessus-dehors", type: "jeu", titre: "Dedans, dessus, dehors", resume: "Compare OM au rayon : dans le disque, sur le cercle ou hors du disque ?", ajout: "2026-10-29" }
+            { id: "dedans-dessus-dehors", type: "jeu", titre: "Dedans, dessus, dehors", resume: "Compare OM au rayon : dans le disque, sur le cercle ou hors du disque ?", ajout: "2026-10-29" },
+            { id: "6e-ch5-s3", type: "exos", titre: "Séance 3 — Le tour d'un cercle", resume: "Je prévois avec une roue, je mesure un cercle au compas dans le cahier, je découvre π ≈ 3,14, je calcule un tour. Avec corrections.", ajout: "2026-10-29" },
+            { id: "tour-du-cercle", type: "jeu", titre: "Le Tour du cercle", resume: "Une ficelle peut-elle faire le tour ? Quel est le périmètre ? Estime avec π ≈ 3,14.", ajout: "2026-10-29" }
           ]
         },
         {
