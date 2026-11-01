@@ -202,7 +202,24 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{o
 .choix.seul{grid-template-columns:1fr}
 .choix .btn{width:100%}
 .seance{border-radius:20px;background:var(--carte);border:1px solid var(--trait);overflow:hidden}
-.seance .tete{display:flex;gap:12px;align-items:center;padding:14px 16px;background:var(--cc)}
+.seance .tete{display:flex;gap:12px;align-items:center;padding:14px 16px;background:var(--cc);cursor:pointer;list-style:none}
+.seance .tete::-webkit-details-marker{display:none}
+.seance .tete > div{flex:1;min-width:0}
+.seance .tete .chev{flex:none;width:22px;height:22px;color:var(--c);transition:transform .2s}
+.seance[open] .tete .chev,.blocjeux[open] .tete .chev{transform:rotate(180deg)}
+.blocjeux{border-radius:20px;background:var(--carte);border:1px solid var(--trait);overflow:hidden}
+.blocjeux .tete{display:flex;gap:12px;align-items:center;padding:14px 16px;background:var(--soleil-clair);cursor:pointer;list-style:none}
+.blocjeux .tete::-webkit-details-marker{display:none}
+.blocjeux .tete .rond{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--soleil);color:var(--encre)}
+.blocjeux .tete .rond svg{width:18px;height:18px}
+.blocjeux .tete h2{margin:0;font-size:1.1rem}
+.blocjeux .tete > div{flex:1;min-width:0}
+.blocjeux .tete .chev{flex:none;width:22px;height:22px;color:var(--orange);transition:transform .2s}
+.blocjeux .tete:focus-visible{outline:3px solid var(--orange);outline-offset:-3px}
+.blocjeux .corps{padding:14px 16px 16px}
+@media (prefers-reduced-motion:reduce){.blocjeux .tete .chev{transition:none}}
+.seance .tete:focus-visible{outline:3px solid var(--c);outline-offset:-3px}
+@media (prefers-reduced-motion:reduce){.seance .tete .chev{transition:none}}
 .seance .tete .num{background:var(--c);color:var(--blanc)}
 .seance .tete .eti{color:var(--c)}
 .seance .corps{padding:14px 16px 16px;display:flex;flex-direction:column;gap:14px}
@@ -1040,20 +1057,20 @@ function chapitre(n,c){
  const seances=c.seances||[],utilises=new Set(seances.flatMap(s=>s.ressources||[]));
  const choix=(lecon||jeux.length)?`<div class="choix ${lecon&&jeux.length?'':'seul'} a-monte" ${d(0,.15)}>
    ${lecon?`<a class="btn" href="${url(lecon)}">${ICO.lecon} La leçon</a>`:''}
-   ${jeux.length?`<a class="btn jaune" href="#jeux" onclick="event.preventDefault();document.getElementById('jeux').scrollIntoView({behavior:'smooth'})">${ICO.jeu} Les mini-jeux</a>`:''}
+   ${jeux.length?`<a class="btn jaune" href="#jeux" onclick="event.preventDefault();var j=document.getElementById('jeux');j.open=true;j.scrollIntoView({behavior:'smooth'})">${ICO.jeu} Les mini-jeux</a>`:''}
   </div>`:'';
  const fiche=seances.some(s=>(s.retenir||[]).length)&&!c.bientot?`<div class="fiche-ligne a-monte" ${d(0,.2)}><button class="btn clair mini" type="button" onclick="imprimerFiche('${n.id}','${c.id}')">${ICO.imprimer} Imprimer la fiche</button><span class="sans-ecran">Pour réviser sans écran</span></div>`:'';
  const blocSeances=seances.map((s,i)=>{
   const res=(s.ressources||[]).map(trouver).filter(Boolean);
   const exos=res.filter(r=>r.type!=='jeu'&&r.type!=='lecon'),sj=res.filter(r=>r.type==='jeu');
-  return `<article class="seance a-monte" ${d(i,.25,.08)}>
-   <div class="tete"><span class="num">${i+1}</span><div><div class="eti">Séance ${i+1}${s.duree?' · '+esc(s.duree):''}</div><h3>${esc(s.titre)}</h3></div></div>
+  return `<details class="seance a-monte" ${d(i,.25,.08)}>
+   <summary class="tete"><span class="num">${i+1}</span><div><div class="eti">Séance ${i+1}${s.duree?' · '+esc(s.duree):''}</div><h3>${esc(s.titre)}</h3></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
    <div class="corps">
     ${exos.length?`<div class="etape"><span class="rond">${ICO.exos}</span><div class="cont"><span class="eti">Je refais les exercices</span><div class="liens">${exos.map(lien).join('')}</div></div></div>`:''}
     ${(s.retenir||[]).length?`<div class="etape"><span class="rond">${ICO.retenir}</span><div class="cont"><span class="eti">J’apprends</span><div class="retenir"><ul>${s.retenir.map(t=>`<li>${gras(t)}</li>`).join('')}</ul>${s.exemple?`<p class="ex">Exemple : ${gras(s.exemple)}</p>`:''}${s.savoir?`<p class="savoir"><strong>Je sais</strong> ${gras(s.savoir)}</p>`:''}</div></div></div>`:''}
     ${sj.length?`<div class="etape"><span class="rond">${ICO.jeu}</span><div class="cont"><span class="eti">Je m’entraîne</span><div class="liens">${sj.map(lien).join('')}</div></div></div>`:''}
     ${(s.contenu||[]).length?`<details class="deroule"><summary>Ce qu’on fait en classe</summary><ul>${s.contenu.map(t=>`<li>${gras(t)}</li>`).join('')}</ul></details>`:''}
-   </div></article>`}).join('');
+   </div></details>`}).join('');
  const restant=R.filter(r=>!['jeu','lecon','plus'].includes(r.type)&&!utilises.has(r.id));
  ouvrir(`<div class="vue c-${n.couleur}">
   <button class="retour a-haut" data-parent="#${n.id}">${ICO.gauche} ${esc(n.nom)}</button>
@@ -1063,7 +1080,7 @@ function chapitre(n,c){
   ${fiche}
   ${seances.length?`<h2>Les séances</h2>${blocSeances}`:''}
   ${restant.length?`<section class="vue" style="gap:12px"><h2>${seances.length?'Autres ressources du chapitre':'Exercices et activités'}</h2><div class="liens">${restant.map(lien).join('')}</div></section>`:''}
-  ${jeux.length?`<section class="vue" style="gap:12px" id="jeux"><h2>Tous les mini-jeux du chapitre</h2><div class="jeux">${jeux.map(carteJeu).join('')}</div></section>`:''}
+  ${jeux.length?`<details class="blocjeux" id="jeux"><summary class="tete"><span class="rond">${ICO.jeu}</span><div><h2>Tous les mini-jeux du chapitre</h2><span class="doux">${jeux.length} mini-jeu${jeux.length>1?'x':''}</span></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><div class="corps"><div class="jeux">${jeux.map(carteJeu).join('')}</div></div></details>`:''}
   ${plus.length?`<section class="vue" style="gap:12px"><h2>Pour s’entraîner encore</h2><div class="liens">${plus.map(lien).join('')}</div></section>`:''}`}
  </div>`,null,{pied:piedAscension(n.id)});
 }
