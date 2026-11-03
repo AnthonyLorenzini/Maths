@@ -317,7 +317,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 
   <section class="ex" id="ex4">
     <div class="ex-h"><h2>Exercice 4 <small>les deux arcs</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="consigne">Deux points d'un cercle le partagent en <b>deux arcs</b>. Ici, les points A et B partagent le cercle en deux arcs.</p>
+    <p class="consigne">Un <b>arc de cercle</b> est une <b>portion de cercle</b>. Deux points d'un cercle en délimitent <b>deux</b>. Ici, les points A et B délimitent deux arcs.</p>
     <div class="fig sm" id="f4"></div>
     <ol class="qs" type="a">
       <li>Quels points se trouvent sur le plus petit des deux arcs ? Et sur le plus grand ?<span class="sol s">Sur le petit arc (en trait épais) : D. Sur le grand arc (en pointillés) : E, C et F.</span></li>
@@ -482,11 +482,11 @@ function choose(p){
       info(`<b>${a}</b> et <b>${b}</b> sont opposés : [${a}${b}] est un diamètre. Il partage le cercle en <b>deux demi-cercles</b>, deux arcs de même longueur.`,'demi');}
     else{const s=d<180?ANG[a]:ANG[b],e=d<180?ANG[b]:ANG[a];keep({type:'arc',a,b,s,e});found.add('arc');
       const sh=AP.map(x=>x[0]).filter(n=>n!==a&&n!==b&&between(ANG[n],s,e)),lg=AP.map(x=>x[0]).filter(n=>n!==a&&n!==b&&!between(ANG[n],s,e));
-      info(`${a} et ${b} partagent le cercle en <b>deux arcs</b>. Le plus court (trait épais) se note <span class="arcn">${a}${b}</span> : il contient ${names(sh)}. L'autre (pointillés) contient ${names(lg)}.`,'arc');}
+      info(`Un <b>arc de cercle</b> est une <b>portion de cercle</b>. Les points ${a} et ${b} en délimitent <b>deux</b>. Le plus court (trait épais) se note <span class="arcn">${a}${b}</span> : il contient ${names(sh)}. L'autre (pointillés) contient ${names(lg)}.`,'arc');}
   }
   atelier();chips();
 }
-seg($('#amode'),v=>{amode=v;store.set('c5s1amode',v);sel=null;last=null;atelier();info(v==='seg'?'Clique sur un premier point (O ou une lettre), puis sur un deuxième. Ce que tu as déjà trouvé reste affiché.':'Clique sur deux points du cercle (deux lettres) : le site montre les deux arcs. Les segments déjà trouvés restent affichés.');},amode);
+seg($('#amode'),v=>{amode=v;store.set('c5s1amode',v);sel=null;last=null;atelier();info(v==='seg'?'Clique sur un premier point (O ou une lettre), puis sur un deuxième. Ce que tu as déjà trouvé reste affiché.':'Un arc de cercle est une portion de cercle. Clique sur deux points du cercle (deux lettres) : le site montre les deux arcs qu\'ils délimitent. Les segments déjà trouvés restent affichés.');},amode);
 $('#aclear').addEventListener('click',()=>{shown.length=0;found.clear();sel=null;last=null;atelier();chips();info('Figure effacée. Clique sur un premier point (O ou une lettre), puis sur un deuxième.');});
 
 /* =============== EXERCICES =============== */
