@@ -376,7 +376,7 @@ window.SITE = {
           ]
         },
         {
-          id: "6e-ch5", num: 5, titre: "Cercle et disque", prive: true,
+          id: "6e-ch5", num: 5, titre: "Cercle et disque",
           resume: "Vocabulaire du cercle, cercle et disque comme ensembles de points, périmètre d'un cercle et problèmes de longueurs.",
           seances: [
             {
