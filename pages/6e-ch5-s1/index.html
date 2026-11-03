@@ -275,7 +275,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
   <!-- ================= ATELIER ================= -->
   <section class="ex" id="atel">
     <div class="ex-h"><h2>Atelier <small>rayon, diamètre, corde, arc</small></h2></div>
-    <p class="consigne">Ce cercle a pour centre O et pour rayon 3 cm. Clique sur deux points : le segment s'affiche avec son nom et reste sur la figure. Trouve <b>un rayon</b>, <b>une corde</b> et <b>un diamètre</b> (ce sont trois segments), puis passe en mode « Arcs ».</p>
+    <p class="consigne">Ce cercle a pour centre O et pour rayon 3 cm. Clique sur deux points : le segment s'affiche avec son nom et reste sur la figure. Si tu repasses sur un segment déjà tracé, il s'efface. Trouve <b>un rayon</b>, <b>une corde</b> et <b>un diamètre</b> (ce sont trois segments), puis passe en mode « Arcs ».</p>
     <div class="row">
       <span class="grp"><span class="lvl">Mode</span>
       <div class="seg" id="amode"><button data-v="seg">Segments</button><button data-v="arc">Arcs</button></div></span>
@@ -432,10 +432,13 @@ const pos=p=>p==='O'?[AC.x,AC.y]:G.pol(AC.x,AC.y,AC.R,ANG[p]);
 const KC={rayon:'var(--blue)',diam:'var(--magenta)',corde:'var(--teal)',arc:'var(--amber)',demi:'var(--ok)'};
 /* shown = tout ce que l'élève a désigné : reste affiché même quand on change de mode ; last = le dernier élément désigné */
 let amode=store.get('c5s1amode','seg'),sel=null,last=null;const shown=[],found=new Set();
+let removed=null;
+/* ajoute l'élément ; s'il est déjà tracé, on l'efface (repasser dessus = effacer) */
 function keep(it){
   const key=x=>x.type==='seg'?'seg:'+[x.a,x.b].sort().join(''):'arc:'+x.s+':'+x.e;
-  const i=shown.findIndex(x=>key(x)===key(it));if(i>=0)shown.splice(i,1);
-  shown.push(it);last=it;return it;
+  const i=shown.findIndex(x=>key(x)===key(it));
+  if(i>=0){shown.splice(i,1);last=null;removed=it;return null;}
+  removed=null;shown.push(it);last=it;return it;
 }
 function atelier(){
   let s=`<svg viewBox="0 0 520 450" id="atsvg" role="img" aria-label="cercle de centre O, de rayon 3 cm, avec huit points A à H">`;
@@ -485,6 +488,8 @@ function choose(p){
       info(`Un <b>arc de cercle</b> est une <b>portion de cercle</b>. Les points ${a} et ${b} en délimitent <b>deux</b>. Le plus court (trait épais) se note <span class="arcn">${a}${b}</span> : il contient ${names(sh)}. L'autre (pointillés) contient ${names(lg)}.`,'arc');}
   }
   atelier();chips();
+  if(removed){const r=removed;removed=null;
+    info(r.type==='seg'?`<b>[${r.a}${r.b}]</b> est effacé de la figure. Clique dessus de nouveau pour le retracer.`:`L'arc <span class="arcn">${r.a}${r.b}</span> est effacé de la figure. Clique de nouveau sur ${r.a} et ${r.b} pour le retracer.`);}
 }
 seg($('#amode'),v=>{amode=v;store.set('c5s1amode',v);sel=null;last=null;atelier();info(v==='seg'?'Clique sur un premier point (O ou une lettre), puis sur un deuxième. Ce que tu as déjà trouvé reste affiché.':'Un arc de cercle est une portion de cercle. Clique sur deux points du cercle (deux lettres) : le site montre les deux arcs qu\'ils délimitent. Les segments déjà trouvés restent affichés.');},amode);
 $('#aclear').addEventListener('click',()=>{shown.length=0;found.clear();sel=null;last=null;atelier();chips();info('Figure effacée. Clique sur un premier point (O ou une lettre), puis sur un deuxième.');});
