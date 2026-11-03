@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 3 — Écrire l'égalité de Pythagore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --acc-b:#F0B25B; --acc-bg:#FEF2E3; --acc-t:#B5680A; --ink:#22303F; --bleu:#2B6CB0; --rose:#E0457B; --vert:#8CC63F; --cadre:#A6D3EE; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 1480px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+.col { max-width:860px; margin:0 auto; }
+.exos { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px 34px; align-items:start; }
+.exos .fx { margin-bottom:14px; }
+.exos .fx-q { font-size:15px; }
+.fx.plus { border:2px dashed var(--acc-b); border-radius:12px; padding:10px 12px 8px; background:#FFFBF3; }
+.fx.plus .pal { font-family:'Baloo 2',sans-serif; color:var(--acc-t); }
+.fx.plus .fxfig { background:#fff; }
+@media (max-width:1100px) { .exos { grid-template-columns:minmax(0,1fr); } }
+.exos .fx { min-width:0; }
+@media (min-width:1101px) {
+  .exos { grid-template-areas:"e1 e2" "e3 e4" "e3 e5"; }
+  #fx1 { grid-area:e1; } #fx2 { grid-area:e2; } #fx3 { grid-area:e3; } #fx4 { grid-area:e4; } #fx5 { grid-area:e5; }
+}
+.cote-a-cote { overflow-x:auto; }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:22px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:25px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+.advanced-title { font-family:'Baloo 2',sans-serif; font-size:15px; color:var(--acc-t); margin:22px 0 10px 0; padding-top:12px; border-top:2px dashed var(--acc-b); }
+[hidden] { display:none !important; }
+
+/* ---------- automatisme ---------- */
+.automatisme { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:12px 16px; margin-bottom:18px; }
+.automatisme h2 { font-family:'Baloo 2',sans-serif; font-size:15px; color:#2B6CB0; margin:0 0 8px 0; }
+.automatisme ol { margin:0; padding-left:20px; font-size:13.5px; }
+.automatisme li { margin-bottom:2px; }
+.reveal-panel { display:none; margin-top:8px; font-size:12.5px; font-style:italic; color:#3B4C5E; border-top:1px dashed #B7CBE3; padding-top:6px; }
+.reveal-panel.show { display:block; }
+
+/* ---------- activité ---------- */
+.act { border:2px solid var(--bleu); background:#F3F8FE; border-radius:14px; padding:14px 18px 16px; margin-bottom:18px; }
+.act h2 { font-family:'Baloo 2',sans-serif; font-size:17px; margin:0 0 6px 0; color:var(--bleu); }
+.act h2 .duree { font-family:'Work Sans',sans-serif; font-size:13px; color:#51657A; font-weight:600; margin-left:6px; }
+.act p { font-size:15px; line-height:1.55; margin:6px 0; }
+.fig { background:#fff; border:1px solid #D2E0F1; border-radius:10px; padding:6px; margin:10px 0; }
+.fig svg { display:block; width:100%; height:auto; max-height:430px; margin:0 auto; }
+.ctrl { display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; margin:8px 0; }
+.abtn { font-family:'Baloo 2',sans-serif; font-size:13.5px; padding:6px 14px; border-radius:18px; border:2px solid var(--bleu); background:#fff; color:var(--bleu); cursor:pointer; }
+.abtn:hover { filter:brightness(0.96); }
+.abtn[aria-pressed="true"] { background:var(--bleu); color:#fff; }
+.abtn.plein { background:var(--ink); border-color:var(--ink); color:#fff; }
+.abtn:disabled { opacity:.45; cursor:default; }
+.etape { font-family:'Baloo 2',sans-serif; font-size:14px; color:#51657A; min-width:5.6em; text-align:center; }
+.egal { font-size:15px; line-height:1.5; padding:9px 13px; border-radius:10px; background:#E8F6EE; border:2px solid #4CAF7D; margin:6px 0; }
+.egal.neutre { background:#EEF3FA; border-color:#9DB8D8; }
+.egal b { font-weight:700; }
+.egal .todo { display:block; margin-top:4px; color:#B5680A; font-weight:700; }
+.def { background:#EFEAFE; border:2px solid #6E4FE0; border-radius:12px; padding:10px 16px; margin:12px 0 20px; font-size:14.5px; line-height:1.55; }
+.def b.tag { font-family:'Baloo 2',sans-serif; color:#4B2FB5; display:block; margin-bottom:2px; font-size:15px; }
+.def ol { margin:4px 0 6px; padding-left:22px; }
+.def p { margin:6px 0 2px; }
+.somme { margin:10px 0 4px; }
+.eq { display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; }
+.terme { border:2.5px solid #C5D3E3; background:#fff; border-radius:12px; padding:6px 14px; text-align:center; min-width:96px; }
+.terme small { display:block; font-size:12.5px; color:#51657A; font-weight:600; }
+.terme b { font-family:'Baloo 2',sans-serif; font-size:24px; line-height:1.15; }
+.terme.ta { border-color:#E4553F; background:#FDEEEA; }
+.terme.tb { border-color:#E0AE1B; background:#FFF6D6; }
+.terme.tc { border-color:#3FA766; background:#E8F6EE; }
+.op { font-family:'Baloo 2',sans-serif; font-size:30px; font-weight:700; color:#22303F; }
+svg text.lbl { font-family:'Work Sans',Arial,sans-serif; font-weight:700; fill:#22303F; paint-order:stroke; stroke:#fff; stroke-width:4px; stroke-linejoin:round; }
+svg .tr { transition:opacity .45s ease; }
+
+/* ---------- boutons astuce / solution ---------- */
+.btn-row { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:13px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:14.5px; line-height:1.5; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; color:#B5680A; }
+
+/* ---------- exercices : présentation « fiche » ---------- */
+.objectif { border:4px solid var(--rose); border-radius:22px; padding:12px 26px; text-align:center; margin:4px auto 22px; max-width:640px; background:#fff; line-height:1.25; }
+.objectif b { font-family:'Baloo 2',sans-serif; font-weight:800; font-size:27px; letter-spacing:.05em; text-transform:uppercase; -webkit-text-stroke:.7px var(--ink); color:var(--ink); }
+.objectif span { font-size:19px; margin-left:4px; font-weight:500; }
+.fx { margin-bottom:26px; }
+.fx-q { display:flex; gap:10px; align-items:flex-start; font-size:15.5px; line-height:1.45; margin-bottom:9px; }
+.fx-n { flex:0 0 auto; min-width:24px; height:24px; background:var(--vert); color:#fff; font-weight:800; font-size:15px; border-radius:3px; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+.etoiles { color:var(--acc-t); font-size:13px; font-weight:700; white-space:nowrap; margin-left:4px; }
+.grille { display:grid; grid-template-columns:repeat(4,1fr); border:1.5px solid var(--cadre); }
+.grille.g3 { grid-template-columns:repeat(3,1fr); }
+.cell { border-right:1.5px solid var(--cadre); display:flex; flex-direction:column; min-width:0; }
+.cell:last-child { border-right:0; }
+.cfig { padding:4px 4px 2px; }
+.cfig svg { display:block; width:100%; height:auto; }
+.rz { border-top:1.5px solid var(--cadre); padding:6px 8px 8px; font-size:14px; line-height:2; flex:1 1 auto; }
+.blank { display:inline-block; min-width:2.3em; border-bottom:2px dotted #4A5A6A; text-align:center; line-height:1.25; }
+.blank.w2 { min-width:3.4em; } .blank.w4 { min-width:6.4em; }
+.rep { visibility:hidden; font-weight:700; color:#1E7A4C; }
+.sol .rep { visibility:visible; }
+.sol-only { display:none; }
+.sol .sol-only { display:block; }
+@media (max-width:720px) {
+  .page { padding:20px 14px; }
+  .grille { grid-template-columns:repeat(2,1fr); }
+  .grille.g3 { grid-template-columns:1fr; }
+  .cell { border-bottom:1.5px solid var(--cadre); }
+  .cell:nth-child(2n) { border-right:0; }
+  .grille.g3 .cell { border-right:0; }
+  .cell:nth-last-child(-n+2) { border-bottom:0; }
+  .grille.g3 .cell:nth-last-child(2) { border-bottom:1.5px solid var(--cadre); }
+  .objectif b { font-size:22px; } .objectif span { font-size:16px; }
+}
+table.tf { border-collapse:collapse; width:100%; font-size:14.5px; background:#fff; }
+table.tf th { background:#E8EFB4; border:1.5px solid #6B7A55; padding:6px 8px; font-weight:600; }
+table.tf td { border:1.5px solid #6B7A55; padding:5px 8px; text-align:center; height:38px; }
+table.tf td:last-child .rep { font-size:13px; line-height:1.35; display:inline-block; }
+table.tf td.g { text-align:left; font-weight:600; }
+.cote-a-cote.fig-gauche { grid-template-columns:minmax(0,190px) minmax(0,1fr); align-items:start; }
+.cote-a-cote { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,280px); gap:16px; align-items:center; }
+@media (max-width:720px) { .cote-a-cote, .cote-a-cote.fig-gauche { grid-template-columns:1fr; } }
+.fxfig { border:1.5px solid var(--cadre); padding:4px; }
+.fxfig svg { display:block; width:100%; height:auto; }
+svg .ans { opacity:0; } .sol svg .ans { opacity:1; } .sol svg .ph { opacity:0; }
+svg text.fg { font-family:'Work Sans',Arial,sans-serif; font-weight:600; fill:#22303F; }
+svg text.fg.bold { font-weight:700; }
+svg text.ans { fill:#1E7A4C; font-weight:700; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+</style>
+<style>@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}</style>
+</head>
+<body>
+<div class="page">
+  <div class="col">
+  <header>
+    <div class="badge">S3</div>
+    <div>
+      <h1>Écrire l'égalité de Pythagore</h1>
+      <div class="subtitle">Chapitre 4 — Le théorème de Pythagore — 4e — Séance 3</div>
+    </div>
+  </header>
+  <div class="objectifs"><b>Objectifs :</b> repérer l'angle droit et l'hypoténuse dans un triangle rectangle, même quand il est tourné ; écrire l'égalité de Pythagore avec les lettres du triangle.</div>
+  <noscript><p><b>Cette séance utilise des figures dessinées par JavaScript : active-le dans ton navigateur pour les voir.</b></p></noscript>
+
+  <!-- ===================== AUTOMATISME ===================== -->
+  <div class="automatisme">
+    <h2>Automatisme</h2>
+    <ol>
+      <li>√64 =</li>
+      <li>√169 =</li>
+      <li>14² =</li>
+      <li>Un carré a une aire de 81 cm². Quelle est la longueur de son côté ?</li>
+      <li>√20 est compris entre quels deux nombres entiers ?</li>
+      <li>Le triangle KLM est rectangle en L. Quel côté est l'hypoténuse ?</li>
+    </ol>
+    <button type="button" class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
+    <div class="reveal-panel" id="auto-corrige">Corrigé : 8 ; 13 ; 196 ; 9 cm (car 9² = 81) ; entre 4 et 5 (car 16 &lt; 20 &lt; 25) ; [KM] (le côté en face de l'angle droit, en L)</div>
+  </div>
+
+  <!-- ===================== ACTIVITÉ ===================== -->
+  <section class="act" aria-labelledby="t-act">
+    <h2 id="t-act">Activité — Lire l'égalité sur la figure <span class="duree">environ 12 min</span></h2>
+    <p>Voici quatre triangles rectangles, tournés dans tous les sens. Choisis un triangle, puis avance étape par étape. <b>Avant l'étape 4, écris l'égalité dans ton cahier</b> ; ensuite, vérifie.</p>
+    <div class="ctrl" id="a-choix" role="group" aria-label="Choisir un triangle"></div>
+    <div class="fig">
+      <svg id="a-svg" role="img" aria-label="Un triangle rectangle avec un carré construit sur chacun de ses côtés" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 440"></svg>
+    </div>
+    <div class="ctrl">
+      <button type="button" class="abtn" id="a-prec">◀ Précédente</button>
+      <span class="etape" id="a-etape">Étape 0 / 4</span>
+      <button type="button" class="abtn plein" id="a-suiv">Étape suivante ▶</button>
+      <button type="button" class="abtn" id="a-tout">👀 Tout afficher</button>
+      <button type="button" class="abtn" id="a-rec">↺ Recommencer</button>
+    </div>
+    <div class="egal neutre" id="a-txt" role="status" aria-live="polite"></div>
+    <div class="somme" id="a-eq" hidden></div>
+  </section>
+
+  <div class="def">
+    <b class="tag">À retenir — Écrire l'égalité de Pythagore</b>
+    <ol>
+      <li>Je repère l'<b>angle droit</b> : le triangle est rectangle en …</li>
+      <li>Je trouve l'<b>hypoténuse</b> : c'est le côté en face de l'angle droit.</li>
+      <li>J'écris : <b>(hypoténuse)² = (un côté de l'angle droit)² + (l'autre côté de l'angle droit)²</b>.</li>
+    </ol>
+    <p>Exemple : <i>le triangle ABC est rectangle en A, donc, d'après le théorème de Pythagore, </i><b>BC² = AB² + AC²</b>.</p>
+    <p>BC² se lit « BC au carré » : c'est l'aire du carré construit sur [BC]. L'hypoténuse est toujours <b>seule d'un côté</b> du signe =.</p>
+  </div>
+  </div><!-- /col -->
+
+  <!-- ===================== EXERCICES (présentation « fiche ») ===================== -->
+  <div class="objectif"><b>Objectif :</b> <span>Savoir écrire l'égalité de Pythagore</span></div>
+  <p class="aide-ex" style="font-size:14px;line-height:1.5;margin:0 0 14px;color:#3B4C5E;">Exercices projetés au tableau : note sur ton cahier le numéro de l'exercice et tes réponses. Cherche d'abord seul(e) ; l'astuce t'aide si tu bloques, la solution se regarde en dernier.</p>
+
+  <div class="exos">
+  <!-- Exercice 1 -->
+  <div class="fx" id="fx1">
+    <div class="fx-q"><span class="fx-n">1</span><span>Pour chaque triangle, indique en quel point il est rectangle, quelle est son hypoténuse, puis écris l'égalité de Pythagore correspondante. <span class="etoiles">★</span></span></div>
+    <div class="grille" id="g1"></div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('as1')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="sol('fx1',this)">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="as1"><span class="label">Astuce</span>Repère d'abord le petit carré vert : c'est l'angle droit. Le côté en face est l'hypoténuse : son nom est écrit tout seul avant le signe =.</div>
+  </div>
+
+  <!-- Exercice 2 -->
+  <div class="fx" id="fx2">
+    <div class="fx-q"><span class="fx-n">2</span><span>Écris l'égalité de Pythagore pour chacun des triangles rectangles suivants. Attention : ils sont tournés ! <span class="etoiles">★★</span></span></div>
+    <div class="grille" id="g2"></div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('as2')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="sol('fx2',this)">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="as2"><span class="label">Astuce</span>Même méthode : l'angle droit d'abord, puis le côté en face. Tu peux tourner la feuille, ou te demander « quel côté ne touche pas l'angle droit ? ».</div>
+  </div>
+
+  <!-- Exercice 3 -->
+  <div class="fx" id="fx3">
+    <div class="fx-q"><span class="fx-n">3</span><span>Dans la figure ci-contre, les angles droits sont codés. Complète le tableau avec tous les triangles rectangles codés. <span class="etoiles">★★</span></span></div>
+    <div class="cote-a-cote fig-gauche">
+      <div class="fxfig"><svg id="f3" viewBox="0 0 220 230" role="img" aria-label="Trois triangles rectangles accolés : ABC, ACD et ADE" xmlns="http://www.w3.org/2000/svg"></svg></div>
+      <table class="tf">
+        <tr><th>Triangle</th><th>Rectangle en…</th><th>Hypoténuse</th><th>Égalité de Pythagore</th></tr>
+        <tr><td><span class="rep">ABC</span></td><td><span class="rep">B</span></td><td><span class="rep">[AC]</span></td><td><span class="rep">AC² = AB² + BC²</span></td></tr>
+        <tr><td><span class="rep">ACD</span></td><td><span class="rep">C</span></td><td><span class="rep">[AD]</span></td><td><span class="rep">AD² = AC² + CD²</span></td></tr>
+        <tr><td><span class="rep">ADE</span></td><td><span class="rep">D</span></td><td><span class="rep">[AE]</span></td><td><span class="rep">AE² = AD² + DE²</span></td></tr>
+      </table>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('as3')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="sol('fx3',this)">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="as3"><span class="label">Astuce</span>Cherche les petits carrés verts : il y a trois angles droits, en B, en C et en D, chacun dans un triangle différent. Pour chaque triangle, l'hypoténuse est le côté en face de l'angle droit. (L'ordre des lignes est libre.)</div>
+  </div>
+
+  <!-- Exercice 4 -->
+  <div class="fx" id="fx4">
+    <div class="fx-q"><span class="fx-n">4</span><span>Pour chaque figure, un carré est dessiné sur chaque côté du triangle rectangle. Complète les aires manquantes. <span class="etoiles">★★</span></span></div>
+    <div class="grille g3" id="g4"></div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('as4')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="sol('fx4',this)">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="as4"><span class="label">Astuce</span>Le carré de l'hypoténuse a une aire égale à la somme des aires des deux autres carrés. Dans la figure du milieu, l'aire d'un carré de côté 6 cm, c'est 6 × 6. Dans la dernière, cherche le nombre qu'il faut ajouter à 16 pour obtenir 41.</div>
+  </div>
+
+  <!-- Exercice 5 (pour aller plus loin) -->
+  <div class="fx plus" id="fx5">
+    <div class="fx-q"><span class="fx-n">5</span><span><b class="pal">Pour aller plus loin</b> — Dans la figure, les points B, H et C sont alignés. Complète le tableau avec tous les triangles rectangles codés. <span class="etoiles">★★★</span></span></div>
+    <div class="cote-a-cote fig-gauche">
+      <div class="fxfig">
+        <svg viewBox="0 0 310 215" role="img" aria-label="Un triangle ABC rectangle en A, avec le point H sur [BC] tel que (AH) est perpendiculaire à (BC)" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="26,170 276,170 116,50" fill="#fff" stroke="#22303F" stroke-width="2" stroke-linejoin="round"/>
+          <line x1="116" y1="50" x2="116" y2="170" stroke="#22303F" stroke-width="2"/>
+          <polygon points="116,50 108.8,59.6 118.4,66.8 125.6,57.2" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.2"/>
+          <polygon points="116,170 104,170 104,158 116,158" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.2"/>
+          <polygon points="116,170 128,170 128,158 116,158" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.2"/>
+          <text class="lbl" x="116" y="33" text-anchor="middle" font-size="25">A</text>
+          <text class="lbl" x="11" y="190" text-anchor="middle" font-size="25">B</text>
+          <text class="lbl" x="294" y="190" text-anchor="middle" font-size="25">C</text>
+          <text class="lbl" x="116" y="204" text-anchor="middle" font-size="25">H</text>
+        </svg>
+      </div>
+      <table class="tf">
+        <tr><th>Triangle</th><th>Rectangle en…</th><th>Hypoténuse</th><th>Égalité de Pythagore</th></tr>
+        <tr><td><span class="rep">ABC</span></td><td><span class="rep">A</span></td><td><span class="rep">[BC]</span></td><td><span class="rep">BC² = AB² + AC²</span></td></tr>
+        <tr><td><span class="rep">ABH</span></td><td><span class="rep">H</span></td><td><span class="rep">[AB]</span></td><td><span class="rep">AB² = AH² + BH²</span></td></tr>
+        <tr><td><span class="rep">ACH</span></td><td><span class="rep">H</span></td><td><span class="rep">[AC]</span></td><td><span class="rep">AC² = AH² + CH²</span></td></tr>
+      </table>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('as5')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="sol('fx5',this)">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="as5"><span class="label">Astuce</span>Cherche les angles droits codés : un en A et deux en H. Chacun appartient à un triangle différent, donc il y a trois triangles rectangles. Pour chacun, l'hypoténuse est le côté en face de l'angle droit. (L'ordre des lignes est libre.)</div>
+  </div>
+  </div><!-- /exos -->
+
+  <footer>Cherche seul(e) d'abord. Utilise l'astuce si tu bloques, puis ouvre la solution.</footer>
+</div>
+
+<script>
+function toggle(id){document.getElementById(id).classList.toggle('show');}
+function sol(id,btn){var e=document.getElementById(id);var on=e.classList.toggle('sol');btn.textContent=on?'🙈 Masquer la solution':'✅ Solution';}
+</script>
+<script>
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+
+  /* ---------- outils ---------- */
+  function $(id) { return document.getElementById(id); }
+  function el(tag, attrs, parent) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) { if (Object.prototype.hasOwnProperty.call(attrs, k)) e.setAttribute(k, attrs[k]); }
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function add(a, b) { return [a[0] + b[0], a[1] + b[1]]; }
+  function sub(a, b) { return [a[0] - b[0], a[1] - b[1]]; }
+  function mul(a, k) { return [a[0] * k, a[1] * k]; }
+  function len(a) { return Math.sqrt(a[0] * a[0] + a[1] * a[1]); }
+  function norm(a) { var l = len(a) || 1; return [a[0] / l, a[1] / l]; }
+  function dot(a, b) { return a[0] * b[0] + a[1] * b[1]; }
+  function ps(p) { return p[0].toFixed(1) + "," + p[1].toFixed(1); }
+  function poly(pts) { return pts.map(ps).join(" "); }
+  function seg(x, y) { return x < y ? x + y : y + x; }          /* nom d'un segment, en ordre alphabétique */
+  function nom3(c) { return [c.R, c.P, c.Q].sort().join(""); }  /* nom du triangle */
+  function info(c) {
+    var l = [seg(c.R, c.P), seg(c.R, c.Q)].sort();
+    return { nom: nom3(c), R: c.R, h: seg(c.P, c.Q), l1: l[0], l2: l[1] };
+  }
+
+  /* ---------- géométrie ---------- */
+  /* Triangle rectangle en R, de côtés RP = a et RQ = b.
+     mode « hyp » : l'hypoténuse [PQ] est horizontale, R au-dessus (ou en dessous si below).
+     sinon : RP part dans la direction th (degrés), RQ lui est perpendiculaire (s = ±1 choisit le sens). */
+  function build(c) {
+    var P, Q, R = [0, 0];
+    if (c.mode === "hyp") {
+      var hy = Math.sqrt(c.a * c.a + c.b * c.b), d = c.a * c.a / hy, h = c.a * c.b / hy;
+      P = [0, 0]; Q = [hy, 0]; R = [d, c.below ? h : -h];
+    } else {
+      var t = c.th * Math.PI / 180, s = c.s || 1;
+      P = [c.a * Math.cos(t), c.a * Math.sin(t)];
+      Q = [-c.b * s * Math.sin(t), c.b * s * Math.cos(t)];
+    }
+    var pts = {}; pts[c.R] = R; pts[c.P] = P; pts[c.Q] = Q;
+    return { pts: pts, R: c.R, P: c.P, Q: c.Q };
+  }
+  /* carré construit sur [UV], du côté opposé au point W */
+  function square(U, V, W) {
+    var e = sub(V, U), L = len(e), n = norm([-e[1], e[0]]);
+    if (dot(n, sub(mul(add(U, V), 0.5), W)) < 0) n = mul(n, -1);
+    var o = mul(n, L);
+    return [U, V, add(V, o), add(U, o)];
+  }
+  function fitter(all, W, H, pad, max) {
+    var xs = all.map(function (p) { return p[0]; }), ys = all.map(function (p) { return p[1]; });
+    var x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs), y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
+    var bw = (x1 - x0) || 1, bh = (y1 - y0) || 1;
+    var sc = Math.min((W - 2 * pad) / bw, (H - 2 * pad) / bh);
+    if (max) sc = Math.min(sc, max);
+    var ox = (W - bw * sc) / 2 - x0 * sc, oy = (H - bh * sc) / 2 - y0 * sc;
+    var f = function (p) { return [p[0] * sc + ox, p[1] * sc + oy]; };
+    f.sc = sc; return f;
+  }
+  function mark(parent, V, A, B, m) {
+    var u = norm(sub(A, V)), v = norm(sub(B, V));
+    var p1 = add(V, mul(u, m)), p3 = add(V, mul(v, m)), p2 = add(p1, mul(v, m));
+    return el("polygon", { points: poly([V, p1, p2, p3]), fill: "#4DB6A0", stroke: "#2E8B77", "stroke-width": 1.2 }, parent);
+  }
+
+  /* ---------- une scène : triangle, marque de l'angle droit, carrés (facultatifs) ---------- */
+  var COL = { r: { f: "#FDEEEA", s: "#E4553F" }, y: { f: "#FFF6D6", s: "#E0AE1B" }, g: { f: "#E8F6EE", s: "#3FA766" } };
+  function scene(svg, cfg, o) {
+    var t = build(cfg), u = t.pts, key, all = [], sq = null;
+    for (key in u) { if (Object.prototype.hasOwnProperty.call(u, key)) all.push(u[key]); }
+    if (o.sq) {
+      sq = { RP: square(u[t.R], u[t.P], u[t.Q]), RQ: square(u[t.R], u[t.Q], u[t.P]), PQ: square(u[t.P], u[t.Q], u[t.R]) };
+      all = all.concat(sq.RP, sq.RQ, sq.PQ);
+    }
+    var f = fitter(all, o.W, o.H, o.pad, o.max), p = {};
+    for (key in u) { if (Object.prototype.hasOwnProperty.call(u, key)) p[key] = f(u[key]); }
+    var cen = [(p[t.R][0] + p[t.P][0] + p[t.Q][0]) / 3, (p[t.R][1] + p[t.P][1] + p[t.Q][1]) / 3];
+    var gSq = el("g", { "class": "tr", style: "opacity:0" }, svg);
+    if (sq) {
+      var nRP = seg(t.R, t.P), nRQ = seg(t.R, t.Q), nH = seg(t.P, t.Q);
+      var draw = function (pts, name, col) {
+        var q = pts.map(f);
+        el("polygon", { points: poly(q), fill: col.f, stroke: col.s, "stroke-width": 2.5, "stroke-linejoin": "round" }, gSq);
+        var tx = el("text", { x: ((q[0][0] + q[2][0]) / 2).toFixed(1), y: ((q[0][1] + q[2][1]) / 2).toFixed(1), "text-anchor": "middle", "dominant-baseline": "central", "font-size": o.fs || 24, "class": "lbl" }, gSq);
+        tx.textContent = name + "²";
+      };
+      draw(sq.RP, nRP, nRP < nRQ ? COL.r : COL.y);
+      draw(sq.RQ, nRQ, nRP < nRQ ? COL.y : COL.r);
+      draw(sq.PQ, nH, COL.g);
+    }
+    el("polygon", { points: poly([p[t.R], p[t.P], p[t.Q]]), fill: "#fff", stroke: "#22303F", "stroke-width": o.lw || 3, "stroke-linejoin": "round" }, svg);
+    var hyp = el("line", { x1: p[t.P][0].toFixed(1), y1: p[t.P][1].toFixed(1), x2: p[t.Q][0].toFixed(1), y2: p[t.Q][1].toFixed(1), stroke: "#3FA766", "stroke-width": 7, "stroke-linecap": "round", "class": "tr", style: "opacity:0" }, svg);
+    var gMk = el("g", { "class": "tr", style: "opacity:0" }, svg);
+    mark(gMk, p[t.R], p[t.P], p[t.Q], o.mk || 18);
+    [t.R, t.P, t.Q].forEach(function (n) {
+      var d = norm(sub(p[n], cen)), pos = add(p[n], mul(d, o.lab || 22));
+      var tx = el("text", { x: pos[0].toFixed(1), y: pos[1].toFixed(1), "text-anchor": "middle", "dominant-baseline": "central", "font-size": o.vf || 26, "class": "lbl" }, svg);
+      tx.textContent = n;
+    });
+    var tag = null;
+    if (o.tag) {
+      var mid = mul(add(p[t.P], p[t.Q]), 0.5), dd = norm(sub(mid, p[t.R]));
+      var anc = dd[0] > 0.3 ? "start" : (dd[0] < -0.3 ? "end" : "middle");
+      var tp = add(mid, [dd[0] * 16 + (anc === "start" ? 6 : anc === "end" ? -6 : 0), dd[1] * (anc === "middle" ? o.tag : 14)]);
+      tag = el("text", { x: tp[0].toFixed(1), y: tp[1].toFixed(1), "text-anchor": anc, "dominant-baseline": "central", "font-size": 21, "class": "lbl tr", style: "opacity:0;fill:#1E7A4C" }, svg);
+      tag.textContent = "hypoténuse";
+    }
+    return {
+      set: function (n) {
+        gMk.style.opacity = n >= 1 ? 1 : 0;
+        hyp.style.opacity = n >= 2 ? 1 : 0;
+        if (tag) tag.style.opacity = n === 2 ? 1 : 0;
+        gSq.style.opacity = n >= 3 ? 1 : 0;
+      }
+    };
+  }
+
+  /* ===================== ACTIVITÉ ===================== */
+  var T = [
+    { R: "A", P: "B", Q: "C", a: 3, b: 4, th: 0, s: -1 },
+    { R: "G", P: "E", Q: "F", a: 3, b: 4, mode: "hyp" },
+    { R: "N", P: "M", Q: "P", a: 4, b: 3, th: -28, s: 1 },
+    { R: "U", P: "S", Q: "T", a: 3, b: 4, th: 145, s: -1 }
+  ];
+  var cur = 0, etat = 0, sc = null;
+  var OA = { W: 640, H: 440, pad: 40, max: 70, sq: true, lab: 24, vf: 27, mk: 20, fs: 24, tag: 34, lw: 3 };
+
+  function termes(i) {
+    return '<div class="eq">' +
+      '<div class="terme tc"><small>carré de l’hypoténuse</small><b>' + i.h + '²</b></div>' +
+      '<span class="op">=</span>' +
+      '<div class="terme ta"><small>carré de [' + i.l1 + ']</small><b>' + i.l1 + '²</b></div>' +
+      '<span class="op">+</span>' +
+      '<div class="terme tb"><small>carré de [' + i.l2 + ']</small><b>' + i.l2 + '²</b></div></div>';
+  }
+  function rendreAct() {
+    var svg = $("a-svg"), i = info(T[cur]);
+    $("a-etape").textContent = "Étape " + etat + " / 4";
+    $("a-prec").disabled = etat === 0;
+    $("a-suiv").disabled = etat === 4;
+    var txt = "", h = $("a-eq");
+    h.hidden = etat < 4;
+    var c = $("a-txt");
+    c.className = "egal" + (etat === 4 ? "" : " neutre");
+    if (etat === 0) txt = "Voici un triangle. <b>En quel point est-il rectangle ?</b>";
+    else if (etat === 1) txt = "Le triangle <b>" + i.nom + "</b> est rectangle en <b>" + i.R + "</b> : l’angle droit est codé par le petit carré vert.";
+    else if (etat === 2) txt = "L’<b>hypoténuse</b> est le côté en face de l’angle droit : <b>[" + i.h + "]</b>. Les côtés de l’angle droit sont [" + i.l1 + "] et [" + i.l2 + "].";
+    else if (etat === 3) txt = "On construit un carré sur chaque côté. <b>" + i.h + "²</b> est l’aire du carré construit sur [" + i.h + "] ; " + i.l1 + "² et " + i.l2 + "² sont les aires des deux autres carrés.<span class=\"todo\">✏️ À toi : écris l’égalité de Pythagore dans ton cahier.</span>";
+    else txt = "Dans le triangle <b>" + i.nom + "</b>, rectangle en <b>" + i.R + "</b>, l’aire du carré vert est égale à la somme des aires des deux autres carrés. C’est le <b>théorème de Pythagore</b> :";
+    c.innerHTML = txt;
+    if (etat === 4) h.innerHTML = termes(i);
+    sc.set(etat);
+  }
+  function choisir(k) {
+    cur = k; etat = 0;
+    var svg = $("a-svg");
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    sc = scene(svg, T[cur], OA);
+    Array.prototype.forEach.call($("a-choix").children, function (b, j) { b.setAttribute("aria-pressed", j === k ? "true" : "false"); });
+    rendreAct();
+  }
+  function initAct() {
+    var box = $("a-choix");
+    T.forEach(function (c, k) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "abtn"; b.textContent = "Triangle " + nom3(c);
+      b.addEventListener("click", function () { choisir(k); });
+      box.appendChild(b);
+    });
+    $("a-suiv").addEventListener("click", function () { if (etat < 4) { etat++; rendreAct(); } });
+    $("a-prec").addEventListener("click", function () { if (etat > 0) { etat--; rendreAct(); } });
+    $("a-tout").addEventListener("click", function () { etat = 4; rendreAct(); });
+    $("a-rec").addEventListener("click", function () { etat = 0; rendreAct(); });
+    choisir(0);
+  }
+
+  /* ===================== EXERCICES 1 et 2 : grilles de triangles ===================== */
+  var OE = { W: 200, H: 128, pad: 24, max: 42, sq: false, lab: 14, vf: 19, mk: 11, lw: 1.8 };
+  var EX1 = [
+    { R: "A", P: "B", Q: "C", a: 3.2, b: 2.0, th: 0, s: -1 },
+    { R: "F", P: "D", Q: "E", a: 2.6, b: 3.2, th: 200, s: 1 },
+    { R: "L", P: "K", Q: "M", a: 3.4, b: 2.2, th: -25, s: 1 },
+    { R: "Q", P: "O", Q: "P", a: 2.4, b: 3.4, th: 115, s: -1 }
+  ];
+  var EX2 = [
+    { R: "W", P: "U", Q: "V", a: 2.4, b: 3.4, mode: "hyp" },
+    { R: "S", P: "O", Q: "T", a: 3.6, b: 2.1, th: 70, s: 1 },
+    { R: "F", P: "X", Q: "Z", a: 3.0, b: 2.4, mode: "hyp", below: true },
+    { R: "K", P: "J", Q: "L", a: 2.0, b: 3.8, th: 160, s: 1 }
+  ];
+  function blank(txt, cls) { return '<span class="blank' + (cls ? " " + cls : "") + '"><span class="rep">' + txt + '</span></span>'; }
+  function grille(id, liste, complet) {
+    var g = $(id);
+    liste.forEach(function (c) {
+      var i = info(c), cell = document.createElement("div"); cell.className = "cell";
+      var f = document.createElement("div"); f.className = "cfig";
+      var svg = el("svg", { viewBox: "0 0 " + OE.W + " " + OE.H, role: "img", "aria-label": "Triangle " + i.nom }, f);
+      scene(svg, c, OE).set(1);
+      cell.appendChild(f);
+      var z = document.createElement("div"); z.className = "rz";
+      if (complet) {
+        z.innerHTML = "Rectangle en " + blank(i.R) + "<br>Hypoténuse " + blank("[" + i.h + "]", "w2") + "<br>" +
+          blank(i.h + "²", "w2") + " = " + blank(i.l1 + "² + " + i.l2 + "²", "w4");
+      } else {
+        z.innerHTML = blank(i.h + "²", "w2") + " = " + blank(i.l1 + "² + " + i.l2 + "²", "w4");
+      }
+      cell.appendChild(z); g.appendChild(cell);
+    });
+  }
+
+  /* ===================== EXERCICE 3 : trois triangles rectangles accolés ===================== */
+  function spirale(svg) {
+    var r2 = Math.SQRT2, A = [0, 0], B = [2, 0], C = [2, 2];
+    var D = [2 - r2, 2 + r2];                                  /* CD ⟂ AC, CD = 2 */
+    var ad = sub(D, A), l = len(ad), n = norm([-ad[1], ad[0]]);
+    var E = add(D, mul(n, 2));                                  /* DE ⟂ AD, DE = 2 */
+    var P = { A: A, B: B, C: C, D: D, E: E }, k, all = [];
+    for (k in P) { if (Object.prototype.hasOwnProperty.call(P, k)) { P[k] = [P[k][0], -P[k][1]]; all.push(P[k]); } }
+    var f = fitter(all, 220, 230, 34), q = {};
+    for (k in P) { if (Object.prototype.hasOwnProperty.call(P, k)) q[k] = f(P[k]); }
+    [["A", "B", "C"], ["A", "C", "D"], ["A", "D", "E"]].forEach(function (t) {
+      el("polygon", { points: poly([q[t[0]], q[t[1]], q[t[2]]]), fill: "#fff", stroke: "#22303F", "stroke-width": 1.8, "stroke-linejoin": "round" }, svg);
+    });
+    mark(svg, q.B, q.A, q.C, 10); mark(svg, q.C, q.A, q.D, 10); mark(svg, q.D, q.A, q.E, 10);
+    var cen = [0, 0]; for (k in q) { if (Object.prototype.hasOwnProperty.call(q, k)) cen = add(cen, q[k]); } cen = mul(cen, 0.2);
+    var off = { A: 17, B: 16, C: 16, D: 16, E: 16 };
+    for (k in q) {
+      if (!Object.prototype.hasOwnProperty.call(q, k)) continue;
+      var pos = add(q[k], mul(norm(sub(q[k], cen)), off[k]));
+      el("text", { x: pos[0].toFixed(1), y: pos[1].toFixed(1), "text-anchor": "middle", "dominant-baseline": "central", "font-size": 19, "class": "lbl" }, svg).textContent = k;
+    }
+  }
+
+  /* ===================== EXERCICE 4 : carrés sur les côtés ===================== */
+  var EX4 = [
+    { a: Math.sqrt(12), b: Math.sqrt(5), fill: "#BFE3EA", l1: { t: "12 cm²" }, l2: { t: "5 cm²" }, l3: { ph: "…… cm²", ans: "17 cm²" } },
+    { a: 6, b: 8, fill: "#F7C9D4", lg: true, l1: { ph: "…… cm²", ans: "36 cm²" }, l2: { ph: "…… cm²", ans: "64 cm²" }, l3: { ph: "…… cm²", ans: "100 cm²" } },
+    { a: 4, b: 5, fill: "#F9DC8E", l1: { t: "16 cm²" }, l2: { ph: "…… cm²", ans: "25 cm²" }, l3: { t: "41 cm²" } }
+  ];
+  function carres(g, c) {
+    var cell = document.createElement("div"); cell.className = "cell";
+    var f = document.createElement("div"); f.className = "cfig";
+    var svg = el("svg", { viewBox: "0 0 300 270", role: "img", "aria-label": "Un triangle rectangle avec un carré sur chaque côté" }, f);
+    var R = [0, 0], P = [c.a, 0], Q = [0, -c.b];
+    var s1 = square(R, P, Q), s2 = square(R, Q, P), s3 = square(P, Q, R);
+    var fit = fitter([R, P, Q].concat(s1, s2, s3), 300, 270, 8);
+    function carre(pts, l, dx, dy) {
+      var q = pts.map(fit);
+      el("polygon", { points: poly(q), fill: "#fff", stroke: "#22303F", "stroke-width": 1.6, "stroke-linejoin": "round" }, svg);
+      var x = ((q[0][0] + q[2][0]) / 2 + (dx || 0)).toFixed(1), y = ((q[0][1] + q[2][1]) / 2 + (dy || 0)).toFixed(1);
+      var at = { x: x, y: y, "text-anchor": "middle", "dominant-baseline": "central", "font-size": 15 };
+      if (l.t) { at["class"] = "fg bold"; el("text", at, svg).textContent = l.t; }
+      else {
+        at["class"] = "fg ph"; el("text", at, svg).textContent = l.ph;
+        var at2 = {}; for (var k in at) { if (Object.prototype.hasOwnProperty.call(at, k)) at2[k] = at[k]; }
+        at2["class"] = "fg ans"; el("text", at2, svg).textContent = l.ans;
+      }
+    }
+    carre(s1, c.l1, 0, c.lg ? 10 : 0); carre(s2, c.l2, c.lg ? -4 : 0, c.lg ? 8 : 0); carre(s3, c.l3);
+    var tp = [R, P, Q].map(fit);
+    el("polygon", { points: poly(tp), fill: c.fill, stroke: "#22303F", "stroke-width": 1.6, "stroke-linejoin": "round" }, svg);
+    mark(svg, tp[0], tp[1], tp[2], 11);
+    if (c.lg) {
+      var m1 = [(tp[0][0] + tp[1][0]) / 2, (tp[0][1] + tp[1][1]) / 2 + 16], m2 = [(tp[0][0] + tp[2][0]) / 2 - 7, tp[0][1] + (tp[2][1] - tp[0][1]) * 0.8];
+      el("text", { x: m1[0].toFixed(1), y: m1[1].toFixed(1), "text-anchor": "middle", "font-size": 14, "class": "fg bold" }, svg).textContent = c.a + " cm";
+      el("text", { x: m2[0].toFixed(1), y: m2[1].toFixed(1), "text-anchor": "end", "dominant-baseline": "central", "font-size": 14, "class": "fg bold" }, svg).textContent = c.b + " cm";
+    }
+    cell.appendChild(f); g.appendChild(cell);
+  }
+
+  /* ===================== DÉMARRAGE ===================== */
+  initAct();
+  grille("g1", EX1, true);
+  grille("g2", EX2, false);
+  spirale($("f3"));
+  EX4.forEach(function (c) { carres($("g4"), c); });
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>
