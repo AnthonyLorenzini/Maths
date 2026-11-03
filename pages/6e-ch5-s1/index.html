@@ -297,7 +297,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
     <ol class="qs" type="a">
       <li>Quel est le centre du cercle ?<span class="sol s">Le centre est le point O.</span></li>
       <li>Nomme trois rayons.<span class="sol s">[OA], [OB] et [OC]. Tout segment qui relie O à un point du cercle est un rayon.</span></li>
-      <li>Nomme un diamètre.<span class="sol s">[BC] est un diamètre : c'est un segment dont les deux extrémités sont sur le cercle et qui passe par le centre O.</span></li>
+      <li>Nomme un diamètre.<span class="sol s">[BC] est un diamètre : c'est une corde qui passe par le centre O.</span></li>
       <li>Nomme deux cordes qui ne sont pas des diamètres.<span class="sol s">[DE] et [FG].</span></li>
       <li>Pourquoi [DE] n'est-il pas un diamètre ?<span class="sol s">Parce qu'il ne passe pas par le centre O.</span></li>
     </ol>
@@ -473,7 +473,7 @@ function choose(p){
       info(`<b>[O${q}]</b> est un <b>rayon</b> : c'est un <b>segment</b> qui relie le centre O à un point du cercle. O${q} = 3 cm.`,'rayon');}
     else{const d=G.norm(ANG[a]-ANG[b]);
       if(Math.abs(d-180)<0.01){keep({type:'seg',kind:'diam',a,b,len:'6'});found.add('diam');
-        info(`<b>[${a}${b}]</b> est un <b>diamètre</b> : c'est un <b>segment</b> qui relie deux points du cercle en passant par le centre O (c'est une corde particulière). ${a}${b} = 6 cm, le double du rayon.`,'diam');}
+        info(`<b>[${a}${b}]</b> est un <b>diamètre</b> : c'est une <b>corde</b> qui passe par le centre O. ${a}${b} = 6 cm, le double du rayon.`,'diam');}
       else{const th=Math.min(d,360-d),len=2*3*Math.sin(G.rad(th)/2);keep({type:'seg',kind:'corde',a,b,len:G.fmt1(len)});found.add('corde');
         info(`<b>[${a}${b}]</b> est une <b>corde</b> : c'est un <b>segment</b> qui relie deux points du cercle. Ici, elle ne passe pas par O. ${a}${b} ≈ ${G.fmt1(len)} cm, c'est moins que le diamètre.`,'corde');}}
   }else{
