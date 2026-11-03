@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 5 (AP) — Problèmes de répartition en groupe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --acc-b:#6B3FA0; --acc-bg:#F3ECFB; --acc-t:#4E2A80; --ink:#22303F; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 860px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#CDB4EC; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:22px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:25px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+.automatisme { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:12px 16px; margin-bottom:14px; }
+.automatisme h2 { font-family:'Baloo 2',sans-serif; font-size:15px; color:#2B6CB0; margin:0 0 8px 0; }
+.automatisme ol { margin:0; padding-left:20px; font-size:13px; }
+.automatisme li { margin-bottom:2px; }
+.reveal-panel { display:none; margin-top:8px; font-size:12.5px; font-style:italic; color:#3B4C5E; border-top:1px dashed #B7CBE3; padding-top:6px; }
+.reveal-panel.show { display:block; }
+.methode { background:#FFF9EC; border:2px dashed #D8B24C; border-radius:10px; padding:10px 16px; margin-bottom:18px; font-size:12.5px; }
+.methode b.tag { font-family:'Baloo 2',sans-serif; color:#9C7A17; display:block; margin-bottom:3px; font-size:13px; }
+.methode .schema { background:#fff; border-radius:8px; padding:8px; margin-top:8px; text-align:center; }
+.section-title { font-family:'Baloo 2',sans-serif; font-size:18px; margin:4px 0 12px 0; }
+.advanced-title { font-family:'Baloo 2',sans-serif; font-size:15px; color:var(--acc-t); margin:18px 0 10px 0; padding-top:12px; border-top:2px dashed var(--acc-b); }
+.exo { border:2px solid var(--acc-b); background:var(--acc-bg); border-radius:12px; padding:14px 18px; margin-bottom:14px; }
+.exo-title { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:var(--acc-t); margin-bottom:6px; }
+.exo p { font-size:13px; margin:4px 0; line-height:1.5; }
+.exo p.q { margin:6px 0 2px 4px; }
+.schema { background:#fff; border-radius:8px; padding:8px; margin:8px 0; text-align:center; }
+.schema svg { max-width:100%; height:auto; }
+.btn-row { display:flex; gap:10px; margin-top:8px; flex-wrap:wrap; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:12px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:12.5px; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel.solution-panel { border:1.5px dashed #4CAF7D; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; }
+.astuce-panel .label { color:#B5680A; }
+.solution-panel .label { color:#1E7A4C; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+.exo p.obj { font-size:12px; color:#4B5B6B; margin:0 0 6px 0; }
+.exo table.tem { border-collapse:collapse; margin:6px 0 4px 4px; font-size:13px; }
+.exo table.tem td { padding:2px 14px 2px 0; }
+.note-groupe { background:#F3ECFB; border-left:6px solid var(--acc-b); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; line-height:1.5; }
+.grille { display:grid; grid-template-columns:1fr 1fr; gap:3px; background:var(--acc-b); border:3px solid var(--acc-b); margin-bottom:6px; }
+.gcell { background:#fff; padding:12px 16px 14px 16px; min-width:0; }
+.gcell.bonus { grid-column:1 / -1; }
+.gh { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:17px; margin-bottom:2px; } .gh u { margin-right:8px; }
+.gcell .ill { float:right; margin:0 0 4px 12px; } .gcell .ill svg { width:100px; height:auto; } .gcell.bonus .ill svg { width:70px; }
+.gcell p { font-size:13.5px; margin:4px 0; line-height:1.5; }
+.gcell p.obj { font-size:11.5px; color:#6B7A8A; margin:0 0 4px 0; }
+.gcell p.q { margin:4px 0 0 0; }
+.gcell table.tem { border-collapse:collapse; margin:6px 0 4px 0; font-size:13px; } .gcell table.tem td { padding:2px 12px 2px 0; }
+.gcell .btn-row { clear:both; }
+@media (max-width:700px) { .grille { grid-template-columns:1fr; } .gcell .ill svg { width:84px; } .page { padding:20px 16px 18px; } }
+</style>
+<style>@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="badge">S5</div>
+    <div>
+      <h1>Problèmes de répartition en groupe</h1>
+      <div class="subtitle">Chapitre 3 — Divisibilité et nombres premiers — 4e — Séance 5 (AP)</div>
+    </div>
+  </header>
+  <div class="objectifs"><b>Objectifs :</b> résoudre des problèmes de répartition variés (deux quantités, trois quantités, vérification d'un partage, raisonnement à l'envers).</div>
+  <div class="note-groupe"><b>En classe :</b> cette séance se fait <b>en groupe de 3 ou 4</b>, sur une seule fiche. Chacun écrit dans son cahier (numéro de l'exercice et réponses), et n'importe quel membre du groupe peut être interrogé pour expliquer. <b>À la maison :</b> refais les exercices seul(e).</div>
+  <div class="automatisme">
+    <h2>Automatisme</h2>
+    <ol><li>2³ × 3 =</li><li>Décompose 36 en facteurs premiers.</li><li>120 ÷ 8 =</li><li>Quel est le plus grand nombre qui divise à la fois 12 et 18 ?</li></ol>
+    <button class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
+    <div class="reveal-panel" id="auto-corrige">Corrigé : 24 ; 2² × 3² ; 15 ; 6</div>
+  </div>
+  <div class="section-title">La fiche du groupe</div>
+  <div class="grille">
+    <section class="gcell">
+      <div class="ill"><svg width='118' height='112' viewBox='0 0 118 112' xmlns='http://www.w3.org/2000/svg'><ellipse cx='36' cy='90' rx='22' ry='7' fill='#D9A82A' stroke='#8A5A10' stroke-width='1.1'/><rect x='14' y='84' width='44' height='6' fill='#D9A82A'/><line x1='14' y1='84' x2='14' y2='90' stroke='#8A5A10' stroke-width='1.1'/><line x1='58' y1='84' x2='58' y2='90' stroke='#8A5A10' stroke-width='1.1'/><ellipse cx='36' cy='84' rx='22' ry='7' fill='#F6D45B' stroke='#8A5A10' stroke-width='1.1'/><ellipse cx='36' cy='84' rx='22' ry='7' fill='#D9A82A' stroke='#8A5A10' stroke-width='1.1'/><rect x='14' y='78' width='44' height='6' fill='#D9A82A'/><line x1='14' y1='78' x2='14' y2='84' stroke='#8A5A10' stroke-width='1.1'/><line x1='58' y1='78' x2='58' y2='84' stroke='#8A5A10' stroke-width='1.1'/><ellipse cx='36' cy='78' rx='22' ry='7' fill='#F6D45B' stroke='#8A5A10' stroke-width='1.1'/><ellipse cx='36' cy='78' rx='22' ry='7' fill='#D9A82A' stroke='#8A5A10' stroke-width='1.1'/><rect x='14' y='72' width='44' height='6' fill='#D9A82A'/><line x1='14' y1='72' x2='14' y2='78' stroke='#8A5A10' stroke-width='1.1'/><line x1='58' y1='72' x2='58' y2='78' stroke='#8A5A10' stroke-width='1.1'/><ellipse cx='36' cy='72' rx='22' ry='7' fill='#F6D45B' stroke='#8A5A10' stroke-width='1.1'/><ellipse cx='36' cy='68' rx='22' ry='7' fill='#D9A82A' stroke='#8A5A10' stroke-width='1.1'/><rect x='14' y='62' width='44' height='6' fill='#D9A82A'/><line x1='14' y1='62' x2='14' y2='68' stroke='#8A5A10' stroke-width='1.1'/><line x1='58' y1='62' x2='58' y2='68' stroke='#8A5A10' stroke-width='1.1'/><ellipse cx='36' cy='62' rx='22' ry='7' fill='#F6D45B' stroke='#8A5A10' stroke-width='1.1'/><polygon points='70.5,65.5 105.5,65.5 115.5,78.0 88.0,105.5 60.5,78.0' fill='#38B6E8' stroke='#22303F' stroke-width='1.3' stroke-linejoin='round'/><polygon points='70.5,65.5 105.5,65.5 96.8,78.0 79.2,78.0' fill='#BFEAFB' opacity='.75'/><polyline points='79.2,78.0 88.0,105.5 96.8,78.0' fill='none' stroke='#22303F' stroke-width='1'/><line x1='60.5' y1='78.0' x2='115.5' y2='78.0' stroke='#22303F' stroke-width='1'/><polygon points='66.8,32.0 89.2,32.0 95.6,40.0 78.0,57.6 60.4,40.0' fill='#E5544F' stroke='#22303F' stroke-width='1.3' stroke-linejoin='round'/><polygon points='66.8,32.0 89.2,32.0 83.6,40.0 72.4,40.0' fill='#F7B8B5' opacity='.75'/><polyline points='72.4,40.0 78.0,57.6 83.6,40.0' fill='none' stroke='#22303F' stroke-width='1'/><line x1='60.4' y1='40.0' x2='95.6' y2='40.0' stroke='#22303F' stroke-width='1'/></svg></div>
+      <div class="gh"><u>Ex n°1</u> Le butin du joueur</div>
+      <p class="obj">Objectif : ranger deux quantités en lots identiques, sans en oublier.</p>
+      <p>Un joueur a ramassé <b>150 pièces d'or</b> et <b>210 gemmes</b>. Il veut tout ranger dans des coffres identiques, sans rien laisser dehors.</p>
+      <p class="q">1) Quel est le plus grand nombre de coffres possible ?</p>
+      <p class="q">2) Que contient alors ce coffre ?</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-0')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-0')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-0"><span class="label">Astuce</span>Décompose 150 et 210, puis garde les facteurs premiers qu'ils ont en commun.</div>
+      <div class="panel solution-panel" id="solution-0"><span class="label">Solution</span>1) 150 = 2 × 3 × 5² et 210 = 2 × 3 × 5 × 7. Facteurs communs : 2 × 3 × 5 = 30. On peut faire <b>30 coffres</b>. 2) 150 ÷ 30 = 5 et 210 ÷ 30 = 7 : ce coffre contient <b>5 pièces d'or et 7 gemmes</b>.</div>
+    </section>
+    <section class="gcell">
+      <div class="ill"><svg width='118' height='118' viewBox='0 0 118 118' xmlns='http://www.w3.org/2000/svg'><g transform='translate(26,52) rotate(-22)'><line x1='0' y1='30' x2='0' y2='-30' stroke='#7A5230' stroke-width='2.4'/><polygon points='0,-40 -6,-26 6,-26' fill='#8A97A5' stroke='#22303F' stroke-width='1'/><polyline points='-6,38 0,28 6,38' fill='none' stroke='#C0392B' stroke-width='2'/><polyline points='-6,30 0,20 6,30' fill='none' stroke='#C0392B' stroke-width='2'/></g><g transform='translate(40,52) rotate(0)'><line x1='0' y1='30' x2='0' y2='-30' stroke='#7A5230' stroke-width='2.4'/><polygon points='0,-40 -6,-26 6,-26' fill='#8A97A5' stroke='#22303F' stroke-width='1'/><polyline points='-6,38 0,28 6,38' fill='none' stroke='#C0392B' stroke-width='2'/><polyline points='-6,30 0,20 6,30' fill='none' stroke='#C0392B' stroke-width='2'/></g><g transform='translate(54,52) rotate(22)'><line x1='0' y1='30' x2='0' y2='-30' stroke='#7A5230' stroke-width='2.4'/><polygon points='0,-40 -6,-26 6,-26' fill='#8A97A5' stroke='#22303F' stroke-width='1'/><polyline points='-6,38 0,28 6,38' fill='none' stroke='#C0392B' stroke-width='2'/><polyline points='-6,30 0,20 6,30' fill='none' stroke='#C0392B' stroke-width='2'/></g><rect x='84' y='14' width='9' height='14' fill='#EADFC7' stroke='#22303F' stroke-width='1.2'/><rect x='82' y='9' width='13' height='6' rx='2' fill='#A9743F' stroke='#22303F' stroke-width='1.2'/><circle cx='88' cy='44' r='19' fill='#9B5DE0' stroke='#22303F' stroke-width='1.4'/><ellipse cx='80' cy='39' rx='5' ry='8' fill='#fff' opacity='.55' transform='rotate(25 80 39)'/><ellipse cx='30' cy='114' rx='22' ry='7' fill='#B5BEC8' stroke='#5E6B78' stroke-width='1.1'/><rect x='8' y='108' width='44' height='6' fill='#B5BEC8'/><line x1='8' y1='108' x2='8' y2='114' stroke='#5E6B78' stroke-width='1.1'/><line x1='52' y1='108' x2='52' y2='114' stroke='#5E6B78' stroke-width='1.1'/><ellipse cx='30' cy='108' rx='22' ry='7' fill='#E3E8EE' stroke='#5E6B78' stroke-width='1.1'/><ellipse cx='30' cy='108' rx='22' ry='7' fill='#B5BEC8' stroke='#5E6B78' stroke-width='1.1'/><rect x='8' y='102' width='44' height='6' fill='#B5BEC8'/><line x1='8' y1='102' x2='8' y2='108' stroke='#5E6B78' stroke-width='1.1'/><line x1='52' y1='102' x2='52' y2='108' stroke='#5E6B78' stroke-width='1.1'/><ellipse cx='30' cy='102' rx='22' ry='7' fill='#E3E8EE' stroke='#5E6B78' stroke-width='1.1'/><ellipse cx='66' cy='114' rx='22' ry='7' fill='#B5BEC8' stroke='#5E6B78' stroke-width='1.1'/><rect x='44' y='108' width='44' height='6' fill='#B5BEC8'/><line x1='44' y1='108' x2='44' y2='114' stroke='#5E6B78' stroke-width='1.1'/><line x1='88' y1='108' x2='88' y2='114' stroke='#5E6B78' stroke-width='1.1'/><ellipse cx='66' cy='108' rx='22' ry='7' fill='#E3E8EE' stroke='#5E6B78' stroke-width='1.1'/><ellipse cx='66' cy='108' rx='22' ry='7' fill='#B5BEC8' stroke='#5E6B78' stroke-width='1.1'/><rect x='44' y='102' width='44' height='6' fill='#B5BEC8'/><line x1='44' y1='102' x2='44' y2='108' stroke='#5E6B78' stroke-width='1.1'/><line x1='88' y1='102' x2='88' y2='108' stroke='#5E6B78' stroke-width='1.1'/><ellipse cx='66' cy='102' rx='22' ry='7' fill='#E3E8EE' stroke='#5E6B78' stroke-width='1.1'/></svg></div>
+      <div class="gh"><u>Ex n°2</u> Les trois piles</div>
+      <p class="obj">Objectif : passer de deux à trois quantités.</p>
+      <p>Dans une réserve, il y a <b>90 flèches</b>, <b>135 potions</b> et <b>225 pièces d'argent</b>. On veut remplir des sacs identiques avec tout.</p>
+      <p class="q">1) Quel est le plus grand nombre de sacs possible ?</p>
+      <p class="q">2) Que contient alors ce sac ?</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-1')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-1')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-1"><span class="label">Astuce</span>Ne garde que les facteurs premiers qui se trouvent dans les trois décompositions.</div>
+      <div class="panel solution-panel" id="solution-1"><span class="label">Solution</span>1) 90 = 2 × 3² × 5, 135 = 3³ × 5 et 225 = 3² × 5². Facteurs présents dans les trois : 3² × 5 = 45. On peut faire <b>45 sacs</b> (le facteur 2 n'est que dans 90). 2) 90 ÷ 45 = 2, 135 ÷ 45 = 3 et 225 ÷ 45 = 5 : ce sac contient <b>2 flèches, 3 potions et 5 pièces d'argent</b>.</div>
+    </section>
+    <section class="gcell">
+      <div class="ill"><svg width='118' height='100' viewBox='0 0 118 100' xmlns='http://www.w3.org/2000/svg'><path d='M28,34 L44,34 L47,45 C70,52 66,82 36,84 C6,82 2,52 25,45 Z' fill='#C79A6B' stroke='#22303F' stroke-width='1.4' stroke-linejoin='round'/><rect x='25' y='43' width='22' height='5' rx='2' fill='#8A5A2B' stroke='#22303F' stroke-width='1.1'/><polygon points='71.2,22.0 104.8,22.0 114.4,34.0 88.0,60.4 61.6,34.0' fill='#E5544F' stroke='#22303F' stroke-width='1.3' stroke-linejoin='round'/><polygon points='71.2,22.0 104.8,22.0 96.4,34.0 79.6,34.0' fill='#F7B8B5' opacity='.75'/><polyline points='79.6,34.0 88.0,60.4 96.4,34.0' fill='none' stroke='#22303F' stroke-width='1'/><line x1='61.6' y1='34.0' x2='114.4' y2='34.0' stroke='#22303F' stroke-width='1'/><polygon points='75.2,64.0 108.8,64.0 118.4,76.0 92.0,102.4 65.6,76.0' fill='#2B6CB0' stroke='#22303F' stroke-width='1.3' stroke-linejoin='round'/><polygon points='75.2,64.0 108.8,64.0 100.4,76.0 83.6,76.0' fill='#A9C9EE' opacity='.75'/><polyline points='83.6,76.0 92.0,102.4 100.4,76.0' fill='none' stroke='#22303F' stroke-width='1'/><line x1='65.6' y1='76.0' x2='118.4' y2='76.0' stroke='#22303F' stroke-width='1'/></svg></div>
+      <div class="gh"><u>Ex n°3</u> Qui dit vrai ?</div>
+      <p class="obj">Objectif : vérifier un partage, puis prouver qu'on ne peut pas faire mieux.</p>
+      <p>Un coffre contient <b>126 rubis</b> et <b>84 saphirs</b>. Quatre joueurs disent l'avoir rangé en sacs identiques, sans rien laisser. Un seul a trouvé un partage <b>possible ET maximal</b>.</p>
+      <table class="tem"><tr><td><b>Lina</b></td><td>« 63 sacs : 2 rubis et 1 saphir par sac. »</td></tr><tr><td><b>Jade</b></td><td>« 21 sacs : 6 rubis et 4 saphirs par sac. »</td></tr><tr><td><b>Noa</b></td><td>« 42 sacs : 3 rubis et 2 saphirs par sac. »</td></tr><tr><td><b>Sacha</b></td><td>« 84 sacs : 1,5 rubis et 1 saphir par sac. »</td></tr></table>
+      <p class="q">1) Pour chaque joueur, vérifie son partage avec des calculs.</p>
+      <p class="q">2) Qui a raison ? Prouve qu'on ne peut pas faire plus de sacs.</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-2')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-2')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-2"><span class="label">Astuce</span>Multiplie le nombre de sacs par le contenu d'un sac : retrouves-tu 126 rubis et 84 saphirs ? Pour 2), cherche le maximum avec les décompositions.</div>
+      <div class="panel solution-panel" id="solution-2"><span class="label">Solution</span>1) <b>Lina</b> : 63 × 2 = 126 mais 63 × 1 = 63, pas 84 : faux. <b>Jade</b> : 21 × 6 = 126 et 21 × 4 = 84 : possible. <b>Noa</b> : 42 × 3 = 126 et 42 × 2 = 84 : possible. <b>Sacha</b> : 1,5 rubis par sac, mais on ne coupe pas un rubis : faux. 2) 126 = 2 × 3² × 7 et 84 = 2² × 3 × 7. Facteurs communs : 2 × 3 × 7 = 42, donc 42 sacs au maximum. <b>Noa a raison</b>. Jade a un partage possible, mais pas le maximum (21 sacs au lieu de 42).</div>
+    </section>
+    <section class="gcell">
+      <div class="ill"><svg width='118' height='118' viewBox='0 0 118 118' xmlns='http://www.w3.org/2000/svg'><g transform='translate(34,56) rotate(-18)'><polygon points='0,-52 6,-40 6,10 -6,10 -6,-40' fill='#C9D3DD' stroke='#22303F' stroke-width='1.3'/><line x1='0' y1='-48' x2='0' y2='8' stroke='#8A97A5'/><rect x='-15' y='10' width='30' height='6' rx='2' fill='#D9A82A' stroke='#22303F' stroke-width='1.2'/><rect x='-3.5' y='16' width='7' height='17' fill='#7A5230' stroke='#22303F' stroke-width='1.1'/><circle cx='0' cy='36' r='4.5' fill='#D9A82A' stroke='#22303F' stroke-width='1.1'/></g><g transform='translate(52,56) rotate(18)'><polygon points='0,-52 6,-40 6,10 -6,10 -6,-40' fill='#C9D3DD' stroke='#22303F' stroke-width='1.3'/><line x1='0' y1='-48' x2='0' y2='8' stroke='#8A97A5'/><rect x='-15' y='10' width='30' height='6' rx='2' fill='#D9A82A' stroke='#22303F' stroke-width='1.2'/><rect x='-3.5' y='16' width='7' height='17' fill='#7A5230' stroke='#22303F' stroke-width='1.1'/><circle cx='0' cy='36' r='4.5' fill='#D9A82A' stroke='#22303F' stroke-width='1.1'/></g><g transform='translate(86,62)'><path d='M-22,-26 H22 V4 C22,24 8,34 0,40 C-8,34 -22,24 -22,4 Z' fill='#3E7CC9' stroke='#22303F' stroke-width='1.6' stroke-linejoin='round'/><path d='M-14,-18 H14 V4 C14,18 5,26 0,30 C-5,26 -14,18 -14,4 Z' fill='none' stroke='#fff' stroke-width='1.4'/><line x1='0' y1='-16' x2='0' y2='26' stroke='#F6D45B' stroke-width='4'/><line x1='-14' y1='0' x2='14' y2='0' stroke='#F6D45B' stroke-width='4'/></g></svg></div>
+      <div class="gh"><u>Ex n°4</u> Chez le marchand</div>
+      <p class="obj">Objectif : raisonner à l'envers : retrouver les totaux avant de chercher le maximum.</p>
+      <p>Un marchand a rangé tout son stock dans <b>7 coffres identiques</b>. Chaque coffre contient <b>12 épées</b> et <b>20 boucliers</b>. « Impossible d'en faire plus ! », affirme-t-il.</p>
+      <p class="q">1) Combien a-t-il d'épées et de boucliers en tout ?</p>
+      <p class="q">2) A-t-il raison ? Sinon, quel est le plus grand nombre de coffres possible ?</p>
+      <p class="q">3) Que contiendrait alors ce coffre ?</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-3')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-3')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-3"><span class="label">Astuce</span>Commence par retrouver les totaux. Ensuite, c'est le même problème que le problème 1.</div>
+      <div class="panel solution-panel" id="solution-3"><span class="label">Solution</span>1) 7 × 12 = 84 épées et 7 × 20 = 140 boucliers. 2) 84 = 2² × 3 × 7 et 140 = 2² × 5 × 7. Facteurs communs : 2² × 7 = 28. Il <b>n'a pas raison</b> : il pouvait faire <b>28 coffres</b>. 3) 84 ÷ 28 = 3 et 140 ÷ 28 = 5 : ce coffre contiendrait <b>3 épées et 5 boucliers</b>.</div>
+    </section>
+    <section class="gcell bonus">
+      <div class="ill"><svg width='100' height='70' viewBox='0 0 100 70' xmlns='http://www.w3.org/2000/svg'><ellipse cx='24' cy='57' rx='18' ry='6' fill='#D9A82A' stroke='#8A5A10' stroke-width='1.1'/><rect x='6' y='52' width='36' height='5' fill='#D9A82A'/><line x1='6' y1='52' x2='6' y2='57' stroke='#8A5A10' stroke-width='1.1'/><line x1='42' y1='52' x2='42' y2='57' stroke='#8A5A10' stroke-width='1.1'/><ellipse cx='24' cy='52' rx='18' ry='6' fill='#F6D45B' stroke='#8A5A10' stroke-width='1.1'/><ellipse cx='24' cy='52' rx='18' ry='6' fill='#D9A82A' stroke='#8A5A10' stroke-width='1.1'/><rect x='6' y='47' width='36' height='5' fill='#D9A82A'/><line x1='6' y1='47' x2='6' y2='52' stroke='#8A5A10' stroke-width='1.1'/><line x1='42' y1='47' x2='42' y2='52' stroke='#8A5A10' stroke-width='1.1'/><ellipse cx='24' cy='47' rx='18' ry='6' fill='#F6D45B' stroke='#8A5A10' stroke-width='1.1'/><polygon points='46.0,28.0 74.0,28.0 82.0,38.0 60.0,60.0 38.0,38.0' fill='#38B6E8' stroke='#22303F' stroke-width='1.3' stroke-linejoin='round'/><polygon points='46.0,28.0 74.0,28.0 67.0,38.0 53.0,38.0' fill='#BFEAFB' opacity='.75'/><polyline points='53.0,38.0 60.0,60.0 67.0,38.0' fill='none' stroke='#22303F' stroke-width='1'/><line x1='38.0' y1='38.0' x2='82.0' y2='38.0' stroke='#22303F' stroke-width='1'/><polygon points='72.8,38.0 95.2,38.0 101.6,46.0 84.0,63.6 66.4,46.0' fill='#E5544F' stroke='#22303F' stroke-width='1.3' stroke-linejoin='round'/><polygon points='72.8,38.0 95.2,38.0 89.6,46.0 78.4,46.0' fill='#F7B8B5' opacity='.75'/><polyline points='78.4,46.0 84.0,63.6 89.6,46.0' fill='none' stroke='#22303F' stroke-width='1'/><line x1='66.4' y1='46.0' x2='101.6' y2='46.0' stroke='#22303F' stroke-width='1'/></svg></div>
+      <div class="gh"><u>Pour aller plus loin</u> Ex n°5 Tous les partages</div>
+      <p class="obj">Objectif : trouver tous les partages possibles, pas seulement le meilleur.</p>
+      <p>Reprends le problème 1 (150 pièces d'or et 210 gemmes). Donne <b>tous</b> les nombres de coffres possibles, en comptant 1 coffre. Combien y en a-t-il ?</p>
+      <div class="btn-row">
+        <button class="toggle-btn astuce" onclick="toggle('astuce-9')">💡 Astuce</button>
+        <button class="toggle-btn solution" onclick="toggle('solution-9')">✅ Solution</button>
+      </div>
+      <div class="panel astuce-panel" id="astuce-9"><span class="label">Astuce</span>Un nombre de coffres est possible s'il divise 150 ET 210. Cherche les diviseurs du plus grand de ces nombres.</div>
+      <div class="panel solution-panel" id="solution-9"><span class="label">Solution</span>Les nombres de coffres possibles sont les diviseurs de 30 = 2 × 3 × 5 : <b>1, 2, 3, 5, 6, 10, 15 et 30</b>. Il y a <b>8 partages</b> possibles.</div>
+    </section>
+  </div>
+  <footer>Refais chaque exercice seul(e) : utilise l'astuce si tu bloques, puis vérifie avec la solution.</footer>
+</div>
+<script>function toggle(id){document.getElementById(id).classList.toggle('show');}</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

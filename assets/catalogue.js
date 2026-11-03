@@ -701,6 +701,21 @@ window.SITE = {
               ],
               exemple: "12 roses = 2² × 3 et 18 tulipes = 2 × 3² : 2 × 3 = 6 bouquets, chacun avec 2 roses et 3 tulipes.",
               savoir: "résoudre un problème de répartition en lots identiques."
+            },
+            {
+              titre: "Problèmes de répartition en groupe (AP)", duree: "50 min",
+              contenu: [
+                "Automatisme, puis quatre problèmes en groupe de 3 ou 4 sur une seule fiche : deux quantités, trois quantités, un partage à vérifier et un problème à l'envers.",
+                "Les 15 dernières minutes sont réservées à un petit test (sujet et corrigé dans l'onglet Évaluations)."
+              ],
+              ressources: ["4e-ch3-s5"],
+              retenir: [
+                "Le plus grand nombre de lots est le **produit des facteurs premiers communs** aux quantités, avec leur plus petit exposant.",
+                "Avec **trois quantités**, on ne garde que les facteurs présents dans les trois décompositions.",
+                "Un partage **possible** n'est pas forcément **maximal** : pour le prouver, on compare avec le maximum trouvé par la décomposition."
+              ],
+              exemple: "126 rubis = 2 × 3² × 7 et 84 saphirs = 2² × 3 × 7 : 2 × 3 × 7 = 42 sacs au maximum, chacun avec 3 rubis et 2 saphirs.",
+              savoir: "résoudre un problème de répartition, vérifier un partage et prouver qu'il est maximal."
             }
           ],
           ressources: [
@@ -709,6 +724,7 @@ window.SITE = {
             { id: "4e-ch3-s2", type: "exos", titre: "Séance 2 — Décomposition en facteurs premiers", resume: "Écrire un nombre comme un produit de nombres premiers.", ajout: "2026-10-06" },
             { id: "4e-ch3-s3", type: "exos", titre: "Séance 3 — Simplifier une fraction", resume: "Rendre une fraction irréductible avec la décomposition.", ajout: "2026-10-06" },
             { id: "4e-ch3-s4", type: "exos", titre: "Séance 4 — Problèmes de répartition", resume: "Bouquets, pochettes et carrelage : le plus grand nombre de lots.", ajout: "2026-10-06" },
+            { id: "4e-ch3-s5", type: "exos", titre: "Séance 5 (AP) — Problèmes de répartition en groupe", resume: "Le butin, les trois piles, qui dit vrai et le marchand : la fiche du groupe, avec astuces et solutions.", ajout: "2026-11-03" },
             { id: "4e-ch3-minijeux", type: "jeu", titre: "Mini-jeux — Nombres premiers", resume: "Crible, décompositions et défis, à volonté.", ajout: "2026-10-06" }
           ]
         },
