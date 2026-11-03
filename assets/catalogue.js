@@ -489,7 +489,10 @@ window.SITE = {
           versions: [ { nom: "A et B", sujet: "evaluations/4e/4e-ch1-petit-test-evolutions-sujets-A-et-B.pdf", corrige: "evaluations/4e/4e-ch1-petit-test-evolutions-corrige-A-et-B.pdf" } ] },
         { etiquette: "Chapitres 1 et 2", titre: "Évaluation — Pourcentages et grandeurs",
           resume: "Pourcentages, vitesse, débit, volume, problème. 50 min, sur 20. Les versions A et B sont dans le même fichier.", ajout: "2026-10-14",
-          versions: [ { nom: "A et B", sujet: "evaluations/4e/4e-ch1-2-sujets-A-et-B.pdf", corrige: "evaluations/4e/4e-ch1-2-corrige-A-et-B.pdf" } ] }
+          versions: [ { nom: "A et B", sujet: "evaluations/4e/4e-ch1-2-sujets-A-et-B.pdf", corrige: "evaluations/4e/4e-ch1-2-corrige-A-et-B.pdf" } ] },
+        { chapitre: "4e-ch3", etiquette: "Chapitre 3 · Petit test", titre: "Petit test — Décomposition et problèmes de répartition",
+          resume: "Nombres premiers, décomposition en facteurs premiers, fraction irréductible et plus grand nombre de lots. 15 min, sur 20. Les versions A et B sont dans le même fichier.", ajout: "2026-11-03",
+          versions: [ { nom: "A et B", sujet: "evaluations/4e/4e-ch3-petit-test-repartition-sujets-A-et-B.pdf", corrige: "evaluations/4e/4e-ch3-petit-test-repartition-corrige-A-et-B.pdf" } ] }
       ],
       chapitres: [
         {
