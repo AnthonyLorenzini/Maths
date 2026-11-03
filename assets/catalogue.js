@@ -389,7 +389,7 @@ window.SITE = {
               ressources: ["6e-ch5-s1", "cercle-et-ses-noms"],
               retenir: [
                 "Le **cercle** de centre O et de rayon r est l'ensemble des points situés à la distance r de O.",
-                "Un **rayon** relie le centre à un point du cercle ; une **corde** relie deux points du cercle ; un **diamètre** est une corde qui passe par le centre.",
+                "Un **rayon**, une **corde** et un **diamètre** sont des **segments** : un **rayon** relie le centre à un point du cercle ; une **corde** relie deux points du cercle ; un **diamètre** est une corde qui passe par le centre.",
                 "Le **diamètre** est le double du rayon. Deux points d'un cercle le partagent en **deux arcs**."
               ],
               exemple: "Un cercle de rayon 4,5 cm a un diamètre de 2 × 4,5 = 9 cm.",

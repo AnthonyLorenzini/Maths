@@ -275,13 +275,14 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
   <!-- ================= ATELIER ================= -->
   <section class="ex" id="atel">
     <div class="ex-h"><h2>Atelier <small>rayon, diamètre, corde, arc</small></h2></div>
-    <p class="consigne">Ce cercle a pour centre O et pour rayon 3 cm. Clique sur deux points : le segment s'affiche avec son nom. Trouve <b>un rayon</b>, <b>une corde</b> et <b>un diamètre</b>, puis passe en mode « Arcs ».</p>
+    <p class="consigne">Ce cercle a pour centre O et pour rayon 3 cm. Clique sur deux points : le segment s'affiche avec son nom et reste sur la figure. Trouve <b>un rayon</b>, <b>une corde</b> et <b>un diamètre</b> (ce sont trois segments), puis passe en mode « Arcs ».</p>
     <div class="row">
       <span class="grp"><span class="lvl">Mode</span>
       <div class="seg" id="amode"><button data-v="seg">Segments</button><button data-v="arc">Arcs</button></div></span>
       <div class="chips" id="achips" aria-label="ce que tu as trouvé">
         <span class="chip" data-k="rayon">rayon</span><span class="chip" data-k="corde">corde</span><span class="chip" data-k="diam">diamètre</span><span class="chip" data-k="arc">arc</span><span class="chip" data-k="demi">demi-cercle</span>
       </div>
+      <button class="btn" id="aclear">Effacer la figure</button>
     </div>
     <div class="fig sm" id="atfig"></div>
     <p class="recit" id="atmsg" aria-live="polite">Clique sur un premier point (O ou une lettre), puis sur un deuxième.</p>
@@ -296,7 +297,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
     <ol class="qs" type="a">
       <li>Quel est le centre du cercle ?<span class="sol s">Le centre est le point O.</span></li>
       <li>Nomme trois rayons.<span class="sol s">[OA], [OB] et [OC]. Tout segment qui relie O à un point du cercle est un rayon.</span></li>
-      <li>Nomme un diamètre.<span class="sol s">[BC] est un diamètre : il passe par le centre O et ses deux extrémités sont sur le cercle.</span></li>
+      <li>Nomme un diamètre.<span class="sol s">[BC] est un diamètre : c'est un segment dont les deux extrémités sont sur le cercle et qui passe par le centre O.</span></li>
       <li>Nomme deux cordes qui ne sont pas des diamètres.<span class="sol s">[DE] et [FG].</span></li>
       <li>Pourquoi [DE] n'est-il pas un diamètre ?<span class="sol s">Parce qu'il ne passe pas par le centre O.</span></li>
     </ol>
@@ -429,22 +430,31 @@ const AP=[['A',20],['B',70],['C',130],['D',160],['E',200],['F',250],['G',310],['
 const ANG=Object.fromEntries(AP);
 const pos=p=>p==='O'?[AC.x,AC.y]:G.pol(AC.x,AC.y,AC.R,ANG[p]);
 const KC={rayon:'var(--blue)',diam:'var(--magenta)',corde:'var(--teal)',arc:'var(--amber)',demi:'var(--ok)'};
-let amode=store.get('c5s1amode','seg'),sel=null,res=null;const found=new Set();
+/* shown = tout ce que l'élève a désigné : reste affiché même quand on change de mode ; last = le dernier élément désigné */
+let amode=store.get('c5s1amode','seg'),sel=null,last=null;const shown=[],found=new Set();
+function keep(it){
+  const key=x=>x.type==='seg'?'seg:'+[x.a,x.b].sort().join(''):'arc:'+x.s+':'+x.e;
+  const i=shown.findIndex(x=>key(x)===key(it));if(i>=0)shown.splice(i,1);
+  shown.push(it);last=it;return it;
+}
 function atelier(){
   let s=`<svg viewBox="0 0 520 450" id="atsvg" role="img" aria-label="cercle de centre O, de rayon 3 cm, avec huit points A à H">`;
   s+=G.circ(AC.x,AC.y,AC.R,{w:3.5,fill:'var(--paper)'});
-  if(res){
-    if(res.type==='seg'){const a=pos(res.a),b=pos(res.b);s+=G.line(a[0],a[1],b[0],b[1],KC[res.kind],7);
-      const mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2;s+=G.text(mx,my+(res.kind==='diam'?-12:-10),res.len+' cm',{size:16,halo:true,col:'var(--ink)'});}
-    else{
-      if(res.demi){s+=G.arc(AC.x,AC.y,AC.R,res.s,res.e,KC.demi,8)+G.arc(AC.x,AC.y,AC.R,res.e,res.s,KC.demi,8,'stroke-dasharray="3 14"');}
-      else{s+=G.arc(AC.x,AC.y,AC.R,res.s,res.e,KC.arc,9)+G.arc(AC.x,AC.y,AC.R,res.e,res.s,'var(--muted)',5,'stroke-dasharray="3 12"');}
-    }
-  }
+  /* arcs d'abord (sous les segments), le dernier choisi par-dessus avec son arc complémentaire en pointillés */
+  shown.filter(x=>x.type==='arc').forEach(x=>{
+    const isLast=x===last,col=x.demi?KC.demi:KC.arc;
+    if(isLast)s+=G.arc(AC.x,AC.y,AC.R,x.e,x.s,x.demi?KC.demi:'var(--muted)',x.demi?8:5,x.demi?'stroke-dasharray="3 14"':'stroke-dasharray="3 12"');
+    s+=G.arc(AC.x,AC.y,AC.R,x.s,x.e,col,isLast?9:7);
+  });
+  shown.filter(x=>x.type==='seg').forEach(x=>{
+    const a=pos(x.a),b=pos(x.b),isLast=x===last;s+=G.line(a[0],a[1],b[0],b[1],KC[x.kind],isLast?7:5);
+  });
+  if(last&&last.type==='seg'){const a=pos(last.a),b=pos(last.b),mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2;
+    s+=G.text(mx,my+(last.kind==='diam'?-12:-10),last.len+' cm',{size:16,halo:true,col:'var(--ink)'});}
   AP.forEach(([n,a])=>{const [x,y]=pos(n);s+=G.cross(x,y,'var(--ink)',7,3)+G.lab(AC.x,AC.y,AC.R,a,n,{size:21,gap:26});});
   s+=G.cross(AC.x,AC.y,'var(--ink)',7,3)+G.text(AC.x-16,AC.y-12,'O',{size:22});
-  const marks=sel?[sel]:[];if(res)marks.push(res.a,res.b);
-  marks.forEach(p=>{const q=pos(p);s+=`<circle cx="${q[0].toFixed(1)}" cy="${q[1].toFixed(1)}" r="15" fill="none" stroke="var(--amber)" stroke-width="3.5" stroke-dasharray="${res?'0':'5 4'}"/>`;});
+  const marks=sel?[sel]:[];if(last)marks.push(last.a,last.b);
+  marks.forEach(p=>{const q=pos(p);s+=`<circle cx="${q[0].toFixed(1)}" cy="${q[1].toFixed(1)}" r="15" fill="none" stroke="var(--amber)" stroke-width="3.5" stroke-dasharray="${last?'0':'5 4'}"/>`;});
   ['O',...AP.map(x=>x[0])].forEach(n=>{const q=pos(n);s+=`<circle data-p="${n}" cx="${q[0].toFixed(1)}" cy="${q[1].toFixed(1)}" r="24" fill="transparent" tabindex="0" role="button" aria-label="point ${n}"/>`;});
   $('#atfig').innerHTML=s+'</svg>';
   $$('#atsvg [data-p]').forEach(c=>{c.addEventListener('click',()=>choose(c.dataset.p));c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose(c.dataset.p);}});});
@@ -455,28 +465,29 @@ function between(p,s,e){const t=G.norm(p-s),L=G.norm(e-s);return t>0&&t<L;}
 function names(list){return list.length?list.join(', '):'aucun autre point';}
 function choose(p){
   if(amode==='arc'&&p==='O'){info('Pour un arc, choisis deux points <b>du cercle</b> (des lettres).');return;}
-  if(!sel||res){sel=p;res=null;atelier();info('Tu as choisi <b>'+p+'</b>. Choisis un deuxième point.');return;}
+  if(!sel){sel=p;last=null;atelier();info('Tu as choisi <b>'+p+'</b>. Choisis un deuxième point.');return;}
   if(sel===p){sel=null;atelier();info('Point désélectionné. Choisis un premier point.');return;}
   const a=sel,b=p;sel=null;
   if(amode==='seg'){
-    if(a==='O'||b==='O'){const q=a==='O'?b:a;res={type:'seg',kind:'rayon',a,b,len:'3'};found.add('rayon');
-      info(`<b>[O${q}]</b> est un <b>rayon</b> : il relie le centre O à un point du cercle. O${q} = 3 cm.`,'rayon');}
+    if(a==='O'||b==='O'){const q=a==='O'?b:a;keep({type:'seg',kind:'rayon',a,b,len:'3'});found.add('rayon');
+      info(`<b>[O${q}]</b> est un <b>rayon</b> : c'est un <b>segment</b> qui relie le centre O à un point du cercle. O${q} = 3 cm.`,'rayon');}
     else{const d=G.norm(ANG[a]-ANG[b]);
-      if(Math.abs(d-180)<0.01){res={type:'seg',kind:'diam',a,b,len:'6'};found.add('diam');
-        info(`<b>[${a}${b}]</b> est un <b>diamètre</b> : c'est une corde qui passe par le centre O. ${a}${b} = 6 cm, le double du rayon.`,'diam');}
-      else{const th=Math.min(d,360-d),len=2*3*Math.sin(G.rad(th)/2);res={type:'seg',kind:'corde',a,b,len:G.fmt1(len)};found.add('corde');
-        info(`<b>[${a}${b}]</b> est une <b>corde</b> : elle relie deux points du cercle mais ne passe pas par O. ${a}${b} ≈ ${G.fmt1(len)} cm, c'est moins que le diamètre.`,'corde');}}
+      if(Math.abs(d-180)<0.01){keep({type:'seg',kind:'diam',a,b,len:'6'});found.add('diam');
+        info(`<b>[${a}${b}]</b> est un <b>diamètre</b> : c'est un <b>segment</b> qui relie deux points du cercle en passant par le centre O (c'est une corde particulière). ${a}${b} = 6 cm, le double du rayon.`,'diam');}
+      else{const th=Math.min(d,360-d),len=2*3*Math.sin(G.rad(th)/2);keep({type:'seg',kind:'corde',a,b,len:G.fmt1(len)});found.add('corde');
+        info(`<b>[${a}${b}]</b> est une <b>corde</b> : c'est un <b>segment</b> qui relie deux points du cercle. Ici, elle ne passe pas par O. ${a}${b} ≈ ${G.fmt1(len)} cm, c'est moins que le diamètre.`,'corde');}}
   }else{
     const d=G.norm(ANG[b]-ANG[a]);
-    if(Math.abs(d-180)<0.01){res={type:'arc',a,b,s:ANG[a],e:ANG[b],demi:true};found.add('demi');found.add('arc');
+    if(Math.abs(d-180)<0.01){keep({type:'arc',a,b,s:ANG[a],e:ANG[b],demi:true});found.add('demi');found.add('arc');
       info(`<b>${a}</b> et <b>${b}</b> sont opposés : [${a}${b}] est un diamètre. Il partage le cercle en <b>deux demi-cercles</b>, deux arcs de même longueur.`,'demi');}
-    else{const s=d<180?ANG[a]:ANG[b],e=d<180?ANG[b]:ANG[a];res={type:'arc',a,b,s,e};found.add('arc');
+    else{const s=d<180?ANG[a]:ANG[b],e=d<180?ANG[b]:ANG[a];keep({type:'arc',a,b,s,e});found.add('arc');
       const sh=AP.map(x=>x[0]).filter(n=>n!==a&&n!==b&&between(ANG[n],s,e)),lg=AP.map(x=>x[0]).filter(n=>n!==a&&n!==b&&!between(ANG[n],s,e));
       info(`${a} et ${b} partagent le cercle en <b>deux arcs</b>. Le plus court (trait épais) se note <span class="arcn">${a}${b}</span> : il contient ${names(sh)}. L'autre (pointillés) contient ${names(lg)}.`,'arc');}
   }
   atelier();chips();
 }
-seg($('#amode'),v=>{amode=v;store.set('c5s1amode',v);sel=null;res=null;atelier();info(v==='seg'?'Clique sur un premier point (O ou une lettre), puis sur un deuxième.':'Clique sur deux points du cercle (deux lettres) : le site montre les deux arcs.');},amode);
+seg($('#amode'),v=>{amode=v;store.set('c5s1amode',v);sel=null;last=null;atelier();info(v==='seg'?'Clique sur un premier point (O ou une lettre), puis sur un deuxième. Ce que tu as déjà trouvé reste affiché.':'Clique sur deux points du cercle (deux lettres) : le site montre les deux arcs. Les segments déjà trouvés restent affichés.');},amode);
+$('#aclear').addEventListener('click',()=>{shown.length=0;found.clear();sel=null;last=null;atelier();chips();info('Figure effacée. Clique sur un premier point (O ou une lettre), puis sur un deuxième.');});
 
 /* =============== EXERCICES =============== */
 /* ex. 1 */
