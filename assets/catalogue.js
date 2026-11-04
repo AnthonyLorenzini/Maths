@@ -475,7 +475,8 @@ window.SITE = {
           resume: "Pour se remettre en jambes et garder les réflexes de calcul.",
           ressources: [
             { id: "sprint-automatismes-5e", type: "jeu", titre: "Sprint des automatismes", resume: "Cinq épreuves chronométrées sur les automatismes de 6e.", ajout: "2026-09-16" },
-            { id: "heure-automatismes-5e", type: "jeu", titre: "Heure d'automatismes", resume: "Neuf stations, de nouvelles valeurs à chaque tirage.", ajout: "2026-10-07" }
+            { id: "heure-automatismes-5e", type: "jeu", titre: "Heure d'automatismes", resume: "Neuf stations, de nouvelles valeurs à chaque tirage.", ajout: "2026-10-07" },
+            { id: "heure-automatismes-5e-2", type: "jeu", titre: "Heure d'automatismes 2", resume: "Six stations pour 50 min, sans calculatrice : rafale, intrus, proportionnalité, pyramide, droite graduée, ticket de sortie.", ajout: "2026-11-04" }
           ]
         }
       ]

@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>Heure d'automatismes 2 · 5e</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Même gabarit que la séance 1 : barre de stations en haut (le plan de la séance), une station visible à la fois, lisible au vidéoprojecteur. */
+:root{
+  --bg:#E9EEF5; --surface:#FFFFFF; --surface2:#F4F7FB; --ink:#132033; --muted:#55657C; --line:#CCD6E3;
+  --accent:#2B55D6; --accent-ink:#FFFFFF; --chalk:#E9A800; --chalk-soft:#FFF3CC;
+  --ok:#1C8A4A; --ok-soft:#DDF3E5; --bad:#C93A2F; --bad-soft:#FBE3E0;
+  --t1:#D9472F; --t2:#13878A; --t3:#2B55D6; --t4:#8E44C7; --t5:#B57300;
+  --display:"Bricolage Grotesque",ui-rounded,"Segoe UI",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1625; --surface:#172238; --surface2:#1E2B45; --ink:#E7ECF5; --muted:#9AA9C0; --line:#2C3B58;
+  --accent:#7D9CFF; --accent-ink:#0E1625; --chalk:#F4C744; --chalk-soft:#3A3115;
+  --ok:#5BD08A; --ok-soft:#173726; --bad:#FF7F73; --bad-soft:#3D1D1A;
+  --t1:#FF7A5E; --t2:#4FC9C9; --t3:#7D9CFF; --t4:#C79BF2; --t5:#F2B84B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1625; --surface:#172238; --surface2:#1E2B45; --ink:#E7ECF5; --muted:#9AA9C0; --line:#2C3B58;
+  --accent:#7D9CFF; --accent-ink:#0E1625; --chalk:#F4C744; --chalk-soft:#3A3115;
+  --ok:#5BD08A; --ok-soft:#173726; --bad:#FF7F73; --bad-soft:#3D1D1A;
+  --t1:#FF7A5E; --t2:#4FC9C9; --t3:#7D9CFF; --t4:#C79BF2; --t5:#F2B84B; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;font-variant-numeric:tabular-nums}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:14px 40px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
+button,select{font:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--chalk);outline-offset:2px}
+
+/* En-tête */
+.top{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between}
+.top h1{font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-.01em}
+.top h1 small{display:block;font-family:var(--body);font-weight:400;font-size:14px;color:var(--muted);letter-spacing:0}
+.clock{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:6px 8px 6px 14px}
+.clock .t{font-family:var(--display);font-weight:800;font-size:26px;min-width:4.2ch}
+.clock .lbl{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.clock .now{font-size:13px;line-height:1.25;max-width:17ch;color:var(--muted)}
+
+/* Stations */
+.rail{display:flex;gap:6px;overflow-x:auto;margin-top:14px;padding-bottom:4px}
+.rail button{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:0;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:7px 12px;text-align:left}
+.rail button .n{font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.rail button .k{font-weight:700;font-size:15px;white-space:nowrap}
+.rail button[aria-current="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.rail button[aria-current="true"] .n{color:inherit;opacity:.8}
+
+.panel{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:clamp(16px,3vw,32px)}
+.head{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:baseline;justify-content:space-between;margin-bottom:6px}
+.head h2{font-size:clamp(26px,3.6vw,40px);font-weight:800}
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{background:var(--chalk-soft);color:var(--ink);border:1px solid var(--chalk);border-radius:999px;padding:2px 12px;font-size:14px;font-weight:700;white-space:nowrap}
+.dur{font-weight:700;color:var(--muted)}
+.consigne{color:var(--muted);max-width:70ch;margin:4px 0 18px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{background:var(--surface2);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:9px 16px;font-weight:700}
+.btn:hover{border-color:var(--accent)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.main{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.ok{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}
+.btn.bad{background:var(--bad-soft);color:var(--bad);border-color:var(--bad)}
+.btn.sm{padding:6px 12px;font-size:15px}
+.pnav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:24px;padding-top:14px;border-top:1px solid var(--line)}
+
+/* Minuteur */
+.timer{display:flex;align-items:center;gap:10px}
+.timer .t{font-family:var(--display);font-weight:800;font-size:28px;min-width:3.6ch;text-align:right}
+.timer.end .t{color:var(--bad)}
+.track{height:10px;background:var(--surface2);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin:14px 0 4px}
+.track i{display:block;height:100%;width:100%;background:var(--chalk);transform-origin:left;transition:transform .25s linear}
+
+/* Grande question projetée */
+.stage{min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:20px 8px}
+.stage .num{font-size:14px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.stage .q{font-family:var(--display);font-weight:800;font-size:clamp(34px,6vw,76px);line-height:1.1}
+.stage .theme{display:inline-block;background:var(--chalk-soft);color:var(--ink);border-radius:999px;padding:2px 12px;font-size:14px;font-weight:700}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1;margin:0 .1em;font-size:.8em}
+.frac span:first-child{border-bottom:.08em solid currentColor;padding:0 .12em .06em}
+.frac span:last-child{padding-top:.06em}
+
+.answer{font-family:var(--display);font-weight:800;color:var(--ok);font-size:clamp(28px,4vw,46px)}
+.correction{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;margin-top:16px}
+.correction div{background:var(--surface2);border-radius:10px;padding:10px 14px;display:flex;gap:10px;align-items:baseline}
+.correction b{color:var(--muted);min-width:2ch}
+.correction .r{margin-left:auto;font-weight:700;color:var(--ok);white-space:nowrap}
+.explain{max-width:60ch;font-size:20px}
+.banner{font-family:var(--display);font-weight:800;font-size:30px}
+
+/* Qui est l'intrus : quatre cartes */
+.choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;width:100%;max-width:860px}
+.choices div{background:var(--surface2);border:2px solid var(--line);border-radius:12px;padding:12px 6px;font-family:var(--display);font-weight:800;font-size:clamp(22px,3.4vw,38px)}
+.choices div em{display:block;font-style:normal;font-size:14px;color:var(--muted);font-family:var(--body)}
+.choices div.good{border-color:var(--ok);background:var(--ok-soft)}
+.choices div.bad{border-color:var(--bad);background:var(--bad-soft)}
+@media (max-width:560px){.choices{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Le marché : tableau de proportionnalité */
+.ptab{border-collapse:separate;border-spacing:6px;margin:8px auto;font-family:var(--display);font-weight:800;font-size:clamp(18px,2.8vw,30px)}
+.ptab th{font-family:var(--body);font-size:13px;font-weight:700;text-align:right;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding-right:8px}
+.ptab td{background:var(--surface2);border:2px solid var(--line);border-radius:10px;padding:8px 14px;text-align:center;min-width:3ch}
+.ptab td.op{background:none;border:none;color:var(--accent);font-size:.8em;padding:0 6px;white-space:nowrap}
+.ptab td.rv{border-color:var(--ok);background:var(--ok-soft);color:var(--ok)}
+.method{display:inline-block;background:var(--ok-soft);color:var(--ok);border-radius:999px;padding:2px 14px;font-size:15px;font-weight:700}
+
+/* Pyramide */
+.pyr{display:flex;flex-direction:column;align-items:center;gap:6px;margin:6px 0}
+.prow{display:flex;gap:6px}
+.brick{min-width:clamp(54px,9vw,96px);padding:10px 6px;border-radius:10px;border:2px solid var(--line);background:var(--surface2);font-family:var(--display);font-weight:800;font-size:clamp(22px,4vw,42px);text-align:center}
+.brick.sh{border-color:var(--chalk);background:var(--chalk-soft)}
+.brick.hid{border-style:dashed;color:var(--muted)}
+.brick.rv{border-color:var(--ok);background:var(--ok-soft);color:var(--ok)}
+
+/* Droite graduée */
+.nl{width:100%;max-width:900px;height:auto}
+.nl .ax{stroke:var(--ink);stroke-width:3}
+.nl .tk{stroke:var(--muted);stroke-width:2}
+.nl .tb{stroke:var(--ink);stroke-width:3}
+.nl text{fill:var(--ink);font-family:var(--display);font-weight:800}
+.nl .pt{fill:var(--accent)}
+.nl .lt{font-size:28px;fill:var(--accent)}
+.nl .nm{font-size:24px;fill:var(--muted)}
+.nl .rvl{font-size:24px;fill:var(--ok)}
+
+/* Ticket de sortie */
+.ticket{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:10px}
+.ticket div{background:var(--surface2);border-radius:12px;padding:16px;font-size:22px}
+.ticket b{display:block;font-family:var(--display);font-size:22px;margin-bottom:4px}
+.ticket .sol{display:block;margin-top:8px;color:var(--ok);font-weight:700}
+.eval{display:flex;gap:18px;flex-wrap:wrap;font-weight:700;margin-top:14px}
+.retenir{background:var(--chalk-soft);border-left:6px solid var(--chalk);border-radius:12px;padding:14px 20px;margin-top:18px}
+.retenir h3{font-size:20px;margin-bottom:6px}
+.retenir ul{margin:0;padding-left:20px;font-size:19px}
+.retenir li+li{margin-top:4px}
+
+/* Déroulé prof */
+.plan{width:100%;border-collapse:collapse;font-size:16px}
+.plan th,.plan td{border-bottom:1px solid var(--line);padding:10px 8px;text-align:left;vertical-align:top}
+.plan th{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.plan td:first-child{white-space:nowrap;font-weight:700}
+.scroll{overflow-x:auto}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:20px}
+.notes section{background:var(--surface2);border-radius:12px;padding:14px 16px}
+.notes h3{font-size:18px;margin-bottom:6px}
+.notes ul{margin:0;padding-left:18px}
+.muted{color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Heure d'automatismes 2 · 5e<small>6 stations, valeurs tirées au hasard à chaque clic sur « Nouveau tirage »</small></h1>
+    <div class="clock" aria-label="Horloge de séance">
+      <div><div class="lbl">Séance</div><div class="t" id="gclock">50:00</div></div>
+      <button class="btn sm" id="gstart">Lancer</button>
+      <button class="btn sm" id="greset" aria-label="Remettre l'horloge à 50 minutes">↺</button>
+      <div class="now" id="gnow"></div>
+    </div>
+  </header>
+  <nav class="rail" id="rail" aria-label="Stations de la séance"></nav>
+  <main id="panels"></main>
+</div>
+
+<script>
+/* ---------- utilitaires ---------- */
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[R(0,a.length-1)];
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]]}return a};
+const clean=x=>Math.round(x*1e6)/1e6;
+const fr=x=>clean(x).toLocaleString('fr-FR',{maximumFractionDigits:4});
+const euro=x=>clean(x).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
+const F=(n,d)=>`<span class="frac"><span>${n}</span><span>${d}</span></span>`;
+const gcd=(a,b)=>b?gcd(b,a%b):a;
+const fred=(n,d)=>{const g=gcd(n,d);n/=g;d/=g;return d===1?String(n):F(n,d)};
+const hm=t=>`${Math.floor(t/60)} h ${String(t%60).padStart(2,'0')}`;
+const $=s=>document.querySelector(s);
+let audio;
+function beep(){try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();const o=audio.createOscillator(),g=audio.createGain();o.frequency.value=660;g.gain.setValueAtTime(.15,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.5);o.connect(g).connect(audio.destination);o.start();o.stop(audio.currentTime+.5)}catch(e){}}
+
+/* Minuteur réutilisable */
+function Timer(root,seconds,onEnd){
+  root.innerHTML=`<div class="timer"><span class="t">0:00</span><button class="btn sm" data-a="go">Démarrer</button><button class="btn sm" data-a="rs" aria-label="Remettre le minuteur à zéro">↺</button></div>`;
+  const t=root.querySelector('.t'),go=root.querySelector('[data-a=go]');
+  let left=seconds,id=null,total=seconds,bar=null;
+  const show=()=>{t.textContent=Math.floor(left/60)+':'+String(left%60).padStart(2,'0');root.querySelector('.timer').classList.toggle('end',left===0);if(bar)bar.style.transform=`scaleX(${left/total})`};
+  const stop=()=>{clearInterval(id);id=null;go.textContent='Démarrer'};
+  const start=()=>{if(id||left===0)return;go.textContent='Pause';id=setInterval(()=>{left--;show();if(left<=0){stop();beep();onEnd&&onEnd()}},1000)};
+  go.onclick=()=>id?stop():start();
+  root.querySelector('[data-a=rs]').onclick=()=>{stop();left=total;show()};
+  show();
+  return{start,stop,reset(s){stop();total=s??total;left=total;show()},bindBar(b){bar=b;show()},get running(){return!!id}};
+}
+
+/* ---------- le plan de la séance (source unique : durées, rail, déroulé, horloge) ---------- */
+const PLAN=[
+ {id:'rafale',k:'Rafale',min:9,
+  how:'Seul, 9 questions (3 thèmes × 3 niveaux), correction collective',
+  what:'Fractions, durées, périmètres et aires, multiples : 3 thèmes tirés au hasard parmi 4',
+  why:'Mise au travail immédiate et silencieuse. Un même thème monte en difficulté sur 3 questions (en S1, les thèmes étaient mélangés).'},
+ {id:'intrus',k:'Qui est l’intrus ?',min:7,
+  how:'Seul, 3 séries de 4 cartes (1 min 30 chacune), la lettre de l’intrus et la justification dans le cahier, puis correction collective',
+  what:'Un même nombre écrit en fraction, décimal, pourcentage ou quotient',
+  why:'Travail écrit court qui change de rythme ; la justification est discutée à l’oral au moment de la correction. Prépare les fractions égales et la proportionnalité.'},
+ {id:'marche',k:'Le marché',min:11,
+  how:'Seul, 3 problèmes de 2 min, mise en commun après chacun',
+  what:'Proportionnalité : coefficient, retour à l’unité, additivité',
+  why:'Station la plus exigeante, placée tôt quand l’attention est la meilleure. Un problème par méthode pour apprendre à choisir.'},
+ {id:'pyramide',k:'Pyramide',min:7,
+  how:'Seul, 2 pyramides',
+  what:'Additions et soustractions mentales, raisonnement pas à pas',
+  why:'Pause de réflexion douce, sans pression du chrono, juste après la tâche la plus lourde.'},
+ {id:'droite',k:'Sur la droite',min:7,
+  how:'Seul, 3 droites graduées de 1 min 40',
+  what:'Lire une graduation : dixièmes, centièmes, fractions',
+  why:'Tâche visuelle qui change de l’écriture de nombres. Relie fraction et décimal.'},
+ {id:'ticket',k:'Ticket de sortie',min:9,
+  how:'Seul, 3 questions, auto-évaluation, puis « à retenir »',
+  what:'Une question par grande idée de la séance',
+  why:'Retour au calme, trace individuelle et bilan court de ce qu’il faut retenir.'}
+];
+let acc=0;PLAN.forEach(s=>{s.t0=acc;acc+=s.min;s.t1=acc});
+const TOTAL=acc*60; /* 3000 s */
+const STATIONS=[{id:'plan',k:'Déroulé',n:'Prof'},...PLAN.map((s,i)=>({id:s.id,k:s.k,n:`${i+1} · ${s.min} min`}))];
+
+const rail=$('#rail'),panels=$('#panels');
+STATIONS.forEach(s=>{
+  const b=document.createElement('button');b.innerHTML=`<span class="n">${s.n}</span><span class="k">${s.k}</span>`;b.onclick=()=>show(s.id);b.dataset.id=s.id;rail.appendChild(b);
+  const p=document.createElement('section');p.className='panel';p.id='p-'+s.id;p.hidden=true;panels.appendChild(p);
+});
+function show(id){
+  STATIONS.forEach(s=>{$('#p-'+s.id).hidden=s.id!==id;rail.querySelector(`[data-id=${s.id}]`).setAttribute('aria-current',s.id===id)});
+  try{localStorage.setItem('auto5e2-tab',id)}catch(e){}
+}
+const head=(titre,mode,dur)=>`<div class="head"><h2>${titre}</h2><div class="chips"><span class="chip">${mode}</span><span class="chip">✍️ Cahier</span><span class="chip">🚫 Sans calculatrice</span><span class="dur">${dur}</span></div></div>`;
+
+/* Horloge de séance (+ repère de la station prévue à cet instant) */
+(()=>{let left=TOTAL,id=null;const t=$('#gclock'),b=$('#gstart'),now=$('#gnow');
+  const sh=()=>{t.textContent=Math.floor(left/60)+':'+String(left%60).padStart(2,'0');
+    const el=TOTAL-left,i=PLAN.findIndex(s=>el<s.t1*60);
+    now.textContent=left===0?'Séance terminée':`Prévu : ${i+1} · ${PLAN[i].k}`};
+  b.onclick=()=>{if(id){clearInterval(id);id=null;b.textContent='Reprendre'}else{b.textContent='Pause';id=setInterval(()=>{left=Math.max(0,left-1);sh();if(left===0){clearInterval(id);id=null;b.textContent='Lancer';beep()}},1000)}};
+  $('#greset').onclick=()=>{clearInterval(id);id=null;left=TOTAL;sh();b.textContent='Lancer'};sh();})();
+
+/* ---------- banque de questions (Rafale) : 3 niveaux par thème ---------- */
+const NIV=['Niveau 1 · échauffement','Niveau 2 · réflexion','Niveau 3 · défi'];
+const TH={
+ fractions:{nom:'Fractions',f:[
+  ()=>{const [n,d]=pick([[1,2],[1,3],[2,3],[3,4],[2,5],[3,5],[3,10],[5,6],[1,4]]),m=R(2,6);return{q:`Simplifie ${F(n*m,d*m)}`,a:F(n,d)}},
+  ()=>{let d1,k;do{d1=pick([2,3,4,5]);k=pick([2,3,4])}while(d1*k>12);const n1=R(1,d1-1),d2=d1*k,n2=R(1,d2-1);return{q:`${F(n1,d1)} + ${F(n2,d2)}`,a:fred(n1*k+n2,d2)}},
+  ()=>{for(let t=0;t<300;t++){const d1=R(3,9),d2=R(3,9),n1=R(1,d1-1),n2=R(1,d2-1);if(n1*d2!==n2*d1&&Math.abs(n1/d1-n2/d2)<.12)return{q:`Le plus grand : ${F(n1,d1)} ou ${F(n2,d2)} ?`,a:n1*d2>n2*d1?F(n1,d1):F(n2,d2)}}return{q:`Le plus grand : ${F(3,5)} ou ${F(5,8)} ?`,a:F(5,8)}}
+ ]},
+ durees:{nom:'Durées',f:[
+  ()=>{const h=R(8,20),m=pick([10,20,35,40,45,50]),p=pick([15,20,25,30,40,45]);return{q:`Il est ${h} h ${m}. Dans ${p} min ?`,a:hm(h*60+m+p)}},
+  ()=>{const h=R(8,15),m=pick([35,40,45,50,55]),d=pick([55,70,85,95,110,125]);return{q:`Durée entre ${h} h ${m} et ${hm(h*60+m+d)} ?`,a:`${Math.floor(d/60)} h ${d%60} min`.replace(/^0 h /,'')}},
+  ()=>{const x=R(1,3)+pick([.1,.2,.25,.3,.4,.5,.6,.7,.75,.8]),h=Math.floor(x+1e-9);return{q:`${fr(x)} h = ? h ? min`,a:`${h} h ${Math.round((x-h)*60)} min`}}
+ ]},
+ aires:{nom:'Périmètres et aires',f:[
+  ()=>{const L=R(6,15),l=R(3,L-1);return{q:`Périmètre d'un rectangle de ${L} cm sur ${l} cm ?`,a:`${2*(L+l)} cm`}},
+  ()=>{let a,b;do{a=R(3,12);b=R(2,10)}while((a*b)%2);return{q:`Triangle rectangle, côtés de l'angle droit : ${a} cm et ${b} cm. Aire ?`,a:`${a*b/2} cm²`}},
+  ()=>{const c=R(3,12);return{q:`Un carré a pour périmètre ${4*c} cm. Son aire ?`,a:`${c*c} cm²`}}
+ ]},
+ multiples:{nom:'Multiples',f:[
+  ()=>{const a=pick([6,7,8,9,12]),k=R(3,9);return{q:`${a} × ? = ${a*k}`,a:String(k)}},
+  ()=>{const a=pick([6,7,8,9,12]),N=R(40,100);return{q:`Plus petit multiple de ${a} supérieur à ${N} ?`,a:String((Math.floor(N/a)+1)*a)}},
+  ()=>{const [a,b,m]=pick([[4,6,12],[6,8,24],[3,5,15],[4,10,20],[6,9,18],[8,12,24],[6,10,30],[10,15,30],[9,12,36],[5,6,30],[4,14,28]]);return{q:`Plus petit multiple commun de ${a} et ${b} ?`,a:String(m)}}
+ ]}
+};
+
+/* ---------- 0. Déroulé prof ---------- */
+$('#p-plan').innerHTML=`
+<div class="head"><h2>Déroulé de la séance</h2><span class="dur">50 min · installation des élèves déjà comptée</span></div>
+<p class="consigne">Les 50 minutes commencent quand les élèves sont installés : cahier d'exercices ouvert, stylo, rien d'autre : pas de calculatrice, de la première à la dernière minute. Lance l'horloge de séance à la première question ; elle indique à tout moment la station prévue. Toutes les valeurs se renouvellent avec « Nouveau tirage ».</p>
+<div class="scroll"><table class="plan">
+<thead><tr><th>Temps</th><th>Station</th><th>Comment</th><th>Ce qui est travaillé</th><th>Pourquoi ici</th></tr></thead>
+<tbody>${PLAN.map((s,i)=>`<tr><td>${s.t0} – ${s.t1}</td><td>${i+1} · ${s.k}</td><td>${s.how}</td><td>${s.what}</td><td>${s.why}</td></tr>`).join('')}</tbody></table></div>
+<div class="notes">
+<section><h3>Avant de commencer</h3><ul><li>Les élèves notent seulement le numéro de la question et leur réponse, sans recopier les énoncés.</li></ul></section>
+<section><h3>Rythme</h3><ul><li>Six stations en travail individuel et sans calculatrice : ce sont les supports qui changent (cartes, problèmes, pyramide, droite graduée).</li><li>Les pictogrammes en haut de chaque station rappellent la modalité et « sans calculatrice ».</li></ul></section>
+<section><h3>Si le temps manque</h3><ul><li>Rafale : s'arrêter après 2 thèmes (6 questions).</li><li>Intrus : 2 séries au lieu de 3.</li><li>Marché : traiter 2 problèmes sur 3.</li></ul></section>
+<section><h3>Différenciation</h3><ul><li>Rafale : le niveau 1 est pour tous, le niveau 3 est un défi.</li><li>Marché : le tableau de proportionnalité est accepté comme méthode.</li><li>Pyramide : montrer le sommet pour que chacun vérifie.</li></ul></section>
+<section><h3>Après la séance</h3><ul><li>Les 🙂 😐 🙁 du ticket de sortie indiquent en un coup d'œil ce qui est à reprendre.</li></ul></section>
+</div>`;
+
+/* ---------- 1. Rafale ---------- */
+(()=>{const p=$('#p-rafale');
+p.innerHTML=head('Rafale','👤 Seul','9 questions · 15, 20 puis 25 s')+`
+<p class="consigne">Trois thèmes, trois niveaux chacun : ça se complique à chaque question. Dans ton cahier, note le numéro et ta réponse. Pas de calcul posé.</p>
+<div class="bar"><button class="btn main" data-a="start">Lancer la rafale</button><button class="btn" data-a="next">Question suivante</button><button class="btn" data-a="pause">Pause</button><button class="btn" data-a="corr">Correction</button><button class="btn" data-a="new">Nouveau tirage</button></div>
+<div class="track"><i></i></div>
+<div class="stage" id="rf-stage"></div>
+<div id="rf-corr" hidden></div>`;
+const LV=[15,20,25];let qs=[],i=-1,left=0,dur=15,id=null;
+const bar=p.querySelector('.track i'),stage=p.querySelector('#rf-stage'),corr=p.querySelector('#rf-corr'),pb=p.querySelector('[data-a=pause]');
+const intro=()=>{stage.innerHTML=`<div class="num">Prêts ?</div><div class="q">9 questions</div><div class="theme">3 thèmes · niveaux 1, 2, 3</div>`;bar.style.transform='scaleX(1)'};
+function stop(){clearInterval(id);id=null}
+function run(){stop();id=setInterval(()=>{left--;bar.style.transform=`scaleX(${Math.max(0,left)/dur})`;if(left<=0)next()},1000)}
+function render(){const q=qs[i];dur=LV[q.l];left=dur;bar.style.transform='scaleX(1)';
+  stage.innerHTML=`<div class="num">Question ${i+1} / ${qs.length}</div><div class="q">${q.q}</div><div class="theme">${q.th} · ${NIV[q.l]}</div>`;pb.textContent='Pause';run()}
+function next(){if(i>=qs.length-1){stop();beep();i=qs.length;bar.style.transform='scaleX(0)';stage.innerHTML=`<div class="num">Terminé</div><div class="q">Stylos posés !</div>`;return}i++;render()}
+function draw(){stop();qs=[];shuffle(Object.keys(TH)).slice(0,3).forEach(k=>TH[k].f.forEach((g,l)=>qs.push({...g(),th:TH[k].nom,l})));i=-1;corr.hidden=true;pb.textContent='Pause';intro()}
+p.querySelector('[data-a=start]').onclick=()=>{i=-1;corr.hidden=true;next()};
+p.querySelector('[data-a=next]').onclick=()=>{if(i>=0)next()};
+pb.onclick=()=>{if(id){stop();pb.textContent='Reprendre'}else if(i>=0&&i<qs.length){pb.textContent='Pause';run()}};
+p.querySelector('[data-a=corr]').onclick=()=>{stop();corr.hidden=false;corr.innerHTML=`<h3 style="margin-top:8px">Correction</h3><div class="correction">${qs.map((q,k)=>`<div><b>${k+1}</b><span>${q.q}</span><span class="r">${q.a}</span></div>`).join('')}</div>`};
+p.querySelector('[data-a=new]').onclick=draw;
+draw();})();
+
+/* ---------- 2. Qui est l'intrus ? ---------- */
+(()=>{const p=$('#p-intrus');
+p.innerHTML=head('Qui est l’intrus ?','👤 Seul','3 séries · 1 min 30 chacune')+`
+<p class="consigne">Trois cartes sur quatre ont la même valeur. Cherche seul, puis écris dans ton cahier la lettre de l'intrus et pourquoi. On en discute ensemble à la correction.</p>
+<div class="bar"><span id="in-timer"></span><button class="btn" data-a="prev">◀</button><button class="btn main" data-a="rev">Révéler</button><button class="btn" data-a="next">▶</button><button class="btn" data-a="new">Nouveau tirage</button></div>
+<div class="track"><i></i></div>
+<div class="stage" id="in-stage"></div>`;
+const T=Timer(p.querySelector('#in-timer'),90);T.bindBar(p.querySelector('.track i'));
+const VALS=[[1,2],[1,4],[3,4],[1,5],[2,5],[3,5],[4,5],[1,10],[3,10],[7,10],[9,10],[1,8],[3,8]];
+function item(n,d){const v=n/d,k=pick([2,3,4,5]);
+  const X={
+   frac:{ok:()=>F(n,d),ko:()=>F(n+1,d+1)},
+   eq:{ok:()=>F(n*k,d*k),ko:()=>F(n+k,d+k)},
+   dec:{ok:()=>fr(v),ko:()=>fr(pick([v*10,v/10,d<10?d/10:null,n<10?n/10:null].filter(x=>x!==null&&Math.abs(x-v)>1e-9)))},
+   pct:{ok:()=>fr(v*100)+' %',ko:()=>fr(pick([v*1000,v*10]))+' %'},
+   quot:{ok:()=>`${n} ÷ ${d}`,ko:()=>`${d} ÷ ${n}`}};
+  const types=shuffle(Object.keys(X)).slice(0,4),intr=R(0,3);
+  return{n,d,intr,cards:types.map((t,i)=>i===intr?X[t].ko():X[t].ok())}}
+let set=[],i=0,rev=false;const st=p.querySelector('#in-stage');
+function render(){const s=set[i];
+  st.innerHTML=`<div class="num">Série ${i+1} / 3</div><div class="theme">Trois cartes ont la même valeur</div>
+  <div class="choices">${s.cards.map((c,k)=>`<div class="${rev?(k===s.intr?'bad':'good'):''}"><em>${'ABCD'[k]}</em>${c}</div>`).join('')}</div>`+
+  (rev?`<div class="explain">L'intrus est la carte <b>${'ABCD'[s.intr]}</b>. Les trois autres valent ${fr(s.n/s.d)} (soit ${F(s.n,s.d)} et ${fr(s.n/s.d*100)} %).</div>`:'')}
+function draw(){const used=[];set=[];while(set.length<3){const [n,d]=pick(VALS);if(used.includes(n/d))continue;used.push(n/d);set.push(item(n,d))}i=0;rev=false;T.reset();render()}
+p.querySelector('[data-a=rev]').onclick=()=>{rev=!rev;render()};
+p.querySelector('[data-a=next]').onclick=()=>{i=Math.min(2,i+1);rev=false;T.reset();render()};
+p.querySelector('[data-a=prev]').onclick=()=>{i=Math.max(0,i-1);rev=false;T.reset();render()};
+p.querySelector('[data-a=new]').onclick=draw;draw();})();
+
+/* ---------- 3. Le marché (proportionnalité) ---------- */
+(()=>{const p=$('#p-marche');
+p.innerHTML=head('Le marché','👤 Seul','3 problèmes · 2 min chacun')+`
+<p class="consigne">Choisis ta méthode : multiplier, passer par l'unité, ou additionner deux cas connus. Dans ton cahier : le numéro, ta méthode en une ligne, ta réponse avec l'unité.</p>
+<div class="bar"><span id="ma-timer"></span><button class="btn" data-a="prev">◀</button><button class="btn main" data-a="rev">Correction</button><button class="btn" data-a="next">▶</button><button class="btn" data-a="new">Nouveau tirage</button></div>
+<div class="track"><i></i></div>
+<div class="stage" id="ma-stage"></div>`;
+const T=Timer(p.querySelector('#ma-timer'),120);T.bindBar(p.querySelector('.track i'));
+const NOUN=['baguettes','croissants','cahiers','stylos','tickets de tram','bouteilles de jus'];
+const mark=s=>s.startsWith('!')?`<td class="rv">${s.slice(1)}</td>`:`<td>${s}</td>`;
+function ptab(l1,r1,l2,r2,ops){let a=`<tr><th>${l1}</th>`,b=`<tr><th>${l2}</th>`;
+  r1.forEach((c,k)=>{a+=mark(String(c));if(k<r1.length-1)a+=`<td class="op" rowspan="2">${ops[k]}</td>`});
+  r2.forEach(c=>{b+=mark(String(c))});return `<table class="ptab">${a}</tr>${b}</tr></table>`}
+function P1(){const n1=pick([3,4,5,6]),k=pick([2,3,4,5]),u=pick([.5,.8,1.2,1.5,2.5,.9,1.3]),noun=pick(NOUN),n2=n1*k,p1=clean(n1*u),p2=clean(p1*k);
+  return{q:`${n1} ${noun} coûtent ${euro(p1)}.<br>Combien coûtent ${n2} ${noun} ?`,ans:euro(p2),m:'Coefficient : on multiplie',
+   tab:ptab('Nombre',[n1,n2],'Prix',[euro(p1),'!'+euro(p2)],[`× ${k}`]),
+   how:`${n2} = ${n1} × ${k}, donc le prix est multiplié par ${k} : ${euro(p1)} × ${k} = ${euro(p2)}.`}}
+function P2(){const n1=pick([4,6,8]),u=pick([1.5,2.5,.75,1.25,3.5]),noun=pick(NOUN),n2=pick([5,7,9,10,11,12,15].filter(x=>x%n1!==0)),p1=clean(n1*u),p2=clean(n2*u);
+  return{q:`${n1} ${noun} coûtent ${euro(p1)}.<br>Combien coûtent ${n2} ${noun} ?`,ans:euro(p2),m:'Retour à l’unité : on passe par 1',
+   tab:ptab('Nombre',[n1,1,n2],'Prix',[euro(p1),'!'+euro(u),'!'+euro(p2)],[`÷ ${n1}`,`× ${n2}`]),
+   how:`Prix d'un seul : ${euro(p1)} ÷ ${n1} = ${euro(u)}. Puis ${euro(u)} × ${n2} = ${euro(p2)}.`}}
+function P3(){const n1=pick([4,6]),two=Math.random()<.5,ing=pick([{u:'g',t:'de farine'},{u:'g',t:'de sucre'},{u:'mL',t:'de lait'}]),
+  q1=pick([200,300,400,600]),h=n1/2,parts=two?[n1,n1,h]:[n1,h],n2=parts.reduce((x,y)=>x+y,0),qp=two?[q1,q1,q1/2]:[q1,q1/2],q2=qp.reduce((x,y)=>x+y,0);
+  return{q:`Pour ${n1} personnes, une recette demande ${q1} ${ing.u} ${ing.t}.<br>Quelle quantité pour ${n2} personnes ?`,ans:`${q2} ${ing.u}`,m:'Additivité : on additionne des cas connus',
+   tab:ptab('Personnes',[...parts,n2],`Quantité (${ing.u})`,[...qp.map(x=>String(x)),'!'+q2],[...parts.slice(1).map(()=>'+'),'=']),
+   how:`${n2} = ${parts.join(' + ')}, donc ${q2} = ${qp.join(' + ')} (${ing.u}).`}}
+let set=[],i=0,rev=false;const st=p.querySelector('#ma-stage');
+function render(){const s=set[i];
+  st.innerHTML=`<div class="num">Problème ${i+1} / 3</div><div class="q" style="font-size:clamp(26px,4.4vw,52px)">${s.q}</div>`+
+  (rev?`<div class="method">${s.m}</div>${s.tab}<div class="explain">${s.how}</div><div class="answer">${s.ans}</div>`:'')}
+function draw(){set=[P1(),P2(),P3()];i=0;rev=false;T.reset();render()}
+p.querySelector('[data-a=rev]').onclick=()=>{rev=!rev;render()};
+p.querySelector('[data-a=next]').onclick=()=>{i=Math.min(2,i+1);rev=false;T.reset();render()};
+p.querySelector('[data-a=prev]').onclick=()=>{i=Math.max(0,i-1);rev=false;T.reset();render()};
+p.querySelector('[data-a=new]').onclick=draw;draw();})();
+
+/* ---------- 4. Pyramide ---------- */
+(()=>{const p=$('#p-pyramide');
+p.innerHTML=head('Pyramide','👤 Seul','2 pyramides')+`
+<p class="consigne">Chaque brique est la somme des deux briques qui sont juste en dessous (3 et 5 en dessous : 8 au-dessus). Complète la pyramide, puis écris dans ton cahier le nombre du sommet.</p>
+<div class="bar"><span id="py-timer"></span><button class="btn main" data-a="rev">Révéler</button><button class="btn" data-a="new">Nouvelle pyramide</button></div>
+<div class="track"><i></i></div>
+<div class="stage"><div class="pyr" id="py"></div></div>`;
+const T=Timer(p.querySelector('#py-timer'),150);T.bindBar(p.querySelector('.track i'));
+let V=[],K=[],rev=false;
+function solv(k0){const k=k0.map(r=>[...r]);let ch=true;
+  while(ch){ch=false;for(let r=1;r<4;r++)for(let i=0;i<4-r;i++){
+    const a=k[r-1][i],b=k[r-1][i+1],c=k[r][i];
+    if((a?1:0)+(b?1:0)+(c?1:0)===2){k[r-1][i]=k[r-1][i+1]=k[r][i]=true;ch=true}}}
+  return k.every(r=>r.every(Boolean))}
+function gen(){let ok=false;
+  for(let t=0;t<3000&&!ok;t++){
+    const b=Array.from({length:4},()=>R(1,9));V=[b];
+    for(let r=1;r<4;r++)V.push(V[r-1].slice(1).map((x,i)=>x+V[r-1][i]));
+    const cells=[];for(let r=0;r<3;r++)for(let i=0;i<4-r;i++)cells.push([r,i]);
+    K=V.map(r=>r.map(()=>false));shuffle(cells).slice(0,pick([4,5])).forEach(([r,i])=>K[r][i]=true);
+    ok=solv(K)}
+  if(!ok){K=V.map((r,ri)=>r.map((_,i)=>ri===0&&i!==1||ri===1&&i===0))}
+  rev=false;draw()}
+function draw(){const rows=[];for(let r=3;r>=0;r--)rows.push(`<div class="prow">${V[r].map((v,i)=>K[r][i]?`<div class="brick sh">${v}</div>`:`<div class="brick ${rev?'rv':'hid'}">${rev?v:'?'}</div>`).join('')}</div>`);
+  $('#py').innerHTML=rows.join('')}
+p.querySelector('[data-a=rev]').onclick=()=>{rev=!rev;draw()};
+p.querySelector('[data-a=new]').onclick=()=>{T.reset();gen()};gen();})();
+
+/* ---------- 5. Sur la droite ---------- */
+(()=>{const p=$('#p-droite');
+p.innerHTML=head('Sur la droite','👤 Seul','3 droites · 1 min 40 chacune')+`
+<p class="consigne">Commence par chercher la valeur d'un petit intervalle. Puis, dans ton cahier, écris le nombre repéré par A et celui repéré par B.</p>
+<div class="bar"><span id="dr-timer"></span><button class="btn" data-a="prev">◀</button><button class="btn main" data-a="rev">Révéler</button><button class="btn" data-a="next">▶</button><button class="btn" data-a="new">Nouveau tirage</button></div>
+<div class="track"><i></i></div>
+<div class="stage"><div class="num" id="dr-num"></div><div id="dr-svg" style="width:100%;display:flex;justify-content:center"></div><div class="explain" id="dr-info"></div></div>`;
+const T=Timer(p.querySelector('#dr-timer'),100);T.bindBar(p.querySelector('.track i'));
+function two(arr,gap){for(let t=0;t<200;t++){const a=pick(arr),b=pick(arr);if(Math.abs(a-b)>=gap)return[a,b]}return[arr[0],arr[arr.length-1]]}
+function gen(type){
+  if(type==='dix'){const a=R(0,9),[j1,j2]=two([1,2,3,4,5,6,7,8,9],2),v=j=>clean(a+j/10);
+    return{nom:'Dixièmes',step:'0,1',a,b:a+1,div:10,big:[0,5,10],labs:[[0,fr(a)],[10,fr(a+1)]],pts:[{L:'A',v:v(j1),txt:fr(v(j1))},{L:'B',v:v(j2),txt:fr(v(j2))}]}}
+  if(type==='cent'){const a=R(10,90)/10,b=clean(a+.1),[j1,j2]=two([1,2,3,4,5,6,7,8,9],2),v=j=>clean(a+j/100);
+    return{nom:'Centièmes (on zoome)',step:'0,01',a,b,div:10,big:[0,5,10],labs:[[0,fr(a)],[10,fr(b)]],pts:[{L:'A',v:v(j1),txt:fr(v(j1))},{L:'B',v:v(j2),txt:fr(v(j2))}]}}
+  const [j1,j2]=two([1,2,3,5,6,7],2),pt=(L,j)=>({L,v:j/4,txt:`${j}/4 = ${fr(j/4)}`});
+  return{nom:'Fractions',step:'1/4 = 0,25',a:0,b:2,div:8,big:[0,4,8],labs:[[0,'0'],[4,'1'],[8,'2']],pts:[pt('A',j1),pt('B',j2)]}}
+function svg(sp,rev){const W=760,H=190,x0=50,x1=710,y=70,xo=t=>x0+(x1-x0)*t;
+  let s=`<svg class="nl" viewBox="0 0 ${W} ${H}" role="img" aria-label="Droite graduée"><line class="ax" x1="${x0-24}" y1="${y}" x2="${x1+24}" y2="${y}"/>`;
+  for(let j=0;j<=sp.div;j++){const x=xo(j/sp.div),big=sp.big.includes(j);s+=`<line class="${big?'tb':'tk'}" x1="${x}" y1="${y-(big?18:11)}" x2="${x}" y2="${y+(big?18:11)}"/>`}
+  sp.labs.forEach(([j,t])=>{s+=`<text class="nm" x="${xo(j/sp.div)}" y="${y+48}" text-anchor="middle">${t}</text>`});
+  sp.pts.forEach(q=>{const x=xo((q.v-sp.a)/(sp.b-sp.a));s+=`<circle class="pt" cx="${x}" cy="${y}" r="8"/><text class="lt" x="${x}" y="${y-26}" text-anchor="middle">${q.L}</text>`;
+    if(rev)s+=`<text class="rvl" x="${x}" y="${y+100}" text-anchor="middle">${q.txt}</text>`});
+  return s+'</svg>'}
+let set=[],i=0,rev=false;
+function render(){const s=set[i];$('#dr-num').textContent=`Droite ${i+1} / 3 · ${s.nom}`;$('#dr-svg').innerHTML=svg(s,rev);
+  $('#dr-info').innerHTML=rev?`Un petit intervalle vaut <b>${s.step}</b>.`:'Combien vaut un petit intervalle ?'}
+function draw(){set=['dix','cent','frac'].map(gen);i=0;rev=false;T.reset();render()}
+p.querySelector('[data-a=rev]').onclick=()=>{rev=!rev;render()};
+p.querySelector('[data-a=next]').onclick=()=>{i=Math.min(2,i+1);rev=false;T.reset();render()};
+p.querySelector('[data-a=prev]').onclick=()=>{i=Math.max(0,i-1);rev=false;T.reset();render()};
+p.querySelector('[data-a=new]').onclick=draw;draw();})();
+
+/* ---------- 6. Ticket de sortie ---------- */
+(()=>{const p=$('#p-ticket');
+p.innerHTML=head('Ticket de sortie','👤 Seul','3 questions · 3 min, puis le bilan')+`
+<p class="consigne">Trois questions, une par idée de la séance. Dans ton cahier, écris tes réponses, puis dessine un visage à côté de chacune.</p>
+<div class="bar"><span id="tk-timer"></span><button class="btn main" data-a="sol">Correction</button><button class="btn" data-a="new">Nouveau tirage</button></div>
+<div class="track"><i></i></div>
+<div class="ticket" id="tk"></div>
+<div class="eval"><span>🙂 j'ai réussi facilement</span><span>😐 j'ai hésité</span><span>🙁 je n'ai pas su</span></div>
+<div class="retenir"><h3>À retenir</h3><ul>
+<li>Fractions égales : on <b>multiplie</b> (ou divise) le haut <b>et</b> le bas par le même nombre.</li>
+<li>Proportionnalité : <b>coefficient</b> (× k), <b>retour à l'unité</b> (÷ puis ×) ou on <b>additionne</b> deux cas connus.</li>
+<li>Droite graduée : je cherche d'abord <b>la valeur d'un petit intervalle</b>.</li></ul></div>`;
+const T=Timer(p.querySelector('#tk-timer'),180);T.bindBar(p.querySelector('.track i'));
+const G=[
+ ()=>{const [n,d]=pick([[1,2],[2,3],[3,4],[2,5],[3,5],[5,6]]),k=pick([2,3,4,5,6]);return{q:`${F(n,d)} = ${F('?',d*k)}`,a:String(n*k)}},
+ ()=>{const [m,m2]=pick([[4,6],[4,10],[6,9],[6,4],[8,12],[8,5]]),u=pick([1.5,2.5,1.2,2.4,.8]);return{q:`${m} kg de pommes coûtent ${euro(m*u)}. Prix de ${m2} kg ?`,a:euro(m2*u)}},
+ ()=>{const a=R(10,90)/10,j=R(2,8);return{q:`Entre ${fr(a)} et ${fr(clean(a+.1))}, il y a 10 petits intervalles égaux. Quel nombre est au ${j}<sup>e</sup> trait après ${fr(a)} ?`,a:fr(clean(a+j/100))}}];
+let set=[],rev=false;const box=p.querySelector('#tk');
+function render(){box.innerHTML=set.map((s,k)=>`<div><b>Question ${k+1}</b>${s.q}${rev?`<span class="sol">→ ${s.a}</span>`:''}</div>`).join('')}
+function draw(){set=G.map(g=>g());rev=false;T.reset();render()}
+p.querySelector('[data-a=sol]').onclick=()=>{rev=!rev;render()};
+p.querySelector('[data-a=new]').onclick=draw;draw();})();
+
+/* ---------- navigation : boutons « Précédente / Suivante » au bas de chaque station ---------- */
+STATIONS.forEach((s,idx)=>{const p=$('#p-'+s.id),nav=document.createElement('div');nav.className='pnav';
+  nav.innerHTML=`<button class="btn sm" ${idx?`data-go="${STATIONS[idx-1].id}"`:'disabled'}>◀ ${idx?STATIONS[idx-1].k:'Début'}</button><button class="btn main sm" ${idx<STATIONS.length-1?`data-go="${STATIONS[idx+1].id}"`:'disabled'}>${idx<STATIONS.length-1?STATIONS[idx+1].k:'Fin'} ▶</button>`;
+  nav.onclick=e=>{const b=e.target.closest('button[data-go]');if(b){show(b.dataset.go);window.scrollTo({top:0})}};
+  p.appendChild(nav)});
+
+let start='plan';try{start=localStorage.getItem('auto5e2-tab')||'plan'}catch(e){}
+show(STATIONS.some(s=>s.id===start)?start:'plan');
+document.addEventListener('keydown',e=>{if(e.target.matches('input,select,textarea'))return;const i=STATIONS.findIndex(s=>!$('#p-'+s.id).hidden);
+  if(e.key==='PageDown')show(STATIONS[Math.min(STATIONS.length-1,i+1)].id);if(e.key==='PageUp')show(STATIONS[Math.max(0,i-1)].id)});
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>
