@@ -730,7 +730,7 @@ window.SITE = {
           ]
         },
         {
-          id: "4e-ch4", num: 4, titre: "Le théorème de Pythagore", prive: true,
+          id: "4e-ch4", num: 4, titre: "Le théorème de Pythagore",
           resume: "Découvrir le théorème, puis calculer une longueur dans un triangle rectangle.",
           seances: [
             {
