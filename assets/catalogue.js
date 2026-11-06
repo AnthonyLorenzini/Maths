@@ -771,7 +771,7 @@ window.SITE = {
               contenu: [
                 "Automatisme sur les carrés et les racines, avec une question flash sur l'hypoténuse.",
                 "Animations projetées : sur quatre triangles rectangles tournés dans tous les sens, on repère l'angle droit, l'hypoténuse et les carrés construits sur les côtés, puis on écrit l'égalité de Pythagore avec les lettres du triangle.",
-                "Exercices projetés au tableau et faits sur le cahier : angle droit et hypoténuse, égalité sur des triangles tournés, tableaux de triangles rectangles, aires de carrés ; un exercice pour aller plus loin."
+                "Exercices projetés au tableau et faits sur le cahier : angle droit et hypoténuse, égalité sur des triangles tournés, puis aires des carrés et longueurs des côtés (retour à la racine carrée), et un premier calcul d'hypoténuse présenté comme un prolongement ; un exercice pour aller plus loin."
               ],
               ressources: ["4e-ch4-s3"],
               retenir: [
@@ -780,13 +780,13 @@ window.SITE = {
                 "L'hypoténuse est toujours **seule d'un côté du signe =**, et chaque longueur est **au carré** : BC² se lit « BC au carré »."
               ],
               exemple: "Le triangle ABC est rectangle en A : l'hypoténuse est [BC], donc BC² = AB² + AC².",
-              savoir: "repérer l'hypoténuse d'un triangle rectangle, même tourné, et écrire l'égalité de Pythagore."
+              savoir: "repérer l'hypoténuse d'un triangle rectangle, même tourné, écrire l'égalité de Pythagore et passer de l'aire d'un carré à la longueur de son côté."
             }
           ],
           ressources: [
             { id: "4e-ch4-s1", type: "exos", titre: "Séance 1 — Découvrir le théorème de Pythagore", resume: "Un puzzle d'aires, une vérification par le calcul et le cas du triangle non rectangle.", ajout: "2026-10-20" },
             { id: "4e-ch4-s2", type: "exos", titre: "Séance 2 — Racine carrée", resume: "Animations sur l'aire et le côté, encadrement entre deux carrés, calculatrice projetée (touche √), exercices corrigés.", ajout: "2026-10-24" },
-            { id: "4e-ch4-s3", type: "exos", titre: "Séance 3 — Écrire l'égalité de Pythagore", resume: "Quatre triangles tournés à lire pas à pas, puis des exercices corrigés : hypoténuse, égalité de Pythagore, tableaux, aires de carrés.", ajout: "2026-11-03" },
+            { id: "4e-ch4-s3", type: "exos", titre: "Séance 3 — Écrire l'égalité de Pythagore", resume: "Quatre triangles tournés à lire pas à pas, puis des exercices corrigés : égalité de Pythagore, aires des carrés et longueurs des côtés, premier calcul d'hypoténuse.", ajout: "2026-11-03" },
             { id: "4e-ch4-minijeux", type: "jeu", titre: "Mini-jeux — Trouve l'hypoténuse", resume: "Figures tournées, phrases « rectangle en… » et défi de 60 secondes pour que l'identification devienne un réflexe.", ajout: "2026-10-20" },
             { id: "4e-ch4-minijeux-racine", type: "jeu", titre: "Mini-jeux — Racine carrée", resume: "Carrés de 1 à 15, racines de carrés parfaits, encadrements et défi de 60 secondes.", ajout: "2026-10-24" }
           ]

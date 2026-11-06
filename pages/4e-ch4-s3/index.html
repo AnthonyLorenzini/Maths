@@ -128,6 +128,10 @@ table.tf td.g { text-align:left; font-weight:600; }
 .fxfig { border:1.5px solid var(--cadre); padding:4px; }
 .fxfig svg { display:block; width:100%; height:auto; }
 svg .ans { opacity:0; } .sol svg .ans { opacity:1; } .sol svg .ph { opacity:0; }
+.sous-q { font-size:15px; line-height:1.45; margin:6px 0 8px; }
+.etapes { margin:0; padding-left:22px; font-size:14.5px; line-height:1.55; }
+.etapes li { margin-bottom:4px; }
+.corrige { background:#E8F6EE; border-left:5px solid #4CAF7D; border-radius:8px; padding:8px 12px; margin:8px 0 4px; font-size:14.5px; line-height:1.6; }
 svg text.fg { font-family:'Work Sans',Arial,sans-serif; font-weight:600; fill:#22303F; }
 svg text.fg.bold { font-weight:700; }
 svg text.ans { fill:#1E7A4C; font-weight:700; }
@@ -145,7 +149,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
       <div class="subtitle">Chapitre 4 — Le théorème de Pythagore — 4e — Séance 3</div>
     </div>
   </header>
-  <div class="objectifs"><b>Objectifs :</b> repérer l'angle droit et l'hypoténuse dans un triangle rectangle, même quand il est tourné ; écrire l'égalité de Pythagore avec les lettres du triangle.</div>
+  <div class="objectifs"><b>Objectifs :</b> repérer l'angle droit et l'hypoténuse dans un triangle rectangle, même quand il est tourné ; écrire l'égalité de Pythagore avec les lettres du triangle ; passer de l'aire d'un carré à la longueur de son côté, puis utiliser l'égalité pour calculer une longueur.</div>
   <noscript><p><b>Cette séance utilise des figures dessinées par JavaScript : active-le dans ton navigateur pour les voir.</b></p></noscript>
 
   <!-- ===================== AUTOMATISME ===================== -->
@@ -221,34 +225,53 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     <div class="panel astuce-panel" id="as2"><span class="label">Astuce</span>Même méthode : l'angle droit d'abord, puis le côté en face. Tu peux tourner la feuille, ou te demander « quel côté ne touche pas l'angle droit ? ».</div>
   </div>
 
-  <!-- Exercice 3 -->
+  <!-- Exercice 3 (aires des carrés, puis longueurs des côtés) -->
   <div class="fx" id="fx3">
-    <div class="fx-q"><span class="fx-n">3</span><span>Dans la figure ci-contre, les angles droits sont codés. Complète le tableau avec tous les triangles rectangles codés. <span class="etoiles">★★</span></span></div>
-    <div class="cote-a-cote fig-gauche">
-      <div class="fxfig"><svg id="f3" viewBox="0 0 220 230" role="img" aria-label="Trois triangles rectangles accolés : ABC, ACD et ADE" xmlns="http://www.w3.org/2000/svg"></svg></div>
-      <table class="tf">
-        <tr><th>Triangle</th><th>Rectangle en…</th><th>Hypoténuse</th><th>Égalité de Pythagore</th></tr>
-        <tr><td><span class="rep">ABC</span></td><td><span class="rep">B</span></td><td><span class="rep">[AC]</span></td><td><span class="rep">AC² = AB² + BC²</span></td></tr>
-        <tr><td><span class="rep">ACD</span></td><td><span class="rep">C</span></td><td><span class="rep">[AD]</span></td><td><span class="rep">AD² = AC² + CD²</span></td></tr>
-        <tr><td><span class="rep">ADE</span></td><td><span class="rep">D</span></td><td><span class="rep">[AE]</span></td><td><span class="rep">AE² = AD² + DE²</span></td></tr>
-      </table>
-    </div>
+    <div class="fx-q"><span class="fx-n">3</span><span>Pour chaque figure, un carré est dessiné sur chaque côté du triangle rectangle.<br><b>a)</b> Complète les aires manquantes.<br><b>b)</b> Donne la longueur des trois côtés du triangle, du plus court au plus long (garde le √ quand ce n'est pas un nombre entier). <span class="etoiles">★★</span></span></div>
+    <div class="grille g3" id="g4"></div>
     <div class="btn-row">
       <button type="button" class="toggle-btn astuce" onclick="toggle('as3')">💡 Astuce</button>
       <button type="button" class="toggle-btn solution" onclick="sol('fx3',this)">✅ Solution</button>
     </div>
-    <div class="panel astuce-panel" id="as3"><span class="label">Astuce</span>Cherche les petits carrés verts : il y a trois angles droits, en B, en C et en D, chacun dans un triangle différent. Pour chaque triangle, l'hypoténuse est le côté en face de l'angle droit. (L'ordre des lignes est libre.)</div>
+    <div class="panel astuce-panel" id="as3"><span class="label">Astuce</span>a) Le carré de l'hypoténuse a une aire égale à la somme des aires des deux autres carrés. Dans la figure du milieu, l'aire d'un carré de côté 6 cm, c'est 6 × 6. Dans la dernière, cherche le nombre qu'il faut ajouter à 16 pour obtenir 41.<br>b) Un carré d'aire A a un côté de longueur √A (séance 2). Par exemple, un carré d'aire 49 cm² a un côté de 7 cm.</div>
   </div>
 
-  <!-- Exercice 4 -->
+  <!-- Exercice 4 (exercice typique : calculer l'hypoténuse) -->
   <div class="fx" id="fx4">
-    <div class="fx-q"><span class="fx-n">4</span><span>Pour chaque figure, un carré est dessiné sur chaque côté du triangle rectangle. Complète les aires manquantes. <span class="etoiles">★★</span></span></div>
-    <div class="grille g3" id="g4"></div>
+    <div class="fx-q"><span class="fx-n">4</span><span>Dans l'exercice 3, tu as trouvé des longueurs à partir des aires des carrés. Ici, <b>les carrés ne sont plus dessinés</b>, mais le raisonnement est le même. <span class="etoiles">★★</span></span></div>
+    <p class="sous-q"><b>a)</b> Le triangle ABC est rectangle en A, avec AB = 5 cm et AC = 12 cm. Calcule la longueur de l'hypoténuse [BC].</p>
+    <div class="cote-a-cote fig-gauche">
+      <div class="fxfig">
+        <svg viewBox="0 0 250 175" role="img" aria-label="Triangle ABC rectangle en A, avec AB = 5 cm, AC = 12 cm et BC à trouver" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="32,135 222,135 32,55" fill="#fff" stroke="#22303F" stroke-width="2" stroke-linejoin="round"/>
+          <polygon points="32,135 44,135 44,123 32,123" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.2"/>
+          <text class="lbl" x="18" y="153" text-anchor="middle" font-size="20">A</text>
+          <text class="lbl" x="18" y="48" text-anchor="middle" font-size="20">B</text>
+          <text class="lbl" x="236" y="153" text-anchor="middle" font-size="20">C</text>
+          <text class="fg bold" x="40" y="100" text-anchor="start" font-size="14">5 cm</text>
+          <text class="fg bold" x="127" y="157" text-anchor="middle" font-size="14">12 cm</text>
+          <text class="fg bold ph" x="150" y="88" text-anchor="start" font-size="14">BC = ?</text>
+          <text class="fg bold ans" x="150" y="88" text-anchor="start" font-size="14">BC = 13 cm</text>
+        </svg>
+      </div>
+      <ol class="etapes">
+        <li>Écris l'égalité de Pythagore dans le triangle ABC.</li>
+        <li>Remplace AB et AC par leurs valeurs et calcule BC².</li>
+        <li>Déduis-en la longueur BC.</li>
+      </ol>
+    </div>
+    <p class="sous-q"><b>b)</b> Même démarche pour le triangle DEF, rectangle en E, avec ED = 3 cm et EF = 5 cm : calcule DF. Fais d'abord un schéma à main levée. Donne la valeur exacte, puis une valeur approchée au dixième avec la calculatrice.</p>
+    <div class="sol-only corrige">
+      <b>a)</b> ABC est rectangle en A, donc d'après le théorème de Pythagore : BC² = AB² + AC².<br>
+      BC² = 5² + 12² = 25 + 144 = 169, donc BC = √169 = <b>13 cm</b>.<br>
+      <b>b)</b> DEF est rectangle en E, donc d'après le théorème de Pythagore : DF² = ED² + EF².<br>
+      DF² = 3² + 5² = 9 + 25 = 34, donc DF = √34 ≈ <b>5,8 cm</b> (5² = 25 &lt; 34 &lt; 36 = 6²).
+    </div>
     <div class="btn-row">
       <button type="button" class="toggle-btn astuce" onclick="toggle('as4')">💡 Astuce</button>
       <button type="button" class="toggle-btn solution" onclick="sol('fx4',this)">✅ Solution</button>
     </div>
-    <div class="panel astuce-panel" id="as4"><span class="label">Astuce</span>Le carré de l'hypoténuse a une aire égale à la somme des aires des deux autres carrés. Dans la figure du milieu, l'aire d'un carré de côté 6 cm, c'est 6 × 6. Dans la dernière, cherche le nombre qu'il faut ajouter à 16 pour obtenir 41.</div>
+    <div class="panel astuce-panel" id="as4"><span class="label">Astuce</span>Pour BC², remplace seulement les deux côtés de l'angle droit : l'hypoténuse reste la lettre inconnue. Une fois que tu as BC², il reste à trouver le nombre positif dont le carré est BC² : c'est la racine carrée.</div>
   </div>
 
   <!-- Exercice 5 (pour aller plus loin) -->
@@ -503,34 +526,11 @@ function sol(id,btn){var e=document.getElementById(id);var on=e.classList.toggle
     });
   }
 
-  /* ===================== EXERCICE 3 : trois triangles rectangles accolés ===================== */
-  function spirale(svg) {
-    var r2 = Math.SQRT2, A = [0, 0], B = [2, 0], C = [2, 2];
-    var D = [2 - r2, 2 + r2];                                  /* CD ⟂ AC, CD = 2 */
-    var ad = sub(D, A), l = len(ad), n = norm([-ad[1], ad[0]]);
-    var E = add(D, mul(n, 2));                                  /* DE ⟂ AD, DE = 2 */
-    var P = { A: A, B: B, C: C, D: D, E: E }, k, all = [];
-    for (k in P) { if (Object.prototype.hasOwnProperty.call(P, k)) { P[k] = [P[k][0], -P[k][1]]; all.push(P[k]); } }
-    var f = fitter(all, 220, 230, 34), q = {};
-    for (k in P) { if (Object.prototype.hasOwnProperty.call(P, k)) q[k] = f(P[k]); }
-    [["A", "B", "C"], ["A", "C", "D"], ["A", "D", "E"]].forEach(function (t) {
-      el("polygon", { points: poly([q[t[0]], q[t[1]], q[t[2]]]), fill: "#fff", stroke: "#22303F", "stroke-width": 1.8, "stroke-linejoin": "round" }, svg);
-    });
-    mark(svg, q.B, q.A, q.C, 10); mark(svg, q.C, q.A, q.D, 10); mark(svg, q.D, q.A, q.E, 10);
-    var cen = [0, 0]; for (k in q) { if (Object.prototype.hasOwnProperty.call(q, k)) cen = add(cen, q[k]); } cen = mul(cen, 0.2);
-    var off = { A: 17, B: 16, C: 16, D: 16, E: 16 };
-    for (k in q) {
-      if (!Object.prototype.hasOwnProperty.call(q, k)) continue;
-      var pos = add(q[k], mul(norm(sub(q[k], cen)), off[k]));
-      el("text", { x: pos[0].toFixed(1), y: pos[1].toFixed(1), "text-anchor": "middle", "dominant-baseline": "central", "font-size": 19, "class": "lbl" }, svg).textContent = k;
-    }
-  }
-
-  /* ===================== EXERCICE 4 : carrés sur les côtés ===================== */
+  /* ===================== EXERCICE 3 : carrés sur les côtés ===================== */
   var EX4 = [
-    { a: Math.sqrt(12), b: Math.sqrt(5), fill: "#BFE3EA", l1: { t: "12 cm²" }, l2: { t: "5 cm²" }, l3: { ph: "…… cm²", ans: "17 cm²" } },
-    { a: 6, b: 8, fill: "#F7C9D4", lg: true, l1: { ph: "…… cm²", ans: "36 cm²" }, l2: { ph: "…… cm²", ans: "64 cm²" }, l3: { ph: "…… cm²", ans: "100 cm²" } },
-    { a: 4, b: 5, fill: "#F9DC8E", l1: { t: "16 cm²" }, l2: { ph: "…… cm²", ans: "25 cm²" }, l3: { t: "41 cm²" } }
+    { a: Math.sqrt(12), b: Math.sqrt(5), fill: "#BFE3EA", l1: { t: "12 cm²" }, l2: { t: "5 cm²" }, l3: { ph: "…… cm²", ans: "17 cm²" }, cotes: ["√5", "√12", "√17"] },
+    { a: 6, b: 8, fill: "#F7C9D4", lg: true, l1: { ph: "…… cm²", ans: "36 cm²" }, l2: { ph: "…… cm²", ans: "64 cm²" }, l3: { ph: "…… cm²", ans: "100 cm²" }, cotes: ["6", "8", "10"] },
+    { a: 4, b: 5, fill: "#F9DC8E", l1: { t: "16 cm²" }, l2: { ph: "…… cm²", ans: "25 cm²" }, l3: { t: "41 cm²" }, cotes: ["4", "5", "√41"] }
   ];
   function carres(g, c) {
     var cell = document.createElement("div"); cell.className = "cell";
@@ -560,14 +560,16 @@ function sol(id,btn){var e=document.getElementById(id);var on=e.classList.toggle
       el("text", { x: m1[0].toFixed(1), y: m1[1].toFixed(1), "text-anchor": "middle", "font-size": 14, "class": "fg bold" }, svg).textContent = c.a + " cm";
       el("text", { x: m2[0].toFixed(1), y: m2[1].toFixed(1), "text-anchor": "end", "dominant-baseline": "central", "font-size": 14, "class": "fg bold" }, svg).textContent = c.b + " cm";
     }
-    cell.appendChild(f); g.appendChild(cell);
+    cell.appendChild(f);
+    var z = document.createElement("div"); z.className = "rz";
+    z.style.fontSize = "13px"; z.innerHTML = "<b>b)</b> " + c.cotes.map(function (t) { return blank(t) + " cm"; }).join(" ; ");
+    cell.appendChild(z); g.appendChild(cell);
   }
 
   /* ===================== DÉMARRAGE ===================== */
   initAct();
   grille("g1", EX1, true);
   grille("g2", EX2, false);
-  spirale($("f3"));
   EX4.forEach(function (c) { carres($("g4"), c); });
 })();
 </script>
