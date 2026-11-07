@@ -499,13 +499,13 @@ function sol(id,btn){var e=document.getElementById(id);var on=e.classList.toggle
   /* ===================== EXERCICE 3 : carrés sur les côtés ===================== */
   var EX4A = [
     { a: 3, b: 4, fill: "#BFE3EA", l1: { t: "9 cm²" }, l2: { t: "16 cm²" }, l3: { ph: "…… cm²", ans: "25 cm²" }, cotes: ["3", "4", "5"] },
-    { a: 8, b: 6, fill: "#F7C9D4", l1: { ph: "…… cm²", ans: "64 cm²" }, l2: { t: "36 cm²" }, l3: { t: "100 cm²" }, cotes: ["6", "8", "10"] },
-    { a: 12, b: 9, fill: "#F9DC8E", l1: { t: "144 cm²" }, l2: { t: "81 cm²" }, l3: { ph: "…… cm²", ans: "225 cm²" }, cotes: ["9", "12", "15"] }
+    { a: 12, b: 9, fill: "#F9DC8E", l1: { t: "144 cm²" }, l2: { t: "81 cm²" }, l3: { ph: "…… cm²", ans: "225 cm²" }, cotes: ["9", "12", "15"] },
+    { a: 8, b: 6, fill: "#F7C9D4", l1: { ph: "…… cm²", ans: "64 cm²" }, l2: { t: "36 cm²" }, l3: { t: "100 cm²" }, cotes: ["6", "8", "10"] }
   ];
   var EX4B = [
     { a: Math.sqrt(12), b: Math.sqrt(5), fill: "#BFE3EA", l1: { t: "12 cm²" }, l2: { t: "5 cm²" }, l3: { ph: "…… cm²", ans: "17 cm²" }, cotes: ["√5", "√12", "√17"] },
-    { a: Math.sqrt(13), b: Math.sqrt(7), fill: "#F7C9D4", l1: { ph: "…… cm²", ans: "13 cm²" }, l2: { t: "7 cm²" }, l3: { t: "20 cm²" }, cotes: ["√7", "√13", "√20"] },
-    { a: Math.sqrt(8), b: Math.sqrt(3), fill: "#F9DC8E", l1: { t: "8 cm²" }, l2: { t: "3 cm²" }, l3: { ph: "…… cm²", ans: "11 cm²" }, cotes: ["√3", "√8", "√11"] }
+    { a: Math.sqrt(8), b: Math.sqrt(3), fill: "#F9DC8E", l1: { t: "8 cm²" }, l2: { t: "3 cm²" }, l3: { ph: "…… cm²", ans: "11 cm²" }, cotes: ["√3", "√8", "√11"] },
+    { a: Math.sqrt(13), b: Math.sqrt(7), fill: "#F7C9D4", l1: { ph: "…… cm²", ans: "13 cm²" }, l2: { t: "7 cm²" }, l3: { t: "20 cm²" }, cotes: ["√7", "√13", "√20"] }
   ];
   function carres(g, c) {
     var cell = document.createElement("div"); cell.className = "cell";
