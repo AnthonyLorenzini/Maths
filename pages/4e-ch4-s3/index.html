@@ -15,14 +15,11 @@ body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); bac
 .exos { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px 34px; align-items:start; }
 .exos .fx { margin-bottom:14px; }
 .exos .fx-q { font-size:15px; }
-.fx.plus { border:2px dashed var(--acc-b); border-radius:12px; padding:10px 12px 8px; background:#FFFBF3; }
-.fx.plus .pal { font-family:'Baloo 2',sans-serif; color:var(--acc-t); }
-.fx.plus .fxfig { background:#fff; }
 @media (max-width:1100px) { .exos { grid-template-columns:minmax(0,1fr); } }
 .exos .fx { min-width:0; }
 @media (min-width:1101px) {
-  .exos { grid-template-areas:"e1 e2" "e3 e4" "e3 e5"; }
-  #fx1 { grid-area:e1; } #fx2 { grid-area:e2; } #fx3 { grid-area:e3; } #fx4 { grid-area:e4; } #fx5 { grid-area:e5; }
+  .exos { grid-template-areas:"e1 e2" "e3 e4"; }
+  #fx1 { grid-area:e1; } #fx2 { grid-area:e2; } #fx3 { grid-area:e3; } #fx4 { grid-area:e4; }
 }
 .cote-a-cote { overflow-x:auto; }
 header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
@@ -227,13 +224,16 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
 
   <!-- Exercice 3 (aires des carrés, puis longueurs des côtés) -->
   <div class="fx" id="fx3">
-    <div class="fx-q"><span class="fx-n">3</span><span>Pour chaque figure, un carré est dessiné sur chaque côté du triangle rectangle.<br><b>a)</b> Complète les aires manquantes.<br><b>b)</b> Donne la longueur des trois côtés du triangle, du plus court au plus long (garde le √ quand ce n'est pas un nombre entier). <span class="etoiles">★★</span></span></div>
-    <div class="grille g3" id="g4"></div>
+    <div class="fx-q"><span class="fx-n">3</span><span>Dans chaque figure, un carré est dessiné sur chaque côté du triangle rectangle. Pour chaque figure : complète l'aire manquante, puis donne la longueur des trois côtés du triangle, du plus court au plus long. <span class="etoiles">★★</span></span></div>
+    <p class="sous-q"><b>a)</b> Les aires sont des carrés parfaits.</p>
+    <div class="grille g3" id="g4a"></div>
+    <p class="sous-q"><b>b)</b> Cette fois, certaines longueurs ne sont pas des nombres entiers : garde le √.</p>
+    <div class="grille g3" id="g4b"></div>
     <div class="btn-row">
       <button type="button" class="toggle-btn astuce" onclick="toggle('as3')">💡 Astuce</button>
       <button type="button" class="toggle-btn solution" onclick="sol('fx3',this)">✅ Solution</button>
     </div>
-    <div class="panel astuce-panel" id="as3"><span class="label">Astuce</span>a) Le carré de l'hypoténuse a une aire égale à la somme des aires des deux autres carrés. Dans la figure du milieu, l'aire d'un carré de côté 6 cm, c'est 6 × 6. Dans la dernière, cherche le nombre qu'il faut ajouter à 16 pour obtenir 41.<br>b) Un carré d'aire A a un côté de longueur √A (séance 2). Par exemple, un carré d'aire 49 cm² a un côté de 7 cm.</div>
+    <div class="panel astuce-panel" id="as3"><span class="label">Astuce</span>L'aire du carré de l'hypoténuse est égale à la somme des aires des deux autres carrés. Si c'est l'hypoténuse qui manque, on additionne ; si c'est un autre carré, on cherche le nombre à ajouter (ou on soustrait). Ensuite, un carré d'aire A a un côté de longueur √A (séance 2) : par exemple, un carré d'aire 49 cm² a un côté de 7 cm.</div>
   </div>
 
   <!-- Exercice 4 (exercice typique : calculer l'hypoténuse) -->
@@ -274,36 +274,6 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     <div class="panel astuce-panel" id="as4"><span class="label">Astuce</span>Pour BC², remplace seulement les deux côtés de l'angle droit : l'hypoténuse reste la lettre inconnue. Une fois que tu as BC², il reste à trouver le nombre positif dont le carré est BC² : c'est la racine carrée.</div>
   </div>
 
-  <!-- Exercice 5 (pour aller plus loin) -->
-  <div class="fx plus" id="fx5">
-    <div class="fx-q"><span class="fx-n">5</span><span><b class="pal">Pour aller plus loin</b> — Dans la figure, les points B, H et C sont alignés. Complète le tableau avec tous les triangles rectangles codés. <span class="etoiles">★★★</span></span></div>
-    <div class="cote-a-cote fig-gauche">
-      <div class="fxfig">
-        <svg viewBox="0 0 310 215" role="img" aria-label="Un triangle ABC rectangle en A, avec le point H sur [BC] tel que (AH) est perpendiculaire à (BC)" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="26,170 276,170 116,50" fill="#fff" stroke="#22303F" stroke-width="2" stroke-linejoin="round"/>
-          <line x1="116" y1="50" x2="116" y2="170" stroke="#22303F" stroke-width="2"/>
-          <polygon points="116,50 108.8,59.6 118.4,66.8 125.6,57.2" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.2"/>
-          <polygon points="116,170 104,170 104,158 116,158" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.2"/>
-          <polygon points="116,170 128,170 128,158 116,158" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.2"/>
-          <text class="lbl" x="116" y="33" text-anchor="middle" font-size="25">A</text>
-          <text class="lbl" x="11" y="190" text-anchor="middle" font-size="25">B</text>
-          <text class="lbl" x="294" y="190" text-anchor="middle" font-size="25">C</text>
-          <text class="lbl" x="116" y="204" text-anchor="middle" font-size="25">H</text>
-        </svg>
-      </div>
-      <table class="tf">
-        <tr><th>Triangle</th><th>Rectangle en…</th><th>Hypoténuse</th><th>Égalité de Pythagore</th></tr>
-        <tr><td><span class="rep">ABC</span></td><td><span class="rep">A</span></td><td><span class="rep">[BC]</span></td><td><span class="rep">BC² = AB² + AC²</span></td></tr>
-        <tr><td><span class="rep">ABH</span></td><td><span class="rep">H</span></td><td><span class="rep">[AB]</span></td><td><span class="rep">AB² = AH² + BH²</span></td></tr>
-        <tr><td><span class="rep">ACH</span></td><td><span class="rep">H</span></td><td><span class="rep">[AC]</span></td><td><span class="rep">AC² = AH² + CH²</span></td></tr>
-      </table>
-    </div>
-    <div class="btn-row">
-      <button type="button" class="toggle-btn astuce" onclick="toggle('as5')">💡 Astuce</button>
-      <button type="button" class="toggle-btn solution" onclick="sol('fx5',this)">✅ Solution</button>
-    </div>
-    <div class="panel astuce-panel" id="as5"><span class="label">Astuce</span>Cherche les angles droits codés : un en A et deux en H. Chacun appartient à un triangle différent, donc il y a trois triangles rectangles. Pour chacun, l'hypoténuse est le côté en face de l'angle droit. (L'ordre des lignes est libre.)</div>
-  </div>
   </div><!-- /exos -->
 
   <footer>Cherche seul(e) d'abord. Utilise l'astuce si tu bloques, puis ouvre la solution.</footer>
@@ -527,10 +497,15 @@ function sol(id,btn){var e=document.getElementById(id);var on=e.classList.toggle
   }
 
   /* ===================== EXERCICE 3 : carrés sur les côtés ===================== */
-  var EX4 = [
+  var EX4A = [
+    { a: 3, b: 4, fill: "#BFE3EA", l1: { t: "9 cm²" }, l2: { t: "16 cm²" }, l3: { ph: "…… cm²", ans: "25 cm²" }, cotes: ["3", "4", "5"] },
+    { a: 8, b: 6, fill: "#F7C9D4", l1: { ph: "…… cm²", ans: "64 cm²" }, l2: { t: "36 cm²" }, l3: { t: "100 cm²" }, cotes: ["6", "8", "10"] },
+    { a: 12, b: 9, fill: "#F9DC8E", l1: { t: "144 cm²" }, l2: { t: "81 cm²" }, l3: { ph: "…… cm²", ans: "225 cm²" }, cotes: ["9", "12", "15"] }
+  ];
+  var EX4B = [
     { a: Math.sqrt(12), b: Math.sqrt(5), fill: "#BFE3EA", l1: { t: "12 cm²" }, l2: { t: "5 cm²" }, l3: { ph: "…… cm²", ans: "17 cm²" }, cotes: ["√5", "√12", "√17"] },
-    { a: 6, b: 8, fill: "#F7C9D4", lg: true, l1: { ph: "…… cm²", ans: "36 cm²" }, l2: { ph: "…… cm²", ans: "64 cm²" }, l3: { ph: "…… cm²", ans: "100 cm²" }, cotes: ["6", "8", "10"] },
-    { a: 4, b: 5, fill: "#F9DC8E", l1: { t: "16 cm²" }, l2: { ph: "…… cm²", ans: "25 cm²" }, l3: { t: "41 cm²" }, cotes: ["4", "5", "√41"] }
+    { a: Math.sqrt(13), b: Math.sqrt(7), fill: "#F7C9D4", l1: { ph: "…… cm²", ans: "13 cm²" }, l2: { t: "7 cm²" }, l3: { t: "20 cm²" }, cotes: ["√7", "√13", "√20"] },
+    { a: Math.sqrt(8), b: Math.sqrt(3), fill: "#F9DC8E", l1: { t: "8 cm²" }, l2: { t: "3 cm²" }, l3: { ph: "…… cm²", ans: "11 cm²" }, cotes: ["√3", "√8", "√11"] }
   ];
   function carres(g, c) {
     var cell = document.createElement("div"); cell.className = "cell";
@@ -562,7 +537,7 @@ function sol(id,btn){var e=document.getElementById(id);var on=e.classList.toggle
     }
     cell.appendChild(f);
     var z = document.createElement("div"); z.className = "rz";
-    z.style.fontSize = "13px"; z.innerHTML = "<b>b)</b> " + c.cotes.map(function (t) { return blank(t) + " cm"; }).join(" ; ");
+    z.style.fontSize = "13px"; z.innerHTML = "Côtés (en cm) : " + c.cotes.map(function (t) { return blank(t); }).join(" ; ");
     cell.appendChild(z); g.appendChild(cell);
   }
 
@@ -570,7 +545,8 @@ function sol(id,btn){var e=document.getElementById(id);var on=e.classList.toggle
   initAct();
   grille("g1", EX1, true);
   grille("g2", EX2, false);
-  EX4.forEach(function (c) { carres($("g4"), c); });
+  EX4A.forEach(function (c) { carres($("g4a"), c); });
+  EX4B.forEach(function (c) { carres($("g4b"), c); });
 })();
 </script>
 <script src="../../assets/catalogue.js"></script>

@@ -771,7 +771,7 @@ window.SITE = {
               contenu: [
                 "Automatisme sur les carrés et les racines, avec une question flash sur l'hypoténuse.",
                 "Animations projetées : sur quatre triangles rectangles tournés dans tous les sens, on repère l'angle droit, l'hypoténuse et les carrés construits sur les côtés, puis on écrit l'égalité de Pythagore avec les lettres du triangle.",
-                "Exercices projetés au tableau et faits sur le cahier : angle droit et hypoténuse, égalité sur des triangles tournés, puis aires des carrés et longueurs des côtés (retour à la racine carrée), et un premier calcul d'hypoténuse présenté comme un prolongement ; un exercice pour aller plus loin."
+                "Exercices projetés au tableau et faits sur le cahier : angle droit et hypoténuse, égalité sur des triangles tournés, puis aires des carrés et longueurs des côtés (retour à la racine carrée), et un premier calcul d'hypoténuse présenté comme un prolongement."
               ],
               ressources: ["4e-ch4-s3"],
               retenir: [
