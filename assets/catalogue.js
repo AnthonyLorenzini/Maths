@@ -781,12 +781,29 @@ window.SITE = {
               ],
               exemple: "Le triangle ABC est rectangle en A : l'hypoténuse est [BC], donc BC² = AB² + AC².",
               savoir: "repérer l'hypoténuse d'un triangle rectangle, même tourné, écrire l'égalité de Pythagore et passer de l'aire d'un carré à la longueur de son côté."
+            },
+            {
+              titre: "Rédiger le calcul de l'hypoténuse", duree: "50 min",
+              contenu: [
+                "Automatisme : sommes de carrés, racines carrées, et le piège de 6² + 8² qui n'est pas 14².",
+                "Animation projetée : la rédaction se construit en cinq étapes (triangle et angle droit, théorème, remplacement par les nombres, calcul, conclusion), d'abord sur un triangle dont l'hypoténuse est entière, puis sur un triangle qui donne une valeur approchée.",
+                "Cinq exercices projetés, faits sur le cahier, où le guide diminue peu à peu : rédaction à compléter, début des phrases, étapes seules, énoncé seul avec un conseil, puis un problème sans aucune aide."
+              ],
+              ressources: ["4e-ch4-s4"],
+              retenir: [
+                "Pour calculer l'**hypoténuse** : « On a **ABC** un triangle rectangle en **A**. D'après le théorème de Pythagore, on a : **AB² + AC² = BC²** », puis on remplace par les longueurs, on calcule, et on conclut par **BC = √… cm**.",
+                "Si le résultat n'est pas un nombre entier, on écrit la **valeur exacte** avec √, puis une **valeur approchée** : BC = √41 ≈ 6,4 cm.",
+                "On met **chaque longueur au carré avant d'additionner** (6² + 8² = 100, et non (6 + 8)² = 196). On vérifie que l'hypoténuse est le **plus long côté** et on écrit l'**unité**."
+              ],
+              exemple: "AB = 6 cm et AC = 8 cm : AB² + AC² = BC², puis 6² + 8² = BC², 36 + 64 = BC², 100 = BC², donc BC = √100 = 10 cm.",
+              savoir: "rédiger complètement le calcul de l'hypoténuse d'un triangle rectangle avec le théorème de Pythagore."
             }
           ],
           ressources: [
             { id: "4e-ch4-s1", type: "exos", titre: "Séance 1 — Découvrir le théorème de Pythagore", resume: "Un puzzle d'aires, une vérification par le calcul et le cas du triangle non rectangle.", ajout: "2026-10-20" },
             { id: "4e-ch4-s2", type: "exos", titre: "Séance 2 — Racine carrée", resume: "Animations sur l'aire et le côté, encadrement entre deux carrés, calculatrice projetée (touche √), exercices corrigés.", ajout: "2026-10-24" },
             { id: "4e-ch4-s3", type: "exos", titre: "Séance 3 — Écrire l'égalité de Pythagore", resume: "Quatre triangles tournés à lire pas à pas, puis des exercices corrigés : égalité de Pythagore, aires des carrés et longueurs des côtés, premier calcul d'hypoténuse.", ajout: "2026-11-03" },
+            { id: "4e-ch4-s4", type: "exos", titre: "Séance 4 — Rédiger le calcul de l'hypoténuse", resume: "Une rédaction construite en cinq étapes, puis cinq exercices corrigés où le guide diminue peu à peu, jusqu'à l'autonomie.", ajout: "2026-11-07" },
             { id: "4e-ch4-minijeux", type: "jeu", titre: "Mini-jeux — Trouve l'hypoténuse", resume: "Figures tournées, phrases « rectangle en… » et défi de 60 secondes pour que l'identification devienne un réflexe.", ajout: "2026-10-20" },
             { id: "4e-ch4-minijeux-racine", type: "jeu", titre: "Mini-jeux — Racine carrée", resume: "Carrés de 1 à 15, racines de carrés parfaits, encadrements et défi de 60 secondes.", ajout: "2026-10-24" }
           ]

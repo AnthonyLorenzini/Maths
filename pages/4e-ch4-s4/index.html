@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 4 — Rédiger le calcul de l'hypoténuse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --acc-b:#F0B25B; --acc-bg:#FEF2E3; --acc-t:#B5680A; --ink:#22303F; --bleu:#2B6CB0; --rose:#E0457B; --vert:#8CC63F; --cadre:#A6D3EE; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 1480px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+.col { max-width:860px; margin:0 auto; }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:22px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:25px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+[hidden] { display:none !important; }
+
+/* ---------- automatisme ---------- */
+.automatisme { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:12px 16px; margin-bottom:18px; }
+.automatisme h2 { font-family:'Baloo 2',sans-serif; font-size:15px; color:#2B6CB0; margin:0 0 8px 0; }
+.automatisme ol { margin:0; padding-left:20px; font-size:13.5px; }
+.automatisme li { margin-bottom:2px; }
+.reveal-panel { display:none; margin-top:8px; font-size:12.5px; font-style:italic; color:#3B4C5E; border-top:1px dashed #B7CBE3; padding-top:6px; }
+.reveal-panel.show { display:block; }
+
+/* ---------- activité ---------- */
+.act { max-width:1240px; margin:0 auto 18px; border:2px solid var(--bleu); background:#F3F8FE; border-radius:14px; padding:14px 18px 16px; }
+.act h2 { font-family:'Baloo 2',sans-serif; font-size:17px; margin:0 0 6px 0; color:var(--bleu); }
+.act h2 .duree { font-family:'Work Sans',sans-serif; font-size:13px; color:#51657A; font-weight:600; margin-left:6px; }
+.act p { font-size:15px; line-height:1.55; margin:6px 0; }
+.act-grid { display:grid; grid-template-columns:minmax(0,1.08fr) minmax(0,1fr); gap:16px; align-items:start; margin-top:8px; }
+@media (max-width:900px) { .act-grid { grid-template-columns:minmax(0,1fr); } }
+.fig { background:#fff; border:1px solid #D2E0F1; border-radius:10px; padding:6px; }
+.fig svg { display:block; width:100%; height:auto; margin:0 auto; }
+.ctrl { display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; margin:8px 0; }
+.abtn { font-family:'Baloo 2',sans-serif; font-size:13.5px; padding:6px 14px; border-radius:18px; border:2px solid var(--bleu); background:#fff; color:var(--bleu); cursor:pointer; }
+.abtn:hover { filter:brightness(0.96); }
+.abtn[aria-pressed="true"] { background:var(--bleu); color:#fff; }
+.abtn.plein { background:var(--ink); border-color:var(--ink); color:#fff; }
+.abtn:disabled { opacity:.45; cursor:default; }
+.act .abtn { padding:5px 10px; font-size:13px; }
+.etape { font-family:'Baloo 2',sans-serif; font-size:14px; color:#51657A; min-width:4.8em; text-align:center; }
+.egal { font-size:15px; line-height:1.5; padding:9px 13px; border-radius:10px; background:#E8F6EE; border:2px solid #4CAF7D; margin:8px 0 0; }
+.egal.neutre { background:#EEF3FA; border-color:#9DB8D8; }
+.egal .todo { display:block; margin-top:4px; color:#B5680A; font-weight:700; }
+.egal .piege { display:block; margin-top:6px; color:#9A3412; }
+.def { background:#EFEAFE; border:2px solid #6E4FE0; border-radius:12px; padding:10px 16px; margin:12px 0 20px; font-size:14.5px; line-height:1.55; }
+.def b.tag { font-family:'Baloo 2',sans-serif; color:#4B2FB5; display:block; margin-bottom:2px; font-size:15px; }
+.def ul { margin:6px 0 4px; padding-left:20px; }
+.def li { margin-bottom:3px; }
+.ta { color:#C23B27; font-weight:700; }
+.tb { color:#A8780A; font-weight:700; }
+.tc { color:#1E7A4C; font-weight:700; }
+svg text.lbl { font-family:'Work Sans',Arial,sans-serif; font-weight:700; fill:#22303F; paint-order:stroke; stroke:#fff; stroke-width:4px; stroke-linejoin:round; }
+svg .tr { transition:opacity .45s ease; }
+
+/* ---------- le cahier (rédaction qui se construit) ---------- */
+.cahier { position:relative; background-color:#FFFEF8; border:2px solid #D9CFB8; border-radius:10px; padding:6px 14px 6px 50px; min-height:300px;
+  background-image:repeating-linear-gradient(to bottom, transparent 0, transparent 33px, #D6E4F2 33px, #D6E4F2 34px); }
+.cahier::before { content:""; position:absolute; left:38px; top:0; bottom:0; width:2px; background:#E8A0A0; }
+.bloc { position:relative; opacity:0; transition:opacity .45s ease; }
+.bloc .l { min-height:34px; line-height:34px; font-size:17px; white-space:nowrap; }
+.bloc .num { position:absolute; left:-42px; top:5px; width:26px; height:26px; border-radius:50%; background:var(--ink); color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center; }
+.bloc .note { position:absolute; right:0; top:0; font-size:12px; font-style:italic; color:#8A7A5A; line-height:34px; }
+.bloc.on { opacity:1; }
+
+/* ---------- boutons astuce / solution ---------- */
+.btn-row { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:13px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:14.5px; line-height:1.5; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; color:#B5680A; }
+
+/* ---------- exercices : présentation « fiche » ---------- */
+.objectif { border:4px solid var(--rose); border-radius:22px; padding:12px 26px; text-align:center; margin:4px auto 22px; max-width:700px; background:#fff; line-height:1.25; }
+.objectif b { font-family:'Baloo 2',sans-serif; font-weight:800; font-size:27px; letter-spacing:.05em; text-transform:uppercase; -webkit-text-stroke:.7px var(--ink); color:var(--ink); }
+.objectif span { font-size:19px; margin-left:4px; font-weight:500; }
+.exos { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px 34px; align-items:start; }
+.exos .fx { margin-bottom:14px; min-width:0; }
+@media (max-width:1100px) { .exos { grid-template-columns:minmax(0,1fr); } }
+@media (min-width:1101px) {
+  .exos { grid-template-areas:"e1 e2" "e3 e4" "e3 e5"; }
+  #fx1 { grid-area:e1; } #fx2 { grid-area:e2; } #fx3 { grid-area:e3; } #fx4 { grid-area:e4; } #fx5 { grid-area:e5; }
+}
+.fx-q { display:flex; gap:10px; align-items:flex-start; font-size:15px; line-height:1.45; margin-bottom:6px; }
+.fx-n { flex:0 0 auto; min-width:24px; height:24px; background:var(--vert); color:#fff; font-weight:800; font-size:15px; border-radius:3px; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+.etoiles { color:var(--acc-t); font-size:13px; font-weight:700; white-space:nowrap; margin-left:4px; }
+.aide { display:inline-flex; align-items:center; gap:7px; font-size:12px; font-weight:600; color:#51657A; background:#F1F4F8; border:1px solid #D2DBE6; border-radius:12px; padding:2px 10px; margin:0 0 8px 34px; }
+.aide .pts { color:#6E4FE0; letter-spacing:1.5px; font-size:11px; }
+.cote-a-cote { display:grid; grid-template-columns:minmax(0,230px) minmax(0,1fr); gap:14px; align-items:start; }
+@media (max-width:720px) { .cote-a-cote { grid-template-columns:1fr; } }
+.fxfig { border:1.5px solid var(--cadre); padding:4px; background:#fff; }
+.fxfig svg { display:block; width:100%; height:auto; }
+.redac { background:#FFFEF8; border:1.5px dashed #C9BFA3; border-radius:8px; padding:6px 12px; font-size:15px; }
+.redac p { margin:0; line-height:2.05; }
+.redac .cap { float:right; font-size:12px; font-style:italic; color:#8A7A5A; }
+.blank { display:inline-block; min-width:2.3em; border-bottom:2px dotted #4A5A6A; text-align:center; line-height:1.25; }
+.blank.w2 { min-width:3.4em; } .blank.w4 { min-width:6.4em; }
+.pts-vides { letter-spacing:1px; color:#6B7A8A; }
+.rep { visibility:hidden; font-weight:700; color:#1E7A4C; }
+.sol .rep { visibility:visible; }
+.sol-only { display:none; }
+.sol .sol-only { display:block; }
+.sous-q { font-size:15px; line-height:1.45; margin:6px 0 8px; }
+.etapes { margin:0; padding-left:22px; font-size:14.5px; line-height:1.55; }
+.etapes li { margin-bottom:4px; }
+.corrige { background:#E8F6EE; border-left:5px solid #4CAF7D; border-radius:8px; padding:8px 12px; margin:8px 0 4px; font-size:14.5px; line-height:1.7; }
+svg .ans { opacity:0; } .sol svg .ans { opacity:1; } .sol svg .ph { opacity:0; }
+svg text.fg { font-family:'Work Sans',Arial,sans-serif; font-weight:600; fill:#22303F; }
+svg text.fg.bold { font-weight:700; }
+svg text.ans { fill:#1E7A4C; font-weight:700; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+</style>
+<style>@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}</style>
+</head>
+<body>
+<div class="page">
+  <div class="col">
+  <header>
+    <div class="badge">S4</div>
+    <div>
+      <h1>Rédiger le calcul de l'hypoténuse</h1>
+      <div class="subtitle">Chapitre 4 — Le théorème de Pythagore — 4e — Séance 4</div>
+    </div>
+  </header>
+  <div class="objectifs"><b>Objectifs :</b> rédiger proprement un calcul d'hypoténuse avec le théorème de Pythagore (triangle rectangle, égalité, remplacement, calcul, conclusion) ; rédiger de moins en moins guidé, jusqu'à rédiger tout(e) seul(e).</div>
+  <noscript><p><b>Cette séance utilise des figures dessinées par JavaScript : active-le dans ton navigateur pour les voir.</b></p></noscript>
+
+  <!-- ===================== AUTOMATISME ===================== -->
+  <div class="automatisme">
+    <h2>Automatisme</h2>
+    <ol>
+      <li>5² + 12² =</li>
+      <li>√169 =</li>
+      <li>Léa écrit « 6² + 8² = 14² ». A-t-elle raison ?</li>
+      <li>EF² = 64, et EF est une longueur. Que vaut EF ?</li>
+      <li>Le triangle KLM est rectangle en K. Écris l'égalité de Pythagore.</li>
+      <li>√30 est compris entre quels deux nombres entiers ?</li>
+    </ol>
+    <button type="button" class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
+    <div class="reveal-panel" id="auto-corrige">Corrigé : 25 + 144 = 169 ; 13 (car 13² = 169) ; non : 6² + 8² = 36 + 64 = 100, alors que 14² = 196 (on élève chaque nombre au carré, puis on additionne) ; EF = √64 = 8 ; KL² + KM² = LM² (l'hypoténuse est [LM], en face de K) ; entre 5 et 6 (car 25 &lt; 30 &lt; 36)</div>
+  </div>
+  </div><!-- /col -->
+
+  <!-- ===================== ACTIVITÉ ===================== -->
+  <section class="act" aria-labelledby="t-act">
+    <h2 id="t-act">Activité — La rédaction, pas à pas <span class="duree">environ 12 min</span></h2>
+    <p>On veut calculer la longueur de l'hypoténuse. Choisis un triangle, puis avance étape par étape : <b>la rédaction se construit dans le cahier à droite</b>. Recopie-la dans ton cahier au fur et à mesure.</p>
+    <div class="ctrl" id="a-choix" role="group" aria-label="Choisir un triangle"></div>
+    <div class="act-grid">
+      <div>
+        <div class="fig">
+          <svg id="a-svg" role="img" aria-label="Un triangle rectangle avec les longueurs de ses côtés de l'angle droit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 400"></svg>
+        </div>
+        <div class="ctrl">
+          <button type="button" class="abtn" id="a-prec">◀ Précédente</button>
+          <span class="etape" id="a-etape">Étape 0 / 5</span>
+          <button type="button" class="abtn plein" id="a-suiv">Étape suivante ▶</button>
+          <button type="button" class="abtn" id="a-tout">👀 Tout afficher</button>
+          <button type="button" class="abtn" id="a-rec">↺ Recommencer</button>
+        </div>
+      </div>
+      <div>
+        <div class="cahier" id="a-cahier" aria-label="La rédaction qui se construit"></div>
+        <div class="egal neutre" id="a-txt" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="col">
+  <div class="def">
+    <b class="tag">À retenir — Rédiger le calcul de l'hypoténuse</b>
+    <div style="background:#fff;border-radius:8px;padding:8px 14px;margin:6px 0 8px;line-height:1.75;font-size:15px;">
+      On a <b>ABC</b> un triangle rectangle en <b>A</b>.<br>
+      D'après le théorème de Pythagore, on a :<br>
+      <span class="ta">AB²</span> + <span class="tb">AC²</span> = <span class="tc">BC²</span><br>
+      <span class="ta">6²</span> + <span class="tb">8²</span> = <span class="tc">BC²</span><br>
+      <span class="ta">36</span> + <span class="tb">64</span> = <span class="tc">BC²</span><br>
+      <span class="tc">100</span> = <span class="tc">BC²</span><br>
+      donc <b>BC</b> = √100 = <b>10 cm</b>.
+    </div>
+    <ul>
+      <li>Si le résultat n'est pas un nombre entier, j'écris la <b>valeur exacte</b> avec √, puis une <b>valeur approchée</b> : BC = √41 ≈ 6,4 cm.</li>
+      <li>Je mets <b>chaque longueur au carré avant d'additionner</b> : 6² + 8² = 100, et non (6 + 8)² = 196. Et BC² = 100 donne BC = √100 = 10.</li>
+      <li>Je vérifie : l'hypoténuse est toujours le <b>plus long côté</b>, et je n'oublie pas l'<b>unité</b>.</li>
+    </ul>
+  </div>
+  </div><!-- /col -->
+
+  <!-- ===================== EXERCICES ===================== -->
+  <div class="objectif"><b>Objectif :</b> <span>Savoir rédiger le calcul d'une hypoténuse</span></div>
+  <p class="aide-ex" style="font-size:14px;line-height:1.5;margin:0 0 14px;color:#3B4C5E;">Exercices projetés au tableau : écris chaque rédaction complète sur ton cahier. <b>Le guide diminue d'un exercice à l'autre</b> (<span style="color:#6E4FE0;letter-spacing:1.5px;">●●●●</span> très guidé, <span style="color:#6E4FE0;letter-spacing:1.5px;">○○○○</span> aucune aide). La calculatrice est autorisée pour les carrés et les racines carrées. Astuce si tu bloques, solution en dernier.</p>
+
+  <div class="exos">
+  <!-- Exercice 1 : rédaction à compléter -->
+  <div class="fx" id="fx1">
+    <div class="fx-q"><span class="fx-n">1</span><span>Le triangle RST est rectangle en S, avec RS = 9 cm et ST = 12 cm. Complète la rédaction pour calculer RT. <span class="etoiles">★</span></span></div>
+    <div class="aide"><span class="pts" aria-hidden="true">●●●●</span> Rédaction à compléter</div>
+    <div class="cote-a-cote">
+      <div class="fxfig"><svg id="f1" viewBox="0 0 260 175" role="img" aria-label="Triangle RST rectangle en S, avec RS = 9 cm et ST = 12 cm" xmlns="http://www.w3.org/2000/svg"></svg></div>
+      <div class="redac" id="r1"></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('as1')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="sol('fx1',this)">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="as1"><span class="label">Astuce</span>Repère le petit carré vert : l'angle droit est en S. Le côté en face, [RT], est l'hypoténuse : elle reste seule à droite du signe =. Pour 9² + 12², calcule 81 + 144 ; RT est ensuite le nombre positif dont le carré est ce résultat.</div>
+  </div>
+
+  <!-- Exercice 2 : squelette -->
+  <div class="fx" id="fx2">
+    <div class="fx-q"><span class="fx-n">2</span><span>Le triangle KLM est rectangle en L, avec KL = 8 cm et LM = 15 cm. Calcule KM en complétant le squelette sur ton cahier. <span class="etoiles">★</span></span></div>
+    <div class="aide"><span class="pts" aria-hidden="true">●●●○</span> Début des phrases</div>
+    <div class="cote-a-cote">
+      <div class="fxfig"><svg id="f2" viewBox="0 0 260 175" role="img" aria-label="Triangle KLM rectangle en L, avec KL = 8 cm et LM = 15 cm" xmlns="http://www.w3.org/2000/svg"></svg></div>
+      <div>
+        <div class="redac">
+          <p>On a <span class="pts-vides">………</span> un triangle rectangle en <span class="pts-vides">……</span>.</p>
+          <p>D'après le théorème de Pythagore, on a :</p>
+          <p><span class="pts-vides">……………………</span> <span class="cap">← l'égalité avec les lettres</span></p>
+          <p><span class="pts-vides">……………………</span> <span class="cap">← je remplace par les nombres</span></p>
+          <p><span class="pts-vides">……………………</span> <span class="cap">← je calcule</span></p>
+          <p>donc <span class="pts-vides">………</span> = <span class="pts-vides">………</span> cm.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sol-only corrige">
+      On a <b>KLM</b> un triangle rectangle en <b>L</b>. D'après le théorème de Pythagore, on a :<br>
+      KL² + LM² = KM²<br>
+      8² + 15² = KM²<br>
+      64 + 225 = KM²<br>
+      289 = KM²<br>
+      donc KM = √289 = <b>17 cm</b>.
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('as2')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="sol('fx2',this)">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="as2"><span class="label">Astuce</span>Suis le même plan qu'à l'exercice 1. L'angle droit est en L, donc l'hypoténuse est le côté qui ne touche pas L. Pour la dernière ligne, cherche le nombre positif dont le carré est 289 (la touche √ de la calculatrice t'aide).</div>
+  </div>
+
+  <!-- Exercice 3 : les étapes seulement -->
+  <div class="fx" id="fx3">
+    <div class="fx-q"><span class="fx-n">3</span><span>Le triangle EFG est rectangle en G, avec EG = 3 cm et FG = 7 cm. Calcule EF : donne la valeur exacte, puis une valeur approchée au dixième. <span class="etoiles">★★</span></span></div>
+    <div class="aide"><span class="pts" aria-hidden="true">●●○○</span> Les étapes seulement</div>
+    <div class="cote-a-cote">
+      <div class="fxfig"><svg id="f3" viewBox="0 0 260 175" role="img" aria-label="Triangle EFG rectangle en G, avec EG = 3 cm et FG = 7 cm" xmlns="http://www.w3.org/2000/svg"></svg></div>
+      <ol class="etapes">
+        <li>Je dis dans quel triangle et en quel point il est rectangle.</li>
+        <li>J'écris l'égalité de Pythagore avec les lettres.</li>
+        <li>Je remplace les lettres par les longueurs.</li>
+        <li>Je calcule.</li>
+        <li>Je conclus avec la racine carrée et l'unité.</li>
+      </ol>
+    </div>
+    <div class="sol-only corrige">
+      On a <b>EFG</b> un triangle rectangle en <b>G</b>. D'après le théorème de Pythagore, on a :<br>
+      EG² + FG² = EF²<br>
+      3² + 7² = EF²<br>
+      9 + 49 = EF²<br>
+      58 = EF²<br>
+      donc EF = √58 ≈ <b>7,6 cm</b> (valeur exacte : √58 cm ; 7² = 49 &lt; 58 &lt; 64 = 8²).
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('as3')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="sol('fx3',this)">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="as3"><span class="label">Astuce</span>L'angle droit est en G : l'hypoténuse est [EF]. 58 n'est pas le carré d'un nombre entier : écris √58, puis donne une valeur approchée au dixième avec la calculatrice.</div>
+  </div>
+
+  <!-- Exercice 4 : énoncé seul + un conseil -->
+  <div class="fx" id="fx4">
+    <div class="fx-q"><span class="fx-n">4</span><span>Le triangle MNP est rectangle en M, avec MN = 10 cm et MP = 24 cm. Calcule la longueur NP. <span class="etoiles">★★</span></span></div>
+    <div class="aide"><span class="pts" aria-hidden="true">●○○○</span> Un seul conseil : fais un schéma à main levée</div>
+    <div class="sol-only corrige">
+      On a <b>MNP</b> un triangle rectangle en <b>M</b>. D'après le théorème de Pythagore, on a :<br>
+      MN² + MP² = NP²<br>
+      10² + 24² = NP²<br>
+      100 + 576 = NP²<br>
+      676 = NP²<br>
+      donc NP = √676 = <b>26 cm</b>.
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('as4')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="sol('fx4',this)">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="as4"><span class="label">Astuce</span>L'angle droit est en M : l'hypoténuse est le côté qui ne touche pas M. Ce n'est pas toujours « le côté du milieu » ni « la dernière lettre » !</div>
+  </div>
+
+  <!-- Exercice 5 : autonomie totale -->
+  <div class="fx" id="fx5">
+    <div class="fx-q"><span class="fx-n">5</span><span>Un portail rectangulaire mesure 1,2 m de large et 1,6 m de haut. Pour le renforcer, on fixe une barre en diagonale. Quelle est la longueur de cette barre ? <span class="etoiles">★★★</span></span></div>
+    <div class="aide"><span class="pts" aria-hidden="true">○○○○</span> Autonomie totale</div>
+    <div class="sol-only corrige">
+      Soit ABCD le portail, avec AB = 1,2 m et BC = 1,6 m. Un rectangle a quatre angles droits : on a <b>ABC</b> un triangle rectangle en <b>B</b>. D'après le théorème de Pythagore, on a :<br>
+      AB² + BC² = AC²<br>
+      1,2² + 1,6² = AC²<br>
+      1,44 + 2,56 = AC²<br>
+      4 = AC²<br>
+      donc AC = √4 = <b>2 m</b>. La barre mesure 2 m.
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('as5')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="sol('fx5',this)">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="as5"><span class="label">Astuce</span>Une diagonale partage le rectangle en deux triangles rectangles : repère-en un, donne des lettres à ses sommets, puis rédige comme d'habitude.</div>
+  </div>
+  </div><!-- /exos -->
+
+  <footer>Cherche seul(e) d'abord. Utilise l'astuce si tu bloques, puis ouvre la solution.</footer>
+</div>
+
+<script>
+function toggle(id){document.getElementById(id).classList.toggle('show');}
+function sol(id,btn){var e=document.getElementById(id);var on=e.classList.toggle('sol');btn.textContent=on?'🙈 Masquer la solution':'✅ Solution';}
+</script>
+<script>
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+
+  /* ---------- outils ---------- */
+  function $(id) { return document.getElementById(id); }
+  function el(tag, attrs, parent) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) { if (Object.prototype.hasOwnProperty.call(attrs, k)) e.setAttribute(k, attrs[k]); }
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function add(a, b) { return [a[0] + b[0], a[1] + b[1]]; }
+  function sub(a, b) { return [a[0] - b[0], a[1] - b[1]]; }
+  function mul(a, k) { return [a[0] * k, a[1] * k]; }
+  function len(a) { return Math.sqrt(a[0] * a[0] + a[1] * a[1]); }
+  function norm(a) { var l = len(a) || 1; return [a[0] / l, a[1] / l]; }
+  function dot(a, b) { return a[0] * b[0] + a[1] * b[1]; }
+  function ps(p) { return p[0].toFixed(1) + "," + p[1].toFixed(1); }
+  function poly(pts) { return pts.map(ps).join(" "); }
+  function seg(x, y) { return x < y ? x + y : y + x; }          /* nom d'un segment, en ordre alphabétique */
+  function nom3(c) { return [c.R, c.P, c.Q].sort().join(""); }  /* nom du triangle */
+  function fr(x) { return String(x).replace(".", ","); }
+
+  /* ---------- géométrie ---------- */
+  /* Triangle rectangle en R, de côtés RP = a et RQ = b.
+     mode « hyp » : l'hypoténuse [PQ] est horizontale, R au-dessus.
+     sinon : RP part dans la direction th (degrés), RQ lui est perpendiculaire (s = ±1 choisit le sens). */
+  function build(c) {
+    var P, Q, R = [0, 0];
+    if (c.mode === "hyp") {
+      var hy = Math.sqrt(c.a * c.a + c.b * c.b), d = c.a * c.a / hy, h = c.a * c.b / hy;
+      P = [0, 0]; Q = [hy, 0]; R = [d, c.below ? h : -h];
+    } else {
+      var t = c.th * Math.PI / 180, s = c.s || 1;
+      P = [c.a * Math.cos(t), c.a * Math.sin(t)];
+      Q = [-c.b * s * Math.sin(t), c.b * s * Math.cos(t)];
+    }
+    var pts = {}; pts[c.R] = R; pts[c.P] = P; pts[c.Q] = Q;
+    return { pts: pts, R: c.R, P: c.P, Q: c.Q };
+  }
+  function square(U, V, W) {
+    var e = sub(V, U), L = len(e), n = norm([-e[1], e[0]]);
+    if (dot(n, sub(mul(add(U, V), 0.5), W)) < 0) n = mul(n, -1);
+    var o = mul(n, L);
+    return [U, V, add(V, o), add(U, o)];
+  }
+  function fitter(all, W, H, pad, max) {
+    var xs = all.map(function (p) { return p[0]; }), ys = all.map(function (p) { return p[1]; });
+    var x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs), y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
+    var bw = (x1 - x0) || 1, bh = (y1 - y0) || 1;
+    var sc = Math.min((W - 2 * pad) / bw, (H - 2 * pad) / bh);
+    if (max) sc = Math.min(sc, max);
+    var ox = (W - bw * sc) / 2 - x0 * sc, oy = (H - bh * sc) / 2 - y0 * sc;
+    var f = function (p) { return [p[0] * sc + ox, p[1] * sc + oy]; };
+    f.sc = sc; return f;
+  }
+  function mark(parent, V, A, B, m) {
+    var u = norm(sub(A, V)), v = norm(sub(B, V));
+    var p1 = add(V, mul(u, m)), p3 = add(V, mul(v, m)), p2 = add(p1, mul(v, m));
+    return el("polygon", { points: poly([V, p1, p2, p3]), fill: "#4DB6A0", stroke: "#2E8B77", "stroke-width": 1.2 }, parent);
+  }
+  function placer(p, cen, mid, texte, attrs, parent, dist) {
+    var d = norm(sub(mid, cen)), anc = d[0] > 0.3 ? "start" : (d[0] < -0.3 ? "end" : "middle");
+    var pos = add(mid, [d[0] * 8 + (anc === "start" ? 6 : anc === "end" ? -6 : 0), d[1] * (anc === "middle" ? dist : 10)]);
+    attrs.x = pos[0].toFixed(1); attrs.y = pos[1].toFixed(1);
+    attrs["text-anchor"] = anc; attrs["dominant-baseline"] = "central";
+    var t = el("text", attrs, parent); t.textContent = texte; return t;
+  }
+
+  /* ---------- données d'un triangle : noms, longueurs, calcul ---------- */
+  function donnees(c) {
+    var l1 = [seg(c.R, c.P), seg(c.R, c.Q)].sort(), h = seg(c.P, c.Q), L = {};
+    L[seg(c.R, c.P)] = c.a; L[seg(c.R, c.Q)] = c.b;
+    var S = c.a * c.a + c.b * c.b, r = Math.sqrt(S);
+    return { nom: nom3(c), R: c.R, h: h, l1: l1[0], l2: l1[1], n1: L[l1[0]], n2: L[l1[1]],
+             q1: L[l1[0]] * L[l1[0]], q2: L[l1[1]] * L[l1[1]], S: S, root: r, ent: Math.abs(r - Math.round(r)) < 1e-9 };
+  }
+
+  /* ===================== ACTIVITÉ ===================== */
+  var COL = { r: { f: "#FDEEEA", s: "#E4553F" }, y: { f: "#FFF6D6", s: "#E0AE1B" }, g: { f: "#E8F6EE", s: "#3FA766" } };
+  var T = [
+    { R: "A", P: "B", Q: "C", a: 6, b: 8, th: -14, s: 1 },
+    { R: "E", P: "D", Q: "F", a: 4, b: 5, th: 200, s: 1 }
+  ];
+  var cur = 0, etat = 0, sc = null, dd = null;
+
+  function actScene(svg, c, d) {
+    var t = build(c), u = t.pts, key, all = [];
+    for (key in u) { if (Object.prototype.hasOwnProperty.call(u, key)) all.push(u[key]); }
+    var sq = { RP: square(u[t.R], u[t.P], u[t.Q]), RQ: square(u[t.R], u[t.Q], u[t.P]), PQ: square(u[t.P], u[t.Q], u[t.R]) };
+    all = all.concat(sq.RP, sq.RQ, sq.PQ);
+    var f0 = fitter(all, 560, 356, 16, 36), p = {};
+    var f = function (q) { var r = f0(q); return [r[0], r[1] + 42]; };
+    for (key in u) { if (Object.prototype.hasOwnProperty.call(u, key)) p[key] = f(u[key]); }
+    var cen = [(p[t.R][0] + p[t.P][0] + p[t.Q][0]) / 3, (p[t.R][1] + p[t.P][1] + p[t.Q][1]) / 3];
+    var nRP = seg(t.R, t.P), nRQ = seg(t.R, t.Q), first = nRP < nRQ;
+    var gSq = el("g", { "class": "tr", style: "opacity:0" }, svg);
+    function draw(pts, col) {
+      var q = pts.map(f);
+      el("polygon", { points: poly(q), fill: col.f, stroke: col.s, "stroke-width": 2.5, "stroke-linejoin": "round" }, gSq);
+      var ctr = [(q[0][0] + q[2][0]) / 2, (q[0][1] + q[2][1]) / 2], dr = mul(norm(sub(ctr, cen)), 12);
+      return el("text", { x: (ctr[0] + dr[0]).toFixed(1), y: (ctr[1] + dr[1]).toFixed(1), "text-anchor": "middle", "dominant-baseline": "central", "font-size": 21, "class": "lbl" }, gSq);
+    }
+    var tRP = draw(sq.RP, first ? COL.r : COL.y), tRQ = draw(sq.RQ, first ? COL.y : COL.r), tH = draw(sq.PQ, COL.g);
+    var t1 = first ? tRP : tRQ, t2 = first ? tRQ : tRP;
+    el("polygon", { points: poly([p[t.R], p[t.P], p[t.Q]]), fill: "#fff", stroke: "#22303F", "stroke-width": 3, "stroke-linejoin": "round" }, svg);
+    var hyp = el("line", { x1: p[t.P][0].toFixed(1), y1: p[t.P][1].toFixed(1), x2: p[t.Q][0].toFixed(1), y2: p[t.Q][1].toFixed(1), stroke: "#3FA766", "stroke-width": 7, "stroke-linecap": "round", "class": "tr", style: "opacity:0" }, svg);
+    var gMk = el("g", { "class": "tr", style: "opacity:0" }, svg);
+    mark(gMk, p[t.R], p[t.P], p[t.Q], 20);
+    [t.R, t.P, t.Q].forEach(function (n) {
+      var dir = norm(sub(p[n], cen)), pos = add(p[n], mul(dir, 24));
+      el("text", { x: pos[0].toFixed(1), y: pos[1].toFixed(1), "text-anchor": "middle", "dominant-baseline": "central", "font-size": 27, "class": "lbl" }, svg).textContent = n;
+    });
+    /* longueurs données, à l'extérieur des côtés de l'angle droit */
+    var mid = function (A, B) { return mul(add(p[A], p[B]), 0.5); };
+    [[t.R, t.P, c.a], [t.R, t.Q, c.b]].forEach(function (s3) {
+      var m = mid(s3[0], s3[1]);
+      el("text", { x: m[0].toFixed(1), y: m[1].toFixed(1), "text-anchor": "middle", "dominant-baseline": "central", "font-size": 18, "class": "lbl", style: "fill:#B5680A;stroke-width:5px" }, svg).textContent = s3[2] + " cm";
+    });
+    /* longueur cherchée : bandeau en haut de la figure */
+    var lh = el("text", { x: 280, y: 22, "text-anchor": "middle", "dominant-baseline": "central", "font-size": 26, "class": "lbl", style: "fill:#1E7A4C" }, svg);
+    return {
+      set: function (n) {
+        gMk.style.opacity = n >= 1 ? 1 : 0;
+        hyp.style.opacity = n >= 1 ? 1 : 0;
+        gSq.style.opacity = n >= 2 ? 1 : 0;
+        if (n <= 2) { t1.textContent = d.l1 + "²"; t2.textContent = d.l2 + "²"; tH.textContent = d.h + "²"; }
+        else if (n === 3) { t1.textContent = d.n1 + "²"; t2.textContent = d.n2 + "²"; tH.textContent = d.h + "²"; }
+        else { t1.textContent = d.q1 + " cm²"; t2.textContent = d.q2 + " cm²"; tH.textContent = d.S + " cm²"; }
+        lh.textContent = n < 5 ? "On cherche : " + d.h + " = ?" : (d.ent ? d.h + " = " + d.root + " cm" : d.h + " ≈ " + fr(d.root.toFixed(1)) + " cm");
+      }
+    };
+  }
+
+  function lignes(d) {
+    var concl = d.ent
+      ? "donc <b>" + d.h + "</b> = √" + d.S + " = <b>" + d.root + "</b> cm."
+      : "donc <b>" + d.h + "</b> = √" + d.S + " ≈ <b>" + fr(d.root.toFixed(1)) + "</b> cm.";
+    return [
+      { e: 1, note: "je pose le triangle", l: ["On a <b>" + d.nom + "</b> un triangle rectangle en <b>" + d.R + "</b>."] },
+      { e: 2, note: "le théorème", l: ["D’après le théorème de Pythagore, on a :",
+          '<span class="ta">' + d.l1 + '²</span> + <span class="tb">' + d.l2 + '²</span> = <span class="tc">' + d.h + "²</span>"] },
+      { e: 3, note: "je remplace", l: ['<span class="ta">' + d.n1 + '²</span> + <span class="tb">' + d.n2 + '²</span> = <span class="tc">' + d.h + "²</span>"] },
+      { e: 4, note: "je calcule", l: ['<span class="ta">' + d.q1 + '</span> + <span class="tb">' + d.q2 + '</span> = <span class="tc">' + d.h + "²</span>",
+          '<span class="tc">' + d.S + '</span> = <span class="tc">' + d.h + "²</span>"] },
+      { e: 5, note: "je conclus", l: [concl] }
+    ];
+  }
+  function explications(n, d) {
+    var h = d.h;
+    if (n === 0) return "Voici un triangle rectangle en <b>" + d.R + "</b> : on connaît ses deux côtés de l’angle droit, <b>" + d.l1 + " = " + d.n1 + " cm</b> et <b>" + d.l2 + " = " + d.n2 + " cm</b>. <b>Comment rédiger le calcul de " + h + " ?</b> Réponse en 5 étapes.";
+    if (n === 1) return "<b>Étape 1.</b> On dit d’abord <b>quel triangle</b> et <b>en quel point</b> il est rectangle : c’est ce qui autorise à utiliser le théorème. L’hypoténuse est le côté en face : <b>[" + h + "]</b>.";
+    if (n === 2) return "<b>Étape 2.</b> On écrit l’égalité de Pythagore avec les <b>lettres</b> : les deux côtés de l’angle droit à gauche, l’hypoténuse seule à droite. (C’est la même égalité qu’en séance 3, écrite dans l’autre sens.) Les carrés de la figure sont les aires.";
+    if (n === 3) return "<b>Étape 3.</b> On remplace chaque côté connu par sa longueur : " + d.l1 + " = " + d.n1 + " et " + d.l2 + " = " + d.n2 + ". <b>L’inconnue " + h + "² reste en lettres.</b>";
+    if (n === 4) return "<b>Étape 4.</b> On calcule : " + d.n1 + "² = " + d.q1 + " et " + d.n2 + "² = " + d.q2 + ", puis on additionne : " + d.S + ". C’est l’aire du carré vert." +
+      '<span class="piege">⚠️ On élève chaque longueur au carré <u>avant</u> d’additionner : ' + d.n1 + "² + " + d.n2 + "² = " + d.S + ", et non (" + d.n1 + " + " + d.n2 + ")² = " + Math.pow(d.n1 + d.n2, 2) + ".</span>";
+    if (d.ent) return "<b>Étape 5.</b> " + h + "² = " + d.S + " : " + h + " est le nombre positif dont le carré est " + d.S + ", donc <b>" + h + " = √" + d.S + " = " + d.root + "</b>. Une longueur : on écrit l’unité. <b>Je vérifie</b> : " + d.root + " cm est bien le plus long côté.";
+    return "<b>Étape 5.</b> " + d.S + " n’est pas un carré parfait (" + Math.floor(d.root) + "² &lt; " + d.S + " &lt; " + (Math.floor(d.root) + 1) + "²) : on écrit la <b>valeur exacte √" + d.S + "</b>, puis une <b>valeur approchée</b> au dixième avec la calculatrice : <b>" + fr(d.root.toFixed(1)) + " cm</b>. <b>Je vérifie</b> : c’est bien le plus long côté.";
+  }
+  function rendreAct() {
+    $("a-etape").textContent = "Étape " + etat + " / 5";
+    $("a-prec").disabled = etat === 0;
+    $("a-suiv").disabled = etat === 5;
+    var c = $("a-txt");
+    c.className = "egal" + (etat === 0 ? " neutre" : "");
+    c.innerHTML = explications(etat, dd);
+    Array.prototype.forEach.call($("a-cahier").children, function (b) {
+      if (+b.getAttribute("data-e") <= etat) b.classList.add("on"); else b.classList.remove("on");
+    });
+    sc.set(etat);
+  }
+  function choisir(k) {
+    cur = k; etat = 0; dd = donnees(T[k]);
+    var svg = $("a-svg");
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    sc = actScene(svg, T[k], dd);
+    var cah = $("a-cahier"); cah.innerHTML = "";
+    var nums = ["①", "②", "③", "④", "⑤"];
+    lignes(dd).forEach(function (b) {
+      var div = document.createElement("div"); div.className = "bloc"; div.setAttribute("data-e", b.e);
+      var h = '<span class="num">' + b.e + "</span>";
+      b.l.forEach(function (x, i) { h += '<div class="l">' + x + (i === 0 ? '<span class="note">' + b.note + "</span>" : "") + "</div>"; });
+      div.innerHTML = h; cah.appendChild(div);
+    });
+    Array.prototype.forEach.call($("a-choix").children, function (b, j) { b.setAttribute("aria-pressed", j === k ? "true" : "false"); });
+    rendreAct();
+  }
+  function initAct() {
+    var box = $("a-choix"), etiq = ["Triangle ABC (longueur entière)", "Triangle DEF (valeur approchée)"];
+    T.forEach(function (c, k) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "abtn"; b.textContent = etiq[k];
+      b.addEventListener("click", function () { choisir(k); });
+      box.appendChild(b);
+    });
+    $("a-suiv").addEventListener("click", function () { if (etat < 5) { etat++; rendreAct(); } });
+    $("a-prec").addEventListener("click", function () { if (etat > 0) { etat--; rendreAct(); } });
+    $("a-tout").addEventListener("click", function () { etat = 5; rendreAct(); });
+    $("a-rec").addEventListener("click", function () { etat = 0; rendreAct(); });
+    choisir(0);
+  }
+
+  /* ===================== EXERCICES 1 à 3 : figures ===================== */
+  /* o : { hyp: nom de l'hypoténuse, rep: longueur de l'hypoténuse (corrigé) } */
+  function figTri(id, c, o) {
+    var svg = $(id), t = build(c), u = t.pts, key, all = [];
+    for (key in u) { if (Object.prototype.hasOwnProperty.call(u, key)) all.push(u[key]); }
+    var f = fitter(all, 260, 175, 50, 26), p = {};
+    for (key in u) { if (Object.prototype.hasOwnProperty.call(u, key)) p[key] = f(u[key]); }
+    var cen = [(p[t.R][0] + p[t.P][0] + p[t.Q][0]) / 3, (p[t.R][1] + p[t.P][1] + p[t.Q][1]) / 3];
+    el("polygon", { points: poly([p[t.R], p[t.P], p[t.Q]]), fill: "#fff", stroke: "#22303F", "stroke-width": 2, "stroke-linejoin": "round" }, svg);
+    mark(svg, p[t.R], p[t.P], p[t.Q], 12);
+    [t.R, t.P, t.Q].forEach(function (n) {
+      var dir = norm(sub(p[n], cen)), pos = add(p[n], mul(dir, 15));
+      el("text", { x: pos[0].toFixed(1), y: pos[1].toFixed(1), "text-anchor": "middle", "dominant-baseline": "central", "font-size": 18, "class": "lbl" }, svg).textContent = n;
+    });
+    var mid = function (A, B) { return mul(add(p[A], p[B]), 0.5); };
+    placer(p, cen, mid(t.R, t.P), c.a + " cm", { "font-size": 14, "class": "fg bold" }, svg, 16);
+    placer(p, cen, mid(t.R, t.Q), c.b + " cm", { "font-size": 14, "class": "fg bold" }, svg, 16);
+    var mh = mid(t.P, t.Q);
+    placer(p, cen, mh, o.hyp + " = ?", { "font-size": 14, "class": "fg bold ph" }, svg, 16);
+    placer(p, cen, mh, o.hyp + " = " + o.rep, { "font-size": 14, "class": "fg bold ans" }, svg, 16);
+  }
+
+  /* ===================== EXERCICE 1 : rédaction à compléter ===================== */
+  function blank(txt, cls) { return '<span class="blank' + (cls ? " " + cls : "") + '"><span class="rep">' + txt + '</span></span>'; }
+  function redac1() {
+    $("r1").innerHTML =
+      "<p>On a " + blank("RST", "w2") + " un triangle rectangle en " + blank("S") + ".</p>" +
+      "<p>D'après le théorème de Pythagore, on a :</p>" +
+      "<p>" + blank("RS²", "w2") + " + " + blank("ST²", "w2") + " = " + blank("RT²", "w2") + "</p>" +
+      "<p>" + blank("9²", "w2") + " + " + blank("12²", "w2") + " = " + blank("RT²", "w2") + "</p>" +
+      "<p>" + blank("81", "w2") + " + " + blank("144", "w2") + " = " + blank("RT²", "w2") + "</p>" +
+      "<p>" + blank("225", "w2") + " = " + blank("RT²", "w2") + "</p>" +
+      "<p>donc RT = √" + blank("225", "w2") + " = " + blank("15") + " cm.</p>";
+  }
+
+  /* ===================== DÉMARRAGE ===================== */
+  initAct();
+  redac1();
+  figTri("f1", { R: "S", P: "R", Q: "T", a: 9, b: 12, mode: "hyp" }, { hyp: "RT", rep: "15 cm" });
+  figTri("f2", { R: "L", P: "K", Q: "M", a: 8, b: 15, mode: "hyp", below: true }, { hyp: "KM", rep: "17 cm" });
+  figTri("f3", { R: "G", P: "E", Q: "F", a: 3, b: 7, th: 90, s: -1 }, { hyp: "EF", rep: "√58 ≈ 7,6 cm" });
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>
