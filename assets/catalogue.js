@@ -797,6 +797,23 @@ window.SITE = {
               ],
               exemple: "AB = 6 cm et AC = 8 cm : AB² + AC² = BC², puis 6² + 8² = BC², 36 + 64 = BC², 100 = BC², donc BC = √100 = 10 cm.",
               savoir: "rédiger complètement le calcul de l'hypoténuse d'un triangle rectangle avec le théorème de Pythagore."
+            },
+            {
+              titre: "Calculer un côté de l'angle droit", duree: "50 min",
+              contenu: [
+                "Les 15 premières minutes sont réservées à un petit test sur le calcul de l'hypoténuse (sujet et corrigé dans l'onglet Évaluations).",
+                "Automatisme : différence de carrés, complément à 169, l'hypoténuse est le plus long côté, encadrement de √50 et un retour sur les pourcentages.",
+                "Animation projetée : « le carré qui manque ». On connaît l'hypoténuse et un côté de l'angle droit ; la rédaction se construit en six étapes, avec une étape nouvelle (le grand carré moins le petit), d'abord sur un triangle dont le côté est entier, puis sur un triangle qui donne une valeur approchée.",
+                "Quatre exercices projetés, faits sur le cahier : choisir entre additionner et soustraire, calculer le côté qui manque (guide qui diminue), corriger la rédaction de Karim, puis un problème sans aucune aide."
+              ],
+              ressources: ["4e-ch4-s5"],
+              retenir: [
+                "Pour calculer **un côté de l'angle droit** : **AB² + AC² = BC²**, puis on remplace (6² + AC² = 10²), on isole **AC² = 10² − 6²**, on calcule (AC² = 64) et on conclut **AC = √64 = 8 cm**.",
+                "Hypoténuse cherchée : on **additionne** les carrés. Côté de l'angle droit cherché : on **soustrait**, le carré de l'hypoténuse moins l'autre carré.",
+                "On vérifie : un côté de l'angle droit est **toujours plus court** que l'hypoténuse. Sinon, on a additionné par erreur."
+              ],
+              exemple: "BC = 10 cm et AB = 6 cm : AB² + AC² = BC², puis 6² + AC² = 10², AC² = 10² − 6², AC² = 100 − 36 = 64, donc AC = √64 = 8 cm.",
+              savoir: "calculer la longueur d'un côté de l'angle droit d'un triangle rectangle avec le théorème de Pythagore, en choisissant entre additionner et soustraire."
             }
           ],
           ressources: [
@@ -804,6 +821,7 @@ window.SITE = {
             { id: "4e-ch4-s2", type: "exos", titre: "Séance 2 — Racine carrée", resume: "Animations sur l'aire et le côté, encadrement entre deux carrés, calculatrice projetée (touche √), exercices corrigés.", ajout: "2026-10-24" },
             { id: "4e-ch4-s3", type: "exos", titre: "Séance 3 — Écrire l'égalité de Pythagore", resume: "Quatre triangles tournés à lire pas à pas, puis des exercices corrigés : égalité de Pythagore, aires des carrés et longueurs des côtés, premier calcul d'hypoténuse.", ajout: "2026-11-03" },
             { id: "4e-ch4-s4", type: "exos", titre: "Séance 4 — Rédiger le calcul de l'hypoténuse", resume: "Une rédaction construite en cinq étapes, puis cinq exercices corrigés où le guide diminue peu à peu, jusqu'à l'autonomie.", ajout: "2026-11-07" },
+            { id: "4e-ch4-s5", type: "exos", titre: "Séance 5 — Calculer un côté de l'angle droit", resume: "Le carré qui manque, construit pas à pas sur deux triangles, puis quatre exercices corrigés : additionner ou soustraire, la rédaction de Karim à corriger, un problème de drone.", ajout: "2026-11-08" },
             { id: "4e-ch4-minijeux", type: "jeu", titre: "Mini-jeux — Trouve l'hypoténuse", resume: "Figures tournées, phrases « rectangle en… » et défi de 60 secondes pour que l'identification devienne un réflexe.", ajout: "2026-10-20" },
             { id: "4e-ch4-minijeux-racine", type: "jeu", titre: "Mini-jeux — Racine carrée", resume: "Carrés de 1 à 15, racines de carrés parfaits, encadrements et défi de 60 secondes.", ajout: "2026-10-24" }
           ]
