@@ -738,7 +738,7 @@ window.SITE = {
               contenu: [
                 "Pas d'automatisme : toute la séance est consacrée à la découverte.",
                 "Séance sur écran, sans solution (seulement des astuces) : chaque activité doit être validée pour débloquer la suivante.",
-                "Activité 1 : le puzzle des aires, à réussir pour trois triangles rectangles différents. Activité 2 : écrire l'égalité des aires avec des blocs à placer. Activité 3 : un triangle qui n'est pas rectangle, pour quel angle l'égalité est-elle vraie ?",
+                "Activité 1 : le puzzle des aires, à réussir pour trois triangles rectangles différents. Activité 2 : tester des triangles de tailles différentes (curseurs a et b), puis écrire l'égalité des aires avec des blocs à placer. Activité 3 : un triangle qui n'est pas rectangle, pour quel angle l'égalité est-elle vraie ?",
                 "Exercices : aire manquante d'un carré sur une figure, puis calcul des aires à partir des côtés ; un dernier exercice sans figure pour aller plus loin."
               ],
               ressources: ["4e-ch4-s1-classe", "4e-ch4-s1"],

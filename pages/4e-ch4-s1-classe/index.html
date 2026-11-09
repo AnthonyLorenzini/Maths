@@ -83,7 +83,19 @@ svg text.lbl { font-family:'Work Sans',Arial,sans-serif; font-weight:700; fill:#
 section.deverrouille { animation:apparait .5s ease; }
 @keyframes apparait { from { box-shadow:0 0 0 6px rgba(43,108,176,.35); } to { box-shadow:0 0 0 0 rgba(43,108,176,0); } }
 
-/* ---------- activité 2 : égalité à trous ---------- */
+/* ---------- activité 2 : curseurs a et b + égalité à trous ---------- */
+.somme { margin:10px 0 4px; }
+.eq { display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; }
+.terme { border:2.5px solid #C5D3E3; background:#fff; border-radius:12px; padding:6px 14px; text-align:center; min-width:96px; }
+.terme small { display:block; font-size:13px; color:#51657A; font-weight:600; }
+.terme b { font-family:'Baloo 2',sans-serif; font-size:24px; line-height:1.15; }
+.terme.ta { border-color:#E4553F; background:#FDEEEA; }
+.terme.tb { border-color:#E0AE1B; background:#FFF6D6; }
+.terme.tc { border-color:#3FA766; background:#E8F6EE; }
+.terme.tsom { border:4px solid #6E4FE0; background:#EFEAFE; padding:8px 18px; }
+.terme.tsom small { color:#4B2FB5; font-weight:700; }
+.terme.tsom b { font-size:30px; color:#4B2FB5; }
+.sep { border:0; border-top:2px dashed #B9C9DC; margin:16px 0 10px; }
 .eq-ligne { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; margin:12px 0 10px; }
 .eq-ligne .op { font-family:'Baloo 2',sans-serif; font-size:30px; font-weight:700; }
 .slot { min-width:200px; min-height:58px; border:3px dashed #9FB4CC; border-radius:12px; background:#fff; display:flex; align-items:center; justify-content:center; padding:4px; }
@@ -188,11 +200,31 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
   <section class="act locked" id="act2" aria-labelledby="t-act2">
     <h2 class="titre-etape" id="t-act2">Activité 2 — J'écris ce que le puzzle m'apprend <span class="duree">environ 5 min</span></h2>
     <p class="verrou-note">🔒 Réussis d'abord les 3 puzzles de l'activité 1 pour débloquer cette activité.</p>
-    <p>Voici la figure du puzzle. Tu as recouvert le carré <span class="cr v">vert</span> avec les morceaux du carré <span class="cr j">jaune</span> et avec le carré <span class="cr r">rouge</span>.</p>
-    <div class="fig" style="max-width:360px;margin-left:auto;margin-right:auto">
-      <svg id="svg-egal" role="img" aria-label="Triangle rectangle avec un carré rouge, un carré jaune et un carré vert" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"></svg>
+    <p>Le puzzle a marché pour 3 triangles. Est-ce vrai pour <b>n'importe quel</b> triangle rectangle ? <b>Change les longueurs a et b</b> des côtés de l'angle droit : l'ordinateur calcule l'aire des trois carrés. Teste <b>au moins 3 triangles différents</b>.</p>
+    <div class="ctrl">
+      <label for="a-rng">a = <output id="a-val" for="a-rng">3</output><input type="range" id="a-rng" min="1" max="12" step="0.5" value="3"></label>
+      <label for="b-rng">b = <output id="b-val" for="b-rng">4</output><input type="range" id="b-rng" min="1" max="12" step="0.5" value="4"></label>
+      <button type="button" class="abtn" id="btn-hasard">🎲 Triangle au hasard</button>
     </div>
-    <p><b>Complète l'égalité</b> en déplaçant les blocs dans les cases (ou en cliquant sur un bloc, puis sur une case). Attention : tous les blocs ne servent pas !</p>
+    <div class="fig" style="max-width:420px;margin-left:auto;margin-right:auto">
+      <svg id="svg-egal" role="img" aria-label="Triangle rectangle de côtés a et b avec un carré rouge, un carré jaune et un carré vert, et leurs aires" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"></svg>
+    </div>
+    <div class="somme" aria-live="polite">
+      <div class="eq">
+        <div class="terme ta"><small>aire du carré rouge</small><b id="s-a2">9</b></div>
+        <span class="op" aria-label="plus">+</span>
+        <div class="terme tb"><small>aire du carré jaune</small><b id="s-b2">16</b></div>
+        <span class="op" aria-label="égale">=</span>
+        <div class="terme tsom"><small>SOMME des deux aires</small><b id="s-som">25</b></div>
+        <span class="op" id="s-signe" aria-label="égale">=</span>
+        <div class="terme tc"><small>aire du carré vert</small><b id="s-c2">25</b></div>
+      </div>
+    </div>
+    <p style="font-size:13px;color:#51657A;margin:6px 0 0">L'aire du carré vert est calculée par l'ordinateur à partir des coordonnées de ses quatre sommets, sans utiliser la somme.</p>
+    <div class="egal" id="c-egal" role="status" aria-live="polite"></div>
+    <p class="statut" id="essais" role="status" aria-live="polite"></p>
+    <hr class="sep">
+    <p><b>Maintenant, écris ce que tu as observé.</b> Complète l'égalité en déplaçant les blocs dans les cases (ou en cliquant sur un bloc, puis sur une case). Attention : tous les blocs ne servent pas !</p>
     <div id="eg-zone">
       <div class="eq-ligne" id="eg-slots"></div>
       <div class="banque" id="eg-banque" aria-label="Blocs disponibles"></div>
@@ -204,7 +236,7 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
     </div>
     <div class="astuce-txt" id="eg-astuce-txt" hidden>Relis ton puzzle : on a posé les morceaux du carré jaune et le carré rouge <i>sur</i> le carré vert. Additionner, c'est mettre ensemble ce qui recouvre ; le signe « = » sépare ce qui recouvre de ce qui est recouvert. Et dans le puzzle, on a recouvert une <i>surface</i>.</div>
     <div class="eg-fin" id="eg-fin" role="status" aria-live="polite"></div>
-    <div class="ok-msg" id="suite2" hidden><b>✅ Activité 2 validée :</b> tu viens d'écrire ce que le puzzle t'a montré : <b>aire du carré rouge + aire du carré jaune = aire du carré vert</b>. Le carré vert est construit sur l'hypoténuse.<br><button type="button" class="abtn primaire" data-va="3">Aller à l'activité 3 →</button></div>
+    <div class="ok-msg" id="suite2" hidden><b>✅ Activité 2 validée :</b> quelles que soient les longueurs a et b, tu as toujours obtenu <b>aire du carré rouge + aire du carré jaune = aire du carré vert</b>. Le carré vert est construit sur l'hypoténuse.<br><button type="button" class="abtn primaire" data-va="3">Aller à l'activité 3 →</button></div>
   </section>
 
   <!-- ===================== ACTIVITÉ 3 : L'ANGLE ===================== -->
@@ -396,7 +428,7 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
     if (o.aires) {
       [[sc.sqA, a * a], [sc.sqB, b * b], [sc.sqC, cAire]].forEach(function (x) {
         var m = centre(x[0]);
-        etiquette(svg, m[0], m[1], fmt(x[1], 1), 17);
+        etiquette(svg, m[0], m[1], fmt(x[1], o.dec === undefined ? 1 : o.dec), 17);
       });
     }
     if (o.angle) {
@@ -700,6 +732,7 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
   $("eg-verif").addEventListener("click", function () {
     var s = eg.slots;
     if (eg.ok) return;
+    if (nbEssais() < 3) { messageEg("Avant de vérifier, teste au moins 3 triangles différents avec les curseurs a et b (il t'en manque " + (3 - nbEssais()) + ").", true); return; }
     if (s.some(function (x) { return !x; })) { messageEg("Complète les trois cases avant de vérifier.", true); return; }
     if (egaliteJuste()) { messageEg("", false); renderEg(); bloquerEg(); valider(2); return; }
     if (s.some(function (x) { return x.charAt(0) === "c"; }))
@@ -707,6 +740,34 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
     else if (s[2] !== "av")
       messageEg("❌ Pas encore. Relis ton puzzle : quel carré a-t-on recouvert avec les morceaux des deux autres ? Il doit être tout seul de l'autre côté du signe =.", true);
     else messageEg("❌ Pas encore. Regarde bien les couleurs de la figure.", true);
+  });
+
+  /* ---- curseurs a et b ---- */
+  var essais = {};
+  function nbEssais() { return Object.keys(essais).length; }
+  function majEssais() {
+    var n = nbEssais();
+    $("essais").textContent = n >= 3 ? "✅ Tu as testé " + n + " triangles : l'égalité était vraie à chaque fois." : "Triangles testés : " + n + " / 3 (change a ou b)";
+  }
+  function majCalc(compter) {
+    var a = parseFloat($("a-rng").value), b = parseFloat($("b-rng").value);
+    $("a-val").textContent = fmt(a); $("b-val").textContent = fmt(b);
+    var r = dessiner($("svg-egal"), a, b, 90, { aires: true, dec: 2 });
+    var a2 = a * a, b2 = b * b, somme = a2 + b2, ok = Math.abs(r.aireC - somme) < 1e-9;
+    $("s-a2").textContent = fmt(a2); $("s-b2").textContent = fmt(b2);
+    $("s-som").textContent = fmt(somme); $("s-c2").textContent = fmt(r.aireC);
+    $("s-signe").textContent = ok ? "=" : "≠";
+    var e = $("c-egal");
+    e.className = "egal" + (ok ? "" : " non");
+    e.textContent = (ok ? "✅ " : "❌ ") + fmt(a2) + " + " + fmt(b2) + " = " + fmt(somme) + (ok ? " : la somme des aires du carré rouge et du carré jaune est égale à l'aire du carré vert." : " : différent de l'aire du carré vert.");
+    if (compter) { essais[a + "," + b] = true; }
+    majEssais();
+  }
+  ["a-rng", "b-rng"].forEach(function (id) { $(id).addEventListener("input", function () { majCalc(true); }); });
+  $("btn-hasard").addEventListener("click", function () {
+    $("a-rng").value = (2 + Math.floor(Math.random() * 23)) / 2;
+    $("b-rng").value = (2 + Math.floor(Math.random() * 23)) / 2;
+    majCalc(true);
   });
 
   /* ===================== ACTIVITÉ 3 : L'ANGLE ===================== */
@@ -752,7 +813,7 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
 
   /* ===================== DÉMARRAGE ===================== */
   window.PythExos.render($("exos-host"), { solutions: false });
-  dessiner($("svg-egal"), 3, 4, 90, { noms: true });
+  majCalc();
   renderEg();
   majAng();
   charger();
