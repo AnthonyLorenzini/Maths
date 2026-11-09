@@ -444,6 +444,22 @@ window.SITE = {
               ],
               exemple: "Un jeton de rayon 1,5 cm : P = 2 × π × 1,5 ≈ 9,42 cm.",
               savoir: "calculer le périmètre d'un cercle à partir de son rayon ou de son diamètre avec la touche π, et arrondir au centième."
+            },
+            {
+              titre: "Le tour d'une piste", duree: "50 min",
+              contenu: [
+                "Test flash (12 min avec la correction, cahier) : deux périmètres de cercle, l'un avec le rayon, l'autre avec le diamètre. Versions A et B projetées côte à côte, avec chronomètre ; la correction affiche aussi l'erreur la plus fréquente.",
+                "Je décompose (12 min, projeté) : on trouve un à un les morceaux du tour d'une figure (demi-disque, quart de disque, porte arrondie), arcs et segments, puis on les additionne. Un trait à l'intérieur ne compte pas. Les quatre étapes de la méthode sont recopiées.",
+                "Je m'entraîne (26 min, cahier) : six figures, de la plus facile à la plus difficile : miroir en demi-disque, part de tarte, vitrail, plaque au coin arrondi, piste d'athlétisme de 400 m, puis le défi des couloirs. Chaque exercice a son objectif et ses étapes ; un champ « Vérifier » explique les erreurs classiques."
+              ],
+              ressources: ["6e-ch5-s6"],
+              retenir: [
+                "Pour calculer le **tour d'une figure**, on repère les **morceaux de son contour** (segments et arcs de cercle) et on **additionne** leurs longueurs.",
+                "Un **demi-cercle** vaut la **moitié** du tour du cercle entier, un **quart de cercle** en vaut le **quart** : on calcule le tour du cercle, puis on **divise par 2 ou par 4**.",
+                "Un trait situé **à l'intérieur** de la figure ne fait **pas** partie du tour. On arrondit **à la fin**, au centième, et on écrit l'**unité**."
+              ],
+              exemple: "Un demi-disque de diamètre 10 cm : P = π × 10 ÷ 2 + 10 ≈ 25,71 cm.",
+              savoir: "calculer le périmètre d'une figure composée de segments et de portions de cercle (demi-cercle, quart de cercle)."
             }
           ],
           ressources: [
@@ -453,7 +469,8 @@ window.SITE = {
             { id: "dedans-dessus-dehors", type: "jeu", titre: "Dedans, dessus, dehors", resume: "Compare OM au rayon : dans le disque, sur le cercle ou hors du disque ?", ajout: "2026-10-29" },
             { id: "6e-ch5-s3", type: "exos", titre: "Séance 3 — Le tour d'un cercle", resume: "Je prévois avec une roue, je mesure un cercle au compas dans le cahier, je découvre π ≈ 3,14, je calcule un tour. Avec corrections.", ajout: "2026-10-29" },
             { id: "tour-du-cercle", type: "jeu", titre: "Le Tour du cercle", resume: "Une ficelle peut-elle faire le tour ? Quel est le périmètre ? Estime avec π ≈ 3,14.", ajout: "2026-10-29" },
-            { id: "6e-ch5-s4", type: "exos", titre: "Séance 4 — Les formules du tour", resume: "La machine à tours, P = π × d et P = 2 × π × r, la touche π ou 3,14, des calculs au centième et la chasse à l'erreur. Avec corrections.", ajout: "2026-11-01" }
+            { id: "6e-ch5-s4", type: "exos", titre: "Séance 4 — Les formules du tour", resume: "La machine à tours, P = π × d et P = 2 × π × r, la touche π ou 3,14, des calculs au centième et la chasse à l'erreur. Avec corrections.", ajout: "2026-11-01" },
+            { id: "6e-ch5-s6", type: "exos", titre: "Séance 6 — Le tour d'une piste", resume: "Test flash A/B chronométré, décomposer le tour d'une figure, six exercices jusqu'à la piste de 400 m. Avec corrections.", ajout: "2026-11-09" }
           ]
         },
         {
