@@ -206,7 +206,7 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
   <section class="act locked" id="act2" aria-labelledby="t-act2">
     <h2 class="titre-etape" id="t-act2">Activité 2 — J'écris ce que le puzzle m'apprend <span class="duree">environ 5 min</span></h2>
     <p class="verrou-note">🔒 Réussis d'abord les 3 puzzles de l'activité 1 pour débloquer cette activité.</p>
-    <p>Le puzzle a marché pour 3 triangles. Est-ce vrai pour <b>n'importe quel</b> triangle rectangle ? <b>Change les longueurs a et b</b> des côtés de l'angle droit : l'ordinateur calcule l'aire des trois carrés. Teste <b>au moins 3 triangles différents</b> et observe les trois aires : que remarques-tu ?</p>
+    <p>Le puzzle a marché pour 3 triangles. Est-ce vrai pour <b>n'importe quel</b> triangle rectangle ? <b>Change les longueurs a et b</b> des côtés de l'angle droit : l'ordinateur calcule l'aire des trois carrés. Teste <b>au moins 3 triangles différents</b> et compare la <b>somme des deux aires</b> (rouge + jaune) et l'aire du carré vert : que remarques-tu ?</p>
     <div class="ctrl">
       <label for="a-rng">a = <output id="a-val" for="a-rng">3</output><input type="range" id="a-rng" min="1" max="12" step="0.5" value="3"></label>
       <label for="b-rng">b = <output id="b-val" for="b-rng">4</output><input type="range" id="b-rng" min="1" max="12" step="0.5" value="4"></label>
@@ -219,6 +219,7 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
       <div class="eq">
         <div class="terme ta"><small>aire du carré rouge</small><b id="s-a2">9</b></div>
         <div class="terme tb"><small>aire du carré jaune</small><b id="s-b2">16</b></div>
+        <div class="terme tsom"><small>SOMME des deux aires</small><b id="s-som">25</b></div>
         <div class="terme tc"><small>aire du carré vert</small><b id="s-c2">25</b></div>
       </div>
     </div>
@@ -763,7 +764,7 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
     $("a-val").textContent = fmt(a); $("b-val").textContent = fmt(b);
     var r = dessiner($("svg-egal"), a, b, 90, { aires: true, dec: 2 });
     cur.a = a; cur.b = b; cur.c = r.aireC;
-    $("s-a2").textContent = fmt(a * a); $("s-b2").textContent = fmt(b * b); $("s-c2").textContent = fmt(r.aireC);
+    $("s-a2").textContent = fmt(a * a); $("s-b2").textContent = fmt(b * b); $("s-c2").textContent = fmt(r.aireC); $("s-som").textContent = fmt(a * a + b * b);
     if (compter) { essais[a + "," + b] = true; }
     majEssais();
     if (typeof renderEg === "function" && !eg.ok) renderEg();
