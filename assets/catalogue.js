@@ -801,8 +801,8 @@ window.SITE = {
             }
           ],
           ressources: [
-            { id: "4e-ch4-s1-classe", type: "classe", titre: "Séance 1 — En classe : découvrir le théorème de Pythagore", resume: "Trois puzzles d'aires, une égalité à compléter, le rôle de l'angle droit, puis les exercices : une activité après l'autre, avec des astuces mais sans solution.", ajout: "2026-11-08" },
-            { id: "4e-ch4-s1", type: "exos", titre: "Séance 1 — À la maison : activités et exercices corrigés", resume: "Les activités en accès libre et les exercices avec astuces et solutions, pour revoir la séance.", ajout: "2026-10-20" },
+            { id: "4e-ch4-s1-classe", type: "classe", titre: "Séance 1 en classe — activités et exercices", resume: "Trois activités à valider l'une après l'autre, puis les exercices, avec des astuces mais sans solution.", ajout: "2026-11-08" },
+            { id: "4e-ch4-s1", type: "exos", titre: "Séance 1 à réviser chez soi — activités et exercices corrigés", resume: "Les activités en libre accès et les exercices avec astuces et solutions.", ajout: "2026-10-20" },
             { id: "4e-ch4-s2", type: "exos", titre: "Séance 2 — Racine carrée", resume: "Animations sur l'aire et le côté, encadrement entre deux carrés, calculatrice projetée (touche √), exercices corrigés.", ajout: "2026-10-24" },
             { id: "4e-ch4-s3", type: "exos", titre: "Séance 3 — Écrire l'égalité de Pythagore", resume: "Quatre triangles tournés à lire pas à pas, puis des exercices corrigés : égalité de Pythagore, aires des carrés et longueurs des côtés, premier calcul d'hypoténuse.", ajout: "2026-11-03" },
             { id: "4e-ch4-s4", type: "exos", titre: "Séance 4 — Rédiger le calcul de l'hypoténuse", resume: "Une rédaction construite en cinq étapes, puis cinq exercices corrigés où le guide diminue peu à peu, jusqu'à l'autonomie.", ajout: "2026-11-07" },

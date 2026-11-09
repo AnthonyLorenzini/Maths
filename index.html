@@ -1062,10 +1062,11 @@ function chapitre(n,c){
  const fiche=seances.some(s=>(s.retenir||[]).length)&&!c.bientot?`<div class="fiche-ligne a-monte" ${d(0,.2)}><button class="btn clair mini" type="button" onclick="imprimerFiche('${n.id}','${c.id}')">${ICO.imprimer} Imprimer la fiche</button><span class="sans-ecran">Pour réviser sans écran</span></div>`:'';
  const blocSeances=seances.map((s,i)=>{
   const res=(s.ressources||[]).map(trouver).filter(Boolean);
-  const exos=res.filter(r=>r.type!=='jeu'&&r.type!=='lecon'),sj=res.filter(r=>r.type==='jeu');
+  const enclasse=res.filter(r=>r.type==='classe'),exos=res.filter(r=>r.type!=='jeu'&&r.type!=='lecon'&&r.type!=='classe'),sj=res.filter(r=>r.type==='jeu');
   return `<details class="seance a-monte" ${d(i,.25,.08)}>
    <summary class="tete"><span class="num">${i+1}</span><div><div class="eti">Séance ${i+1}${s.duree?' · '+esc(s.duree):''}</div><h3>${esc(s.titre)}</h3></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
    <div class="corps">
+    ${enclasse.length?`<div class="etape"><span class="rond">${ICO.classe}</span><div class="cont"><span class="eti">Je fais la séance</span><div class="liens">${enclasse.map(lien).join('')}</div></div></div>`:''}
     ${exos.length?`<div class="etape"><span class="rond">${ICO.exos}</span><div class="cont"><span class="eti">Je refais les exercices</span><div class="liens">${exos.map(lien).join('')}</div></div></div>`:''}
     ${(s.retenir||[]).length?`<div class="etape"><span class="rond">${ICO.retenir}</span><div class="cont"><span class="eti">J’apprends</span><div class="retenir"><ul>${s.retenir.map(t=>`<li>${gras(t)}</li>`).join('')}</ul>${s.exemple?`<p class="ex">Exemple : ${gras(s.exemple)}</p>`:''}${s.savoir?`<p class="savoir"><strong>Je sais</strong> ${gras(s.savoir)}</p>`:''}</div></div></div>`:''}
     ${sj.length?`<div class="etape"><span class="rond">${ICO.jeu}</span><div class="cont"><span class="eti">Je m’entraîne</span><div class="liens">${sj.map(lien).join('')}</div></div></div>`:''}
