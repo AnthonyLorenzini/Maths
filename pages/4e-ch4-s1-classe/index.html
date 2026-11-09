@@ -95,6 +95,12 @@ section.deverrouille { animation:apparait .5s ease; }
 .terme.tsom { border:4px solid #6E4FE0; background:#EFEAFE; padding:8px 18px; }
 .terme.tsom small { color:#4B2FB5; font-weight:700; }
 .terme.tsom b { font-size:30px; color:#4B2FB5; }
+.cells { display:flex; flex-wrap:wrap; align-items:flex-start; gap:8px 12px; margin:12px 0 10px; }
+.cell { display:flex; flex-direction:column; align-items:center; gap:4px; }
+.cell .val { font-family:'Baloo 2',sans-serif; font-size:18px; color:#4B2FB5; min-height:1.4em; }
+.cell .val small { font:600 12px 'Work Sans',Arial,sans-serif; color:#51657A; }
+.cells .op { align-self:flex-start; margin-top:8px; font-family:'Baloo 2',sans-serif; font-size:30px; font-weight:700; }
+.eg-somme { font-size:14px; font-weight:700; color:#4B2FB5; min-height:1.4em; margin:0 0 6px; }
 .sep { border:0; border-top:2px dashed #B9C9DC; margin:16px 0 10px; }
 .eq-ligne { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; margin:12px 0 10px; }
 .eq-ligne .op { font-family:'Baloo 2',sans-serif; font-size:30px; font-weight:700; }
@@ -200,7 +206,7 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
   <section class="act locked" id="act2" aria-labelledby="t-act2">
     <h2 class="titre-etape" id="t-act2">Activité 2 — J'écris ce que le puzzle m'apprend <span class="duree">environ 5 min</span></h2>
     <p class="verrou-note">🔒 Réussis d'abord les 3 puzzles de l'activité 1 pour débloquer cette activité.</p>
-    <p>Le puzzle a marché pour 3 triangles. Est-ce vrai pour <b>n'importe quel</b> triangle rectangle ? <b>Change les longueurs a et b</b> des côtés de l'angle droit : l'ordinateur calcule l'aire des trois carrés. Teste <b>au moins 3 triangles différents</b>.</p>
+    <p>Le puzzle a marché pour 3 triangles. Est-ce vrai pour <b>n'importe quel</b> triangle rectangle ? <b>Change les longueurs a et b</b> des côtés de l'angle droit : l'ordinateur calcule l'aire des trois carrés. Teste <b>au moins 3 triangles différents</b> et observe les trois aires : que remarques-tu ?</p>
     <div class="ctrl">
       <label for="a-rng">a = <output id="a-val" for="a-rng">3</output><input type="range" id="a-rng" min="1" max="12" step="0.5" value="3"></label>
       <label for="b-rng">b = <output id="b-val" for="b-rng">4</output><input type="range" id="b-rng" min="1" max="12" step="0.5" value="4"></label>
@@ -212,21 +218,17 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
     <div class="somme" aria-live="polite">
       <div class="eq">
         <div class="terme ta"><small>aire du carré rouge</small><b id="s-a2">9</b></div>
-        <span class="op" aria-label="plus">+</span>
         <div class="terme tb"><small>aire du carré jaune</small><b id="s-b2">16</b></div>
-        <span class="op" aria-label="égale">=</span>
-        <div class="terme tsom"><small>SOMME des deux aires</small><b id="s-som">25</b></div>
-        <span class="op" id="s-signe" aria-label="égale">=</span>
         <div class="terme tc"><small>aire du carré vert</small><b id="s-c2">25</b></div>
       </div>
     </div>
-    <p style="font-size:13px;color:#51657A;margin:6px 0 0">L'aire du carré vert est calculée par l'ordinateur à partir des coordonnées de ses quatre sommets, sans utiliser la somme.</p>
-    <div class="egal" id="c-egal" role="status" aria-live="polite"></div>
+    <p style="font-size:13px;color:#51657A;margin:6px 0 0">L'aire du carré vert est calculée par l'ordinateur à partir des coordonnées de ses quatre sommets.</p>
     <p class="statut" id="essais" role="status" aria-live="polite"></p>
     <hr class="sep">
     <p><b>Maintenant, écris ce que tu as observé.</b> Complète l'égalité en déplaçant les blocs dans les cases (ou en cliquant sur un bloc, puis sur une case). Attention : tous les blocs ne servent pas !</p>
     <div id="eg-zone">
-      <div class="eq-ligne" id="eg-slots"></div>
+      <div class="cells" id="eg-slots"></div>
+      <div class="eg-somme" id="eg-somme" aria-live="polite"></div>
       <div class="banque" id="eg-banque" aria-label="Blocs disponibles"></div>
     </div>
     <div class="ctrl">
@@ -640,17 +642,24 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
   function blocHtml(b) {
     return '<button type="button" class="bloc' + (eg.sel === b.id ? " sel" : "") + '" data-b="' + b.id + '" style="--c:' + b.col + '" aria-pressed="' + (eg.sel === b.id) + '"><i class="pastille"></i>' + b.txt + '</button>';
   }
+  function valeur(id) {                 /* nombre associé à un bloc, pour la figure en cours */
+    var c = Math.sqrt(cur.c);
+    return { ar: cur.a * cur.a, aj: cur.b * cur.b, av: cur.c, cr: cur.a, cj: cur.b, cv: c }[id];
+  }
   function renderEg() {
     var f = document.activeElement, fid = f && f.getAttribute ? f.getAttribute("data-b") : null;
-    var h = "";
+    var h = "", v = eg.slots.map(function (id) { return id ? valeur(id) : null; });
     for (var i = 0; i < 3; i++) {
       if (i === 1) h += '<span class="op" aria-label="plus">+</span>';
       if (i === 2) h += '<span class="op" aria-label="égale">=</span>';
       var id = eg.slots[i];
-      h += '<div class="slot' + (id ? " pleine" : "") + '" data-i="' + i + '" tabindex="0" role="button" aria-label="Case ' + (i + 1) + (id ? " : " + bloc(id).txt : " vide") + '">' +
-        (id ? blocHtml(bloc(id)) : '<span class="vide">dépose un bloc ici</span>') + '</div>';
+      h += '<div class="cell"><div class="slot' + (id ? " pleine" : "") + '" data-i="' + i + '" tabindex="0" role="button" aria-label="Case ' + (i + 1) + (id ? " : " + bloc(id).txt : " vide") + '">' +
+        (id ? blocHtml(bloc(id)) : '<span class="vide">dépose un bloc ici</span>') + '</div>' +
+        '<div class="val">' + (id ? (id === "cv" ? "≈ " : "") + fmt(v[i]) : "") + '</div></div>';
     }
     $("eg-slots").innerHTML = h;
+    var so = $("eg-somme");
+    so.textContent = (v[0] !== null && v[1] !== null) ? "Somme des deux nombres de gauche : " + fmt(v[0]) + " + " + fmt(v[1]) + " = " + fmt(v[0] + v[1]) : "";
     $("eg-banque").innerHTML = ordre.filter(function (b) { return eg.slots.indexOf(b.id) === -1; }).map(blocHtml).join("");
     if (fid) { var n = document.querySelector('#eg-zone .bloc[data-b="' + fid + '"]'); if (n) n.focus({ preventScroll: true }); }
   }
@@ -743,25 +752,21 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
   });
 
   /* ---- curseurs a et b ---- */
-  var essais = {};
+  var essais = {}, cur = { a: 3, b: 4, c: 25 };
   function nbEssais() { return Object.keys(essais).length; }
   function majEssais() {
     var n = nbEssais();
-    $("essais").textContent = n >= 3 ? "✅ Tu as testé " + n + " triangles : l'égalité était vraie à chaque fois." : "Triangles testés : " + n + " / 3 (change a ou b)";
+    $("essais").textContent = "Triangles testés : " + n + (n >= 3 ? " ✅" : " / 3 (change a ou b)");
   }
   function majCalc(compter) {
     var a = parseFloat($("a-rng").value), b = parseFloat($("b-rng").value);
     $("a-val").textContent = fmt(a); $("b-val").textContent = fmt(b);
     var r = dessiner($("svg-egal"), a, b, 90, { aires: true, dec: 2 });
-    var a2 = a * a, b2 = b * b, somme = a2 + b2, ok = Math.abs(r.aireC - somme) < 1e-9;
-    $("s-a2").textContent = fmt(a2); $("s-b2").textContent = fmt(b2);
-    $("s-som").textContent = fmt(somme); $("s-c2").textContent = fmt(r.aireC);
-    $("s-signe").textContent = ok ? "=" : "≠";
-    var e = $("c-egal");
-    e.className = "egal" + (ok ? "" : " non");
-    e.textContent = (ok ? "✅ " : "❌ ") + fmt(a2) + " + " + fmt(b2) + " = " + fmt(somme) + (ok ? " : la somme des aires du carré rouge et du carré jaune est égale à l'aire du carré vert." : " : différent de l'aire du carré vert.");
+    cur.a = a; cur.b = b; cur.c = r.aireC;
+    $("s-a2").textContent = fmt(a * a); $("s-b2").textContent = fmt(b * b); $("s-c2").textContent = fmt(r.aireC);
     if (compter) { essais[a + "," + b] = true; }
     majEssais();
+    if (typeof renderEg === "function" && !eg.ok) renderEg();
   }
   ["a-rng", "b-rng"].forEach(function (id) { $(id).addEventListener("input", function () { majCalc(true); }); });
   $("btn-hasard").addEventListener("click", function () {
