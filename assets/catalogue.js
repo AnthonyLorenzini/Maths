@@ -737,10 +737,11 @@ window.SITE = {
               titre: "Découvrir le théorème de Pythagore", duree: "50 min",
               contenu: [
                 "Pas d'automatisme : toute la séance est consacrée à la découverte.",
-                "Puzzle des aires, sur écran ou sur papier : les 4 morceaux du carré construit sur le grand côté de l'angle droit et le petit carré recouvrent exactement le carré construit sur l'hypoténuse.",
-                "Vérification par le calcul pour des triangles rectangles quelconques, puis cas d'un triangle qui n'est pas rectangle : l'égalité des aires n'est plus vraie."
+                "Séance sur écran, sans solution (seulement des astuces) : chaque activité doit être validée pour débloquer la suivante.",
+                "Activité 1 : le puzzle des aires, à réussir pour trois triangles rectangles différents. Activité 2 : écrire l'égalité des aires avec des blocs à placer. Activité 3 : un triangle qui n'est pas rectangle, pour quel angle l'égalité est-elle vraie ?",
+                "Exercices : aire manquante d'un carré sur une figure, puis calcul des aires à partir des côtés ; un dernier exercice sans figure pour aller plus loin."
               ],
-              ressources: ["4e-ch4-s1"],
+              ressources: ["4e-ch4-s1-classe", "4e-ch4-s1"],
               retenir: [
                 "Dans un triangle rectangle, l'**hypoténuse** est le côté opposé à l'angle droit : c'est le plus long côté.",
                 "**Théorème de Pythagore** : dans un triangle rectangle, l'aire du carré construit sur l'hypoténuse est égale à la somme des aires des carrés construits sur les deux autres côtés.",
@@ -817,7 +818,8 @@ window.SITE = {
             }
           ],
           ressources: [
-            { id: "4e-ch4-s1", type: "exos", titre: "Séance 1 — Découvrir le théorème de Pythagore", resume: "Un puzzle d'aires, une vérification par le calcul et le cas du triangle non rectangle.", ajout: "2026-10-20" },
+            { id: "4e-ch4-s1-classe", type: "classe", titre: "Séance 1 en classe — activités et exercices", resume: "Trois activités à valider l'une après l'autre, puis les exercices, avec des astuces mais sans solution.", ajout: "2026-11-08" },
+            { id: "4e-ch4-s1", type: "exos", titre: "Séance 1 à réviser chez soi — activités et exercices corrigés", resume: "Les activités en libre accès et les exercices avec astuces et solutions.", ajout: "2026-10-20" },
             { id: "4e-ch4-s2", type: "exos", titre: "Séance 2 — Racine carrée", resume: "Animations sur l'aire et le côté, encadrement entre deux carrés, calculatrice projetée (touche √), exercices corrigés.", ajout: "2026-10-24" },
             { id: "4e-ch4-s3", type: "exos", titre: "Séance 3 — Écrire l'égalité de Pythagore", resume: "Quatre triangles tournés à lire pas à pas, puis des exercices corrigés : égalité de Pythagore, aires des carrés et longueurs des côtés, premier calcul d'hypoténuse.", ajout: "2026-11-03" },
             { id: "4e-ch4-s4", type: "exos", titre: "Séance 4 — Rédiger le calcul de l'hypoténuse", resume: "Une rédaction construite en cinq étapes, puis cinq exercices corrigés où le guide diminue peu à peu, jusqu'à l'autonomie.", ajout: "2026-11-07" },

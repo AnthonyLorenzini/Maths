@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 1 en classe — Découvrir le théorème de Pythagore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --acc-b:#F0B25B; --acc-bg:#FEF2E3; --acc-t:#B5680A; --ink:#22303F; --bleu:#2B6CB0; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 860px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:22px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:25px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+.section-title { font-family:'Baloo 2',sans-serif; font-size:18px; margin:0 0 12px 0; }
+.advanced-title { font-family:'Baloo 2',sans-serif; font-size:15px; color:var(--acc-t); margin:18px 0 10px 0; padding-top:12px; border-top:2px dashed var(--acc-b); }
+
+/* ---------- progression ---------- */
+.etapes { list-style:none; display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; padding:0; }
+.etapes li { display:flex; align-items:center; gap:8px; padding:6px 14px 6px 8px; border-radius:20px; border:2px solid #C5D3E3; background:#fff; font-family:'Baloo 2',sans-serif; font-size:14px; color:#51657A; }
+.etapes li span { width:26px; height:26px; border-radius:50%; background:#E4EEFA; color:#51657A; display:flex; align-items:center; justify-content:center; font-size:14px; }
+.etapes li.cours { border-color:var(--bleu); color:var(--bleu); background:#F3F8FE; }
+.etapes li.cours span { background:var(--bleu); color:#fff; }
+.etapes li.fait { border-color:#4CAF7D; color:#1E7A4C; background:#E8F6EE; }
+.etapes li.fait span { background:#4CAF7D; color:#fff; }
+.etapes li.verr { opacity:.7; }
+
+/* ---------- activités interactives ---------- */
+.act { border:2px solid var(--bleu); background:#F3F8FE; border-radius:14px; padding:14px 18px 16px; margin-bottom:18px; scroll-margin-top:12px; }
+.act h2 { font-family:'Baloo 2',sans-serif; font-size:17px; margin:0 0 6px 0; color:var(--bleu); }
+.act h2 .duree { font-family:'Work Sans',sans-serif; font-size:13px; color:#51657A; font-weight:600; margin-left:6px; }
+.act p, .act li { font-size:13.5px; line-height:1.5; }
+.act p { margin:6px 0; }
+.act ol { margin:6px 0 6px 0; padding-left:22px; }
+.act li { margin-bottom:3px; }
+.cr { display:inline-block; padding:0 7px; border-radius:6px; border:1.5px solid #22303F; font-weight:700; }
+.cr.r { background:#F2A79B; } .cr.j { background:#F3C94B; } .cr.v { background:#CFEBD7; }
+.fig { background:#fff; border:1px solid #D2E0F1; border-radius:10px; padding:6px; margin:10px 0; }
+.fig svg { display:block; width:100%; height:auto; max-height:480px; margin:0 auto; }
+.puz-svg { touch-action:none; -webkit-user-select:none; user-select:none; }
+.piece { cursor:grab; }
+.piece.drag { cursor:grabbing; }
+.piece:focus { outline:none; }
+.piece:focus-visible polygon { stroke:#6E4FE0; stroke-width:3.4px; }
+.piece.anim { transition:transform .6s ease; }
+.ctrl { display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center; margin:8px 0; }
+.ctrl label { font-size:13.5px; font-weight:600; display:flex; align-items:center; gap:8px; }
+.ctrl output { display:inline-block; min-width:2.6em; text-align:center; font-family:'Baloo 2',sans-serif; font-size:15px; background:#fff; border:1.5px solid var(--bleu); border-radius:8px; padding:1px 6px; }
+.ctrl input[type=range] { width:230px; accent-color:var(--bleu); }
+.abtn { font-family:'Baloo 2',sans-serif; font-size:13.5px; padding:6px 14px; border-radius:18px; border:2px solid var(--bleu); background:#fff; color:var(--bleu); cursor:pointer; }
+.abtn:hover { filter:brightness(0.96); }
+.abtn[aria-pressed="true"] { background:var(--bleu); color:#fff; }
+.abtn.fait { border-color:#4CAF7D; color:#1E7A4C; background:#E8F6EE; }
+.abtn.fait[aria-pressed="true"] { background:#4CAF7D; color:#fff; }
+.abtn.astuce { border-color:#D8934C; color:#B5680A; }
+.abtn.primaire { background:var(--bleu); color:#fff; }
+.statut { font-size:13.5px; font-weight:600; min-height:1.4em; margin:4px 0; }
+.ok-msg { background:#E8F6EE; border:2px solid #4CAF7D; border-radius:10px; padding:10px 14px; font-size:13.5px; margin-top:8px; line-height:1.5; }
+.ok-msg[hidden] { display:none; }
+.ok-msg .abtn { margin-top:6px; }
+.egal { font-size:14px; font-weight:700; padding:8px 12px; border-radius:10px; background:#E8F6EE; border:2px solid #4CAF7D; margin:6px 0; }
+.egal.non { background:#FDECE8; border-color:#D8523A; }
+.barres { display:grid; grid-template-columns:auto 1fr; gap:4px 10px; align-items:center; font-size:13.5px; margin:8px 0; }
+.barre { height:18px; border-radius:5px; background:#3FA766; transition:width .3s ease; }
+.barre.autre { background:#E0AE1B; }
+.barre.ecart { background:#D8523A; }
+svg text.lbl { font-family:'Work Sans',Arial,sans-serif; font-weight:700; fill:#22303F; paint-order:stroke; stroke:#fff; stroke-linejoin:round; }
+.astuce-txt { margin-top:8px; background:#fff; border:1.5px dashed #D8934C; border-radius:8px; padding:8px 12px; font-size:13px; color:#7A5210; }
+.astuce-txt[hidden] { display:none; }
+.retenir { background:#FFF9EC; border:2px solid #D8B24C; border-radius:10px; padding:10px 14px; margin-top:10px; font-size:14px; line-height:1.55; }
+
+/* ---------- étapes verrouillées ---------- */
+.verrou-note { display:none; font-size:13.5px; color:#51657A; margin:4px 0 0; }
+.locked { border-style:dashed !important; border-color:#B9C4D0 !important; background:#F4F6F8 !important; }
+.locked > *:not(.titre-etape):not(.verrou-note) { display:none !important; }
+.locked > .verrou-note { display:block !important; }
+.locked .titre-etape { color:#7B8896 !important; }
+.locked .titre-etape::before { content:"🔒 "; }
+section.deverrouille { animation:apparait .5s ease; }
+@keyframes apparait { from { box-shadow:0 0 0 6px rgba(43,108,176,.35); } to { box-shadow:0 0 0 0 rgba(43,108,176,0); } }
+
+/* ---------- activité 2 : égalité à trous ---------- */
+.eq-ligne { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; margin:12px 0 10px; }
+.eq-ligne .op { font-family:'Baloo 2',sans-serif; font-size:30px; font-weight:700; }
+.slot { min-width:200px; min-height:58px; border:3px dashed #9FB4CC; border-radius:12px; background:#fff; display:flex; align-items:center; justify-content:center; padding:4px; }
+.slot:focus-visible { outline:3px solid #6E4FE0; outline-offset:2px; }
+.slot.cible { border-color:#6E4FE0; background:#EFEAFE; }
+.slot.pleine { border-style:solid; border-color:#C5D3E3; }
+.slot .vide { color:#8AA0B8; font-size:13px; }
+.banque { display:flex; flex-wrap:wrap; gap:8px; padding:10px; background:#fff; border:1.5px solid #D2E0F1; border-radius:10px; min-height:58px; }
+.bloc { font:600 14px 'Work Sans',Arial,sans-serif; color:var(--ink); display:inline-flex; align-items:center; gap:7px; padding:8px 12px; border-radius:10px; border:2px solid var(--ink); background:#fff; cursor:grab; touch-action:none; -webkit-user-select:none; user-select:none; }
+.bloc .pastille { width:14px; height:14px; border-radius:4px; background:var(--c); border:1.5px solid #22303F; flex:0 0 auto; }
+.bloc.sel { outline:3px solid #6E4FE0; outline-offset:2px; }
+.bloc.ghost { position:fixed; z-index:9999; pointer-events:none; box-shadow:0 8px 20px rgba(0,0,0,.25); transform:rotate(-2deg); }
+.eg-fin { font-size:13.5px; font-weight:600; min-height:1.4em; margin:6px 0 2px; }
+.eg-fin.ko { color:#B5322E; }
+
+/* ---------- activité 3 : phrase à trou ---------- */
+.phrase { font-size:15px; line-height:2; background:#fff; border:2px solid #C5D3E3; border-radius:10px; padding:8px 14px; margin:10px 0 4px; }
+.phrase input[type=text] { font:700 17px 'Work Sans',Arial,sans-serif; width:70px; text-align:center; padding:3px 6px; border:2px solid #C9B58A; border-radius:8px; background:#fff; color:var(--ink); }
+.phrase input[type=text].ok { border-color:#2E9B5E; background:#E8F6EE; }
+.phrase input[type=text].ko { border-color:#D8523A; background:#FDECE8; }
+
+/* ---------- exercices (même présentation que les autres séances) ---------- */
+.exo { border:2px solid var(--acc-b); background:var(--acc-bg); border-radius:12px; padding:14px 18px; margin-bottom:14px; }
+.exo-title { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:var(--acc-t); margin-bottom:6px; }
+.exo p { font-size:13px; margin:4px 0; line-height:1.5; }
+.schema { background:#fff; border-radius:8px; padding:8px; margin:8px 0; text-align:center; }
+.schema svg { max-width:100%; height:auto; }
+.btn-row { display:flex; gap:10px; margin-top:8px; flex-wrap:wrap; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:13px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:12.5px; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; }
+.astuce-panel .label { color:#B5680A; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; display:flex; flex-wrap:wrap; gap:8px 16px; align-items:center; justify-content:space-between; }
+footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; background:none; border:1.5px solid #D8DEE4; border-radius:12px; padding:3px 10px; cursor:pointer; }
+
+.aide-ex { font-size:13.5px; line-height:1.5; margin:0 0 12px; color:#3B4C5E; }
+.progres { display:inline-block; margin-left:6px; padding:2px 10px; border-radius:12px; background:#E8F6EE; border:1.5px solid #4CAF7D; font-weight:700; color:#1E7A4C; }
+.rep { margin:8px 0 4px; }
+.rep .ligne { display:flex; flex-wrap:wrap; align-items:center; gap:6px 12px; margin:7px 0; font-size:14px; line-height:1.5; }
+.rep .ligne label { display:inline-flex; flex-wrap:wrap; align-items:center; gap:4px 6px; }
+.rep input[type=text] { font:600 16px 'Work Sans',Arial,sans-serif; width:104px; padding:5px 8px; border:2px solid #C9B58A; border-radius:8px; background:#fff; color:var(--ink); }
+.rep input[type=text].large { width:190px; }
+.rep input[type=text].ok { border-color:#2E9B5E; background:#E8F6EE; }
+.rep input[type=text].ko { border-color:#D8523A; background:#FDECE8; }
+.mk { font-size:13px; font-weight:700; }
+.mk.ok { color:#1E7A4C; } .mk.ko { color:#B5322E; } .mk.vide { color:#7A5210; }
+.ctrl-rep { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+.bilan-exo { margin-top:8px; font-size:14px; font-weight:600; min-height:1.4em; }
+.bilan-exo.ok { color:#1E7A4C; } .bilan-exo.ko { color:#7A3A10; }
+.exo.reussi { border-color:#4CAF7D; background:#F1FAF4; }
+</style>
+<style>@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="badge">S1</div>
+    <div>
+      <h1>Découvrir le théorème de Pythagore</h1>
+      <div class="subtitle">Chapitre 4 — Le théorème de Pythagore — 4e — Séance 1 (en classe)</div>
+    </div>
+  </header>
+  <div class="objectifs"><b>Objectifs :</b> découvrir, grâce à un puzzle, que les aires des carrés construits sur les côtés d'un triangle rectangle sont liées ; comprendre pourquoi l'angle droit est indispensable ; savoir reconnaître l'hypoténuse. <b>Chaque activité doit être validée pour débloquer la suivante.</b></div>
+  <noscript><p><b>Cette séance utilise des animations : active JavaScript dans ton navigateur pour les voir.</b></p></noscript>
+
+  <ol class="etapes" id="etapes" aria-label="Progression de la séance">
+    <li data-e="1"><span>1</span>Le puzzle</li>
+    <li data-e="2"><span>2</span>L'égalité</li>
+    <li data-e="3"><span>3</span>L'angle</li>
+    <li data-e="4"><span>4</span>Les exercices</li>
+  </ol>
+
+  <!-- ===================== ACTIVITÉ 1 : LE PUZZLE ===================== -->
+  <section class="act" id="act1" aria-labelledby="t-act1">
+    <h2 class="titre-etape" id="t-act1">Activité 1 — Le puzzle des aires <span class="duree">environ 25 min</span></h2>
+    <p class="verrou-note">Cette activité se débloque quand l'activité précédente est validée.</p>
+    <p>Voici un triangle rectangle. Sur chacun de ses côtés, on a construit un carré : le petit carré <span class="cr r">rouge</span>, le carré <span class="cr j">jaune</span> (découpé en 4 morceaux numérotés) et le grand carré <span class="cr v">vert</span> (vide).</p>
+    <ol>
+      <li>Où est l'angle droit ? Le côté opposé à l'angle droit, le plus long, s'appelle l'<b>hypoténuse</b>. Les deux autres sont les <b>côtés de l'angle droit</b>.</li>
+      <li>Sans calculer, quel carré te semble le plus grand ?</li>
+      <li><b>Fais le puzzle :</b> déplace les 4 morceaux du carré jaune et le petit carré rouge pour <b>recouvrir exactement le grand carré vert</b>, sans trou ni chevauchement.</li>
+      <li>Recommence avec les deux autres triangles. <b>L'activité est validée quand les 3 puzzles sont réussis.</b></li>
+    </ol>
+    <div class="ctrl" role="group" aria-label="Choix du triangle" id="choix-tri"></div>
+    <div class="fig">
+      <svg id="svg-puz" class="puz-svg" role="group" aria-label="Puzzle : triangle rectangle avec un carré sur chaque côté" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"></svg>
+    </div>
+    <div class="ctrl">
+      <span class="statut" id="puz-compte" role="status" aria-live="polite"></span>
+      <button type="button" class="abtn astuce" id="puz-indice" aria-pressed="false">💡 Astuce</button>
+      <button type="button" class="abtn" id="puz-reset">↺ Recommencer</button>
+    </div>
+    <p id="puz-aide" style="font-size:13px;color:#51657A">Au clavier : Tab pour choisir une pièce, flèches pour la déplacer (Maj + flèche pour aller plus vite).</p>
+    <div class="ok-msg" id="puz-ok" hidden></div>
+    <div class="ok-msg" id="suite1" hidden><b>✅ Activité 1 validée :</b> tes trois puzzles sont réussis.<br><button type="button" class="abtn primaire" data-va="2">Aller à l'activité 2 →</button></div>
+  </section>
+
+  <!-- ===================== ACTIVITÉ 2 : L'ÉGALITÉ À TROUS ===================== -->
+  <section class="act locked" id="act2" aria-labelledby="t-act2">
+    <h2 class="titre-etape" id="t-act2">Activité 2 — J'écris ce que le puzzle m'apprend <span class="duree">environ 5 min</span></h2>
+    <p class="verrou-note">🔒 Réussis d'abord les 3 puzzles de l'activité 1 pour débloquer cette activité.</p>
+    <p>Voici la figure du puzzle. Tu as recouvert le carré <span class="cr v">vert</span> avec les morceaux du carré <span class="cr j">jaune</span> et avec le carré <span class="cr r">rouge</span>.</p>
+    <div class="fig" style="max-width:360px;margin-left:auto;margin-right:auto">
+      <svg id="svg-egal" role="img" aria-label="Triangle rectangle avec un carré rouge, un carré jaune et un carré vert" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"></svg>
+    </div>
+    <p><b>Complète l'égalité</b> en déplaçant les blocs dans les cases (ou en cliquant sur un bloc, puis sur une case). Attention : tous les blocs ne servent pas !</p>
+    <div id="eg-zone">
+      <div class="eq-ligne" id="eg-slots"></div>
+      <div class="banque" id="eg-banque" aria-label="Blocs disponibles"></div>
+    </div>
+    <div class="ctrl">
+      <button type="button" class="abtn primaire" id="eg-verif">Vérifier mon égalité</button>
+      <button type="button" class="abtn astuce" id="eg-astuce" aria-pressed="false">💡 Astuce</button>
+      <button type="button" class="abtn" id="eg-raz">↺ Tout remettre</button>
+    </div>
+    <div class="astuce-txt" id="eg-astuce-txt" hidden>Relis ton puzzle : on a posé les morceaux du carré jaune et le carré rouge <i>sur</i> le carré vert. Additionner, c'est mettre ensemble ce qui recouvre ; le signe « = » sépare ce qui recouvre de ce qui est recouvert. Et dans le puzzle, on a recouvert une <i>surface</i>.</div>
+    <div class="eg-fin" id="eg-fin" role="status" aria-live="polite"></div>
+    <div class="ok-msg" id="suite2" hidden><b>✅ Activité 2 validée :</b> tu viens d'écrire ce que le puzzle t'a montré : <b>aire du carré rouge + aire du carré jaune = aire du carré vert</b>. Le carré vert est construit sur l'hypoténuse.<br><button type="button" class="abtn primaire" data-va="3">Aller à l'activité 3 →</button></div>
+  </section>
+
+  <!-- ===================== ACTIVITÉ 3 : L'ANGLE ===================== -->
+  <section class="act locked" id="act3" aria-labelledby="t-act3">
+    <h2 class="titre-etape" id="t-act3">Activité 3 — Et si le triangle n'est pas rectangle ? <span class="duree">environ 5 min</span></h2>
+    <p class="verrou-note">🔒 Réussis d'abord l'activité 2 pour débloquer cette activité.</p>
+    <p>Les côtés mesurent toujours 3 et 4, mais tu peux maintenant <b>ouvrir ou fermer l'angle</b> marqué entre eux. Observe l'aire du carré <span class="cr v">vert</span>, comparée à la somme des aires des carrés <span class="cr r">rouge</span> et <span class="cr j">jaune</span> (9 + 16 = 25).</p>
+    <div class="ctrl">
+      <label for="ang-rng">Angle = <output id="ang-val" for="ang-rng">60°</output><input type="range" id="ang-rng" min="20" max="160" step="1" value="60"></label>
+    </div>
+    <div class="fig">
+      <svg id="svg-ang" role="img" aria-label="Triangle dont on fait varier l'angle entre les côtés de longueurs 3 et 4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"></svg>
+    </div>
+    <div class="barres" aria-hidden="true">
+      <span>9 + 16</span><div><div class="barre autre" id="bar-somme"></div></div>
+      <span>carré vert</span><div><div class="barre" id="bar-tiers"></div></div>
+    </div>
+    <div class="egal" id="ang-egal" role="status" aria-live="polite"></div>
+    <div class="phrase">Pour que l'aire du carré <span class="cr v">vert</span> soit égale à la somme des aires des carrés <span class="cr r">rouge</span> et <span class="cr j">jaune</span>, il faut que l'angle marqué mesure <input type="text" id="ang-rep" inputmode="numeric" autocomplete="off" aria-label="Mesure de l'angle en degrés"> °.</div>
+    <div class="ctrl">
+      <button type="button" class="abtn primaire" id="ang-verif">Vérifier</button>
+      <button type="button" class="abtn astuce" id="ang-astuce" aria-pressed="false">💡 Astuce</button>
+    </div>
+    <div class="astuce-txt" id="ang-astuce-txt" hidden>Bouge le curseur lentement (tu peux aussi utiliser les flèches du clavier) et regarde le message sous la figure : à quel moment indique-t-il que l'égalité est vraie ?</div>
+    <div class="eg-fin" id="ang-fin" role="status" aria-live="polite"></div>
+    <div class="ok-msg" id="suite3" hidden><b>✅ Activité 3 validée :</b> l'égalité des aires n'est vraie que pour un angle de <b>90°</b>, c'est-à-dire dans un triangle <b>rectangle</b>.
+      <div class="retenir"><b>À retenir.</b> Dans un triangle rectangle, l'aire du carré construit sur l'hypoténuse est égale à la somme des aires des carrés construits sur les deux autres côtés. Ce résultat s'appelle le <b>théorème de Pythagore</b>.</div>
+      <button type="button" class="abtn primaire" data-va="4">Aller aux exercices →</button></div>
+  </section>
+
+  <!-- ===================== EXERCICES ===================== -->
+  <section id="exos" class="locked" aria-labelledby="t-exos" style="scroll-margin-top:12px;border:2px solid transparent;border-radius:14px;padding:10px 4px 0">
+    <h2 class="section-title titre-etape" id="t-exos">Exercices</h2>
+    <p class="verrou-note">🔒 Réussis d'abord l'activité 3 pour débloquer les exercices.</p>
+    <div id="exos-host"></div>
+  </section>
+
+  <footer>
+    <span>Cherche seul(e) d'abord. Utilise l'astuce si tu bloques : il n'y a pas de solution à cette page.</span>
+    <button type="button" id="btn-reinit">↺ Recommencer toute la séance</button>
+  </footer>
+</div>
+
+<script src="../../assets/pyth-s1-exos.js"></script>
+<script>
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  var COUL = { rouge: "#F2A79B", jaune: "#F3C94B", vert: "#CFEBD7" };
+  var TRI = [[3, 4], [2, 3], [5, 12]];          /* les trois triangles à reconstituer */
+
+  /* ---------- outils ---------- */
+  function $(id) { return document.getElementById(id); }
+  function el(tag, attrs, parent) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) { if (Object.prototype.hasOwnProperty.call(attrs, k)) e.setAttribute(k, attrs[k]); }
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function fmt(x, d) {
+    var p = Math.pow(10, d === undefined ? 2 : d);
+    return String(Math.round(x * p) / p).replace(".", ",");
+  }
+  function pts(poly) { return poly.map(function (p) { return p[0].toFixed(4) + "," + p[1].toFixed(4); }).join(" "); }
+  function aire(poly) {
+    var s = 0;
+    for (var i = 0; i < poly.length; i++) { var p = poly[i], q = poly[(i + 1) % poly.length]; s += p[0] * q[1] - q[0] * p[1]; }
+    return Math.abs(s) / 2;
+  }
+  function centre(poly) {
+    var x = 0, y = 0;
+    poly.forEach(function (p) { x += p[0]; y += p[1]; });
+    return [x / poly.length, y / poly.length];
+  }
+  function boite(polys, marge) {
+    var x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    polys.forEach(function (poly) { poly.forEach(function (p) {
+      x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); y0 = Math.min(y0, p[1]); y1 = Math.max(y1, p[1]);
+    }); });
+    return [x0 - marge, y0 - marge, x1 - x0 + 2 * marge, y1 - y0 + 2 * marge];
+  }
+  function poly(svg, p, fill, stroke, extra) {
+    var at = { points: pts(p), fill: fill, stroke: stroke || "#22303F", "stroke-width": 1.4, "vector-effect": "non-scaling-stroke", "stroke-linejoin": "round" };
+    if (extra) for (var k in extra) at[k] = extra[k];
+    return el("polygon", at, svg);
+  }
+  function etiquette(svg, x, y, txt, px) {
+    var t = el("text", { x: x, y: y, "text-anchor": "middle", "dominant-baseline": "central", "class": "lbl", "data-px": px || 15 }, svg);
+    t.textContent = txt;
+    return t;
+  }
+  /* Étiquettes des figures : toujours 13 px minimum à l'écran, quelle que soit la taille de la figure. */
+  function fixLabels(svg) {
+    var vb = svg.viewBox && svg.viewBox.baseVal;
+    if (!vb || !vb.width) return;
+    var r = svg.getBoundingClientRect();
+    if (!r.width || !r.height) return;
+    var k = Math.min(r.width / vb.width, r.height / vb.height);
+    var ts = svg.querySelectorAll("text.lbl");
+    for (var i = 0; i < ts.length; i++) {
+      var px = Math.max(13, parseFloat(ts[i].getAttribute("data-px") || "14"));
+      ts[i].setAttribute("font-size", (px / k).toFixed(3));
+      ts[i].setAttribute("stroke-width", (3 / k).toFixed(3));
+    }
+  }
+  var observes = [];
+  function surveiller(svg) {
+    if (observes.indexOf(svg) !== -1) return;
+    observes.push(svg);
+    if (window.ResizeObserver) new ResizeObserver(function () { fixLabels(svg); }).observe(svg);
+    else window.addEventListener("resize", function () { fixLabels(svg); });
+  }
+
+  /* ---------- géométrie ----------
+     Repère : O = sommet de l'angle (0 ; 0), axe y vers le bas.
+     B = (b ; 0) sur l'axe x ; A = a (cos t ; sin t). Pour t = 90°, A = (0 ; a) : figure du puzzle.
+     Carré sur OB vers le haut, carré sur OA du côté opposé au triangle, carré sur AB à l'extérieur. */
+  function scene(a, b, th) {
+    var t = th * Math.PI / 180, c = Math.cos(t), s = Math.sin(t);
+    var O = [0, 0], B = [b, 0], A = [a * c, a * s];
+    var n = [a * s, b - a * c];
+    return {
+      O: O, A: A, B: B,
+      sqB: [[0, 0], [b, 0], [b, -b], [0, -b]],
+      sqA: [[0, 0], A, [a * c - a * s, a * s + a * c], [-a * s, a * c]],
+      sqC: [A, B, [B[0] + n[0], B[1] + n[1]], [A[0] + n[0], A[1] + n[1]]]
+    };
+  }
+  function couper(p, nx, ny, signe) {          /* garde les points tels que signe * (n . p) >= 0 */
+    var out = [];
+    for (var i = 0; i < p.length; i++) {
+      var u = p[i], v = p[(i + 1) % p.length];
+      var du = signe * (nx * u[0] + ny * u[1]), dv = signe * (nx * v[0] + ny * v[1]);
+      if (du >= 0) out.push(u);
+      if ((du > 0 && dv < 0) || (du < 0 && dv > 0)) {
+        var k = du / (du - dv);
+        out.push([u[0] + k * (v[0] - u[0]), u[1] + k * (v[1] - u[1])]);
+      }
+    }
+    return out;
+  }
+  /* Les 5 pièces du puzzle (a < b) : 4 morceaux du carré sur b, découpé par deux droites passant par
+     son centre (l'une parallèle à l'hypoténuse, l'autre perpendiculaire), et le carré sur a.
+     Chaque pièce est seulement translatée pour aller se placer dans le carré de l'hypoténuse.
+     Les 4 morceaux du carré jaune sont dans deux jaunes différents (ils restent numérotés). */
+  function pieces(a, b) {
+    var c = Math.hypot(a, b), u = [b / c, -a / c], v = [a / c, b / c], C = [b / 2, -b / 2];
+    var sc = scene(a, b, 90);
+    var carre = sc.sqB.map(function (p) { return [p[0] - C[0], p[1] - C[1]]; });
+    var P1 = [0, a], P2 = [b, 0], P3 = [a + b, b], P4 = [a, a + b];
+    var defs = [
+      { s1: -1, s2: -1, to: P3, col: "#F3C94B", nom: "jaune" },
+      { s1: 1, s2: -1, to: P4, col: "#F9E08A", nom: "jaune clair" },
+      { s1: 1, s2: 1, to: P1, col: "#F3C94B", nom: "jaune" },
+      { s1: -1, s2: 1, to: P2, col: "#F9E08A", nom: "jaune clair" }
+    ];
+    var res = defs.map(function (d, i) {
+      var p = couper(couper(carre, u[0], u[1], d.s1), v[0], v[1], d.s2).map(function (q) { return [q[0] + C[0], q[1] + C[1]]; });
+      return { poly: p, cible: [d.to[0] - C[0], d.to[1] - C[1]], col: d.col, nom: d.nom, num: i + 1 };
+    });
+    res.push({ poly: sc.sqA, cible: [b / 2 + a, b / 2], col: COUL.rouge, nom: "rouge (petit carré)", num: 0 });
+    return res;
+  }
+
+  /* ---------- figure générique : triangle + 3 carrés (rouge sur OA, jaune sur OB, vert sur le 3e côté) ---------- */
+  function dessiner(svg, a, b, th, o) {
+    o = o || {};
+    var sc = scene(a, b, th);
+    svg.innerHTML = "";
+    var bx = o.boite || boite([sc.sqA, sc.sqB, sc.sqC], 0.5);
+    svg.setAttribute("viewBox", bx.join(" "));
+    var cAire = aire(sc.sqC), egal = Math.abs(cAire - (a * a + b * b)) < 1e-6;
+    poly(svg, sc.sqC, COUL.vert, egal ? "#2E8B57" : "#C0452F", { "stroke-width": 2 });
+    poly(svg, sc.sqB, COUL.jaune);
+    poly(svg, sc.sqA, COUL.rouge);
+    poly(svg, [sc.O, sc.A, sc.B], "#FFF8E1");
+    var r = o.rAngle || Math.min(a, b) * 0.25;
+    if (Math.abs(th - 90) < 1e-9) {
+      el("polyline", { points: "0,0 0,0 " + r + ",0 " + r + "," + r + " 0," + r + " 0,0", fill: "none", stroke: "#22303F", "stroke-width": 1.4, "vector-effect": "non-scaling-stroke" }, svg);
+    } else {
+      var t = th * Math.PI / 180;
+      el("path", { d: "M " + r + " 0 A " + r + " " + r + " 0 0 1 " + (r * Math.cos(t)).toFixed(4) + " " + (r * Math.sin(t)).toFixed(4), fill: "none", stroke: "#22303F", "stroke-width": 1.8, "vector-effect": "non-scaling-stroke" }, svg);
+    }
+    if (o.noms) {
+      [[sc.sqA, "rouge"], [sc.sqB, "jaune"], [sc.sqC, "vert"]].forEach(function (x) {
+        var m = centre(x[0]); etiquette(svg, m[0], m[1], x[1], 15);
+      });
+    }
+    if (o.aires) {
+      [[sc.sqA, a * a], [sc.sqB, b * b], [sc.sqC, cAire]].forEach(function (x) {
+        var m = centre(x[0]);
+        etiquette(svg, m[0], m[1], fmt(x[1], 1), 17);
+      });
+    }
+    if (o.angle) {
+      var tt = th * Math.PI / 180 / 2;
+      etiquette(svg, 1.7 * r * Math.cos(tt) + 0.2, 1.7 * r * Math.sin(tt) + 0.1, Math.round(th) + "°", 15);
+    }
+    surveiller(svg);
+    fixLabels(svg);
+    return { sc: sc, aireC: cAire, egal: egal };
+  }
+
+  /* ===================== PROGRESSION (étapes verrouillées) ===================== */
+  var KEY = "pythS1classe.v1";                      /* sessionStorage : survit à un rechargement, pas à la fermeture de l'onglet */
+  var fait = { 1: false, 2: false, 3: false };
+  var sections = { 1: $("act1"), 2: $("act2"), 3: $("act3"), 4: $("exos") };
+  function sauver() {
+    try { sessionStorage.setItem(KEY, JSON.stringify({ f: fait, p: Object.keys(puz.done) })); } catch (e) {}
+  }
+  function charger() {
+    try {
+      var s = JSON.parse(sessionStorage.getItem(KEY) || "null");
+      if (!s) return;
+      [1, 2, 3].forEach(function (k) { fait[k] = !!(s.f && s.f[k]); });
+      (s.p || []).forEach(function (k) { puz.done[k] = true; });
+    } catch (e) {}
+  }
+  function debloque(k) { return k === 1 || fait[k - 1]; }
+  function majEtapes(anime) {
+    for (var k = 1; k <= 4; k++) {
+      var ok = debloque(k), sec = sections[k], etaitVerrouille = sec.classList.contains("locked");
+      sec.classList.toggle("locked", !ok);
+      if (anime && ok && etaitVerrouille) { sec.classList.add("deverrouille"); }
+      var li = document.querySelector('#etapes li[data-e="' + k + '"]');
+      var termine = k < 4 && fait[k];
+      li.className = termine ? "fait" : (!ok ? "verr" : "cours");
+      li.querySelector("span").textContent = termine ? "✓" : String(k);
+      if (k < 4) $("suite" + k).hidden = !fait[k];
+    }
+  }
+  function valider(k) {
+    if (fait[k]) return;
+    fait[k] = true;
+    sauver();
+    majEtapes(true);
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("[data-va]"), function (b) {
+    b.addEventListener("click", function () {
+      var s = sections[b.getAttribute("data-va")];
+      var reduit = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      s.scrollIntoView({ behavior: reduit ? "auto" : "smooth", block: "start" });
+    });
+  });
+
+  /* ===================== ACTIVITÉ 1 : PUZZLE (3 triangles) ===================== */
+  var puz = { a: 3, b: 4, pcs: [], tol: 0.4, drag: null, svg: $("svg-puz"), done: {} };
+  var gCible, gIndice, gPieces;
+  function cle(t) { return t[0] + "," + t[1]; }
+  function nbPuzzles() { return TRI.filter(function (t) { return puz.done[cle(t)]; }).length; }
+
+  function boutonsTriangles() {
+    var host = $("choix-tri");
+    host.innerHTML = '<span style="font-size:13.5px;font-weight:600">Triangle :</span>';
+    TRI.forEach(function (t) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "abtn" + (puz.done[cle(t)] ? " fait" : "");
+      b.setAttribute("data-ab", cle(t));
+      b.setAttribute("aria-pressed", String(t[0] === puz.a && t[1] === puz.b));
+      b.textContent = "côtés de l'angle droit : " + t[0] + " et " + t[1] + (puz.done[cle(t)] ? "  ✓" : "");
+      b.addEventListener("click", function () { $("puz-indice").setAttribute("aria-pressed", "false"); construirePuzzle(t[0], t[1]); });
+      host.appendChild(b);
+    });
+  }
+
+  function construirePuzzle(a, b) {
+    puz.a = a; puz.b = b;
+    var svg = puz.svg, sc = scene(a, b, 90), c = Math.hypot(a, b);
+    puz.tol = 0.09 * c;
+    svg.innerHTML = "";
+    var bx = boite([sc.sqA, sc.sqB, sc.sqC], 0.4);
+    puz.bx = bx;
+    svg.setAttribute("viewBox", bx.join(" "));
+    gCible = poly(svg, sc.sqC, COUL.vert, "#22303F", { "stroke-dasharray": "7 5", "stroke-width": 1.8 });
+    gIndice = el("g", { "aria-hidden": "true", style: "display:none;pointer-events:none" }, svg);
+    poly(svg, [sc.O, sc.A, sc.B], "#FFF8E1");
+    var r = Math.min(a, b) * 0.25;
+    el("polyline", { points: "0,0 " + r + ",0 " + r + "," + r + " 0," + r + " 0,0", fill: "none", stroke: "#22303F", "stroke-width": 1.4, "vector-effect": "non-scaling-stroke" }, svg);
+    var G = centre([sc.O, sc.A, sc.B]);
+    function lettre(P, Q, txt) {
+      var M = [(P[0] + Q[0]) / 2, (P[1] + Q[1]) / 2];
+      etiquette(svg, M[0] + 0.5 * (G[0] - M[0]), M[1] + 0.5 * (G[1] - M[1]), txt, 16);
+    }
+    lettre(sc.O, sc.A, "a"); lettre(sc.O, sc.B, "b"); lettre(sc.A, sc.B, "c");
+    gPieces = el("g", {}, svg);
+    puz.pcs = pieces(a, b);
+    puz.pcs.forEach(function (p) {
+      p.t = [0, 0];
+      poly(gIndice, p.poly.map(function (q) { return [q[0] + p.cible[0], q[1] + p.cible[1]]; }), p.col, "#22303F", { "fill-opacity": 0.55, "stroke-dasharray": "4 3", "stroke-width": 1.2 });
+      var g = el("g", { "class": "piece", tabindex: 0, role: "button",
+        "aria-label": p.num ? "Pièce " + p.num + ", " + p.nom : "Petit carré " + p.nom,
+        "aria-describedby": "puz-aide" }, gPieces);
+      poly(g, p.poly, p.col, "#22303F", { "stroke-width": 1.3 });
+      if (p.num) { var m = centre(p.poly); etiquette(g, m[0], m[1], String(p.num), 15).setAttribute("pointer-events", "none"); }
+      var bb = boite([p.poly], 0);
+      p.bb = [bb[0], bb[1], bb[0] + bb[2], bb[1] + bb[3]];
+      p.g = g;
+      brancher(p);
+    });
+    boutonsTriangles();
+    majCompte();
+    surveiller(svg);
+    fixLabels(svg);
+  }
+
+  function poser(p, t, anime) {
+    p.t = t;
+    if (anime) p.g.classList.add("anim"); else p.g.classList.remove("anim");
+    p.g.style.transform = "translate(" + t[0] + "px," + t[1] + "px)";
+  }
+  function enPlace(p) { return Math.hypot(p.t[0] - p.cible[0], p.t[1] - p.cible[1]) < 1e-6; }
+  function majCompte() {
+    var n = puz.pcs.filter(enPlace).length, fini = n === 5;
+    $("puz-compte").textContent = "Pièces bien placées : " + n + " / 5   ·   Puzzles réussis : " + nbPuzzles() + " / 3";
+    gCible.setAttribute("stroke", fini ? "#2E8B57" : "#22303F");
+    gCible.setAttribute("stroke-dasharray", fini ? "0" : "7 5");
+    var msg = $("puz-ok");
+    if (fini) {
+      var k = cle([puz.a, puz.b]), nouveau = !puz.done[k];
+      puz.done[k] = true;
+      var reste = 3 - nbPuzzles();
+      msg.innerHTML = "<b>✅ Puzzle réussi !</b> Les 5 morceaux recouvrent exactement le carré vert, sans trou ni chevauchement." +
+        (reste > 0 ? " Il te reste <b>" + reste + " puzzle" + (reste > 1 ? "s" : "") + "</b> : choisis un autre triangle." : "");
+      if (nouveau) { sauver(); boutonsTriangles(); $("puz-compte").textContent = "Pièces bien placées : 5 / 5   ·   Puzzles réussis : " + nbPuzzles() + " / 3"; }
+      if (nbPuzzles() >= 3) valider(1);
+    }
+    msg.hidden = !fini;
+    return n;
+  }
+  function accrocher(p) {
+    if (Math.hypot(p.t[0] - p.cible[0], p.t[1] - p.cible[1]) < puz.tol) { poser(p, p.cible.slice(), true); return true; }
+    return false;
+  }
+  function limiter(p, t) {
+    var vb = puz.bx;
+    return [Math.min(Math.max(t[0], vb[0] - p.bb[0]), vb[0] + vb[2] - p.bb[2]),
+            Math.min(Math.max(t[1], vb[1] - p.bb[1]), vb[1] + vb[3] - p.bb[3])];
+  }
+  function ptScene(e) {
+    var s = puz.svg, pt = s.createSVGPoint();
+    pt.x = e.clientX; pt.y = e.clientY;
+    var m = s.getScreenCTM();
+    return m ? (function (q) { return [q.x, q.y]; })(pt.matrixTransform(m.inverse())) : [0, 0];
+  }
+  function brancher(p) {
+    var g = p.g;
+    g.addEventListener("pointerdown", function (e) {
+      if (e.button !== undefined && e.button > 0) return;
+      e.preventDefault();
+      gPieces.appendChild(g);
+      try { g.setPointerCapture(e.pointerId); } catch (x) {}
+      puz.drag = { p: p, d: ptScene(e), t0: p.t.slice() };
+      g.classList.remove("anim"); g.classList.add("drag");
+      g.focus({ preventScroll: true });
+    });
+    g.addEventListener("pointermove", function (e) {
+      var d = puz.drag; if (!d || d.p !== p) return;
+      var s = ptScene(e);
+      poser(p, limiter(p, [d.t0[0] + s[0] - d.d[0], d.t0[1] + s[1] - d.d[1]]), false);
+    });
+    function fin() {
+      if (!puz.drag || puz.drag.p !== p) return;
+      puz.drag = null; g.classList.remove("drag");
+      accrocher(p); majCompte();
+    }
+    g.addEventListener("pointerup", fin);
+    g.addEventListener("pointercancel", fin);
+    g.addEventListener("keydown", function (e) {
+      var pas = e.shiftKey ? 1 : 0.2, dx = 0, dy = 0;
+      if (e.key === "ArrowLeft") dx = -pas; else if (e.key === "ArrowRight") dx = pas;
+      else if (e.key === "ArrowUp") dy = -pas; else if (e.key === "ArrowDown") dy = pas; else return;
+      e.preventDefault();
+      poser(p, limiter(p, [p.t[0] + dx, p.t[1] + dy]), false);
+      accrocher(p); majCompte();
+    });
+  }
+  $("puz-reset").addEventListener("click", function () {
+    puz.pcs.forEach(function (p) { poser(p, [0, 0], true); });
+    majCompte();
+  });
+  $("puz-indice").addEventListener("click", function () {      /* l'astuce montre les emplacements, mais ne place rien */
+    var on = this.getAttribute("aria-pressed") !== "true";
+    this.setAttribute("aria-pressed", String(on));
+    gIndice.style.display = on ? "" : "none";
+  });
+
+  /* ===================== ACTIVITÉ 2 : ÉGALITÉ À TROUS (blocs à déplacer) ===================== */
+  var BLOCS = [
+    { id: "ar", txt: "aire du carré rouge", col: COUL.rouge },
+    { id: "aj", txt: "aire du carré jaune", col: COUL.jaune },
+    { id: "av", txt: "aire du carré vert", col: "#7CCB93" },
+    { id: "cr", txt: "côté du carré rouge", col: COUL.rouge },
+    { id: "cj", txt: "côté du carré jaune", col: COUL.jaune },
+    { id: "cv", txt: "côté du carré vert", col: "#7CCB93" }
+  ];
+  var ordre = BLOCS.slice();
+  for (var i = ordre.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), tmp = ordre[i]; ordre[i] = ordre[j]; ordre[j] = tmp; }
+  function bloc(id) { return BLOCS.filter(function (b) { return b.id === id; })[0]; }
+  var eg = { slots: [null, null, null], sel: null, ok: false, supprime: false };
+
+  function blocHtml(b) {
+    return '<button type="button" class="bloc' + (eg.sel === b.id ? " sel" : "") + '" data-b="' + b.id + '" style="--c:' + b.col + '" aria-pressed="' + (eg.sel === b.id) + '"><i class="pastille"></i>' + b.txt + '</button>';
+  }
+  function renderEg() {
+    var f = document.activeElement, fid = f && f.getAttribute ? f.getAttribute("data-b") : null;
+    var h = "";
+    for (var i = 0; i < 3; i++) {
+      if (i === 1) h += '<span class="op" aria-label="plus">+</span>';
+      if (i === 2) h += '<span class="op" aria-label="égale">=</span>';
+      var id = eg.slots[i];
+      h += '<div class="slot' + (id ? " pleine" : "") + '" data-i="' + i + '" tabindex="0" role="button" aria-label="Case ' + (i + 1) + (id ? " : " + bloc(id).txt : " vide") + '">' +
+        (id ? blocHtml(bloc(id)) : '<span class="vide">dépose un bloc ici</span>') + '</div>';
+    }
+    $("eg-slots").innerHTML = h;
+    $("eg-banque").innerHTML = ordre.filter(function (b) { return eg.slots.indexOf(b.id) === -1; }).map(blocHtml).join("");
+    if (fid) { var n = document.querySelector('#eg-zone .bloc[data-b="' + fid + '"]'); if (n) n.focus({ preventScroll: true }); }
+  }
+  function poserBloc(id, i, depuis) {
+    var ancien = eg.slots[i];
+    if (depuis >= 0) eg.slots[depuis] = ancien;
+    eg.slots[i] = id; eg.sel = null;
+    $("eg-fin").textContent = ""; $("eg-fin").className = "eg-fin";
+    renderEg();
+  }
+  var zone = $("eg-zone"), drag = null;
+  zone.addEventListener("pointerdown", function (e) {
+    if (eg.ok || (e.button !== undefined && e.button > 0)) return;
+    var b = e.target.closest(".bloc"); if (!b) return;
+    var sl = b.closest(".slot");
+    drag = { id: b.getAttribute("data-b"), from: sl ? +sl.getAttribute("data-i") : -1, x: e.clientX, y: e.clientY, on: false, g: null, pid: e.pointerId, src: b };
+  });
+  document.addEventListener("pointermove", function (e) {
+    if (!drag || e.pointerId !== drag.pid) return;
+    if (!drag.on) {
+      if (Math.hypot(e.clientX - drag.x, e.clientY - drag.y) < 6) return;
+      drag.on = true;
+      var g = drag.src.cloneNode(true); g.classList.add("ghost"); g.classList.remove("sel");
+      document.body.appendChild(g); drag.g = g;
+      drag.dx = drag.x - drag.src.getBoundingClientRect().left; drag.dy = drag.y - drag.src.getBoundingClientRect().top;
+    }
+    e.preventDefault();
+    drag.g.style.left = (e.clientX - drag.dx) + "px"; drag.g.style.top = (e.clientY - drag.dy) + "px";
+    Array.prototype.forEach.call(zone.querySelectorAll(".slot"), function (s) { s.classList.remove("cible"); });
+    var u = document.elementFromPoint(e.clientX, e.clientY), s = u && u.closest ? u.closest(".slot") : null;
+    if (s) s.classList.add("cible");
+  });
+  function finDrag(e) {
+    if (!drag || e.pointerId !== drag.pid) return;
+    var d = drag; drag = null;
+    if (!d.on) return;                                     /* simple clic : traité par l'événement click */
+    d.g.parentNode.removeChild(d.g);
+    Array.prototype.forEach.call(zone.querySelectorAll(".slot"), function (s) { s.classList.remove("cible"); });
+    eg.supprime = true; setTimeout(function () { eg.supprime = false; }, 120);
+    var u = e.type === "pointerup" ? document.elementFromPoint(e.clientX, e.clientY) : null, s = u && u.closest ? u.closest(".slot") : null;
+    if (s) poserBloc(d.id, +s.getAttribute("data-i"), d.from);
+    else if (d.from >= 0) { eg.slots[d.from] = null; eg.sel = null; renderEg(); }
+    else renderEg();
+  }
+  document.addEventListener("pointerup", finDrag);
+  document.addEventListener("pointercancel", finDrag);
+  zone.addEventListener("click", function (e) {
+    if (eg.ok) return;
+    if (eg.supprime) { eg.supprime = false; return; }
+    var b = e.target.closest(".bloc"), sl = e.target.closest(".slot");
+    if (b && !sl) { eg.sel = eg.sel === b.getAttribute("data-b") ? null : b.getAttribute("data-b"); renderEg(); return; }
+    if (sl) {
+      var i = +sl.getAttribute("data-i");
+      if (eg.sel) poserBloc(eg.sel, i, -1);
+      else if (eg.slots[i]) { eg.slots[i] = null; renderEg(); }
+    }
+  });
+  zone.addEventListener("keydown", function (e) {
+    if ((e.key === "Enter" || e.key === " ") && e.target.classList && e.target.classList.contains("slot")) { e.preventDefault(); e.target.click(); }
+  });
+  $("eg-raz").addEventListener("click", function () {
+    if (eg.ok) return;
+    eg.slots = [null, null, null]; eg.sel = null;
+    $("eg-fin").textContent = ""; $("eg-fin").className = "eg-fin";
+    renderEg();
+  });
+  $("eg-astuce").addEventListener("click", function () {
+    var on = this.getAttribute("aria-pressed") !== "true";
+    this.setAttribute("aria-pressed", String(on));
+    $("eg-astuce-txt").hidden = !on;
+  });
+  function messageEg(txt, ko) { var m = $("eg-fin"); m.textContent = txt; m.className = "eg-fin" + (ko ? " ko" : ""); }
+  function egaliteJuste() { var s = eg.slots; return s[2] === "av" && ((s[0] === "ar" && s[1] === "aj") || (s[0] === "aj" && s[1] === "ar")); }
+  function bloquerEg() {
+    eg.ok = true;
+    Array.prototype.forEach.call(zone.querySelectorAll(".bloc"), function (b) { b.disabled = true; b.style.cursor = "default"; });
+    $("eg-verif").disabled = true; $("eg-raz").disabled = true;
+  }
+  $("eg-verif").addEventListener("click", function () {
+    var s = eg.slots;
+    if (eg.ok) return;
+    if (s.some(function (x) { return !x; })) { messageEg("Complète les trois cases avant de vérifier.", true); return; }
+    if (egaliteJuste()) { messageEg("", false); renderEg(); bloquerEg(); valider(2); return; }
+    if (s.some(function (x) { return x.charAt(0) === "c"; }))
+      messageEg("❌ Pas encore. Dans le puzzle, on a recouvert des surfaces : on compare des aires, pas des longueurs de côtés.", true);
+    else if (s[2] !== "av")
+      messageEg("❌ Pas encore. Relis ton puzzle : quel carré a-t-on recouvert avec les morceaux des deux autres ? Il doit être tout seul de l'autre côté du signe =.", true);
+    else messageEg("❌ Pas encore. Regarde bien les couleurs de la figure.", true);
+  });
+
+  /* ===================== ACTIVITÉ 3 : L'ANGLE ===================== */
+  var boiteAng = (function () {
+    var polys = [];
+    for (var t = 15; t <= 165; t += 5) { var s = scene(3, 4, t); polys.push(s.sqA, s.sqB, s.sqC); }
+    return boite(polys, 0.4);
+  })();
+  function majAng() {
+    var th = parseFloat($("ang-rng").value);
+    $("ang-val").textContent = Math.round(th) + "°";
+    var r = dessiner($("svg-ang"), 3, 4, th, { boite: boiteAng, aires: true, angle: true, rAngle: 0.7 });
+    var e = $("ang-egal"), val = r.aireC;
+    e.className = "egal" + (r.egal ? "" : " non");
+    if (r.egal) e.textContent = "✅ 9 + 16 = 25, et le carré vert a une aire de 25. Égalité vraie !";
+    else e.textContent = "❌ 9 + 16 = 25, mais le carré vert a une aire de " + fmt(val, 1) + ", " + (val < 25 ? "plus petite" : "plus grande") + " que 25. Égalité fausse.";
+    $("bar-somme").style.width = (25 / 50 * 100) + "%";
+    var bt = $("bar-tiers");
+    bt.style.width = (val / 50 * 100) + "%";
+    bt.className = "barre" + (r.egal ? "" : " ecart");
+  }
+  $("ang-rng").addEventListener("input", majAng);
+  $("ang-astuce").addEventListener("click", function () {
+    var on = this.getAttribute("aria-pressed") !== "true";
+    this.setAttribute("aria-pressed", String(on));
+    $("ang-astuce-txt").hidden = !on;
+  });
+  function verifierAngle() {
+    var champ = $("ang-rep"), v = champ.value.replace(/[°\s]|degr[ée]s?|deg/gi, "").replace(",", ".");
+    var f = $("ang-fin");
+    if (!v) { f.textContent = "Écris la mesure de l'angle dans la case."; f.className = "eg-fin ko"; return; }
+    if (v !== "" && !isNaN(Number(v)) && Number(v) === 90) {
+      champ.className = "ok"; f.textContent = ""; f.className = "eg-fin"; champ.readOnly = true;
+      $("ang-verif").disabled = true; valider(3);
+    } else {
+      champ.className = "ko"; f.className = "eg-fin ko";
+      f.textContent = "❌ Pas encore : bouge le curseur et regarde pour quel angle l'égalité devient vraie.";
+    }
+  }
+  $("ang-verif").addEventListener("click", verifierAngle);
+  $("ang-rep").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); verifierAngle(); } });
+  $("ang-rep").addEventListener("input", function () { this.className = ""; $("ang-fin").textContent = ""; });
+
+  /* ===================== DÉMARRAGE ===================== */
+  window.PythExos.render($("exos-host"), { solutions: false });
+  dessiner($("svg-egal"), 3, 4, 90, { noms: true });
+  renderEg();
+  majAng();
+  charger();
+  construirePuzzle(3, 4);
+  if (fait[2]) { eg.slots = ["ar", "aj", "av"]; renderEg(); bloquerEg(); }
+  if (fait[3]) { $("ang-rng").value = 90; majAng(); $("ang-rep").value = "90"; $("ang-rep").className = "ok"; $("ang-rep").readOnly = true; $("ang-verif").disabled = true; }
+  majEtapes(false);
+  $("btn-reinit").addEventListener("click", function () {
+    if (!window.confirm("Recommencer toute la séance depuis le début ? Tes activités validées seront effacées.")) return;
+    try { sessionStorage.removeItem(KEY); } catch (e) {}
+    location.reload();
+  });
+  window.addEventListener("load", function () {
+    Array.prototype.forEach.call(document.querySelectorAll("svg"), function (s) { if (s.viewBox && s.viewBox.baseVal) fixLabels(s); });
+  });
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>
