@@ -60,22 +60,22 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
   <div class="objectifs"><b>Objectifs :</b> résoudre un problème de répartition en lots identiques en cherchant le plus grand nombre qui divise deux quantités, avec une autonomie croissante.</div>
   <div class="automatisme">
     <h2>Automatisme</h2>
-    <ol><li>Décompose 18 en facteurs premiers.</li><li>Décompose 24 en facteurs premiers.</li><li>Facteurs premiers communs à 18 et 24 ?</li><li>7 × 8 =</li><li>Le triangle EFG est rectangle en E. Quel côté est l'hypoténuse ?</li><li>3² × 2 =</li></ol>
+    <ol><li>Décompose 18 en <span class="gl" data-t="facteur-premier">facteurs premiers</span>.</li><li>Décompose 24 en <span class="gl" data-t="facteur-premier">facteurs premiers</span>.</li><li><span class="gl" data-t="facteur-premier">Facteurs premiers</span> communs à 18 et 24 ?</li><li>7 × 8 =</li><li>Le <span class="gl" data-t="triangle">triangle</span> EFG est <span class="gl" data-t="rectangle">rectangle</span> en E. Quel côté est l'<span class="gl" data-t="hypotenuse">hypoténuse</span> ?</li><li>3² × 2 =</li></ol>
     <button class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
-    <div class="reveal-panel" id="auto-corrige">Corrigé : 2 × 3² ; 2³ × 3 ; 2 et 3 ; 56 ; [FG] (le côté en face de l'angle droit, qui ne touche pas E) ; 18</div>
+    <div class="reveal-panel" id="auto-corrige">Corrigé : 2 × 3² ; 2³ × 3 ; 2 et 3 ; 56 ; [FG] (le côté en face de l'<span class="gl" data-t="angle-droit">angle droit</span>, qui ne touche pas E) ; 18</div>
   </div>
-  <div class="methode"><b class="tag">Méthode</b>Un fleuriste a 12 roses et 18 tulipes, et veut faire des bouquets identiques avec toutes les fleurs. 12=2²×3, 18=2×3². Facteurs premiers communs : 2×3=6. Il peut donc faire <b>6 bouquets</b> maximum, chacun avec 2 roses et 3 tulipes.</div>
+  <div class="methode"><b class="tag">Méthode</b>Un fleuriste a 12 roses et 18 tulipes, et veut faire des bouquets identiques avec toutes les fleurs. 12=2²×3, 18=2×3². <span class="gl" data-t="facteur-premier">Facteurs premiers</span> communs : 2×3=6. Il peut donc faire <b>6 bouquets</b> <span class="gl" data-t="maximum">maximum</span>, chacun avec 2 roses et 3 tulipes.</div>
   <div class="section-title">Exercices</div>
 
     <div class="exo">
       <div class="exo-title">★ Exercice</div>
-      <p>Pour le stand de merchandising d'un concert, un organisateur a 48 badges et 36 stickers. Il veut préparer des pochettes identiques en utilisant tous les articles.<br><span class='q'>a) Donne les décompositions en facteurs premiers de 48 et de 36.</span><br><span class='q'>b) Quels sont leurs facteurs premiers communs ?</span><br><span class='q'>c) Quel est le plus grand nombre de pochettes identiques possible, et que contient chaque pochette ?</span></p>
+      <p>Pour le stand de merchandising d'un concert, un organisateur a 48 badges et 36 stickers. Il veut préparer des pochettes identiques en utilisant tous les articles.<br><span class='q'>a) Donne les <span class="gl" data-t="decomposition">décompositions en facteurs premiers</span> de 48 et de 36.</span><br><span class='q'>b) Quels sont leurs <span class="gl" data-t="facteur-premier">facteurs premiers</span> communs ?</span><br><span class='q'>c) Quel est le plus grand nombre de pochettes identiques possible, et que contient chaque pochette ?</span></p>
       <div class="btn-row">
         <button class="toggle-btn astuce" onclick="toggle('astuce-0')">💡 Astuce</button>
         <button class="toggle-btn solution" onclick="toggle('solution-0')">✅ Solution</button>
       </div>
       <div class="panel astuce-panel" id="astuce-0"><span class="label">Astuce</span>Suis les 3 étapes dans l'ordre : décompose, trouve les facteurs communs, puis multiplie-les pour avoir le nombre de pochettes.</div>
-      <div class="panel solution-panel" id="solution-0"><span class="label">Solution</span>a) 48 = 2⁴ × 3 et 36 = 2² × 3². b) Facteurs communs : 2² × 3. c) 2² × 3 = 12, donc <b>12 pochettes</b> maximum, chacune avec 4 badges et 3 stickers.</div>
+      <div class="panel solution-panel" id="solution-0"><span class="label">Solution</span>a) 48 = 2⁴ × 3 et 36 = 2² × 3². b) Facteurs communs : 2² × 3. c) 2² × 3 = 12, donc <b>12 pochettes</b> <span class="gl" data-t="maximum">maximum</span>, chacune avec 4 badges et 3 stickers.</div>
     </div>
     <div class="exo">
       <div class="exo-title">★★ Exercice</div>
@@ -89,23 +89,23 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     </div>
     <div class="exo">
       <div class="exo-title">★★ Exercice</div>
-      <p>Pour une kermesse, des bénévoles ont préparé des sachets identiques en utilisant tous leurs articles. Chaque sachet contient 4 cookies et 7 bonbons, et il y a 9 sachets.<br><span class='q'>a) Combien de cookies et de bonbons les bénévoles avaient-ils au départ ?</span><br><span class='q'>b) Avaient-ils fait le plus grand nombre de sachets possible ? Justifie avec les décompositions en facteurs premiers.</span></p>
+      <p>Pour une kermesse, des bénévoles ont préparé des sachets identiques en utilisant tous leurs articles. Chaque sachet contient 4 cookies et 7 bonbons, et il y a 9 sachets.<br><span class='q'>a) Combien de cookies et de bonbons les bénévoles avaient-ils au départ ?</span><br><span class='q'>b) Avaient-ils fait le plus grand nombre de sachets possible ? Justifie avec les <span class="gl" data-t="decomposition">décompositions en facteurs premiers</span>.</span></p>
       <div class="btn-row">
         <button class="toggle-btn astuce" onclick="toggle('astuce-2')">💡 Astuce</button>
         <button class="toggle-btn solution" onclick="toggle('solution-2')">✅ Solution</button>
       </div>
-      <div class="panel astuce-panel" id="astuce-2"><span class="label">Astuce</span>Pour a), calcule le contenu total des 9 sachets. Pour b), cherche les facteurs premiers communs aux deux quantités trouvées.</div>
-      <div class="panel solution-panel" id="solution-2"><span class="label">Solution</span>a) 9 × 4 = 36 cookies et 9 × 7 = 63 bonbons. b) 36 = 2²×3² et 63 = 3²×7 : facteurs communs 3² = 9. Le plus grand nombre de sachets possible est <b>9</b> : oui, ils avaient fait le maximum.</div>
+      <div class="panel astuce-panel" id="astuce-2"><span class="label">Astuce</span>Pour a), calcule le contenu total des 9 sachets. Pour b), cherche les <span class="gl" data-t="facteur-premier">facteurs premiers</span> communs aux deux quantités trouvées.</div>
+      <div class="panel solution-panel" id="solution-2"><span class="label">Solution</span>a) 9 × 4 = 36 cookies et 9 × 7 = 63 bonbons. b) 36 = 2²×3² et 63 = 3²×7 : facteurs communs 3² = 9. Le plus grand nombre de sachets possible est <b>9</b> : oui, ils avaient fait le <span class="gl" data-t="maximum">maximum</span>.</div>
     </div>
     <div class="exo">
       <div class="exo-title">★★★ Exercice</div>
-      <p>Un fleuriste a 24 roses et 36 tulipes. Pour faire des bouquets identiques avec toutes ses fleurs, Théo propose de faire 6 bouquets, avec 4 roses et 6 tulipes dans chacun.<br><span class='q'>a) Vérifie que le partage proposé par Théo est possible.</span><br><span class='q'>b) Théo a-t-il trouvé le plus grand nombre de bouquets possible ? Justifie avec les décompositions en facteurs premiers.</span></p>
+      <p>Un fleuriste a 24 roses et 36 tulipes. Pour faire des bouquets identiques avec toutes ses fleurs, Théo propose de faire 6 bouquets, avec 4 roses et 6 tulipes dans chacun.<br><span class='q'>a) Vérifie que le partage proposé par Théo est possible.</span><br><span class='q'>b) Théo a-t-il trouvé le plus grand nombre de bouquets possible ? Justifie avec les <span class="gl" data-t="decomposition">décompositions en facteurs premiers</span>.</span></p>
       <div class="btn-row">
         <button class="toggle-btn astuce" onclick="toggle('astuce-3')">💡 Astuce</button>
         <button class="toggle-btn solution" onclick="toggle('solution-3')">✅ Solution</button>
       </div>
       <div class="panel astuce-panel" id="astuce-3"><span class="label">Astuce</span>Un partage possible n'est pas forcément le meilleur : cherche le plus grand nombre qui divise à la fois 24 et 36.</div>
-      <div class="panel solution-panel" id="solution-3"><span class="label">Solution</span>a) 24 ÷ 6 = 4 et 36 ÷ 6 = 6 : le partage est possible. b) 24 = 2³×3 et 36 = 2²×3², facteurs communs 2²×3 = 12. On peut faire <b>12 bouquets</b>, chacun avec 2 roses et 3 tulipes. Théo n'a donc pas trouvé le maximum : il a oublié un facteur 2.</div>
+      <div class="panel solution-panel" id="solution-3"><span class="label">Solution</span>a) 24 ÷ 6 = 4 et 36 ÷ 6 = 6 : le partage est possible. b) 24 = 2³×3 et 36 = 2²×3², facteurs communs 2²×3 = 12. On peut faire <b>12 bouquets</b>, chacun avec 2 roses et 3 tulipes. Théo n'a donc pas trouvé le <span class="gl" data-t="maximum">maximum</span> : il a oublié un facteur 2.</div>
     </div>
     <div class="exo">
       <div class="exo-title">★★★ Exercice</div>
@@ -119,23 +119,23 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     </div>
     <div class="exo">
       <div class="exo-title">★★★ Exercice</div>
-      <p>On veut carreler un mur rectangulaire de 240 cm sur 180 cm avec des carreaux carrés tous identiques, sans aucune découpe, et les plus grands possible.<br><span class='q'>a) Quelle est la longueur du côté d'un carreau ?</span><br><span class='q'>b) Combien de carreaux faut-il ?</span></p>
+      <p>On veut carreler un mur rectangulaire de 240 cm sur 180 cm avec des carreaux <span class="gl" data-t="carre">carrés</span> tous identiques, sans aucune découpe, et les plus grands possible.<br><span class='q'>a) Quelle est la <span class="gl" data-t="longueur">longueur</span> du côté d'un carreau ?</span><br><span class='q'>b) Combien de carreaux faut-il ?</span></p>
       <div class="btn-row">
         <button class="toggle-btn astuce" onclick="toggle('astuce-5')">💡 Astuce</button>
         <button class="toggle-btn solution" onclick="toggle('solution-5')">✅ Solution</button>
       </div>
-      <div class="panel astuce-panel" id="astuce-5"><span class="label">Astuce</span>Le côté du carreau doit diviser 240 et 180 : cherche le plus grand nombre qui divise les deux longueurs.</div>
-      <div class="panel solution-panel" id="solution-5"><span class="label">Solution</span>a) 240 = 2⁴×3×5 et 180 = 2²×3²×5, facteurs communs 2²×3×5 = 60 : le côté mesure <b>60 cm</b>. b) 240 ÷ 60 = 4 carreaux dans la longueur et 180 ÷ 60 = 3 dans la hauteur : 4 × 3 = <b>12 carreaux</b>.</div>
+      <div class="panel astuce-panel" id="astuce-5"><span class="label">Astuce</span>Le côté du carreau doit diviser 240 et 180 : cherche le plus grand nombre qui divise les deux <span class="gl" data-t="longueur">longueurs</span>.</div>
+      <div class="panel solution-panel" id="solution-5"><span class="label">Solution</span>a) 240 = 2⁴×3×5 et 180 = 2²×3²×5, facteurs communs 2²×3×5 = 60 : le côté mesure <b>60 cm</b>. b) 240 ÷ 60 = 4 carreaux dans la <span class="gl" data-t="longueur">longueur</span> et 180 ÷ 60 = 3 dans la hauteur : 4 × 3 = <b>12 carreaux</b>.</div>
     </div><div class="advanced-title">Pour aller plus loin</div>
     <div class="exo">
       <div class="exo-title">★★★★ Exercice (question ouverte)</div>
-      <p>Pourquoi la décomposition en facteurs premiers permet-elle de trouver directement le plus grand nombre de lots identiques possible, plutôt que de tester au hasard plusieurs nombres de lots ? Explique avec tes mots ce que représentent les facteurs premiers communs dans ce type de problème.</p>
+      <p>Pourquoi la <span class="gl" data-t="decomposition">décomposition en facteurs premiers</span> permet-elle de trouver directement le plus grand nombre de lots identiques possible, plutôt que de tester au hasard plusieurs nombres de lots ? Explique avec tes mots ce que représentent les <span class="gl" data-t="facteur-premier">facteurs premiers</span> communs dans ce type de problème.</p>
       <div class="btn-row">
         <button class="toggle-btn astuce" onclick="toggle('astuce-6')">💡 Astuce</button>
         <button class="toggle-btn solution" onclick="toggle('solution-6')">✅ Piste de correction</button>
       </div>
-      <div class="panel astuce-panel" id="astuce-6"><span class="label">Astuce</span>Repense à ce que représente un facteur premier commun : c'est un nombre qui divise à la fois les deux quantités de départ.</div>
-      <div class="panel solution-panel" id="solution-6"><span class="label">Piste de correction</span>Les facteurs premiers communs représentent tous les nombres qui divisent à la fois les deux quantités de départ. En les multipliant tous ensemble, on obtient directement le plus grand nombre qui divise les deux quantités, sans avoir à tester un par un tous les diviseurs possibles : c'est une méthode systématique, plus sûre qu'un essai au hasard.</div>
+      <div class="panel astuce-panel" id="astuce-6"><span class="label">Astuce</span>Repense à ce que représente un <span class="gl" data-t="facteur-premier">facteur premier</span> commun : c'est un nombre qui divise à la fois les deux quantités de départ.</div>
+      <div class="panel solution-panel" id="solution-6"><span class="label">Piste de correction</span>Les <span class="gl" data-t="facteur-premier">facteurs premiers</span> communs représentent tous les nombres qui divisent à la fois les deux quantités de départ. En les multipliant tous ensemble, on obtient directement le plus grand nombre qui divise les deux quantités, sans avoir à tester un par un tous les <span class="gl" data-t="diviseur">diviseurs</span> possibles : c'est une méthode systématique, plus sûre qu'un essai au hasard.</div>
     </div>
     <div class="exo">
       <div class="exo-title">★★★★ Exercice</div>
@@ -144,7 +144,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
         <button class="toggle-btn astuce" onclick="toggle('astuce-7')">💡 Astuce</button>
         <button class="toggle-btn solution" onclick="toggle('solution-7')">✅ Solution</button>
       </div>
-      <div class="panel astuce-panel" id="astuce-7"><span class="label">Astuce</span>Décompose les trois nombres et garde les facteurs premiers présents dans les trois décompositions.</div>
+      <div class="panel astuce-panel" id="astuce-7"><span class="label">Astuce</span>Décompose les trois nombres et garde les <span class="gl" data-t="facteur-premier">facteurs premiers</span> présents dans les trois décompositions.</div>
       <div class="panel solution-panel" id="solution-7"><span class="label">Solution</span>60 = 2²×3×5, 90 = 2×3²×5 et 45 = 3²×5. Facteurs communs aux trois : 3 × 5 = 15. On peut faire <b>15 plateaux</b>, chacun avec 4 sandwichs, 6 boissons et 3 desserts.</div>
     </div>
   <footer>Cherche seul(e) d'abord. Utilise l'astuce si tu bloques, puis vérifie avec la solution.</footer>
@@ -152,5 +152,6 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
 <script>function toggle(id){document.getElementById(id).classList.toggle('show');}</script>
 <script src="../../assets/catalogue.js"></script>
 <script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
 </body>
 </html>

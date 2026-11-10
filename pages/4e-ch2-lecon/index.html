@@ -54,17 +54,17 @@
     </header>
 
     <div class="rappel">
-      <b>Une grandeur composée</b> s'obtient en combinant deux autres grandeurs. On distingue deux familles : la <b>grandeur quotient</b>
-      (on divise : A ÷ B — ex. la vitesse = distance ÷ temps) et la <b>grandeur produit</b> (on multiplie : A × B — ex. l'aire = longueur × largeur).
-      L'unité d'une grandeur composée combine toujours les unités des deux grandeurs de départ (km/h, m³, kWh...).
+      <b>Une <span class="gl" data-t="grandeur-composee">grandeur composée</span></b> s'obtient en combinant deux autres <span class="gl" data-t="grandeur">grandeurs</span>. On distingue deux familles : la <b><span class="gl" data-t="grandeur-quotient">grandeur quotient</span></b>
+      (on divise : A ÷ B — ex. la <span class="gl" data-t="vitesse">vitesse</span> = distance ÷ temps) et la <b><span class="gl" data-t="grandeur-produit">grandeur produit</span></b> (on multiplie : A × B — ex. l'<span class="gl" data-t="aire">aire</span> = <span class="gl" data-t="longueur">longueur</span> × <span class="gl" data-t="largeur">largeur</span>).
+      L'<span class="gl" data-t="unite">unité</span> d'une <span class="gl" data-t="grandeur-composee">grandeur composée</span> combine toujours les <span class="gl" data-t="unite">unités</span> des deux <span class="gl" data-t="grandeur">grandeurs</span> de départ (km/h, m³, <span class="gl" data-t="kwh">kWh</span>...).
     </div>
 
     <div class="grid">
       <div class="card quotient1">
         <h2>La vitesse</h2>
-        <p>La vitesse moyenne est une grandeur quotient : elle indique la distance parcourue par unité de temps.</p>
+        <p>La <span class="gl" data-t="vitesse">vitesse moyenne</span> est une <span class="gl" data-t="grandeur-quotient">grandeur quotient</span> : elle indique la distance parcourue par <span class="gl" data-t="unite">unité</span> de temps.</p>
         <div class="formula">v = d ÷ t</div>
-        <p class="example">Unités : km/h (d en km, t en h) ou m/s (d en m, t en s). Ex. : 120 km en 2 h → v = 60 km/h.</p>
+        <p class="example"><span class="gl" data-t="unite">Unités</span> : km/h (d en km, t en h) ou m/s (d en m, t en s). Ex. : 120 km en 2 h → v = 60 km/h.</p>
         <div class="calc">
           <div class="calc-title">Essaie toi-même</div>
           <div class="calc-row">d = <input type="number" id="v-d" value="120"> km &nbsp; t = <input type="number" id="v-t" value="2"> h
@@ -75,11 +75,11 @@
 
       <div class="card quotient2">
         <h2>Le débit et la densité</h2>
-        <p>Même principe qu'une vitesse : une division entre deux grandeurs différentes.</p>
-        <div class="formula">débit = volume ÷ temps</div>
-        <div class="formula">densité = masse ÷ volume</div>
+        <p>Même principe qu'une <span class="gl" data-t="vitesse">vitesse</span> : une <span class="gl" data-t="division">division</span> entre deux <span class="gl" data-t="grandeur">grandeurs</span> différentes.</p>
+        <div class="formula"><span class="gl" data-t="debit">débit</span> = <span class="gl" data-t="volume">volume</span> ÷ temps</div>
+        <div class="formula"><span class="gl" data-t="densite">densité</span> = <span class="gl" data-t="masse">masse</span> ÷ <span class="gl" data-t="volume">volume</span></div>
         <div class="calc">
-          <div class="calc-title">Débit — essaie toi-même</div>
+          <div class="calc-title"><span class="gl" data-t="debit">Débit</span> — essaie toi-même</div>
           <div class="calc-row">V = <input type="number" id="q-v" value="120"> L &nbsp; t = <input type="number" id="q-t" value="4"> min
           <button class="calc-btn" onclick="calcQ()">Calculer</button></div>
           <div class="calc-result" id="q-r"></div>
@@ -88,13 +88,13 @@
 
       <div class="card produit">
         <h2>Les grandeurs produits</h2>
-        <p>L'aire, le volume et l'énergie s'obtiennent en multipliant deux grandeurs.</p>
-        <div class="formula">Aire = longueur × largeur</div>
-        <div class="formula">Volume = longueur × largeur × hauteur</div>
-        <div class="formula">Énergie : E = P × t</div>
-        <p class="example">Puissance P en kW, durée t en h → énergie E en kWh (kilowattheure).</p>
+        <p>L'<span class="gl" data-t="aire">aire</span>, le <span class="gl" data-t="volume">volume</span> et l'<span class="gl" data-t="energie">énergie</span> s'obtiennent en multipliant deux <span class="gl" data-t="grandeur">grandeurs</span>.</p>
+        <div class="formula"><span class="gl" data-t="aire">Aire</span> = <span class="gl" data-t="longueur">longueur</span> × <span class="gl" data-t="largeur">largeur</span></div>
+        <div class="formula"><span class="gl" data-t="volume">Volume</span> = <span class="gl" data-t="longueur">longueur</span> × <span class="gl" data-t="largeur">largeur</span> × hauteur</div>
+        <div class="formula"><span class="gl" data-t="energie">Énergie</span> : E = P × t</div>
+        <p class="example"><span class="gl" data-t="puissance-elec">Puissance</span> P en kW, <span class="gl" data-t="duree">durée</span> t en h → <span class="gl" data-t="energie">énergie</span> E en <span class="gl" data-t="kwh">kWh</span> (kilowattheure).</p>
         <div class="calc">
-          <div class="calc-title">Énergie — essaie toi-même</div>
+          <div class="calc-title"><span class="gl" data-t="energie">Énergie</span> — essaie toi-même</div>
           <div class="calc-row">P = <input type="number" id="e-p" value="2"> kW &nbsp; t = <input type="number" id="e-t" value="3"> h
           <button class="calc-btn" onclick="calcE()">Calculer</button></div>
           <div class="calc-result" id="e-r"></div>
@@ -103,7 +103,7 @@
 
       <div class="card convertir">
         <h2>Convertir une grandeur composée</h2>
-        <p>Méthode : convertir séparément chaque grandeur simple, puis refaire le calcul.</p>
+        <p>Méthode : <span class="gl" data-t="conversion">convertir</span> séparément chaque <span class="gl" data-t="grandeur">grandeur</span> simple, puis refaire le calcul.</p>
         <div class="formula">72 km/h → m/s : 72÷3,6 = 20 m/s</div>
         <p class="example">Astuce : ×1000 puis ÷3600 revient à diviser directement par 3,6 pour passer de km/h à m/s.</p>
         <div class="calc">
@@ -117,7 +117,7 @@
       </div>
     </div>
 
-    <footer>Cahier de leçons — Chapitre 2 — Les grandeurs quotients et produits. Modifie les nombres pour t'entraîner avec tes propres valeurs.</footer>
+    <footer>Cahier de leçons — Chapitre 2 — Les <span class="gl" data-t="grandeur-quotient">grandeurs quotients</span> et <span class="gl" data-t="produit">produits</span>. Modifie les nombres pour t'entraîner avec tes propres valeurs.</footer>
   </div>
 
 <script>
@@ -152,5 +152,6 @@ calcV(); calcQ(); calcE(); calcConv('kmh');
 </script>
 <script src="../../assets/catalogue.js"></script>
 <script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
 </body>
 </html>

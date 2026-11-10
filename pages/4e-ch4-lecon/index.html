@@ -97,9 +97,9 @@
   <!-- 1. Hypoténuse -->
   <section class="card c1" id="s1">
     <h2>1. L'hypoténuse</h2>
-    <p>Un triangle rectangle a un <b>angle droit</b>.</p>
-    <p>L'<b>hypoténuse</b> est le côté <b>en face</b> de l'angle droit.</p>
-    <p>C'est le <b>plus long</b> côté.</p>
+    <p>Un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> a un <b><span class="gl" data-t="angle-droit">angle droit</span></b>.</p>
+    <p>L'<b><span class="gl" data-t="hypotenuse">hypoténuse</span></b> est le <span class="gl" data-t="cote">côté</span> <b>en face</b> de l'<span class="gl" data-t="angle-droit">angle droit</span>.</p>
+    <p>C'est le <b>plus long</b> <span class="gl" data-t="cote">côté</span>.</p>
     <div class="fig"><svg id="t1" viewBox="0 0 340 230" role="img" aria-label="Triangle rectangle avec son hypoténuse en vert"></svg></div>
     <div class="res" id="t1-r" aria-live="polite"></div>
     <button class="btn" id="t1-new" type="button">Changer de triangle</button>
@@ -109,12 +109,12 @@
   <section class="card c2" id="s2">
     <h2>2. Le théorème</h2>
     <div class="theoreme">
-      <div class="tag">THÉORÈME DE PYTHAGORE</div>
-      <p class="enonce">Si <b>ABC</b> est un triangle <b>rectangle en A</b>, alors :</p>
+      <div class="tag"><span class="gl" data-t="pythagore">THÉORÈME DE PYTHAGORE</span></div>
+      <p class="enonce">Si <b>ABC</b> est un <span class="gl" data-t="triangle">triangle</span> <b><span class="gl" data-t="rectangle">rectangle</span> en A</b>, alors :</p>
       <div class="formule">AB² + AC² = BC²</div>
-      <p class="autre">Autrement dit : dans un triangle rectangle, le carré de la longueur de l'<b>hypoténuse</b> est égal à la <b>somme des carrés</b> des longueurs des deux autres côtés.</p>
+      <p class="autre">Autrement dit : dans un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span>, le <span class="gl" data-t="carre">carré</span> de la <span class="gl" data-t="longueur">longueur</span> de l'<b><span class="gl" data-t="hypotenuse">hypoténuse</span></b> est égal à la <b><span class="gl" data-t="somme">somme</span> des <span class="gl" data-t="carre">carrés</span></b> des <span class="gl" data-t="longueur">longueurs</span> des deux autres <span class="gl" data-t="cote">côtés</span>.</p>
     </div>
-    <p>Bouge les curseurs et regarde les aires.</p>
+    <p>Bouge les curseurs et regarde les <span class="gl" data-t="aire">aires</span>.</p>
     <div class="fig"><svg id="t2" viewBox="-7 -13 20 20" role="img" aria-label="Triangle rectangle avec les carrés construits sur ses côtés"></svg></div>
     <div class="curs"><label for="t2-a">AB =</label><input type="range" id="t2-a" min="1" max="6" value="3"><b id="t2-av">3 cm</b></div>
     <div class="curs"><label for="t2-b">AC =</label><input type="range" id="t2-b" min="1" max="6" value="4"><b id="t2-bv">4 cm</b></div>
@@ -124,8 +124,8 @@
   <!-- 3. Hypoténuse cherchée -->
   <section class="card c3" id="s3">
     <h2>3. Calculer l'hypoténuse</h2>
-    <p>On cherche l'hypoténuse : on <b>additionne</b> les carrés.</p>
-    <div class="saisie">Le triangle ABC est rectangle en A.
+    <p>On cherche l'<span class="gl" data-t="hypotenuse">hypoténuse</span> : on <b>additionne</b> les <span class="gl" data-t="carre">carrés</span>.</p>
+    <div class="saisie">Le <span class="gl" data-t="triangle">triangle</span> ABC est <span class="gl" data-t="rectangle">rectangle</span> en A.
       <span>AB = <input type="number" id="t3-a" value="6" min="1" max="99"> cm</span>
       <span>AC = <input type="number" id="t3-b" value="8" min="1" max="99"> cm</span>
     </div>
@@ -139,9 +139,9 @@
   <!-- 4. Côté de l'angle droit -->
   <section class="card c4" id="s4">
     <h2>4. Calculer un côté de l'angle droit</h2>
-    <p>On cherche un côté de l'angle droit : on <b>soustrait</b>.</p>
-    <p>Le grand carré <b>moins</b> le petit carré.</p>
-    <div class="saisie">Le triangle ABC est rectangle en A.
+    <p>On cherche un <span class="gl" data-t="cote">côté</span> de l'<span class="gl" data-t="angle-droit">angle droit</span> : on <b>soustrait</b>.</p>
+    <p>Le grand <span class="gl" data-t="carre">carré</span> <b>moins</b> le petit <span class="gl" data-t="carre">carré</span>.</p>
+    <div class="saisie">Le <span class="gl" data-t="triangle">triangle</span> ABC est <span class="gl" data-t="rectangle">rectangle</span> en A.
       <span>BC = <input type="number" id="t4-c" value="10" min="1" max="99"> cm</span>
       <span>AB = <input type="number" id="t4-a" value="6" min="1" max="99"> cm</span>
     </div>
@@ -165,15 +165,15 @@
   <div class="retenir">
     <h2>À retenir</h2>
     <ul>
-      <li>Pythagore marche <b>seulement</b> dans un triangle <b>rectangle</b>.</li>
-      <li>L'hypoténuse est <b>en face</b> de l'angle droit. C'est le plus long côté.</li>
-      <li>On cherche l'hypoténuse : on <b>additionne</b> les carrés.</li>
-      <li>On cherche un autre côté : on <b>soustrait</b> les carrés.</li>
+      <li>Pythagore marche <b>seulement</b> dans un <span class="gl" data-t="triangle">triangle</span> <b><span class="gl" data-t="rectangle">rectangle</span></b>.</li>
+      <li>L'<span class="gl" data-t="hypotenuse">hypoténuse</span> est <b>en face</b> de l'<span class="gl" data-t="angle-droit">angle droit</span>. C'est le plus long <span class="gl" data-t="cote">côté</span>.</li>
+      <li>On cherche l'<span class="gl" data-t="hypotenuse">hypoténuse</span> : on <b>additionne</b> les <span class="gl" data-t="carre">carrés</span>.</li>
+      <li>On cherche un autre <span class="gl" data-t="cote">côté</span> : on <b>soustrait</b> les <span class="gl" data-t="carre">carrés</span>.</li>
       <li>À la fin, on écrit <b>BC = √… cm</b>.</li>
     </ul>
   </div>
 
-  <footer>Cahier de leçons — Chapitre 4 — Le théorème de Pythagore. Change les nombres pour t'entraîner.</footer>
+  <footer>Cahier de leçons — Chapitre 4 — Le <span class="gl" data-t="pythagore">théorème de Pythagore</span>. Change les nombres pour t'entraîner.</footer>
 </div>
 
 <script>
@@ -374,5 +374,6 @@
 </script>
 <script src="../../assets/catalogue.js"></script>
 <script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
 </body>
 </html>

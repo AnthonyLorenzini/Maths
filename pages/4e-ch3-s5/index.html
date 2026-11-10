@@ -76,7 +76,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
   <div class="note-groupe"><b>En classe :</b> cette séance se fait <b>en groupe de 3 ou 4</b>, sur une seule fiche. Chacun écrit dans son cahier (numéro de l'exercice et réponses), et n'importe quel membre du groupe peut être interrogé pour expliquer. <b>À la maison :</b> refais les exercices seul(e).</div>
   <div class="automatisme">
     <h2>Automatisme</h2>
-    <ol><li>2³ × 3 =</li><li>Décompose 36 en facteurs premiers.</li><li>120 ÷ 8 =</li><li>Quel est le plus grand nombre qui divise à la fois 12 et 18 ?</li></ol>
+    <ol><li>2³ × 3 =</li><li>Décompose 36 en <span class="gl" data-t="facteur-premier">facteurs premiers</span>.</li><li>120 ÷ 8 =</li><li>Quel est le plus grand nombre qui divise à la fois 12 et 18 ?</li></ol>
     <button class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
     <div class="reveal-panel" id="auto-corrige">Corrigé : 24 ; 2² × 3² ; 15 ; 6</div>
   </div>
@@ -93,7 +93,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
         <button class="toggle-btn astuce" onclick="toggle('astuce-0')">💡 Astuce</button>
         <button class="toggle-btn solution" onclick="toggle('solution-0')">✅ Solution</button>
       </div>
-      <div class="panel astuce-panel" id="astuce-0"><span class="label">Astuce</span>Décompose 150 et 210, puis garde les facteurs premiers qu'ils ont en commun.</div>
+      <div class="panel astuce-panel" id="astuce-0"><span class="label">Astuce</span>Décompose 150 et 210, puis garde les <span class="gl" data-t="facteur-premier">facteurs premiers</span> qu'ils ont en commun.</div>
       <div class="panel solution-panel" id="solution-0"><span class="label">Solution</span>1) 150 = 2 × 3 × 5² et 210 = 2 × 3 × 5 × 7. Facteurs communs : 2 × 3 × 5 = 30. On peut faire <b>30 coffres</b>. 2) 150 ÷ 30 = 5 et 210 ÷ 30 = 7 : ce coffre contient <b>5 pièces d'or et 7 gemmes</b>.</div>
     </section>
     <section class="gcell">
@@ -107,7 +107,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
         <button class="toggle-btn astuce" onclick="toggle('astuce-1')">💡 Astuce</button>
         <button class="toggle-btn solution" onclick="toggle('solution-1')">✅ Solution</button>
       </div>
-      <div class="panel astuce-panel" id="astuce-1"><span class="label">Astuce</span>Ne garde que les facteurs premiers qui se trouvent dans les trois décompositions.</div>
+      <div class="panel astuce-panel" id="astuce-1"><span class="label">Astuce</span>Ne garde que les <span class="gl" data-t="facteur-premier">facteurs premiers</span> qui se trouvent dans les trois décompositions.</div>
       <div class="panel solution-panel" id="solution-1"><span class="label">Solution</span>1) 90 = 2 × 3² × 5, 135 = 3³ × 5 et 225 = 3² × 5². Facteurs présents dans les trois : 3² × 5 = 45. On peut faire <b>45 sacs</b> (le facteur 2 n'est que dans 90). 2) 90 ÷ 45 = 2, 135 ÷ 45 = 3 et 225 ÷ 45 = 5 : ce sac contient <b>2 flèches, 3 potions et 5 pièces d'argent</b>.</div>
     </section>
     <section class="gcell">
@@ -122,13 +122,13 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
         <button class="toggle-btn astuce" onclick="toggle('astuce-2')">💡 Astuce</button>
         <button class="toggle-btn solution" onclick="toggle('solution-2')">✅ Solution</button>
       </div>
-      <div class="panel astuce-panel" id="astuce-2"><span class="label">Astuce</span>Multiplie le nombre de sacs par le contenu d'un sac : retrouves-tu 126 rubis et 84 saphirs ? Pour 2), cherche le maximum avec les décompositions.</div>
-      <div class="panel solution-panel" id="solution-2"><span class="label">Solution</span>1) <b>Lina</b> : 63 × 2 = 126 mais 63 × 1 = 63, pas 84 : faux. <b>Jade</b> : 21 × 6 = 126 et 21 × 4 = 84 : possible. <b>Noa</b> : 42 × 3 = 126 et 42 × 2 = 84 : possible. <b>Sacha</b> : 1,5 rubis par sac, mais on ne coupe pas un rubis : faux. 2) 126 = 2 × 3² × 7 et 84 = 2² × 3 × 7. Facteurs communs : 2 × 3 × 7 = 42, donc 42 sacs au maximum. <b>Noa a raison</b>. Jade a un partage possible, mais pas le maximum (21 sacs au lieu de 42).</div>
+      <div class="panel astuce-panel" id="astuce-2"><span class="label">Astuce</span>Multiplie le nombre de sacs par le contenu d'un sac : retrouves-tu 126 rubis et 84 saphirs ? Pour 2), cherche le <span class="gl" data-t="maximum">maximum</span> avec les décompositions.</div>
+      <div class="panel solution-panel" id="solution-2"><span class="label">Solution</span>1) <b>Lina</b> : 63 × 2 = 126 mais 63 × 1 = 63, pas 84 : faux. <b>Jade</b> : 21 × 6 = 126 et 21 × 4 = 84 : possible. <b>Noa</b> : 42 × 3 = 126 et 42 × 2 = 84 : possible. <b>Sacha</b> : 1,5 rubis par sac, mais on ne coupe pas un rubis : faux. 2) 126 = 2 × 3² × 7 et 84 = 2² × 3 × 7. Facteurs communs : 2 × 3 × 7 = 42, donc 42 sacs au <span class="gl" data-t="maximum">maximum</span>. <b>Noa a raison</b>. Jade a un partage possible, mais pas le <span class="gl" data-t="maximum">maximum</span> (21 sacs au lieu de 42).</div>
     </section>
     <section class="gcell">
       <div class="ill"><svg width='118' height='118' viewBox='0 0 118 118' xmlns='http://www.w3.org/2000/svg'><g transform='translate(34,56) rotate(-18)'><polygon points='0,-52 6,-40 6,10 -6,10 -6,-40' fill='#C9D3DD' stroke='#22303F' stroke-width='1.3'/><line x1='0' y1='-48' x2='0' y2='8' stroke='#8A97A5'/><rect x='-15' y='10' width='30' height='6' rx='2' fill='#D9A82A' stroke='#22303F' stroke-width='1.2'/><rect x='-3.5' y='16' width='7' height='17' fill='#7A5230' stroke='#22303F' stroke-width='1.1'/><circle cx='0' cy='36' r='4.5' fill='#D9A82A' stroke='#22303F' stroke-width='1.1'/></g><g transform='translate(52,56) rotate(18)'><polygon points='0,-52 6,-40 6,10 -6,10 -6,-40' fill='#C9D3DD' stroke='#22303F' stroke-width='1.3'/><line x1='0' y1='-48' x2='0' y2='8' stroke='#8A97A5'/><rect x='-15' y='10' width='30' height='6' rx='2' fill='#D9A82A' stroke='#22303F' stroke-width='1.2'/><rect x='-3.5' y='16' width='7' height='17' fill='#7A5230' stroke='#22303F' stroke-width='1.1'/><circle cx='0' cy='36' r='4.5' fill='#D9A82A' stroke='#22303F' stroke-width='1.1'/></g><g transform='translate(86,62)'><path d='M-22,-26 H22 V4 C22,24 8,34 0,40 C-8,34 -22,24 -22,4 Z' fill='#3E7CC9' stroke='#22303F' stroke-width='1.6' stroke-linejoin='round'/><path d='M-14,-18 H14 V4 C14,18 5,26 0,30 C-5,26 -14,18 -14,4 Z' fill='none' stroke='#fff' stroke-width='1.4'/><line x1='0' y1='-16' x2='0' y2='26' stroke='#F6D45B' stroke-width='4'/><line x1='-14' y1='0' x2='14' y2='0' stroke='#F6D45B' stroke-width='4'/></g></svg></div>
       <div class="gh"><u>Ex n°4</u> Chez le marchand</div>
-      <p class="obj">Objectif : raisonner à l'envers : retrouver les totaux avant de chercher le maximum.</p>
+      <p class="obj">Objectif : raisonner à l'envers : retrouver les totaux avant de chercher le <span class="gl" data-t="maximum">maximum</span>.</p>
       <p>Un marchand a rangé tout son stock dans <b>7 coffres identiques</b>. Chaque coffre contient <b>12 épées</b> et <b>20 boucliers</b>. « Impossible d'en faire plus ! », affirme-t-il.</p>
       <p class="q">1) Combien a-t-il d'épées et de boucliers en tout ?</p>
       <p class="q">2) A-t-il raison ? Sinon, quel est le plus grand nombre de coffres possible ?</p>
@@ -149,8 +149,8 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
         <button class="toggle-btn astuce" onclick="toggle('astuce-9')">💡 Astuce</button>
         <button class="toggle-btn solution" onclick="toggle('solution-9')">✅ Solution</button>
       </div>
-      <div class="panel astuce-panel" id="astuce-9"><span class="label">Astuce</span>Un nombre de coffres est possible s'il divise 150 ET 210. Cherche les diviseurs du plus grand de ces nombres.</div>
-      <div class="panel solution-panel" id="solution-9"><span class="label">Solution</span>Les nombres de coffres possibles sont les diviseurs de 30 = 2 × 3 × 5 : <b>1, 2, 3, 5, 6, 10, 15 et 30</b>. Il y a <b>8 partages</b> possibles.</div>
+      <div class="panel astuce-panel" id="astuce-9"><span class="label">Astuce</span>Un nombre de coffres est possible s'il divise 150 ET 210. Cherche les <span class="gl" data-t="diviseur">diviseurs</span> du plus grand de ces nombres.</div>
+      <div class="panel solution-panel" id="solution-9"><span class="label">Solution</span>Les nombres de coffres possibles sont les <span class="gl" data-t="diviseur">diviseurs</span> de 30 = 2 × 3 × 5 : <b>1, 2, 3, 5, 6, 10, 15 et 30</b>. Il y a <b>8 partages</b> possibles.</div>
     </section>
   </div>
   <footer>Refais chaque exercice seul(e) : utilise l'astuce si tu bloques, puis vérifie avec la solution.</footer>
@@ -158,5 +158,6 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
 <script>function toggle(id){document.getElementById(id).classList.toggle('show');}</script>
 <script src="../../assets/catalogue.js"></script>
 <script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
 </body>
 </html>

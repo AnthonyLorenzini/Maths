@@ -167,13 +167,13 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
       <div class="subtitle">Chapitre 4 — Le théorème de Pythagore — 4e — Séance 1 (en classe)</div>
     </div>
   </header>
-  <div class="objectifs"><b>Objectifs :</b> découvrir, grâce à un puzzle, que les aires des carrés construits sur les côtés d'un triangle rectangle sont liées ; comprendre pourquoi l'angle droit est indispensable ; savoir reconnaître l'hypoténuse. <b>Chaque activité doit être validée pour débloquer la suivante.</b></div>
+  <div class="objectifs"><b>Objectifs :</b> découvrir, grâce à un puzzle, que les <span class="gl" data-t="aire">aires</span> des <span class="gl" data-t="carre">carrés</span> construits sur les <span class="gl" data-t="cote">côtés</span> d'un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> sont liées ; comprendre pourquoi l'<span class="gl" data-t="angle-droit">angle droit</span> est indispensable ; savoir reconnaître l'<span class="gl" data-t="hypotenuse">hypoténuse</span>. <b>Chaque activité doit être validée pour débloquer la suivante.</b></div>
   <noscript><p><b>Cette séance utilise des animations : active JavaScript dans ton navigateur pour les voir.</b></p></noscript>
 
   <ol class="etapes" id="etapes" aria-label="Progression de la séance">
     <li data-e="1"><span>1</span>Le puzzle</li>
-    <li data-e="2"><span>2</span>L'égalité</li>
-    <li data-e="3"><span>3</span>L'angle</li>
+    <li data-e="2"><span>2</span>L'<span class="gl" data-t="egalite">égalité</span></li>
+    <li data-e="3"><span>3</span>L'<span class="gl" data-t="angle">angle</span></li>
     <li data-e="4"><span>4</span>Les exercices</li>
   </ol>
 
@@ -181,12 +181,12 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
   <section class="act" id="act1" aria-labelledby="t-act1">
     <h2 class="titre-etape" id="t-act1">Activité 1 — Le puzzle des aires <span class="duree">environ 25 min</span></h2>
     <p class="verrou-note">Cette activité se débloque quand l'activité précédente est validée.</p>
-    <p>Voici un triangle rectangle. Sur chacun de ses côtés, on a construit un carré : le petit carré <span class="cr r">rouge</span>, le carré <span class="cr j">jaune</span> (découpé en 4 morceaux numérotés) et le grand carré <span class="cr v">vert</span> (vide).</p>
+    <p>Voici un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span>. Sur chacun de ses <span class="gl" data-t="cote">côtés</span>, on a construit un <span class="gl" data-t="carre">carré</span> : le petit <span class="gl" data-t="carre">carré</span> <span class="cr r">rouge</span>, le <span class="gl" data-t="carre">carré</span> <span class="cr j">jaune</span> (découpé en 4 morceaux numérotés) et le grand <span class="gl" data-t="carre">carré</span> <span class="cr v">vert</span> (vide).</p>
     <ol>
-      <li>Où est l'angle droit ? Le côté opposé à l'angle droit, le plus long, s'appelle l'<b>hypoténuse</b>. Les deux autres sont les <b>côtés de l'angle droit</b>.</li>
-      <li>Sans calculer, quel carré te semble le plus grand ?</li>
-      <li><b>Fais le puzzle :</b> déplace les 4 morceaux du carré jaune et le petit carré rouge pour <b>recouvrir exactement le grand carré vert</b>, sans trou ni chevauchement.</li>
-      <li>Recommence avec les deux autres triangles. <b>L'activité est validée quand les 3 puzzles sont réussis.</b></li>
+      <li>Où est l'<span class="gl" data-t="angle-droit">angle droit</span> ? Le <span class="gl" data-t="cote">côté</span> <span class="gl" data-t="oppose">opposé</span> à l'<span class="gl" data-t="angle-droit">angle droit</span>, le plus long, s'appelle l'<b><span class="gl" data-t="hypotenuse">hypoténuse</span></b>. Les deux autres sont les <b><span class="gl" data-t="cote">côtés</span> de l'<span class="gl" data-t="angle-droit">angle droit</span></b>.</li>
+      <li>Sans calculer, quel <span class="gl" data-t="carre">carré</span> te semble le plus grand ?</li>
+      <li><b>Fais le puzzle :</b> déplace les 4 morceaux du <span class="gl" data-t="carre">carré</span> jaune et le petit <span class="gl" data-t="carre">carré</span> rouge pour <b>recouvrir exactement le grand <span class="gl" data-t="carre">carré</span> vert</b>, sans trou ni chevauchement.</li>
+      <li>Recommence avec les deux autres <span class="gl" data-t="triangle">triangles</span>. <b>L'activité est validée quand les 3 puzzles sont réussis.</b></li>
     </ol>
     <div class="ctrl" role="group" aria-label="Choix du triangle" id="choix-tri"></div>
     <div class="fig">
@@ -206,7 +206,7 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
   <section class="act locked" id="act2" aria-labelledby="t-act2">
     <h2 class="titre-etape" id="t-act2">Activité 2 — J'écris ce que le puzzle m'apprend <span class="duree">environ 5 min</span></h2>
     <p class="verrou-note">🔒 Réussis d'abord les 3 puzzles de l'activité 1 pour débloquer cette activité.</p>
-    <p>Le puzzle a marché pour 3 triangles. Est-ce vrai pour <b>n'importe quel</b> triangle rectangle ? <b>Change les longueurs a et b</b> des côtés de l'angle droit : l'ordinateur calcule l'aire des trois carrés. Teste <b>au moins 3 triangles différents</b> et compare la <b>somme des deux aires</b> (rouge + jaune) et l'aire du carré vert : que remarques-tu ?</p>
+    <p>Le puzzle a marché pour 3 <span class="gl" data-t="triangle">triangles</span>. Est-ce vrai pour <b>n'importe quel</b> <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> ? <b>Change les <span class="gl" data-t="longueur">longueurs</span> a et b</b> des <span class="gl" data-t="cote">côtés</span> de l'<span class="gl" data-t="angle-droit">angle droit</span> : l'ordinateur calcule l'<span class="gl" data-t="aire">aire</span> des trois <span class="gl" data-t="carre">carrés</span>. Teste <b>au moins 3 <span class="gl" data-t="triangle">triangles</span> différents</b> et compare la <b><span class="gl" data-t="somme">somme</span> des deux <span class="gl" data-t="aire">aires</span></b> (rouge + jaune) et l'<span class="gl" data-t="aire">aire</span> du <span class="gl" data-t="carre">carré</span> vert : que remarques-tu ?</p>
     <div class="ctrl">
       <label for="a-rng">a = <output id="a-val" for="a-rng">3</output><input type="range" id="a-rng" min="1" max="12" step="0.5" value="3"></label>
       <label for="b-rng">b = <output id="b-val" for="b-rng">4</output><input type="range" id="b-rng" min="1" max="12" step="0.5" value="4"></label>
@@ -223,10 +223,10 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
         <div class="terme tc"><small>aire du carré vert</small><b id="s-c2">25</b></div>
       </div>
     </div>
-    <p style="font-size:13px;color:#51657A;margin:6px 0 0">L'aire du carré vert est calculée par l'ordinateur à partir des coordonnées de ses quatre sommets.</p>
+    <p style="font-size:13px;color:#51657A;margin:6px 0 0">L'<span class="gl" data-t="aire">aire</span> du <span class="gl" data-t="carre">carré</span> vert est calculée par l'ordinateur à partir des <span class="gl" data-t="coordonnees">coordonnées</span> de ses quatre <span class="gl" data-t="sommet">sommets</span>.</p>
     <p class="statut" id="essais" role="status" aria-live="polite"></p>
     <hr class="sep">
-    <p><b>Maintenant, écris ce que tu as observé.</b> Complète l'égalité en déplaçant les blocs dans les cases (ou en cliquant sur un bloc, puis sur une case). Attention : tous les blocs ne servent pas !</p>
+    <p><b>Maintenant, écris ce que tu as observé.</b> Complète l'<span class="gl" data-t="egalite">égalité</span> en déplaçant les blocs dans les cases (ou en cliquant sur un bloc, puis sur une case). Attention : tous les blocs ne servent pas !</p>
     <div id="eg-zone">
       <div class="cells" id="eg-slots"></div>
       <div class="eg-somme" id="eg-somme" aria-live="polite"></div>
@@ -246,7 +246,7 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
   <section class="act locked" id="act3" aria-labelledby="t-act3">
     <h2 class="titre-etape" id="t-act3">Activité 3 — Et si le triangle n'est pas rectangle ? <span class="duree">environ 5 min</span></h2>
     <p class="verrou-note">🔒 Réussis d'abord l'activité 2 pour débloquer cette activité.</p>
-    <p>Les côtés mesurent toujours 3 et 4, mais tu peux maintenant <b>ouvrir ou fermer l'angle</b> marqué entre eux. Observe l'aire du carré <span class="cr v">vert</span>, comparée à la somme des aires des carrés <span class="cr r">rouge</span> et <span class="cr j">jaune</span> (9 + 16 = 25).</p>
+    <p>Les <span class="gl" data-t="cote">côtés</span> mesurent toujours 3 et 4, mais tu peux maintenant <b>ouvrir ou fermer l'<span class="gl" data-t="angle">angle</span></b> marqué entre eux. Observe l'<span class="gl" data-t="aire">aire</span> du <span class="gl" data-t="carre">carré</span> <span class="cr v">vert</span>, comparée à la <span class="gl" data-t="somme">somme</span> des <span class="gl" data-t="aire">aires</span> des <span class="gl" data-t="carre">carrés</span> <span class="cr r">rouge</span> et <span class="cr j">jaune</span> (9 + 16 = 25).</p>
     <div class="ctrl">
       <label for="ang-rng">Angle = <output id="ang-val" for="ang-rng">60°</output><input type="range" id="ang-rng" min="20" max="160" step="1" value="60"></label>
     </div>
@@ -255,10 +255,10 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
     </div>
     <div class="barres" aria-hidden="true">
       <span>9 + 16</span><div><div class="barre autre" id="bar-somme"></div></div>
-      <span>carré vert</span><div><div class="barre" id="bar-tiers"></div></div>
+      <span><span class="gl" data-t="carre">carré</span> vert</span><div><div class="barre" id="bar-tiers"></div></div>
     </div>
     <div class="egal" id="ang-egal" role="status" aria-live="polite"></div>
-    <div class="phrase">Pour que l'aire du carré <span class="cr v">vert</span> soit égale à la somme des aires des carrés <span class="cr r">rouge</span> et <span class="cr j">jaune</span>, il faut que l'angle marqué mesure <input type="text" id="ang-rep" inputmode="numeric" autocomplete="off" aria-label="Mesure de l'angle en degrés"> °.</div>
+    <div class="phrase">Pour que l'<span class="gl" data-t="aire">aire</span> du <span class="gl" data-t="carre">carré</span> <span class="cr v">vert</span> soit égale à la <span class="gl" data-t="somme">somme</span> des <span class="gl" data-t="aire">aires</span> des <span class="gl" data-t="carre">carrés</span> <span class="cr r">rouge</span> et <span class="cr j">jaune</span>, il faut que l'<span class="gl" data-t="angle">angle</span> marqué mesure <input type="text" id="ang-rep" inputmode="numeric" autocomplete="off" aria-label="Mesure de l'angle en degrés"> °.</div>
     <div class="ctrl">
       <button type="button" class="abtn primaire" id="ang-verif">Vérifier</button>
       <button type="button" class="abtn astuce" id="ang-astuce" aria-pressed="false">💡 Astuce</button>
@@ -839,5 +839,6 @@ footer button { font:600 11.5px 'Work Sans',Arial,sans-serif; color:#6B7A8A; bac
 </script>
 <script src="../../assets/catalogue.js"></script>
 <script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
 </body>
 </html>

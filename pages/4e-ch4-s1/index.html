@@ -152,21 +152,21 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
       <div class="subtitle">Chapitre 4 — Le théorème de Pythagore — 4e — Séance 1</div>
     </div>
   </header>
-  <div class="objectifs"><b>Objectifs :</b> découvrir, grâce à un puzzle, que les aires des carrés construits sur les côtés d'un triangle rectangle sont liées ; vérifier que cela marche pour tous les triangles rectangles, mais pas pour les autres ; savoir reconnaître l'hypoténuse.</div>
+  <div class="objectifs"><b>Objectifs :</b> découvrir, grâce à un puzzle, que les <span class="gl" data-t="aire">aires</span> des <span class="gl" data-t="carre">carrés</span> construits sur les <span class="gl" data-t="cote">côtés</span> d'un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> sont liées ; vérifier que cela marche pour tous les <span class="gl" data-t="triangle-rectangle">triangles rectangles</span>, mais pas pour les autres ; savoir reconnaître l'<span class="gl" data-t="hypotenuse">hypoténuse</span>.</div>
   <noscript><p><b>Cette séance utilise des animations : active JavaScript dans ton navigateur pour les voir.</b></p></noscript>
 
   <!-- ===================== ACTIVITÉ 1 : LE PUZZLE ===================== -->
   <section class="act" aria-labelledby="t-act1">
     <h2 id="t-act1">Activité 1 — Le puzzle des aires <span class="duree">environ 25 min</span></h2>
-    <p>Voici un triangle rectangle. Sur chacun de ses côtés, on a construit un carré.</p>
+    <p>Voici un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span>. Sur chacun de ses <span class="gl" data-t="cote">côtés</span>, on a construit un <span class="gl" data-t="carre">carré</span>.</p>
     <ol>
-      <li>Où est l'angle droit ? Le côté opposé à l'angle droit, le plus long, s'appelle l'<b>hypoténuse</b>. Les deux autres sont les <b>côtés de l'angle droit</b>.</li>
-      <li>Sans calculer, quel carré te semble le plus grand ?</li>
-      <li><b>Fais le puzzle :</b> déplace les 4 morceaux du carré découpé et le petit carré rouge pour <b>recouvrir exactement le grand carré vide</b>, sans trou ni chevauchement.</li>
-      <li>Recommence avec un autre triangle.</li>
+      <li>Où est l'<span class="gl" data-t="angle-droit">angle droit</span> ? Le <span class="gl" data-t="cote">côté</span> <span class="gl" data-t="oppose">opposé</span> à l'<span class="gl" data-t="angle-droit">angle droit</span>, le plus long, s'appelle l'<b><span class="gl" data-t="hypotenuse">hypoténuse</span></b>. Les deux autres sont les <b><span class="gl" data-t="cote">côtés</span> de l'<span class="gl" data-t="angle-droit">angle droit</span></b>.</li>
+      <li>Sans calculer, quel <span class="gl" data-t="carre">carré</span> te semble le plus grand ?</li>
+      <li><b>Fais le puzzle :</b> déplace les 4 morceaux du <span class="gl" data-t="carre">carré</span> découpé et le petit <span class="gl" data-t="carre">carré</span> rouge pour <b>recouvrir exactement le grand <span class="gl" data-t="carre">carré</span> vide</b>, sans trou ni chevauchement.</li>
+      <li>Recommence avec un autre <span class="gl" data-t="triangle">triangle</span>.</li>
     </ol>
     <div class="ctrl" role="group" aria-label="Choix du triangle">
-      <span style="font-size:13.5px;font-weight:600">Triangle :</span>
+      <span style="font-size:13.5px;font-weight:600"><span class="gl" data-t="triangle">Triangle</span> :</span>
       <button type="button" class="abtn" data-ab="3,4" aria-pressed="true">côtés de l'angle droit : 3 et 4</button>
       <button type="button" class="abtn" data-ab="2,3" aria-pressed="false">2 et 3</button>
       <button type="button" class="abtn" data-ab="4,7" aria-pressed="false">4 et 7</button>
@@ -187,7 +187,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
       Donc : <b>aire du grand carré = aire du petit carré rouge + aire du carré découpé.</b> Le grand carré est celui de l'hypoténuse.
     </div>
     <div class="papier">
-      <span><b>🖨 Version papier :</b> imprime la planche A4 du triangle choisi, découpe les 5 morceaux et place-les sur le grand carré.</span>
+      <span><b>🖨 Version papier :</b> imprime la planche A4 du <span class="gl" data-t="triangle">triangle</span> choisi, découpe les 5 morceaux et place-les sur le grand <span class="gl" data-t="carre">carré</span>.</span>
       <button type="button" class="abtn" id="btn-planche">Imprimer la planche A4</button>
     </div>
   </section>
@@ -195,7 +195,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
   <!-- ===================== ACTIVITÉ 2 : VÉRIFICATION PAR LE CALCUL ===================== -->
   <section class="act" aria-labelledby="t-act2">
     <h2 id="t-act2">Activité 2 — Je vérifie par le calcul <span class="duree">environ 10 min</span></h2>
-    <p>Le puzzle a marché pour quelques triangles. Est-ce vrai pour <b>n'importe quel</b> triangle rectangle ? Choisis les longueurs a et b des côtés de l'angle droit : l'ordinateur calcule l'aire des trois carrés.</p>
+    <p>Le puzzle a marché pour quelques <span class="gl" data-t="triangle">triangles</span>. Est-ce vrai pour <b>n'importe quel</b> <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> ? Choisis les <span class="gl" data-t="longueur">longueurs</span> a et b des <span class="gl" data-t="cote">côtés</span> de l'<span class="gl" data-t="angle-droit">angle droit</span> : l'ordinateur calcule l'<span class="gl" data-t="aire">aire</span> des trois <span class="gl" data-t="carre">carrés</span>.</p>
     <div class="ctrl">
       <label for="a-rng">a = <output id="a-val" for="a-rng">3</output><input type="range" id="a-rng" min="1" max="12" step="0.5" value="3"></label>
       <label for="b-rng">b = <output id="b-val" for="b-rng">4</output><input type="range" id="b-rng" min="1" max="12" step="0.5" value="4"></label>
@@ -216,31 +216,31 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
       </div>
       <div class="piles" aria-hidden="true">
         <span>Rouge + jaune</span><div class="pile"><i class="pa" id="p-a"></i><i class="pb" id="p-b"></i></div>
-        <span>Grand carré</span><div class="pile"><i class="pc" id="p-c"></i></div>
+        <span>Grand <span class="gl" data-t="carre">carré</span></span><div class="pile"><i class="pc" id="p-c"></i></div>
       </div>
     </div>
-    <p style="font-size:13px;color:#51657A;margin-top:0">L'aire du grand carré est calculée par l'ordinateur à partir des coordonnées de ses quatre sommets, sans utiliser le résultat de la somme.</p>
+    <p style="font-size:13px;color:#51657A;margin-top:0">L'<span class="gl" data-t="aire">aire</span> du grand <span class="gl" data-t="carre">carré</span> est calculée par l'ordinateur à partir des <span class="gl" data-t="coordonnees">coordonnées</span> de ses quatre <span class="gl" data-t="sommet">sommets</span>, sans utiliser le résultat de la <span class="gl" data-t="somme">somme</span>.</p>
     <div class="egal" id="c-egal" role="status" aria-live="polite"></div>
     <div class="ctrl">
       <button type="button" class="abtn" id="btn-ajout">➕ Ajouter ce triangle à mon tableau</button>
       <button type="button" class="abtn" id="btn-efface">Effacer le tableau</button>
     </div>
     <table class="tab" id="tab">
-      <caption>Mes triangles rectangles</caption>
+      <caption>Mes <span class="gl" data-t="triangle-rectangle">triangles rectangles</span></caption>
       <thead><tr><th scope="col">a</th><th scope="col">b</th><th scope="col" class="som">a² + b²</th><th scope="col">Aire du carré sur l'hypoténuse</th><th scope="col">Égaux ?</th></tr></thead>
       <tbody id="tab-corps"><tr><td colspan="5" style="color:#6B7A8A">Ajoute au moins 4 triangles différents.</td></tr></tbody>
     </table>
-    <p><b>Que remarques-tu ?</b> Écris une phrase dans ton cahier avec les mots « triangle rectangle », « hypoténuse » et « aires ».</p>
+    <p><b>Que remarques-tu ?</b> Écris une phrase dans ton cahier avec les mots « <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> », « <span class="gl" data-t="hypotenuse">hypoténuse</span> » et « <span class="gl" data-t="aire">aires</span> ».</p>
     <div class="btn-row">
       <button type="button" class="toggle-btn solution" onclick="toggle('conj')">✅ Voir la phrase attendue</button>
     </div>
-    <div class="panel solution-panel" id="conj"><span class="label">Phrase attendue</span>Dans un triangle rectangle, <b>l'aire du carré construit sur l'hypoténuse est égale à la somme des aires des carrés construits sur les deux autres côtés</b>. Avec les lettres des activités : <b>a² + b² = c²</b>, où c est l'hypoténuse. Ce résultat s'appelle le <b>théorème de Pythagore</b>.</div>
+    <div class="panel solution-panel" id="conj"><span class="label">Phrase attendue</span>Dans un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span>, <b>l'<span class="gl" data-t="aire">aire</span> du <span class="gl" data-t="carre">carré</span> construit sur l'<span class="gl" data-t="hypotenuse">hypoténuse</span> est égale à la <span class="gl" data-t="somme">somme</span> des <span class="gl" data-t="aire">aires</span> des <span class="gl" data-t="carre">carrés</span> construits sur les deux autres <span class="gl" data-t="cote">côtés</span></b>. Avec les lettres des activités : <b>a² + b² = c²</b>, où c est l'<span class="gl" data-t="hypotenuse">hypoténuse</span>. Ce résultat s'appelle le <b><span class="gl" data-t="pythagore">théorème de Pythagore</span></b>.</div>
   </section>
 
   <!-- ===================== ACTIVITÉ 3 : TRIANGLE NON RECTANGLE ===================== -->
   <section class="act" aria-labelledby="t-act3">
     <h2 id="t-act3">Activité 3 — Et si le triangle n'est pas rectangle ? <span class="duree">environ 5 min</span></h2>
-    <p>Les côtés mesurent toujours 3 et 4, mais tu peux maintenant <b>ouvrir ou fermer l'angle</b> entre eux. Observe l'aire du carré construit sur le troisième côté.</p>
+    <p>Les <span class="gl" data-t="cote">côtés</span> mesurent toujours 3 et 4, mais tu peux maintenant <b>ouvrir ou fermer l'<span class="gl" data-t="angle">angle</span></b> entre eux. Observe l'<span class="gl" data-t="aire">aire</span> du <span class="gl" data-t="carre">carré</span> construit sur le troisième <span class="gl" data-t="cote">côté</span>.</p>
     <div class="ctrl">
       <label for="ang-rng">Angle = <output id="ang-val" for="ang-rng">60°</output><input type="range" id="ang-rng" min="20" max="160" step="1" value="60"></label>
       <button type="button" class="abtn" data-ang="60">60°</button>
@@ -252,14 +252,14 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     </div>
     <div class="barres" aria-hidden="true">
       <span>9 + 16</span><div><div class="barre autre" id="bar-somme"></div></div>
-      <span>3<sup>e</sup> carré</span><div><div class="barre" id="bar-tiers"></div></div>
+      <span>3<sup>e</sup> <span class="gl" data-t="carre">carré</span></span><div><div class="barre" id="bar-tiers"></div></div>
     </div>
     <div class="egal" id="ang-egal" role="status" aria-live="polite"></div>
-    <p><b>Pour quelle valeur de l'angle les deux aires sont-elles égales ?</b> Que peut-on en conclure sur l'importance de l'angle droit ?</p>
+    <p><b>Pour quelle valeur de l'<span class="gl" data-t="angle">angle</span> les deux <span class="gl" data-t="aire">aires</span> sont-elles égales ?</b> Que peut-on en conclure sur l'importance de l'<span class="gl" data-t="angle-droit">angle droit</span> ?</p>
     <div class="btn-row">
       <button type="button" class="toggle-btn solution" onclick="toggle('rep-ang')">✅ Voir la réponse</button>
     </div>
-    <div class="panel solution-panel" id="rep-ang"><span class="label">Réponse</span>Les deux aires ne sont égales que pour un angle de <b>90°</b>, c'est-à-dire quand le triangle est <b>rectangle</b>. Avec un angle plus petit, le troisième carré est plus petit que 25 ; avec un angle plus grand, il est plus grand. C'est pourquoi on dit toujours : « dans un <b>triangle rectangle</b>… ».</div>
+    <div class="panel solution-panel" id="rep-ang"><span class="label">Réponse</span>Les deux <span class="gl" data-t="aire">aires</span> ne sont égales que pour un <span class="gl" data-t="angle">angle</span> de <b>90°</b>, c'est-à-dire quand le <span class="gl" data-t="triangle">triangle</span> est <b><span class="gl" data-t="rectangle">rectangle</span></b>. Avec un <span class="gl" data-t="angle">angle</span> plus petit, le troisième <span class="gl" data-t="carre">carré</span> est plus petit que 25 ; avec un <span class="gl" data-t="angle">angle</span> plus grand, il est plus grand. C'est pourquoi on dit toujours : « dans un <b><span class="gl" data-t="triangle-rectangle">triangle rectangle</span></b>… ».</div>
   </section>
 
   <!-- ===================== EXERCICES (partagés avec la page « en classe » : assets/pyth-s1-exos.js) ===================== -->
@@ -690,5 +690,6 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
 <script>PythExos.render(document.getElementById("exos-host"), { solutions: true });</script>
 <script src="../../assets/catalogue.js"></script>
 <script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
 </body>
 </html>
