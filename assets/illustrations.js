@@ -132,6 +132,27 @@
     '<path class="f-b s-i" d="M12 54V18L60 54Z" stroke-width="3"/>' +
     '<path class="s-i" d="M12 47H19V54" fill="none" stroke-width="2.2"/>' + etiqs;
   const SEANCES = {
+    // 6e ch.1 : Numération entière et décimale
+    "6e-ch1-s1": svg( // lire les grands nombres : trois classes de chiffres, séparées comme dans « 12 345 678 »
+      '<rect class="f-c s-i" x="2" y="22" width="21" height="28" rx="5" stroke-width="2.6"/>' +
+      '<text class="tx f-b" x="12.5" y="36.5" text-anchor="middle" dominant-baseline="central" font-size="11">12</text>' +
+      '<rect class="f-b s-i" x="26" y="22" width="21" height="28" rx="5" stroke-width="2.6"/>' + lab(36.5, 36.5, '345', 8.5) +
+      '<rect class="f-b s-i" x="50" y="22" width="21" height="28" rx="5" stroke-width="2.6"/>' + lab(60.5, 36.5, '678', 8.5) +
+      '<path class="s-s" d="M5 60H67" fill="none" stroke-width="4"/>'),
+    "6e-ch1-s2": svg( // le rang des chiffres : dans 3 752, on désigne le chiffre des centaines
+      '<rect class="f-b s-i" x="5" y="10" width="15" height="26" rx="4" stroke-width="2.6"/>' + lab(12.5, 23.5, '3', 14) +
+      '<rect class="f-s s-i" x="21" y="10" width="15" height="26" rx="4" stroke-width="2.8"/>' + lab(28.5, 23.5, '7', 14) +
+      '<rect class="f-b s-i" x="37" y="10" width="15" height="26" rx="4" stroke-width="2.6"/>' + lab(44.5, 23.5, '5', 14) +
+      '<rect class="f-b s-i" x="53" y="10" width="15" height="26" rx="4" stroke-width="2.6"/>' + lab(60.5, 23.5, '2', 14) +
+      '<path class="s-c" d="M28.5 66V46M20 54L28.5 45L37 54" fill="none" stroke-width="5"/>'),
+    "6e-ch1-s3": svg( // zéros inutiles : dans 03,50 les deux zéros barrés ne changent pas la valeur
+      '<g opacity=".45"><rect class="f-b s-i" x="3" y="22" width="12" height="28" rx="4" stroke-width="2.4"/>' + lab(9, 36.5, '0', 14) + '</g>' +
+      '<rect class="f-b s-i" x="19" y="22" width="12" height="28" rx="4" stroke-width="2.6"/>' + lab(25, 36.5, '3', 14) +
+      '<circle class="f-i" cx="36.5" cy="46" r="2.8"/>' +
+      '<rect class="f-b s-i" x="42" y="22" width="12" height="28" rx="4" stroke-width="2.6"/>' + lab(48, 36.5, '5', 14) +
+      '<g opacity=".45"><rect class="f-b s-i" x="58" y="22" width="12" height="28" rx="4" stroke-width="2.4"/>' + lab(64, 36.5, '0', 14) + '</g>' +
+      '<line class="s-c" x1="4" y1="50" x2="14" y2="22" stroke-width="4"/>' +
+      '<line class="s-c" x1="59" y1="50" x2="69" y2="22" stroke-width="4"/>'),
     // 4e ch.3 : Divisibilité et nombres premiers
     "4e-ch3-s1": svg( // découverte des nombres premiers : une loupe sur 17
       '<circle class="f-b s-i" cx="31" cy="31" r="22" stroke-width="4"/>' +
