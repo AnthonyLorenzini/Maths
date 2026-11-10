@@ -193,10 +193,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{o
 .vig{width:72px;height:72px;flex:none;border-radius:18px;background:var(--cc);display:grid;place-items:center;overflow:hidden}
 .vig svg{width:100%;height:100%;display:block;transition:transform .2s ease}
 .chap:hover .vig svg{transform:rotate(-4deg) scale(1.07)}
-.vig .f-c{fill:var(--c)}.vig .s-c{stroke:var(--c)}.vig .f-s{fill:var(--soleil)}.vig .f-b{fill:#fff}
-.vig .f-i{fill:var(--encre)}.vig .s-i{stroke:var(--encre)}
-.vig svg *{stroke-linecap:round;stroke-linejoin:round}
-.vig .tx{font-family:var(--f-titre);font-weight:800;stroke:none}
+:is(.vig,.pic) .f-c{fill:var(--c)}:is(.vig,.pic) .s-c{stroke:var(--c)}:is(.vig,.pic) .f-s{fill:var(--soleil)}:is(.vig,.pic) .s-s{stroke:var(--soleil)}:is(.vig,.pic) .f-b{fill:#fff}
+:is(.vig,.pic) .f-i{fill:var(--encre)}:is(.vig,.pic) .s-i{stroke:var(--encre)}
+:is(.vig,.pic) svg *{stroke-linecap:round;stroke-linejoin:round}
+:is(.vig,.pic) .tx{font-family:var(--f-titre);font-weight:800;stroke:none}
+.pic{width:56px;height:56px;flex:none;border-radius:14px;background:#fff;display:grid;place-items:center;overflow:hidden}
+.pic svg{width:100%;height:100%;display:block}
 .chap .t{font-family:var(--f-titre);font-weight:800;font-size:1.15rem;line-height:1.15}
 .chap .s{font-size:.92rem;color:var(--encre-2)}
 .puces{display:flex;flex-wrap:wrap;gap:6px}
@@ -414,7 +416,7 @@ svg .pastille{fill:var(--orange)} svg .pastille-t{fill:#fff;font-family:var(--f-
 <div id="voile" class="voile" hidden></div>
 <div id="toast" class="toast" role="status" hidden></div>
 <script src="assets/catalogue.js?v=20261103b"></script>
-<script src="assets/illustrations.js?v=20261110a"></script>
+<script src="assets/illustrations.js?v=20261110b"></script>
 <script src="assets/ascension.js?v=20261018a"></script>
 <script src="assets/questions.js?v=20261016b"></script>
 <script src="assets/enigmes.js?v=20261024c"></script>
@@ -1072,7 +1074,7 @@ function chapitre(n,c){
   const res=(s.ressources||[]).map(trouver).filter(Boolean);
   const enclasse=res.filter(r=>r.type==='classe'),exos=res.filter(r=>r.type!=='jeu'&&r.type!=='lecon'&&r.type!=='classe'),sj=res.filter(r=>r.type==='jeu');
   return `<details class="seance a-monte" ${d(i,.25,.08)}>
-   <summary class="tete"><span class="num">${i+1}</span><div><div class="eti">Séance ${i+1}${s.duree?' · '+esc(s.duree):''}</div><h3>${esc(s.titre)}</h3></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+   <summary class="tete">${window.ILLU&&ILLU[c.id+'-s'+(i+1)]?`<span class="pic">${ILLU[c.id+'-s'+(i+1)]}</span>`:`<span class="num">${i+1}</span>`}<div><div class="eti">Séance ${i+1}${s.duree?' · '+esc(s.duree):''}</div><h3>${esc(s.titre)}</h3></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
    <div class="corps">
     ${enclasse.length?`<div class="etape"><span class="rond">${ICO.classe}</span><div class="cont"><span class="eti">Je fais la séance</span><div class="liens">${enclasse.map(lien).join('')}</div></div></div>`:''}
     ${exos.length?`<div class="etape"><span class="rond">${ICO.exos}</span><div class="cont"><span class="eti">Je refais les exercices</span><div class="liens">${exos.map(lien).join('')}</div></div></div>`:''}
