@@ -16,6 +16,9 @@
   h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:26px; margin:0; line-height:1.1; }
   .subtitle { font-size:14px; color:#6B7A8A; margin-top:4px; font-weight:500; }
   [hidden] { display:none !important; }
+  .imprimer { display:inline-block; margin:0 0 16px; padding:8px 16px; border-radius:18px; border:2px solid var(--ink); background:#fff; color:var(--ink); font-family:'Baloo 2',sans-serif; font-size:15px; text-decoration:none; }
+  .imprimer:hover { background:#FFF8D6; }
+  @media print { .imprimer { display:none; } }
 
   .card { border-radius:14px; padding:14px 18px 16px; margin-bottom:18px; border:2px solid transparent; }
   .card h2 { font-family:'Baloo 2',sans-serif; font-size:19px; margin:0 0 8px 0; padding-left:10px; border-left:5px solid currentColor; line-height:1.2; }
@@ -88,6 +91,8 @@
       <div class="subtitle">Chapitre 4 — Classe de 4e — Fiche leçon interactive</div>
     </div>
   </header>
+
+  <a class="imprimer" href="../../fiches/4e/4e-ch4-lecon-pythagore.pdf" target="_blank" rel="noopener">🖨 Version imprimable (PDF, 1 page)</a>
 
   <!-- 1. Hypoténuse -->
   <section class="card c1" id="s1">
