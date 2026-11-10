@@ -334,6 +334,12 @@
 
   var css =
     ".gl{cursor:pointer;border-radius:3px}" +
+    ".gl-aide{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 16px 0;padding:6px 10px;box-sizing:border-box;" +
+    "background:#fff;color:var(--muted,#56608a);border:1px solid var(--line,#c3d1ec);border-radius:8px;" +
+    "font:400 13px/1.4 var(--f-text,system-ui,-apple-system,'Segoe UI',sans-serif)}" +
+    ".gl-aide a{color:var(--ink,#1b2a5e);font-weight:600}" +
+    ".gl-aide button{margin-left:auto;font:600 13px var(--f-text,system-ui,sans-serif);color:var(--ink,#1b2a5e);background:none;" +
+    "border:1px solid var(--line,#c3d1ec);border-radius:6px;padding:4px 12px;min-height:30px;cursor:pointer}" +
     ".gl.gl-on{background:var(--fill-2,#fff4b8)}" +
     ".gl-carte{position:absolute;z-index:2147482000;width:min(290px,calc(100vw - 24px));box-sizing:border-box;" +
     "background:#fff;color:var(--ink,#1b2a5e);border:2px solid var(--ink,#1b2a5e);border-radius:8px;" +
@@ -344,6 +350,35 @@
   var st = document.createElement("style");
   st.textContent = css;
   document.head.appendChild(st);
+
+  /* petite phrase d'aide, une seule fois : elle disparaît pour de bon quand l'élève la ferme */
+  try {
+    var deja = false;
+    try { deja = !!localStorage.getItem("mathsLorenzini.glAide"); } catch (e) {}
+    if (!deja) {
+      var aide = document.createElement("div");
+      aide.className = "gl-aide";
+      var txt = document.createElement("span");
+      txt.textContent = "Touche un mot de maths pour voir sa définition. ";
+      aide.appendChild(txt);
+      if (base) {
+        var lien = document.createElement("a");
+        lien.href = base;
+        lien.textContent = "Tous les mots";
+        aide.appendChild(lien);
+      }
+      var ok = document.createElement("button");
+      ok.type = "button";
+      ok.textContent = "OK";
+      ok.setAttribute("aria-label", "Fermer l'aide");
+      ok.addEventListener("click", function () {
+        try { localStorage.setItem("mathsLorenzini.glAide", "1"); } catch (e) {}
+        aide.remove();
+      });
+      aide.appendChild(ok);
+      document.body.insertBefore(aide, document.body.firstChild);
+    }
+  } catch (e) {}
 
   var carte = document.createElement("div");
   carte.className = "gl-carte";
