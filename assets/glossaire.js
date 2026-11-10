@@ -333,7 +333,7 @@
   if (!gls.length) return;
 
   var css =
-    ".gl{font-weight:600;cursor:pointer;border-radius:3px}" +
+    ".gl{font-weight:500;-webkit-text-stroke:.15px currentColor;cursor:pointer;border-radius:3px}" +
     ".gl.gl-on{background:var(--fill-2,#fff4b8)}" +
     ".gl-carte{position:absolute;z-index:2147482000;width:min(290px,calc(100vw - 24px));box-sizing:border-box;" +
     "background:#fff;color:var(--ink,#1b2a5e);border:2px solid var(--ink,#1b2a5e);border-radius:8px;" +
