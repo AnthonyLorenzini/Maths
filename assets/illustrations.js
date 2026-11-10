@@ -132,6 +132,138 @@
     '<path class="f-b s-i" d="M12 54V18L60 54Z" stroke-width="3"/>' +
     '<path class="s-i" d="M12 47H19V54" fill="none" stroke-width="2.2"/>' + etiqs;
   const SEANCES = {
+    // 6e ch.5 : Cercle et disque
+    "6e-ch5-s1": svg( // le vocabulaire : un cercle, son diamètre, une corde et un arc
+      '<circle class="f-b s-i" cx="36" cy="38" r="27" stroke-width="3.4"/>' +
+      '<path class="s-s" d="M60.6 49.2A27 27 0 0 1 36 65" fill="none" stroke-width="6.5"/>' +
+      '<line class="s-i" x1="19" y1="22" x2="53" y2="22" stroke-width="3"/>' +
+      '<line class="s-c" x1="9" y1="38" x2="63" y2="38" stroke-width="4.2"/>' +
+      '<circle class="f-i" cx="36" cy="38" r="3"/>'),
+    "6e-ch5-s2": svg( // dedans, dessus, dehors : trois points autour d'un disque
+      '<circle class="f-c s-i" cx="30" cy="38" r="24" stroke-width="3.4"/>' +
+      '<circle class="f-b s-i" cx="22" cy="40" r="4.5" stroke-width="2.4"/>' +
+      '<circle class="f-s s-i" cx="54" cy="38" r="5" stroke-width="2.6"/>' +
+      '<circle class="f-b s-i" cx="63" cy="14" r="4.5" stroke-width="2.4"/>'),
+    "6e-ch5-s3": svg( // le tour d'un cercle : un peu plus de 3 diamètres mis bout à bout
+      '<circle class="f-b s-i" cx="15" cy="20" r="10" stroke-width="3"/>' +
+      '<line class="s-c" x1="5" y1="20" x2="25" y2="20" stroke-width="3.4"/>' +
+      '<rect class="f-c s-i" x="6" y="44" width="20" height="14" stroke-width="2.8"/>' +
+      '<rect class="f-b s-i" x="26" y="44" width="20" height="14" stroke-width="2.8"/>' +
+      '<rect class="f-c s-i" x="46" y="44" width="20" height="14" stroke-width="2.8"/>' +
+      '<rect class="f-s s-i" x="66" y="44" width="3" height="14" stroke-width="2.2"/>'),
+    "6e-ch5-s4": svg( // les formules du tour : π
+      '<circle class="f-s s-i" cx="36" cy="36" r="29" stroke-width="3.4"/>' +
+      lab(36, 38, 'π', 36)),
+    "6e-ch5-s5": svg( // le tour d'une piste : deux lignes droites et deux demi-cercles
+      '<rect class="f-c s-i" x="4" y="16" width="64" height="40" rx="20" stroke-width="3.4"/>' +
+      '<rect class="f-b s-i" x="16" y="28" width="40" height="16" rx="8" stroke-width="3"/>' +
+      '<line class="s-s" x1="36" y1="16" x2="36" y2="28" stroke-width="4"/>'),
+    // 6e ch.4 : Fractions décimales et nombres décimaux
+    "6e-ch4-s1": svg( // les dixièmes : 13/10 = une barre entière + 3 dixièmes
+      '<rect class="f-c" x="6" y="12" width="60" height="18"/>' +
+      '<rect class="f-s" x="6" y="42" width="18" height="18"/>' +
+      '<rect class="f-b" x="24" y="42" width="42" height="18"/>' +
+      '<g class="s-i" stroke-width="2"><line x1="12" y1="12" x2="12" y2="30"/><line x1="18" y1="12" x2="18" y2="30"/><line x1="24" y1="12" x2="24" y2="30"/><line x1="30" y1="12" x2="30" y2="30"/><line x1="36" y1="12" x2="36" y2="30"/><line x1="42" y1="12" x2="42" y2="30"/><line x1="48" y1="12" x2="48" y2="30"/><line x1="54" y1="12" x2="54" y2="30"/><line x1="60" y1="12" x2="60" y2="30"/>' +
+      '<line x1="12" y1="42" x2="12" y2="60"/><line x1="18" y1="42" x2="18" y2="60"/><line x1="24" y1="42" x2="24" y2="60"/><line x1="30" y1="42" x2="30" y2="60"/><line x1="36" y1="42" x2="36" y2="60"/><line x1="42" y1="42" x2="42" y2="60"/><line x1="48" y1="42" x2="48" y2="60"/><line x1="54" y1="42" x2="54" y2="60"/><line x1="60" y1="42" x2="60" y2="60"/></g>' +
+      '<rect class="s-i" x="6" y="12" width="60" height="18" rx="3" fill="none" stroke-width="3"/>' +
+      '<rect class="s-i" x="6" y="42" width="60" height="18" rx="3" fill="none" stroke-width="3"/>'),
+    "6e-ch4-s2": svg( // les centièmes et la virgule : un carré en 100 parts, une part colorée, 0,01
+      '<rect class="f-b" x="18" y="5" width="36" height="36"/>' +
+      '<rect class="f-s" x="18" y="5" width="3.6" height="3.6"/>' +
+      '<g class="s-i" stroke-width="1.2"><line x1="25.2" y1="5" x2="25.2" y2="41"/><line x1="32.4" y1="5" x2="32.4" y2="41"/><line x1="39.6" y1="5" x2="39.6" y2="41"/><line x1="46.8" y1="5" x2="46.8" y2="41"/>' +
+      '<line x1="18" y1="12.2" x2="54" y2="12.2"/><line x1="18" y1="19.4" x2="54" y2="19.4"/><line x1="18" y1="26.6" x2="54" y2="26.6"/><line x1="18" y1="33.8" x2="54" y2="33.8"/></g>' +
+      '<rect class="s-i" x="18" y="5" width="36" height="36" rx="2" fill="none" stroke-width="3"/>' +
+      '<rect class="f-s s-i" x="18" y="5" width="7.2" height="7.2" stroke-width="2"/>' +
+      lab(36, 58, '0,01', 15)),
+    "6e-ch4-s3": svg( // les fleurs : un nombre décimal au cœur d'une fleur à six pétales
+      (function () { let f = ''; for (let i = 0; i < 6; i++) f += '<ellipse class="' + (i % 2 ? 'f-b' : 'f-c') + ' s-i" cx="36" cy="17" rx="8" ry="12" transform="rotate(' + (i * 60) + ' 36 36)" stroke-width="2.4"/>'; return f; })() +
+      '<circle class="f-s s-i" cx="36" cy="36" r="12" stroke-width="2.8"/>' + lab(36, 36.5, '2,5', 11)),
+    "6e-ch4-s4": svg( // les pourcentages : une jauge remplie à 75 %
+      '<rect class="f-b" x="5" y="10" width="62" height="26" rx="9"/>' +
+      '<rect class="f-c" x="5" y="10" width="47" height="26" rx="9"/>' +
+      '<rect class="f-c" x="40" y="10" width="12" height="26"/>' +
+      '<rect class="s-i" x="5" y="10" width="62" height="26" rx="9" fill="none" stroke-width="3.2"/>' +
+      '<line class="s-i" x1="52" y1="10" x2="52" y2="36" stroke-width="3.2"/>' +
+      lab(36, 56, '75 %', 16)),
+    "6e-ch4-s5": svg( // une droite graduée en dixièmes : on place 2,4 entre 2 et 3
+      '<path class="s-i" d="M3 46H69" fill="none" stroke-width="3"/>' +
+      (function () { let t = ''; for (let i = 1; i < 10; i++) t += '<line class="s-i" x1="' + (12 + i * 4.8).toFixed(1) + '" y1="42" x2="' + (12 + i * 4.8).toFixed(1) + '" y2="50" stroke-width="2"/>'; return t; })() +
+      '<g class="s-i" stroke-width="3.2"><line x1="12" y1="38" x2="12" y2="54"/><line x1="60" y1="38" x2="60" y2="54"/></g>' +
+      '<path class="s-c" d="M31.2 29V39M26.5 34L31.2 40L36 34" fill="none" stroke-width="3.4"/>' +
+      '<circle class="f-s s-i" cx="31.2" cy="46" r="3.6" stroke-width="2"/>' +
+      lab(31.2, 18, '2,4', 15) + lab(12, 64, '2', 12) + lab(60, 64, '3', 12)),
+    "6e-ch4-s6": svg( // calculer avec des décimaux : des pièces (prix, monnaie)
+      '<circle class="f-c s-i" cx="42" cy="30" r="22" stroke-width="3.2"/>' +
+      '<circle class="f-s s-i" cx="29" cy="43" r="22" stroke-width="3.2"/>' +
+      '<circle class="s-i" cx="29" cy="43" r="15.5" fill="none" stroke-width="1.8"/>' +
+      lab(29, 43.5, '€', 21)),
+    // 6e ch.3 : Les fractions
+    "6e-ch3-s1": svg( // partager en parts égales : une tablette en 4 parts, 3 colorées
+      '<rect class="f-c" x="6" y="18" width="45" height="36"/>' +
+      '<rect class="f-b" x="51" y="18" width="15" height="36"/>' +
+      '<g class="s-i" stroke-width="2.6"><line x1="17.2" y1="18" x2="17.2" y2="54"/><line x1="28.5" y1="18" x2="28.5" y2="54"/><line x1="39.8" y1="18" x2="39.8" y2="54"/></g>' +
+      '<rect class="s-i" x="6" y="18" width="60" height="36" rx="5" fill="none" stroke-width="3.4"/>'),
+    "6e-ch3-s2": svg( // une demi-droite graduée : on place 3/4 entre 0 et 1
+      '<path class="s-i" d="M4 46H68M62 40L68 46L62 52" fill="none" stroke-width="3"/>' +
+      '<g class="s-i" stroke-width="3"><line x1="10" y1="39" x2="10" y2="53"/><line x1="58" y1="39" x2="58" y2="53"/></g>' +
+      '<g class="s-i" stroke-width="2.2"><line x1="22" y1="42" x2="22" y2="50"/><line x1="34" y1="42" x2="34" y2="50"/><line x1="46" y1="42" x2="46" y2="50"/></g>' +
+      '<path class="s-c" d="M46 30V40M41 35L46 41L51 35" fill="none" stroke-width="3.4"/>' +
+      '<circle class="f-s s-i" cx="46" cy="21" r="8" stroke-width="2.8"/>' +
+      lab(10, 63, '0', 12) + lab(58, 63, '1', 12)),
+    "6e-ch3-s3": svg( // graduer un segment : une règle, et le segment partagé en 3 parts égales
+      '<rect class="f-s s-i" x="4" y="8" width="64" height="22" rx="4" stroke-width="3"/>' +
+      '<g class="s-i" stroke-width="2.4"><line x1="14" y1="8" x2="14" y2="20"/><line x1="24" y1="8" x2="24" y2="16"/><line x1="34" y1="8" x2="34" y2="20"/><line x1="44" y1="8" x2="44" y2="16"/><line x1="54" y1="8" x2="54" y2="20"/></g>' +
+      '<line class="s-i" x1="8" y1="52" x2="64" y2="52" stroke-width="3"/>' +
+      '<circle class="f-c s-i" cx="8" cy="52" r="4.5" stroke-width="2.4"/><circle class="f-b s-i" cx="26.7" cy="52" r="4.5" stroke-width="2.4"/>' +
+      '<circle class="f-b s-i" cx="45.3" cy="52" r="4.5" stroke-width="2.4"/><circle class="f-c s-i" cx="64" cy="52" r="4.5" stroke-width="2.4"/>'),
+    "6e-ch3-s4": svg( // le milieu d'un segment gradué : 1/2
+      '<line class="s-i" x1="8" y1="48" x2="64" y2="48" stroke-width="3"/>' +
+      '<circle class="f-c s-i" cx="8" cy="48" r="5" stroke-width="2.6"/><circle class="f-c s-i" cx="64" cy="48" r="5" stroke-width="2.6"/>' +
+      '<circle class="f-s s-i" cx="36" cy="48" r="7.5" stroke-width="3"/>' +
+      lab(36, 10, '1', 15) + '<line class="s-i" x1="27" y1="20" x2="45" y2="20" stroke-width="3"/>' + lab(36, 31, '2', 15)),
+    // 6e ch.2 : Points, droites et distances
+    "6e-ch2-s1": svg( // le vocabulaire : une droite, une demi-droite, un segment
+      '<path class="s-i" d="M3 14H69M9 8L3 14L9 20M63 8L69 14L63 20" fill="none" stroke-width="3"/>' +
+      '<path class="s-c" d="M14 36H69M62 30L69 36L62 42" fill="none" stroke-width="3.4"/>' +
+      '<circle class="f-c s-i" cx="14" cy="36" r="5" stroke-width="2.6"/>' +
+      '<line class="s-i" x1="12" y1="58" x2="60" y2="58" stroke-width="3"/>' +
+      '<circle class="f-s s-i" cx="12" cy="58" r="5" stroke-width="2.6"/>' +
+      '<circle class="f-s s-i" cx="60" cy="58" r="5" stroke-width="2.6"/>'),
+    "6e-ch2-s2": svg( // reporter une longueur : un compas
+      '<path class="s-i" d="M36 14L18 58M36 14L54 58" fill="none" stroke-width="3.4"/>' +
+      '<path class="s-c" d="M10 62Q36 50 62 62" fill="none" stroke-width="2.6" stroke-dasharray="3 4.5"/>' +
+      '<circle class="f-s s-i" cx="36" cy="12" r="7" stroke-width="3"/>' +
+      '<circle class="f-c s-i" cx="18" cy="58" r="3.8" stroke-width="2.2"/>' +
+      '<circle class="f-c s-i" cx="54" cy="58" r="3.8" stroke-width="2.2"/>'),
+    "6e-ch2-s3": svg( // lire une figure codée : un segment [AB], M au milieu, deux traits égaux
+      '<line class="s-i" x1="10" y1="34" x2="62" y2="34" stroke-width="3"/>' +
+      '<line class="s-c" x1="23" y1="26" x2="23" y2="42" stroke-width="4"/>' +
+      '<line class="s-c" x1="49" y1="26" x2="49" y2="42" stroke-width="4"/>' +
+      '<circle class="f-s s-i" cx="10" cy="34" r="5" stroke-width="2.6"/>' +
+      '<circle class="f-b s-i" cx="36" cy="34" r="5" stroke-width="2.6"/>' +
+      '<circle class="f-s s-i" cx="62" cy="34" r="5" stroke-width="2.6"/>' +
+      lab(10, 54, 'A', 13) + lab(36, 54, 'M', 13) + lab(62, 54, 'B', 13)),
+    // 6e ch.1 : Numération entière et décimale
+    "6e-ch1-s1": svg( // lire les grands nombres : trois classes de chiffres, séparées comme dans « 12 345 678 »
+      '<rect class="f-c s-i" x="2" y="22" width="21" height="28" rx="5" stroke-width="2.6"/>' +
+      '<text class="tx f-b" x="12.5" y="36.5" text-anchor="middle" dominant-baseline="central" font-size="11">12</text>' +
+      '<rect class="f-b s-i" x="26" y="22" width="21" height="28" rx="5" stroke-width="2.6"/>' + lab(36.5, 36.5, '345', 8.5) +
+      '<rect class="f-b s-i" x="50" y="22" width="21" height="28" rx="5" stroke-width="2.6"/>' + lab(60.5, 36.5, '678', 8.5) +
+      '<path class="s-s" d="M5 60H67" fill="none" stroke-width="4"/>'),
+    "6e-ch1-s2": svg( // le rang des chiffres : dans 3 752, on désigne le chiffre des centaines
+      '<rect class="f-b s-i" x="5" y="10" width="15" height="26" rx="4" stroke-width="2.6"/>' + lab(12.5, 23.5, '3', 14) +
+      '<rect class="f-s s-i" x="21" y="10" width="15" height="26" rx="4" stroke-width="2.8"/>' + lab(28.5, 23.5, '7', 14) +
+      '<rect class="f-b s-i" x="37" y="10" width="15" height="26" rx="4" stroke-width="2.6"/>' + lab(44.5, 23.5, '5', 14) +
+      '<rect class="f-b s-i" x="53" y="10" width="15" height="26" rx="4" stroke-width="2.6"/>' + lab(60.5, 23.5, '2', 14) +
+      '<path class="s-c" d="M28.5 66V46M20 54L28.5 45L37 54" fill="none" stroke-width="5"/>'),
+    "6e-ch1-s3": svg( // zéros inutiles : dans 03,50 les deux zéros barrés ne changent pas la valeur
+      '<g opacity=".45"><rect class="f-b s-i" x="3" y="22" width="12" height="28" rx="4" stroke-width="2.4"/>' + lab(9, 36.5, '0', 14) + '</g>' +
+      '<rect class="f-b s-i" x="19" y="22" width="12" height="28" rx="4" stroke-width="2.6"/>' + lab(25, 36.5, '3', 14) +
+      '<circle class="f-i" cx="36.5" cy="46" r="2.8"/>' +
+      '<rect class="f-b s-i" x="42" y="22" width="12" height="28" rx="4" stroke-width="2.6"/>' + lab(48, 36.5, '5', 14) +
+      '<g opacity=".45"><rect class="f-b s-i" x="58" y="22" width="12" height="28" rx="4" stroke-width="2.4"/>' + lab(64, 36.5, '0', 14) + '</g>' +
+      '<line class="s-c" x1="4" y1="50" x2="14" y2="22" stroke-width="4"/>' +
+      '<line class="s-c" x1="59" y1="50" x2="69" y2="22" stroke-width="4"/>'),
     // 4e ch.3 : Divisibilité et nombres premiers
     "4e-ch3-s1": svg( // découverte des nombres premiers : une loupe sur 17
       '<circle class="f-b s-i" cx="31" cy="31" r="22" stroke-width="4"/>' +
