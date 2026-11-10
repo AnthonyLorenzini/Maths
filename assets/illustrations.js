@@ -132,6 +132,35 @@
     '<path class="f-b s-i" d="M12 54V18L60 54Z" stroke-width="3"/>' +
     '<path class="s-i" d="M12 47H19V54" fill="none" stroke-width="2.2"/>' + etiqs;
   const SEANCES = {
+    // 4e ch.3 : Divisibilité et nombres premiers
+    "4e-ch3-s1": svg( // découverte des nombres premiers : une loupe sur 17
+      '<circle class="f-b s-i" cx="31" cy="31" r="22" stroke-width="4"/>' +
+      '<line class="s-c" x1="47" y1="47" x2="64" y2="64" stroke-width="9"/>' +
+      lab(31, 32, '17', 19)),
+    "4e-ch3-s2": svg( // décomposition : un arbre de facteurs (60 = 2 × 30, 30 = 2 × 15)
+      '<g class="s-i" stroke-width="2.6"><line x1="30" y1="10" x2="14" y2="30"/><line x1="30" y1="10" x2="46" y2="30"/>' +
+      '<line x1="46" y1="30" x2="34" y2="52"/><line x1="46" y1="30" x2="58" y2="52"/></g>' +
+      '<circle class="f-b s-i" cx="30" cy="10" r="8.5" stroke-width="2.6"/>' + lab(30, 10.5, '60', 9.5) +
+      '<circle class="f-c s-i" cx="14" cy="30" r="7.5" stroke-width="2.6"/><text class="tx f-b" x="14" y="30.5" text-anchor="middle" dominant-baseline="central" font-size="10.5">2</text>' +
+      '<circle class="f-b s-i" cx="46" cy="30" r="8.5" stroke-width="2.6"/>' + lab(46, 30.5, '30', 9.5) +
+      '<circle class="f-c s-i" cx="34" cy="53" r="7.5" stroke-width="2.6"/><text class="tx f-b" x="34" y="53.5" text-anchor="middle" dominant-baseline="central" font-size="10.5">2</text>' +
+      '<circle class="f-b s-i" cx="58" cy="53" r="8.5" stroke-width="2.6"/>' + lab(58, 53.5, '15', 9.5)),
+    "4e-ch3-s3": svg( // simplifier une fraction : 6/9 devient 2/3
+      lab(13, 20, '6', 17) + '<line class="s-i" x1="3" y1="36" x2="23" y2="36" stroke-width="3"/>' + lab(13, 52, '9', 17) +
+      '<path class="s-c" d="M27 36H35M32 30L38 36L32 42" fill="none" stroke-width="4"/>' +
+      '<text class="tx f-c" x="57" y="20" text-anchor="middle" dominant-baseline="central" font-size="17">2</text>' +
+      '<line class="s-c" x1="47" y1="36" x2="67" y2="36" stroke-width="3"/>' +
+      '<text class="tx f-c" x="57" y="52" text-anchor="middle" dominant-baseline="central" font-size="17">3</text>'),
+    "4e-ch3-s4": svg( // problèmes de répartition : un bouquet
+      '<g class="s-i" stroke-width="2.6"><line x1="21" y1="26" x2="36" y2="46"/><line x1="36" y1="22" x2="36" y2="46"/><line x1="51" y1="26" x2="36" y2="46"/></g>' +
+      '<circle class="f-s s-i" cx="20" cy="19" r="8" stroke-width="2.8"/>' +
+      '<circle class="f-b s-i" cx="36" cy="13" r="8" stroke-width="2.8"/>' +
+      '<circle class="f-s s-i" cx="52" cy="19" r="8" stroke-width="2.8"/>' +
+      '<path class="f-c s-i" d="M18 36H54L36 66Z" stroke-width="3.2"/>'),
+    "4e-ch3-s5": svg( // répartition en groupe (AP) : trois élèves
+      '<circle class="f-c s-i" cx="15" cy="27" r="7.5" stroke-width="2.8"/><path class="f-c s-i" d="M4 56A11 11 0 0 1 26 56Z" stroke-width="2.8"/>' +
+      '<circle class="f-s s-i" cx="57" cy="27" r="7.5" stroke-width="2.8"/><path class="f-s s-i" d="M46 56A11 11 0 0 1 68 56Z" stroke-width="2.8"/>' +
+      '<circle class="f-b s-i" cx="36" cy="22" r="8.5" stroke-width="3"/><path class="f-b s-i" d="M23 56A13 13 0 0 1 49 56Z" stroke-width="3"/>'),
     // 4e ch.2 : Grandeurs quotients et produits
     "4e-ch2-s1": svg( // la vitesse : une voiture lancée
       '<line class="s-c" x1="3" y1="34" x2="13" y2="34" stroke-width="4"/>' +
