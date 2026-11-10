@@ -17,7 +17,9 @@ h1{font:800 clamp(2.1rem,7vw,3.2rem)/.95 var(--f-title);text-transform:uppercase
 .fig{background:var(--panel);border:2px solid var(--ink);border-radius:8px;padding:8px}
 .fig svg{display:block;width:100%;height:auto;max-height:250px}
 .fig p{margin:4px 4px 0;font-size:.9rem;color:var(--muted)}
+#rech{font:500 1rem var(--f-text);width:100%;padding:10px 12px;border:2px solid var(--ink);border-radius:8px;background:#fff;color:var(--ink)}
 .chap{font:800 1.25rem/1.1 var(--f-title);text-transform:uppercase;letter-spacing:.03em;color:var(--muted);margin:10px 0 0}
+.ent[hidden],h3.chap[hidden]{display:none}
 .ent{background:var(--panel);border:2px solid var(--line);border-radius:8px;padding:12px 14px;cursor:pointer;scroll-margin-top:12px}
 .ent h2{font:800 1.5rem/1.1 var(--f-title);text-transform:uppercase;margin:0 0 4px;color:var(--ink)}
 .ent p{margin:0 0 6px}
@@ -35,6 +37,7 @@ a.retour{align-self:flex-start;font:600 .95rem var(--f-text);color:#fff;backgrou
     <p class="sub">Touche un mot pour le retrouver. Pour le cercle, il s'affiche aussi sur le schéma.</p>
   </header>
   <div class="fig" id="fig"><svg id="sch" viewBox="0 0 320 190" role="img" aria-label="Schéma d'un cercle"></svg><p id="legende">Cercle de centre O</p></div>
+  <input id="rech" type="search" placeholder="Chercher un mot" aria-label="Chercher un mot" autocomplete="off">
   <div id="liste" class="wrap" style="gap:10px"></div>
   <a class="retour" href="javascript:history.back()">Retour</a>
 </div>
@@ -58,15 +61,32 @@ function dessin(k){
  s+='<text x="'+(cx-6)+'" y="'+(cy+18)+'" font-size="14" fill="'+INK+'" font-family="Work Sans,sans-serif">O</text>';
  return s;}
 var sch=document.getElementById('sch'),leg=document.getElementById('legende'),liste=document.getElementById('liste');
-var dernier='';
-T.forEach(function(t){
- if(t.chap!==dernier){dernier=t.chap;var hc=document.createElement('h3');hc.className='chap';hc.textContent=t.chap;liste.appendChild(hc);}
- var d=document.createElement('div');d.className='ent';d.id=t.id;
- var h=document.createElement('h2');h.textContent=t.nom;d.appendChild(h);
- var p=document.createElement('p');p.className='court';p.textContent=t.court;d.appendChild(p);
- t.long.forEach(function(x){var q=document.createElement('p');q.textContent=x;d.appendChild(q);});
- d.addEventListener('click',function(){choisir(t.id,false);});
- liste.appendChild(d);});
+var ORDRE=['Tous niveaux · Calcul et nombres','Tous niveaux · Géométrie','Tous niveaux · Mesures et grandeurs','Tous niveaux · Raisonnement'];
+T.forEach(function(t){if(ORDRE.indexOf(t.chap)<0)ORDRE.push(t.chap);});
+var tri=function(x,y){return x.nom.localeCompare(y.nom,'fr');};
+ORDRE.forEach(function(c){
+ var g=T.filter(function(t){return t.chap===c;}).sort(tri);
+ if(!g.length)return;
+ var hc=document.createElement('h3');hc.className='chap';hc.textContent=c;liste.appendChild(hc);
+ g.forEach(function(t){
+  var d=document.createElement('div');d.className='ent';d.id=t.id;d.dataset.nom=t.nom.toLowerCase();
+  var h=document.createElement('h2');h.textContent=t.nom;d.appendChild(h);
+  var p=document.createElement('p');p.className='court';p.textContent=t.court;d.appendChild(p);
+  t.long.forEach(function(x){var q=document.createElement('p');q.textContent=x;d.appendChild(q);});
+  d.addEventListener('click',function(){choisir(t.id,false);});
+  liste.appendChild(d);});});
+var rech=document.getElementById('rech');
+rech.addEventListener('input',function(){
+ var q=rech.value.trim().toLowerCase();
+ var norm=function(x){return x.normalize('NFD').replace(/[\u0300-\u036f]/g,'');};
+ Array.prototype.forEach.call(liste.children,function(el){
+  if(el.tagName==='H3'){return;}
+  var ok=!q||norm(el.dataset.nom+' '+el.textContent.toLowerCase()).indexOf(norm(q))>=0;
+  el.hidden=!ok;});
+ Array.prototype.forEach.call(liste.querySelectorAll('h3.chap'),function(h){
+  var n=h.nextElementSibling,vu=false;
+  while(n&&n.tagName!=='H3'){if(!n.hidden)vu=true;n=n.nextElementSibling;}
+  h.hidden=!vu;});});
 function choisir(id,aller){
  var t=null;T.forEach(function(x){if(x.id===id)t=x;});
  Array.prototype.forEach.call(document.querySelectorAll('.ent'),function(e){e.classList.toggle('on',e.id===id);});

@@ -54,15 +54,15 @@
     </header>
 
     <div class="rappel">
-      <b>Rappel (déjà vu en 5e/6e) :</b> dire que <i>a</i> est un <b><span class="gl" data-t="multiple">multiple</span></b> de <i>b</i> revient à dire que <i>b</i> est un <b><span class="gl" data-t="diviseur">diviseur</span></b> de <i>a</i>, ou que <i>a</i> est <b><span class="gl" data-t="divisible">divisible</span></b> par <i>b</i>. Critères de divisibilité : par <b>2</b> (chiffre des unités pair), <b>5</b> (unités = 0 ou 5), <b>10</b> (unités = 0), <b>3</b> et <b>9</b> (somme des chiffres divisible par 3, ou par 9), <b>4</b> (nombre formé par les 2 derniers chiffres divisible par 4).
+      <b>Rappel (déjà vu en 5e/6e) :</b> dire que <i>a</i> est un <b><span class="gl" data-t="multiple">multiple</span></b> de <i>b</i> revient à dire que <i>b</i> est un <b><span class="gl" data-t="diviseur">diviseur</span></b> de <i>a</i>, ou que <i>a</i> est <b><span class="gl" data-t="divisible">divisible</span></b> par <i>b</i>. <span class="gl" data-t="critere-div">Critères de divisibilité</span> : par <b>2</b> (chiffre des <span class="gl" data-t="unite">unités</span> <span class="gl" data-t="pair">pair</span>), <b>5</b> (<span class="gl" data-t="unite">unités</span> = 0 ou 5), <b>10</b> (<span class="gl" data-t="unite">unités</span> = 0), <b>3</b> et <b>9</b> (<span class="gl" data-t="somme">somme</span> des chiffres <span class="gl" data-t="divisible">divisible</span> par 3, ou par 9), <b>4</b> (nombre formé par les 2 derniers chiffres <span class="gl" data-t="divisible">divisible</span> par 4).
     </div>
 
     <div class="grid">
       <div class="card c1">
         <h2>Les nombres premiers</h2>
-        <p>Un <span class="gl" data-t="nombre-premier">nombre premier</span> n'a exactement <b>2 diviseurs</b> : 1 et lui-même.</p>
+        <p>Un <span class="gl" data-t="nombre-premier">nombre premier</span> n'a exactement <b>2 <span class="gl" data-t="diviseur">diviseurs</span></b> : 1 et lui-même.</p>
         <div class="formula">2, 3, 5, 7, 11, 13, 17, 19, 23...</div>
-        <p class="example">Méthode : on teste si le nombre est divisible par 2, 3, 5, 7... Si aucun nombre premier plus petit ne le divise, il est premier.</p>
+        <p class="example">Méthode : on teste si le nombre est <span class="gl" data-t="divisible">divisible</span> par 2, 3, 5, 7... Si aucun <span class="gl" data-t="nombre-premier">nombre premier</span> plus petit ne le divise, il est premier.</p>
         <div class="calc">
           <div class="calc-title">Teste un nombre</div>
           <div class="calc-row">
@@ -75,9 +75,9 @@
 
       <div class="card c2">
         <h2>Décomposition en facteurs premiers</h2>
-        <p>Tout nombre entier peut s'écrire comme un produit de nombres premiers.</p>
+        <p>Tout <span class="gl" data-t="entier">nombre entier</span> peut s'écrire comme un <span class="gl" data-t="produit">produit</span> de <span class="gl" data-t="nombre-premier">nombres premiers</span>.</p>
         <div class="formula">60 = 2 × 2 × 3 × 5 = 2² × 3 × 5</div>
-        <p class="example">Méthode : diviser successivement par le plus petit nombre premier possible, jusqu'à obtenir 1.</p>
+        <p class="example">Méthode : diviser successivement par le plus petit <span class="gl" data-t="nombre-premier">nombre premier</span> possible, jusqu'à obtenir 1.</p>
         <div class="calc">
           <div class="calc-title">Décompose un nombre</div>
           <div class="calc-row">
@@ -90,11 +90,11 @@
 
       <div class="card c3">
         <h2>Simplifier une fraction</h2>
-        <p>On décompose le numérateur et le dénominateur, puis on <span class="gl" data-t="simplifier">simplifie</span> par les <span class="gl" data-t="facteur-premier">facteurs premiers</span> communs.</p>
+        <p>On décompose le <span class="gl" data-t="numerateur">numérateur</span> et le <span class="gl" data-t="denominateur">dénominateur</span>, puis on <span class="gl" data-t="simplifier">simplifie</span> par les <span class="gl" data-t="facteur-premier">facteurs premiers</span> communs.</p>
         <div class="formula">60/84 = (2²×3×5)/(2²×3×7) = 5/7</div>
-        <p class="example">La fraction est <span class="gl" data-t="irreductible">irréductible</span> quand il ne reste plus aucun facteur premier commun.</p>
+        <p class="example">La <span class="gl" data-t="fraction">fraction</span> est <span class="gl" data-t="irreductible">irréductible</span> quand il ne reste plus aucun <span class="gl" data-t="facteur-premier">facteur premier</span> commun.</p>
         <div class="calc">
-          <div class="calc-title">Simplifie une fraction</div>
+          <div class="calc-title"><span class="gl" data-t="simplifier">Simplifie</span> une <span class="gl" data-t="fraction">fraction</span></div>
           <div class="calc-row">
             <input type="number" id="f-a" value="60"> / <input type="number" id="f-b" value="84">
             <button class="calc-btn" onclick="simplify()">Simplifier</button>
@@ -106,7 +106,7 @@
       <div class="card c4">
         <h2>Problèmes de répartition</h2>
         <p>Pour répartir en lots identiques (sans reste), on cherche le <b>plus grand nombre qui divise les deux quantités</b>.</p>
-        <div class="formula">On décompose les 2 nombres, on multiplie leurs facteurs premiers communs</div>
+        <div class="formula">On décompose les 2 nombres, on multiplie leurs <span class="gl" data-t="facteur-premier">facteurs premiers</span> communs</div>
         <p class="example">Ex. : 12 roses et 18 tulipes → 12=2²×3, 18=2×3² → facteurs communs 2×3=6 → 6 bouquets max.</p>
         <div class="calc">
           <div class="calc-title">Calcule le nombre max de lots</div>
@@ -119,7 +119,7 @@
       </div>
     </div>
 
-    <footer>Cahier de leçons — Chapitre 3 — Divisibilité et nombres premiers. Modifie les nombres pour t'entraîner avec tes propres valeurs.</footer>
+    <footer>Cahier de leçons — Chapitre 3 — <span class="gl" data-t="critere-div">Divisibilité</span> et <span class="gl" data-t="nombre-premier">nombres premiers</span>. Modifie les nombres pour t'entraîner avec tes propres valeurs.</footer>
   </div>
 
 <script>

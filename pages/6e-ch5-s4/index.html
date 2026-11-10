@@ -335,7 +335,7 @@ details.why summary{cursor:pointer;font-weight:700}
   <section class="goal">
     <h2>La question du jour</h2>
     <p><b>Comment calculer le tour d'un <span class="gl" data-t="cercle">cercle</span> quand on connaît son <span class="gl" data-t="rayon">rayon</span> ou son <span class="gl" data-t="diametre">diamètre</span> ? Et avec quelle précision ?</b></p>
-    <p>Rappel : le tour d'un cercle s'appelle son <b><span class="gl" data-t="perimetre">périmètre</span></b>, et le tour vaut un peu plus de 3 fois le diamètre.</p>
+    <p>Rappel : le tour d'un <span class="gl" data-t="cercle">cercle</span> s'appelle son <b><span class="gl" data-t="perimetre">périmètre</span></b>, et le tour vaut un peu plus de 3 fois le <span class="gl" data-t="diametre">diamètre</span>.</p>
   </section>
 
   <ol class="flow">
@@ -349,9 +349,9 @@ details.why summary{cursor:pointer;font-weight:700}
   <!-- ================= 1. JE RELIE ================= -->
   <section class="ex" id="s1">
     <div class="ex-h"><h2><span class="step">1</span>Je relie <small>la machine à tours</small></h2></div>
-    <p class="mini"><b>Objectif.</b> Trouver le chemin qui mène du rayon (ou du diamètre) jusqu'au tour.</p>
+    <p class="mini"><b>Objectif.</b> Trouver le chemin qui mène du <span class="gl" data-t="rayon">rayon</span> (ou du <span class="gl" data-t="diametre">diamètre</span>) jusqu'au tour.</p>
     <ol class="steps">
-      <li><b>Choisis</b> ce que l'on connaît, et un cercle.</li>
+      <li><b>Choisis</b> ce que l'on connaît, et un <span class="gl" data-t="cercle">cercle</span>.</li>
       <li><b>Prévois</b> à l'oral l'opération de chaque flèche.</li>
       <li><b>Clique</b> sur « Étape suivante » pour vérifier.</li>
     </ol>
@@ -368,7 +368,7 @@ details.why summary{cursor:pointer;font-weight:700}
         <p class="msg" id="mmsg" aria-live="polite"></p>
       </div>
     </div>
-    <p class="recit hid" id="mrec">Du <b>rayon</b> au tour : on double (<b>× 2</b>) pour avoir le diamètre, puis on multiplie par <b>π</b>. Du <b>diamètre</b> au tour : on multiplie directement par <b>π</b>.</p>
+    <p class="recit hid" id="mrec">Du <b><span class="gl" data-t="rayon">rayon</span></b> au tour : on double (<b>× 2</b>) pour avoir le <span class="gl" data-t="diametre">diamètre</span>, puis on multiplie par <b><span class="gl" data-t="pi">π</span></b>. Du <b><span class="gl" data-t="diametre">diamètre</span></b> au tour : on multiplie directement par <b><span class="gl" data-t="pi">π</span></b>.</p>
   </section>
 
   <!-- ================= 2. JE CONSTRUIS ================= -->
@@ -378,13 +378,13 @@ details.why summary{cursor:pointer;font-weight:700}
     <div class="fl" id="fl"></div>
     <div class="row"><button class="btn main" id="fnext">Ligne suivante</button><button class="btn" id="fall">Tout afficher</button><button class="btn" id="freset">Recommencer</button></div>
     <div class="formbox hid" id="fbox">
-      <div class="f2"><span class="t">Si je connais le diamètre</span><b class="big">P = π × d</b></div>
-      <div class="f2"><span class="t">Si je connais le rayon</span><b class="big">P = 2 × π × r</b></div>
+      <div class="f2"><span class="t">Si je connais le <span class="gl" data-t="diametre">diamètre</span></span><b class="big">P = <span class="gl" data-t="pi">π</span> × d</b></div>
+      <div class="f2"><span class="t">Si je connais le <span class="gl" data-t="rayon">rayon</span></span><b class="big">P = 2 × <span class="gl" data-t="pi">π</span> × r</b></div>
       <p class="hint">P est le périmètre, d le diamètre, r le rayon, et d = 2 × r.</p>
     </div>
     <details class="why"><summary>Pourquoi « 2 × π × r » et pas « π × r » ?</summary>
-      <p><span class="gl" data-t="pi">π</span> se multiplie toujours par le <b>diamètre</b>. Or le diamètre vaut <b>2 × r</b> : multiplier π par r seulement donne la moitié du tour.</p></details>
-    <p class="consigne"><b>Au cahier :</b> recopie l'encadré avec les deux formules.</p>
+      <p><span class="gl" data-t="pi">π</span> se multiplie toujours par le <b><span class="gl" data-t="diametre">diamètre</span></b>. Or le <span class="gl" data-t="diametre">diamètre</span> vaut <b>2 × r</b> : multiplier <span class="gl" data-t="pi">π</span> par r seulement donne la <span class="gl" data-t="moitie">moitié</span> du tour.</p></details>
+    <p class="consigne"><b>Au cahier :</b> recopie l'encadré avec les deux <span class="gl" data-t="formule">formules</span>.</p>
     <p class="mini"><b>Je choisis le bon calcul.</b> Clique sur la bonne ligne.</p>
     <div class="qf" id="qf"></div>
   </section>
@@ -392,44 +392,44 @@ details.why summary{cursor:pointer;font-weight:700}
   <!-- ================= 3. JE COMPARE ================= -->
   <section class="ex" id="s3">
     <div class="ex-h"><h2><span class="step">3</span>Je compare <small>la touche π ou 3,14 ?</small></h2></div>
-    <p class="mini"><b>Objectif.</b> Voir ce que change 3,14 à la place de la touche π.</p>
+    <p class="mini"><b>Objectif.</b> Voir ce que change 3,14 à la place de la touche <span class="gl" data-t="pi">π</span>.</p>
     <ol class="steps">
-      <li><b>Choisis</b> un diamètre.</li>
-      <li><b>Compare</b> le résultat avec la touche π et avec 3,14.</li>
-      <li><b>Lis</b> l'écart : que devient-il quand le cercle grandit ?</li>
+      <li><b>Choisis</b> un <span class="gl" data-t="diametre">diamètre</span>.</li>
+      <li><b>Compare</b> le résultat avec la touche <span class="gl" data-t="pi">π</span> et avec 3,14.</li>
+      <li><b>Lis</b> l'écart : que devient-il quand le <span class="gl" data-t="cercle">cercle</span> grandit ?</li>
     </ol>
     <div class="row"><span class="grp"><span class="lvl">Diamètre</span>
       <div class="seg" id="cval"><button data-v="12">12 cm · un CD</button><button data-v="66">66 cm · roue de vélo</button><button data-v="250">250 cm · trampoline</button><button data-v="10000">10 000 cm · rond-point de 100 m</button></div></span></div>
     <div class="tin"><label>Un autre diamètre : <input class="ans" id="cin" inputmode="decimal" autocomplete="off" aria-label="un autre diamètre en centimètres"> cm</label><button class="btn" id="cok">Calculer</button></div>
     <div class="cmp" id="cmp" aria-live="polite"></div>
     <p class="msg" id="cmsg" aria-live="polite"></p>
-    <p class="recit"><b>π × 66</b> est la valeur <b>exacte</b> du tour : on ne peut pas l'écrire avec des chiffres seulement. <b>207,35</b> est une valeur <b>approchée</b>, arrondie au centième. Et <b>3,14</b> n'est qu'une valeur approchée de π : s'en servir éloigne un peu le résultat de la vérité.<br><b>Dans ce chapitre :</b> on utilise la <b>touche π</b>, on arrondit <b>à la fin</b>, <b>au centième</b>.</p>
+    <p class="recit"><b><span class="gl" data-t="pi">π</span> × 66</b> est la valeur <b>exacte</b> du tour : on ne peut pas l'écrire avec des chiffres seulement. <b>207,35</b> est une valeur <b>approchée</b>, <span class="gl" data-t="arrondi">arrondie</span> au <span class="gl" data-t="centieme">centième</span>. Et <b>3,14</b> n'est qu'une <span class="gl" data-t="valeur-approchee">valeur approchée</span> de <span class="gl" data-t="pi">π</span> : s'en servir éloigne un peu le résultat de la vérité.<br><b>Dans ce chapitre :</b> on utilise la <b>touche <span class="gl" data-t="pi">π</span></b>, on arrondit <b>à la fin</b>, <b>au <span class="gl" data-t="centieme">centième</span></b>.</p>
   </section>
 
   <!-- ================= 4. JE CALCULE ================= -->
   <section class="ex" id="ex4">
     <div class="ex-h"><h2><span class="step">4</span>Je calcule <small>au cahier</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="mini"><b>Objectif.</b> Calculer un tour avec la touche π, résultat arrondi au centième.</p>
-    <div class="worked"><p><b class="t">Exemple.</b> Un jeton de rayon 1,5 cm : P = 2 × π × 1,5 = 9,42477…, donc <b>P ≈ 9,42 cm</b>.</p></div>
-    <p class="consigne"><b>À toi.</b> Même méthode. Attention à ce que l'on te donne : le rayon ou le diamètre.</p>
+    <p class="mini"><b>Objectif.</b> Calculer un tour avec la touche <span class="gl" data-t="pi">π</span>, résultat <span class="gl" data-t="arrondi">arrondi</span> au <span class="gl" data-t="centieme">centième</span>.</p>
+    <div class="worked"><p><b class="t">Exemple.</b> Un jeton de <span class="gl" data-t="rayon">rayon</span> 1,5 cm : P = 2 × <span class="gl" data-t="pi">π</span> × 1,5 = 9,42477…, donc <b>P ≈ 9,42 cm</b>.</p></div>
+    <p class="consigne"><b>À toi.</b> Même méthode. Attention à ce que l'on te donne : le <span class="gl" data-t="rayon">rayon</span> ou le <span class="gl" data-t="diametre">diamètre</span>.</p>
     <ul class="objs" id="objs4"></ul>
     <div class="row"><button class="btn main" id="e4check">Vérifier</button></div>
     <p class="msg" id="e4msg" aria-live="polite"></p>
-    <p class="mini"><b>Défi sans calculatrice.</b> Quel cercle a le plus grand tour ?</p>
+    <p class="mini"><b>Défi sans calculatrice.</b> Quel <span class="gl" data-t="cercle">cercle</span> a le plus grand tour ?</p>
     <div class="row"><div class="seg" id="dseg"><button data-v="r7">Le cercle de rayon 7 cm</button><button data-v="d15">Le cercle de diamètre 15 cm</button></div><button class="btn" id="dcheck">Vérifier</button></div>
     <p class="msg" id="dmsg" aria-live="polite"></p>
-    <p class="recit sol">Cerceau : π × 80 = 251,3274…, donc <b>≈ 251,33 cm</b>. Assiette : 2 × π × 12 = 75,3982…, donc <b>≈ 75,40 cm</b>. Manège : π × 8,5 = 26,7035…, donc <b>≈ 26,70 m</b>. Défi : le rayon 7 cm donne un diamètre de 14 cm, plus petit que 15 cm : c'est le cercle de <b>diamètre 15 cm</b> qui a le plus grand tour.</p>
+    <p class="recit sol">Cerceau : <span class="gl" data-t="pi">π</span> × 80 = 251,3274…, donc <b>≈ 251,33 cm</b>. Assiette : 2 × <span class="gl" data-t="pi">π</span> × 12 = 75,3982…, donc <b>≈ 75,40 cm</b>. Manège : <span class="gl" data-t="pi">π</span> × 8,5 = 26,7035…, donc <b>≈ 26,70 m</b>. Défi : le <span class="gl" data-t="rayon">rayon</span> 7 cm donne un <span class="gl" data-t="diametre">diamètre</span> de 14 cm, plus petit que 15 cm : c'est le <span class="gl" data-t="cercle">cercle</span> de <b><span class="gl" data-t="diametre">diamètre</span> 15 cm</b> qui a le plus grand tour.</p>
   </section>
 
   <!-- ================= 5. JE REPÈRE L'ERREUR ================= -->
   <section class="ex" id="ex5">
     <div class="ex-h"><h2><span class="step">5</span>Je repère l'erreur <small>au cahier</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="consigne">Un cercle a un <b>rayon de 4 cm</b>. Quatre élèves calculent son tour, arrondi au centième.</p>
+    <p class="consigne">Un <span class="gl" data-t="cercle">cercle</span> a un <b><span class="gl" data-t="rayon">rayon</span> de 4 cm</b>. Quatre élèves calculent son tour, <span class="gl" data-t="arrondi">arrondi</span> au <span class="gl" data-t="centieme">centième</span>.</p>
     <p class="mini"><b>Objectif.</b> Pour chaque élève, trouver l'erreur, ou dire que tout est juste.</p>
     <ul class="errs" id="errs"></ul>
     <div class="row"><button class="btn main" id="e5check">Vérifier</button></div>
     <p class="msg" id="e5msg" aria-live="polite"></p>
-    <p class="recit sol">Le bon résultat est <b>P = 2 × π × 4 ≈ 25,13 cm</b>. <b>Théo</b> a oublié de doubler le rayon. <b>Léo</b> a pris 3,14 : il trouve 25,12. <b>Zoé</b> a oublié l'unité. <b>Nina</b> a tout juste.</p>
+    <p class="recit sol">Le bon résultat est <b>P = 2 × <span class="gl" data-t="pi">π</span> × 4 ≈ 25,13 cm</b>. <b>Théo</b> a oublié de doubler le <span class="gl" data-t="rayon">rayon</span>. <b>Léo</b> a pris 3,14 : il trouve 25,12. <b>Zoé</b> a oublié l'<span class="gl" data-t="unite">unité</span>. <b>Nina</b> a tout juste.</p>
   </section>
 
 </div>

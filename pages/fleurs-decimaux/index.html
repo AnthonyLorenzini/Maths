@@ -248,7 +248,7 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 
   <section class="ex" id="ex3">
     <div class="ex-h"><h2>Exercice 3 <small>avec les pourcentages</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="consigne">Ces fleurs ont un pétale « Pourcentage » à la place du nombre mixte. Rappel : <b>p %</b> veut dire <b>p sur 100</b>. Complète les fleurs E et F.</p>
+    <p class="consigne">Ces fleurs ont un pétale « <span class="gl" data-t="pourcentage">Pourcentage</span> » à la place du nombre mixte. Rappel : <b>p %</b> veut dire <b>p sur 100</b>. Complète les fleurs E et F.</p>
     <div class="garden"></div>
   </section>
 
@@ -263,9 +263,9 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
     <p class="consigne">Trouve le nombre mystère grâce aux indices, puis dessine et complète sa fleur I avec les 5 pétales.</p>
     <ol class="clues">
       <li>Je suis compris entre 6 et 7.</li>
-      <li>Mon chiffre des dixièmes est 0.</li>
-      <li>Mon chiffre des millièmes vaut 4.</li>
-      <li>Mon chiffre des centièmes est le double de mon chiffre des millièmes.</li>
+      <li>Mon chiffre des <span class="gl" data-t="dixieme">dixièmes</span> est 0.</li>
+      <li>Mon chiffre des <span class="gl" data-t="millieme">millièmes</span> vaut 4.</li>
+      <li>Mon chiffre des <span class="gl" data-t="centieme">centièmes</span> est le <span class="gl" data-t="double">double</span> de mon chiffre des <span class="gl" data-t="millieme">millièmes</span>.</li>
       <li>Je n'ai pas d'autre chiffre après la virgule.</li>
     </ol>
     <p class="ok-line">Le nombre mystère est 6,084.</p>
@@ -326,3 +326,4 @@ layout();let lw=0;addEventListener('resize',()=>{const w=$('.garden').clientWidt
 </script>
 <script src="../../assets/catalogue.js"></script>
 <script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
