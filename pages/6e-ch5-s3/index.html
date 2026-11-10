@@ -304,8 +304,8 @@ details.why summary{cursor:pointer;font-weight:700}
 
   <section class="goal">
     <h2>La question du jour</h2>
-    <p><b>Combien de fois le diamètre tient-il dans le tour d'un cercle ?</b></p>
-    <p>Le tour d'un cercle s'appelle son <b>périmètre</b>.</p>
+    <p><b>Combien de fois le <span class="gl" data-t="diametre">diamètre</span> tient-il dans le tour d'un <span class="gl" data-t="cercle">cercle</span> ?</b></p>
+    <p>Le tour d'un cercle s'appelle son <b><span class="gl" data-t="perimetre">périmètre</span></b>.</p>
   </section>
 
   <ol class="flow">
@@ -340,7 +340,7 @@ details.why summary{cursor:pointer;font-weight:700}
     <p class="mini"><b>Objectif.</b> Mesurer le tour de ton cercle. Matériel : cahier, règle, compas.</p>
     <div class="chips"><span class="chip" style="border-color:var(--blue);color:var(--blue)">Bleus : r = 3 cm</span><span class="chip" style="border-color:var(--magenta);color:var(--magenta)">Magentas : r = 4 cm</span><span class="chip" style="border-color:var(--teal);color:var(--teal)">Turquoises : r = 5 cm</span></div>
     <ol class="steps">
-      <li><b>Trace</b> ton cercle de centre O, puis un diamètre. Place un point A sur le cercle.</li>
+      <li><b>Trace</b> ton cercle de <span class="gl" data-t="centre">centre</span> O, puis un diamètre. Place un point A sur le cercle.</li>
       <li><b>Reporte</b> des pas de 1 cm avec le compas, en partant de A, jusqu'à revenir près de A.</li>
       <li><b>Compte</b> les pas et mesure le reste à la règle : <b>P ≈ pas + reste</b>.</li>
     </ol>
@@ -375,7 +375,7 @@ details.why summary{cursor:pointer;font-weight:700}
       <div class="tblw"><table class="tb" id="btab"></table></div>
       <div class="row hid" id="bnamerow"><button class="btn main" id="bname">④ Donner un nom à ce nombre</button></div>
     </div>
-    <div class="pibox hid" id="pibox"><span class="pig">π</span><div><p class="pid">3,14159 26535 89793…</p><p>Les chiffres ne s'arrêtent jamais : on écrit « ≈ ». Ce nombre s'appelle <b>π</b> (« pi »). En 6e, on admet que les nombres se rapprochent de lui.</p></div></div>
+    <div class="pibox hid" id="pibox"><span class="pig"><span class="gl" data-t="pi">π</span></span><div><p class="pid">3,14159 26535 89793…</p><p>Les chiffres ne s'arrêtent jamais : on écrit « ≈ ». Ce nombre s'appelle <b>π</b> (« pi »). En 6e, on admet que les nombres se rapprochent de lui.</p></div></div>
     <p class="recit hid" id="retenu">Le périmètre d'un cercle est <b>un peu plus de 3 fois son diamètre</b> : <b>P ÷ d = π ≈ 3,14</b>.<br>Pour calculer un tour : <b>P ≈ 3,14 × d</b>. On multiplie le <b>diamètre</b>, pas le rayon.</p>
   </section>
 
@@ -394,7 +394,7 @@ details.why summary{cursor:pointer;font-weight:700}
   <!-- ================= 5. JE REPÈRE L'ERREUR ================= -->
   <section class="ex" id="ex3">
     <div class="ex-h"><h2><span class="step">5</span>Je repère l'erreur <small>au cahier</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="consigne">Un cercle a un <b>rayon de 5 cm</b>.<br><b>Tom :</b> P ≈ 3,14 × 5 = 15,7 cm.<br><b>Léa :</b> P ≈ 3,14 × 10 = 31,4 cm.</p>
+    <p class="consigne">Un cercle a un <b><span class="gl" data-t="rayon">rayon</span> de 5 cm</b>.<br><b>Tom :</b> P ≈ 3,14 × 5 = 15,7 cm.<br><b>Léa :</b> P ≈ 3,14 × 10 = 31,4 cm.</p>
     <ol class="steps">
       <li><b>Le diamètre</b> vaut <input class="ans" id="q2" inputmode="decimal" autocomplete="off" aria-label="diamètre en centimètres"> cm.</li>
       <li><b>Qui a raison ?</b>
@@ -669,3 +669,4 @@ $('#e3check').addEventListener('click',()=>{
 </script>
 <script src="../../assets/catalogue.js"></script>
 <script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
