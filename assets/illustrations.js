@@ -132,6 +132,29 @@
     '<path class="f-b s-i" d="M12 54V18L60 54Z" stroke-width="3"/>' +
     '<path class="s-i" d="M12 47H19V54" fill="none" stroke-width="2.2"/>' + etiqs;
   const SEANCES = {
+    // 4e ch.1 : Les pourcentages
+    "4e-ch1-s1": svg( // la proportionnalité : un tableau, chaque ligne = ligne du haut × 3
+      '<rect class="f-b s-i" x="6" y="8" width="18" height="18" rx="3" stroke-width="2.6"/>' + lab(15, 17.5, '1', 12) +
+      '<rect class="f-b s-i" x="27" y="8" width="18" height="18" rx="3" stroke-width="2.6"/>' + lab(36, 17.5, '2', 12) +
+      '<rect class="f-b s-i" x="48" y="8" width="18" height="18" rx="3" stroke-width="2.6"/>' + lab(57, 17.5, '4', 12) +
+      '<rect class="f-c s-i" x="6" y="29" width="18" height="18" rx="3" stroke-width="2.6"/><text class="tx f-b" x="15" y="38.5" text-anchor="middle" dominant-baseline="central" font-size="12">3</text>' +
+      '<rect class="f-c s-i" x="27" y="29" width="18" height="18" rx="3" stroke-width="2.6"/><text class="tx f-b" x="36" y="38.5" text-anchor="middle" dominant-baseline="central" font-size="12">6</text>' +
+      '<rect class="f-c s-i" x="48" y="29" width="18" height="18" rx="3" stroke-width="2.6"/><text class="tx f-b" x="57" y="38.5" text-anchor="middle" dominant-baseline="central" font-size="10.5">12</text>' +
+      '<rect class="f-s s-i" x="22" y="52" width="28" height="14" rx="7" stroke-width="2.4"/>' + lab(36, 59.5, '×3', 11)),
+    "4e-ch1-s2": svg( // calculer et appliquer un pourcentage : une étiquette de prix −30 %
+      '<path class="f-c s-i" d="M4 13H41L68 36L41 59H4Z" stroke-width="3.2"/>' +
+      '<circle class="f-b s-i" cx="13" cy="36" r="3.4" stroke-width="2"/>' +
+      '<text class="tx f-b" x="35" y="36.5" text-anchor="middle" dominant-baseline="central" font-size="15">−30%</text>'),
+    "4e-ch1-s3": svg( // les évolutions : une hausse et une baisse
+      '<path class="s-i" d="M23 62V22M11 33L23 19L35 33" fill="none" stroke-width="11"/>' +
+      '<path class="s-c" d="M23 62V22M11 33L23 19L35 33" fill="none" stroke-width="5"/>' +
+      '<path class="s-i" d="M49 10V50M37 39L49 53L61 39" fill="none" stroke-width="11"/>' +
+      '<path class="s-s" d="M49 10V50M37 39L49 53L61 39" fill="none" stroke-width="5"/>'),
+    "4e-ch1-s4": svg( // le pourcentage réciproque : on remonte au prix de départ
+      '<path class="s-i" d="M16.9 25A22 22 0 1 1 16.9 47" fill="none" stroke-width="11"/>' +
+      '<path class="s-c" d="M16.9 25A22 22 0 1 1 16.9 47" fill="none" stroke-width="5"/>' +
+      '<path class="f-c s-i" d="M12.4 39.3L22.9 43.5L10.9 50.5Z" stroke-width="2.4"/>' +
+      lab(37, 37, '?', 24)),
     // 4e ch.4 : Pythagore
     "4e-ch4-s1": svg( // le puzzle des aires : 9 + 16 = 25
       '<rect class="f-s s-i" x="7" y="6" width="18" height="18" rx="1.5" stroke-width="2.8"/>' + lab(30.5, 15, '+', 15) +
