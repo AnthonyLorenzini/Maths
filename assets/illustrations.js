@@ -132,6 +132,28 @@
     '<path class="f-b s-i" d="M12 54V18L60 54Z" stroke-width="3"/>' +
     '<path class="s-i" d="M12 47H19V54" fill="none" stroke-width="2.2"/>' + etiqs;
   const SEANCES = {
+    // 4e ch.2 : Grandeurs quotients et produits
+    "4e-ch2-s1": svg( // la vitesse : une voiture lancée
+      '<line class="s-c" x1="3" y1="34" x2="13" y2="34" stroke-width="4"/>' +
+      '<line class="s-c" x1="3" y1="43" x2="11" y2="43" stroke-width="4"/>' +
+      '<line class="s-c" x1="3" y1="52" x2="13" y2="52" stroke-width="4"/>' +
+      '<path class="f-b s-i" d="M24 38L32 24H49L57 38Z" stroke-width="3"/>' +
+      '<rect class="f-c s-i" x="14" y="36" width="52" height="18" rx="7" stroke-width="3.2"/>' +
+      '<circle class="f-i" cx="28" cy="55" r="8"/><circle class="f-b" cx="28" cy="55" r="3"/>' +
+      '<circle class="f-i" cx="53" cy="55" r="8"/><circle class="f-b" cx="53" cy="55" r="3"/>'),
+    "4e-ch2-s2": svg( // le débit et la densité : un robinet qui coule
+      '<rect class="f-s s-i" x="14" y="6" width="16" height="7" rx="2.5" stroke-width="2.6"/>' +
+      '<rect class="f-b s-i" x="6" y="13" width="40" height="14" rx="5" stroke-width="3"/>' +
+      '<rect class="f-b s-i" x="31" y="27" width="15" height="11" rx="3" stroke-width="3"/>' +
+      '<path class="f-c s-i" d="M38.5 42C33 50 32 55 38.5 55C45 55 44 50 38.5 42Z" stroke-width="2.6"/>' +
+      '<path class="f-c s-i" d="M38.5 58C35 63 34.5 66 38.5 66C42.5 66 42 63 38.5 58Z" stroke-width="2.4"/>'),
+    "4e-ch2-s3": svg( // aire, volume et énergie : l'éclair
+      '<path class="f-s s-i" d="M42 5L17 40H34L27 67L56 29H39Z" stroke-width="3.4"/>'),
+    "4e-ch2-s4": svg( // bilan du chapitre : la coupe
+      '<path class="s-i" d="M22 16H11V22A11 11 0 0 0 23 33M50 16H61V22A11 11 0 0 1 49 33" fill="none" stroke-width="3"/>' +
+      '<path class="f-s s-i" d="M22 9H50V28A14 14 0 0 1 22 28Z" stroke-width="3.2"/>' +
+      '<rect class="f-b s-i" x="32" y="43" width="8" height="10" stroke-width="2.6"/>' +
+      '<rect class="f-c s-i" x="22" y="53" width="28" height="9" rx="3" stroke-width="3"/>'),
     // 4e ch.1 : Les pourcentages
     "4e-ch1-s1": svg( // la proportionnalité : un tableau, chaque ligne = ligne du haut × 3
       '<rect class="f-b s-i" x="6" y="8" width="18" height="18" rx="3" stroke-width="2.6"/>' + lab(15, 17.5, '1', 12) +
