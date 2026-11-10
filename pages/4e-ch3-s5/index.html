@@ -76,7 +76,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
   <div class="note-groupe"><b>En classe :</b> cette séance se fait <b>en groupe de 3 ou 4</b>, sur une seule fiche. Chacun écrit dans son cahier (numéro de l'exercice et réponses), et n'importe quel membre du groupe peut être interrogé pour expliquer. <b>À la maison :</b> refais les exercices seul(e).</div>
   <div class="automatisme">
     <h2>Automatisme</h2>
-    <ol><li>2³ × 3 =</li><li>Décompose 36 en facteurs premiers.</li><li>120 ÷ 8 =</li><li>Quel est le plus grand nombre qui divise à la fois 12 et 18 ?</li></ol>
+    <ol><li>2³ × 3 =</li><li>Décompose 36 en <span class="gl" data-t="facteur-premier">facteurs premiers</span>.</li><li>120 ÷ 8 =</li><li>Quel est le plus grand nombre qui divise à la fois 12 et 18 ?</li></ol>
     <button class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
     <div class="reveal-panel" id="auto-corrige">Corrigé : 24 ; 2² × 3² ; 15 ; 6</div>
   </div>
@@ -149,7 +149,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
         <button class="toggle-btn astuce" onclick="toggle('astuce-9')">💡 Astuce</button>
         <button class="toggle-btn solution" onclick="toggle('solution-9')">✅ Solution</button>
       </div>
-      <div class="panel astuce-panel" id="astuce-9"><span class="label">Astuce</span>Un nombre de coffres est possible s'il divise 150 ET 210. Cherche les diviseurs du plus grand de ces nombres.</div>
+      <div class="panel astuce-panel" id="astuce-9"><span class="label">Astuce</span>Un nombre de coffres est possible s'il divise 150 ET 210. Cherche les <span class="gl" data-t="diviseur">diviseurs</span> du plus grand de ces nombres.</div>
       <div class="panel solution-panel" id="solution-9"><span class="label">Solution</span>Les nombres de coffres possibles sont les diviseurs de 30 = 2 × 3 × 5 : <b>1, 2, 3, 5, 6, 10, 15 et 30</b>. Il y a <b>8 partages</b> possibles.</div>
     </section>
   </div>
@@ -158,5 +158,6 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
 <script>function toggle(id){document.getElementById(id).classList.toggle('show');}</script>
 <script src="../../assets/catalogue.js"></script>
 <script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
 </body>
 </html>

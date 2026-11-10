@@ -158,7 +158,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
       <div class="subtitle">Chapitre 4 — Le théorème de Pythagore — 4e — Séance 3</div>
     </div>
   </header>
-  <div class="objectifs"><b>Objectifs :</b> repérer l'angle droit et l'hypoténuse dans un triangle rectangle, même quand il est tourné ; écrire l'égalité de Pythagore avec les lettres du triangle ; passer de l'aire d'un carré à la longueur de son côté, puis utiliser l'égalité pour calculer une longueur.</div>
+  <div class="objectifs"><b>Objectifs :</b> repérer l'<span class="gl" data-t="angle-droit">angle droit</span> et l'<span class="gl" data-t="hypotenuse">hypoténuse</span> dans un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span>, même quand il est tourné ; écrire l'<span class="gl" data-t="pythagore">égalité de Pythagore</span> avec les lettres du triangle ; passer de l'aire d'un carré à la longueur de son côté, puis utiliser l'égalité pour calculer une longueur.</div>
   <noscript><p><b>Cette séance utilise des figures dessinées par JavaScript : active-le dans ton navigateur pour les voir.</b></p></noscript>
 
   <!-- ===================== AUTOMATISME ===================== -->
@@ -272,7 +272,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
         <li>Déduis-en la longueur BC.</li>
       </ol>
     </div>
-    <p class="sous-q"><b>b)</b> Même démarche pour le triangle DEF, rectangle en E, avec ED = 3 cm et EF = 5 cm : calcule DF. Fais d'abord un schéma à main levée. Donne la valeur exacte, puis une valeur approchée au dixième avec la calculatrice.</p>
+    <p class="sous-q"><b>b)</b> Même démarche pour le triangle DEF, rectangle en E, avec ED = 3 cm et EF = 5 cm : calcule DF. Fais d'abord un schéma à main levée. Donne la <span class="gl" data-t="valeur-exacte">valeur exacte</span>, puis une <span class="gl" data-t="valeur-approchee">valeur approchée</span> au dixième avec la calculatrice.</p>
     <div class="sol-only corrige">
       <b>a)</b> ABC est rectangle en A, donc d'après le théorème de Pythagore : BC² = AB² + AC².<br>
       BC² = 5² + 12² = 25 + 144 = 169, donc BC = √169 = <b>13 cm</b>.<br>
@@ -283,7 +283,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
       <button type="button" class="toggle-btn astuce" onclick="toggle('as4')">💡 Astuce</button>
       <button type="button" class="toggle-btn solution" onclick="sol('fx4',this)">✅ Solution</button>
     </div>
-    <div class="panel astuce-panel" id="as4"><span class="label">Astuce</span>Pour BC², remplace seulement les deux côtés de l'angle droit : l'hypoténuse reste la lettre inconnue. Une fois que tu as BC², il reste à trouver le nombre positif dont le carré est BC² : c'est la racine carrée.</div>
+    <div class="panel astuce-panel" id="as4"><span class="label">Astuce</span>Pour BC², remplace seulement les deux côtés de l'angle droit : l'hypoténuse reste la lettre inconnue. Une fois que tu as BC², il reste à trouver le nombre positif dont le carré est BC² : c'est la <span class="gl" data-t="racine-carree">racine carrée</span>.</div>
   </div>
 
   </div><!-- /exos -->
@@ -563,5 +563,6 @@ function sol(id,btn){var e=document.getElementById(id);var on=e.classList.toggle
 </script>
 <script src="../../assets/catalogue.js"></script>
 <script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
 </body>
 </html>

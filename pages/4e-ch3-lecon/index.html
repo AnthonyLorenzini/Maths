@@ -54,13 +54,13 @@
     </header>
 
     <div class="rappel">
-      <b>Rappel (déjà vu en 5e/6e) :</b> dire que <i>a</i> est un <b>multiple</b> de <i>b</i> revient à dire que <i>b</i> est un <b>diviseur</b> de <i>a</i>, ou que <i>a</i> est <b>divisible</b> par <i>b</i>. Critères de divisibilité : par <b>2</b> (chiffre des unités pair), <b>5</b> (unités = 0 ou 5), <b>10</b> (unités = 0), <b>3</b> et <b>9</b> (somme des chiffres divisible par 3, ou par 9), <b>4</b> (nombre formé par les 2 derniers chiffres divisible par 4).
+      <b>Rappel (déjà vu en 5e/6e) :</b> dire que <i>a</i> est un <b><span class="gl" data-t="multiple">multiple</span></b> de <i>b</i> revient à dire que <i>b</i> est un <b><span class="gl" data-t="diviseur">diviseur</span></b> de <i>a</i>, ou que <i>a</i> est <b><span class="gl" data-t="divisible">divisible</span></b> par <i>b</i>. Critères de divisibilité : par <b>2</b> (chiffre des unités pair), <b>5</b> (unités = 0 ou 5), <b>10</b> (unités = 0), <b>3</b> et <b>9</b> (somme des chiffres divisible par 3, ou par 9), <b>4</b> (nombre formé par les 2 derniers chiffres divisible par 4).
     </div>
 
     <div class="grid">
       <div class="card c1">
         <h2>Les nombres premiers</h2>
-        <p>Un nombre premier n'a exactement <b>2 diviseurs</b> : 1 et lui-même.</p>
+        <p>Un <span class="gl" data-t="nombre-premier">nombre premier</span> n'a exactement <b>2 diviseurs</b> : 1 et lui-même.</p>
         <div class="formula">2, 3, 5, 7, 11, 13, 17, 19, 23...</div>
         <p class="example">Méthode : on teste si le nombre est divisible par 2, 3, 5, 7... Si aucun nombre premier plus petit ne le divise, il est premier.</p>
         <div class="calc">
@@ -90,9 +90,9 @@
 
       <div class="card c3">
         <h2>Simplifier une fraction</h2>
-        <p>On décompose le numérateur et le dénominateur, puis on simplifie par les facteurs premiers communs.</p>
+        <p>On décompose le numérateur et le dénominateur, puis on <span class="gl" data-t="simplifier">simplifie</span> par les <span class="gl" data-t="facteur-premier">facteurs premiers</span> communs.</p>
         <div class="formula">60/84 = (2²×3×5)/(2²×3×7) = 5/7</div>
-        <p class="example">La fraction est irréductible quand il ne reste plus aucun facteur premier commun.</p>
+        <p class="example">La fraction est <span class="gl" data-t="irreductible">irréductible</span> quand il ne reste plus aucun facteur premier commun.</p>
         <div class="calc">
           <div class="calc-title">Simplifie une fraction</div>
           <div class="calc-row">
@@ -182,5 +182,6 @@ testPrime(); decompose(); simplify(); repartition();
 </script>
 <script src="../../assets/catalogue.js"></script>
 <script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
 </body>
 </html>

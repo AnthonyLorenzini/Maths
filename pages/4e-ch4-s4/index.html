@@ -130,7 +130,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
       <div class="subtitle">Chapitre 4 — Le théorème de Pythagore — 4e — Séance 4</div>
     </div>
   </header>
-  <div class="objectifs"><b>Objectifs :</b> rédiger proprement un calcul d'hypoténuse avec le théorème de Pythagore (triangle rectangle, égalité, remplacement, calcul, conclusion) ; rédiger de moins en moins guidé, jusqu'à rédiger tout(e) seul(e).</div>
+  <div class="objectifs"><b>Objectifs :</b> rédiger proprement un calcul d'<span class="gl" data-t="hypotenuse">hypoténuse</span> avec le <span class="gl" data-t="pythagore">théorème de Pythagore</span> (<span class="gl" data-t="triangle-rectangle">triangle rectangle</span>, égalité, remplacement, calcul, conclusion) ; rédiger de moins en moins guidé, jusqu'à rédiger tout(e) seul(e).</div>
   <noscript><p><b>Cette séance utilise des figures dessinées par JavaScript : active-le dans ton navigateur pour les voir.</b></p></noscript>
 
   <!-- ===================== AUTOMATISME ===================== -->
@@ -187,7 +187,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
       donc <b>BC</b> = √100 = <b>10 cm</b>.
     </div>
     <ul>
-      <li>Si le résultat n'est pas un nombre entier, j'écris la <b>valeur exacte</b> avec √, puis une <b>valeur approchée</b> : BC = √41 ≈ 6,4 cm.</li>
+      <li>Si le résultat n'est pas un nombre entier, j'écris la <b><span class="gl" data-t="valeur-exacte">valeur exacte</span></b> avec √, puis une <b><span class="gl" data-t="valeur-approchee">valeur approchée</span></b> : BC = √41 ≈ 6,4 cm.</li>
       <li>Je mets <b>chaque longueur au carré avant d'additionner</b> : 6² + 8² = 100, et non (6 + 8)² = 196. Et BC² = 100 donne BC = √100 = 10.</li>
       <li>Je vérifie : l'hypoténuse est toujours le <b>plus long côté</b>, et je n'oublie pas l'<b>unité</b>.</li>
     </ul>
@@ -196,7 +196,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
 
   <!-- ===================== EXERCICES ===================== -->
   <div class="objectif"><b>Objectif :</b> <span>Savoir rédiger le calcul d'une hypoténuse</span></div>
-  <p class="aide-ex" style="font-size:14px;line-height:1.5;margin:0 0 14px;color:#3B4C5E;">Exercices projetés au tableau : écris chaque rédaction complète sur ton cahier. <b>Le guide diminue d'un exercice à l'autre</b> (<span style="color:#6E4FE0;letter-spacing:1.5px;">●●●●</span> très guidé, <span style="color:#6E4FE0;letter-spacing:1.5px;">○○○○</span> aucune aide). La calculatrice est autorisée pour les carrés et les racines carrées. Astuce si tu bloques, solution en dernier.</p>
+  <p class="aide-ex" style="font-size:14px;line-height:1.5;margin:0 0 14px;color:#3B4C5E;">Exercices projetés au tableau : écris chaque rédaction complète sur ton cahier. <b>Le guide diminue d'un exercice à l'autre</b> (<span style="color:#6E4FE0;letter-spacing:1.5px;">●●●●</span> très guidé, <span style="color:#6E4FE0;letter-spacing:1.5px;">○○○○</span> aucune aide). La calculatrice est autorisée pour les carrés et les <span class="gl" data-t="racine-carree">racines carrées</span>. Astuce si tu bloques, solution en dernier.</p>
 
   <div class="exos">
   <!-- Exercice 1 : rédaction à compléter -->
@@ -211,7 +211,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
       <button type="button" class="toggle-btn astuce" onclick="toggle('as1')">💡 Astuce</button>
       <button type="button" class="toggle-btn solution" onclick="sol('fx1',this)">✅ Solution</button>
     </div>
-    <div class="panel astuce-panel" id="as1"><span class="label">Astuce</span>Repère le petit carré vert : l'angle droit est en S. Le côté en face, [RT], est l'hypoténuse : elle reste seule à droite du signe =. Pour 9² + 12², calcule 81 + 144 ; RT est ensuite le nombre positif dont le carré est ce résultat.</div>
+    <div class="panel astuce-panel" id="as1"><span class="label">Astuce</span>Repère le petit carré vert : l'<span class="gl" data-t="angle-droit">angle droit</span> est en S. Le côté en face, [RT], est l'hypoténuse : elle reste seule à droite du signe =. Pour 9² + 12², calcule 81 + 144 ; RT est ensuite le nombre positif dont le carré est ce résultat.</div>
   </div>
 
   <!-- Exercice 2 : squelette -->
@@ -570,5 +570,6 @@ function sol(id,btn){var e=document.getElementById(id);var on=e.classList.toggle
 </script>
 <script src="../../assets/catalogue.js"></script>
 <script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
 </body>
 </html>

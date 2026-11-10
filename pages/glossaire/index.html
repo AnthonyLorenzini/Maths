@@ -13,9 +13,11 @@ body{margin:0;background-color:var(--bg);background-image:linear-gradient(var(--
 .wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
 h1{font:800 clamp(2.1rem,7vw,3.2rem)/.95 var(--f-title);text-transform:uppercase;margin:0}
 .sub{margin:0;color:var(--muted)}
+.fig[hidden]{display:none}
 .fig{background:var(--panel);border:2px solid var(--ink);border-radius:8px;padding:8px}
 .fig svg{display:block;width:100%;height:auto;max-height:250px}
 .fig p{margin:4px 4px 0;font-size:.9rem;color:var(--muted)}
+.chap{font:800 1.25rem/1.1 var(--f-title);text-transform:uppercase;letter-spacing:.03em;color:var(--muted);margin:10px 0 0}
 .ent{background:var(--panel);border:2px solid var(--line);border-radius:8px;padding:12px 14px;cursor:pointer;scroll-margin-top:12px}
 .ent h2{font:800 1.5rem/1.1 var(--f-title);text-transform:uppercase;margin:0 0 4px;color:var(--ink)}
 .ent p{margin:0 0 6px}
@@ -30,7 +32,7 @@ a.retour{align-self:flex-start;font:600 .95rem var(--f-text);color:#fff;backgrou
 <div class="wrap">
   <header>
     <h1>Glossaire</h1>
-    <p class="sub">Touche un mot pour le voir sur le schéma.</p>
+    <p class="sub">Touche un mot pour le retrouver. Pour le cercle, il s'affiche aussi sur le schéma.</p>
   </header>
   <div class="fig" id="fig"><svg id="sch" viewBox="0 0 320 190" role="img" aria-label="Schéma d'un cercle"></svg><p id="legende">Cercle de centre O</p></div>
   <div id="liste" class="wrap" style="gap:10px"></div>
@@ -56,7 +58,9 @@ function dessin(k){
  s+='<text x="'+(cx-6)+'" y="'+(cy+18)+'" font-size="14" fill="'+INK+'" font-family="Work Sans,sans-serif">O</text>';
  return s;}
 var sch=document.getElementById('sch'),leg=document.getElementById('legende'),liste=document.getElementById('liste');
+var dernier='';
 T.forEach(function(t){
+ if(t.chap!==dernier){dernier=t.chap;var hc=document.createElement('h3');hc.className='chap';hc.textContent=t.chap;liste.appendChild(hc);}
  var d=document.createElement('div');d.className='ent';d.id=t.id;
  var h=document.createElement('h2');h.textContent=t.nom;d.appendChild(h);
  var p=document.createElement('p');p.className='court';p.textContent=t.court;d.appendChild(p);
@@ -66,10 +70,12 @@ T.forEach(function(t){
 function choisir(id,aller){
  var t=null;T.forEach(function(x){if(x.id===id)t=x;});
  Array.prototype.forEach.call(document.querySelectorAll('.ent'),function(e){e.classList.toggle('on',e.id===id);});
- sch.innerHTML=dessin(t?t.schema:'');
- leg.textContent=t?'En rouge : '+t.nom:'Cercle de centre O';
+ var fig=document.getElementById('fig');
+ fig.hidden=!(t&&t.schema);
+ if(t&&t.schema){sch.innerHTML=dessin(t.schema);leg.textContent='En rouge : '+t.nom;}
  if(t&&aller){document.getElementById(id).scrollIntoView({block:'start'});}}
 function depuisAdresse(){var id=decodeURIComponent(location.hash.replace('#',''));choisir(id,!!id);}
+document.getElementById('fig').hidden=true;
 window.addEventListener('hashchange',depuisAdresse);
 depuisAdresse();
 })();

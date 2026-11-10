@@ -152,7 +152,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
       <div class="subtitle">Chapitre 4 — Le théorème de Pythagore — 4e — Séance 1</div>
     </div>
   </header>
-  <div class="objectifs"><b>Objectifs :</b> découvrir, grâce à un puzzle, que les aires des carrés construits sur les côtés d'un triangle rectangle sont liées ; vérifier que cela marche pour tous les triangles rectangles, mais pas pour les autres ; savoir reconnaître l'hypoténuse.</div>
+  <div class="objectifs"><b>Objectifs :</b> découvrir, grâce à un puzzle, que les aires des carrés construits sur les côtés d'un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> sont liées ; vérifier que cela marche pour tous les triangles rectangles, mais pas pour les autres ; savoir reconnaître l'<span class="gl" data-t="hypotenuse">hypoténuse</span>.</div>
   <noscript><p><b>Cette séance utilise des animations : active JavaScript dans ton navigateur pour les voir.</b></p></noscript>
 
   <!-- ===================== ACTIVITÉ 1 : LE PUZZLE ===================== -->
@@ -160,7 +160,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     <h2 id="t-act1">Activité 1 — Le puzzle des aires <span class="duree">environ 25 min</span></h2>
     <p>Voici un triangle rectangle. Sur chacun de ses côtés, on a construit un carré.</p>
     <ol>
-      <li>Où est l'angle droit ? Le côté opposé à l'angle droit, le plus long, s'appelle l'<b>hypoténuse</b>. Les deux autres sont les <b>côtés de l'angle droit</b>.</li>
+      <li>Où est l'<span class="gl" data-t="angle-droit">angle droit</span> ? Le côté opposé à l'angle droit, le plus long, s'appelle l'<b>hypoténuse</b>. Les deux autres sont les <b>côtés de l'angle droit</b>.</li>
       <li>Sans calculer, quel carré te semble le plus grand ?</li>
       <li><b>Fais le puzzle :</b> déplace les 4 morceaux du carré découpé et le petit carré rouge pour <b>recouvrir exactement le grand carré vide</b>, sans trou ni chevauchement.</li>
       <li>Recommence avec un autre triangle.</li>
@@ -234,7 +234,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
     <div class="btn-row">
       <button type="button" class="toggle-btn solution" onclick="toggle('conj')">✅ Voir la phrase attendue</button>
     </div>
-    <div class="panel solution-panel" id="conj"><span class="label">Phrase attendue</span>Dans un triangle rectangle, <b>l'aire du carré construit sur l'hypoténuse est égale à la somme des aires des carrés construits sur les deux autres côtés</b>. Avec les lettres des activités : <b>a² + b² = c²</b>, où c est l'hypoténuse. Ce résultat s'appelle le <b>théorème de Pythagore</b>.</div>
+    <div class="panel solution-panel" id="conj"><span class="label">Phrase attendue</span>Dans un triangle rectangle, <b>l'aire du carré construit sur l'hypoténuse est égale à la somme des aires des carrés construits sur les deux autres côtés</b>. Avec les lettres des activités : <b>a² + b² = c²</b>, où c est l'hypoténuse. Ce résultat s'appelle le <b><span class="gl" data-t="pythagore">théorème de Pythagore</span></b>.</div>
   </section>
 
   <!-- ===================== ACTIVITÉ 3 : TRIANGLE NON RECTANGLE ===================== -->
@@ -690,5 +690,6 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
 <script>PythExos.render(document.getElementById("exos-host"), { solutions: true });</script>
 <script src="../../assets/catalogue.js"></script>
 <script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
 </body>
 </html>

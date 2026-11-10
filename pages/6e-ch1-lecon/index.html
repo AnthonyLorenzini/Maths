@@ -88,12 +88,12 @@ table.num td.surl { background:#FFD75E; }
   </header>
 
   <div class="rappel">
-    <b>Notre système de numération est un système de position.</b> Un même chiffre n'a pas la même valeur selon l'endroit où il est écrit : dans 505, le premier 5 vaut 500 et le second vaut 5. La position d'un chiffre s'appelle son <b>rang</b>.
+    <b>Notre système de numération est un système de position.</b> Un même <span class="gl" data-t="chiffre">chiffre</span> n'a pas la même valeur selon l'endroit où il est écrit : dans 505, le premier 5 vaut 500 et le second vaut 5. La position d'un chiffre s'appelle son <b><span class="gl" data-t="rang">rang</span></b>.
   </div>
 
   <div class="card">
     <h2>Le tableau de numération</h2>
-    <p>On range les chiffres dans un tableau. À gauche de la virgule, ils sont regroupés par <b>classes</b> de trois chiffres (unités, milliers, millions, milliards). À droite de la virgule, il y a les dixièmes, les centièmes, les millièmes…</p>
+    <p>On range les chiffres dans un tableau. À gauche de la virgule, ils sont regroupés par <b>classes</b> de trois chiffres (unités, milliers, <span class="gl" data-t="million">millions</span>, <span class="gl" data-t="milliard">milliards</span>). À droite de la virgule, il y a les dixièmes, les centièmes, les millièmes…</p>
     <div class="outil">
       <div class="titre">Essaie toi-même</div>
       <label for="in-tab">Écris un nombre : </label>
@@ -105,7 +105,7 @@ table.num td.surl { background:#FFD75E; }
 
   <div class="card">
     <h2>Lire un nombre</h2>
-    <p>On coupe la partie entière en groupes de trois chiffres, en partant de la droite, puis on lit chaque groupe suivi du nom de sa classe. Pour la partie décimale, on dit combien il y a de dixièmes, de centièmes ou de millièmes.</p>
+    <p>On coupe la <span class="gl" data-t="partie-entiere">partie entière</span> en groupes de trois chiffres, en partant de la droite, puis on lit chaque groupe suivi du nom de sa classe. Pour la <span class="gl" data-t="partie-decimale">partie décimale</span>, on dit combien il y a de dixièmes, de centièmes ou de millièmes.</p>
     <div class="formula">47 305 210 → quarante-sept millions trois cent cinq mille deux cent dix</div>
     <div class="outil">
       <div class="titre">Essaie toi-même</div>
@@ -145,7 +145,7 @@ table.num td.surl { background:#FFD75E; }
       <li>Les chiffres d'un grand nombre se lisent par groupes de trois : milliards, millions, milliers, unités.</li>
       <li>Le chiffre des dixièmes est le premier chiffre après la virgule, puis viennent les centièmes et les millièmes.</li>
       <li>« Chiffre des… » : un seul chiffre. « Nombre de… » : tout ce qu'il y a jusqu'à ce rang.</li>
-      <li>On peut supprimer les zéros inutiles sans changer la valeur du nombre.</li>
+      <li>On peut supprimer les <span class="gl" data-t="zero-inutile">zéros inutiles</span> sans changer la valeur du nombre.</li>
     </ul>
   </div>
 
@@ -254,5 +254,6 @@ document.getElementById("in-rang").addEventListener("keydown", function(e){ if(e
 </script>
 <script src="../../assets/catalogue.js"></script>
 <script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
 </body>
 </html>

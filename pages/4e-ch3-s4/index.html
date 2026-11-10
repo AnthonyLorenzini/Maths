@@ -60,7 +60,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
   <div class="objectifs"><b>Objectifs :</b> résoudre un problème de répartition en lots identiques en cherchant le plus grand nombre qui divise deux quantités, avec une autonomie croissante.</div>
   <div class="automatisme">
     <h2>Automatisme</h2>
-    <ol><li>Décompose 18 en facteurs premiers.</li><li>Décompose 24 en facteurs premiers.</li><li>Facteurs premiers communs à 18 et 24 ?</li><li>7 × 8 =</li><li>Le triangle EFG est rectangle en E. Quel côté est l'hypoténuse ?</li><li>3² × 2 =</li></ol>
+    <ol><li>Décompose 18 en <span class="gl" data-t="facteur-premier">facteurs premiers</span>.</li><li>Décompose 24 en facteurs premiers.</li><li>Facteurs premiers communs à 18 et 24 ?</li><li>7 × 8 =</li><li>Le triangle EFG est rectangle en E. Quel côté est l'hypoténuse ?</li><li>3² × 2 =</li></ol>
     <button class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
     <div class="reveal-panel" id="auto-corrige">Corrigé : 2 × 3² ; 2³ × 3 ; 2 et 3 ; 56 ; [FG] (le côté en face de l'angle droit, qui ne touche pas E) ; 18</div>
   </div>
@@ -69,7 +69,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
 
     <div class="exo">
       <div class="exo-title">★ Exercice</div>
-      <p>Pour le stand de merchandising d'un concert, un organisateur a 48 badges et 36 stickers. Il veut préparer des pochettes identiques en utilisant tous les articles.<br><span class='q'>a) Donne les décompositions en facteurs premiers de 48 et de 36.</span><br><span class='q'>b) Quels sont leurs facteurs premiers communs ?</span><br><span class='q'>c) Quel est le plus grand nombre de pochettes identiques possible, et que contient chaque pochette ?</span></p>
+      <p>Pour le stand de merchandising d'un concert, un organisateur a 48 badges et 36 stickers. Il veut préparer des pochettes identiques en utilisant tous les articles.<br><span class='q'>a) Donne les <span class="gl" data-t="decomposition">décompositions en facteurs premiers</span> de 48 et de 36.</span><br><span class='q'>b) Quels sont leurs facteurs premiers communs ?</span><br><span class='q'>c) Quel est le plus grand nombre de pochettes identiques possible, et que contient chaque pochette ?</span></p>
       <div class="btn-row">
         <button class="toggle-btn astuce" onclick="toggle('astuce-0')">💡 Astuce</button>
         <button class="toggle-btn solution" onclick="toggle('solution-0')">✅ Solution</button>
@@ -135,7 +135,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
         <button class="toggle-btn solution" onclick="toggle('solution-6')">✅ Piste de correction</button>
       </div>
       <div class="panel astuce-panel" id="astuce-6"><span class="label">Astuce</span>Repense à ce que représente un facteur premier commun : c'est un nombre qui divise à la fois les deux quantités de départ.</div>
-      <div class="panel solution-panel" id="solution-6"><span class="label">Piste de correction</span>Les facteurs premiers communs représentent tous les nombres qui divisent à la fois les deux quantités de départ. En les multipliant tous ensemble, on obtient directement le plus grand nombre qui divise les deux quantités, sans avoir à tester un par un tous les diviseurs possibles : c'est une méthode systématique, plus sûre qu'un essai au hasard.</div>
+      <div class="panel solution-panel" id="solution-6"><span class="label">Piste de correction</span>Les facteurs premiers communs représentent tous les nombres qui divisent à la fois les deux quantités de départ. En les multipliant tous ensemble, on obtient directement le plus grand nombre qui divise les deux quantités, sans avoir à tester un par un tous les <span class="gl" data-t="diviseur">diviseurs</span> possibles : c'est une méthode systématique, plus sûre qu'un essai au hasard.</div>
     </div>
     <div class="exo">
       <div class="exo-title">★★★★ Exercice</div>
@@ -152,5 +152,6 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
 <script>function toggle(id){document.getElementById(id).classList.toggle('show');}</script>
 <script src="../../assets/catalogue.js"></script>
 <script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
 </body>
 </html>
