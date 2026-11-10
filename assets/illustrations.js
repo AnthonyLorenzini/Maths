@@ -132,6 +132,28 @@
     '<path class="f-b s-i" d="M12 54V18L60 54Z" stroke-width="3"/>' +
     '<path class="s-i" d="M12 47H19V54" fill="none" stroke-width="2.2"/>' + etiqs;
   const SEANCES = {
+    // 6e ch.2 : Points, droites et distances
+    "6e-ch2-s1": svg( // le vocabulaire : une droite, une demi-droite, un segment
+      '<path class="s-i" d="M3 14H69M9 8L3 14L9 20M63 8L69 14L63 20" fill="none" stroke-width="3"/>' +
+      '<path class="s-c" d="M14 36H69M62 30L69 36L62 42" fill="none" stroke-width="3.4"/>' +
+      '<circle class="f-c s-i" cx="14" cy="36" r="5" stroke-width="2.6"/>' +
+      '<line class="s-i" x1="12" y1="58" x2="60" y2="58" stroke-width="3"/>' +
+      '<circle class="f-s s-i" cx="12" cy="58" r="5" stroke-width="2.6"/>' +
+      '<circle class="f-s s-i" cx="60" cy="58" r="5" stroke-width="2.6"/>'),
+    "6e-ch2-s2": svg( // reporter une longueur : un compas
+      '<path class="s-i" d="M36 14L18 58M36 14L54 58" fill="none" stroke-width="3.4"/>' +
+      '<path class="s-c" d="M10 62Q36 50 62 62" fill="none" stroke-width="2.6" stroke-dasharray="3 4.5"/>' +
+      '<circle class="f-s s-i" cx="36" cy="12" r="7" stroke-width="3"/>' +
+      '<circle class="f-c s-i" cx="18" cy="58" r="3.8" stroke-width="2.2"/>' +
+      '<circle class="f-c s-i" cx="54" cy="58" r="3.8" stroke-width="2.2"/>'),
+    "6e-ch2-s3": svg( // lire une figure codée : un segment [AB], M au milieu, deux traits égaux
+      '<line class="s-i" x1="10" y1="34" x2="62" y2="34" stroke-width="3"/>' +
+      '<line class="s-c" x1="23" y1="26" x2="23" y2="42" stroke-width="4"/>' +
+      '<line class="s-c" x1="49" y1="26" x2="49" y2="42" stroke-width="4"/>' +
+      '<circle class="f-s s-i" cx="10" cy="34" r="5" stroke-width="2.6"/>' +
+      '<circle class="f-b s-i" cx="36" cy="34" r="5" stroke-width="2.6"/>' +
+      '<circle class="f-s s-i" cx="62" cy="34" r="5" stroke-width="2.6"/>' +
+      lab(10, 54, 'A', 13) + lab(36, 54, 'M', 13) + lab(62, 54, 'B', 13)),
     // 6e ch.1 : Numération entière et décimale
     "6e-ch1-s1": svg( // lire les grands nombres : trois classes de chiffres, séparées comme dans « 12 345 678 »
       '<rect class="f-c s-i" x="2" y="22" width="21" height="28" rx="5" stroke-width="2.6"/>' +
