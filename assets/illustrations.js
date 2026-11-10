@@ -132,6 +132,45 @@
     '<path class="f-b s-i" d="M12 54V18L60 54Z" stroke-width="3"/>' +
     '<path class="s-i" d="M12 47H19V54" fill="none" stroke-width="2.2"/>' + etiqs;
   const SEANCES = {
+    // 6e ch.4 : Fractions décimales et nombres décimaux
+    "6e-ch4-s1": svg( // les dixièmes : 13/10 = une barre entière + 3 dixièmes
+      '<rect class="f-c" x="6" y="12" width="60" height="18"/>' +
+      '<rect class="f-s" x="6" y="42" width="18" height="18"/>' +
+      '<rect class="f-b" x="24" y="42" width="42" height="18"/>' +
+      '<g class="s-i" stroke-width="2"><line x1="12" y1="12" x2="12" y2="30"/><line x1="18" y1="12" x2="18" y2="30"/><line x1="24" y1="12" x2="24" y2="30"/><line x1="30" y1="12" x2="30" y2="30"/><line x1="36" y1="12" x2="36" y2="30"/><line x1="42" y1="12" x2="42" y2="30"/><line x1="48" y1="12" x2="48" y2="30"/><line x1="54" y1="12" x2="54" y2="30"/><line x1="60" y1="12" x2="60" y2="30"/>' +
+      '<line x1="12" y1="42" x2="12" y2="60"/><line x1="18" y1="42" x2="18" y2="60"/><line x1="24" y1="42" x2="24" y2="60"/><line x1="30" y1="42" x2="30" y2="60"/><line x1="36" y1="42" x2="36" y2="60"/><line x1="42" y1="42" x2="42" y2="60"/><line x1="48" y1="42" x2="48" y2="60"/><line x1="54" y1="42" x2="54" y2="60"/><line x1="60" y1="42" x2="60" y2="60"/></g>' +
+      '<rect class="s-i" x="6" y="12" width="60" height="18" rx="3" fill="none" stroke-width="3"/>' +
+      '<rect class="s-i" x="6" y="42" width="60" height="18" rx="3" fill="none" stroke-width="3"/>'),
+    "6e-ch4-s2": svg( // les centièmes et la virgule : un carré en 100 parts, une part colorée, 0,01
+      '<rect class="f-b" x="18" y="5" width="36" height="36"/>' +
+      '<rect class="f-s" x="18" y="5" width="3.6" height="3.6"/>' +
+      '<g class="s-i" stroke-width="1.2"><line x1="25.2" y1="5" x2="25.2" y2="41"/><line x1="32.4" y1="5" x2="32.4" y2="41"/><line x1="39.6" y1="5" x2="39.6" y2="41"/><line x1="46.8" y1="5" x2="46.8" y2="41"/>' +
+      '<line x1="18" y1="12.2" x2="54" y2="12.2"/><line x1="18" y1="19.4" x2="54" y2="19.4"/><line x1="18" y1="26.6" x2="54" y2="26.6"/><line x1="18" y1="33.8" x2="54" y2="33.8"/></g>' +
+      '<rect class="s-i" x="18" y="5" width="36" height="36" rx="2" fill="none" stroke-width="3"/>' +
+      '<rect class="f-s s-i" x="18" y="5" width="7.2" height="7.2" stroke-width="2"/>' +
+      lab(36, 58, '0,01', 15)),
+    "6e-ch4-s3": svg( // les fleurs : un nombre décimal au cœur d'une fleur à six pétales
+      (function () { let f = ''; for (let i = 0; i < 6; i++) f += '<ellipse class="' + (i % 2 ? 'f-b' : 'f-c') + ' s-i" cx="36" cy="17" rx="8" ry="12" transform="rotate(' + (i * 60) + ' 36 36)" stroke-width="2.4"/>'; return f; })() +
+      '<circle class="f-s s-i" cx="36" cy="36" r="12" stroke-width="2.8"/>' + lab(36, 36.5, '2,5', 11)),
+    "6e-ch4-s4": svg( // les pourcentages : une jauge remplie à 75 %
+      '<rect class="f-b" x="5" y="10" width="62" height="26" rx="9"/>' +
+      '<rect class="f-c" x="5" y="10" width="47" height="26" rx="9"/>' +
+      '<rect class="f-c" x="40" y="10" width="12" height="26"/>' +
+      '<rect class="s-i" x="5" y="10" width="62" height="26" rx="9" fill="none" stroke-width="3.2"/>' +
+      '<line class="s-i" x1="52" y1="10" x2="52" y2="36" stroke-width="3.2"/>' +
+      lab(36, 56, '75 %', 16)),
+    "6e-ch4-s5": svg( // une droite graduée en dixièmes : on place 2,4 entre 2 et 3
+      '<path class="s-i" d="M3 46H69" fill="none" stroke-width="3"/>' +
+      (function () { let t = ''; for (let i = 1; i < 10; i++) t += '<line class="s-i" x1="' + (12 + i * 4.8).toFixed(1) + '" y1="42" x2="' + (12 + i * 4.8).toFixed(1) + '" y2="50" stroke-width="2"/>'; return t; })() +
+      '<g class="s-i" stroke-width="3.2"><line x1="12" y1="38" x2="12" y2="54"/><line x1="60" y1="38" x2="60" y2="54"/></g>' +
+      '<path class="s-c" d="M31.2 29V39M26.5 34L31.2 40L36 34" fill="none" stroke-width="3.4"/>' +
+      '<circle class="f-s s-i" cx="31.2" cy="46" r="3.6" stroke-width="2"/>' +
+      lab(31.2, 18, '2,4', 15) + lab(12, 64, '2', 12) + lab(60, 64, '3', 12)),
+    "6e-ch4-s6": svg( // calculer avec des décimaux : des pièces (prix, monnaie)
+      '<circle class="f-c s-i" cx="42" cy="30" r="22" stroke-width="3.2"/>' +
+      '<circle class="f-s s-i" cx="29" cy="43" r="22" stroke-width="3.2"/>' +
+      '<circle class="s-i" cx="29" cy="43" r="15.5" fill="none" stroke-width="1.8"/>' +
+      lab(29, 43.5, '€', 21)),
     // 6e ch.3 : Les fractions
     "6e-ch3-s1": svg( // partager en parts égales : une tablette en 4 parts, 3 colorées
       '<rect class="f-c" x="6" y="18" width="45" height="36"/>' +
