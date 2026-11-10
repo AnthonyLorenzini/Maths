@@ -10,7 +10,7 @@
   :root { --ink:#22303F; --rouge:#C23B27; --jaune:#A8780A; --vert:#1E7A4C; }
   * { box-sizing: border-box; }
   body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:18px 12px 90px; }
-  .page { max-width:780px; margin:0 auto; background:#FFFFFF; border-radius:18px; padding:24px 22px 18px; box-shadow:0 10px 30px rgba(34,48,63,0.12); }
+  .page { max-width:1000px; margin:0 auto; background:#FFFFFF; border-radius:18px; padding:24px 22px 18px; box-shadow:0 10px 30px rgba(34,48,63,0.12); }
   header { display:flex; align-items:center; gap:16px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:18px; }
   .badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:30px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
   h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:26px; margin:0; line-height:1.1; }
@@ -35,10 +35,6 @@
   .fig { background:#fff; border:1px solid #D8DEE4; border-radius:10px; padding:6px; margin:8px 0; }
   .fig svg { display:block; width:100%; height:auto; max-height:340px; margin:0 auto; }
   svg text { font-family:'Work Sans',Arial,sans-serif; font-weight:700; fill:var(--ink); paint-order:stroke; stroke:#fff; stroke-linejoin:round; }
-  .side { cursor:pointer; }
-  .side line.vis { transition:stroke .2s; }
-  .side:hover line.vis, .side:focus line.vis { stroke:#E0457B; }
-  .side:focus { outline:none; }
 
   .btn { font-family:'Baloo 2',sans-serif; font-size:15px; padding:7px 16px; border-radius:18px; border:2px solid currentColor; background:#fff; color:inherit; cursor:pointer; margin:4px 6px 4px 0; }
   .btn:hover { filter:brightness(0.95); }
@@ -54,15 +50,27 @@
   .saisie { display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:16px; margin:6px 0 8px; }
   .saisie input[type=number] { width:78px; padding:6px 8px; border-radius:8px; border:2px solid #C9C2B4; font-family:'Baloo 2',sans-serif; font-size:17px; }
 
-  .cahier { position:relative; background-color:#FFFEF8; border:2px solid #D9CFB8; border-radius:10px; padding:4px 12px 4px 46px; min-height:76px;
-    background-image:repeating-linear-gradient(to bottom, transparent 0, transparent 35px, #D6E4F2 35px, #D6E4F2 36px); }
-  .cahier::before { content:""; position:absolute; left:34px; top:0; bottom:0; width:2px; background:#E8A0A0; }
-  .cahier .l { position:relative; line-height:36px; min-height:36px; font-size:17px; opacity:0; transition:opacity .35s ease; }
-  .cahier .l.on { opacity:1; }
-  .cahier .l .n { position:absolute; left:-38px; top:6px; width:24px; height:24px; border-radius:50%; background:var(--ink); color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; line-height:1; }
-  .cahier .l.fin { font-weight:700; }
   .controle { margin-top:8px; font-size:15px; background:#fff; border-left:5px solid currentColor; border-radius:8px; padding:6px 12px; }
 
+
+  .theoreme { background:#FFF8D6; border:3px solid #C79A00; border-radius:14px; padding:16px 20px 14px; margin:12px 0 14px; position:relative; }
+  .theoreme .tag { position:absolute; top:-14px; left:16px; background:var(--ink); color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:15px; letter-spacing:.06em; padding:2px 14px; border-radius:12px; }
+  .theoreme .enonce { font-size:18px; line-height:1.55; margin:6px 0 8px; }
+  .theoreme .formule { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:28px; text-align:center; background:#fff; border:2px solid #C79A00; border-radius:10px; padding:6px 10px; margin:8px 0; }
+  .theoreme .autre { font-size:15.5px; line-height:1.5; color:#3B4C5E; margin:6px 0 0; }
+
+  .redac { display:grid; grid-template-columns:minmax(0,1fr) 270px; gap:16px; align-items:start; margin-top:8px; }
+  @media (max-width:860px) { .redac { grid-template-columns:minmax(0,1fr); } .redac .schema { order:-1; } }
+  .schema { background:#fff; border:1px solid #D8DEE4; border-radius:10px; padding:6px; position:sticky; top:10px; }
+  .schema svg { display:block; width:100%; height:auto; }
+  .lignes { background:#FFFEF8; border:2px solid #D9CFB8; border-radius:10px; padding:2px 12px 2px 12px; }
+  .row { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:6px 14px; align-items:center; padding:6px 0 6px 38px; position:relative; border-bottom:1px solid #D6E4F2; }
+  .row:last-child { border-bottom:none; }
+  .row .n { position:absolute; left:0; top:50%; margin-top:-12px; width:24px; height:24px; border-radius:50%; background:var(--ink); color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; line-height:1; }
+  .row .txt { font-size:18px; line-height:1.35; }
+  .row .note { font-size:14px; line-height:1.35; color:#51657A; font-style:italic; border-left:3px solid #D9CFB8; padding-left:10px; }
+  .row.fin .txt { font-weight:700; }
+  @media (max-width:560px) { .row { grid-template-columns:minmax(0,1fr); } .row .note { border-left:none; padding-left:0; } }
   .retenir { background:#FFF8D6; border:2px solid #E3C44C; border-radius:14px; padding:14px 18px 10px; margin-bottom:10px; }
   .retenir h2 { font-family:'Baloo 2',sans-serif; font-size:19px; margin:0 0 6px; color:#7A5C00; }
   .retenir ul { margin:4px 0; padding-left:20px; font-size:16px; line-height:1.5; }
@@ -87,18 +95,20 @@
     <p>Un triangle rectangle a un <b>angle droit</b>.</p>
     <p>L'<b>hypoténuse</b> est le côté <b>en face</b> de l'angle droit.</p>
     <p>C'est le <b>plus long</b> côté.</p>
-    <div class="fig"><svg id="t1" viewBox="0 0 340 230" role="img" aria-label="Triangle rectangle"></svg></div>
-    <div class="res" id="t1-q"></div>
+    <div class="fig"><svg id="t1" viewBox="0 0 340 230" role="img" aria-label="Triangle rectangle avec son hypoténuse en vert"></svg></div>
     <div class="res" id="t1-r" aria-live="polite"></div>
-    <button class="btn" id="t1-new" type="button">Un autre triangle</button>
+    <button class="btn" id="t1-new" type="button">Changer de triangle</button>
   </section>
 
   <!-- 2. Le théorème -->
   <section class="card c2" id="s2">
     <h2>2. Le théorème</h2>
-    <p>Dans un triangle <b>rectangle</b>, on a :</p>
-    <div class="regle">le carré de l'<b>hypoténuse</b> = la <b>somme</b> des carrés des deux autres côtés.</div>
-    <div class="formula">AB² + AC² = BC²<small>si le triangle ABC est rectangle en A</small></div>
+    <div class="theoreme">
+      <div class="tag">THÉORÈME DE PYTHAGORE</div>
+      <p class="enonce">Si <b>ABC</b> est un triangle <b>rectangle en A</b>, alors :</p>
+      <div class="formule">AB² + AC² = BC²</div>
+      <p class="autre">Autrement dit : dans un triangle rectangle, le carré de la longueur de l'<b>hypoténuse</b> est égal à la <b>somme des carrés</b> des longueurs des deux autres côtés.</p>
+    </div>
     <p>Bouge les curseurs et regarde les aires.</p>
     <div class="fig"><svg id="t2" viewBox="-7 -13 20 20" role="img" aria-label="Triangle rectangle avec les carrés construits sur ses côtés"></svg></div>
     <div class="curs"><label for="t2-a">AB =</label><input type="range" id="t2-a" min="1" max="6" value="3"><b id="t2-av">3 cm</b></div>
@@ -114,12 +124,11 @@
       <span>AB = <input type="number" id="t3-a" value="6" min="1" max="99"> cm</span>
       <span>AC = <input type="number" id="t3-b" value="8" min="1" max="99"> cm</span>
     </div>
-    <div class="cahier" id="t3-c"></div>
-    <div class="controle" id="t3-ctl" hidden>Contrôle : BC est plus long que AB et que AC.</div>
-    <div class="res" id="t3-r" aria-live="polite"></div>
-    <button class="btn" id="t3-next" type="button">Étape suivante ▶</button>
-    <button class="btn" id="t3-all" type="button">Tout afficher</button>
-    <button class="btn" id="t3-reset" type="button">Recommencer</button>
+    <div class="redac">
+      <div><div class="lignes" id="t3-c"></div><div class="res" id="t3-r" aria-live="polite"></div></div>
+      <div class="schema"><svg id="t3-svg" viewBox="0 0 300 230" role="img" aria-label="Schéma du triangle"></svg></div>
+    </div>
+    <p class="res" style="font-size:14px;font-weight:500;margin-top:10px">Change les valeurs : la rédaction et le schéma suivent.</p>
   </section>
 
   <!-- 4. Côté de l'angle droit -->
@@ -131,12 +140,10 @@
       <span>BC = <input type="number" id="t4-c" value="10" min="1" max="99"> cm</span>
       <span>AB = <input type="number" id="t4-a" value="6" min="1" max="99"> cm</span>
     </div>
-    <div class="cahier" id="t4-c2"></div>
-    <div class="controle" id="t4-ctl" hidden>Contrôle : AC est plus court que BC.</div>
-    <div class="res" id="t4-r" aria-live="polite"></div>
-    <button class="btn" id="t4-next" type="button">Étape suivante ▶</button>
-    <button class="btn" id="t4-all" type="button">Tout afficher</button>
-    <button class="btn" id="t4-reset" type="button">Recommencer</button>
+    <div class="redac">
+      <div><div class="lignes" id="t4-c2"></div><div class="res" id="t4-r" aria-live="polite"></div></div>
+      <div class="schema"><svg id="t4-svg" viewBox="0 0 300 230" role="img" aria-label="Schéma du triangle"></svg></div>
+    </div>
   </section>
 
   <!-- 5. Additionner ou soustraire -->
@@ -184,13 +191,11 @@
   }
 
   /* ---------- 1. Hypoténuse ---------- */
-  var t1 = document.getElementById("t1"), t1q = document.getElementById("t1-q"), t1r = document.getElementById("t1-r");
-  var hyp1 = "";
+  var t1 = document.getElementById("t1"), t1r = document.getElementById("t1-r");
   function triangle1() {
-    t1.innerHTML = ""; t1r.textContent = ""; t1r.className = "res";
+    t1.innerHTML = "";
     var L = ["A", "B", "C"], right = L[rnd(3)];
     var others = L.filter(function (x) { return x !== right; });
-    if (rnd(2)) others.reverse();
     var pts = {}; pts[right] = [0, 0]; pts[others[0]] = [150, 0]; pts[others[1]] = [0, -100];
     var mir = rnd(2) ? -1 : 1, ang = Math.random() * 2 * Math.PI, c = Math.cos(ang), s = Math.sin(ang);
     var minx = 1e9, maxx = -1e9, miny = 1e9, maxy = -1e9;
@@ -200,43 +205,29 @@
       pts[k] = [X, Y];
       minx = Math.min(minx, X); maxx = Math.max(maxx, X); miny = Math.min(miny, Y); maxy = Math.max(maxy, Y);
     });
-    var k = Math.min(250 / (maxx - minx), 150 / (maxy - miny), 1.3);
+    var k = Math.min(210 / (maxx - minx), 110 / (maxy - miny), 1.3);
     var cx = (minx + maxx) / 2, cy = (miny + maxy) / 2;
     L.forEach(function (n) { pts[n] = [170 + (pts[n][0] - cx) * k, 115 + (pts[n][1] - cy) * k]; });
     var g = [(pts.A[0] + pts.B[0] + pts.C[0]) / 3, (pts.A[1] + pts.B[1] + pts.C[1]) / 3];
     el("polygon", { points: L.map(function (n) { return pts[n].join(","); }).join(" "), fill: "#FFF6E6", stroke: "none" }, t1);
-    /* angle droit */
     var R = pts[right], u = [pts[others[0]][0] - R[0], pts[others[0]][1] - R[1]], v = [pts[others[1]][0] - R[0], pts[others[1]][1] - R[1]];
     var lu = Math.hypot(u[0], u[1]), lv = Math.hypot(v[0], v[1]);
     u = [u[0] / lu * 16, u[1] / lu * 16]; v = [v[0] / lv * 16, v[1] / lv * 16];
+    /* deux côtés de l'angle droit, puis l'hypoténuse en vert */
+    [[right, others[0]], [right, others[1]]].forEach(function (p) {
+      el("line", { x1: pts[p[0]][0], y1: pts[p[0]][1], x2: pts[p[1]][0], y2: pts[p[1]][1], stroke: "#22303F", "stroke-width": 4, "stroke-linecap": "round" }, t1);
+    });
+    el("line", { x1: pts[others[0]][0], y1: pts[others[0]][1], x2: pts[others[1]][0], y2: pts[others[1]][1], stroke: "#1E7A4C", "stroke-width": 7, "stroke-linecap": "round" }, t1);
     el("polyline", { points: [R[0] + u[0], R[1] + u[1], R[0] + u[0] + v[0], R[1] + u[1] + v[1], R[0] + v[0], R[1] + v[1]].join(","), fill: "none", stroke: "#22303F", "stroke-width": 2 }, t1);
-    /* côtés cliquables */
-    var pairs = [[L[0], L[1]], [L[0], L[2]], [L[1], L[2]]];
-    hyp1 = others.slice().sort().join("");
-    pairs.forEach(function (p) {
-      var name = p.slice().sort().join("");
-      var gr = el("g", { "class": "side", tabindex: 0, role: "button", "aria-label": "Côté " + name }, t1);
-      el("line", { "class": "vis", x1: pts[p[0]][0], y1: pts[p[0]][1], x2: pts[p[1]][0], y2: pts[p[1]][1], stroke: "#22303F", "stroke-width": 4, "stroke-linecap": "round" }, gr);
-      el("line", { x1: pts[p[0]][0], y1: pts[p[0]][1], x2: pts[p[1]][0], y2: pts[p[1]][1], stroke: "transparent", "stroke-width": 26, "stroke-linecap": "round" }, gr);
-      function clic() {
-        if (name === hyp1) {
-          t1r.className = "res ok";
-          t1r.textContent = "Oui ! [" + name + "] est en face de l'angle droit (en " + right + ").";
-          gr.querySelector(".vis").setAttribute("stroke", "#1E7A4C");
-        } else {
-          t1r.className = "res ko";
-          t1r.textContent = "Non, [" + name + "] touche l'angle droit. Cherche le côté en face.";
-        }
-      }
-      gr.addEventListener("click", clic);
-      gr.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); clic(); } });
-    });
-    /* lettres */
+    /* étiquette « hypoténuse » à l'extérieur, au milieu du côté */
+    var mx = (pts[others[0]][0] + pts[others[1]][0]) / 2, my = (pts[others[0]][1] + pts[others[1]][1]) / 2;
+    var dx = mx - R[0], dy = my - R[1], dd = Math.hypot(dx, dy) || 1;
+    el("text", { x: mx + dx / dd * 55, y: my + dy / dd * 40 + 5, "text-anchor": "middle", "font-size": 16, "stroke-width": 4, style: "fill:#1E7A4C" }, t1, "hypoténuse");
     L.forEach(function (n) {
-      var dx = pts[n][0] - g[0], dy = pts[n][1] - g[1], d = Math.hypot(dx, dy) || 1;
-      el("text", { x: pts[n][0] + dx / d * 20, y: pts[n][1] + dy / d * 20 + 6, "text-anchor": "middle", "font-size": 20, "stroke-width": 4 }, t1, n);
+      var ex = pts[n][0] - g[0], ey = pts[n][1] - g[1], d = Math.hypot(ex, ey) || 1;
+      el("text", { x: pts[n][0] + ex / d * 20, y: pts[n][1] + ey / d * 20 + 6, "text-anchor": "middle", "font-size": 20, "stroke-width": 4 }, t1, n);
     });
-    t1q.textContent = "Triangle " + L.join("") + " rectangle en " + right + ". Clique sur l'hypoténuse.";
+    t1r.innerHTML = "Le triangle <b>" + L.join("") + "</b> est rectangle en <b>" + right + "</b>. L'hypoténuse est <span class=\"tc\">[" + others.slice().sort().join("") + "]</span>, en face de l'angle droit.";
   }
   document.getElementById("t1-new").addEventListener("click", triangle1);
   triangle1();
@@ -271,63 +262,78 @@
   sa.addEventListener("input", dessin2); sb.addEventListener("input", dessin2);
   dessin2();
 
-  /* ---------- 3 et 4 : rédaction pas à pas ---------- */
-  function cahier(cfg) {
-    var box = document.getElementById(cfg.box), res = document.getElementById(cfg.res), ctl = document.getElementById(cfg.ctl);
-    var next = document.getElementById(cfg.next), all = document.getElementById(cfg.all), reset = document.getElementById(cfg.reset);
-    var lignes = [], nb = 0;
-    function lire() {
-      var v = cfg.inputs.map(function (id) { return parseInt(document.getElementById(id).value, 10); });
-      return v;
-    }
-    function construire() {
-      var v = lire();
-      box.innerHTML = ""; ctl.hidden = true; res.textContent = ""; res.className = "res"; nb = 0; lignes = [];
-      var msg = cfg.verifier(v);
-      if (msg) { res.className = "res ko"; res.textContent = msg; next.disabled = all.disabled = true; return; }
-      next.disabled = all.disabled = false;
-      cfg.lignes(v).forEach(function (html, i, tab) {
-        var d = document.createElement("div");
-        d.className = "l" + (i === tab.length - 1 ? " fin" : "");
-        d.innerHTML = '<span class="n">' + (i + 1) + "</span>" + html;
-        box.appendChild(d); lignes.push(d);
-      });
-      box.style.minHeight = (lignes.length * 36 + 8) + "px";
-    }
-    function montrer(k) {
-      while (nb < k && nb < lignes.length) { lignes[nb].classList.add("on"); nb++; }
-      if (nb >= lignes.length) { ctl.hidden = false; next.disabled = true; }
-    }
-    next.addEventListener("click", function () { montrer(nb + 1); });
-    all.addEventListener("click", function () { montrer(lignes.length); });
-    reset.addEventListener("click", construire);
-    cfg.inputs.forEach(function (id) { document.getElementById(id).addEventListener("input", construire); });
-    construire();
+  /* ---------- 3 et 4 : rédaction écrite, étapes expliquées, schéma ---------- */
+  function schema(svg, ab, ac, bc, inconnu) {
+    /* A en bas à gauche (angle droit), B à droite, C en haut ; inconnu : "BC" ou "AC" (en vert / rouge) */
+    svg.innerHTML = "";
+    var K = 130 / Math.max(ab, ac), W = Math.max(ab * K, 40), H = Math.max(ac * K, 40);
+    var ax = 120, ay = 190, bx = ax + W, by = ay, cx = ax, cy = ay - H;
+    el("polygon", { points: [ax, ay, bx, by, cx, cy].join(","), fill: "#FFF6E6", stroke: "none" }, svg);
+    var col = { AB: "#22303F", AC: "#22303F", BC: "#22303F" };
+    col[inconnu] = "#B5322E";
+    var segs = { AB: [ax, ay, bx, by], AC: [ax, ay, cx, cy], BC: [bx, by, cx, cy] };
+    var hypCol = inconnu === "BC" ? "#B5322E" : "#1E7A4C";
+    ["AB", "AC"].forEach(function (n) { el("line", { x1: segs[n][0], y1: segs[n][1], x2: segs[n][2], y2: segs[n][3], stroke: col[n], "stroke-width": 4, "stroke-linecap": "round" }, svg); });
+    el("line", { x1: bx, y1: by, x2: cx, y2: cy, stroke: hypCol, "stroke-width": 6, "stroke-linecap": "round" }, svg);
+    el("polyline", { points: [ax + 14, ay, ax + 14, ay - 14, ax, ay - 14].join(" "), fill: "none", stroke: "#22303F", "stroke-width": 2 }, svg);
+    function t(x, y, txt, anchor, color) { el("text", { x: x, y: y, "text-anchor": anchor, "font-size": 15, "stroke-width": 4, style: "fill:" + color }, svg, txt); }
+    function val(n, v) { return n + " = " + (v === null ? "?" : fmt(v) + " cm"); }
+    var vAB = inconnu === "AB" ? null : ab, vAC = inconnu === "AC" ? null : ac, vBC = inconnu === "BC" ? null : bc;
+    t((ax + bx) / 2, ay + 24, val("AB", vAB), "middle", inconnu === "AB" ? "#B5322E" : "#22303F");
+    t(ax - 10, (ay + cy) / 2 + 5, val("AC", vAC), "end", inconnu === "AC" ? "#B5322E" : "#22303F");
+    var mx = (bx + cx) / 2, my = (by + cy) / 2;
+    t(mx + 12, my - 8, val("BC", vBC), "start", inconnu === "BC" ? "#B5322E" : "#1E7A4C");
+    t(mx + 12, my + 10, "hypoténuse", "start", "#1E7A4C");
+    t(ax - 6, ay + 20, "A", "end", "#22303F"); t(bx + 6, by + 20, "B", "start", "#22303F"); t(cx - 6, cy - 8, "C", "end", "#22303F");
   }
-  var DEBUT = ['On a <b>ABC</b> un triangle rectangle en <b>A</b>.', "D'après le théorème de Pythagore :", "AB² + AC² = BC²"];
+  var DEBUT = [
+    ['On a <b>ABC</b> un triangle rectangle en <b>A</b>.', "Je dis où est l'angle droit."],
+    ["D'après le théorème de Pythagore :", "Je cite le théorème."],
+    ["AB² + AC² = BC²", "J'écris l'égalité avec les lettres."]
+  ];
+  function rediger(boxId, resId, lignes) {
+    var box = document.getElementById(boxId);
+    box.innerHTML = lignes.map(function (l, i) {
+      return '<div class="row' + (i === lignes.length - 1 ? " fin" : "") + '"><span class="n">' + (i + 1) + '</span><div class="txt">' + l[0] + '</div><div class="note">' + l[1] + "</div></div>";
+    }).join("");
+  }
+  function entiers(ids) { return ids.map(function (id) { return parseInt(document.getElementById(id).value, 10); }); }
+  function ok(v) { return v.every(function (x) { return x >= 1 && x <= 99; }); }
 
-  cahier({
-    box: "t3-c", res: "t3-r", ctl: "t3-ctl", next: "t3-next", all: "t3-all", reset: "t3-reset", inputs: ["t3-a", "t3-b"],
-    verifier: function (v) { return (v[0] >= 1 && v[1] >= 1 && v[0] <= 99 && v[1] <= 99) ? "" : "Choisis deux nombres entre 1 et 99."; },
-    lignes: function (v) {
-      var a = v[0], b = v[1], s = a * a + b * b;
-      var fin = Number.isInteger(Math.sqrt(s)) ? "BC = √" + s + " = " + Math.sqrt(s) + " cm" : "BC = √" + s + " ≈ " + fmt(approx(s)) + " cm";
-      return DEBUT.concat([a + "² + " + b + "² = BC²", a * a + " + " + b * b + " = BC²", "BC² = " + s, fin]);
-    }
-  });
-
-  cahier({
-    box: "t4-c2", res: "t4-r", ctl: "t4-ctl", next: "t4-next", all: "t4-all", reset: "t4-reset", inputs: ["t4-c", "t4-a"],
-    verifier: function (v) {
-      if (!(v[0] >= 1 && v[1] >= 1 && v[0] <= 99 && v[1] <= 99)) return "Choisis deux nombres entre 1 et 99.";
-      return v[0] > v[1] ? "" : "BC est l'hypoténuse : elle doit être plus longue que AB.";
-    },
-    lignes: function (v) {
-      var c = v[0], a = v[1], d = c * c - a * a;
-      var fin = Number.isInteger(Math.sqrt(d)) ? "AC = √" + d + " = " + Math.sqrt(d) + " cm" : "AC = √" + d + " ≈ " + fmt(approx(d)) + " cm";
-      return DEBUT.concat([a + "² + AC² = " + c + "²", "AC² = " + c + "² − " + a + "²", "AC² = " + c * c + " − " + a * a + " = " + d, fin]);
-    }
-  });
+  function maj3() {
+    var v = entiers(["t3-a", "t3-b"]), r = document.getElementById("t3-r"), box = document.getElementById("t3-c");
+    r.className = "res"; r.textContent = "";
+    if (!ok(v)) { box.innerHTML = ""; r.className = "res ko"; r.textContent = "Choisis deux nombres entre 1 et 99."; return; }
+    var a = v[0], b = v[1], s = a * a + b * b, ex = Number.isInteger(Math.sqrt(s));
+    var fin = ex ? "BC = √" + s + " = " + Math.sqrt(s) + " cm" : "BC = √" + s + " ≈ " + fmt(approx(s)) + " cm";
+    rediger("t3-c", "t3-r", DEBUT.concat([
+      [a + "² + " + b + "² = BC²", "Je remplace par les longueurs."],
+      [a * a + " + " + b * b + " = BC²", "Je calcule les carrés."],
+      ["BC² = " + s, "J'additionne."],
+      [fin, ex ? "Je prends la racine carrée : c'est un nombre exact." : "Je prends la racine carrée, puis j'arrondis au dixième."]
+    ]));
+    schema(document.getElementById("t3-svg"), a, b, ex ? Math.sqrt(s) : approx(s), "BC");
+    r.innerHTML = "Contrôle : BC est plus long que AB et que AC.";
+  }
+  function maj4() {
+    var v = entiers(["t4-c", "t4-a"]), r = document.getElementById("t4-r"), box = document.getElementById("t4-c2");
+    r.className = "res"; r.textContent = "";
+    if (!ok(v)) { box.innerHTML = ""; r.className = "res ko"; r.textContent = "Choisis deux nombres entre 1 et 99."; return; }
+    if (v[0] <= v[1]) { box.innerHTML = ""; r.className = "res ko"; r.textContent = "BC est l'hypoténuse : elle doit être plus longue que AB."; return; }
+    var c = v[0], a = v[1], d = c * c - a * a, ex = Number.isInteger(Math.sqrt(d));
+    var fin = ex ? "AC = √" + d + " = " + Math.sqrt(d) + " cm" : "AC = √" + d + " ≈ " + fmt(approx(d)) + " cm";
+    rediger("t4-c2", "t4-r", DEBUT.concat([
+      [a + "² + AC² = " + c + "²", "Je remplace par les longueurs."],
+      ["AC² = " + c + "² − " + a + "²", "Je cherche un côté de l'angle droit : je soustrais."],
+      ["AC² = " + c * c + " − " + a * a + " = " + d, "Je calcule."],
+      [fin, ex ? "Je prends la racine carrée : c'est un nombre exact." : "Je prends la racine carrée, puis j'arrondis au dixième."]
+    ]));
+    schema(document.getElementById("t4-svg"), a, ex ? Math.sqrt(d) : approx(d), c, "AC");
+    r.innerHTML = "Contrôle : AC est plus court que BC.";
+  }
+  ["t3-a", "t3-b"].forEach(function (id) { document.getElementById(id).addEventListener("input", maj3); });
+  ["t4-c", "t4-a"].forEach(function (id) { document.getElementById(id).addEventListener("input", maj4); });
+  maj3(); maj4();
 
   /* ---------- 5. Additionner ou soustraire ? ---------- */
   var q5 = document.getElementById("t5-q"), r5 = document.getElementById("t5-r"), bAdd = document.getElementById("t5-add"), bSub = document.getElementById("t5-sub");
