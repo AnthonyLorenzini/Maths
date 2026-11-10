@@ -835,6 +835,7 @@ window.SITE = {
             }
           ],
           ressources: [
+            { id: "4e-ch4-lecon", type: "lecon", titre: "Leçon — Le théorème de Pythagore", resume: "Trouve l'hypoténuse, vois le théorème en aires, puis calcule un côté pas à pas avec tes propres nombres.", ajout: "2026-11-10" },
             { id: "4e-ch4-s1-classe", type: "classe", titre: "Séance 1 en classe — activités et exercices", resume: "Trois activités à valider l'une après l'autre, puis les exercices, avec des astuces mais sans solution.", ajout: "2026-11-08" },
             { id: "4e-ch4-s1", type: "exos", titre: "Séance 1 à réviser chez soi — activités et exercices corrigés", resume: "Les activités en libre accès et les exercices avec astuces et solutions.", ajout: "2026-10-20" },
             { id: "4e-ch4-s2", type: "exos", titre: "Séance 2 — Racine carrée", resume: "Animations sur l'aire et le côté, encadrement entre deux carrés, calculatrice projetée (touche √), exercices corrigés.", ajout: "2026-10-24" },
