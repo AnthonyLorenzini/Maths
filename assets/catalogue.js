@@ -76,6 +76,9 @@ window.SITE = {
         ,{ chapitre: "6e-ch4", etiquette: "Chapitre 4 · Petit test", titre: "Petit test — Les fleurs des décimaux",
           resume: "Compléter les pétales : écriture décimale, en mots, fraction décimale, nombre mixte, somme de fractions.", ajout: "2026-10-14",
           versions: [ { nom: "A et B", sujet: "evaluations/6e/6e-fleurs-decimaux-sujets-A-et-B.pdf", corrige: "evaluations/6e/6e-fleurs-decimaux-corrige-A-et-B.pdf" } ] }
+        ,{ chapitre: "6e-ch5", etiquette: "Chapitre 5 · Petit test", titre: "Petit test — Le tour d'un cercle",
+          resume: "Deux périmètres de cercle, l'un avec le rayon, l'autre avec le diamètre. Touche π, arrondi au centième. 8 min, sur 4.", ajout: "2026-11-10",
+          versions: [ { nom: "A et B", sujet: "evaluations/6e/6e-ch5-petit-test-cercle-sujets-A-et-B.pdf", corrige: "evaluations/6e/6e-ch5-petit-test-cercle-corrige-A-et-B.pdf" } ] }
       ],
       chapitres: [
         {
