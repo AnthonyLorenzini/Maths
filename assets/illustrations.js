@@ -132,6 +132,30 @@
     '<path class="f-b s-i" d="M12 54V18L60 54Z" stroke-width="3"/>' +
     '<path class="s-i" d="M12 47H19V54" fill="none" stroke-width="2.2"/>' + etiqs;
   const SEANCES = {
+    // 6e ch.3 : Les fractions
+    "6e-ch3-s1": svg( // partager en parts égales : une tablette en 4 parts, 3 colorées
+      '<rect class="f-c" x="6" y="18" width="45" height="36"/>' +
+      '<rect class="f-b" x="51" y="18" width="15" height="36"/>' +
+      '<g class="s-i" stroke-width="2.6"><line x1="17.2" y1="18" x2="17.2" y2="54"/><line x1="28.5" y1="18" x2="28.5" y2="54"/><line x1="39.8" y1="18" x2="39.8" y2="54"/></g>' +
+      '<rect class="s-i" x="6" y="18" width="60" height="36" rx="5" fill="none" stroke-width="3.4"/>'),
+    "6e-ch3-s2": svg( // une demi-droite graduée : on place 3/4 entre 0 et 1
+      '<path class="s-i" d="M4 46H68M62 40L68 46L62 52" fill="none" stroke-width="3"/>' +
+      '<g class="s-i" stroke-width="3"><line x1="10" y1="39" x2="10" y2="53"/><line x1="58" y1="39" x2="58" y2="53"/></g>' +
+      '<g class="s-i" stroke-width="2.2"><line x1="22" y1="42" x2="22" y2="50"/><line x1="34" y1="42" x2="34" y2="50"/><line x1="46" y1="42" x2="46" y2="50"/></g>' +
+      '<path class="s-c" d="M46 30V40M41 35L46 41L51 35" fill="none" stroke-width="3.4"/>' +
+      '<circle class="f-s s-i" cx="46" cy="21" r="8" stroke-width="2.8"/>' +
+      lab(10, 63, '0', 12) + lab(58, 63, '1', 12)),
+    "6e-ch3-s3": svg( // graduer un segment : une règle, et le segment partagé en 3 parts égales
+      '<rect class="f-s s-i" x="4" y="8" width="64" height="22" rx="4" stroke-width="3"/>' +
+      '<g class="s-i" stroke-width="2.4"><line x1="14" y1="8" x2="14" y2="20"/><line x1="24" y1="8" x2="24" y2="16"/><line x1="34" y1="8" x2="34" y2="20"/><line x1="44" y1="8" x2="44" y2="16"/><line x1="54" y1="8" x2="54" y2="20"/></g>' +
+      '<line class="s-i" x1="8" y1="52" x2="64" y2="52" stroke-width="3"/>' +
+      '<circle class="f-c s-i" cx="8" cy="52" r="4.5" stroke-width="2.4"/><circle class="f-b s-i" cx="26.7" cy="52" r="4.5" stroke-width="2.4"/>' +
+      '<circle class="f-b s-i" cx="45.3" cy="52" r="4.5" stroke-width="2.4"/><circle class="f-c s-i" cx="64" cy="52" r="4.5" stroke-width="2.4"/>'),
+    "6e-ch3-s4": svg( // le milieu d'un segment gradué : 1/2
+      '<line class="s-i" x1="8" y1="48" x2="64" y2="48" stroke-width="3"/>' +
+      '<circle class="f-c s-i" cx="8" cy="48" r="5" stroke-width="2.6"/><circle class="f-c s-i" cx="64" cy="48" r="5" stroke-width="2.6"/>' +
+      '<circle class="f-s s-i" cx="36" cy="48" r="7.5" stroke-width="3"/>' +
+      lab(36, 10, '1', 15) + '<line class="s-i" x1="27" y1="20" x2="45" y2="20" stroke-width="3"/>' + lab(36, 31, '2', 15)),
     // 6e ch.2 : Points, droites et distances
     "6e-ch2-s1": svg( // le vocabulaire : une droite, une demi-droite, un segment
       '<path class="s-i" d="M3 14H69M9 8L3 14L9 20M63 8L69 14L63 20" fill="none" stroke-width="3"/>' +
