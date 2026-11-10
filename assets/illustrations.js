@@ -132,6 +132,32 @@
     '<path class="f-b s-i" d="M12 54V18L60 54Z" stroke-width="3"/>' +
     '<path class="s-i" d="M12 47H19V54" fill="none" stroke-width="2.2"/>' + etiqs;
   const SEANCES = {
+    // 6e ch.5 : Cercle et disque
+    "6e-ch5-s1": svg( // le vocabulaire : un cercle, son diamètre, une corde et un arc
+      '<circle class="f-b s-i" cx="36" cy="38" r="27" stroke-width="3.4"/>' +
+      '<path class="s-s" d="M60.6 49.2A27 27 0 0 1 36 65" fill="none" stroke-width="6.5"/>' +
+      '<line class="s-i" x1="19" y1="22" x2="53" y2="22" stroke-width="3"/>' +
+      '<line class="s-c" x1="9" y1="38" x2="63" y2="38" stroke-width="4.2"/>' +
+      '<circle class="f-i" cx="36" cy="38" r="3"/>'),
+    "6e-ch5-s2": svg( // dedans, dessus, dehors : trois points autour d'un disque
+      '<circle class="f-c s-i" cx="30" cy="38" r="24" stroke-width="3.4"/>' +
+      '<circle class="f-b s-i" cx="22" cy="40" r="4.5" stroke-width="2.4"/>' +
+      '<circle class="f-s s-i" cx="54" cy="38" r="5" stroke-width="2.6"/>' +
+      '<circle class="f-b s-i" cx="63" cy="14" r="4.5" stroke-width="2.4"/>'),
+    "6e-ch5-s3": svg( // le tour d'un cercle : un peu plus de 3 diamètres mis bout à bout
+      '<circle class="f-b s-i" cx="15" cy="20" r="10" stroke-width="3"/>' +
+      '<line class="s-c" x1="5" y1="20" x2="25" y2="20" stroke-width="3.4"/>' +
+      '<rect class="f-c s-i" x="6" y="44" width="20" height="14" stroke-width="2.8"/>' +
+      '<rect class="f-b s-i" x="26" y="44" width="20" height="14" stroke-width="2.8"/>' +
+      '<rect class="f-c s-i" x="46" y="44" width="20" height="14" stroke-width="2.8"/>' +
+      '<rect class="f-s s-i" x="66" y="44" width="3" height="14" stroke-width="2.2"/>'),
+    "6e-ch5-s4": svg( // les formules du tour : π
+      '<circle class="f-s s-i" cx="36" cy="36" r="29" stroke-width="3.4"/>' +
+      lab(36, 38, 'π', 36)),
+    "6e-ch5-s5": svg( // le tour d'une piste : deux lignes droites et deux demi-cercles
+      '<rect class="f-c s-i" x="4" y="16" width="64" height="40" rx="20" stroke-width="3.4"/>' +
+      '<rect class="f-b s-i" x="16" y="28" width="40" height="16" rx="8" stroke-width="3"/>' +
+      '<line class="s-s" x1="36" y1="16" x2="36" y2="28" stroke-width="4"/>'),
     // 6e ch.4 : Fractions décimales et nombres décimaux
     "6e-ch4-s1": svg( // les dixièmes : 13/10 = une barre entière + 3 dixièmes
       '<rect class="f-c" x="6" y="12" width="60" height="18"/>' +
