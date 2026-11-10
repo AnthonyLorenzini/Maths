@@ -124,6 +124,30 @@
     '</g>'
   );
 
+  // ===== Séances : un dessin par séance (clé = id du chapitre + "-s" + numéro de séance) =====
+  const lab = (x, y, t, taille) => '<text class="tx f-i" x="' + x + '" y="' + y + '" text-anchor="middle" dominant-baseline="central" font-size="' + (taille || 13) + '">' + t + '</text>';
+  // triangle rectangle « 3-4-5 » avec un côté surligné (pour calculer l'hypoténuse ou un côté de l'angle droit)
+  const tri = (surligne, couleur, etiqs) =>
+    '<line class="' + couleur + '" x1="' + surligne[0] + '" y1="' + surligne[1] + '" x2="' + surligne[2] + '" y2="' + surligne[3] + '" stroke-width="9"/>' +
+    '<path class="f-b s-i" d="M12 54V18L60 54Z" stroke-width="3"/>' +
+    '<path class="s-i" d="M12 47H19V54" fill="none" stroke-width="2.2"/>' + etiqs;
+  const SEANCES = {
+    // 4e ch.4 : Pythagore
+    "4e-ch4-s1": svg( // le puzzle des aires : 9 + 16 = 25
+      '<rect class="f-s s-i" x="7" y="6" width="18" height="18" rx="1.5" stroke-width="2.8"/>' + lab(30.5, 15, '+', 15) +
+      '<rect class="f-b s-i" x="36" y="3" width="24" height="24" rx="1.5" stroke-width="2.8"/>' + lab(15, 53, '=', 18) +
+      '<rect class="f-c s-i" x="28" y="38" width="30" height="30" rx="2" stroke-width="2.8"/>'),
+    "4e-ch4-s2": svg( // la racine carrée
+      '<path class="s-c" d="M8 40L16 34L27 60L43 12H66" fill="none" stroke-width="6"/>' + lab(54, 36, '9', 22)),
+    "4e-ch4-s3": svg( // écrire l'égalité : on nomme les sommets, l'hypoténuse est repérée
+      '<path class="f-s s-i" d="M14 14V52H58Z" stroke-width="3"/>' +
+      '<path class="s-i" d="M14 45H21V52" fill="none" stroke-width="2.2"/>' +
+      '<line class="s-c" x1="14" y1="14" x2="58" y2="52" stroke-width="3"/>' +
+      lab(8, 10, 'B', 13) + lab(7, 60, 'A', 13) + lab(64, 58, 'C', 13)),
+    "4e-ch4-s4": svg(tri([12, 18, 60, 54], 's-c', lab(5, 36, '3', 13) + lab(36, 64, '4', 13) + lab(47, 28, '?', 16))), // hypoténuse
+    "4e-ch4-s5": svg(tri([12, 54, 60, 54], 's-s', lab(5, 36, '3', 13) + lab(36, 64, '?', 16) + lab(47, 28, '5', 13)))  // côté de l'angle droit
+  };
+
   window.ILLU = {
     "6e-ch1": numeration,
     "6e-ch2": droites,
@@ -137,4 +161,5 @@
     "4e-ch3": divisibilite,
     "4e-ch4": pythagore
   };
+  Object.assign(window.ILLU, SEANCES);
 })();
