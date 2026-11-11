@@ -483,9 +483,8 @@ window.SITE = {
             {
               titre: "Le quotient, un nombre à trouver", duree: "50 min",
               contenu: [
-                "Le nombre caché (10 min, projeté) : une multiplication avec un nombre qui manque, comme ? × 3 = 15. On le trouve avec les tables et on dit que 5 est le quotient de 15 par 3.",
-                "La barre à partager (13 min, projeté) : on coupe une barre de a unités en b parts égales. Quand a est dans la table de b, une part mesure un nombre entier ; sinon c'est un nouveau nombre, écrit a ÷ b ou a/b. Les parts remises bout à bout refont la barre.",
-                "Les exercices (25 min, cahier) : cinq nombres cachés (trois sans table), trois barres à lire, passer de la phrase à la division puis à la fraction, qui a raison ? et un défi : pourquoi pas de quotient par 0."
+                "Des barres à partager (15 min, projeté) : 15 barres pour 3 amis, 1 barre pour 4 amis, 3 barres pour 4 amis. Ce que reçoit un ami est le quotient ; on le vérifie en multipliant par le nombre d'amis (5 × 3 = 15, 3/4 × 4 = 3).",
+                "Les exercices (30 min, cahier) : cinq nombres cachés (trois sans table), trois dessins de partage à lire, un tableau phrase / division / fraction, qui a raison ? et un défi : pourquoi pas de partage entre 0 ami."
               ],
               ressources: ["6e-ch6-s1"],
               retenir: [
@@ -498,7 +497,7 @@ window.SITE = {
             }
           ],
           ressources: [
-            { id: "6e-ch6-s1", type: "exos", titre: "Séance 1 — Le quotient, un nombre à trouver", resume: "Le nombre caché, la barre à partager, a ÷ b = a/b, lire des barres, qui a raison ? et pourquoi pas de division par 0. Avec corrections.", ajout: "2026-11-11" }
+            { id: "6e-ch6-s1", type: "exos", titre: "Séance 1 — Le quotient, un nombre à trouver", resume: "Des barres de chocolat à partager entre amis, le quotient, a ÷ b = a/b, des dessins à lire et pourquoi pas de division par 0. Avec corrections.", ajout: "2026-11-11" }
           ]
         },
         {

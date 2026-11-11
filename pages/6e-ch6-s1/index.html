@@ -183,273 +183,166 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 })();
 </script>
 <style>
-/* ---- mise en page des séances du chapitre 6 (mêmes bases que le chapitre 5) ---- */
+/* ---- séance 6e ch.6 : page légère, une figure à la fois ---- */
 .ex{display:flex;flex-direction:column;gap:12px;padding-top:8px;border-top:2px solid var(--line)}
 .ex-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px}
 .ex-h h2 small{font:600 .9rem var(--f-text);text-transform:none;letter-spacing:0;color:var(--muted);margin-left:.4em}
-.consigne{margin:0;max-width:75ch}
-.but{margin:0;max-width:75ch;padding:6px 12px;background:var(--fill-2);border-left:4px solid var(--amber);border-radius:0 8px 8px 0}
-.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.how .panel{display:flex;gap:10px;align-items:flex-start}
-.how .n{font:800 1.6rem/1 var(--f-title);color:var(--amber-text)}
-.how p{margin:0}
+.consigne{margin:0;max-width:70ch;font-size:1.05rem}
 .fig{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:2px}
-.fig svg{display:block;width:100%;height:auto;max-width:720px}
+.fig svg{display:block;width:100%;height:auto;max-width:700px}
 .fig .cap{font:700 .95rem var(--f-title);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);align-self:flex-start;padding-left:6px}
 .ex:not(.show) .sol{display:none}
 .ex.show .q{display:none}
 .s{color:var(--ok);font-weight:600}
 .qs{margin:0;padding-left:1.5em;display:flex;flex-direction:column;gap:8px;max-width:75ch}
 .qs li::marker{font-weight:700;color:var(--amber-ink)}
-.qs.dec{list-style:decimal}
 .qs .sol{display:block}
-.qs.big li{font:700 1.35rem var(--f-num);padding-block:2px}
+.qs.big li{font:700 1.4rem var(--f-num);padding-block:2px}
 .qs.big .sol{font:600 1rem var(--f-text)}
 .hole{display:inline-flex;align-items:center;justify-content:center;min-width:1.35em;height:1.35em;background:var(--amber);color:var(--on-amber);border-radius:8px;border:3px solid var(--ink);font-weight:800}
 table.tb{border-collapse:collapse;font:600 1.1rem var(--f-text);background:var(--panel);max-width:100%}
 .tb th,.tb td{border:2px solid var(--line);padding:8px 16px;text-align:center}
 .tb th{font:800 1.05rem var(--f-title);text-transform:uppercase;letter-spacing:.05em;background:var(--fill-2)}
-.tb td.l{text-align:left;font-weight:600}
+.tb td.l{text-align:left}
 .tb .q{color:var(--amber-ink);font:700 1.3rem var(--f-num)}
 .tb .sol{color:var(--ok);font:700 1.05rem var(--f-num)}
 .tb td.l .sol{font-family:var(--f-text)}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{font:700 .95rem var(--f-title);text-transform:uppercase;letter-spacing:.06em;padding:4px 12px;border-radius:999px;border:2px solid var(--line);color:var(--muted);background:var(--panel)}
-.chip.on{border-color:var(--bc);color:var(--ink);background:var(--bb)}
-.chip[data-k=ent]{--bc:var(--ok);--bb:var(--ok-bg)}
-.chip[data-k=pet]{--bc:var(--blue);--bb:var(--blue-bg)}
-.chip[data-k=gr]{--bc:var(--magenta);--bb:var(--magenta-bg)}
-.machine{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
-.machine .eq{font:800 clamp(2.3rem,9vw,3.8rem)/1.1 var(--f-num);display:flex;gap:.3em;align-items:center;flex-wrap:wrap}
-.dots{display:flex;gap:8px;align-items:center}
-.dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--line);background:var(--panel)}
-.dot.on{background:var(--ok);border-color:var(--ok)}
-input.nb{font:700 1.25rem var(--f-num);text-align:center;border:2px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:6px 4px;width:4.2em}
-input.nb:focus{outline:none;border-color:var(--amber)}
-.ctl{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
-.ctl label{display:inline-flex;align-items:center;gap:8px;font-weight:600}
-.rule{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;padding:10px 16px;background:var(--panel);border:2px solid var(--line);border-radius:12px}
-.rule .big{font:700 1.6rem var(--f-num)}
-.rule .big .fr{font-size:1.1em}
+.cas{display:flex;flex-wrap:wrap;gap:10px}
+.cas .btn{font-size:1.05rem;padding:10px 16px}
+.res{margin:0;display:flex;flex-direction:column;gap:6px}
+.res .eq{font:800 clamp(1.9rem,7vw,2.8rem)/1.15 var(--f-num);margin:0;min-height:1.2em}
+.res .eq .fr{font-size:1.05em}
+.res .ver{margin:0;font-size:1.05rem}
+.num{white-space:nowrap}
 .vf{font-weight:700}.vf.t{color:var(--ok)}.vf.f{color:var(--ko)}
-@keyframes fadein{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 </style>
 <div class="wrap">
   <header class="top">
     <div><h1>Le quotient, un nombre <span>à trouver</span></h1>
-    <p class="sub">Chapitre 6, séance 1. Cahier et vidéoprojecteur, environ 50 min. On cherche des nombres cachés dans des multiplications, puis on découvre un nouveau nombre quand les tables ne suffisent plus.</p></div>
+    <p class="sub">Chapitre 6, séance 1</p></div>
   </header>
 
-  <div class="how">
-    <div class="panel"><span class="n">1</span><p><b>Le nombre caché</b> (≈ 10 min). Une <span class="gl" data-t="multiplication">multiplication</span> avec un nombre qui manque : tes tables suffisent.</p></div>
-    <div class="panel"><span class="n">2</span><p><b>La barre à partager</b> (≈ 13 min). On coupe une barre en parts égales et on regarde la <span class="gl" data-t="longueur">longueur</span> d'une part.</p></div>
-    <div class="panel"><span class="n">3</span><p><b>Exercices</b> (≈ 25 min). Dans ton cahier, sans recopier les énoncés. Vérifie avec le bouton « Correction ».</p></div>
-  </div>
-
-  <!-- ================= ACTIVITÉ A : LE NOMBRE CACHÉ ================= -->
-  <section class="ex" id="actA">
-    <div class="ex-h"><h2>Activité 1 <small>le nombre caché</small></h2></div>
-    <p class="but"><b>But :</b> comprendre ce que veut dire « trouver le quotient de 15 par 3 ».</p>
-    <p class="consigne">La machine cache un nombre dans une <span class="gl" data-t="multiplication">multiplication</span>. Trouve-le avec tes tables, tape-le, puis clique sur « Vérifier ».</p>
-    <div class="panel machine">
-      <div class="eq"><span class="hole">?</span><span>×</span><span id="mb">3</span><span>=</span><span id="ma">15</span></div>
-      <div class="row">
-        <input class="ans" id="mans" inputmode="decimal" autocomplete="off" aria-label="le nombre caché" style="width:5em">
-        <button class="btn main" id="mok">Vérifier</button>
-        <button class="btn" id="mnext" hidden>Nombre suivant</button>
-        <span class="dots" id="mdots" aria-label="avancement"><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i></span>
-      </div>
-      <p class="msg" id="mmsg" aria-live="polite"></p>
+  <!-- ================= ACTIVITÉ : DES BARRES À PARTAGER ================= -->
+  <section class="ex" id="act">
+    <div class="ex-h"><h2>Activité <small>des barres à partager</small></h2></div>
+    <p class="consigne">Des barres de chocolat sont partagées en parts égales entre des amis. Clique sur chaque cas et regarde ce que reçoit <b>un ami</b> (en jaune).</p>
+    <div class="cas" id="cas">
+      <button class="btn" data-a="15" data-b="3">15 barres, 3 amis</button>
+      <button class="btn" data-a="1" data-b="4">1 barre, 4 amis</button>
+      <button class="btn" data-a="3" data-b="4">3 barres, 4 amis</button>
     </div>
-    <p class="recit" id="mfin" hidden>Chercher le <span class="gl" data-t="quotient">quotient</span> de 15 par 3, c'est chercher le nombre caché de <span class="num">? × 3 = 15</span>. Mais que faire avec <span class="num">? × 4 = 1</span> ? Aucune table ne donne ce nombre… La barre va nous aider.</p>
-  </section>
-
-  <!-- ================= ACTIVITÉ B : LA BARRE À PARTAGER ================= -->
-  <section class="ex" id="actB">
-    <div class="ex-h"><h2>Activité 2 <small>la barre à partager</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="but"><b>But :</b> trouver un nombre qui n'est dans aucune table, et lui donner un nom.</p>
-    <p class="consigne">Une barre mesure <b>a</b> unités. On la coupe en <b>b</b> parts égales. Combien mesure <b>une part</b> ? Choisis a et b, ou clique sur un essai.</p>
-    <div class="ctl">
-      <label>a <input class="nb" type="number" id="ba" min="1" max="20" value="15" inputmode="numeric"></label>
-      <label>b <input class="nb" type="number" id="bb" min="1" max="10" value="3" inputmode="numeric"></label>
-      <span class="grp"><span class="lvl">Essais</span>
-        <button class="btn" data-a="15" data-b="3">15 et 3</button>
-        <button class="btn" data-a="1" data-b="4">1 et 4</button>
-        <button class="btn" data-a="3" data-b="4">3 et 4</button>
-        <button class="btn" data-a="7" data-b="3">7 et 3</button></span>
-      <button class="btn main" id="brebuild">Remettre les parts bout à bout</button>
+    <div class="fig" id="afig"></div>
+    <div class="res" aria-live="polite">
+      <p class="eq" id="aeq"></p>
+      <p class="ver" id="aver"></p>
     </div>
-    <div class="fig" id="bfig"></div>
-    <p class="recit" id="bmsg" aria-live="polite"></p>
-    <div class="chips" id="bchips" aria-label="ce que tu as trouvé">
-      <span class="chip" data-k="ent">un nombre entier</span><span class="chip" data-k="pet">plus petit que 1</span><span class="chip" data-k="gr">plus grand que 1</span>
-    </div>
-    <p class="consigne"><b>À faire :</b> essaie les quatre cas, puis cherche d'autres nombres jusqu'à allumer les trois pastilles. Dans ton cahier, complète : « La longueur d'une part est un nombre entier quand … ».</p>
-    <p class="recit sol"><b>Je retiens.</b> Une part mesure un nombre entier quand <b>a est dans la table de b</b> (15 est dans la table de 3). Sinon, la part mesure un nouveau nombre : le <b><span class="gl" data-t="quotient">quotient</span></b> de a par b. On l'écrit <span class="num">a ÷ b</span> ou avec une <span class="gl" data-t="fraction">fraction</span> <span class="fr"><span>a</span><span>b</span></span>, avec b différent de 0. Et si on met bout à bout b parts, on retrouve la barre : <span class="fr"><span>a</span><span>b</span></span> × b = a.</p>
+    <p class="recit" id="aret" hidden>Ce que reçoit un ami s'appelle le <b><span class="gl" data-t="quotient">quotient</span></b>. Le quotient de 3 par 4 est <span class="fr"><span>3</span><span>4</span></span> : une <span class="gl" data-t="fraction">fraction</span>, car aucune table ne donne ce nombre. Dans les trois cas, on retrouve les barres en <b>multipliant</b> ce que reçoit un ami par le nombre d'amis.</p>
   </section>
 
   <!-- ================= EXERCICES ================= -->
   <section class="ex" id="ex1">
     <div class="ex-h"><h2>Exercice 1 <small>le nombre caché</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="but"><b>But :</b> trouver le <span class="gl" data-t="quotient">quotient</span> en cherchant le nombre qui manque dans une <span class="gl" data-t="multiplication">multiplication</span>.</p>
-    <p class="consigne">Pour chaque ligne, écris dans ton cahier le nombre caché, puis une phrase comme « 6 est le quotient de 42 par 7 ». Pour les trois dernières, les tables ne suffisent pas : pense à la barre !</p>
+    <p class="consigne">Trouve le nombre caché, puis écris : « 6 est le <span class="gl" data-t="quotient">quotient</span> de 42 par 7 ». Pour c), d) et e), pense aux barres !</p>
     <ol class="qs big" type="a">
       <li><span class="hole">?</span> × 7 = 42<span class="sol">6, car 6 × 7 = 42. 6 est le quotient de 42 par 7.</span></li>
       <li><span class="hole">?</span> × 8 = 64<span class="sol">8, car 8 × 8 = 64. 8 est le quotient de 64 par 8.</span></li>
-      <li><span class="hole">?</span> × 5 = 1<span class="sol">1/5, car 5 parts de 1/5 refont 1. 1/5 est le quotient de 1 par 5.</span></li>
-      <li><span class="hole">?</span> × 3 = 2<span class="sol">2/3, car 3 parts de 2/3 refont une barre de 2. 2/3 est le quotient de 2 par 3.</span></li>
-      <li><span class="hole">?</span> × 6 = 5<span class="sol">5/6, car 6 parts de 5/6 refont une barre de 5. 5/6 est le quotient de 5 par 6.</span></li>
+      <li><span class="hole">?</span> × 5 = 1<span class="sol">1/5, car 5 × 1/5 = 1. 1/5 est le quotient de 1 par 5.</span></li>
+      <li><span class="hole">?</span> × 3 = 2<span class="sol">2/3, car 3 × 2/3 = 2. 2/3 est le quotient de 2 par 3.</span></li>
+      <li><span class="hole">?</span> × 6 = 5<span class="sol">5/6, car 6 × 5/6 = 5. 5/6 est le quotient de 5 par 6.</span></li>
     </ol>
   </section>
 
   <section class="ex" id="ex2">
-    <div class="ex-h"><h2>Exercice 2 <small>lire une barre</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="but"><b>But :</b> passer d'un dessin à une <span class="gl" data-t="division">division</span>, puis à la longueur d'une part.</p>
-    <p class="consigne">Pour chaque barre, écris dans ton cahier : 1) la longueur de la barre ; 2) le nombre de parts ; 3) la <span class="gl" data-t="division">division</span> et la longueur d'une part (en <span class="gl" data-t="fraction">fraction</span> si ce n'est pas un nombre entier). Une part est coloriée en jaune.</p>
-    <div class="fig sm" id="g1"></div>
-    <p class="s sol">Barre de 9, en 3 parts : 9 ÷ 3 = 3. Une part mesure 3.</p>
-    <div class="fig sm" id="g2"></div>
-    <p class="s sol">Barre de 2, en 5 parts : 2 ÷ 5 = 2/5. Une part mesure 2/5, moins que 1.</p>
-    <div class="fig sm" id="g3"></div>
-    <p class="s sol">Barre de 7, en 4 parts : 7 ÷ 4 = 7/4. Une part mesure 7/4 : elle dépasse la graduation 1.</p>
+    <div class="ex-h"><h2>Exercice 2 <small>des dessins à lire</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Pour chaque dessin, compte les barres et les amis. Écris la <span class="gl" data-t="division">division</span> et ce que reçoit un ami.</p>
+    <div class="fig" id="g1"></div>
+    <p class="s sol">12 ÷ 4 = 3 : un ami reçoit 3 barres.</p>
+    <div class="fig" id="g2"></div>
+    <p class="s sol">2 ÷ 3 = 2/3 : un ami reçoit 2/3 de barre (2 morceaux d'un tiers).</p>
+    <div class="fig" id="g3"></div>
+    <p class="s sol">5 ÷ 2 = 5/2 : un ami reçoit 5/2 de barre, donc plus d'une barre.</p>
   </section>
 
   <section class="ex" id="ex3">
-    <div class="ex-h"><h2>Exercice 3 <small>plusieurs façons d'écrire</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="but"><b>But :</b> passer d'une écriture à l'autre sans mélanger les deux nombres.</p>
-    <div class="rule">
-      <span class="big">a ÷ b = <span class="fr"><span>a</span><span>b</span></span></span>
-      <span>En haut, le <span class="gl" data-t="numerateur">numérateur</span> : le nombre qu'on partage.<br>En bas, le <span class="gl" data-t="denominateur">dénominateur</span> : le nombre de parts.</span>
-    </div>
-    <p class="consigne">Recopie le tableau dans ton cahier. Chaque ligne donne <b>une seule</b> écriture : complète les deux autres.</p>
+    <div class="ex-h"><h2>Exercice 3 <small>plusieurs écritures</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Recopie le tableau et complète chaque ligne. Rappel : <span class="num">3 ÷ 4 = <span class="fr"><span>3</span><span>4</span></span></span> : le nombre qu'on partage est en haut.</p>
     <div style="overflow-x:auto"><table class="tb">
       <tr><th>En phrase</th><th>Division</th><th>Fraction</th></tr>
       <tr><td class="l">le <span class="gl" data-t="quotient">quotient</span> de 3 par 7</td><td><span class="q">?</span><span class="sol">3 ÷ 7</span></td><td><span class="q">?</span><span class="sol"><span class="fr"><span>3</span><span>7</span></span></span></td></tr>
       <tr><td class="l"><span class="q">?</span><span class="sol">le quotient de 9 par 2</span></td><td class="num">9 ÷ 2</td><td><span class="q">?</span><span class="sol"><span class="fr"><span>9</span><span>2</span></span></span></td></tr>
       <tr><td class="l"><span class="q">?</span><span class="sol">le quotient de 5 par 8</span></td><td><span class="q">?</span><span class="sol">5 ÷ 8</span></td><td><span class="fr"><span>5</span><span>8</span></span></td></tr>
-      <tr><td class="l"><span class="q">?</span><span class="sol">le quotient de 1 par 5</span></td><td class="num">1 ÷ 5</td><td><span class="q">?</span><span class="sol"><span class="fr"><span>1</span><span>5</span></span></span></td></tr>
     </table></div>
   </section>
 
   <section class="ex" id="ex4">
     <div class="ex-h"><h2>Exercice 4 <small>qui a raison ?</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="but"><b>But :</b> repérer les erreurs qu'on fait souvent avec le <span class="gl" data-t="quotient">quotient</span>.</p>
-    <p class="consigne">Pour chaque élève, écris « Vrai » ou « Faux » dans ton cahier. Si c'est faux, écris la bonne réponse.</p>
-    <ol class="qs dec">
-      <li><b>Léa :</b> « Le <span class="gl" data-t="quotient">quotient</span> de 3 par 5 s'écrit <span class="fr"><span>5</span><span>3</span></span>. »<span class="sol s"><span class="vf f">Faux.</span> On partage 3 en 5 parts : c'est <span class="fr"><span>3</span><span>5</span></span>. Le nombre qu'on partage va en haut.</span></li>
-      <li><b>Noé :</b> « 7 ÷ 2 = <span class="fr"><span>7</span><span>2</span></span>. »<span class="sol s"><span class="vf t">Vrai.</span> On partage 7 en 2 parts : une part mesure <span class="fr"><span>7</span><span>2</span></span>, et 2 parts refont la barre de 7.</span></li>
-      <li><b>Inès :</b> « <span class="fr"><span>8</span><span>2</span></span> n'est pas un nombre entier, parce que c'est une <span class="gl" data-t="fraction">fraction</span>. »<span class="sol s"><span class="vf f">Faux.</span> <span class="fr"><span>8</span><span>2</span></span> = 8 ÷ 2 = 4, car 4 × 2 = 8. Une <span class="gl" data-t="fraction">fraction</span> peut être égale à un nombre entier.</span></li>
+    <p class="consigne">Écris « Vrai » ou « Faux ». Si c'est faux, écris la bonne réponse.</p>
+    <ol class="qs">
+      <li><b>Léa :</b> « Le <span class="gl" data-t="quotient">quotient</span> de 3 par 5 est <span class="fr"><span>5</span><span>3</span></span>. »<span class="sol s"><span class="vf f">Faux.</span> On partage 3 barres entre 5 amis : c'est <span class="fr"><span>3</span><span>5</span></span>.</span></li>
+      <li><b>Noé :</b> « 7 ÷ 2 = <span class="fr"><span>7</span><span>2</span></span>. »<span class="sol s"><span class="vf t">Vrai.</span> On partage 7 barres entre 2 amis.</span></li>
     </ol>
   </section>
 
   <section class="ex" id="ex5">
-    <div class="ex-h"><h2>Défi <small>partager en 0 part</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="but"><b>But :</b> comprendre pourquoi on écrit « b différent de 0 ».</p>
-    <p class="consigne">Cherche le <span class="gl" data-t="quotient">quotient</span> de 5 par 0 : écris la <span class="gl" data-t="multiplication">multiplication</span> à trou <span class="num">? × 0 = 5</span>. Existe-t-il un nombre qui marche ? Explique.</p>
-    <p class="recit sol">Non. Un nombre multiplié par 0 donne toujours 0, jamais 5. Il n'y a donc <b>aucun</b> quotient de 5 par 0 : on ne peut pas <span class="gl" data-t="division">diviser</span> par 0.</p>
+    <div class="ex-h"><h2>Défi <small>zéro ami</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Peut-on partager 5 barres entre 0 ami ? Écris <span class="num">? × 0 = 5</span> et explique.</p>
+    <p class="recit sol">Non : un nombre multiplié par 0 donne toujours 0, jamais 5. Il n'y a pas de <span class="gl" data-t="quotient">quotient</span> de 5 par 0. On ne peut pas <span class="gl" data-t="division">diviser</span> par 0.</p>
   </section>
 </div>
 <script>
 (function(){
-const {$,$$,f,parse}=L4;
-const NS='http://www.w3.org/2000/svg';
-const num=x=>String(Math.round(x*1000)/1000).replace('.',',');
+const {$,$$,f}=L4;
 
-/* ---------- Activité 1 : le nombre caché ---------- */
-const CH=[[15,3],[54,6],[56,7],[72,9]];
-let ci=0;
-const mans=$('#mans'),mmsg=$('#mmsg'),mok=$('#mok'),mnext=$('#mnext');
-const dots=$$('#mdots .dot');
-function chargeM(){
-  $('#ma').textContent=CH[ci][0];$('#mb').textContent=CH[ci][1];
-  mans.value='';mans.className='ans';mans.disabled=false;mans.style.width='5em';
-  mmsg.textContent='';mmsg.className='msg';mok.disabled=false;mnext.hidden=true;
-}
-function verifM(){
-  const [a,b]=CH[ci],x=parse(mans.value);
-  if(isNaN(x)){mmsg.className='msg ko';mmsg.textContent='Écris un nombre dans la case.';return;}
-  if(Math.abs(x*b-a)<1e-9){
-    mans.className='ans ok';mans.disabled=true;mok.disabled=true;dots[ci].classList.add('on');
-    mmsg.className='msg ok';
-    mmsg.innerHTML=`Oui : ${x} × ${b} = ${a}. On dit que ${x} est le quotient de ${a} par ${b}, et on écrit ${a} ÷ ${b} = ${x}.`;
-    if(ci<CH.length-1)mnext.hidden=false;else $('#mfin').hidden=false;
-  }else{
-    mans.className='ans ko';mmsg.className='msg ko';
-    mmsg.textContent=`${num(x)} × ${b} = ${num(x*b)} : c'est trop ${x*b<a?'petit':'grand'}, on veut ${a}. Essaie encore.`;
-  }
-}
-mok.addEventListener('click',verifM);
-mans.addEventListener('keydown',e=>{if(e.key==='Enter')verifM();});
-mnext.addEventListener('click',()=>{ci++;chargeM();});
-chargeM();
-
-/* ---------- dessin d'une barre de a unités coupée en b parts ---------- */
-function barre(a,b,o){
-  o=o||{};
-  const W=680,pad=20,U=(W-2*pad)/a,q=a/b,y0=o.rebuild?46:50,h=44;
-  const H=o.rebuild?205:128;
-  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="barre de ${a} unités coupée en ${b} parts égales">`;
-  /* bracket de la première part */
-  const x1=pad+q*U;
-  s+=`<path d="M${pad} ${y0-6}v-8H${x1}v8" fill="none" stroke="var(--ink)" stroke-width="2"/>`;
-  s+=`<text x="${(pad+x1)/2}" y="${y0-20}" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="600" font-size="14" fill="var(--ink)">1 part</text>`;
-  /* parts */
-  for(let k=0;k<b;k++){
-    const x=pad+k*q*U,w=q*U,fill=k===0?'var(--fill)':(k%2?'var(--fill-2)':'var(--paper)');
-    s+=`<rect x="${x}" y="${y0}" width="${w}" height="${h}" fill="${fill}" stroke="var(--ink)" stroke-width="3"/>`;
-  }
-  /* graduations 0, 1, 2… a */
-  for(let i=0;i<=a;i++){
-    const x=pad+i*U;
-    s+=`<line x1="${x}" y1="${y0+h}" x2="${x}" y2="${y0+h+9}" stroke="var(--ink)" stroke-width="2"/>`;
-    s+=`<text x="${x}" y="${y0+h+27}" text-anchor="middle" font-family="Space Mono,monospace" font-weight="700" font-size="${a>14?12:14}" fill="var(--ink)">${i}</text>`;
-  }
-  /* parts mises bout à bout */
-  if(o.rebuild){
-    const y1=y0+h+52;
-    for(let k=0;k<b;k++){
-      const x=pad+k*q*U,w=q*U;
-      s+=`<g style="animation:fadein .35s ${k*0.28}s both"><rect x="${x}" y="${y1}" width="${w}" height="${h-6}" fill="var(--fill)" stroke="var(--ink)" stroke-width="3"/>`;
-      s+=`<text x="${x+w/2}" y="${y1+(h-6)/2+6}" text-anchor="middle" font-family="Space Mono,monospace" font-weight="700" font-size="16" fill="var(--ink)">${k+1}</text></g>`;
-    }
-    const xe=pad+a*U;
-    s+=`<line x1="${xe}" y1="${y0+h+34}" x2="${xe}" y2="${y1+h-6}" stroke="var(--ink)" stroke-width="2" stroke-dasharray="5 5"/>`;
-  }
-  return s+'</svg>';
-}
-
-/* ---------- Activité 2 : la barre à partager ---------- */
-const ba=$('#ba'),bb=$('#bb'),bfig=$('#bfig'),bmsg=$('#bmsg');
-let rebuild=false;const vus={};
-function lis(el,min,max){let v=parseInt(el.value,10);if(isNaN(v))return null;return Math.min(max,Math.max(min,v));}
-function dessineB(){
-  const a=lis(ba,1,20),b=lis(bb,1,10);
-  if(a==null||b==null){bmsg.textContent='Choisis deux nombres entiers : a entre 1 et 20, b entre 1 et 10.';return;}
-  bfig.innerHTML=barre(a,b,{rebuild});
-  let t;
+/* ---------- dessin : a barres partagées entre b amis ; le premier ami est en jaune ---------- */
+function partage(a,b){
+  const W=680,pad=20,top=40,bh=30,gap=8;
+  const fill=k=>k===0?'var(--fill)':(k%2?'var(--blue-bg)':'var(--paper)');
+  let s='',H;
   if(a%b===0){
-    const q=a/b;vus.ent=1;
-    t=b===1?`Une seule part : c'est toute la barre, elle mesure ${a}.`:`Une part mesure <b>${q}</b>, car ${q} × ${b} = ${a}. Les tables suffisent : ${a} ÷ ${b} = ${q}.`;
+    /* chaque ami reçoit des barres entières */
+    const n=a/b,gc=22,cw=(W-2*pad-(b-1)*gc)/b;
+    H=top+n*(bh+gap)+6;
+    for(let k=0;k<b;k++){
+      const x=pad+k*(cw+gc);
+      s+=`<text x="${x+cw/2}" y="${top-14}" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="${k?500:700}" font-size="15" fill="${k?'var(--muted)':'var(--ink)'}">ami ${k+1}</text>`;
+      for(let j=0;j<n;j++)s+=`<rect x="${x}" y="${top+j*(bh+gap)}" width="${cw}" height="${bh}" rx="3" fill="${fill(k)}" stroke="var(--ink)" stroke-width="3"/>`;
+    }
   }else{
-    t=`Une part mesure <b>${f(a,b)}</b>. Aucune table ne donne ce nombre : c'est un nouveau nombre, le quotient de ${a} par ${b}. On écrit ${a} ÷ ${b} = ${f(a,b)}.`;
-    if(a<b){vus.pet=1;t+=` Il est plus petit que 1 : la part est plus courte que l'unité.`;}
-    else{vus.gr=1;t+=` Il est plus grand que 1 : la part dépasse la graduation 1.`;}
+    /* chaque barre est coupée en b morceaux : l'ami k prend le morceau k de chaque barre */
+    const bw=W-2*pad,pw=bw/b;
+    H=top+a*(bh+gap)+6;
+    for(let k=0;k<b;k++)
+      s+=`<text x="${pad+k*pw+pw/2}" y="${top-14}" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="${k?500:700}" font-size="15" fill="${k?'var(--muted)':'var(--ink)'}">ami ${k+1}</text>`;
+    for(let i=0;i<a;i++){
+      const y=top+i*(bh+gap);
+      for(let k=0;k<b;k++)s+=`<rect x="${pad+k*pw}" y="${y}" width="${pw}" height="${bh}" fill="${fill(k)}" stroke="var(--ink)" stroke-width="2"/>`;
+      s+=`<rect x="${pad}" y="${y}" width="${bw}" height="${bh}" rx="3" fill="none" stroke="var(--ink)" stroke-width="4"/>`;
+    }
   }
-  if(rebuild){const q=a%b===0?String(a/b):f(a,b);t+=` <br>${b} parts de ${q} mises bout à bout refont la barre de ${a} : ${q} × ${b} = ${a}.`;}
-  bmsg.innerHTML=t;
-  $$('#bchips .chip').forEach(c=>c.classList.toggle('on',!!vus[c.dataset.k]));
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${a} barre${a>1?'s':''} partagée${a>1?'s':''} entre ${b} amis">${s}</svg>`;
 }
-[ba,bb].forEach(el=>el.addEventListener('input',()=>{rebuild=false;$('#brebuild').textContent='Remettre les parts bout à bout';dessineB();}));
-$$('[data-a]').forEach(btn=>btn.addEventListener('click',()=>{ba.value=btn.dataset.a;bb.value=btn.dataset.b;rebuild=false;$('#brebuild').textContent='Remettre les parts bout à bout';dessineB();}));
-$('#brebuild').addEventListener('click',e=>{rebuild=!rebuild;e.target.textContent=rebuild?'Cacher les parts':'Remettre les parts bout à bout';dessineB();});
-dessineB();
 
-/* ---------- Exercice 2 : trois barres ---------- */
-[[9,3,'g1','Barre 1'],[2,5,'g2','Barre 2'],[7,4,'g3','Barre 3']].forEach(([a,b,id,nom])=>{
-  $('#'+id).innerHTML=`<span class="cap">${nom}</span>`+barre(a,b,{small:true});
+/* ---------- activité ---------- */
+const TXT={
+  '15-3':{eq:`15 ÷ 3 = 5`,ver:`Un ami reçoit <b>5 barres</b>. Vérification : 3 amis × 5 barres = 15 barres.`},
+  '1-4':{eq:`1 ÷ 4 = ${f(1,4)}`,ver:`Un ami reçoit <b>${f(1,4)} de barre</b> : un morceau sur les 4. Vérification : 4 amis × ${f(1,4)} de barre = 1 barre.`},
+  '3-4':{eq:`3 ÷ 4 = ${f(3,4)}`,ver:`Chaque barre est coupée en 4. Un ami prend 1 morceau de chaque barre : 3 morceaux d'un quart, soit <b>${f(3,4)} de barre</b>. Vérification : 4 amis × ${f(3,4)} de barre = 3 barres.`}
+};
+const vus=new Set();
+$$('#cas .btn').forEach(bt=>bt.addEventListener('click',()=>{
+  const a=+bt.dataset.a,b=+bt.dataset.b,k=a+'-'+b;
+  $$('#cas .btn').forEach(x=>x.classList.toggle('main',x===bt));
+  $('#afig').innerHTML=partage(a,b);
+  $('#aeq').innerHTML=TXT[k].eq;$('#aver').innerHTML=TXT[k].ver;
+  vus.add(k);if(vus.size===3)$('#aret').hidden=false;
+}));
+
+/* ---------- exercice 2 ---------- */
+[[12,4,'g1','Dessin 1'],[2,3,'g2','Dessin 2'],[5,2,'g3','Dessin 3']].forEach(([a,b,id,nom])=>{
+  $('#'+id).innerHTML=`<span class="cap">${nom}</span>`+partage(a,b);
 });
 
-/* ---------- Correction : bouton de chaque exercice ---------- */
+/* ---------- boutons « Correction » ---------- */
 document.addEventListener('click',e=>{const bt=e.target.closest('[data-sol]');if(!bt)return;const s=bt.closest('.ex');const on=s.classList.toggle('show');bt.textContent=on?'Cacher la correction':'Correction';bt.classList.toggle('main',on);bt.setAttribute('aria-pressed',on);});
 })();
 </script>
