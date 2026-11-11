@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Séance 6 — Problèmes et bilan du chapitre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --acc-b:#F0B25B; --acc-bg:#FEF2E3; --acc-t:#B5680A; --ink:#22303F; --bleu:#2B6CB0; --rose:#E0457B; --vert:#8CC63F; --cadre:#A6D3EE; }
+* { box-sizing: border-box; }
+body { margin:0; font-family:'Work Sans',Arial,sans-serif; color:var(--ink); background:#EFEAE0; padding:20px 12px 60px; }
+.page { max-width: 1480px; margin: 0 auto; background:#fff; border-radius:18px; padding:26px 30px 24px; box-shadow:0 10px 30px rgba(34,48,63,0.10); }
+.col { max-width:860px; margin:0 auto; }
+header { display:flex; align-items:center; gap:18px; border-bottom:3px solid var(--ink); padding-bottom:14px; margin-bottom:16px; }
+.badge { flex:0 0 auto; width:64px; height:64px; border-radius:16px; background:var(--ink); color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:22px; display:flex; align-items:center; justify-content:center; transform:rotate(-4deg); }
+h1 { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:25px; margin:0; line-height:1.15; }
+.subtitle { font-size:13.5px; color:#6B7A8A; margin-top:4px; font-weight:500; }
+.objectifs { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px; }
+[hidden] { display:none !important; }
+
+/* ---------- automatisme ---------- */
+.automatisme { background:#EAF1FB; border-left:6px solid #2B6CB0; border-radius:10px; padding:12px 16px; margin-bottom:18px; }
+.automatisme h2 { font-family:'Baloo 2',sans-serif; font-size:15px; color:#2B6CB0; margin:0 0 8px 0; }
+.automatisme ol { margin:0; padding-left:20px; font-size:13.5px; }
+.automatisme li { margin-bottom:2px; }
+.reveal-panel { display:none; margin-top:8px; font-size:12.5px; font-style:italic; color:#3B4C5E; border-top:1px dashed #B7CBE3; padding-top:6px; }
+.reveal-panel.show { display:block; }
+
+/* ---------- activité ---------- */
+.act { max-width:1240px; margin:0 auto 18px; border:2px solid var(--bleu); background:#F3F8FE; border-radius:14px; padding:14px 18px 16px; }
+.act h2 { font-family:'Baloo 2',sans-serif; font-size:17px; margin:0 0 6px 0; color:var(--bleu); }
+.act h2 .duree { font-family:'Work Sans',sans-serif; font-size:13px; color:#51657A; font-weight:600; margin-left:6px; }
+.act p { font-size:15px; line-height:1.55; margin:6px 0; }
+.act-grid { display:grid; grid-template-columns:minmax(0,1.08fr) minmax(0,1fr); gap:16px; align-items:start; margin-top:8px; }
+@media (max-width:900px) { .act-grid { grid-template-columns:minmax(0,1fr); } }
+.fig { background:#fff; border:1px solid #D2E0F1; border-radius:10px; padding:6px; }
+.fig svg { display:block; width:100%; height:auto; margin:0 auto; }
+.ctrl { display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; margin:8px 0; }
+.abtn { font-family:'Baloo 2',sans-serif; font-size:13.5px; padding:6px 14px; border-radius:18px; border:2px solid var(--bleu); background:#fff; color:var(--bleu); cursor:pointer; }
+.abtn:hover { filter:brightness(0.96); }
+.abtn.plein { background:var(--ink); border-color:var(--ink); color:#fff; }
+.abtn:disabled { opacity:.45; cursor:default; }
+.act .abtn { padding:5px 10px; font-size:13px; }
+.etape { font-family:'Baloo 2',sans-serif; font-size:14px; color:#51657A; min-width:4.8em; text-align:center; }
+.egal { font-size:15px; line-height:1.5; padding:9px 13px; border-radius:10px; background:#E8F6EE; border:2px solid #4CAF7D; margin:0 0 10px; min-height:112px; }
+.egal.neutre { background:#EEF3FA; border-color:#9DB8D8; }
+.egal .piege { display:block; margin-top:6px; color:#9A3412; }
+.def { background:#EFEAFE; border:2px solid #6E4FE0; border-radius:12px; padding:10px 16px; margin:12px 0 20px; font-size:14.5px; line-height:1.55; }
+.def b.tag { font-family:'Baloo 2',sans-serif; color:#4B2FB5; display:block; margin-bottom:2px; font-size:15px; }
+.def ol, .def ul { margin:6px 0 4px; padding-left:22px; }
+.def li { margin-bottom:4px; }
+.ta { color:#C23B27; font-weight:700; }
+.tb { color:#A8780A; font-weight:700; }
+.tc { color:#1E7A4C; font-weight:700; }
+svg text.lbl { font-family:'Work Sans',Arial,sans-serif; font-weight:700; fill:#22303F; paint-order:stroke; stroke:#fff; stroke-width:4px; stroke-linejoin:round; }
+svg .tr { transition:opacity .45s ease; }
+.pulse7 line { animation:pulse7 1.1s ease-in-out 2; }
+@keyframes pulse7 { 0%,100% { stroke-width:7; } 50% { stroke-width:13; } }
+
+/* ---------- le cahier (rédaction qui se construit) ---------- */
+.cahier { position:relative; background-color:#FFFEF8; border:2px solid #D9CFB8; border-radius:10px; padding:6px 14px 6px 50px; min-height:292px;
+  background-image:repeating-linear-gradient(to bottom, transparent 0, transparent 33px, #D6E4F2 33px, #D6E4F2 34px); }
+.cahier::before { content:""; position:absolute; left:38px; top:0; bottom:0; width:2px; background:#E8A0A0; }
+.bloc { position:relative; opacity:0; transition:opacity .45s ease; }
+.bloc .l { position:relative; min-height:34px; line-height:34px; font-size:17px; white-space:nowrap; }
+.bloc .num { position:absolute; left:-42px; top:5px; width:26px; height:26px; border-radius:50%; background:var(--ink); color:#FFD75E; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center; }
+.bloc .note { position:absolute; right:0; top:0; font-size:12px; font-style:italic; color:#8A7A5A; line-height:34px; }
+.bloc.on { opacity:1; }
+.bloc.nouveau .num { background:var(--rose); color:#fff; }
+.bloc.nouveau .note { color:#B3134F; font-weight:700; font-style:normal; }
+
+/* ---------- boutons astuce / solution ---------- */
+.btn-row { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:13px; padding:5px 12px; border-radius:16px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:14.5px; line-height:1.5; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; color:#B5680A; }
+
+/* ---------- exercices : problèmes en deux colonnes ---------- */
+.objectif { border:4px solid var(--rose); border-radius:22px; padding:12px 26px; text-align:center; margin:4px auto 22px; max-width:760px; background:#fff; line-height:1.25; }
+.objectif b { font-family:'Baloo 2',sans-serif; font-weight:800; font-size:27px; letter-spacing:.05em; text-transform:uppercase; -webkit-text-stroke:.7px var(--ink); color:var(--ink); }
+.objectif span { font-size:19px; margin-left:4px; font-weight:500; }
+.exos { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 34px; align-items:start; }
+.colx { min-width:0; }
+@media (max-width:1100px) { .exos { grid-template-columns:minmax(0,1fr); } }
+.fx { margin-bottom:18px; min-width:0; }
+.fxbody { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,270px); gap:12px; align-items:start; }
+.fxbody.sans { grid-template-columns:minmax(0,1fr); }
+@media (max-width:720px) { .fxbody { grid-template-columns:minmax(0,1fr); } }
+.fx-q { display:flex; gap:10px; align-items:flex-start; font-size:15px; line-height:1.45; margin-bottom:6px; }
+.fx-n { flex:0 0 auto; min-width:24px; height:24px; background:var(--vert); color:#fff; font-weight:800; font-size:15px; border-radius:3px; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+.ttl { font-family:'Baloo 2',sans-serif; font-size:16px; color:var(--ink); }
+.etoiles { color:var(--acc-t); font-size:13px; font-weight:700; white-space:nowrap; margin-left:4px; }
+.aide { display:inline-flex; align-items:center; gap:7px; font-size:12px; font-weight:600; color:#51657A; background:#F1F4F8; border:1px solid #D2DBE6; border-radius:12px; padding:2px 10px; margin:0 0 8px 34px; }
+.fxfig { border:1.5px solid var(--cadre); padding:4px; background:#fff; }
+.fxfig svg { display:block; width:100%; height:auto; }
+.sous-q { font-size:15px; line-height:1.45; margin:6px 0 8px 34px; }
+.fiche { border:2px solid var(--bleu); background:#F3F8FE; border-radius:10px; padding:6px 12px 6px; margin:4px 0 8px 34px; max-width:340px; }
+.fiche .ft { font-family:'Baloo 2',sans-serif; font-size:13px; color:var(--bleu); font-weight:700; }
+.fiche table { border-collapse:collapse; width:100%; }
+.fiche td { padding:3px 0; border-top:1px dashed #B7CBE3; font-size:14px; }
+.fiche td:last-child { text-align:right; font-weight:700; white-space:nowrap; padding-left:12px; }
+.sol-only { display:none; }
+.sol .sol-only { display:block; }
+.corrige { background:#E8F6EE; border-left:5px solid #4CAF7D; border-radius:8px; padding:8px 12px; margin:8px 0 4px; font-size:14.5px; line-height:1.7; }
+.corrige p { margin:0 0 6px; }
+svg .ans { opacity:0; } .sol svg .ans { opacity:1; } .sol svg .ph { opacity:0; }
+svg text.fg { font-family:'Work Sans',Arial,sans-serif; font-weight:600; fill:#22303F; }
+svg text.fg.bold { font-weight:700; }
+svg text.ans { fill:#1E7A4C; font-weight:700; }
+.plus { border:2.5px dashed var(--rose); border-radius:14px; padding:8px 12px 2px; background:#FFF8FB; }
+.plus-tag { display:inline-block; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:#B3134F; margin:0 0 6px; }
+
+/* ---------- bilan du chapitre ---------- */
+.bilan { background:#E8F6EE; border:2px solid #4CAF7D; border-radius:12px; padding:10px 16px 8px; margin:18px 0 6px; font-size:14.5px; line-height:1.55; }
+.bilan b.tag { font-family:'Baloo 2',sans-serif; color:#1E7A4C; display:block; margin-bottom:4px; font-size:16px; }
+.bilan ul { list-style:none; margin:4px 0 4px; padding:0; }
+.bilan li { position:relative; padding-left:26px; margin-bottom:5px; }
+.bilan li::before { content:"✔"; position:absolute; left:2px; top:0; color:#1E7A4C; font-weight:800; }
+footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dashed #D8DEE4; padding-top:10px; }
+</style>
+<style>@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}</style>
+</head>
+<body>
+<div class="page">
+  <div class="col">
+  <header>
+    <div class="badge">S6</div>
+    <div>
+      <h1>Problèmes et bilan du chapitre</h1>
+      <div class="subtitle">Chapitre 4 — Le théorème de Pythagore — 4e — Séance 6</div>
+    </div>
+  </header>
+  <div class="objectifs"><b>Objectifs :</b> résoudre un problème concret avec le <span class="gl" data-t="pythagore">théorème de Pythagore</span> : trouver le <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> dans la situation, choisir entre additionner et soustraire, puis répondre par une phrase avec l'unité.</div>
+  <noscript><p><b>Cette séance utilise une animation JavaScript : active-la dans ton navigateur pour la voir.</b></p></noscript>
+
+  <!-- ===================== AUTOMATISME ===================== -->
+  <div class="automatisme">
+    <h2>Automatisme</h2>
+    <ol>
+      <li>Calcule 17² − 8², puis la <span class="gl" data-t="racine-carree">racine carrée</span> du résultat.</li>
+      <li>Convertis : 2,4 m = … cm et 150 cm = … m.</li>
+      <li>√90 est compris entre quels deux <span class="gl" data-t="entier">nombres entiers</span> <span class="gl" data-t="consecutifs">consécutifs</span> ?</li>
+      <li>Un <span class="gl" data-t="carre">carré</span> a une <span class="gl" data-t="aire">aire</span> de 49 cm². Quel est son <span class="gl" data-t="perimetre">périmètre</span> ?</li>
+      <li><span class="gl" data-t="simplifier">Simplifie</span> la <span class="gl" data-t="fraction">fraction</span> 18/24.</li>
+    </ol>
+    <button type="button" class="toggle-btn solution" onclick="toggle('auto-corrige')">✅ Voir les réponses</button>
+    <div class="reveal-panel" id="auto-corrige">Corrigé : 289 − 64 = 225, puis √225 = 15 ; 240 cm et 1,5 m ; entre 9 et 10 (car 81 &lt; 90 &lt; 100) ; le <span class="gl" data-t="cote">côté</span> mesure 7 cm (car 7² = 49), donc le <span class="gl" data-t="perimetre">périmètre</span> est 4 × 7 = 28 cm ; 18/24 = 3/4 (on divise par 6)</div>
+  </div>
+  </div><!-- /col -->
+
+  <!-- ===================== ACTIVITÉ ===================== -->
+  <section class="act" aria-labelledby="t-act">
+    <h2 id="t-act">Activité — De la scène au triangle <span class="duree">environ 8 min</span></h2>
+    <p>Un problème raconte une scène de la vie. Pour le résoudre, il faut <b>retrouver un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span></b> dans cette scène. Avance étape par étape.</p>
+    <div class="act-grid">
+      <div>
+        <div class="fig">
+          <svg id="a-svg" role="img" aria-label="Une échelle de 4,1 m est appuyée contre un mur vertical. Son pied est à 0,9 m du mur." xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 340">
+            <g id="a-scene" class="tr">
+              <rect x="0" y="290" width="520" height="50" fill="#DDEFC9"/>
+              <circle cx="64" cy="54" r="24" fill="#FFD75E"/>
+              <rect x="330" y="40" width="170" height="250" fill="#F2DFC9" stroke="#22303F" stroke-width="3"/>
+              <rect x="400" y="80" width="62" height="72" fill="#CFE6F7" stroke="#22303F" stroke-width="3"/>
+              <path d="M431 80V152M400 116H462" fill="none" stroke="#22303F" stroke-width="2"/>
+              <path d="M150 290L155 262H185L190 290Z" fill="#E4553F" stroke="#22303F" stroke-width="2.5" stroke-linejoin="round"/>
+              <path d="M157 266Q170 246 183 266" fill="none" stroke="#22303F" stroke-width="2"/>
+              <g stroke="#9A5A1B" stroke-linecap="round" fill="none">
+                <line x1="280" y1="290" x2="325" y2="90" stroke-width="5"/>
+                <line x1="290" y1="290" x2="335" y2="90" stroke-width="5"/>
+                <path stroke-width="3" d="M285.4 266H295.4M290.8 242H300.8M296.2 218H306.2M301.6 194H311.6M307 170H317M312.4 146H322.4M317.8 122H327.8"/>
+              </g>
+              <line x1="10" y1="290" x2="510" y2="290" stroke="#22303F" stroke-width="3"/>
+            </g>
+            <polygon id="a-tri" class="tr" points="285,290 330,90 330,290" fill="#EAF4FF" fill-opacity="0.9" stroke="#22303F" stroke-width="4" stroke-linejoin="round" style="opacity:0"/>
+            <g id="a-hl" class="tr" style="opacity:0">
+              <line x1="285" y1="290" x2="330" y2="290" stroke="#2B6CB0" stroke-width="7" stroke-linecap="round"/>
+              <line x1="330" y1="290" x2="330" y2="90" stroke="#2B6CB0" stroke-width="7" stroke-linecap="round"/>
+            </g>
+            <line id="a-hyp" class="tr" x1="285" y1="290" x2="330" y2="90" stroke="#3FA766" stroke-width="7" stroke-linecap="round" style="opacity:0"/>
+            <polygon id="a-mark" class="tr" points="330,290 308,290 308,268 330,268" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.5" style="opacity:0"/>
+            <g id="a-let" class="tr" style="opacity:0">
+              <text x="262" y="304" text-anchor="middle" dominant-baseline="central" font-size="26" class="lbl">A</text>
+              <text x="316" y="76" text-anchor="middle" dominant-baseline="central" font-size="26" class="lbl">B</text>
+              <text x="350" y="306" text-anchor="middle" dominant-baseline="central" font-size="26" class="lbl">C</text>
+            </g>
+            <text x="262" y="190" text-anchor="end" dominant-baseline="central" font-size="22" class="lbl">4,1 m</text>
+            <path d="M285 298V304H330V298" fill="none" stroke="#22303F" stroke-width="2"/>
+            <text x="307" y="324" text-anchor="middle" dominant-baseline="central" font-size="20" class="lbl">0,9 m</text>
+            <text id="a-q" x="350" y="190" text-anchor="start" dominant-baseline="central" font-size="30" class="lbl" style="fill:#C23B27">?</text>
+            <text id="a-hyptxt" class="lbl tr" x="262" y="216" text-anchor="end" dominant-baseline="central" font-size="18" style="fill:#1E7A4C;opacity:0">hypoténuse</text>
+          </svg>
+        </div>
+        <div class="ctrl">
+          <button type="button" class="abtn" id="a-prec">◀ Précédente</button>
+          <span class="etape" id="a-etape">Étape 0 / 5</span>
+          <button type="button" class="abtn plein" id="a-suiv">Étape suivante ▶</button>
+          <button type="button" class="abtn" id="a-tout">👀 Tout afficher</button>
+          <button type="button" class="abtn" id="a-rec">↺ Recommencer</button>
+        </div>
+      </div>
+      <div>
+        <div class="egal neutre" id="a-txt" role="status" aria-live="polite">
+          <div data-e="0"><b>La scène.</b> Un peintre appuie une échelle de 4,1 m contre un mur. Le pied de l’échelle est à 0,9 m du mur. À quelle hauteur l’échelle touche-t-elle le mur ? <b>Où est le <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> ?</b></div>
+          <div data-e="1" hidden><b>1. Je cherche l’<span class="gl" data-t="angle-droit">angle droit</span>.</b> Le mur est vertical. Le sol est horizontal. Ils forment un angle droit, au pied du mur.</div>
+          <div data-e="2" hidden><b>2. Je dessine le <span class="gl" data-t="triangle">triangle</span>.</b> Il est formé par le sol, le mur et l’échelle. Je le nomme <b>ABC</b>, <span class="gl" data-t="rectangle">rectangle</span> en <b>C</b>. Le reste de la scène ne sert plus.</div>
+          <div data-e="3" hidden><b>3. Je cherche l’<span class="gl" data-t="hypotenuse">hypoténuse</span>.</b> C’est le <span class="gl" data-t="cote">côté</span> en face de l’angle droit : l’échelle, 4,1 m. On la connaît. On cherche un côté de l’angle droit : <b>je soustrais</b>.</div>
+          <div data-e="4" hidden><b>4. Je calcule.</b> 4,1² − 0,9² = 16,81 − 0,81 = 16. La <span class="gl" data-t="racine-carree">racine carrée</span> de 16 est 4. Le côté BC mesure 4 m.</div>
+          <div data-e="5" hidden><b>5. Je réponds par une phrase.</b> La question parlait d’une hauteur : je réponds avec l’unité. Je vérifie : 4 m &lt; 4,1 m, c’est possible ✓</div>
+        </div>
+        <div class="cahier" id="a-cahier" aria-label="La rédaction qui se construit">
+          <div class="bloc" data-e="2"><span class="num">1</span><div class="l">On a <b>ABC</b> un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> en <b>C</b>.<span class="note">je nomme le triangle</span></div></div>
+          <div class="bloc" data-e="3"><span class="num">2</span><div class="l">D’après le <span class="gl" data-t="pythagore">théorème de Pythagore</span>, on a :</div><div class="l"><span class="ta">AC²</span> + <span class="tb">BC²</span> = <span class="tc">AB²</span><span class="note">l’hypoténuse est seule</span></div></div>
+          <div class="bloc" data-e="3"><span class="num">3</span><div class="l"><span class="ta">0,9²</span> + <span class="tb">BC²</span> = <span class="tc">4,1²</span><span class="note">je remplace</span></div></div>
+          <div class="bloc" data-e="3"><span class="num">4</span><div class="l"><span class="tb">BC²</span> = <span class="tc">4,1²</span> − <span class="ta">0,9²</span><span class="note">je soustrais</span></div></div>
+          <div class="bloc" data-e="4"><span class="num">5</span><div class="l"><span class="tb">BC²</span> = 16,81 − 0,81 = <span class="tb">16</span><span class="note">je calcule</span></div><div class="l">donc <b>BC</b> = √16 = <b>4 m</b>.</div></div>
+          <div class="bloc nouveau" data-e="5"><span class="num">6</span><div class="l">L’échelle touche le mur à 4 m.<span class="note">ma phrase-réponse</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="col">
+  <div class="def">
+    <b class="tag">À retenir — Résoudre un problème</b>
+    <ol>
+      <li>Je fais un <b>schéma</b> avec les données.</li>
+      <li>Je cherche l’<b><span class="gl" data-t="angle-droit">angle droit</span></b> : sol et mur, nord et est…</li>
+      <li>Je nomme le <b><span class="gl" data-t="triangle-rectangle">triangle rectangle</span></b>. Si je cherche l’<span class="gl" data-t="hypotenuse">hypoténuse</span>, j’<b>additionne</b>. Si elle est donnée, je <b>soustrais</b>.</li>
+      <li>Je réponds par une <b>phrase</b> avec l’<b>unité</b>. Je vérifie que le résultat est possible.</li>
+    </ol>
+  </div>
+  </div><!-- /col -->
+
+  <!-- ===================== EXERCICES ===================== -->
+  <div class="objectif"><b>Objectif :</b> <span>Résoudre un problème avec le <span class="gl" data-t="pythagore">théorème de Pythagore</span></span></div>
+  <p class="aide-ex" style="font-size:14px;line-height:1.5;margin:0 0 14px;color:#3B4C5E;">Exercices projetés au tableau : <b>cinq situations différentes</b>, à faire dans l'ordre que tu veux. Fais un <b>schéma</b> à main levée, écris ta rédaction complète et finis par une <b>phrase-réponse</b> avec l'unité. Pas besoin de recopier les énoncés : note le numéro de l'exercice. La calculatrice est autorisée. Astuce si tu bloques, solution en dernier.</p>
+
+  <div class="exos">
+  <div class="colx">
+
+  <!-- Exercice 1 : le raccourci -->
+  <div class="fx" id="fx1">
+    <div class="fxbody">
+      <div>
+        <div class="fx-q"><span class="fx-n">1</span><span><b class="ttl">Le raccourci.</b> Léa part de la boulangerie B pour aller à l'école E. Les deux rues se coupent à <span class="gl" data-t="angle-droit">angle droit</span> en C. Elle peut suivre les rues, ou couper par le sentier [BE] à travers le square. Combien de mètres économise-t-elle en prenant le sentier ? <span class="etoiles">★</span></span></div>
+        <div class="aide"><span aria-hidden="true">🎯</span> Je cherche le triangle rectangle sur un plan</div>
+      </div>
+      <div class="fxfig"><svg viewBox="0 0 300 175" role="img" aria-label="Plan : deux rues qui se coupent à angle droit en C. La boulangerie B est à 70 m de C, l'école E à 240 m de C. Un sentier relie B à E à travers le square." xmlns="http://www.w3.org/2000/svg">
+        <polygon points="52,76 52,132 244,132" fill="#E3F3D3"/>
+        <path d="M52 76V132H244" fill="none" stroke="#9AA6B2" stroke-width="8"/>
+        <polygon points="56,128 68,128 68,116 56,116" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.2"/>
+        <line x1="52" y1="76" x2="244" y2="132" stroke="#B5680A" stroke-width="3.5" stroke-dasharray="8 6"/>
+        <circle cx="52" cy="76" r="4.5" fill="#22303F"/><circle cx="52" cy="132" r="4.5" fill="#22303F"/><circle cx="244" cy="132" r="4.5" fill="#22303F"/>
+        <text x="120" y="122" text-anchor="middle" font-size="13" font-style="italic" fill="#3E7D2B" font-family="Work Sans, Arial, sans-serif" font-weight="600">square</text>
+        <text class="fg bold" x="40" y="104" text-anchor="end" font-size="16">70 m</text>
+        <text class="fg bold" x="148" y="154" text-anchor="middle" font-size="16">240 m</text>
+        <text class="lbl" x="52" y="60" text-anchor="middle" font-size="16">B</text>
+        <text class="fg" x="64" y="60" font-size="14">boulangerie</text>
+        <text class="lbl" x="36" y="150" text-anchor="middle" font-size="16">C</text>
+        <text class="lbl" x="254" y="130" font-size="17">E</text>
+        <text class="fg" x="254" y="149" font-size="14">école</text>
+        <text class="fg bold ph" x="146" y="82" text-anchor="start" font-size="16">BE = ?</text>
+        <text class="fg bold ans" x="146" y="82" text-anchor="start" font-size="16">BE = 250 m</text>
+      </svg></div>
+    </div>
+    <div class="sol-only corrige">
+      <p>Les rues se coupent à <span class="gl" data-t="angle-droit">angle droit</span> : on a <b>BCE</b> un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> en <b>C</b>. D'après le <span class="gl" data-t="pythagore">théorème de Pythagore</span>, on a :<br>
+      BC² + CE² = BE²<br>
+      70² + 240² = BE²<br>
+      4&nbsp;900 + 57&nbsp;600 = BE²<br>
+      62&nbsp;500 = BE²<br>
+      donc BE = √62&nbsp;500 = <b>250 m</b>.</p>
+      <p>Par les rues : 70 + 240 = 310 m. Par le sentier : 250 m. Léa <b>économise 60 m</b>.</p>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('as1')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="sol('fx1',this)">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="as1"><span class="label">Astuce</span>Les rues se coupent à angle droit en C : le <span class="gl" data-t="triangle">triangle</span> BCE est <span class="gl" data-t="rectangle">rectangle</span> en C. L'<span class="gl" data-t="hypotenuse">hypoténuse</span> est le sentier [BE]. À la fin, compare avec le trajet par les rues : 70 + 240.</div>
+  </div>
+
+  <!-- Exercice 2 : la rampe du camion -->
+  <div class="fx" id="fx2">
+    <div class="fxbody">
+      <div>
+        <div class="fx-q"><span class="fx-n">2</span><span><b class="ttl">La rampe du camion.</b> Un déménageur charge un meuble dans un camion avec une rampe. Voici la fiche technique : <span class="etoiles">★★</span></span></div>
+        <div class="fiche">
+          <div class="ft">Fiche technique</div>
+          <table>
+            <tr><td>Hauteur du plateau du camion</td><td>1,2 m</td></tr>
+            <tr><td>Longueur de la rampe</td><td>3,7 m</td></tr>
+            <tr><td>Largeur de la rampe</td><td>0,8 m</td></tr>
+            <tr><td>Charge maximale</td><td>250 kg</td></tr>
+          </table>
+        </div>
+        <p class="sous-q">Le sol est horizontal. Sur le schéma, A est le bas de la rampe, B son haut, et H le point du sol juste sous B. À quelle <span class="gl" data-t="distance">distance</span> du camion faut-il poser le bas de la rampe ? Calcule AH.</p>
+        <div class="aide"><span aria-hidden="true">🎯</span> Je trie les données utiles</div>
+      </div>
+      <div class="fxfig"><svg viewBox="0 0 280 165" role="img" aria-label="Schéma : une rampe AB relie le sol au plateau d'un camion. H est le point du sol juste sous B." xmlns="http://www.w3.org/2000/svg">
+        <rect x="170" y="26" width="98" height="58" fill="#E8EDF3" stroke="#22303F" stroke-width="2.5"/>
+        <rect x="170" y="84" width="98" height="26" fill="#9AA6B2" stroke="#22303F" stroke-width="2.5"/>
+        <circle cx="202" cy="118" r="14" fill="#22303F"/><circle cx="202" cy="118" r="5" fill="#fff"/>
+        <text class="fg" x="219" y="56" text-anchor="middle" font-size="14">camion</text>
+        <path d="M8 132H272" fill="none" stroke="#22303F" stroke-width="3"/>
+        <line x1="30" y1="132" x2="170" y2="84" stroke="#22303F" stroke-width="9" stroke-linecap="round"/>
+        <line x1="30" y1="132" x2="170" y2="84" stroke="#C98B4B" stroke-width="5" stroke-linecap="round"/>
+        <line x1="170" y1="84" x2="170" y2="132" stroke="#2B6CB0" stroke-width="2.5" stroke-dasharray="5 4"/>
+        <polygon points="170,132 158,132 158,120 170,120" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.2"/>
+        <text class="lbl" x="22" y="150" text-anchor="middle" font-size="16">A</text>
+        <text class="lbl" x="158" y="74" text-anchor="end" font-size="16">B</text>
+        <text class="lbl" x="170" y="152" text-anchor="middle" font-size="16">H</text>
+        <text class="fg bold ph" x="98" y="153" text-anchor="middle" font-size="14">AH = ?</text>
+        <text class="fg bold ans" x="98" y="153" text-anchor="middle" font-size="14">AH = 3,5 m</text>
+      </svg></div>
+    </div>
+    <div class="sol-only corrige">
+      <p>Le sol est horizontal et B est juste au-dessus de H : on a <b>ABH</b> un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> en <b>H</b>. Seules deux données servent : la rampe (3,7 m) et la hauteur du plateau (1,2 m). La largeur et la charge maximale sont inutiles. D'après le <span class="gl" data-t="pythagore">théorème de Pythagore</span>, on a :<br>
+      AH² + BH² = AB²<br>
+      AH² + 1,2² = 3,7²<br>
+      AH² = 3,7² − 1,2²<br>
+      AH² = 13,69 − 1,44 = 12,25<br>
+      donc AH = √12,25 = <b>3,5 m</b>.</p>
+      <p>Le bas de la rampe se pose à 3,5 m du camion (et 3,5 m &lt; 3,7 m).</p>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('as2')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="sol('fx2',this)">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="as2"><span class="label">Astuce</span>Deux données de la fiche ne servent pas. Cherche le <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> : le sol et la verticale de B forment un <span class="gl" data-t="angle-droit">angle droit</span> en H. La rampe est l'<span class="gl" data-t="hypotenuse">hypoténuse</span>, et on la connaît : on soustrait.</div>
+  </div>
+
+  </div><!-- /colx 1 -->
+  <div class="colx">
+
+  <!-- Exercice 3 : la tente -->
+  <div class="fx" id="fx3">
+    <div class="fxbody">
+      <div>
+        <div class="fx-q"><span class="fx-n">3</span><span><b class="ttl">La tente.</b> Voici la façade de la tente de Léo : un <span class="gl" data-t="isocele">triangle isocèle</span> ABC. Le poteau [AH] est vertical, sur un sol horizontal. H est le <span class="gl" data-t="milieu">milieu</span> de [BC]. Léo mesure 1,65 m. Peut-il se tenir debout sous le poteau ? Justifie. <span class="etoiles">★★</span></span></div>
+        <div class="aide"><span aria-hidden="true">🎯</span> Je trouve un triangle rectangle caché</div>
+      </div>
+      <div class="fxfig"><svg viewBox="0 0 260 196" role="img" aria-label="Façade de la tente : triangle ABC avec AB = AC = 2 m et BC = 2,4 m. Le poteau AH est vertical, H est le milieu de BC." xmlns="http://www.w3.org/2000/svg">
+        <polygon points="130,38 46,150 214,150" fill="#FFE9C7" stroke="#22303F" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M8 150H252" fill="none" stroke="#22303F" stroke-width="3"/>
+        <line x1="130" y1="38" x2="130" y2="150" stroke="#9A5A1B" stroke-width="5"/>
+        <polygon points="130,150 118,150 118,138 130,138" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.2"/>
+        <path d="M88 143V157M172 143V157" fill="none" stroke="#22303F" stroke-width="2.5"/>
+        <path d="M46 173V179H214V173" fill="none" stroke="#22303F" stroke-width="1.8"/>
+        <text class="fg bold" x="130" y="191" text-anchor="middle" font-size="15">2,4 m</text>
+        <text class="fg bold" x="66" y="88" text-anchor="end" font-size="14">2 m</text>
+        <text class="fg bold" x="194" y="88" text-anchor="start" font-size="14">2 m</text>
+        <text class="lbl" x="130" y="22" text-anchor="middle" font-size="16">A</text>
+        <text class="lbl" x="34" y="160" text-anchor="end" font-size="16">B</text>
+        <text class="lbl" x="226" y="160" text-anchor="start" font-size="16">C</text>
+        <text class="lbl" x="130" y="163" text-anchor="middle" font-size="16">H</text>
+        <text class="fg bold ph" x="138" y="112" text-anchor="start" font-size="20">?</text>
+        <text class="fg bold ans" x="138" y="112" text-anchor="start" font-size="14">1,6 m</text>
+      </svg></div>
+    </div>
+    <div class="sol-only corrige">
+      <p>H est le milieu de [BC] : BH = 2,4 ÷ 2 = 1,2 m. Le poteau est vertical et le sol est horizontal : on a <b>ABH</b> un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> en <b>H</b>. D'après le <span class="gl" data-t="pythagore">théorème de Pythagore</span>, on a :<br>
+      AH² + BH² = AB²<br>
+      AH² + 1,2² = 2²<br>
+      AH² = 2² − 1,2²<br>
+      AH² = 4 − 1,44 = 2,56<br>
+      donc AH = √2,56 = <b>1,6 m</b>.</p>
+      <p>Léo mesure 1,65 m et 1,65 m &gt; 1,6 m : <b>il ne peut pas se tenir debout</b> sous le poteau.</p>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('as3')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="sol('fx3',this)">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="as3"><span class="label">Astuce</span>Le poteau est vertical et le sol est horizontal : le <span class="gl" data-t="triangle">triangle</span> ABH est <span class="gl" data-t="rectangle">rectangle</span> en H. Attention : BH n'est pas égal à BC. H est le milieu de [BC] !</div>
+  </div>
+
+
+  <!-- Exercice 4 : les talkies-walkies -->
+  <div class="fx" id="fx4">
+    <div class="fxbody sans">
+      <div>
+        <div class="fx-q"><span class="fx-n">4</span><span><b class="ttl">Les talkies-walkies.</b> Inès et Malo partent du même point. Inès marche 5 km plein nord. Malo marche 7 km plein est. Leurs talkies-walkies ont une portée de 8 km. Peuvent-ils encore se parler ? Justifie. <span class="etoiles">★★★</span></span></div>
+        <div class="aide"><span aria-hidden="true">🎯</span> Je fais moi-même le schéma</div>
+      </div>
+    </div>
+    <div class="sol-only corrige">
+      <p>Soit D le point de départ, I Inès et M Malo. Le nord et l'est forment un <span class="gl" data-t="angle-droit">angle droit</span> : on a <b>DIM</b> un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> en <b>D</b>. D'après le <span class="gl" data-t="pythagore">théorème de Pythagore</span>, on a :<br>
+      DI² + DM² = IM²<br>
+      5² + 7² = IM²<br>
+      25 + 49 = IM²<br>
+      74 = IM²<br>
+      donc IM = √74 ≈ <b>8,6 km</b> (<span class="gl" data-t="valeur-exacte">valeur exacte</span> : √74 km ; 8² = 64 &lt; 74 &lt; 81 = 9²).</p>
+      <p>8,6 km &gt; 8 km : <b>ils sont trop loin</b>, ils ne peuvent plus se parler.</p>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('as4')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="sol('fx4',this)">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="as4"><span class="label">Astuce</span>Dessine le point de départ, une flèche vers le nord et une flèche vers l'est. Elles forment un <span class="gl" data-t="angle-droit">angle droit</span>. Cherche-t-on l'<span class="gl" data-t="hypotenuse">hypoténuse</span> ou un <span class="gl" data-t="cote">côté</span> de l'angle droit ? Compare ensuite ton résultat à 8 km.</div>
+  </div>
+
+  <!-- Exercice 5 : pour aller plus loin -->
+  <div class="fx plus" id="fx5">
+    <div class="plus-tag">🚀 Pour aller plus loin</div>
+    <div class="fxbody">
+      <div>
+        <div class="fx-q"><span class="fx-n">5</span><span><b class="ttl">Les haubans.</b> Pour une fête, on dresse un mât vertical de 6 m, sur un sol horizontal. Deux câbles identiques le maintiennent. Chaque câble va du sommet du mât à un piquet planté à 4,5 m du pied du mât. Pour fixer un câble, il faut prévoir 0,5 m de plus. Combien de mètres de câble faut-il acheter ? <span class="etoiles">★★★</span></span></div>
+        <div class="aide"><span aria-hidden="true">🎯</span> Je prépare mon plan de calcul</div>
+      </div>
+      <div class="fxfig"><svg viewBox="0 0 300 205" role="img" aria-label="Un mât vertical de 6 m tenu par deux câbles identiques fixés à des piquets, à 4,5 m du pied du mât de chaque côté." xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 165H292" fill="none" stroke="#22303F" stroke-width="3"/>
+        <line x1="150" y1="33" x2="150" y2="165" stroke="#5B6B7B" stroke-width="6" stroke-linecap="round"/>
+        <line x1="150" y1="33" x2="51" y2="165" stroke="#B5680A" stroke-width="3"/>
+        <line x1="150" y1="33" x2="249" y2="165" stroke="#B5680A" stroke-width="3"/>
+        <path d="M51 165V176M249 165V176" fill="none" stroke="#22303F" stroke-width="4" stroke-linecap="round"/>
+        <polygon points="150,165 138,165 138,153 150,153" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.2"/>
+        <polygon points="150,165 162,165 162,153 150,153" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.2"/>
+        <path d="M95.7 95.4L105.3 102.6M194.7 102.6L204.3 95.4" fill="none" stroke="#22303F" stroke-width="2.5"/>
+        <path d="M51 184V190H150V184M150 184V190H249V184" fill="none" stroke="#22303F" stroke-width="1.8"/>
+        <text class="fg bold" x="100" y="199" text-anchor="middle" font-size="16">4,5 m</text>
+        <text class="fg bold" x="200" y="199" text-anchor="middle" font-size="16">4,5 m</text>
+        <text class="fg bold" x="158" y="96" text-anchor="start" font-size="16">6 m</text>
+        <text class="fg bold ph" x="104" y="78" text-anchor="end" font-size="20">?</text>
+        <text class="fg bold ans" x="104" y="78" text-anchor="end" font-size="16">7,5 m</text>
+      </svg></div>
+    </div>
+    <div class="sol-only corrige">
+      <p>Soit S le sommet du mât, M son pied et P un piquet. Le mât est vertical et le sol est horizontal : on a <b>SMP</b> un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> en <b>M</b>. D'après le <span class="gl" data-t="pythagore">théorème de Pythagore</span>, on a :<br>
+      SM² + MP² = SP²<br>
+      6² + 4,5² = SP²<br>
+      36 + 20,25 = SP²<br>
+      56,25 = SP²<br>
+      donc SP = √56,25 = <b>7,5 m</b>.</p>
+      <p>Un câble : 7,5 + 0,5 = 8 m. Deux câbles : 2 × 8 = 16 m. Il faut acheter <b>16 m de câble</b>.</p>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="toggle-btn astuce" onclick="toggle('as5')">💡 Astuce</button>
+      <button type="button" class="toggle-btn solution" onclick="sol('fx5',this)">✅ Solution</button>
+    </div>
+    <div class="panel astuce-panel" id="as5"><span class="label">Astuce</span>Un seul <span class="gl" data-t="triangle">triangle</span> suffit : le mât, le sol et un câble. Donne des lettres aux points. Calcule la <span class="gl" data-t="longueur">longueur</span> d'un câble, ajoute les 0,5 m, puis pense qu'il y a deux câbles.</div>
+  </div>
+
+  </div><!-- /colx 2 -->
+  </div><!-- /exos -->
+
+  <div class="col">
+  <div class="bilan">
+    <b class="tag">Bilan du chapitre 4 — Ce que je sais faire</b>
+    <ul>
+      <li>Je repère l'<b><span class="gl" data-t="angle-droit">angle droit</span></b>, puis l'<b><span class="gl" data-t="hypotenuse">hypoténuse</span></b> : le <span class="gl" data-t="cote">côté</span> en face.</li>
+      <li>J'écris l'égalité : si ABC est <span class="gl" data-t="rectangle">rectangle</span> en A, <b>BC² = AB² + AC²</b>.</li>
+      <li>Je cherche l'hypoténuse : j'<b>additionne</b> les <span class="gl" data-t="carre">carrés</span>.</li>
+      <li>Je cherche un côté de l'angle droit : je <b>soustrais</b>.</li>
+      <li>Je donne la <b><span class="gl" data-t="valeur-exacte">valeur exacte</span></b> (√…), puis une <b><span class="gl" data-t="valeur-approchee">valeur approchée</span></b>.</li>
+      <li>Dans un problème : un <b>schéma</b>, l'<b>angle droit</b>, une <b>phrase</b> avec l'<b>unité</b>.</li>
+    </ul>
+  </div>
+  </div><!-- /col -->
+
+  <footer>Cherche seul(e) d'abord. Utilise l'astuce si tu bloques, puis ouvre la solution.</footer>
+</div>
+
+<script>
+function toggle(id){document.getElementById(id).classList.toggle('show');}
+function sol(id,btn){var e=document.getElementById(id);var on=e.classList.toggle('sol');btn.textContent=on?'🙈 Masquer la solution':'✅ Solution';}
+</script>
+<script>
+(function () {
+  "use strict";
+  var N = 5, etat = 0;
+  function $(id) { return document.getElementById(id); }
+  function op(id, on) { $(id).style.opacity = on ? 1 : 0; }
+  function rendre() {
+    var i, el;
+    $("a-etape").textContent = "Étape " + etat + " / " + N;
+    $("a-prec").disabled = etat === 0;
+    $("a-suiv").disabled = etat === N;
+    var ps = $("a-txt").children;
+    for (i = 0; i < ps.length; i++) { ps[i].hidden = (+ps[i].getAttribute("data-e") !== etat); }
+    $("a-txt").className = "egal" + (etat === 0 ? " neutre" : "");
+    var bl = $("a-cahier").children;
+    for (i = 0; i < bl.length; i++) {
+      el = bl[i];
+      if (+el.getAttribute("data-e") <= etat) el.classList.add("on"); else el.classList.remove("on");
+    }
+    $("a-scene").style.opacity = etat >= 2 ? 0.3 : 1;
+    op("a-tri", etat >= 2);
+    op("a-hl", etat === 1);
+    op("a-mark", etat >= 1);
+    op("a-let", etat >= 2);
+    op("a-hyp", etat >= 3);
+    op("a-hyptxt", etat >= 3);
+    $("a-hl").setAttribute("class", etat === 1 ? "tr pulse7" : "tr");
+    var q = $("a-q");
+    q.textContent = etat >= 5 ? "4 m" : "?";
+    q.style.fill = etat >= 5 ? "#1E7A4C" : "#C23B27";
+  }
+  $("a-suiv").addEventListener("click", function () { if (etat < N) { etat++; rendre(); } });
+  $("a-prec").addEventListener("click", function () { if (etat > 0) { etat--; rendre(); } });
+  $("a-tout").addEventListener("click", function () { etat = N; rendre(); });
+  $("a-rec").addEventListener("click", function () { etat = 0; rendre(); });
+  rendre();
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
+</body>
+</html>
