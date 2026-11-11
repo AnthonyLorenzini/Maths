@@ -835,6 +835,23 @@ window.SITE = {
               ],
               exemple: "BC = 10 cm et AB = 6 cm : AB² + AC² = BC², puis 6² + AC² = 10², AC² = 10² − 6², AC² = 100 − 36 = 64, donc AC = √64 = 8 cm.",
               savoir: "calculer la longueur d'un côté de l'angle droit d'un triangle rectangle avec le théorème de Pythagore, en choisissant entre additionner et soustraire."
+            },
+            {
+              titre: "Problèmes et bilan du chapitre", duree: "50 min",
+              contenu: [
+                "Automatisme : racine carrée d'une différence de carrés, conversions m et cm, encadrement de √90, aire et périmètre d'un carré, fraction à simplifier.",
+                "Animation projetée « de la scène au triangle » (environ 8 min) : une échelle contre un mur. En cinq étapes, on cherche l'angle droit, on dessine le triangle, on repère l'hypoténuse, on calcule, puis on répond par une phrase avec l'unité.",
+                "Cinq problèmes projetés, faits sur le cahier, dans cinq situations différentes : un raccourci sur un plan, une rampe de camion (fiche technique avec des données inutiles), une tente, des talkies-walkies (sans figure) et des haubans. Pas de guidage : une astuce et une solution seulement.",
+                "Le dernier problème est « pour aller plus loin » et visible dès le début. Le bilan du chapitre clôt la séance : chacun vérifie ce qu'il sait faire avant le contrôle."
+              ],
+              ressources: ["4e-ch4-s6"],
+              retenir: [
+                "Pour un problème : je fais un **schéma**, je cherche l'**angle droit** (sol et mur, nord et est…) et je nomme le **triangle rectangle**.",
+                "Hypoténuse cherchée : j'**additionne** les carrés. Hypoténuse donnée : je **soustrais** pour trouver un côté de l'angle droit.",
+                "Je réponds par une **phrase** avec l'**unité**, et je vérifie que le résultat est possible : l'hypoténuse est le plus long côté."
+              ],
+              exemple: "Une échelle de 4,1 m touche un mur, son pied est à 0,9 m du mur : 0,9² + BC² = 4,1², BC² = 16,81 − 0,81 = 16, BC = 4 m. L'échelle touche le mur à 4 m de hauteur.",
+              savoir: "résoudre un problème concret avec le théorème de Pythagore : trouver le triangle rectangle dans la situation, choisir entre additionner et soustraire, calculer et répondre par une phrase."
             }
           ],
           ressources: [
@@ -845,6 +862,7 @@ window.SITE = {
             { id: "4e-ch4-s3", type: "exos", titre: "Séance 3 — Écrire l'égalité de Pythagore", resume: "Quatre triangles tournés à lire pas à pas, puis des exercices corrigés : égalité de Pythagore, aires des carrés et longueurs des côtés, premier calcul d'hypoténuse.", ajout: "2026-11-03" },
             { id: "4e-ch4-s4", type: "exos", titre: "Séance 4 — Rédiger le calcul de l'hypoténuse", resume: "Une rédaction construite en cinq étapes, puis cinq exercices corrigés où le guide diminue peu à peu, jusqu'à l'autonomie.", ajout: "2026-11-07" },
             { id: "4e-ch4-s5", type: "exos", titre: "Séance 5 — Calculer un côté de l'angle droit", resume: "Le carré qui manque, construit pas à pas sur deux triangles, puis quatre exercices corrigés : additionner ou soustraire, la rédaction de Karim à corriger, un problème de drone.", ajout: "2026-11-08" },
+            { id: "4e-ch4-s6", type: "exos", titre: "Séance 6 — Problèmes et bilan du chapitre", resume: "Une échelle contre un mur pour passer de la scène au triangle, puis cinq problèmes concrets (un raccourci, une rampe de camion, une tente, des talkies-walkies, des haubans), avec astuces, solutions et le bilan du chapitre.", ajout: "2026-11-11" },
             { id: "4e-ch4-minijeux", type: "jeu", titre: "Mini-jeux — Trouve l'hypoténuse", resume: "Figures tournées, phrases « rectangle en… » et défi de 60 secondes pour que l'identification devienne un réflexe.", ajout: "2026-10-20" },
             { id: "4e-ch4-minijeux-racine", type: "jeu", titre: "Mini-jeux — Racine carrée", resume: "Carrés de 1 à 15, racines de carrés parfaits, encadrements et défi de 60 secondes.", ajout: "2026-10-24" }
           ]

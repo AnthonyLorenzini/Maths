@@ -238,6 +238,8 @@
       long: ["Un angle droit mesure 90°."] },
     { id: "triangle", nom: "triangle", chap: "Tous niveaux · Géométrie", court: "Polygone à 3 côtés et 3 sommets.",
       long: ["La somme des trois angles d'un triangle fait 180°."] },
+    { id: "isocele", nom: "triangle isocèle", chap: "Tous niveaux · Géométrie", court: "Triangle qui a deux côtés de même longueur.",
+      long: ["Dans le triangle isocèle ABC de sommet principal A, on a AB = AC.", "Le segment qui part de A et tombe à angle droit sur [BC] coupe la base [BC] en son milieu."] },
     { id: "rectangle", nom: "rectangle", chap: "Tous niveaux · Géométrie", court: "Quadrilatère qui a 4 angles droits. Ses côtés opposés ont la même longueur.",
       long: ["Aire = longueur × largeur. Périmètre = 2 × (longueur + largeur)."] },
     { id: "polygone", nom: "polygone", chap: "Tous niveaux · Géométrie", court: "Figure fermée dont tous les côtés sont des segments.",
