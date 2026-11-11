@@ -477,6 +477,31 @@ window.SITE = {
           ]
         },
         {
+          id: "6e-ch6", num: 6, titre: "Quotients", prive: true,
+          resume: "Le quotient de deux nombres, son écriture en fraction, puis les quotients entiers, décimaux ou ni l'un ni l'autre.",
+          seances: [
+            {
+              titre: "Le quotient, un nombre à trouver", duree: "50 min",
+              contenu: [
+                "Le nombre caché (10 min, projeté) : une multiplication avec un nombre qui manque, comme ? × 3 = 15. On le trouve avec les tables et on dit que 5 est le quotient de 15 par 3.",
+                "La barre à partager (13 min, projeté) : on coupe une barre de a unités en b parts égales. Quand a est dans la table de b, une part mesure un nombre entier ; sinon c'est un nouveau nombre, écrit a ÷ b ou a/b. Les parts remises bout à bout refont la barre.",
+                "Les exercices (25 min, cahier) : cinq nombres cachés (trois sans table), trois barres à lire, passer de la phrase à la division puis à la fraction, qui a raison ? et un défi : pourquoi pas de quotient par 0."
+              ],
+              ressources: ["6e-ch6-s1"],
+              retenir: [
+                "Le **quotient** de a par b (b différent de 0) est le nombre qui, multiplié par b, donne a.",
+                "On l'écrit a ÷ b ou avec une **fraction** : a ÷ b = a/b. Le **numérateur** a est le nombre qu'on partage, le **dénominateur** b est le nombre de parts.",
+                "On retrouve a en multipliant le quotient par b : a/b × b = a."
+              ],
+              exemple: "Le quotient de 3 par 4 est 3/4, car 3/4 × 4 = 3.",
+              savoir: "expliquer ce qu'est le quotient de a par b, l'écrire sous forme de fraction a/b et le vérifier avec a/b × b = a."
+            }
+          ],
+          ressources: [
+            { id: "6e-ch6-s1", type: "exos", titre: "Séance 1 — Le quotient, un nombre à trouver", resume: "Le nombre caché, la barre à partager, a ÷ b = a/b, lire des barres, qui a raison ? et pourquoi pas de division par 0. Avec corrections.", ajout: "2026-11-11" }
+          ]
+        },
+        {
           id: "6e-defis", num: null, titre: "Défis calcul",
           resume: "Calculer avec les prix et les durées, en solo ou en équipes.",
           ressources: [
