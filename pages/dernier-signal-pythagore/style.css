@@ -87,3 +87,5 @@ ol.steps{padding-left:0;margin:.4em 0;list-style:none;counter-reset:st}ol.steps 
 .alert{background:linear-gradient(90deg,rgba(124,200,255,.16),rgba(124,200,255,.05));border:2px solid var(--c);border-radius:14px;padding:10px 14px;margin-bottom:10px;animation:alp 1.6s infinite}@keyframes alp{50%{box-shadow:0 0 0 4px rgba(124,200,255,.18)}}
 .alh{font-size:19px}.alb{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;align-items:center}.alb .btn{padding:8px 12px;min-height:40px;font-size:13px}.bell{display:inline-block;animation:bl 1s infinite}
 .sh.calling{border-color:#7cc8ff;box-shadow:0 0 0 2px rgba(124,200,255,.25)}details.fb{text-align:left;margin-top:8px}details.fb summary{cursor:pointer;font-weight:700}details.fb pre{background:#050b17;border:1px solid var(--line);border-radius:8px;padding:8px;white-space:pre-wrap;font-size:13px;color:#cfe3ff}
+
+.lockreply{margin-top:18px;padding:14px 16px;background:#10261c;border:1px solid #2f6b47;border-radius:12px;text-align:left}.lockreply p{margin:.4em 0 0;font-size:19px;line-height:1.45;color:#f1f5ff}.lockwait{margin-top:14px;font-size:15px}

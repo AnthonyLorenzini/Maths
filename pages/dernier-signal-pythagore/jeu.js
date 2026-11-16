@@ -162,7 +162,7 @@ function askBlock(){
 function lockCheck(){
   if(PREVIEW||!ME)return;const a=ME.ask,now=SYNC.now(),L=$("lock");
   const locked=a&&a.lockUntil>now;
-  if(locked){if(!L)document.body.insertAdjacentHTML("beforeend",`<div id="lock"><div class="lockbox"><div class="big">📡</div><h2>Liaison avec le commandant de bord</h2><p>Votre signal est parti. Le brouillage coupe vos écrans le temps de la transmission.</p><div class="lockclock" id="lockclock"></div></div></div>`);const c=$("lockclock");if(c)c.textContent=fmt((a.lockUntil-now)/1000);lockWas=true}
+  if(locked){if(!L)document.body.insertAdjacentHTML("beforeend",`<div id="lock"><div class="lockbox"><div class="big">📡</div><h2>Liaison avec le commandant de bord</h2><p>Votre signal est parti. Le brouillage coupe vos écrans le temps de la transmission.</p><div class="lockclock" id="lockclock"></div><div id="lockmsg"></div></div></div>`);const c=$("lockclock");if(c)c.textContent=fmt((a.lockUntil-now)/1000);const m=$("lockmsg"),rp=a.reply&&a.reply.text?a.reply:null;if(m){const k=rp?rp.t+"|"+rp.text:"";if(m.dataset.k!==k){m.dataset.k=k;m.innerHTML=rp?`<div class="lockreply"><div class="tag">📡 Message du commandant de bord</div><p>${esc(rp.text)}</p></div>`:`<p class="muted lockwait">En attente de la réponse du commandant…</p>`}}lockWas=true}
   else if(L){L.remove();if(lockWas){lockWas=false;render()}}
 }
 let lockWas=false;
