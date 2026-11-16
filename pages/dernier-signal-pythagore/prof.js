@@ -22,21 +22,25 @@ async function boot(){
   if(!SES||!SES.meta){if(SYNC.local)return create();return renderStart()}
   renderAll();setInterval(poll,1500);setInterval(tickClock,500);
 }
+function fbInner(){const cur=SYNC.local?"":SYNC.base;return `<ol class="steps"><li><span>Allez sur <b>console.firebase.google.com</b> et créez un projet (Google Analytics : non).</span></li><li><span>Menu « Build » → <b>Realtime Database</b> → « Créer une base de données » → région <b>Belgique (europe-west1)</b> → démarrer en <b>mode test</b>.</span></li><li><span>Onglet <b>Règles</b> : remplacez tout par le texte ci-dessous, puis « Publier ».</span></li><li><span>Copiez l'adresse de la base (en haut de l'onglet Données, du type <b>https://…firebasedatabase.app</b>) et collez-la ici.</span></li></ol>
+   <pre>{ "rules": { "sessions": { "$code": { ".read": true, ".write": true } } } }</pre>
+   <div class="row"><input id="dbUrl" style="width:100%;font-size:15px" placeholder="https://mon-projet-default-rtdb.europe-west1.firebasedatabase.app" value="${esc(cur)}"><button class="btn" id="dbSave">Enregistrer et tester</button></div><p id="dbMsg" class="note"></p>${SYNC.local?"":`<button class="btn danger" id="dbOff">Revenir au mode local</button>`}`}
+function fbBind(){
+  $("dbSave").onclick=async()=>{const u=$("dbUrl").value.trim().replace(/\/$/,"");const m=$("dbMsg");
+    if(!SYNC.okdb(u)){m.textContent="Adresse non reconnue : elle doit ressembler à https://xxx.firebasedatabase.app";return}
+    m.textContent="Test de la connexion…";try{const r=await fetch(u+"/sessions/test.json",{method:"PUT",body:JSON.stringify({t:Date.now()})});if(!r.ok)throw new Error(r.status);localStorage.setItem("ds4e-db",u);m.textContent="Connexion réussie ✓ Rechargement…";setTimeout(()=>location.reload(),700)}catch(e){m.textContent="Échec ("+e.message+"). Vérifiez l'adresse et les règles (étape 3)."}};
+  const off=$("dbOff");if(off)off.onclick=()=>{localStorage.removeItem("ds4e-db");location.reload()};
+}
+function fbOpen(){$("layer").innerHTML=`<div class="overlay" id="ov"><div class="box wide"><h2>Synchronisation en direct</h2><p class="${SYNC.local?"note":""}" style="margin:6px 0">${SYNC.local?"⚠ Mode local : le jeu ne fonctionne que sur cet appareil.":"✅ Synchronisation en direct branchée."}</p>${fbInner()}<button class="btn" id="closeOv">Fermer</button></div></div>`;fbBind();$("closeOv").onclick=()=>$("layer").innerHTML=""}
 function renderStart(){
   const cur=SYNC.local?"":SYNC.base;
   $("app").innerHTML=`<div class="center"><div class="card join" style="max-width:560px"><h1>Dernier <span>Signal</span></h1><p class="tag">Tableau de bord du professeur</p>
   <p class="${SYNC.local?"note":""}" style="margin:6px 0">${SYNC.local?"⚠ Aucune base de synchronisation : le jeu fonctionne sur un seul appareil.":"✅ Synchronisation en direct branchée."}</p>
   <button class="btn primary big" id="newGame">Nouvelle partie</button>
   <div class="homebtns"><a class="btn" href="index.html?apercu=1" target="_blank">Visiter les salles (aperçu + corrigé)</a><a class="btn" href="../../index.html">← Retour au site</a></div>
-  <details class="fb" ${SYNC.local?"open":""}><summary>Brancher la synchronisation en direct (Firebase)</summary>
-   <ol class="steps"><li>Allez sur <b>console.firebase.google.com</b> et créez un projet (Google Analytics : non).</li><li>Menu « Build » → <b>Realtime Database</b> → « Créer une base de données » → région <b>Belgique (europe-west1)</b> → démarrer en <b>mode test</b>.</li><li>Onglet <b>Règles</b> : remplacez tout par le texte ci-dessous, puis « Publier ».</li><li>Copiez l'adresse de la base (en haut de l'onglet Données, du type <b>https://…firebasedatabase.app</b>) et collez-la ici.</li></ol>
-   <pre>{ "rules": { "sessions": { "$code": { ".read": true, ".write": true } } } }</pre>
-   <div class="row"><input id="dbUrl" style="width:100%;font-size:15px" placeholder="https://mon-projet-default-rtdb.europe-west1.firebasedatabase.app" value="${esc(cur)}"><button class="btn" id="dbSave">Enregistrer et tester</button></div><p id="dbMsg" class="note"></p>${SYNC.local?"":`<button class="btn danger" id="dbOff">Revenir au mode local</button>`}</details></div></div>`;
+  <details class="fb" ${SYNC.local?"open":""}><summary>Brancher la synchronisation en direct (Firebase)</summary>${fbInner()}</details></div></div>`;
   $("newGame").onclick=async()=>{await create();setInterval(poll,1500);setInterval(tickClock,500)};
-  $("dbSave").onclick=async()=>{const u=$("dbUrl").value.trim().replace(/\/$/,"");const m=$("dbMsg");
-    if(!SYNC.okdb(u)){m.textContent="Adresse non reconnue : elle doit ressembler à https://xxx.firebasedatabase.app";return}
-    m.textContent="Test de la connexion…";try{const r=await fetch(u+"/sessions/test.json",{method:"PUT",body:JSON.stringify({t:Date.now()})});if(!r.ok)throw new Error(r.status);localStorage.setItem("ds4e-db",u);m.textContent="Connexion réussie ✓ Rechargement…";setTimeout(()=>location.reload(),700)}catch(e){m.textContent="Échec ("+e.message+"). Vérifiez l'adresse et les règles (étape 3)."}};
-  const off=$("dbOff");if(off)off.onclick=()=>{localStorage.removeItem("ds4e-db");location.reload()};
+  fbBind();
 }
 async function poll(){try{const s=await SYNC.get(P(""));if(s&&s.meta){SES=s;renderLive()}}catch(e){}}
 function chronoBtn(){const c=SES.chrono;return c.running?"Pause":(c.base>0?"Reprendre":"Démarrer")}
@@ -47,10 +51,10 @@ function renderAll(){
   $("app").innerHTML=`<header class="ptop"><div><p class="tag">Flotte Hélios · Opération Pythagore</p><h1>Dernier <span>Signal</span></h1></div>
    <div class="pcode"><span class="tag">Code de la partie</span><b id="pcode">${CODE}</b></div>
    <div class="pclock"><div class="clock" id="clock">--:--</div><div class="tag" id="pen"></div></div>
-   <div class="pctl"><button class="btn primary" id="play"></button><select id="dur" class="btn"><option value="2400">40 min</option><option value="2700">45 min</option><option value="3000">50 min</option><option value="3300">55 min</option><option value="3600">60 min</option></select><button class="btn" id="qrBtn">QR codes</button><select id="askLock" class="btn" title="Brouillage des écrans après une demande d'indice"><option value="30">Brouillage 30 s</option><option value="60">Brouillage 60 s</option><option value="90">Brouillage 90 s</option><option value="120">Brouillage 2 min</option></select><button class="btn" id="snd">🔕 Son</button><a class="btn" href="index.html?apercu=1" target="_blank" style="text-decoration:none">Visiter les salles</a><button class="btn" id="solBtn">Solutions</button><button class="btn danger" id="reset">Nouvelle partie</button></div></header>
-   <div id="alerts"></div><div class="pgrid"><section><div class="scene" id="hero"></div><div class="card" id="reactor"></div><div class="card"><div class="tag">Journal de bord</div><ul id="log" class="log"></ul></div></section><section id="ships" class="ships"></section></div><div id="layer"></div>`;
+   <div class="pctl"><button class="btn primary" id="play"></button><select id="dur" class="btn"><option value="2400">40 min</option><option value="2700">45 min</option><option value="3000">50 min</option><option value="3300">55 min</option><option value="3600">60 min</option></select><button class="btn ${SYNC.local?"primary":""}" id="fbBtn">🔗 Synchronisation${SYNC.local?" ⚠":" ✓"}</button><button class="btn" id="qrBtn">QR codes</button><select id="askLock" class="btn" title="Brouillage des écrans après une demande d'indice"><option value="30">Brouillage 30 s</option><option value="60">Brouillage 60 s</option><option value="90">Brouillage 90 s</option><option value="120">Brouillage 2 min</option></select><button class="btn" id="snd">🔕 Son</button><a class="btn" href="index.html?apercu=1" target="_blank" style="text-decoration:none">Visiter les salles</a><button class="btn" id="solBtn">Solutions</button><button class="btn danger" id="reset">Nouvelle partie</button></div></header>
+   ${SYNC.local?`<div class="alert" style="--c:#ffb454"><div class="alh"><b>⚠ Mode local</b> : les téléphones des élèves ne seront pas vus ici. <button class="btn primary" id="fbBan">Brancher la synchronisation (Firebase)</button></div></div>`:""}<div id="alerts"></div><div class="pgrid"><section><div class="scene" id="hero"></div><div class="card" id="reactor"></div><div class="card"><div class="tag">Journal de bord</div><ul id="log" class="log"></ul></div></section><section id="ships" class="ships"></section></div><div id="layer"></div>`;
   $("play").onclick=toggleChrono;$("dur").onchange=async e=>{SES.meta.dur=+e.target.value;await SYNC.patch(P("meta"),{dur:+e.target.value});renderLive()};
-  $("qrBtn").onclick=qr;$("solBtn").onclick=()=>{showSol=!showSol;$("solBtn").classList.toggle("primary",showSol);renderLive()};
+  $("qrBtn").onclick=qr;$("fbBtn").onclick=fbOpen;if($("fbBan"))$("fbBan").onclick=fbOpen;$("solBtn").onclick=()=>{showSol=!showSol;$("solBtn").classList.toggle("primary",showSol);renderLive()};
   let armed=false;$("reset").onclick=()=>{if(!armed){armed=true;$("reset").textContent="Confirmer ?";setTimeout(()=>{armed=false;$("reset").textContent="Nouvelle partie"},3000);return}create()};
   $("dur").value=String(SES.meta.dur);$("askLock").value=String(SES.meta.askLock||60);$("askLock").onchange=async e=>{SES.meta.askLock=+e.target.value;await SYNC.patch(P("meta"),{askLock:+e.target.value})};$("snd").onclick=()=>{sound=!sound;$("snd").textContent=sound?"🔔 Son activé":"🔕 Son";if(sound)beep()};renderLive();
 }
