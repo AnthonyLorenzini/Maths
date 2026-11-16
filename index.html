@@ -59,16 +59,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{o
 .bloc-escape{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:16px;background:var(--carte);border:2px solid var(--soleil-clair);box-shadow:0 4px 0 var(--soleil-clair);text-decoration:none;color:inherit;transition:transform .1s,box-shadow .1s,border-color .15s}
 .bloc-escape:hover{border-color:var(--soleil)}
 .bloc-escape:active{transform:translateY(3px);box-shadow:0 1px 0 var(--soleil-clair)}
-.bloc-escape{padding:8px 14px 8px 8px}
-.bloc-escape .ico{display:flex;align-items:center;justify-content:center;width:62px;height:62px;flex:none;border-radius:18px;background:radial-gradient(circle at 50% 40%,#FFFBE6,var(--soleil-clair) 70%);box-shadow:inset 0 0 0 2px #FFE59A}.bloc-escape .ico svg{width:54px;height:54px;overflow:visible}
-.cad-anse{transform-box:view-box;transform-origin:17px 24px;animation:cad-anse 3.6s ease-in-out infinite}
-.cad-etoile{transform-box:fill-box;transform-origin:center;animation:cad-etoile 2.2s ease-in-out infinite}
-.cad-etoile.e2{animation-delay:.7s}.cad-etoile.e3{animation-delay:1.4s}
-.cad-eclat{animation:cad-eclat 3.6s ease-in-out infinite}
-@keyframes cad-anse{0%,12%{transform:rotate(0)}30%,70%{transform:rotate(-38deg) translateY(-1px)}88%,100%{transform:rotate(0)}}
-@keyframes cad-etoile{0%,100%{transform:scale(.35);opacity:.3}50%{transform:scale(1);opacity:1}}
-@keyframes cad-eclat{0%,12%{opacity:0}30%,70%{opacity:.85}88%,100%{opacity:0}}
-@media (prefers-reduced-motion:reduce){.cad-anse,.cad-etoile,.cad-eclat{animation:none}.cad-anse{transform:rotate(-38deg)}.cad-eclat{opacity:.6}}
+.bloc-escape{padding:10px 16px 10px 12px}
+.bloc-escape .ico{display:flex;flex:none;width:52px;height:52px}.bloc-escape .ico svg{width:100%;height:100%}
+.escape-frac{fill:var(--soleil)}.escape-trou{fill:#8A5A00}
 .bloc-escape strong{font-family:var(--f-titre);font-weight:800;font-size:1.05rem;line-height:1.1;display:block}
 .bloc-escape small{display:block;font-size:.8rem;color:var(--encre-2);line-height:1.3}
 .bloc-escape .fl{margin-left:auto;flex:none;display:flex;color:var(--encre-2)}.bloc-escape .fl svg{width:18px;height:18px}
@@ -458,15 +451,6 @@ const ICO={
  loupe:'<svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="5.5"/><path d="m12 12 4.5 4.5"/></svg>',
  gauche:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>',
  fleche:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>',
- cadenas:'<svg viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="cad-or" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFDB6E"/><stop offset="1" stop-color="#F0A000"/></linearGradient><radialGradient id="cad-lum"><stop offset="0" stop-color="#FFF3B0"/><stop offset="1" stop-color="#FFF3B0" stop-opacity="0"/></radialGradient></defs>'
-  +'<circle class="cad-eclat" cx="24" cy="30" r="22" fill="url(#cad-lum)"/>'
-  +'<path class="cad-anse" d="M17 24V16a7 7 0 0 1 14 0v8" fill="none" stroke="#7A8AA8" stroke-width="4.2" stroke-linecap="round"/>'
-  +'<rect x="10" y="23" width="28" height="20" rx="5" fill="url(#cad-or)" stroke="#8A5A00" stroke-width="2.2"/>'
-  +'<path d="M14 27h20" stroke="#FFF" stroke-opacity=".55" stroke-width="2" stroke-linecap="round"/>'
-  +'<circle cx="24" cy="32" r="3.3" fill="#6B4500"/><path d="M22.7 33.5h2.6l.9 5h-4.4Z" fill="#6B4500"/>'
-  +'<path class="cad-etoile" d="M5 8l1.3 3.2L9.5 12.5 6.3 13.8 5 17 3.7 13.8.5 12.5l3.2-1.3Z" fill="#FFC93C"/>'
-  +'<path class="cad-etoile e2" d="M41 4l1.1 2.7 2.7 1.1-2.7 1.1L41 11.6l-1.1-2.7-2.7-1.1 2.7-1.1Z" fill="#FF9F43"/>'
-  +'<path class="cad-etoile e3" d="M43 22l1 2.4 2.4 1-2.4 1-1 2.4-1-2.4-2.4-1 2.4-1Z" fill="#FFC93C"/></svg>',
  escape:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="m11 12 8.5-8.5M16 7l3 3M13.5 9.5l2 2"/></svg>',
  eval:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>',
  monte:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V6M6 12l6-6 6 6"/></svg>'
@@ -488,6 +472,9 @@ function dragonPts(k){let P=[[0,0],[1,0]];for(let j=0;j<k;j++)P=dragonPas(P,1);r
 function dragonBoite(P){let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;P.forEach(q=>{x0=Math.min(x0,q[0]);x1=Math.max(x1,q[0]);y0=Math.min(y0,q[1]);y1=Math.max(y1,q[1])});return{x0,y0,x1,y1}}
 function dragon(){const P=dragonPts(11),b=dragonBoite(P),k=88/Math.max(b.x1-b.x0,b.y1-b.y0),ox=50-(b.x0+b.x1)/2*k,oy=50-(b.y0+b.y1)/2*k;
  return `<svg viewBox="0 0 100 100" aria-hidden="true"><path class="frac-trait" style="stroke-width:.55;stroke-linejoin:miter" d="M${P.map(q=>(q[0]*k+ox).toFixed(1)+' '+(q[1]*k+oy).toFixed(1)).join('L')}"/></svg>`}
+// Escape games : tapis de Sierpinski dont le trou central est une serrure
+function tapisSerrure(){let t='';(function f(x,y,c,n){if(!n){t+=`M${x.toFixed(2)} ${y.toFixed(2)}h${c.toFixed(2)}v${c.toFixed(2)}h${(-c).toFixed(2)}Z`;return}const u=c/3;for(let i=0;i<3;i++)for(let j=0;j<3;j++)if(i!==1||j!==1)f(x+i*u,y+j*u,u,n-1)})(4,4,92,3);
+ return `<svg viewBox="0 0 100 100" aria-hidden="true"><path class="escape-frac" d="${t}"/><circle class="escape-trou" cx="50" cy="45.5" r="6.2"/><path class="escape-trou" d="M46.6 49.5h6.8l2.6 12h-12Z"/></svg>`}
 const FRAC={'6e':sierpinski,'5e':koch,'4e':arbre,'3e':dragon};
 const frac=id=>(FRAC[id]||sierpinski)();
 
@@ -1083,7 +1070,7 @@ function accueil(){
 /* ---------- Escape games : bloc de l'accueil et page #escape (triés par niveau) ---------- */
 function blocEscape(){
  const nb=(S.escapes||[]).length;
- return `<a class="bloc-escape a-monte" ${d(0,.5)} href="#escape"><span class="ico">${ICO.cadenas}</span><span><strong>Escape games</strong><small>${nb?nb+' défi'+(nb>1?'s':'')+' · par niveau':'Bientôt · par niveau'}</small></span><span class="fl">${ICO.fleche}</span></a>`}
+ return `<a class="bloc-escape a-monte" ${d(0,.5)} href="#escape"><span class="ico">${tapisSerrure()}</span><span><strong>Escape games</strong><small>${nb?nb+' défi'+(nb>1?'s':'')+' · par niveau':'Bientôt · par niveau'}</small></span><span class="fl">${ICO.fleche}</span></a>`}
 function vueEscape(){
  const E=S.escapes||[];
  ouvrir(`<div class="vue">
