@@ -431,7 +431,7 @@ svg .pastille{fill:var(--orange)} svg .pastille-t{fill:#fff;font-family:var(--f-
 <div class="page" id="app"></div>
 <div id="voile" class="voile" hidden></div>
 <div id="toast" class="toast" role="status" hidden></div>
-<script src="assets/catalogue.js?v=20261116a"></script>
+<script src="assets/catalogue.js?v=20261116b"></script>
 <script src="assets/illustrations.js?v=20261110b"></script>
 <script src="assets/ascension.js?v=20261018a"></script>
 <script src="assets/questions.js?v=20261016b"></script>
@@ -1077,8 +1077,10 @@ function vueEscape(){
   <button class="retour a-haut" data-parent="#">${ICO.gauche} Accueil</button>
   <section class="vue a-monte" ${d(0,.05)} style="gap:6px"><h1>Escape games</h1><p class="doux">Une équipe, un défi, des énigmes à résoudre pour t’échapper. Choisis ton niveau.</p></section>
   ${S.niveaux.map((n,k)=>{const L=E.filter(e=>e.niveau===n.id);
-   return `<section class="groupe-escape c-${n.couleur} a-monte" ${d(k,.15,.08)}><h2><span class="pastille">${esc(n.nom)}</span></h2>
-   ${L.length?`<div class="liens">${L.map(e=>`<a class="lien" href="pages/${esc(e.id)}/index.html">${ICO.escape}<span class="res"><strong>${esc(e.titre)}</strong>${e.resume||e.duree?`<small>${esc([e.duree,e.resume].filter(Boolean).join(' · '))}</small>`:''}</span>${estNeuf(e)?NEUF:''}<span class="fl">${ICO.fleche}</span></a>`).join('')}</div>`:'<p class="vide">Bientôt</p>'}</section>`}).join('')}
+   const V=(S.escapesVerrous||[]).filter(e=>e.niveau===n.id).map(()=>`<div class="chap verrou a-monte"><span class="haut"><span><span class="eti" style="color:var(--c)">Escape game</span><br><span class="t">🔒 Pas encore vu en classe</span></span></span>
+ <form onsubmit="return ouvrirVerrou(event)"><input type="password" placeholder="Mot de passe" aria-label="Mot de passe" autocomplete="off"><button type="submit">Entrer</button></form><span class="err" aria-live="polite"></span></div>`).join('');
+   return `<section class="groupe-escape c-${n.couleur} a-monte" ${d(k,.15,.08)}><h2><span class="pastille">${esc(n.nom)}</span></h2>${V}
+   ${L.length?`<div class="liens">${L.map(e=>`<a class="lien" href="pages/${esc(e.id)}/index.html">${ICO.escape}<span class="res"><strong>${esc(e.titre)}</strong>${e.resume||e.duree?`<small>${esc([e.duree,e.resume].filter(Boolean).join(' · '))}</small>`:''}</span>${estNeuf(e)?NEUF:''}<span class="fl">${ICO.fleche}</span></a>`).join('')}</div>`:(V?'':'<p class="vide">Bientôt</p>')}</section>`}).join('')}
  </div>`,null,{note:false});
 }
 

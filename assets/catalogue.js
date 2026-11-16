@@ -867,8 +867,11 @@ window.SITE = {
      2. Ajoute une ligne ici :
           { id: "nom-du-dossier", niveau: "6e", titre: "…", resume: "…", duree: "50 min", ajout: "2026-11-16" }
         « niveau » : "6e", "5e", "4e" ou "3e". « duree » et « ajout » sont facultatifs.
+     Escape game pas encore fait en classe : ajoute  prive: true  (même mot de passe que les chapitres réservés ; la page du jeu est aussi protégée).
      Un niveau sans escape game affiche « Bientôt ». */
-  escapes: []
+  escapes: [
+    { id: "dernier-signal", niveau: "6e", titre: "Dernier Signal", resume: "Cinq équipages réparent leur vaisseau salle par salle pour rallumer le réacteur.", duree: "50 min", ajout: "2026-11-16", prive: true }
+  ]
 };
 /* ---- Chapitres réservés (prive: true) : masqués tant que le mot de passe n'a pas été saisi ---- */
 (function () {
@@ -881,6 +884,14 @@ window.SITE = {
     return true;
   };
   window.SITE_verrouiller = function () { try { localStorage.removeItem("prof"); } catch (e) {} };
+  /* Escape games réservés (prive: true) : même mot de passe ; masqués de la liste tant qu'il n'a pas été saisi. */
+  (function (S) {
+    var E = S.escapes || [];
+    S.escapesVerrous = [];
+    if (ouvert) { E.forEach(function (e) { if (e.prive) e.titre += " (réservé)"; }); return; }
+    S.escapesVerrous = E.filter(function (e) { return e.prive; });
+    S.escapes = E.filter(function (e) { return !e.prive; });
+  })(window.SITE);
   window.SITE.niveaux.forEach(function (n) {
     n.verrous = [];
     if (ouvert) { n.chapitres.forEach(function (c) { if (c.prive) c.titre += " (réservé)"; }); return; }
