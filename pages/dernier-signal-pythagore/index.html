@@ -91,6 +91,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--amber);outline-
 .steps li{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:center;font-size:18px;line-height:1.3}
 .steps li::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--amber);color:#1b1300;font-family:var(--display);font-weight:700;font-size:18px}
 .brief .cost{margin-top:auto;border:1px dashed var(--bad);color:var(--bad);border-radius:10px;padding:8px 12px;font-family:var(--display);font-size:15px;letter-spacing:.06em;text-transform:uppercase}
+.story{margin:0;font-size:20px;line-height:1.4;border-left:4px solid var(--amber);padding:2px 0 2px 14px}.story b{color:var(--amber);font-family:var(--display);letter-spacing:.06em;text-transform:uppercase;font-size:16px}
 .lost{animation:blink 1.4s steps(2) infinite}
 @media (max-width:1000px){.hero{grid-template-columns:1fr}}
 /* Salle */
@@ -182,24 +183,36 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--amber);outline-
 (function(){
 if(!window.SITE_PROF)return;
 const ROOMS=[
- {id:"sas",name:"Sas d'arrivée",short:"Sas",page:1,hint:"L'hypoténuse est le côté en face de l'angle droit. C'est toujours le plus long des trois côtés."},
- {id:"labo",name:"Laboratoire",short:"Labo",page:2,hint:"Aire du grand carré = aire d'un petit carré + aire de l'autre petit carré. Où est le « ? » : sur le grand ou sur un petit ?"},
- {id:"machines",name:"Salle des machines",short:"Machines",page:3,hint:"√49 = 7 car 7 × 7 = 49. La plaque fausse est celle dont la racine carrée n'est pas un nombre entier."},
- {id:"nav",name:"Navigation",short:"Navig.",page:4,hint:"L'hypoténuse relie les deux étoiles qui n'ont PAS l'angle droit. Écrivez : hypoténuse² = côté² + côté²."},
- {id:"comms",name:"Communications",short:"Comms",page:5,hint:"Le câble est l'hypoténuse : câble² = hauteur² + distance². Il reste à prendre la racine carrée."},
- {id:"serre",name:"Serre",short:"Serre",page:6,hint:"La passerelle est l'hypoténuse. hauteur² = passerelle² − distance², puis racine carrée."}
+ {id:"sas",name:"Sas d'arrivée",short:"Sas",page:1,
+  story:"La tempête solaire a ouvert une brèche dans votre coque. Pour la refermer, il faut entrer par le sas : ses panneaux triangulaires se déverrouillent chacun par leur hypoténuse, dans l'ordre affiché.",
+  hint:"L'hypoténuse est le côté en face de l'angle droit. C'est toujours le plus long des trois côtés."},
+ {id:"labo",name:"Laboratoire",short:"Labo",page:2,
+  story:"Coque scellée ! La vitre du cockpit a éclaté. L'imprimante du labo peut la refaire : la vitre manquante est le carré « ? » de l'hologramme. Il faut lui donner son aire.",
+  hint:"Aire du grand carré = aire d'un petit carré + aire de l'autre petit carré. Où est le « ? » : sur le grand ou sur un petit ?"},
+ {id:"machines",name:"Salle des machines",short:"Machines",page:3,
+  story:"Cockpit restauré ! Les moteurs se règlent avec la racine carrée des nombres gravés sur leurs plaques. Attention : la tempête a faussé une des quatre plaques.",
+  hint:"√49 = 7 car 7 × 7 = 49. La plaque fausse est celle dont la racine carrée n'est pas un nombre entier."},
+ {id:"nav",name:"Navigation",short:"Navig.",page:4,
+  story:"Moteurs relancés ! Pour régler les ailerons, le pilote automatique doit connaître la distance entre votre vaisseau et la balise du réacteur.",
+  hint:"Tracez un escalier : on avance à l'horizontale, puis à la verticale. Ces deux écarts sont les côtés de l'angle droit ; la distance est l'hypoténuse."},
+ {id:"comms",name:"Communications",short:"Comms",page:5,
+  story:"Cap verrouillé ! Pour prévenir la flotte, l'antenne doit être retendue. Quelle longueur de câble faut-il couper ?",
+  hint:"Le câble est l'hypoténuse : câble² = hauteur² + distance². Il reste à prendre la racine carrée."},
+ {id:"serre",name:"Serre",short:"Serre",page:6,
+  story:"Antenne rétablie ! Dernière panne : l'oxygène. La barre d'énergie de la serre relie le sol à la plateforme d'arrosage. Trouvez sa longueur : c'est cette barre que votre vaisseau apportera au réacteur.",
+  hint:"La passerelle est l'hypoténuse. hauteur² = passerelle² − distance², puis racine carrée."}
 ];
 /* Données par vaisseau — vérifiées par verif.py
    sas : ordre des tuiles du dossier ; lab : aires [petit, petit, grand], null = « ? » ;
    mach : 4 plaques (une seule n'est pas un carré parfait) ;
-   nav : r = sommet de l'angle droit, x/y = autres sommets, a = r–x, b = r–y, h = x–y, show = côtés affichés ;
-   comms : [hauteur du mât, distance au sol] ; serre : [passerelle, distance au sol]. */
+   nav : coordonnées du vaisseau (s) et de la balise (b), 1 carreau = 1 al ;
+   comms : [hauteur du mât, distance au sol] ; serre : [passerelle, distance au sol] → hauteur = barre d'énergie = fragment. */
 const SHIPS=[
- {id:"orion",name:"Orion",c:"#ffb547",frag:12,d:{sas:[2,5,1,4],lab:[9,16,null],mach:[49,80,81,25],nav:{r:"R",x:"O",y:"N",a:6,b:8,h:10,show:["h","a"],rot:0},comms:[9,12],serre:[13,5]},ans:["8936","25","795","64","15","12"]},
- {id:"vega",name:"Véga",c:"#7cc8ff",frag:24,d:{sas:[6,3,4,2],lab:[25,null,169],mach:[64,36,50,81],nav:{r:"V",x:"E",y:"G",a:5,b:12,h:13,show:["a","b"],rot:200},comms:[8,15],serre:[25,7]},ans:["4168","144","869","169","17","24"]},
- {id:"lyra",name:"Lyra",c:"#c9a2ff",frag:8,d:{sas:[1,6,5,3],lab:[36,64,null],mach:[81,17,16,64],nav:{r:"Y",x:"L",y:"R",a:12,b:5,h:13,show:["h","a"],rot:110},comms:[10,24],serre:[10,6]},ans:["3491","100","948","25","26","8"]},
- {id:"draco",name:"Draco",c:"#5fd68a",frag:15,d:{sas:[4,1,2,6],lab:[null,64,289],mach:[9,63,64,49],nav:{r:"R",x:"D",y:"A",a:7,b:24,h:25,show:["a","b"],rot:300},comms:[20,21],serre:[17,8]},ans:["6384","225","387","625","29","15"]},
- {id:"cygnus",name:"Cygnus",c:"#ff8a6b",frag:32,d:{sas:[5,3,6,1],lab:[144,null,400],mach:[36,49,99,16],nav:{r:"C",x:"G",y:"Y",a:21,b:20,h:29,show:["h","a"],rot:30},comms:[12,16],serre:[40,24]},ans:["9143","256","674","400","20","32"]}
+ {id:"orion",name:"Orion",c:"#ffb547",frag:12,d:{sas:[2,5,1,4],lab:[9,16,null],mach:[49,80,81,25],nav:{s:[2,3],b:[10,9]},comms:[9,12],serre:[13,5]},ans:["8936","25","795","10","15","12"]},
+ {id:"vega",name:"Véga",c:"#7cc8ff",frag:24,d:{sas:[6,3,4,2],lab:[25,null,169],mach:[64,36,50,81],nav:{s:[1,2],b:[13,7]},comms:[8,15],serre:[25,7]},ans:["4168","144","869","13","17","24"]},
+ {id:"lyra",name:"Lyra",c:"#c9a2ff",frag:8,d:{sas:[1,6,5,3],lab:[36,64,null],mach:[81,17,16,64],nav:{s:[4,1],b:[7,5]},comms:[10,24],serre:[10,6]},ans:["3491","100","948","5","26","8"]},
+ {id:"draco",name:"Draco",c:"#5fd68a",frag:15,d:{sas:[4,1,2,6],lab:[null,64,289],mach:[9,63,64,49],nav:{s:[1,1],b:[16,9]},comms:[20,21],serre:[17,8]},ans:["6384","225","387","17","29","15"]},
+ {id:"cygnus",name:"Cygnus",c:"#ff8a6b",frag:32,d:{sas:[5,3,6,1],lab:[144,null,400],mach:[36,49,99,16],nav:{s:[3,14],b:[15,5]},comms:[12,16],serre:[40,24]},ans:["9143","256","674","15","20","32"]}
 ];
 const FINAL="156", PEN_WRONG=60, PEN_HINT=60, KEY="dernier-signal-pythagore-v1";
 
@@ -258,12 +271,12 @@ const SCENES={
   const sq=(q,v)=>{const [x,y]=cen(q),u=v==null,fs=Math.max(16,Math.min(46,side(q)*.34));return `<polygon points="${P(poly(q))}" fill="${u?"#ffb547":c}" fill-opacity="${u?.16:.12}" stroke="${u?"#ffb547":c}" stroke-width="2.5"/>
    <text x="${x}" y="${y+fs*.36}" text-anchor="middle" ${F} font-weight="700" font-size="${fs}" fill="${u?"#ffb547":c}" filter="url(#neon)">${u?"?":v}</text>`};
   const tri=poly([C0,A0,B0]);
-  return room(c,`${screen(60,52,450,282,"HOLOGRAMME · AIRES EN cm²",c)}<rect x="60" y="52" width="450" height="282" fill="url(#grid)"/>
+  return room(c,`${screen(60,52,450,282,"VITRE DU COCKPIT · AIRES EN dm²",c)}<rect x="60" y="52" width="450" height="282" fill="url(#grid)"/>
   ${sq(sqA,a)}${sq(sqB,b)}${sq(sqH,h)}
   <polygon points="${P(tri)}" fill="#03101a" stroke="#e9eef7" stroke-width="3"/>${rmark(tri[0],tri[1],tri[2],13,"#e9eef7")}
   ${[0,1,2,3,4].map(i=>{const x=590+(i%3)*58,y=i<3?150:250;return `<rect x="${x}" y="${y-60}" width="22" height="60" rx="6" fill="${["#5fd68a","#7cc8ff","#c9a2ff","#ff8a6b","#ffb547"][i]}" opacity=".35"/><rect x="${x+5}" y="${y-76}" width="12" height="18" fill="#52688f"/>`}).join("")}
   <rect x="560" y="150" width="200" height="8" fill="#33476a"/><rect x="560" y="250" width="200" height="8" fill="#33476a"/>
-  <text x="660" y="300" text-anchor="middle" ${F} font-size="15" letter-spacing="3" fill="#ffb547" class="blink">ANALYSE INCOMPLÈTE</text>`)},
+  <text x="660" y="300" text-anchor="middle" ${F} font-size="15" letter-spacing="3" fill="#ffb547" class="blink">VITRE MANQUANTE</text>`)},
 
  machines:(d,c)=>room(c,`
   <rect x="0" y="40" width="800" height="22" fill="url(#metal)"/><rect x="0" y="72" width="800" height="12" fill="#2a3b5a"/>
@@ -276,21 +289,22 @@ const SCENES={
    <text x="${x+74}" y="250" text-anchor="middle" ${F} font-weight="700" font-size="56" fill="${c}" filter="url(#neon)">${n}</text>`}).join("")}
   <path d="M60 350 L60 330 M740 350 L740 330" stroke="#52688f" stroke-width="10"/>`),
 
- nav:(d,c)=>{const N=d.nav,t=N.rot*Math.PI/180,u=[Math.cos(t),Math.sin(t)],v=[-Math.sin(t),Math.cos(t)];
-  const R0=[0,0],X0=[N.a*u[0],N.a*u[1]],Y0=[N.b*v[0],N.b*v[1]],T=fitBox([R0,X0,Y0],140,128,270,150),[R,X,Y]=[R0,X0,Y0].map(T);
-  const G=[(R[0]+X[0]+Y[0])/3,(R[1]+X[1]+Y[1])/3];
-  const lab=(p,L)=>{const dx=p[0]-G[0],dy=p[1]-G[1],n=Math.hypot(dx,dy);return `<circle cx="${p[0]}" cy="${p[1]}" r="7" fill="#fff" filter="url(#neon)"/><text x="${p[0]+dx/n*26}" y="${p[1]+dy/n*26+9}" text-anchor="middle" ${F} font-weight="700" font-size="26" fill="#e9eef7">${L}</text>`};
-  const sides={a:[R,X,N.r+N.x],b:[R,Y,N.r+N.y],h:[X,Y,N.x+N.y]};
-  const sl=k=>{const [p,q]=sides[k],m=[(p[0]+q[0])/2,(p[1]+q[1])/2],dx=m[0]-G[0],dy=m[1]-G[1],n=Math.hypot(dx,dy)||1,on=N.show.includes(k);
-   return `<text x="${m[0]+dx/n*24}" y="${m[1]+dy/n*24+7}" text-anchor="middle" ${F} font-weight="700" font-size="21" fill="${on?c:"#ffb547"}">${on?N[k]:"?"}</text>`};
-  const rows=[`ANGLE DROIT : ${N.r}`].concat(["h","a","b"].map(k=>`${sides[k][2]} = ${N.show.includes(k)?N[k]+" al":"?"}`));
-  return room(c,`<rect x="40" y="16" width="720" height="40" rx="20" fill="#02060f" stroke="#33476a" stroke-width="4"/>${stars(30,60,22,680,30,7)}
-  ${screen(60,84,430,240,"CARTE STELLAIRE",c)}${stars(40,64,88,420,230,13)}
-  <polygon points="${P([R,X,Y])}" fill="${c}" fill-opacity=".07" stroke="${c}" stroke-width="2.5"/>${rmark(R,X,Y,16,c)}
-  ${lab(R,N.r)}${lab(X,N.x)}${lab(Y,N.y)}${sl("a")}${sl("b")}${sl("h")}
-  ${screen(550,84,200,240,"RELEVÉS",c)}
-  ${rows.map((r,i)=>`<text x="650" y="${130+i*54}" text-anchor="middle" ${F} font-weight="700" font-size="${i?27:19}" fill="${r.includes("?")?"#ffb547":i?c:"#e9eef7"}">${r}</text>`).join("")}
-  <text x="650" y="375" text-anchor="middle" ${F} font-size="13" letter-spacing="2" fill="#8ea0bc">al = année-lumière</text>`)},
+ nav:(d,c)=>{const N=d.nav,g=15,gx=96,gy=318,X=x=>gx+x*g,Y=y=>gy-y*g,[sx,sy]=N.s,[bx,by]=N.b;
+  return room(c,`<rect x="40" y="10" width="720" height="26" rx="13" fill="#02060f" stroke="#33476a" stroke-width="3"/>${stars(25,60,14,680,18,7)}
+  ${screen(60,74,290,264,"CARTE STELLAIRE",c)}
+  ${Array.from({length:17},(_,k)=>`<line x1="${X(k)}" y1="${Y(0)}" x2="${X(k)}" y2="${Y(16)}" stroke="${c}" stroke-opacity="${k%2?.12:.25}"/><line x1="${X(0)}" y1="${Y(k)}" x2="${X(16)}" y2="${Y(k)}" stroke="${c}" stroke-opacity="${k%2?.12:.25}"/>`).join("")}
+  <line x1="${X(0)}" y1="${Y(0)}" x2="${X(16)+8}" y2="${Y(0)}" stroke="#e9eef7" stroke-width="2"/><line x1="${X(0)}" y1="${Y(0)}" x2="${X(0)}" y2="${Y(16)-8}" stroke="#e9eef7" stroke-width="2"/>
+  ${[0,2,4,6,8,10,12,14,16].map(k=>`<text x="${X(k)}" y="${Y(0)+16}" text-anchor="middle" ${F} font-size="11" fill="#8ea0bc">${k}</text>${k?`<text x="${X(0)-8}" y="${Y(k)+4}" text-anchor="end" ${F} font-size="11" fill="#8ea0bc">${k}</text>`:""}`).join("")}
+  <line x1="${X(sx)}" y1="${Y(sy)}" x2="${X(bx)}" y2="${Y(by)}" stroke="#ffb547" stroke-width="2" stroke-dasharray="6 5"/>
+  <circle cx="${X(sx)}" cy="${Y(sy)}" r="7" fill="${c}" filter="url(#neon)"/>
+  <path d="M${X(bx)} ${Y(by)-9} l9 9 l-9 9 l-9 -9 Z" fill="#ffb547" filter="url(#neon)"/>
+  ${screen(420,74,320,264,"PILOTE AUTOMATIQUE",c)}
+  <circle cx="450" cy="120" r="8" fill="${c}" filter="url(#neon)"/><text x="470" y="127" ${F} font-size="19" fill="#8ea0bc">VOTRE VAISSEAU</text>
+  <text x="580" y="170" text-anchor="middle" ${F} font-weight="700" font-size="38" fill="${c}">( ${sx} ; ${sy} )</text>
+  <path d="M450 196 l8 8 l-8 8 l-8 -8 Z" fill="#ffb547" filter="url(#neon)"/><text x="470" y="211" ${F} font-size="19" fill="#8ea0bc">BALISE DU RÉACTEUR</text>
+  <text x="580" y="254" text-anchor="middle" ${F} font-weight="700" font-size="38" fill="#ffb547">( ${bx} ; ${by} )</text>
+  <text x="580" y="310" text-anchor="middle" ${F} font-weight="700" font-size="22" fill="#ffb547" class="blink">DISTANCE : ? al</text>
+  <text x="400" y="390" text-anchor="middle" ${F} font-size="14" letter-spacing="2" fill="#8ea0bc">1 CARREAU = 1 ANNÉE-LUMIÈRE (al)</text>`)},
 
  comms:(d,c)=>{const [h,dd]=d.comms,k=Math.min(250/h,330/dd),mx=640,top=350-h*k,ax=mx-dd*k;
   return room(c,`${stars(60,0,0,800,340,3)}
@@ -312,7 +326,7 @@ const SCENES={
  serre:(d,c)=>{const [p,dd]=d.serre,hh=Math.sqrt(p*p-dd*dd),k=Math.min(250/hh,300/dd),wx=640,top=350-hh*k,fx=wx-dd*k;
   return room(c,`${[0,1,2].map(i=>`<path d="M${i*267} 350 Q ${i*267+133} ${-30} ${i*267+267} 350" fill="#5fd68a" fill-opacity=".05" stroke="#5fd68a" stroke-opacity=".35" stroke-width="4"/>`).join("")}
   ${screen(40,70,250,120,"PLATEFORME",c)}
-  <text x="165" y="118" text-anchor="middle" ${F} font-size="17" fill="#8ea0bc">HAUTEUR INCONNUE</text>
+  <text x="165" y="118" text-anchor="middle" ${F} font-size="17" fill="#8ea0bc">BARRE D'ÉNERGIE</text>
   <text x="165" y="172" text-anchor="middle" ${F} font-weight="700" font-size="46" fill="#ffb547" class="blink">? m</text>
   <rect x="${wx}" y="40" width="40" height="310" fill="url(#metal)" stroke="#52688f"/>
   <rect x="${wx}" y="${top-8}" width="120" height="10" fill="#6b4b33"/>
@@ -323,8 +337,9 @@ const SCENES={
   <text x="${(fx+wx)/2-34}" y="${(top+350)/2-6}" text-anchor="middle" ${F} font-weight="700" font-size="22" fill="${c}">${p} m</text>
   <line x1="${fx}" y1="380" x2="${wx}" y2="380" stroke="${c}" stroke-width="2"/><line x1="${fx}" y1="372" x2="${fx}" y2="388" stroke="${c}" stroke-width="2"/><line x1="${wx}" y1="372" x2="${wx}" y2="388" stroke="${c}" stroke-width="2"/>
   <text x="${(fx+wx)/2}" y="408" text-anchor="middle" ${F} font-weight="700" font-size="22" fill="${c}">${dd} m</text>
-  <line x1="${wx+62}" y1="${top+6}" x2="${wx+62}" y2="350" stroke="#ffb547" stroke-width="2" stroke-dasharray="6 5"/>
-  <text x="${wx+74}" y="${(top+350)/2+8}" ${F} font-weight="700" font-size="26" fill="#ffb547">?</text>`)},
+  <rect x="${wx+56}" y="${top+2}" width="12" height="${348-top}" rx="5" fill="#ffb547" opacity=".9" filter="url(#neon)"/>
+  <text x="${wx+80}" y="${(top+350)/2-6}" ${F} font-weight="700" font-size="26" fill="#ffb547">?</text>
+  <text x="${wx+80}" y="${(top+350)/2+16}" ${F} font-size="12" letter-spacing="1" fill="#ffb547">BARRE</text><text x="${wx+80}" y="${(top+350)/2+30}" ${F} font-size="12" letter-spacing="1" fill="#ffb547">D'ÉNERGIE</text>`)},
 
  reacteur:()=>{const c="#ffb547";return room(c,`
   <ellipse cx="400" cy="170" rx="160" ry="150" fill="url(#glow)"/>
@@ -367,8 +382,8 @@ function renderMap(){
 }
 const notStarted=()=>S.left===S.dur&&!S.running&&SHIPS.every(s=>S.ships[s.id].step===0);
 const SHIP_P=[[105,52],[105,200],[695,110],[695,300],[105,348]],SHOWN={};
-const PARTS=["la coque (brèche)","le cockpit","les moteurs","l'aile","l'antenne","le support vie"];
-const FIXTXT=["COQUE SCELLÉE","CABINE RESTAURÉE","MOTEURS RELANCÉS","AILE RÉPARÉE","ANTENNE RÉTABLIE","SUPPORT VIE ACTIF"];
+const PARTS=["la coque","la vitre du cockpit","les moteurs","les ailerons","l'antenne","l'oxygène"];
+const FIXTXT=["COQUE SCELLÉE","COCKPIT RESTAURÉ","MOTEURS RELANCÉS","CAP VERROUILLÉ","ANTENNE RÉTABLIE","OXYGÈNE RÉTABLI"];
 let ENTER=false,entering=false;
 /* ===== Rendu réaliste (flotte) ===== */
 const R_CY=220,R_DOCK=[225,180,315,45,135];
@@ -494,7 +509,7 @@ const deb=st<6?R_DEB.slice(0,Math.max(0,5-st)).map(([x,y],n)=>`<path class='deb'
 return `<g class='sg' data-ship='${s.id}' tabindex='0' role='button' aria-label='Entrer dans ${s.name}' style='transform:translate(${q.x}px,${q.y}px)'>
 <circle class='halo' r='62' fill='${s.c}' opacity='.08'/>${st<6?`<circle class='ping' r='58' fill='none' stroke='${s.c}' stroke-width='2'/>`:''}${deb}
 <g class='${st<6?'bob':''}' style='animation-delay:-${i*.9}s'><g class='rg' data-rg='${s.id}' style='transform:rotate(${qrot}deg) scale(${.9*p.f},.9)'><g style='filter:brightness(${.62+st*.063}) saturate(${.5+st*.085})'>${R_ship(i,s.c,st)}</g>${R_smoke(i,st)}${fl}</g></g>${labels}
-${st>=6?`<text y='50' text-anchor='middle' ${F} font-weight='700' font-size='15' letter-spacing='3' fill='${s.c}'>${s.name.toUpperCase()} · ${s.frag}</text>`:`<text y='58' text-anchor='middle' ${F} font-weight='700' font-size='19' letter-spacing='4' fill='${s.c}'>${s.name.toUpperCase()}</text>
+${st>=6?`<text y='50' text-anchor='middle' ${F} font-weight='700' font-size='15' letter-spacing='3' fill='${s.c}'>${s.name.toUpperCase()} · ${s.frag} m</text>`:`<text y='58' text-anchor='middle' ${F} font-weight='700' font-size='19' letter-spacing='4' fill='${s.c}'>${s.name.toUpperCase()}</text>
 <text y='76' text-anchor='middle' ${F} font-size='13' letter-spacing='2' fill='#a9b8d0'>RÉPARATION ${st} / 6</text>${pips}`}</g>`}).join('');
 setTimeout(()=>{moves.forEach(([id,x,y,d,r,f])=>{const g=document.querySelector(`.sg[data-ship='${id}']`),h=document.querySelector(`.rg[data-rg='${id}']`);if(g){g.style.transitionDelay=d+'ms';g.style.transform=`translate(${x}px,${y}px)`}if(h){h.style.transitionDelay=d+'ms';h.style.transform=`rotate(${r}deg) scale(${.9*f},.9)`}SHOWN[id]=S.ships[id].step})},80);
 return `<svg viewBox='0 0 800 440' role='img' aria-label='Cinq vaisseaux autour du réacteur'>${defs('#ffb547')}${R_defs()}
@@ -516,7 +531,7 @@ function enterShip(id){
 document.addEventListener("keydown",e=>{const g=e.target.closest&&e.target.closest(".sg");if(g&&(e.key==="Enter"||e.key===" ")){e.preventDefault();enterShip(g.dataset.ship)}});
 function hero(mini){return `<section class="hero${mini?" mini":""}"><div class="scene">${heroScene()}</div>
  ${mini?"":`<div class="brief"><h3>Mission</h3>
-  <p>Le réacteur de la flotte Hélios est éteint et les 5 vaisseaux sont endommagés. Chaque équipage traverse 6 salles : chaque salle se répare avec Pythagore. Ensemble, vous rallumerez le réacteur.</p>
+  <p>Une tempête solaire a frappé la flotte Hélios : le réacteur est éteint, les 5 vaisseaux sont en panne. Chaque équipage répare son vaisseau salle par salle, avec Pythagore, puis rapporte une barre d'énergie. Avec les 5 barres, vous rallumerez le réacteur.</p>
   <ol class="steps"><li>Touchez votre vaisseau : l'éclaireur observe le décor de la salle et le décrit à son équipage.</li><li>L'équipage trouve le code avec le dossier papier.</li><li>Bon code : la porte s'ouvre et une partie de votre vaisseau est réparée. Vaisseau complet : il rejoint le réacteur.</li></ol>
   <div class="cost">Mauvais code ou indice : −1 min pour toute la flotte</div></div>`}</section>`}
 function renderFleet(){
@@ -528,11 +543,12 @@ function renderFleet(){
 function renderShip(id){
   const s=ship(id),st=S.ships[id].step;
   if(st>=6)return `<div class="head"><button class="btn" data-go="flotte">← Flotte</button><span class="pill" style="color:${s.c}">${s.name}</span><h2>Vaisseau réparé</h2></div>
-    <div class="info"><p>Fragment récupéré : <b style="font-family:var(--display);font-size:40px;color:${s.c}">${s.frag}</b></p><p>Allez aider les équipages qui ne sont pas encore réparés : le réacteur a besoin des 5 fragments.</p></div>`;
+    <div class="info"><p>Barre d'énergie récupérée : <b style="font-family:var(--display);font-size:40px;color:${s.c}">${s.frag}</b></p><p>Allez aider les équipages qui ne sont pas encore réparés : le réacteur a besoin des 5 barres d'énergie.</p></div>`;
   const r=ROOMS[st],h=S.ships[id].hints[r.id],en=ENTER;ENTER=false;
   return `<div class="head"><button class="btn" data-go="flotte">← Flotte</button><span class="pill" style="color:${s.c}">${s.name}</span><h2>${r.name}</h2><span class="tag">Salle ${st+1} / 6 · dossier page ${r.page}</span></div>
+   <p class="story"><b>Journal de bord.</b> ${r.story}</p>
    <div class="scene${en?" enter":""}">${SCENES[r.id](s.d,s.c)}</div>
-   <div class="bar"><div class="info"><div class="tag" style="color:var(--amber)">Cette salle répare : ${PARTS[st]}</div><p>L'éclaireur mémorise ce qu'il voit ici, puis l'explique à son équipage. Avec la page ${r.page} du dossier, il devient possible de trouver le code.</p>
+   <div class="bar"><div class="info"><div class="tag" style="color:var(--amber)">On répare : ${PARTS[st]}</div><p class="rules" style="font-size:15px">L'éclaireur décrit ce qu'il voit · l'équipage cherche avec la page ${r.page} du dossier.</p>
      ${h?`<div class="hint">💡 ${r.hint}</div>`:`<div><button class="btn" data-hint="${id}">Indice (−1 min)</button></div>`}
      ${S.showSol?`<div class="sol">SOLUTION ${s.name.toUpperCase()} : ${s.ans[st]}</div>`:""}</div>
     <form class="answer" id="ansForm"><label for="code">Code de la salle</label>
@@ -542,7 +558,7 @@ function renderShip(id){
 function renderReactor(){
   return `<div class="head"><button class="btn" data-go="flotte">← Flotte</button><h2>Réacteur commun</h2><span class="tag">Dossier page 7 · toute la classe</span></div>
    <div class="scene">${SCENES.reacteur()}</div>
-   <div class="bar"><div class="info"><p>Le code du réacteur se calcule avec les 5 fragments (page 7 du dossier). Tous les équipages se mettent d'accord avant d'envoyer un délégué.</p>${S.showSol?`<div class="sol">SOLUTION : ${FINAL}</div>`:""}</div>
+   <div class="bar"><div class="info"><p>Chaque vaisseau a rapporté sa barre d'énergie (longueur en m). Mises bout à bout, elles forment le cœur triangulaire du réacteur. Le code est la longueur totale du circuit (page 7 du dossier). Tous les équipages se mettent d'accord avant d'envoyer un délégué.</p>${S.showSol?`<div class="sol">SOLUTION : ${FINAL}</div>`:""}</div>
    ${S.final?`<div class="answer"><strong style="color:var(--ok);font-family:var(--display);font-size:24px">RÉACTEUR RALLUMÉ</strong></div>`:
    `<form class="answer" id="ansForm"><label for="code">Code du réacteur</label><div class="row"><input id="code" autocomplete="off"><button class="btn primary" type="submit">Valider</button></div><p class="rules">Mauvais code : −1 min</p></form>`}</div>`;
 }
@@ -557,7 +573,7 @@ function check(){
   if(S.view==="reacteur")good=v===FINAL;else{const s=ship(S.view);good=v===s.ans[S.ships[s.id].step]}
   if(good){
     if(S.view==="reacteur"){S.final=true;save();render();return win()}
-    S.ships[S.view].step++;ENTER=S.ships[S.view].step<6;save();flash(S.ships[S.view].step>=6?"Vaisseau réparé":"Porte ouverte");render();
+    S.ships[S.view].step++;ENTER=S.ships[S.view].step<6;save();flash(S.ships[S.view].step>=6?"Vaisseau réparé":FIXTXT[S.ships[S.view].step-1].toLowerCase());render();
   }else{S.left=Math.max(0,S.left-PEN_WRONG);save();toast("Code refusé · −1 min");inp.classList.remove("shake");void inp.offsetWidth;inp.classList.add("shake");inp.select();renderClock();if(S.left<=0)lose()}
 }
 function flash(t){const d=document.createElement("div");d.className="flash";d.innerHTML=`<div>${t}</div>`;document.body.appendChild(d);setTimeout(()=>d.remove(),1100)}
