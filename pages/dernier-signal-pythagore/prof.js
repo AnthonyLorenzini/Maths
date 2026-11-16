@@ -36,7 +36,7 @@ function renderAll(){
   $("app").innerHTML=`<header class="ptop"><div><p class="tag">Flotte Hélios · Opération Pythagore</p><h1>Dernier <span>Signal</span></h1></div>
    <div class="pcode"><span class="tag">Code de la partie</span><b id="pcode">${CODE}</b></div>
    <div class="pclock"><div class="clock" id="clock">--:--</div><div class="tag" id="pen"></div></div>
-   <div class="pctl"><button class="btn primary" id="play"></button><select id="dur" class="btn"><option value="2400">40 min</option><option value="2700">45 min</option><option value="3000">50 min</option><option value="3300">55 min</option><option value="3600">60 min</option></select><button class="btn" id="qrBtn">QR codes</button><button class="btn" id="solBtn">Solutions</button><button class="btn danger" id="reset">Nouvelle partie</button></div></header>
+   <div class="pctl"><button class="btn primary" id="play"></button><select id="dur" class="btn"><option value="2400">40 min</option><option value="2700">45 min</option><option value="3000">50 min</option><option value="3300">55 min</option><option value="3600">60 min</option></select><button class="btn" id="qrBtn">QR codes</button><a class="btn" href="index.html?apercu=1" target="_blank" style="text-decoration:none">Visiter les salles</a><button class="btn" id="solBtn">Solutions</button><button class="btn danger" id="reset">Nouvelle partie</button></div></header>
    <div class="pgrid"><section><div class="scene" id="hero"></div><div class="card" id="reactor"></div><div class="card"><div class="tag">Journal de bord</div><ul id="log" class="log"></ul></div></section><section id="ships" class="ships"></section></div><div id="layer"></div>`;
   $("play").onclick=toggleChrono;$("dur").onchange=async e=>{SES.meta.dur=+e.target.value;await SYNC.patch(P("meta"),{dur:+e.target.value});renderLive()};
   $("qrBtn").onclick=qr;$("solBtn").onclick=()=>{showSol=!showSol;$("solBtn").classList.toggle("primary",showSol);renderLive()};
@@ -57,7 +57,7 @@ function renderLive(){
   $("reactor").innerHTML=`<div class="tag">Réacteur</div><p class="rstate"><b style="color:${SES.final?"var(--ok)":allDone()?"var(--amber)":"var(--muted)"}">${SES.final?"Rallumé : mission réussie !":allDone()?"Prêt : les groupes se mettent d'accord":done+" / 5 vaisseaux réparés"}</b></p>
    ${showSol?`<p class="sol">Barres : ${SHIPS.map(s=>`<span style="color:${s.c}">${s.name} ${COR.frags[SHIPS.indexOf(s)]}</span>`).join(" · ")}<br>somme ${COR.somme} · a = PGCD = ${COR.pgcd} · b = ${COR.lots} · code = <b>${COR.final}</b></p>`:""}`;
   const now=SYNC.now();
-  $("ships").innerHTML=SHIPS.map(s=>{const o=(SES.ships||{})[s.id],st=o?o.step||0:0,hints=o&&o.hints?Object.keys(o.hints).length:0,idle=o&&o.t?(now-o.t)/60000:0;
+  $("ships").innerHTML=SHIPS.map(s=>{const o=(SES.ships||{})[s.id],st=o?o.step||0:0,hints=o&&o.hints?Object.values(o.hints).reduce((a,v)=>a+(+v||1),0):0,idle=o&&o.t?(now-o.t)/60000:0;
     const stuck=o&&st<6&&(SES.chrono.running)&&idle>5;
     const room=st>=6?"Vaisseau réparé":ROOMS[st].name;
     return `<div class="sh ${stuck?"stuck":""}" style="--c:${s.c}"><div class="shh"><b style="color:${s.c}">${s.name}</b><span class="tag">${o?(st>=6?"✓ réparé":"salle "+(st+1)+" / 6"):"pas encore connecté"}</span></div>

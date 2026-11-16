@@ -3,7 +3,7 @@
    dans des cartes lisibles (jeu.js) : le décor sert à l'immersion. */
 window.DEC=(function(){
 const F='font-family="Chakra Petch, sans-serif"';
-let _s=7;const rnd=()=>{_s=(_s*16807)%2147483647;return _s/2147483647};
+let CTX=null;let _s=7;const rnd=()=>{_s=(_s*16807)%2147483647;return _s/2147483647};
 const seed=n=>{_s=n};
 
 /* ---------- définitions communes ---------- */
@@ -24,7 +24,8 @@ const D=(u,c)=>`<defs>
 <filter id="${u}soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9"/></filter>
 <filter id="${u}grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0"/></filter>
 </defs>`;
-const wrap=(u,c,body,extra="")=>`<svg viewBox="0 0 800 420" role="img" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">${D(u,c)}${body}<rect width="800" height="420" fill="url(#${u}vig)"/><rect width="800" height="420" filter="url(#${u}grain)"/>${extra}</svg>`;
+const plate=(c)=>CTX?`<g transform="translate(12 10)"><rect width="${34+CTX.length*8.2}" height="26" rx="6" fill="#050a14" stroke="${c}" stroke-opacity=".7" stroke-width="1.5"/><circle cx="14" cy="13" r="3.4" fill="${c}"/><text x="26" y="17.5" ${F} font-weight="700" font-size="12" letter-spacing="2" fill="${c}">${CTX}</text></g>`:"";
+const wrap=(u,c,body,extra="")=>`<svg viewBox="0 0 800 420" role="img" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">${D(u,c)}${body}<rect width="800" height="420" fill="url(#${u}vig)"/><rect width="800" height="420" filter="url(#${u}grain)"/>${plate(c)}${extra}</svg>`;
 
 /* ---------- briques ---------- */
 const rivets=(x,y,w,h,n=0)=>{let s="";const pts=[[x+7,y+7],[x+w-7,y+7],[x+7,y+h-7],[x+w-7,y+h-7]];for(let i=1;i<n;i++){pts.push([x+7+(w-14)*i/n,y+7],[x+7+(w-14)*i/n,y+h-7])}
@@ -209,5 +210,5 @@ const serre=(c)=>{const u="f";seed(77);
   ${pipe(u,"M340 372 H250 V340",7,"#4b5e86")}${pipe(u,"M460 372 H550 V340",7,"#4b5e86")}
   <g class="drip">${[0,1,2].map(i=>`<ellipse cx="${236+i*0}" cy="${326+i*8}" rx="2.4" ry="4" fill="#9fd8ff" opacity=".8"/>`).join("")}</g>`)};
 
-return {hero,sas,labo,machines,nav,comms,serre,shipArt,D};
+return {hero,sas,labo,machines,nav,comms,serre,shipArt,D,setCtx:t=>{CTX=t}};
 })();

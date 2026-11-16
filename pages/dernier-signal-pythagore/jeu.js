@@ -6,7 +6,7 @@ const qs=new URLSearchParams(location.search);
 let CODE=(qs.get("s")||"").toUpperCase();if(!CODE&&SYNC.local)CODE="LOCAL";
 if(!CODE){try{CODE=(localStorage.getItem("ds4e-code")||"").toUpperCase()}catch(e){}}
 let SID=qs.get("v")||"";if(!SID){try{SID=localStorage.getItem("ds4e-ship:"+CODE)||""}catch(e){}}
-let SES=null,ME=null,view="join",lastWrite=0,busy=false,overlayShown="";
+let SES=null,ME=null,view="join",lastWrite=0,busy=false,overlayShown="";const PREVIEW=!!qs.get("apercu");let showSol=false;
 const ship=id=>SHIPS.find(s=>s.id===id);
 const fr=n=>String(n).replace(".",",");
 const fmt=s=>{s=Math.max(0,Math.round(s));return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")};
@@ -24,12 +24,13 @@ const started=()=>!!(SES&&SES.chrono&&(SES.chrono.running||SES.chrono.base>0));
 const allDone=()=>SYNC.local?ME.step>=6:SHIPS.every(s=>((SES.ships||{})[s.id]||{}).step>=6);
 
 /* ---------- écritures ---------- */
-function log(ev,txt){SYNC.put(P(`log/${SYNC.now()}_${SID}`),{t:SYNC.now(),ship:SID,ev,txt:txt||""}).catch(()=>{})}
-function writeMe(extra){lastWrite=Date.now();const o=Object.assign({step:ME.step,pen:ME.pen||0,t:SYNC.now()},extra||{});SES.ships=SES.ships||{};SES.ships[SID]=Object.assign(SES.ships[SID]||{},o);return SYNC.patch(P("ships/"+SID),o).catch(()=>{})}
+function log(ev,txt){if(PREVIEW)return;SYNC.put(P(`log/${SYNC.now()}_${SID}`),{t:SYNC.now(),ship:SID,ev,txt:txt||""}).catch(()=>{})}
+function writeMe(extra){if(PREVIEW)return Promise.resolve();lastWrite=Date.now();const o=Object.assign({step:ME.step,pen:ME.pen||0,t:SYNC.now()},extra||{});SES.ships=SES.ships||{};SES.ships[SID]=Object.assign(SES.ships[SID]||{},o);return SYNC.patch(P("ships/"+SID),o).catch(()=>{})}
 function addPen(){ME.pen=(ME.pen||0)+1;writeMe()}
 
 /* ---------- démarrage ---------- */
 async function boot(){
+  if(PREVIEW)return bootPreview();
   if(!CODE){view="join";return renderJoin()}
   await SYNC.calibrate(CODE);
   if(SYNC.local&&!(await SYNC.get(P("meta")))){await SYNC.put(P(""),{meta:{dur:3000,created:Date.now()},chrono:{running:false,startAt:0,base:0},ships:{}})}
@@ -41,6 +42,21 @@ async function boot(){
   SES.ships=SES.ships||{};ME=SES.ships[SID]||{step:0,pen:0};ME.step=ME.step||0;ME.pen=ME.pen||0;
   if(!SES.ships[SID]){await writeMe();log("join",ship(SID).name)}
   view=pickView();render();setInterval(poll,2500);setInterval(hudTick,1000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)poll()})
+}
+function bootPreview(){
+  if(!window.SITE_PROF){document.body.innerHTML=`<div class="center"><div class="card"><h2>Accès réservé</h2><p>Ouvrez d'abord le <a href="prof.html" style="color:#7cc8ff">tableau de bord du professeur</a> et saisissez le mot de passe.</p></div></div>`;return}
+  CODE="APERCU";if(!ship(SID))SID="orion";const r0=Math.max(0,Math.min(6,+(qs.get("r")||0)));
+  SES={meta:{dur:3000},chrono:{running:false,base:0},ships:{},final:null};ME={step:r0,pen:0,hints:{}};SES.ships[SID]=ME;
+  view=r0>=6?"reactor":"room";
+  document.querySelector(".top").insertAdjacentHTML("afterend",`<div class="card prevbar"><span class="tag">Accès professeur · aperçu des salles</span><div class="prevrow"><select id="pvShip">${SHIPS.map(s=>`<option value="${s.id}" ${s.id===SID?"selected":""}>${s.name}</option>`).join("")}</select><div class="pvrooms">${ROOMS.map((r,i)=>`<button class="btn" data-pv="${i}">${i+1}. ${r.short}</button>`).join("")}<button class="btn" data-pv="6">Réacteur</button></div><label class="pvsol"><input type="checkbox" id="pvSol"> Corrigé</label></div></div>`);
+  $("pvShip").onchange=e=>{SID=e.target.value;SES.ships={[SID]:ME};render()};$("pvSol").onchange=e=>{showSol=e.target.checked;render()};
+  document.querySelectorAll("[data-pv]").forEach(b=>b.onclick=()=>{const r=+b.dataset.pv;ME={step:r,pen:0,hints:{}};SES.ships={[SID]:ME};view=r>=6?"reactor":"room";render()});
+  render();setInterval(hudTick,1000);
+}
+function solBox(){
+  if(!PREVIEW||!showSol)return"";
+  if(view==="reactor"){const C=window.CORRIGE||{};return `<div class="card sol"><div class="tag">Corrigé · réacteur</div><ol><li>Les 5 barres : ${SHIPS.map(s=>s.name+" "+s.frag).join(" · ")}.</li><li>Décomposition : 48 = 2⁴ × 3 ; 60 = 2² × 3 × 5 ; 84 = 2² × 3 × 7 ; 96 = 2⁵ × 3 ; 132 = 2² × 3 × 11. Facteurs communs : 2² × 3 = <b>12</b>, donc a = 12 min.</li><li>Somme des barres : 420 ; b = 420 ÷ 12 = <b>35</b> tronçons.</li><li>Pythagore : 12² + 35² = 144 + 1 225 = 1 369 = 37², donc hypoténuse = <b>37 dm</b>.</li></ol></div>`}
+  const r=ROOMS[ME.step];return `<div class="card sol"><div class="tag">Corrigé · ${ship(SID).name} · ${r.name}</div>${r.sol(ship(SID))}</div>`;
 }
 function pickView(){
   if(SES.final)return ME.step>=6?"reactor":"done";
@@ -73,7 +89,7 @@ function hud(){
   let s="";const X=i=>16+i*31;s+=`<line x1="${X(0)}" y1="64" x2="${X(6)}" y2="64" stroke="var(--line)" stroke-width="2"/>`;
   ["Sas","Labo","Mach.","Navig.","Comms","Serre","Réact."].forEach((L,i)=>{s+=`<circle cx="${X(i)}" cy="64" r="5" fill="${i===6&&SES.final?"var(--ok)":"var(--panel2)"}" stroke="var(--muted)"/><text x="${X(i)}" y="85" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-size="8" fill="var(--muted)">${L}</text>`});
   const stack={};SHIPS.forEach(sh=>{const st=Math.min(((SES.ships[sh.id]||{}).step)||0,6);const k=stack[st]=(stack[st]||0)+1;s+=`<circle cx="${X(st)}" cy="${56-k*10}" r="${sh.id===SID?5.5:4.2}" fill="${sh.c}" ${sh.id===SID?'stroke="#fff" stroke-width="1.5"':""}><title>${sh.name}</title></circle>`});
-  $("map").innerHTML=s;
+  $("map").innerHTML=s;const rp=$("rep");if(rp)rp.innerHTML=repairBar().replace(/^<div class="rep">|<\/div>$/g,"");
 }
 function hudTick(){if(!SES)return;hud();endCheck()}
 function endCheck(){
@@ -112,22 +128,25 @@ function renderBrief(s){
   <p class="tag">Rôles conseillés</p><p class="muted">Lecteur · Calculateur · Vérificateur · Scribe · Chef de bord (tape le code)</p>
   <button class="btn primary big" id="goBtn" ${started()||SYNC.local?"":"disabled"}>Prêts, on décolle !</button><p class="tag" id="wait">${started()||SYNC.local?"":"En attente du professeur…"}</p></div></div>`;
 }
+function missionCard(r){return `<div class="mission"><div class="tag" style="color:var(--amber)">Votre mission</div><p class="want">On cherche : <b>${r.want}</b></p><ol class="steps">${r.steps.map(x=>`<li>${x}</li>`).join("")}</ol><p class="codeis">🔑 Le code : <b>${r.codeis}</b></p></div>`}
+function hintBlock(hints,lvl){return (lvl>=1?`<div class="hint">💡 <b>Indice 1</b> · ${hints[0]}</div>`:"")+(lvl>=2?`<div class="hint">💡 <b>Indice 2</b> · ${hints[1]}</div>`:"")+(lvl<2?`<button class="btn" id="hintBtn">Indice ${lvl+1} (−1 min)</button>`:"")}
+function repairBar(){if(!ME)return"";return `<div class="rep">${ROOMS.map((r,i)=>`<span class="${i<ME.step?"ok":i===ME.step&&ME.step<6?"cur":""}">${i<ME.step?"✓ ":""}${r.part.replace("la réserve de carburant","carburant").replace(/^(la |le |les |l')/,"")}</span>`).join("")}</div>`}
 function renderRoom(s){
   const r=ROOMS[ME.step],sv=store("room:"+r.id)||{};
-  const hintOpen=(SES.ships[SID].hints||{})[r.id];
+  const hl=+((SES.ships[SID].hints||{})[r.id])||0;
   const decor=DEC[r.id==="sas"?"sas":r.id==="labo"?"labo":r.id==="machines"?"machines":r.id==="nav"?"nav":r.id==="comms"?"comms":"serre"];
-  const scene=r.id==="sas"?decor(s.c,s.d.sas):r.id==="machines"?decor(s.c,[1,1,1,1]):decor(s.c);
+  DEC.setCtx(`${s.name.toUpperCase()} · ${r.name.toUpperCase()}`);
+  const scene=r.id==="sas"?decor(s.c,s.d.sas):r.id==="machines"?decor(s.c,[1,1,1,1]):decor(s.c);DEC.setCtx(null);
   const postes=r.postes(s).map(p=>`<label class="poste"><span>${p.label}</span><span class="fld"><input inputmode="decimal" data-p="${p.id}" value="${esc(sv[p.id]??"")}" autocomplete="off"><em>${p.unit}</em></span>${p.bad?`<label class="bad"><input type="checkbox" data-bad="${p.id}" ${sv["b"+p.id.slice(1)]?"checked":""}> plaque fausse</label>`:""}</label>`).join("");
   return `<div class="head"><h2>${r.name}</h2><span class="tag">Salle ${ME.step+1} / 6 · ${r.chap}</span></div>
   <p class="story"><b>Journal de bord.</b> ${r.story}</p>
   <div class="scene">${scene}</div>
-  <div class="repair"><span class="tag" style="color:var(--amber)">On répare : ${r.part}</span></div>
+  ${missionCard(r)}
   ${r.docs(s)}
   ${postes?`<div class="card carnet"><div class="tag">Carnet de calculs · chacun prend un poste</div>${postes}</div>`:""}
-  <div class="bar">
-   ${hintOpen?`<div class="hint">💡 ${r.hint}</div>`:`<button class="btn" id="hintBtn">Indice (−1 min)</button>`}
+  <div class="bar">${hintBlock(r.hints,hl)}
    <form class="answer" id="ansForm"><label for="code">Code de la salle</label><div class="row"><input id="code" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="Code"><button class="btn primary" type="submit">Valider</button></div><p class="rules">Mauvais code : −1 min pour toute la flotte</p></form>
-  </div>`;
+  </div>${solBox()}`;
 }
 function renderDone(s){
   const others=SHIPS.filter(x=>x.id!==SID).map(x=>{const st=((SES.ships[x.id]||{}).step)||0;return `<li><span style="color:${x.c}">${x.name}</span> <span class="muted">${st>=6?"vaisseau réparé":"salle "+Math.min(st+1,6)+" / 6"}</span></li>`}).join("");
@@ -143,14 +162,14 @@ function renderReactor(s){
   const fin=SES.final;
   return `<div class="brief"><div class="head"><h2>Réacteur commun</h2><span class="tag">Les 5 équipages ensemble</span></div>
   <div class="scene">${DEC.hero(SHIPS,Object.fromEntries(SHIPS.map(x=>[x.id,6])),!!fin,true)}</div>
-  <div class="card"><p class="story" style="margin:0"><b>Journal de bord.</b> Chaque vaisseau rapporte sa barre d'énergie (un temps de charge en minutes). Mettez les 5 nombres en commun.</p>
-  <ol class="rules"><li>Chaque barre est découpée en <b>tronçons identiques</b>, les plus longs possible, <b>sans reste</b>. Longueur d'un tronçon : <b>a</b> minutes.</li><li>Nombre total de tronçons : <b>b</b>.</li><li>Le cœur du réacteur est un triangle rectangle dont les côtés de l'angle droit mesurent <b>a dm</b> et <b>b dm</b>.</li></ol>
+  <div class="card"><p class="story" style="margin:0"><b>Journal de bord.</b> Les 5 vaisseaux sont réparés ! Il reste à rallumer le réacteur. Chaque équipage a une barre d'énergie (un temps de charge en minutes) : <b>mettez les 5 nombres en commun</b>, en vous les dictant d'un groupe à l'autre.</p>
+  <div class="tag" style="margin-top:10px;color:var(--amber)">Votre mission</div><ol class="steps"><li>Chaque barre est découpée en <b>tronçons identiques</b>, les plus longs possible, <b>sans reste</b>. Longueur d'un tronçon : <b>a</b> minutes.</li><li>Nombre total de tronçons : <b>b</b>.</li><li>Le cœur du réacteur est un triangle rectangle dont les côtés de l'angle droit mesurent <b>a dm</b> et <b>b dm</b>. Calculez son hypoténuse.</li></ol>
   <p><b>Le code est la longueur de l'hypoténuse, en dm.</b></p></div>
   <div class="card carnet"><div class="tag">Carnet de calculs · les 5 barres</div>${fields}
   <label class="poste"><span>a : longueur d'un tronçon</span><span class="fld"><input inputmode="decimal" data-r="a" value="${esc(sv.a??"")}"><em>min</em></span></label>
   <label class="poste"><span>b : nombre de tronçons</span><span class="fld"><input inputmode="decimal" data-r="b" value="${esc(sv.b??"")}"><em></em></span></label></div>
-  ${fin?`<div class="card center2"><div class="big">🛰️</div><h2 style="color:var(--ok)">Réacteur rallumé</h2></div>`:`<div class="bar">${(SES.ships[SID].hints||{}).reacteur?`<div class="hint">💡 Décompose les 5 nombres en facteurs premiers : les facteurs communs donnent le plus grand tronçon. Puis Pythagore avec a et b.</div>`:`<button class="btn" id="hintBtn">Indice (−1 min)</button>`}
-   <form class="answer" id="ansForm"><label for="code">Code du réacteur</label><div class="row"><input id="code" inputmode="numeric" autocomplete="off" placeholder="Code"><button class="btn primary" type="submit">Valider</button></div><p class="rules">Mauvais code : −1 min pour toute la flotte</p></form></div>`}</div>`;
+  ${fin?`<div class="card center2"><div class="big">🛰️</div><h2 style="color:var(--ok)">Réacteur rallumé</h2></div>`:`<div class="bar">${hintBlock(["Pour trouver le plus grand tronçon commun, décomposez chaque barre en facteurs premiers : les facteurs communs à toutes les barres, multipliés entre eux, donnent a.","b = (somme des 5 barres) ÷ a. Ensuite : hypoténuse² = a² + b², puis racine carrée."],+((SES.ships[SID].hints||{}).reacteur)||0)}
+   <form class="answer" id="ansForm"><label for="code">Code du réacteur</label><div class="row"><input id="code" inputmode="numeric" autocomplete="off" placeholder="Code"><button class="btn primary" type="submit">Valider</button></div><p class="rules">Mauvais code : −1 min pour toute la flotte</p></form></div>`}${solBox()}</div>`;
 }
 
 /* ---------- interactions ---------- */
@@ -182,14 +201,15 @@ document.addEventListener("click",e=>{
   if(e.target.id==="closeOv")$("layer").innerHTML="";
 });
 async function useHint(){
-  const id=view==="reactor"?"reacteur":ROOMS[ME.step].id;SES.ships[SID].hints=SES.ships[SID].hints||{};SES.ships[SID].hints[id]=true;
-  lastWrite=Date.now();SYNC.put(P(`ships/${SID}/hints/${id}`),true).catch(()=>{});addPen();log("hint",id);toast("Indice · −1 min pour la flotte");render();
+  const id=view==="reactor"?"reacteur":ROOMS[ME.step].id;SES.ships[SID].hints=SES.ships[SID].hints||{};const lv=(+SES.ships[SID].hints[id]||0)+1;SES.ships[SID].hints[id]=lv;
+  if(!PREVIEW){lastWrite=Date.now();SYNC.put(P(`ships/${SID}/hints/${id}`),lv).catch(()=>{});addPen();log("hint",id+" "+lv);toast("Indice · −1 min pour la flotte")}render();
 }
 async function check(){
   const inp=$("code"),v=norm(inp.value);if(!v)return;
   let good;const room=view==="reactor"?"reacteur":ROOMS[ME.step].id;
   const h=await sha(room,view==="reactor"?"flotte":SID,v);
   good=view==="reactor"?h===DATA.hFinal:h===ship(SID).h[room];
+  if(PREVIEW){toast(good?"✓ Bon code":"✗ Code incorrect (aperçu : aucune pénalité)");return}
   if(good){
     if(view==="reactor"){SES.final=SYNC.now();await SYNC.put(P("final"),SES.final).catch(()=>{});log("final","Réacteur rallumé");render();endCheck();return}
     const r=ROOMS[ME.step];ME.step++;await writeMe();log("room",r.id);
