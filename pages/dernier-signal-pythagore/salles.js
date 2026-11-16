@@ -149,3 +149,11 @@ return [
 })();
 
 window.REACTOR_HINTS=["Pour trouver le plus grand tronçon commun, décomposez chaque barre en facteurs premiers : les facteurs communs à toutes les barres, multipliés entre eux, donnent a.","b = (somme des 5 barres) ÷ a. Ensuite : hypoténuse² = a² + b², puis racine carrée."];
+
+window.SCORE=(function(){
+  const q=x=>Math.round(x*4)/4;
+  function bonus(ships,id){const me=(ships||{})[id]||{};if((me.step||0)<6)return 0;let n=0;Object.keys(ships||{}).forEach(k=>{if(k===id)return;String(((ships||{})[k]||{}).thx||"").split(",").forEach(e=>{if(e.split(":")[1]===id)n++})});return n}
+  function calc(ships,id){const o=(ships||{})[id]||{},st=Math.min(o.step||0,6),ded=o.ded||0,adj=o.adj||0,b=bonus(ships,id),credit=Math.min(ded,Math.max(0,b+adj)),net=ded-credit,base=20*st/6;
+    return{st,ded,bonus:b,adj,credit,net,base,note:Math.max(0,q(base-net/4)),live:Math.max(0,20-net/4)}}
+  return{calc,bonus}
+})();

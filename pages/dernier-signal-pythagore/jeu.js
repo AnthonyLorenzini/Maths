@@ -72,7 +72,7 @@ async function poll(){
   const mine=(s.ships||{})[SID];
   SES=s;SES.ships=SES.ships||{};
   if(mine&&Date.now()-lastWrite>4000&&mine.step!==ME.step){ME.step=mine.step||0;ME.pen=mine.pen||0;view=pickView();render();return}
-  if(mine&&Date.now()-lastWrite>4000){ME.pen=mine.pen||0;ME.ded=mine.ded||0;ME.hu=mine.hu||""}
+  if(mine&&Date.now()-lastWrite>4000){ME.pen=mine.pen||0;ME.ded=mine.ded||0;ME.hu=mine.hu||"";ME.thx=mine.thx||""}
   if(mine){const o=JSON.stringify(ME.ask||null),n=JSON.stringify(mine.ask||null);if(o!==n){const hadReply=!!(ME.ask&&ME.ask.reply);ME.ask=mine.ask;if(mine.ask&&mine.ask.reply&&!hadReply)toast("📡 Message du commandant de bord");if(view==='room'||view==='reactor')render()}}
   const was=view;
   if(view==="done"&&allDone())view="reactor";
@@ -84,9 +84,9 @@ async function poll(){
 
 /* ---------- affichage ---------- */
 const hu=()=>String(ME&&ME.hu||"").split(",").filter(Boolean);
-const scoreNow=()=>Math.max(0,20-((ME&&ME.ded)||0)/4);
-function noteOf(id){const o=(SES.ships||{})[id]||{};const units=Math.min(o.step||0,6)+(SES.final?1:0);return Math.max(0,Math.round((20*units/7-(o.ded||0)/4)*4)/4)}
-function noteLine(id){const o=(SES.ships||{})[id]||{},d=(o.ded||0)/4;return `<p class="notefin">Note du groupe : <b>${fr(noteOf(id))} / 20</b>${d?` <span class="muted">(aides utilisées : −${fr(d)})</span>`:` <span class="muted">(sans aucune aide !)</span>`}</p>`}
+const scoreNow=()=>SCORE.calc(SES&&SES.ships||{},SID).live;
+const noteOf=id=>SCORE.calc(SES.ships||{},id).note;
+function noteLine(id){const c=SCORE.calc(SES.ships||{},id);return `<p class="notefin">Note du groupe : <b>${fr(c.note)} / 20</b>${c.ded?` <span class="muted">(aides : −${fr(c.ded/4)}${c.credit?` · entraide : +${fr(c.credit/4)}`:""})</span>`:` <span class="muted">(sans aucune aide !)</span>`}</p>`}
 function hud(){
   const t=$("clock");if(!t||!SES)return;const sc=$("score");if(sc)sc.textContent="Note "+fr(scoreNow())+" / 20";
   t.textContent=started()||true?fmt(remaining()):"";t.classList.toggle("low",remaining()<=300&&started());
@@ -97,7 +97,7 @@ function hud(){
   const stack={};SHIPS.forEach(sh=>{const st=Math.min(((SES.ships[sh.id]||{}).step)||0,6);const k=stack[st]=(stack[st]||0)+1;s+=`<circle cx="${X(st)}" cy="${56-k*10}" r="${sh.id===SID?5.5:4.2}" fill="${sh.c}" ${sh.id===SID?'stroke="#fff" stroke-width="1.5"':""}><title>${sh.name}</title></circle>`});
   $("map").innerHTML=s;const rp=$("rep");if(rp)rp.innerHTML=repairBar().replace(/^<div class="rep">|<\/div>$/g,"");
 }
-function hudTick(){if(!SES)return;hud();endCheck();lockCheck()}
+function hudTick(){if(!SES)return;hud();endCheck();lockCheck();thxSync()}
 function endCheck(){
   if(SES.final&&overlayShown!=="win"){overlayShown="win";overlay(`<div class="big">🛰️</div><h2 style="color:var(--ok)">Signal rétabli</h2><p>Le réacteur est rallumé. La flotte rentre sur Terre avec <b style="color:var(--amber)">${fmt(remaining())}</b> d'avance.</p>${noteLine(SID)}<p>Débrief : quelles salles demandaient d'<b>additionner</b> des carrés, et lesquelles de <b>soustraire</b> ? Comment le saviez-vous ?</p>`)}
   else if(!SES.final&&started()&&remaining()<=0&&overlayShown!=="lose"){overlayShown="lose";overlay(`<div class="big">📡</div><h2 style="color:var(--bad)">Signal perdu</h2><p>Le temps est écoulé.</p>${noteLine(SID)}`)}
@@ -161,7 +161,27 @@ function askBlock(){
   if(a.reply&&a.status!=="seen")h+=`<div class="cmd"><div class="tag" style="color:var(--ok)">📡 Message du commandant de bord</div><p>${esc(a.reply.text)}</p><button class="btn" data-seen="1">Compris</button></div>`;
   if(a.status==="open")h+=`<div class="cmd wait">📡 Signal envoyé. Le commandant de bord vous répond dès que possible.</div>`;
   else h+=`<button class="btn askbtn" id="askBtn">🆘 Besoin d'aide ?</button><p class="rules" style="margin:0">Chaque aide retire des points à la note du groupe (20 / 20 sans aucune aide).</p>`;
+  if(view==="room")h+=`<div id="thxSlot">${thxHtml()}</div>`;
   return h;
+}
+const thxHtml=()=>(finishedOthers().length&&!hasThx())?`<button class="btn thxbtn" id="thxBtn">🤝 Un autre équipage m'a vraiment aidé</button>`:"";
+function thxSync(){if(view!=="room")return;const sl=$("thxSlot");if(!sl)return;const h=thxHtml();if((h!=="")!==(!!$("thxBtn"))){sl.innerHTML=h;const tb=$("thxBtn");if(tb)tb.onclick=openThanks}}
+const finishedOthers=()=>SHIPS.filter(x=>x.id!==SID&&((SES.ships||{})[x.id]||{}).step>=6);
+const thxList=()=>String(ME&&ME.thx||"").split(",").filter(Boolean);
+const hasThx=()=>view==="room"&&thxList().some(e=>e.split(":")[0]===ROOMS[ME.step].id);
+function openThanks(){
+  if(document.getElementById("help"))return;const fin=finishedOthers();
+  document.body.insertAdjacentHTML("beforeend",`<div id="help"><div class="helpbox"><div class="tag" style="color:var(--amber)">🤝 Entraide entre équipages</div><h2>Qui vous a aidé ?</h2><p class="muted" style="margin:0">Seulement si un équipage vous a <b>expliqué la méthode</b> (pas donné une réponse : vos valeurs sont différentes !). Il regagne <b>+0,25 pt</b> sur sa note.</p><div id="helpBody">${fin.map(x=>`<button class="hopt" data-t="${x.id}" style="border-color:${x.c}"><span class="ht" style="color:${x.c}">${x.name}</span><span class="hs">m'a aidé à comprendre</span><span class="hc">+0,25 pt pour eux</span></button>`).join("")}<button class="btn" data-h="x">Annuler</button></div></div></div>`);
+  $("help").addEventListener("click",thanksClick);
+}
+async function thanksClick(e){
+  const b=e.target.closest("[data-t],[data-h]");if(!b)return;
+  if(b.dataset.h){$("help").remove();return}
+  const h=b.dataset.t,rid=ROOMS[ME.step].id;if(thxList().some(x=>x.split(":")[0]===rid)){$("help").remove();return}
+  const nm=(ship(h)||{}).name;
+  if(!PREVIEW){ME.thx=(ME.thx?ME.thx+",":"")+rid+":"+h;lastWrite=Date.now();SES.ships=SES.ships||{};SES.ships[SID]=Object.assign(SES.ships[SID]||{},{thx:ME.thx});
+    try{await SYNC.patch(P("ships/"+SID),{thx:ME.thx,t:SYNC.now()})}catch(err){toast("Connexion instable : le merci n'est pas parti")}log("thx",nm)}
+  $("help").remove();toast("Merci transmis à "+nm+" ✓");render();
 }
 const hintCtx=()=>{const rid=view==="reactor"?"reacteur":ROOMS[ME.step].id;return{rid,H:view==="reactor"?window.REACTOR_HINTS:ROOMS[ME.step].hints}};
 function openHelp(){
@@ -206,17 +226,23 @@ function renderRoom(s){
    <form class="answer" id="ansForm"><label for="code">Code de la salle</label><div class="row"><input id="code" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="Code"><button class="btn primary" type="submit">Valider</button></div><p class="rules">Mauvais code : −1 min pour toute la flotte</p></form>
   </div>${solBox()}`;
 }
+function entraideCard(){
+  const todo=SHIPS.filter(x=>x.id!==SID&&!(((SES.ships||{})[x.id]||{}).step>=6));
+  const c=SCORE.calc(SES.ships||{},SID);
+  const list=todo.length?todo.map(x=>{const st=((SES.ships||{})[x.id]||{}).step||0;return `<li><span style="color:${x.c}"><b>${x.name}</b></span> <span class="muted">· ${esc(ROOMS[Math.min(st,5)].name)} (salle ${Math.min(st+1,6)} / 6)</span></li>`}).join(""):`<li class="muted">Tous les équipages ont réparé leur vaisseau. Bravo !</li>`;
+  return `<div class="card entraide"><div class="tag" style="color:var(--amber)">🤝 Mission d'entraide</div>${c.ded?`<p>Vous avez perdu <b>${fr(c.ded/4)} pt</b> avec les aides. Vous pouvez en <b>regagner</b> : +0,25 pt chaque fois qu'un équipage en difficulté reconnaît que vous l'avez aidé.</p>`:`<p>Vous êtes à 20 / 20 : aidez quand même les autres, c'est l'esprit de la flotte !</p>`}
+  <p class="muted" style="margin:.3em 0">Allez voir un équipage, <b>expliquez-lui la méthode</b> avec vos mots. Ne donnez pas votre réponse : ses valeurs sont différentes des vôtres.</p><ul class="others">${list}</ul>${c.ded?`<p class="tag">Entraide gagnée : +${fr(c.credit/4)} pt · note actuelle ${fr(c.live)} / 20</p>`:""}</div>`}
 function renderDone(s){
   const others=SHIPS.filter(x=>x.id!==SID).map(x=>{const st=((SES.ships[x.id]||{}).step)||0;return `<li><span style="color:${x.c}">${x.name}</span> <span class="muted">${st>=6?"vaisseau réparé":"salle "+Math.min(st+1,6)+" / 6"}</span></li>`}).join("");
   return `<div class="brief"><div class="scene">${DEC.hero(SHIPS,Object.fromEntries(SHIPS.map(x=>[x.id,((SES.ships[x.id]||{}).step)||0])),false,false)}</div>
   <div class="card center2"><div class="big">✅</div><h2 style="color:${s.c}">Vaisseau réparé !</h2>
   <p>Votre barre d'énergie :</p><div class="frag" style="color:${s.c}">${s.frag}<small> min</small></div>
   <p><b>Notez ce nombre !</b> Le réacteur a besoin des 5 barres. Allez les chercher auprès des autres équipages, et aidez ceux qui sont en retard.</p>
-  <ul class="others">${others}</ul><p class="tag">Le réacteur s'ouvrira quand les 5 vaisseaux seront réparés.</p></div></div>`;
+  <ul class="others">${others}</ul><p class="tag">Le réacteur s'ouvrira quand les 5 vaisseaux seront réparés.</p></div>${entraideCard()}</div>`;
 }
 function renderReactor(s){
   const sv=store("reactor")||{};
-  const fields=SHIPS.map(x=>`<label class="poste"><span style="color:${x.c}">Barre de ${x.name}</span><span class="fld"><input inputmode="decimal" data-r="${x.id}" value="${x.id===SID?s.frag:esc(sv[x.id]??(SYNC.local?x.frag:""))}" ${x.id===SID?"readonly":""}><em>min</em></span></label>`).join("");
+  const fields=SHIPS.map(x=>`<label class="poste"><span style="color:${x.c}">Barre de ${x.name}</span><span class="fld"><input inputmode="decimal" data-r="${x.id}" value="${x.id===SID?s.frag:esc(sv[x.id]??"")}" ${x.id===SID?"readonly":""}><em>min</em></span></label>`).join("");
   const fin=SES.final;
   return `<div class="brief"><div class="head"><h2>Réacteur commun</h2><span class="tag">Les 5 équipages ensemble</span></div>
   <div class="scene">${DEC.hero(SHIPS,Object.fromEntries(SHIPS.map(x=>[x.id,6])),!!fin,true)}</div>
@@ -227,7 +253,7 @@ function renderReactor(s){
   <label class="poste"><span>a : longueur d'un tronçon</span><span class="fld"><input inputmode="decimal" data-r="a" value="${esc(sv.a??"")}"><em>min</em></span></label>
   <label class="poste"><span>b : nombre de tronçons</span><span class="fld"><input inputmode="decimal" data-r="b" value="${esc(sv.b??"")}"><em></em></span></label></div>
   ${fin?`<div class="card center2"><div class="big">🛰️</div><h2 style="color:var(--ok)">Réacteur rallumé</h2></div>`:`<div class="bar">${askBlock()}
-   <form class="answer" id="ansForm"><label for="code">Code du réacteur</label><div class="row"><input id="code" inputmode="numeric" autocomplete="off" placeholder="Code"><button class="btn primary" type="submit">Valider</button></div><p class="rules">Mauvais code : −1 min pour toute la flotte</p></form></div>`}${solBox()}</div>`;
+   <form class="answer" id="ansForm"><label for="code">Code du réacteur</label><div class="row"><input id="code" inputmode="numeric" autocomplete="off" placeholder="Code"><button class="btn primary" type="submit">Valider</button></div><p class="rules">Mauvais code : −1 min pour toute la flotte</p></form></div>`}${fin?"":(SES.ships&&(SES.ships[SID]||{}).step>=6?entraideCard():"")}${solBox()}</div>`;
 }
 
 /* ---------- interactions ---------- */
@@ -244,7 +270,7 @@ function bindStage(){
     updateSuggest();
   }
   const f=$("ansForm");if(f){f.addEventListener("submit",e=>{e.preventDefault();check()});const c=$("code");c.addEventListener("input",()=>c.dataset.edited="1")}
-  const h=$("askBtn");if(h)h.onclick=openHelp;
+  const h=$("askBtn");if(h)h.onclick=openHelp;const tb=$("thxBtn");if(tb)tb.onclick=openThanks;
   const g=$("goBtn");if(g)g.onclick=()=>{store("brief",true);if(!started()){const c={running:true,startAt:SYNC.now(),base:0};SES.chrono=c;SYNC.put(P("chrono"),c)}view="room";render()};
 }
 function setTile(b,s){b.dataset.s=s||"";b.querySelector(".st").textContent=s==="p"?"premier":s==="l"?"leurre":"?";b.classList.toggle("p",s==="p");b.classList.toggle("l",s==="l")}

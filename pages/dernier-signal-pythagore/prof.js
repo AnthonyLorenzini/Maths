@@ -60,12 +60,12 @@ function renderAll(){
 }
 const frn=n=>String(n).replace(".",",");
 function notes(){
-  const fin=!!(SES&&SES.final);
-  const rows=SHIPS.map(s=>{const o=(SES.ships||{})[s.id]||{},st=Math.min(o.step||0,6),ded=(o.ded||0)/4,units=st+(fin?1:0),base=20*units/7,note=Math.max(0,Math.round((base-ded)*4)/4),hu=String(o.hu||"").split(",").filter(Boolean),n1=hu.filter(x=>x.endsWith("1")).length,n2=hu.filter(x=>x.endsWith("2")).length,calls=o.asks||0;
-    return `<tr><td><b style="color:${s.c}">${s.name}</b></td><td>${st} / 6</td><td>${n1}</td><td>${n2}</td><td>${calls}</td><td>−${frn(ded)}</td><td><b>${frn(note)} / 20</b></td></tr>`}).join("");
-  $("layer").innerHTML=`<div class="overlay" id="ov"><div class="box wide"><h2>Notes des groupes</h2><p class="muted">20 / 20 si le groupe va au bout sans aucune aide. Indice 1 : −0,25 · Indice 2 : −0,25 · Appel au commandant : −0,5. ${fin?"Réacteur rallumé : la note n'est pas réduite.":"Mission en cours : la note finale compte le travail accompli (6 salles + réacteur) ; tant que le réacteur n'est pas rallumé, la note est calculée au prorata des 7 étapes (6 salles + réacteur)."}</p>
-   <table class="notes"><thead><tr><th>Groupe</th><th>Salles</th><th>Indice 1</th><th>Indice 2</th><th>Appels</th><th>Retrait</th><th>Note</th></tr></thead><tbody>${rows}</tbody></table><button class="btn" id="closeOv">Fermer</button></div></div>`;
+  const rows=SHIPS.map(s=>{const o=(SES.ships||{})[s.id]||{},c=SCORE.calc(SES.ships||{},s.id),hu=String(o.hu||"").split(",").filter(Boolean),n1=hu.filter(x=>x.endsWith("1")).length,n2=hu.filter(x=>x.endsWith("2")).length;
+    return `<tr><td><b style="color:${s.c}">${s.name}</b></td><td>${c.st} / 6</td><td>${n1}</td><td>${n2}</td><td>${o.asks||0}</td><td>−${frn(c.ded/4)}</td><td>+${frn(c.credit/4)} <small class="muted">(${c.bonus} merci${c.bonus>1?"s":""})</small></td><td><button class="btn adjb" data-adj="-1" data-s="${s.id}">−0,25</button> <b>${c.adj>0?"+":""}${frn(c.adj/4)}</b> <button class="btn adjb" data-adj="1" data-s="${s.id}">+0,25</button></td><td><b>${frn(c.note)} / 20</b></td></tr>`}).join("");
+  $("layer").innerHTML=`<div class="overlay" id="ov"><div class="box wide"><h2>Notes des groupes</h2><p class="muted">Chaque groupe est noté sur son propre vaisseau : <b>20 / 20</b> s'il répare ses 6 salles sans aide, sinon au prorata des salles réparées. Indice 1 : −0,25 · Indice 2 : −0,25 · Appel au commandant : −0,5. <b>Entraide :</b> un groupe qui a fini regagne +0,25 chaque fois qu'un groupe en difficulté le remercie (jamais au-dessus de ce qu'il a perdu). La colonne « Ajust. » est votre correction manuelle.</p>
+   <table class="notes"><thead><tr><th>Groupe</th><th>Salles</th><th>Indice 1</th><th>Indice 2</th><th>Appels</th><th>Aides</th><th>Entraide</th><th>Ajust.</th><th>Note</th></tr></thead><tbody>${rows}</tbody></table><button class="btn" id="closeOv">Fermer</button></div></div>`;
   $("closeOv").onclick=()=>$("layer").innerHTML="";
+  $("ov").onclick=async e=>{const b=e.target.closest("[data-adj]");if(!b)return;const id=b.dataset.s,o=(SES.ships=SES.ships||{})[id]=(SES.ships[id]||{});o.adj=(o.adj||0)+(+b.dataset.adj);await SYNC.patch(P("ships/"+id),{adj:o.adj});notes()}
 }
 function qr(){
   const tiles=[{id:"",name:"Tous",c:"#e8eefc"}].concat(SHIPS).map(s=>`<div class="qr"><b style="color:${s.c}">${s.name}</b><img alt="QR ${s.name}" width="190" height="190" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=6&color=0a1020&bgcolor=ffffff&data=${encodeURIComponent(url(s.id))}"><small>${esc(url(s.id)).replace(/^https?:\/\//,"")}</small></div>`).join("");
@@ -88,17 +88,17 @@ function renderLive(){
   $("reactor").innerHTML=`<div class="tag">Réacteur</div><p class="rstate"><b style="color:${SES.final?"var(--ok)":allDone()?"var(--amber)":"var(--muted)"}">${SES.final?"Rallumé : mission réussie !":allDone()?"Prêt : les groupes se mettent d'accord":done+" / 5 vaisseaux réparés"}</b></p>
    ${showSol?`<p class="sol">Barres : ${SHIPS.map(s=>`<span style="color:${s.c}">${s.name} ${COR.frags[SHIPS.indexOf(s)]}</span>`).join(" · ")}<br>somme ${COR.somme} · a = PGCD = ${COR.pgcd} · b = ${COR.lots} · code = <b>${COR.final}</b></p>`:""}`;
   const now=SYNC.now();
-  $("ships").innerHTML=SHIPS.map(s=>{const o=(SES.ships||{})[s.id],st=o?o.step||0:0,hints=(o&&o.asks)||0,ded=((o&&o.ded)||0)/4,pend=o&&o.ask&&o.ask.status==="open",idle=o&&o.t?(now-o.t)/60000:0;
+  $("ships").innerHTML=SHIPS.map(s=>{const o=(SES.ships||{})[s.id],st=o?o.step||0:0,hints=(o&&o.asks)||0,sc=SCORE.calc(SES.ships||{},s.id),pend=o&&o.ask&&o.ask.status==="open",idle=o&&o.t?(now-o.t)/60000:0;
     const stuck=o&&st<6&&(SES.chrono.running)&&idle>5;
     const room=st>=6?"Vaisseau réparé":ROOMS[st].name;
     return `<div class="sh ${stuck?"stuck":""} ${pend?"calling":""}" style="--c:${s.c}"><div class="shh"><b style="color:${s.c}">${s.name}</b><span class="tag">${o?(st>=6?"✓ réparé":"salle "+(st+1)+" / 6"):"pas encore connecté"}</span></div>
      <div class="segs">${Array.from({length:6},(_,i)=>`<i class="${i<st?"on":""}${i===st&&o?" cur":""}"></i>`).join("")}</div>
-     <div class="shm"><span>${o?esc(room):"—"}</span><span class="muted">${pend?"🔔 ":""}Note ${String(Math.max(0,20-ded)).replace(".",",")}/20 · 📞 ${hints} · −${(o&&o.pen)||0} min · ${o&&o.t?(idle<1?"actif":"inactif "+Math.round(idle)+" min"):""}</span></div>
+     <div class="shm"><span>${o?esc(room):"—"}</span><span class="muted">${pend?"🔔 ":""}Note ${frn(sc.live)}/20${sc.credit?" (+"+frn(sc.credit/4)+" entraide)":""} · 📞 ${hints} · −${(o&&o.pen)||0} min · ${o&&o.t?(idle<1?"actif":"inactif "+Math.round(idle)+" min"):""}</span></div>
      ${showSol&&st<6?`<div class="sol">Code : <b>${COR.ans[s.id][ROOMS[st].id]}</b></div>`:""}
      <div class="shb"><button class="mini" data-a="up" data-s="${s.id}" title="Débloquer la salle suivante">+1 salle</button><button class="mini" data-a="down" data-s="${s.id}">−1</button></div></div>`}).join("");
   const log=Object.values(SES.log||{}).sort((a,b)=>b.t-a.t).slice(0,10);
   const sn=id=>(SHIPS.find(s=>s.id===id)||{}).name||id;
-  $("log").innerHTML=log.map(l=>`<li><span class="muted">${new Date(l.t).toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}</span> <b>${sn(l.ship)}</b> ${l.ev==="room"?"a réparé : "+(ROOMS.find(r=>r.id===l.txt)||{}).part:l.ev==="bad"?"code refusé ("+esc(l.txt)+")":l.ev==="ask"?"demande un indice ("+esc(l.txt)+")":l.ev==="reply"?"→ réponse du commandant : "+esc(l.txt):l.ev==="hint"?"indice utilisé ("+esc(l.txt)+")":l.ev==="join"?"a rejoint la partie":l.ev==="final"?"a rallumé le réacteur !":esc(l.ev)}</li>`).join("")||`<li class="muted">Aucun évènement pour l'instant.</li>`;
+  $("log").innerHTML=log.map(l=>`<li><span class="muted">${new Date(l.t).toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}</span> <b>${sn(l.ship)}</b> ${l.ev==="room"?"a réparé : "+(ROOMS.find(r=>r.id===l.txt)||{}).part:l.ev==="bad"?"code refusé ("+esc(l.txt)+")":l.ev==="ask"?"demande un indice ("+esc(l.txt)+")":l.ev==="reply"?"→ réponse du commandant : "+esc(l.txt):l.ev==="hint"?"indice utilisé ("+esc(l.txt)+")":l.ev==="thx"?"remercie l'équipage "+esc(l.txt)+" pour son aide":l.ev==="join"?"a rejoint la partie":l.ev==="final"?"a rallumé le réacteur !":esc(l.ev)}</li>`).join("")||`<li class="muted">Aucun évènement pour l'instant.</li>`;
   tickClock();
 }
 const REACTOR_HINTS=window.REACTOR_HINTS;
