@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>Dernier Signal · Tableau de bord</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<div id="gate" class="center" hidden><div class="card join"><h1>Dernier <span>Signal</span></h1><p>Tableau de bord réservé au professeur.</p>
+<form id="gateForm"><input type="password" id="gatePw" placeholder="Mot de passe" autocomplete="off"><button class="btn primary" type="submit">Entrer</button></form><p id="gateErr" style="color:var(--bad)"></p><a href="../../index.html" style="color:#7cc8ff">← Retour au site</a></div></div>
+<div class="wrap" id="app" hidden style="max-width:1280px"></div>
+<script src="../../assets/catalogue.js"></script>
+<script>
+(function(){var ok=!!window.SITE_PROF;document.getElementById("gate").hidden=ok;document.getElementById("app").hidden=!ok;
+ if(ok){["config.js","sync.js","donnees.js","corrige.js","decors.js","salles.js","prof.js"].reduce(function(p,src){return p.then(function(){return new Promise(function(r){var s=document.createElement("script");s.src=src;s.onload=r;s.async=false;document.body.appendChild(s)})})},Promise.resolve());return}
+ document.getElementById("gateForm").addEventListener("submit",function(e){e.preventDefault();if(window.SITE_ouvrir(document.getElementById("gatePw").value)){location.reload()}else{document.getElementById("gateErr").textContent="Mot de passe incorrect."}})})();
+</script></body></html>
