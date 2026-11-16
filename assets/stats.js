@@ -47,6 +47,7 @@
         c.ressources.forEach(function (r) { if (parts.indexOf(r.id) !== -1) res = r; });
       });
     });
+    (S.escapes || []).forEach(function (r) { if (parts.indexOf(r.id) !== -1) res = r; });
   }
   if (!res) { compteurEnseignant(); return; }
 

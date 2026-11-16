@@ -12,7 +12,7 @@
 :root{
   color-scheme:light;
   --fond:#F6F8FD; --carte:#FFFFFF; --encre:#1B2333; --encre-2:#596379; --trait:#E0E5F0; --blanc:#FFFFFF;
-  --vert:#0F9562; --vert-clair:#DDF6EA; --orange:#E8700F; --orange-clair:#FFEBD9; --violet:#6E4FE0; --violet-clair:#ECE6FF;
+  --vert:#0F9562; --vert-clair:#DDF6EA; --orange:#E8700F; --orange-clair:#FFEBD9; --violet:#6E4FE0; --violet-clair:#ECE6FF; --bleu:#1F7AE0; --bleu-clair:#DCEBFF;
   --soleil:#FFC93C; --soleil-clair:#FFF4D1;
   --ciel-haut:#A9DCFF; --ciel-bas:#EEF8FF; --colline:#B9E3C9; --colline-2:#8FD0AA; --nuage:#FFFFFF;
   --f-titre:'Bricolage Grotesque','Arial Rounded MT Bold','Segoe UI',sans-serif;
@@ -32,7 +32,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 a,button{-webkit-tap-highlight-color:transparent}
 button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--soleil);outline-offset:3px;border-radius:10px}
 .vue{display:flex;flex-direction:column;gap:20px}
-.c-vert{--c:var(--vert);--cc:var(--vert-clair)} .c-orange{--c:var(--orange);--cc:var(--orange-clair)} .c-violet{--c:var(--violet);--cc:var(--violet-clair)}
+.c-vert{--c:var(--vert);--cc:var(--vert-clair)} .c-orange{--c:var(--orange);--cc:var(--orange-clair)} .c-violet{--c:var(--violet);--cc:var(--violet-clair)} .c-bleu{--c:var(--bleu);--cc:var(--bleu-clair)}
 
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--f-titre);font-weight:800;font-size:1.05rem;padding:13px 20px;border-radius:14px;background:var(--c,var(--vert));color:var(--blanc);text-decoration:none;box-shadow:0 4px 0 color-mix(in srgb,var(--c,var(--vert)) 65%,#000);transition:transform .08s,box-shadow .08s}
 .btn:active{transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--c,var(--vert)) 65%,#000)}
@@ -53,7 +53,20 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{o
 .bandeau > canvas{display:block;width:100%;max-width:none;height:210px;margin-top:4px}
 
 /* niveaux */
-.niveaux{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.niveaux{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:520px){.niveaux{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* bloc Escape games */
+.bloc-escape{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:20px;background:linear-gradient(135deg,var(--soleil-clair),var(--carte));border:2px solid var(--soleil);box-shadow:0 5px 0 var(--soleil);text-decoration:none;color:inherit;transition:transform .1s,box-shadow .1s}
+.bloc-escape:active{transform:translateY(4px);box-shadow:0 1px 0 var(--soleil)}
+.bloc-escape .ico{width:46px;height:46px;flex:none;color:#8A5A00}.bloc-escape .ico svg{width:100%;height:100%}
+.bloc-escape strong{font-family:var(--f-titre);font-weight:800;font-size:1.3rem;line-height:1.1;display:block}
+.bloc-escape small{display:block;margin-top:3px;color:var(--encre-2);line-height:1.35}
+.bloc-escape .fl{margin-left:auto;flex:none;width:22px;height:22px;color:#8A5A00}
+.groupe-escape{display:flex;flex-direction:column;gap:8px}
+.groupe-escape h2{display:flex;align-items:center;gap:10px;font-size:1.25rem}
+.groupe-escape h2 .pastille{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:32px;padding:0 10px;border-radius:999px;background:var(--c);color:var(--blanc);font-size:1rem}
+.groupe-escape .vide{padding:12px 14px;border:2px dashed color-mix(in srgb,var(--c) 40%,#fff);border-radius:14px;color:var(--encre-2)}
+
 .niv{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 8px 16px;border-radius:20px;background:var(--carte);border:2px solid var(--cc);box-shadow:0 5px 0 var(--cc);transition:transform .1s,box-shadow .1s,border-color .15s;min-width:0;text-align:center}
 .niv:hover{border-color:var(--c)}
 .niv:active{transform:translateY(4px);box-shadow:0 1px 0 var(--cc)}
@@ -435,6 +448,7 @@ const ICO={
  loupe:'<svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="5.5"/><path d="m12 12 4.5 4.5"/></svg>',
  gauche:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>',
  fleche:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>',
+ escape:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="m11 12 8.5-8.5M16 7l3 3M13.5 9.5l2 2"/></svg>',
  eval:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>',
  monte:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V6M6 12l6-6 6 6"/></svg>'
 };
@@ -449,7 +463,13 @@ function koch(){let p=[[50,6],[88,72],[12,72]];for(let k=0;k<3;k++){const q=[];f
 // 4e : arbre de Pythagore
 function arbre(){let t='';(function f(x,y,ux,uy,n){const vx=uy,vy=-ux;t+=`M${x.toFixed(1)} ${y.toFixed(1)}l${ux.toFixed(1)} ${uy.toFixed(1)}l${vx.toFixed(1)} ${vy.toFixed(1)}l${(-ux).toFixed(1)} ${(-uy).toFixed(1)}Z`;if(!n)return;const px=x+vx,py=y+vy,ax=px+(ux+vx)/2,ay=py+(uy+vy)/2;f(px,py,ax-px,ay-py,n-1);f(ax,ay,px+ux-ax,py+uy-ay,n-1)})(42,96,16,0,7);
  return `<svg viewBox="0 0 100 100" aria-hidden="true"><path class="frac" d="${t}"/></svg>`}
-const FRAC={'6e':sierpinski,'5e':koch,'4e':arbre};
+// 3e : courbe du dragon (une bande de papier pliée en deux, encore et encore)
+function dragonPas(P,s){const Q=[];for(let i=0;i<P.length-1;i++){const a=P[i],b=P[i+1],dx=b[0]-a[0],dy=b[1]-a[1],g=i%2?-1:1;Q.push(a,[(a[0]+b[0])/2-g*s*dy/2,(a[1]+b[1])/2+g*s*dx/2])}Q.push(P[P.length-1]);return Q}
+function dragonPts(k){let P=[[0,0],[1,0]];for(let j=0;j<k;j++)P=dragonPas(P,1);return P}
+function dragonBoite(P){let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;P.forEach(q=>{x0=Math.min(x0,q[0]);x1=Math.max(x1,q[0]);y0=Math.min(y0,q[1]);y1=Math.max(y1,q[1])});return{x0,y0,x1,y1}}
+function dragon(){const P=dragonPts(11),b=dragonBoite(P),k=88/Math.max(b.x1-b.x0,b.y1-b.y0),ox=50-(b.x0+b.x1)/2*k,oy=50-(b.y0+b.y1)/2*k;
+ return `<svg viewBox="0 0 100 100" aria-hidden="true"><path class="frac-trait" style="stroke-width:.55;stroke-linejoin:miter" d="M${P.map(q=>(q[0]*k+ox).toFixed(1)+' '+(q[1]*k+oy).toFixed(1)).join('L')}"/></svg>`}
+const FRAC={'6e':sierpinski,'5e':koch,'4e':arbre,'3e':dragon};
 const frac=id=>(FRAC[id]||sierpinski)();
 
 /* ---------- Fractales tracées en canvas, lentement (on les voit pousser) ---------- */
@@ -532,7 +552,21 @@ function trArbre(ctx,W,H,p,cv){
   ctx.save();ctx.translate(0,-1);ctx.rotate(-Math.PI/4);ctx.scale(k,k);br(dep+1);ctx.restore();
   ctx.save();ctx.translate(.5,-1.5);ctx.rotate(Math.PI/4);ctx.scale(k,k);br(dep+1);ctx.restore()})(0);
 }
-const FRACTALES={'6e':[7000,trSierp],'5e':[7000,trKoch],'4e':[8500,trArbre]};
+/* 3e : courbe du dragon, chaque segment se plie en deux, étape après étape */
+let DRAGON_BOITE=null;
+function trDragon(ctx,W,H,p,cv){
+ const c=rgbDe(getComputedStyle(cv).getPropertyValue('--c')),NK=14,t=p*(NK+1),jaune=[255,201,60];
+ if(!DRAGON_BOITE)DRAGON_BOITE=dragonBoite(dragonPts(NK));
+ const b=DRAGON_BOITE,k=Math.min((W*.9)/(b.x1-b.x0),(H-18)/(b.y1-b.y0)),ox=W/2-(b.x0+b.x1)/2*k,oy=H/2-(b.y0+b.y1)/2*k;
+ const tt=Math.max(0,t-1),k0=Math.min(NK,Math.floor(tt));let P=dragonPts(k0);
+ if(k0<NK&&tt>0)P=dragonPas(P,ease(tt-k0));
+ const sc=ease(t);ctx.save();ctx.translate(W/2,H/2);ctx.scale(sc,sc);ctx.translate(-W/2,-H/2);
+ ctx.lineJoin='miter';ctx.lineCap='butt';ctx.lineWidth=Math.max(1.1,3.6-.25*Math.min(NK,tt));
+ const n=P.length,pas=Math.max(2,Math.ceil(n/60));
+ for(let i=0;i<n-1;i+=pas){const j=Math.min(n-1,i+pas);ctx.beginPath();ctx.moveTo(P[i][0]*k+ox,P[i][1]*k+oy);for(let m=i+1;m<=j;m++)ctx.lineTo(P[m][0]*k+ox,P[m][1]*k+oy);ctx.strokeStyle=mix(c,jaune,.85*i/n);ctx.stroke()}
+ ctx.restore();
+}
+const FRACTALES={'6e':[7000,trSierp],'5e':[7000,trKoch],'4e':[8500,trArbre],'3e':[10000,trDragon]};
 
 /* ---------- Énigmes du jour : des énigmes de logique illustrées (assets/enigmes.js), une par jour, choisie d'après la date ---------- */
 const ENIGMES=window.ENIGMES;
@@ -963,7 +997,7 @@ const app=document.getElementById('app');
 function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function gras(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')}
 const d=(i,base=.15,pas=.08)=>`style="animation-delay:${(base+i*pas).toFixed(2)}s"`;
-const TYPES={lecon:'Leçon',classe:'Activité en classe',exos:'Exercices corrigés',jeu:'Mini-jeu',plus:'Exercices en plus'};
+const TYPES={lecon:'Leçon',classe:'Activité en classe',exos:'Exercices corrigés',jeu:'Mini-jeu',plus:'Exercices en plus',escape:'Escape game'};
 const NOTE_BAS='<p class="note">Pas de nouveaux devoirs : à la maison, on refait les exercices déjà corrigés en classe. Les mini-jeux et les exercices en plus sont là pour ceux qui veulent s’entraîner davantage.</p>';
 function ouvrir(html,apres,o){
  o=o||{};
@@ -984,7 +1018,7 @@ function ligneRes(x){const r=x.r;
 function carteJeu(r,i){return `<a class="carte-jeu a-pop" ${d(i,.2,.05)} href="${url(r)}">
  <span class="ico">${ICO.jeu}</span><span class="t">${esc(r.titre)}</span>${r.resume?`<span class="s">${esc(r.resume)}</span>`:''}${estNeuf(r)?'<span class="gain">Nouveau</span>':''}</a>`}
 const nbJeux=c=>c.ressources.filter(r=>r.type==='jeu').length;
-const toutes=()=>S.niveaux.flatMap(n=>n.chapitres.flatMap(c=>c.ressources.map(r=>({r,c,n}))));
+const toutes=()=>S.niveaux.flatMap(n=>n.chapitres.flatMap(c=>c.ressources.map(r=>({r,c,n})))).concat((S.escapes||[]).map(r=>({r:Object.assign({},r,{type:'escape'}),c:{titre:'Escape games',resume:''},n:niveauDe(r.niveau)||{nom:r.niveau}})));
 const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
 
 /* ---------- pages ---------- */
@@ -999,8 +1033,9 @@ function accueil(){
    <h2 class="a-monte" ${d(0,.3)}>Je choisis mon niveau</h2>
    <div class="niveaux">
     ${S.niveaux.map((n,i)=>{const j=n.chapitres.reduce((s,c)=>s+nbJeux(c),0);return `<a class="niv c-${n.couleur} a-pop" ${d(i,.38,.08)} href="#${n.id}">
-     ${frac(n.id)}<span class="gros">${esc(n.nom)}</span><span class="info">${j} mini-jeux</span></a>`}).join('')}
+     ${frac(n.id)}<span class="gros">${esc(n.nom)}</span><span class="info">${n.bientot&&!n.chapitres.length?'Bientôt':j+' mini-jeux'}</span></a>`}).join('')}
    </div>
+   ${blocEscape()}
   </section>
   ${der&&der.id?`<a class="reprendre a-monte" ${d(0,.55)} href="pages/${esc(der.id)}/index.html"><span>Reprendre</span><strong>${esc(der.titre)}</strong></a>`:''}
   <section class="recherche a-monte" ${d(0,.6)}>
@@ -1024,6 +1059,21 @@ function accueil(){
    res.innerHTML=l.length?`<p class="doux" style="margin:4px 0">${l.length} page${l.length>1?'s':''} trouvée${l.length>1?'s':''}</p>`+l.map(ligneRes).join(''):'<p class="doux">Aucune page ne correspond. Essaie le nom d’un chapitre.</p>';
   });
  },{pied:piedAscension(AS.actif())});
+}
+
+/* ---------- Escape games : bloc de l'accueil et page #escape (triés par niveau) ---------- */
+function blocEscape(){
+ const nb=(S.escapes||[]).length;
+ return `<a class="bloc-escape a-monte" ${d(0,.5)} href="#escape"><span class="ico">${ICO.escape}</span><span><strong>Escape games</strong><small>${nb?nb+' défi'+(nb>1?'s':'')+', classé'+(nb>1?'s':'')+' par niveau. Résous les énigmes pour t’échapper !':'Résous les énigmes pour t’échapper ! Les premiers défis arrivent bientôt.'}</small></span><span class="fl">${ICO.fleche}</span></a>`}
+function vueEscape(){
+ const E=S.escapes||[];
+ ouvrir(`<div class="vue">
+  <button class="retour a-haut" data-parent="#">${ICO.gauche} Accueil</button>
+  <section class="vue a-monte" ${d(0,.05)} style="gap:6px"><h1>Escape games</h1><p class="doux">Une équipe, un défi, des énigmes à résoudre pour t’échapper. Choisis ton niveau.</p></section>
+  ${S.niveaux.map((n,k)=>{const L=E.filter(e=>e.niveau===n.id);
+   return `<section class="groupe-escape c-${n.couleur} a-monte" ${d(k,.15,.08)}><h2><span class="pastille">${esc(n.nom)}</span></h2>
+   ${L.length?`<div class="liens">${L.map(e=>`<a class="lien" href="pages/${esc(e.id)}/index.html">${ICO.escape}<span class="res"><strong>${esc(e.titre)}</strong>${e.resume||e.duree?`<small>${esc([e.duree,e.resume].filter(Boolean).join(' · '))}</small>`:''}</span>${estNeuf(e)?NEUF:''}<span class="fl">${ICO.fleche}</span></a>`).join('')}</div>`:'<p class="vide">Bientôt</p>'}</section>`}).join('')}
+ </div>`,null,{note:false});
 }
 
 /* ---------- Les énigmes : liste (#enigmes) et une énigme (#enigmes/<id>) ---------- */
@@ -1054,7 +1104,7 @@ function niveau(n){
   <section class="bandeau a-pop" ${d(0,.05)}><span class="gros">${esc(n.nom)}</span><span>${esc(n.accroche)}</span><canvas id="fractale" aria-hidden="true"></canvas><button class="rejouer" onclick="rejouerFn&&rejouerFn()">↻ Rejouer</button></section>
   ${onglets(n,'chap')}
   <div class="chapitres">
-   ${verrousApres(n,null)}${n.chapitres.map((c,i)=>{const ns=(c.seances||[]).length,nj=nbJeux(c),le=c.ressources.some(r=>r.type==='lecon');
+   ${n.bientot&&!n.chapitres.length?`<div class="enigme a-monte"><p class="q">Les chapitres de ${esc(n.nom)} arrivent bientôt.</p><p class="doux">Les pages seront mises en ligne au fil du temps.</p></div>`:''}${verrousApres(n,null)}${n.chapitres.map((c,i)=>{const ns=(c.seances||[]).length,nj=nbJeux(c),le=c.ressources.some(r=>r.type==='lecon');
     const dedans=`<span class="haut">${window.ILLU&&ILLU[c.id]?`<span class="vig">${ILLU[c.id]}</span>`:`<span class="num">${c.num??'★'}</span>`}<span><span class="eti" style="color:var(--c)">${c.num?'Chapitre '+c.num:'Entraînement'}</span><br><span class="t">${esc(c.titre)}</span></span></span>
      ${c.bientot?'<span class="s">Bientôt en ligne</span>':`<span class="puces">${le?`<span class="puce">${ICO.lecon} Leçon</span>`:''}${ns?`<span class="puce">${ICO.exos} ${ns} séance${ns>1?'s':''}</span>`:''}${nj?`<span class="puce jeu">${ICO.jeu} ${nj} mini-jeu${nj>1?'x':''}</span>`:''}</span>`}`;
     return (c.bientot?`<div class="chap a-monte" ${d(i,.2,.07)} aria-disabled="true">${dedans}</div>`:`<a class="chap a-monte" ${d(i,.2,.07)} href="#${c.id}">${dedans}</a>`)+verrousApres(n,c.id)}).join('')}
@@ -1100,7 +1150,8 @@ function chapitre(n,c){
 const pile=[location.hash];
 function router(){
  const h=decodeURIComponent(location.hash.replace(/^#/,'')),[a,b,c]=h.split('/'),t=a?trouverNC(a):null;
- if(a==='enigmes'){
+ if(a==='escape'){vueEscape();document.title='Escape games — '+S.titre}
+ else if(a==='enigmes'){
   const e=b&&ENIGMES.find(x=>x.id===b);
   if(e){vueEnigme(e);document.title=e.titre+' · Énigmes — '+S.titre}
   else{vueEnigmes();document.title='Énigmes — '+S.titre}

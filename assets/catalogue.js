@@ -19,6 +19,8 @@
    Ce n'est pas une sécurité forte : quelqu'un qui connaît l'adresse d'une page peut l'ouvrir.
 
    Un chapitre avec  bientot: true  s'affiche grisé « Bientôt en ligne ».
+   Un niveau sans chapitre (ex. 3e) : mets  bientot: true  sur le niveau ; il affiche « Bientôt » et une page vide propre.
+   Escape games : voir la liste  escapes  tout en bas du catalogue (bloc « Escape games » de l'accueil).
 
    Dans un chapitre avec séances, la leçon et les mini-jeux sont affichés en onglets tout en haut ;
    chaque séance ne montre que ses exercices corrigés (types "exos" et "classe") puis son bilan.
@@ -851,9 +853,23 @@ window.SITE = {
         }
       ]
     }
-  ]
-};
+    ,{
+      id: "3e", nom: "3e", couleur: "bleu",
+      accroche: "Thalès, fonctions, probabilités, trigonométrie",
+      bientot: true,
+      chapitres: []
+    }
+  ],
 
+  /* ESCAPE GAMES — le bloc « Escape games » de l'accueil (page #escape), triés par niveau.
+     Pour en ajouter un :
+     1. Dépose sa page dans  pages/<id>/index.html
+     2. Ajoute une ligne ici :
+          { id: "nom-du-dossier", niveau: "6e", titre: "…", resume: "…", duree: "50 min", ajout: "2026-11-16" }
+        « niveau » : "6e", "5e", "4e" ou "3e". « duree » et « ajout » sont facultatifs.
+     Un niveau sans escape game affiche « Bientôt ». */
+  escapes: []
+};
 /* ---- Chapitres réservés (prive: true) : masqués tant que le mot de passe n'a pas été saisi ---- */
 (function () {
   var CODE = "159951", ouvert = false;

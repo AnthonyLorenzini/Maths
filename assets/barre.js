@@ -23,9 +23,16 @@
       });
     });
   });
+  if (!found && S.escapes) {
+    S.escapes.forEach(function (r) {
+      if (parts.indexOf(r.id) === -1) return;
+      var nv = S.niveaux.filter(function (x) { return x.id === r.niveau; })[0] || { nom: r.niveau, couleur: "violet" };
+      found = { n: nv, c: { id: "escape", num: null, titre: "Escape games", ressources: [] }, r: r, i: 0 };
+    });
+  }
   if (!found) return;
 
-  var couleurs = { vert: "#0F9562", orange: "#E8700F", violet: "#6E4FE0" };
+  var couleurs = { vert: "#0F9562", orange: "#E8700F", violet: "#6E4FE0", bleu: "#1F7AE0" };
   var accent = couleurs[found.n.couleur] || "#1B2333";
   var accueil = "../../index.html";
   var suivante = found.c.ressources[found.i + 1];
