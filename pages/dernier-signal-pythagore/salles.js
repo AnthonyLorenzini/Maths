@@ -147,3 +147,5 @@ return [
   sol:sh=>{const [L,l,h,p,d]=sh.d.ser,V=L*l*h/1000,A=V*(100-p)/100;return `<ol><li>${L/10} dm × ${l/10} dm × ${h/10} dm = ${V} dm³ = <b>${V} L</b>.</li><li>Remplie à ${p} % : il reste ${100-p} %.</li><li>${100-p} % de ${V} L = <b>${A} L</b>.</li><li>${A} ÷ ${d} = <b>${A/d} min</b> : c'est la barre d'énergie.</li></ol>`}}
 ];
 })();
+
+window.REACTOR_HINTS=["Pour trouver le plus grand tronçon commun, décomposez chaque barre en facteurs premiers : les facteurs communs à toutes les barres, multipliés entre eux, donnent a.","b = (somme des 5 barres) ÷ a. Ensuite : hypoténuse² = a² + b², puis racine carrée."];

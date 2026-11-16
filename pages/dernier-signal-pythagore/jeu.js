@@ -57,7 +57,7 @@ function bootPreview(){
 function solBox(){
   if(!PREVIEW||!showSol)return"";
   if(view==="reactor"){const C=window.CORRIGE||{};return `<div class="card sol"><div class="tag">Corrigé · réacteur</div><ol><li>Les 5 barres : ${SHIPS.map(s=>s.name+" "+s.frag).join(" · ")}.</li><li>Décomposition : 48 = 2⁴ × 3 ; 60 = 2² × 3 × 5 ; 84 = 2² × 3 × 7 ; 96 = 2⁵ × 3 ; 132 = 2² × 3 × 11. Facteurs communs : 2² × 3 = <b>12</b>, donc a = 12 min.</li><li>Somme des barres : 420 ; b = 420 ÷ 12 = <b>35</b> tronçons.</li><li>Pythagore : 12² + 35² = 144 + 1 225 = 1 369 = 37², donc hypoténuse = <b>37 dm</b>.</li></ol></div>`}
-  const r=ROOMS[ME.step];return `<div class="card sol"><div class="tag">Corrigé · ${ship(SID).name} · ${r.name}</div>${r.sol(ship(SID))}<div class="tag" style="margin-top:8px">Indices que vous pouvez envoyer</div><ol><li>${r.hints[0]}</li><li>${r.hints[1]}</li></ol></div>`;
+  const r=ROOMS[ME.step];return `<div class="card sol"><div class="tag">Corrigé · ${ship(SID).name} · ${r.name}</div>${r.sol(ship(SID))}<div class="tag" style="margin-top:8px">Indices proposés aux élèves (−0,25 pt chacun)</div><ol><li>${r.hints[0]}</li><li>${r.hints[1]}</li></ol></div>`;
 }
 function pickView(){
   if(SES.final)return ME.step>=6?"reactor":"done";
@@ -72,7 +72,7 @@ async function poll(){
   const mine=(s.ships||{})[SID];
   SES=s;SES.ships=SES.ships||{};
   if(mine&&Date.now()-lastWrite>4000&&mine.step!==ME.step){ME.step=mine.step||0;ME.pen=mine.pen||0;view=pickView();render();return}
-  if(mine&&Date.now()-lastWrite>4000)ME.pen=mine.pen||0;
+  if(mine&&Date.now()-lastWrite>4000){ME.pen=mine.pen||0;ME.ded=mine.ded||0;ME.hu=mine.hu||""}
   if(mine){const o=JSON.stringify(ME.ask||null),n=JSON.stringify(mine.ask||null);if(o!==n){const hadReply=!!(ME.ask&&ME.ask.reply);ME.ask=mine.ask;if(mine.ask&&mine.ask.reply&&!hadReply)toast("📡 Message du commandant de bord");if(view==='room'||view==='reactor')render()}}
   const was=view;
   if(view==="done"&&allDone())view="reactor";
@@ -83,8 +83,12 @@ async function poll(){
 }
 
 /* ---------- affichage ---------- */
+const hu=()=>String(ME&&ME.hu||"").split(",").filter(Boolean);
+const scoreNow=()=>Math.max(0,20-((ME&&ME.ded)||0)/4);
+function noteOf(id){const o=(SES.ships||{})[id]||{};const units=Math.min(o.step||0,6)+(SES.final?1:0);return Math.max(0,Math.round((20*units/7-(o.ded||0)/4)*4)/4)}
+function noteLine(id){const o=(SES.ships||{})[id]||{},d=(o.ded||0)/4;return `<p class="notefin">Note du groupe : <b>${fr(noteOf(id))} / 20</b>${d?` <span class="muted">(aides utilisées : −${fr(d)})</span>`:` <span class="muted">(sans aucune aide !)</span>`}</p>`}
 function hud(){
-  const t=$("clock");if(!t||!SES)return;
+  const t=$("clock");if(!t||!SES)return;const sc=$("score");if(sc)sc.textContent="Note "+fr(scoreNow())+" / 20";
   t.textContent=started()||true?fmt(remaining()):"";t.classList.toggle("low",remaining()<=300&&started());
   const run=SES.chrono&&SES.chrono.running;$("state").textContent=SES.final?"Mission réussie":!started()?"En attente du départ":run?"Mission en cours":"En pause";
   /* carte de la flotte */
@@ -95,8 +99,8 @@ function hud(){
 }
 function hudTick(){if(!SES)return;hud();endCheck();lockCheck()}
 function endCheck(){
-  if(SES.final&&overlayShown!=="win"){overlayShown="win";overlay(`<div class="big">🛰️</div><h2 style="color:var(--ok)">Signal rétabli</h2><p>Le réacteur est rallumé. La flotte rentre sur Terre avec <b style="color:var(--amber)">${fmt(remaining())}</b> d'avance.</p><p>Débrief : quelles salles demandaient d'<b>additionner</b> des carrés, et lesquelles de <b>soustraire</b> ? Comment le saviez-vous ?</p>`)}
-  else if(!SES.final&&started()&&remaining()<=0&&overlayShown!=="lose"){overlayShown="lose";overlay(`<div class="big">📡</div><h2 style="color:var(--bad)">Signal perdu</h2><p>Le temps est écoulé.</p>`)}
+  if(SES.final&&overlayShown!=="win"){overlayShown="win";overlay(`<div class="big">🛰️</div><h2 style="color:var(--ok)">Signal rétabli</h2><p>Le réacteur est rallumé. La flotte rentre sur Terre avec <b style="color:var(--amber)">${fmt(remaining())}</b> d'avance.</p>${noteLine(SID)}<p>Débrief : quelles salles demandaient d'<b>additionner</b> des carrés, et lesquelles de <b>soustraire</b> ? Comment le saviez-vous ?</p>`)}
+  else if(!SES.final&&started()&&remaining()<=0&&overlayShown!=="lose"){overlayShown="lose";overlay(`<div class="big">📡</div><h2 style="color:var(--bad)">Signal perdu</h2><p>Le temps est écoulé.</p>${noteLine(SID)}`)}
 }
 function overlay(h){$("layer").innerHTML=`<div class="overlay"><div class="box">${h}<button class="btn" id="closeOv">Fermer</button></div></div>`}
 function flash(t){const d=document.createElement("div");d.className="flash";d.innerHTML=`<div>${t}</div>`;document.body.appendChild(d);setTimeout(()=>d.remove(),1400)}
@@ -104,7 +108,7 @@ function toast(t){const d=document.createElement("div");d.className="toast";d.te
 
 function render(){
   const s=ship(SID);
-  $("shipPill").innerHTML=s?`<span class="pill" style="color:${s.c}">${s.name}</span>`:"";
+  $("shipPill").innerHTML=s?`<span class="pill" style="color:${s.c}">${s.name}</span> <span class="pill sc" id="score" title="Note du groupe : 20 si aucune aide"></span>`:"";
   hud();
   const st=$("stage");
   if(view==="join")return renderJoin();
@@ -156,8 +160,28 @@ function askBlock(){
   const a=ME.ask||{};let h="";
   if(a.reply&&a.status!=="seen")h+=`<div class="cmd"><div class="tag" style="color:var(--ok)">📡 Message du commandant de bord</div><p>${esc(a.reply.text)}</p><button class="btn" data-seen="1">Compris</button></div>`;
   if(a.status==="open")h+=`<div class="cmd wait">📡 Signal envoyé. Le commandant de bord vous répond dès que possible.</div>`;
-  else h+=`<button class="btn askbtn" id="askBtn">📡 Demander un indice au commandant de bord</button><p class="rules" style="margin:0">Coût : votre écran est brouillé pendant ${lockSecs()} s. Le commandant reçoit votre signal.</p>`;
+  else h+=`<button class="btn askbtn" id="askBtn">🆘 Besoin d'aide ?</button><p class="rules" style="margin:0">Chaque aide retire des points à la note du groupe (20 / 20 sans aucune aide).</p>`;
   return h;
+}
+const hintCtx=()=>{const rid=view==="reactor"?"reacteur":ROOMS[ME.step].id;return{rid,H:view==="reactor"?window.REACTOR_HINTS:ROOMS[ME.step].hints}};
+function openHelp(){
+  if(document.getElementById("help"))return;const {rid}=hintCtx(),used=hu();
+  const cost=(q)=>fr(q/4);
+  const opt=(k,t,sub,q)=>{const done=k!=="call"&&used.includes(rid+k);return `<button class="hopt" data-h="${k}"><span class="ht">${t}</span><span class="hs">${sub}</span><span class="hc">${done?"déjà ouvert · gratuit":"−"+cost(q)+" pt"}</span></button>`};
+  document.body.insertAdjacentHTML("beforeend",`<div id="help"><div class="helpbox"><div class="tag" style="color:var(--amber)">📡 Liaison brouillée · note actuelle ${fr(scoreNow())} / 20</div><h2>Que voulez-vous faire ?</h2><div id="helpBody">
+   ${opt("1","Indice 1","Pour trouver la méthode",1)}${opt("2","Indice 2","Pour réussir le calcul",1)}${opt("call","Appeler le commandant de bord","Il vous répond à distance · votre écran est brouillé "+lockSecs()+" s",2)}
+   <button class="btn" data-h="x">Annuler (aucun point perdu)</button></div></div></div>`);
+  $("help").addEventListener("click",helpClick);
+}
+async function helpClick(e){
+  const b=e.target.closest("[data-h]");if(!b)return;const k=b.dataset.h,box=$("helpBody");
+  if(k==="x"||k==="back"){$("help").remove();return}
+  if(k==="call"){$("help").remove();return sendAsk()}
+  const {rid,H}=hintCtx(),key=rid+k,first=!hu().includes(key);
+  if(first&&!PREVIEW){ME.hu=(ME.hu?ME.hu+",":"")+key;ME.ded=(ME.ded||0)+1;lastWrite=Date.now();SES.ships=SES.ships||{};SES.ships[SID]=Object.assign(SES.ships[SID]||{},{hu:ME.hu,ded:ME.ded});
+    try{await SYNC.patch(P("ships/"+SID),{hu:ME.hu,ded:ME.ded,t:SYNC.now()})}catch(err){toast("Connexion instable : l'aide est notée sur cet écran")}log("hint",rid+" · indice "+k)}
+  hud();
+  box.innerHTML=`<div class="cmd"><div class="tag" style="color:var(--ok)">Indice ${k}${first&&!PREVIEW?" · −0,25 pt":""}</div><p>${esc(H[+k-1])}</p></div><p class="muted" style="margin:6px 0">Note actuelle : ${fr(scoreNow())} / 20</p><button class="btn primary" data-h="back">Retour à la mission</button>`;
 }
 function lockCheck(){
   if(PREVIEW||!ME)return;const a=ME.ask,now=SYNC.now(),L=$("lock");
@@ -220,7 +244,7 @@ function bindStage(){
     updateSuggest();
   }
   const f=$("ansForm");if(f){f.addEventListener("submit",e=>{e.preventDefault();check()});const c=$("code");c.addEventListener("input",()=>c.dataset.edited="1")}
-  const h=$("askBtn");if(h)h.onclick=sendAsk;
+  const h=$("askBtn");if(h)h.onclick=openHelp;
   const g=$("goBtn");if(g)g.onclick=()=>{store("brief",true);if(!started()){const c={running:true,startAt:SYNC.now(),base:0};SES.chrono=c;SYNC.put(P("chrono"),c)}view="room";render()};
 }
 function setTile(b,s){b.dataset.s=s||"";b.querySelector(".st").textContent=s==="p"?"premier":s==="l"?"leurre":"?";b.classList.toggle("p",s==="p");b.classList.toggle("l",s==="l")}
@@ -240,9 +264,9 @@ document.addEventListener("click",e=>{
 async function sendAsk(){
   if(PREVIEW){toast("Aperçu : le signal serait envoyé à votre panneau de commandement");return}
   const id=view==="reactor"?"reacteur":ROOMS[ME.step].id,now=SYNC.now();
-  ME.ask={t:now,room:id,status:"open",lockUntil:now+lockSecs()*1000};ME.asks=(ME.asks||0)+1;lastWrite=Date.now();
-  SES.ships[SID]=Object.assign(SES.ships[SID]||{},{ask:ME.ask,asks:ME.asks});
-  try{await SYNC.put(P(`ships/${SID}/ask`),ME.ask);await SYNC.patch(P(`ships/${SID}`),{asks:ME.asks,t:now})}catch(e){toast("Signal non transmis : vérifiez la connexion")}
+  ME.ask={t:now,room:id,status:"open",lockUntil:now+lockSecs()*1000};ME.asks=(ME.asks||0)+1;ME.ded=(ME.ded||0)+2;lastWrite=Date.now();
+  SES.ships[SID]=Object.assign(SES.ships[SID]||{},{ask:ME.ask,asks:ME.asks,ded:ME.ded});
+  try{await SYNC.put(P(`ships/${SID}/ask`),ME.ask);await SYNC.patch(P(`ships/${SID}`),{asks:ME.asks,ded:ME.ded,t:now})}catch(e){toast("Signal non transmis : vérifiez la connexion")}
   log("ask",id);lockCheck();render();
 }
 async function check(){
