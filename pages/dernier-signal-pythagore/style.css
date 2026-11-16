@@ -1,3 +1,4 @@
+[hidden]{display:none!important}
 :root{--bg:#070c16;--panel:#111a2e;--panel2:#18243d;--line:#2a3b5e;--fg:#e8eefc;--muted:#8ea0bc;--amber:#ffb547;--ok:#5fd68a;--bad:#ff6b6b;--display:"Chakra Petch",system-ui,sans-serif;--body:"Atkinson Hyperlegible",system-ui,sans-serif}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
 html{background:#0a1020;-webkit-text-size-adjust:100%}body{margin:0;background:#0a1020 radial-gradient(1200px 700px at 80% -10%,#18274a 0,#0a1020 50%,#060a13 100%) no-repeat top center/100% 100vh;color:var(--fg);font:17px/1.45 var(--body);min-height:100vh}

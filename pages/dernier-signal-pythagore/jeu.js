@@ -210,7 +210,7 @@ function renderReactor(s){
 function stageSave(room,key,val){const o=store(room)||{};o[key]=val;store(room,o)}
 function updateSuggest(){
   if(view!=="room")return;const r=ROOMS[ME.step],s=ship(SID),sv=store("room:"+r.id)||{};
-  const v=r.suggest(sv,s);const c=$("code");if(c&&v!=null&&!c.dataset.edited){c.value=Math.round(v*100)/100}
+  /* le code n'est jamais prérempli : les élèves le calculent et le tapent eux-mêmes */
 }
 function bindStage(){
   const st=$("stage");
