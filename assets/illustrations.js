@@ -352,13 +352,12 @@
       lab(8, 10, 'B', 13) + lab(7, 60, 'A', 13) + lab(64, 58, 'C', 13)),
     "4e-ch4-s4": svg(tri([12, 18, 60, 54], 's-c', lab(5, 36, '3', 13) + lab(36, 64, '4', 13) + lab(47, 28, '?', 16))), // hypoténuse
     "4e-ch4-s5": svg(tri([12, 54, 60, 54], 's-s', lab(5, 36, '3', 13) + lab(36, 64, '?', 16) + lab(47, 28, '5', 13))), // côté de l'angle droit
-    "4e-ch4-s6": svg( // problèmes : une échelle contre un mur
-      '<rect class="f-b s-i" x="46" y="8" width="20" height="52" stroke-width="3"/>' +
-      '<line class="s-i" x1="5" y1="60" x2="67" y2="60" stroke-width="3.2"/>' +
-      '<line class="s-i" x1="19" y1="58" x2="46" y2="12" stroke-width="10"/>' +
-      '<line class="s-s" x1="19" y1="58" x2="46" y2="12" stroke-width="5"/>' +
-      '<path class="s-i" d="M26.5 45H33.5M31 37H38M35.5 29H42.5" fill="none" stroke-width="2.2"/>' +
-      '<path class="s-i" d="M38 60V52H46" fill="none" stroke-width="2.2"/>')  // le pied de l'échelle et le mur : un angle droit
+    "4e-ch4-s6": svg( // les ceintures : une ceinture nouée, deux pans qui retombent
+      '<path class="f-b s-i" d="M33 42L25 66H39L40 44Z" stroke-width="3"/>' +
+      '<path class="f-c s-i" d="M39 42L49 67H63L47 42Z" stroke-width="3"/>' +
+      '<rect class="f-c s-i" x="5" y="22" width="62" height="19" rx="4" stroke-width="3.2"/>' +
+      '<rect class="f-s s-i" x="28" y="17" width="16" height="29" rx="4" stroke-width="3.2"/>' +
+      '<path class="s-i" d="M32 28H40M32 35H40" fill="none" stroke-width="2.2"/>')  // la ceinture de judo du « niveau »
   };
 
   window.ILLU = {

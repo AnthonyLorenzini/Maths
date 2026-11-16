@@ -80,40 +80,105 @@ svg .tr { transition:opacity .45s ease; }
 .panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
 .panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:4px; color:#B5680A; }
 
-/* ---------- exercices : problèmes en deux colonnes ---------- */
-.objectif { border:4px solid var(--rose); border-radius:22px; padding:12px 26px; text-align:center; margin:4px auto 22px; max-width:760px; background:#fff; line-height:1.25; }
+/* ---------- ceintures : exercices en autonomie ---------- */
+.objectif { border:4px solid var(--rose); border-radius:22px; padding:12px 26px; text-align:center; margin:4px auto 18px; max-width:760px; background:#fff; line-height:1.25; }
 .objectif b { font-family:'Baloo 2',sans-serif; font-weight:800; font-size:27px; letter-spacing:.05em; text-transform:uppercase; -webkit-text-stroke:.7px var(--ink); color:var(--ink); }
 .objectif span { font-size:19px; margin-left:4px; font-weight:500; }
-.exos { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 34px; align-items:start; }
-.colx { min-width:0; }
-@media (max-width:1100px) { .exos { grid-template-columns:minmax(0,1fr); } }
-.fx { margin-bottom:18px; min-width:0; }
-.fxbody { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,270px); gap:12px; align-items:start; }
-.fxbody.sans { grid-template-columns:minmax(0,1fr); }
-@media (max-width:720px) { .fxbody { grid-template-columns:minmax(0,1fr); } }
-.fx-q { display:flex; gap:10px; align-items:flex-start; font-size:15px; line-height:1.45; margin-bottom:6px; }
-.fx-n { flex:0 0 auto; min-width:24px; height:24px; background:var(--vert); color:#fff; font-weight:800; font-size:15px; border-radius:3px; display:flex; align-items:center; justify-content:center; margin-top:1px; }
-.ttl { font-family:'Baloo 2',sans-serif; font-size:16px; color:var(--ink); }
-.etoiles { color:var(--acc-t); font-size:13px; font-weight:700; white-space:nowrap; margin-left:4px; }
-.aide { display:inline-flex; align-items:center; gap:7px; font-size:12px; font-weight:600; color:#51657A; background:#F1F4F8; border:1px solid #D2DBE6; border-radius:12px; padding:2px 10px; margin:0 0 8px 34px; }
-.fxfig { border:1.5px solid var(--cadre); padding:4px; background:#fff; }
+.regles { background:#FFF8E1; border:2px solid #E8C25A; border-radius:12px; padding:10px 16px 8px; margin:0 0 16px; font-size:15px; line-height:1.5; }
+.regles b.tag { font-family:'Baloo 2',sans-serif; color:#8A6200; display:block; margin-bottom:2px; font-size:16px; }
+.regles ol { margin:4px 0 6px; padding-left:22px; }
+.regles li { margin-bottom:3px; }
+.regles p { margin:4px 0 4px; }
+
+.ceint { max-width:1240px; margin:0 auto; }
+.ceint-tabs { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 10px; }
+.cb { flex:1 1 150px; display:flex; align-items:center; justify-content:center; gap:8px; min-height:48px; padding:6px 10px; border:3px solid var(--ink); border-radius:14px; background:#fff; color:var(--ink); font-family:'Baloo 2',sans-serif; font-size:16px; cursor:pointer; }
+.cb:hover { filter:brightness(.97); }
+.cb:focus-visible { outline:3px solid var(--bleu); outline-offset:2px; }
+.cb .ruban { flex:0 0 auto; width:30px; height:13px; border:2px solid var(--ink); border-radius:3px; }
+.cb .cb-c { font-family:'Work Sans',sans-serif; font-size:13px; font-weight:700; color:#51657A; }
+.cb.fait .cb-c { color:#1E7A4C; }
+.cb[aria-selected="true"] { background:var(--ink); color:#fff; }
+.cb[aria-selected="true"] .ruban { border-color:#fff; }
+.cb[aria-selected="true"] .cb-c { color:#FFD75E; }
+.ceint-resume { background:#F4F1EA; border-left:6px solid var(--ink); border-radius:10px; padding:10px 14px; margin:0 0 14px; font-size:15px; line-height:1.5; }
+.ceint-resume b { font-family:'Baloo 2',sans-serif; font-size:17px; }
+.cp-tete { border-left:10px solid var(--cc, var(--ink)); background:#FBFAF7; border-radius:10px; padding:8px 14px; margin:0 0 12px; }
+.cp-tete h2 { font-family:'Baloo 2',sans-serif; font-size:20px; margin:0; }
+.cp-tete p { margin:3px 0 0; font-size:14.5px; line-height:1.45; color:#3B4C5E; }
+.cp-valide { background:#E8F6EE; border:2px solid #4CAF7D; border-radius:10px; padding:8px 14px; margin:0 0 12px; font-size:15px; font-weight:600; color:#1E7A4C; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+.cp-valide .abtn { margin-left:auto; }
+
+.exgrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,430px),1fr)); gap:14px; align-items:start; }
+.ex { border:2px solid #D8DEE4; border-radius:14px; padding:12px 14px 12px; background:#fff; min-width:0; }
+.ex.reussi { border-color:#4CAF7D; background:#F6FCF8; }
+.ex-t { display:flex; align-items:center; gap:10px; margin:0 0 6px; font-family:'Baloo 2',sans-serif; font-size:18px; line-height:1.2; }
+.ex-nom { flex:1 1 auto; }
+.ex-etat { flex:0 0 auto; font-family:'Work Sans',sans-serif; font-size:12.5px; font-weight:700; color:#1E7A4C; }
+.fx-n { flex:0 0 auto; min-width:26px; height:26px; background:var(--vert); color:#fff; font-weight:800; font-size:15px; border-radius:4px; display:flex; align-items:center; justify-content:center; }
+.ex-but { display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; color:#51657A; background:#F1F4F8; border:1px solid #D2DBE6; border-radius:12px; padding:2px 10px; margin:0 0 8px; }
+.ex-enonce { font-size:15.5px; line-height:1.5; margin:0 0 8px; }
+.ex-enonce p { margin:0 0 6px; }
+.ex-enonce ul { margin:4px 0 6px; padding-left:20px; }
+.fxfig { border:1.5px solid var(--cadre); padding:4px; background:#fff; max-width:330px; margin:6px 0 10px; border-radius:6px; }
 .fxfig svg { display:block; width:100%; height:auto; }
-.sous-q { font-size:15px; line-height:1.45; margin:6px 0 8px 34px; }
-.fiche { border:2px solid var(--bleu); background:#F3F8FE; border-radius:10px; padding:6px 12px 6px; margin:4px 0 8px 34px; max-width:340px; }
+.fiche { border:2px solid var(--bleu); background:#F3F8FE; border-radius:10px; padding:6px 12px; margin:6px 0 8px; max-width:340px; }
 .fiche .ft { font-family:'Baloo 2',sans-serif; font-size:13px; color:var(--bleu); font-weight:700; }
 .fiche table { border-collapse:collapse; width:100%; }
 .fiche td { padding:3px 0; border-top:1px dashed #B7CBE3; font-size:14px; }
 .fiche td:last-child { text-align:right; font-weight:700; white-space:nowrap; padding-left:12px; }
-.sol-only { display:none; }
-.sol .sol-only { display:block; }
-.corrige { background:#E8F6EE; border-left:5px solid #4CAF7D; border-radius:8px; padding:8px 12px; margin:8px 0 4px; font-size:14.5px; line-height:1.7; }
-.corrige p { margin:0 0 6px; }
-svg .ans { opacity:0; } .sol svg .ans { opacity:1; } .sol svg .ph { opacity:0; }
+
+.champs { margin:8px 0 4px; display:flex; flex-direction:column; gap:8px; }
+.champ { display:flex; flex-wrap:wrap; align-items:center; gap:8px; font-size:16px; }
+.champ .pre { font-weight:600; }
+.champ input[type="text"] { font:inherit; font-size:17px; width:6.2em; padding:8px 10px; border:2px solid #9DB8D8; border-radius:8px; background:#fff; color:var(--ink); }
+.champ input[type="text"]:focus { outline:3px solid #BFD8F3; border-color:var(--bleu); }
+.champ.ok input[type="text"] { border-color:#4CAF7D; background:#E8F6EE; }
+.champ.ko input[type="text"] { border-color:#E4553F; background:#FDEEEA; }
+.choix { border:0; padding:0; margin:0; min-width:0; }
+.choix legend { padding:0; font-size:15.5px; font-weight:600; margin-bottom:2px; }
+.opt { display:flex; gap:10px; align-items:center; padding:9px 12px; border:2px solid #D2DBE6; border-radius:10px; margin:6px 0 0; cursor:pointer; min-height:44px; font-size:15.5px; background:#fff; }
+.opt input { width:20px; height:20px; flex:0 0 auto; margin:0; }
+.opt:has(input:checked) { border-color:var(--bleu); background:#F3F8FE; }
+.choix.ok .opt:has(input:checked) { border-color:#4CAF7D; background:#E8F6EE; }
+.choix.ko .opt:has(input:checked) { border-color:#E4553F; background:#FDEEEA; }
+.vrow { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:6px; }
+.vbtn { font-family:'Baloo 2',sans-serif; font-size:16px; padding:9px 20px; min-height:44px; border-radius:22px; border:2px solid var(--ink); background:var(--ink); color:#fff; cursor:pointer; }
+.vbtn:hover { filter:brightness(1.15); }
+.retour { margin-top:8px; font-size:14.5px; line-height:1.45; }
+.retour:empty { display:none; }
+.retour .bon { background:#E8F6EE; border-left:5px solid #4CAF7D; border-radius:8px; padding:8px 12px; font-weight:600; color:#1E5E3C; }
+.retour .non { background:#FFF3E6; border-left:5px solid #E08A2E; border-radius:8px; padding:8px 12px; color:#7A4A0A; }
+.retour .non p { margin:0 0 4px; }
+.retour .non p:last-child { margin:0; }
+
+.btn-row { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; align-items:center; }
+.toggle-btn { font-family:'Baloo 2',sans-serif; font-size:14px; padding:7px 14px; min-height:40px; border-radius:18px; border:2px solid #2B6CB0; background:#fff; color:#2B6CB0; cursor:pointer; }
+.toggle-btn.astuce { border-color:#D8934C; color:#B5680A; }
+.toggle-btn.solution { border-color:#4CAF7D; color:#1E7A4C; }
+.toggle-btn:disabled { opacity:.45; cursor:default; }
+.btn-note { font-size:12px; color:#6B7A8A; }
+.panel { display:none; margin-top:8px; background:#fff; border-radius:8px; padding:10px 12px; font-size:14.5px; line-height:1.55; }
+.panel.show { display:block; }
+.panel.astuce-panel { border:1.5px dashed #D8934C; color:#7A5210; }
+.panel .label { font-family:'Baloo 2',sans-serif; font-weight:700; font-size:12px; display:block; margin-bottom:2px; color:#B5680A; }
+.panel p { margin:0 0 6px; }
+.panel .autre { font-family:'Baloo 2',sans-serif; font-size:13px; padding:4px 12px; border-radius:14px; border:2px solid #D8934C; background:#fff; color:#B5680A; cursor:pointer; }
+.panel.corrige { border-left:5px solid #4CAF7D; background:#E8F6EE; line-height:1.75; }
+.ceint-bas { max-width:1240px; margin:14px auto 0; font-size:12.5px; color:#6B7A8A; }
+.ceint-bas button { font:inherit; font-size:12.5px; color:#6B7A8A; background:none; border:1px solid #C9D2DB; border-radius:10px; padding:2px 10px; cursor:pointer; margin-left:6px; }
 svg text.fg { font-family:'Work Sans',Arial,sans-serif; font-weight:600; fill:#22303F; }
 svg text.fg.bold { font-weight:700; }
-svg text.ans { fill:#1E7A4C; font-weight:700; }
-.plus { border:2.5px dashed var(--rose); border-radius:14px; padding:8px 12px 2px; background:#FFF8FB; }
-.plus-tag { display:inline-block; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px; color:#B3134F; margin:0 0 6px; }
+svg text.fg.inc { fill:#C23B27; }
+svg text.fg { paint-order:stroke; stroke:#fff; stroke-width:3.5px; stroke-linejoin:round; }
+@media (max-width:600px) {
+  body { padding:8px 6px 40px; }
+  .page { padding:14px 12px 16px; border-radius:14px; }
+  .objectif b { font-size:20px; } .objectif span { font-size:16px; display:block; margin:2px 0 0; }
+  .bloc .l { white-space:normal; font-size:15px; line-height:26px; padding:4px 0; }
+  .bloc .note { position:static; display:block; line-height:1.2; padding-bottom:4px; }
+  .cahier { padding-left:46px; }
+}
 
 /* ---------- bilan du chapitre ---------- */
 .bilan { background:#E8F6EE; border:2px solid #4CAF7D; border-radius:12px; padding:10px 16px 8px; margin:18px 0 6px; font-size:14.5px; line-height:1.55; }
@@ -135,7 +200,7 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
       <div class="subtitle">Chapitre 4 — Le théorème de Pythagore — 4e — Séance 6</div>
     </div>
   </header>
-  <div class="objectifs"><b>Objectifs :</b> résoudre un problème concret avec le <span class="gl" data-t="pythagore">théorème de Pythagore</span> : trouver le <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> dans la situation, choisir entre additionner et soustraire, puis répondre par une phrase avec l'unité.</div>
+  <div class="objectifs"><b>Objectifs :</b> résoudre des problèmes concrets avec le <span class="gl" data-t="pythagore">théorème de Pythagore</span> : trouver le <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> dans la situation, choisir entre additionner et soustraire, répondre par une phrase avec l'unité. Chacun avance à son niveau, de la <b>ceinture blanche</b> à la <b>ceinture noire</b>.</div>
   <noscript><p><b>Cette séance utilise une animation JavaScript : active-la dans ton navigateur pour la voir.</b></p></noscript>
 
   <!-- ===================== AUTOMATISME ===================== -->
@@ -236,216 +301,29 @@ footer { margin-top:16px; font-size:11.5px; color:#8894A0; border-top:1.5px dash
   </div>
   </div><!-- /col -->
 
-  <!-- ===================== EXERCICES ===================== -->
-  <div class="objectif"><b>Objectif :</b> <span>Résoudre un problème avec le <span class="gl" data-t="pythagore">théorème de Pythagore</span></span></div>
-  <p class="aide-ex" style="font-size:14px;line-height:1.5;margin:0 0 14px;color:#3B4C5E;">Exercices projetés au tableau : <b>cinq situations différentes</b>, à faire dans l'ordre que tu veux. Fais un <b>schéma</b> à main levée, écris ta rédaction complète et finis par une <b>phrase-réponse</b> avec l'unité. Pas besoin de recopier les énoncés : note le numéro de l'exercice. La calculatrice est autorisée. Astuce si tu bloques, solution en dernier.</p>
-
-  <div class="exos">
-  <div class="colx">
-
-  <!-- Exercice 1 : le raccourci -->
-  <div class="fx" id="fx1">
-    <div class="fxbody">
-      <div>
-        <div class="fx-q"><span class="fx-n">1</span><span><b class="ttl">Le raccourci.</b> Léa part de la boulangerie B pour aller à l'école E. Les deux rues se coupent à <span class="gl" data-t="angle-droit">angle droit</span> en C. Elle peut suivre les rues, ou couper par le sentier [BE] à travers le square. Combien de mètres économise-t-elle en prenant le sentier ? <span class="etoiles">★</span></span></div>
-        <div class="aide"><span aria-hidden="true">🎯</span> Je cherche le triangle rectangle sur un plan</div>
-      </div>
-      <div class="fxfig"><svg viewBox="0 0 300 175" role="img" aria-label="Plan : deux rues qui se coupent à angle droit en C. La boulangerie B est à 70 m de C, l'école E à 240 m de C. Un sentier relie B à E à travers le square." xmlns="http://www.w3.org/2000/svg">
-        <polygon points="52,76 52,132 244,132" fill="#E3F3D3"/>
-        <path d="M52 76V132H244" fill="none" stroke="#9AA6B2" stroke-width="8"/>
-        <polygon points="56,128 68,128 68,116 56,116" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.2"/>
-        <line x1="52" y1="76" x2="244" y2="132" stroke="#B5680A" stroke-width="3.5" stroke-dasharray="8 6"/>
-        <circle cx="52" cy="76" r="4.5" fill="#22303F"/><circle cx="52" cy="132" r="4.5" fill="#22303F"/><circle cx="244" cy="132" r="4.5" fill="#22303F"/>
-        <text x="120" y="122" text-anchor="middle" font-size="13" font-style="italic" fill="#3E7D2B" font-family="Work Sans, Arial, sans-serif" font-weight="600">square</text>
-        <text class="fg bold" x="40" y="104" text-anchor="end" font-size="16">70 m</text>
-        <text class="fg bold" x="148" y="154" text-anchor="middle" font-size="16">240 m</text>
-        <text class="lbl" x="52" y="60" text-anchor="middle" font-size="16">B</text>
-        <text class="fg" x="64" y="60" font-size="14">boulangerie</text>
-        <text class="lbl" x="36" y="150" text-anchor="middle" font-size="16">C</text>
-        <text class="lbl" x="254" y="130" font-size="17">E</text>
-        <text class="fg" x="254" y="149" font-size="14">école</text>
-        <text class="fg bold ph" x="146" y="82" text-anchor="start" font-size="16">BE = ?</text>
-        <text class="fg bold ans" x="146" y="82" text-anchor="start" font-size="16">BE = 250 m</text>
-      </svg></div>
-    </div>
-    <div class="sol-only corrige">
-      <p>Les rues se coupent à <span class="gl" data-t="angle-droit">angle droit</span> : on a <b>BCE</b> un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> en <b>C</b>. D'après le <span class="gl" data-t="pythagore">théorème de Pythagore</span>, on a :<br>
-      BC² + CE² = BE²<br>
-      70² + 240² = BE²<br>
-      4&nbsp;900 + 57&nbsp;600 = BE²<br>
-      62&nbsp;500 = BE²<br>
-      donc BE = √62&nbsp;500 = <b>250 m</b>.</p>
-      <p>Par les rues : 70 + 240 = 310 m. Par le sentier : 250 m. Léa <b>économise 60 m</b>.</p>
-    </div>
-    <div class="btn-row">
-      <button type="button" class="toggle-btn astuce" onclick="toggle('as1')">💡 Astuce</button>
-      <button type="button" class="toggle-btn solution" onclick="sol('fx1',this)">✅ Solution</button>
-    </div>
-    <div class="panel astuce-panel" id="as1"><span class="label">Astuce</span>Les rues se coupent à angle droit en C : le <span class="gl" data-t="triangle">triangle</span> BCE est <span class="gl" data-t="rectangle">rectangle</span> en C. L'<span class="gl" data-t="hypotenuse">hypoténuse</span> est le sentier [BE]. À la fin, compare avec le trajet par les rues : 70 + 240.</div>
+  <!-- ===================== CEINTURES ===================== -->
+  <div class="objectif"><b>Objectif :</b> <span>Trouver ma ceinture de Pythagore</span></div>
+  <div class="col">
+  <div class="regles">
+    <b class="tag">Comment ça marche ?</b>
+    <ol>
+      <li>Choisis une <b>ceinture</b>. Commence par la <b>blanche</b>, ou plus haut si c'est facile pour toi.</li>
+      <li>Dans ton <b>cahier</b> : un schéma, puis ta rédaction. Ici, tu tapes seulement le <b>résultat</b>.</li>
+      <li>Les 4 exercices sont réussis ? <b>La ceinture est à toi</b>. Passe à la suivante !</li>
+      <li>Tu bloques ? Ouvre l'<b>astuce</b>. Puis la <b>solution</b>, et recommence.</li>
+    </ol>
+    <p>Ta ceinture, c'est la <b>plus haute</b> que tu as validée. Chacun avance à son rythme : tu n'as pas à tout faire.</p>
+  </div>
   </div>
 
-  <!-- Exercice 2 : la rampe du camion -->
-  <div class="fx" id="fx2">
-    <div class="fxbody">
-      <div>
-        <div class="fx-q"><span class="fx-n">2</span><span><b class="ttl">La rampe du camion.</b> Un déménageur charge un meuble dans un camion avec une rampe. Voici la fiche technique : <span class="etoiles">★★</span></span></div>
-        <div class="fiche">
-          <div class="ft">Fiche technique</div>
-          <table>
-            <tr><td>Hauteur du plateau du camion</td><td>1,2 m</td></tr>
-            <tr><td>Longueur de la rampe</td><td>3,7 m</td></tr>
-            <tr><td>Largeur de la rampe</td><td>0,8 m</td></tr>
-            <tr><td>Charge maximale</td><td>250 kg</td></tr>
-          </table>
-        </div>
-        <p class="sous-q">Le sol est horizontal. Sur le schéma, A est le bas de la rampe, B son haut, et H le point du sol juste sous B. À quelle <span class="gl" data-t="distance">distance</span> du camion faut-il poser le bas de la rampe ? Calcule AH.</p>
-        <div class="aide"><span aria-hidden="true">🎯</span> Je trie les données utiles</div>
-      </div>
-      <div class="fxfig"><svg viewBox="0 0 280 165" role="img" aria-label="Schéma : une rampe AB relie le sol au plateau d'un camion. H est le point du sol juste sous B." xmlns="http://www.w3.org/2000/svg">
-        <rect x="170" y="26" width="98" height="58" fill="#E8EDF3" stroke="#22303F" stroke-width="2.5"/>
-        <rect x="170" y="84" width="98" height="26" fill="#9AA6B2" stroke="#22303F" stroke-width="2.5"/>
-        <circle cx="202" cy="118" r="14" fill="#22303F"/><circle cx="202" cy="118" r="5" fill="#fff"/>
-        <text class="fg" x="219" y="56" text-anchor="middle" font-size="14">camion</text>
-        <path d="M8 132H272" fill="none" stroke="#22303F" stroke-width="3"/>
-        <line x1="30" y1="132" x2="170" y2="84" stroke="#22303F" stroke-width="9" stroke-linecap="round"/>
-        <line x1="30" y1="132" x2="170" y2="84" stroke="#C98B4B" stroke-width="5" stroke-linecap="round"/>
-        <line x1="170" y1="84" x2="170" y2="132" stroke="#2B6CB0" stroke-width="2.5" stroke-dasharray="5 4"/>
-        <polygon points="170,132 158,132 158,120 170,120" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.2"/>
-        <text class="lbl" x="22" y="150" text-anchor="middle" font-size="16">A</text>
-        <text class="lbl" x="158" y="74" text-anchor="end" font-size="16">B</text>
-        <text class="lbl" x="170" y="152" text-anchor="middle" font-size="16">H</text>
-        <text class="fg bold ph" x="98" y="153" text-anchor="middle" font-size="14">AH = ?</text>
-        <text class="fg bold ans" x="98" y="153" text-anchor="middle" font-size="14">AH = 3,5 m</text>
-      </svg></div>
-    </div>
-    <div class="sol-only corrige">
-      <p>Le sol est horizontal et B est juste au-dessus de H : on a <b>ABH</b> un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> en <b>H</b>. Seules deux données servent : la rampe (3,7 m) et la hauteur du plateau (1,2 m). La largeur et la charge maximale sont inutiles. D'après le <span class="gl" data-t="pythagore">théorème de Pythagore</span>, on a :<br>
-      AH² + BH² = AB²<br>
-      AH² + 1,2² = 3,7²<br>
-      AH² = 3,7² − 1,2²<br>
-      AH² = 13,69 − 1,44 = 12,25<br>
-      donc AH = √12,25 = <b>3,5 m</b>.</p>
-      <p>Le bas de la rampe se pose à 3,5 m du camion (et 3,5 m &lt; 3,7 m).</p>
-    </div>
-    <div class="btn-row">
-      <button type="button" class="toggle-btn astuce" onclick="toggle('as2')">💡 Astuce</button>
-      <button type="button" class="toggle-btn solution" onclick="sol('fx2',this)">✅ Solution</button>
-    </div>
-    <div class="panel astuce-panel" id="as2"><span class="label">Astuce</span>Deux données de la fiche ne servent pas. Cherche le <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> : le sol et la verticale de B forment un <span class="gl" data-t="angle-droit">angle droit</span> en H. La rampe est l'<span class="gl" data-t="hypotenuse">hypoténuse</span>, et on la connaît : on soustrait.</div>
+  <div class="ceint" id="ceint">
+    <noscript><p><b>Cette partie a besoin de JavaScript : active-le dans ton navigateur.</b></p></noscript>
+    <div class="ceint-tabs" id="ceint-tabs" role="tablist" aria-label="Les cinq ceintures"></div>
+    <div class="ceint-resume" id="ceint-resume" role="status" aria-live="polite"></div>
+    <div id="ceint-panels"></div>
+    <p class="ceint-bas">Ta progression reste sur cet appareil. Personne d'autre ne la voit.<button type="button" id="ceint-reset">Effacer ma progression</button></p>
   </div>
 
-  </div><!-- /colx 1 -->
-  <div class="colx">
-
-  <!-- Exercice 3 : la tente -->
-  <div class="fx" id="fx3">
-    <div class="fxbody">
-      <div>
-        <div class="fx-q"><span class="fx-n">3</span><span><b class="ttl">La tente.</b> Voici la façade de la tente de Léo : un <span class="gl" data-t="isocele">triangle isocèle</span> ABC. Le poteau [AH] est vertical, sur un sol horizontal. H est le <span class="gl" data-t="milieu">milieu</span> de [BC]. Léo mesure 1,65 m. Peut-il se tenir debout sous le poteau ? Justifie. <span class="etoiles">★★</span></span></div>
-        <div class="aide"><span aria-hidden="true">🎯</span> Je trouve un triangle rectangle caché</div>
-      </div>
-      <div class="fxfig"><svg viewBox="0 0 260 196" role="img" aria-label="Façade de la tente : triangle ABC avec AB = AC = 2 m et BC = 2,4 m. Le poteau AH est vertical, H est le milieu de BC." xmlns="http://www.w3.org/2000/svg">
-        <polygon points="130,38 46,150 214,150" fill="#FFE9C7" stroke="#22303F" stroke-width="3" stroke-linejoin="round"/>
-        <path d="M8 150H252" fill="none" stroke="#22303F" stroke-width="3"/>
-        <line x1="130" y1="38" x2="130" y2="150" stroke="#9A5A1B" stroke-width="5"/>
-        <polygon points="130,150 118,150 118,138 130,138" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.2"/>
-        <path d="M88 143V157M172 143V157" fill="none" stroke="#22303F" stroke-width="2.5"/>
-        <path d="M46 173V179H214V173" fill="none" stroke="#22303F" stroke-width="1.8"/>
-        <text class="fg bold" x="130" y="191" text-anchor="middle" font-size="15">2,4 m</text>
-        <text class="fg bold" x="66" y="88" text-anchor="end" font-size="14">2 m</text>
-        <text class="fg bold" x="194" y="88" text-anchor="start" font-size="14">2 m</text>
-        <text class="lbl" x="130" y="22" text-anchor="middle" font-size="16">A</text>
-        <text class="lbl" x="34" y="160" text-anchor="end" font-size="16">B</text>
-        <text class="lbl" x="226" y="160" text-anchor="start" font-size="16">C</text>
-        <text class="lbl" x="130" y="163" text-anchor="middle" font-size="16">H</text>
-        <text class="fg bold ph" x="138" y="112" text-anchor="start" font-size="20">?</text>
-        <text class="fg bold ans" x="138" y="112" text-anchor="start" font-size="14">1,6 m</text>
-      </svg></div>
-    </div>
-    <div class="sol-only corrige">
-      <p>H est le milieu de [BC] : BH = 2,4 ÷ 2 = 1,2 m. Le poteau est vertical et le sol est horizontal : on a <b>ABH</b> un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> en <b>H</b>. D'après le <span class="gl" data-t="pythagore">théorème de Pythagore</span>, on a :<br>
-      AH² + BH² = AB²<br>
-      AH² + 1,2² = 2²<br>
-      AH² = 2² − 1,2²<br>
-      AH² = 4 − 1,44 = 2,56<br>
-      donc AH = √2,56 = <b>1,6 m</b>.</p>
-      <p>Léo mesure 1,65 m et 1,65 m &gt; 1,6 m : <b>il ne peut pas se tenir debout</b> sous le poteau.</p>
-    </div>
-    <div class="btn-row">
-      <button type="button" class="toggle-btn astuce" onclick="toggle('as3')">💡 Astuce</button>
-      <button type="button" class="toggle-btn solution" onclick="sol('fx3',this)">✅ Solution</button>
-    </div>
-    <div class="panel astuce-panel" id="as3"><span class="label">Astuce</span>Le poteau est vertical et le sol est horizontal : le <span class="gl" data-t="triangle">triangle</span> ABH est <span class="gl" data-t="rectangle">rectangle</span> en H. Attention : BH n'est pas égal à BC. H est le milieu de [BC] !</div>
-  </div>
-
-
-  <!-- Exercice 4 : les talkies-walkies -->
-  <div class="fx" id="fx4">
-    <div class="fxbody sans">
-      <div>
-        <div class="fx-q"><span class="fx-n">4</span><span><b class="ttl">Les talkies-walkies.</b> Inès et Malo partent du même point. Inès marche 5 km plein nord. Malo marche 7 km plein est. Leurs talkies-walkies ont une portée de 8 km. Peuvent-ils encore se parler ? Justifie. <span class="etoiles">★★★</span></span></div>
-        <div class="aide"><span aria-hidden="true">🎯</span> Je fais moi-même le schéma</div>
-      </div>
-    </div>
-    <div class="sol-only corrige">
-      <p>Soit D le point de départ, I Inès et M Malo. Le nord et l'est forment un <span class="gl" data-t="angle-droit">angle droit</span> : on a <b>DIM</b> un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> en <b>D</b>. D'après le <span class="gl" data-t="pythagore">théorème de Pythagore</span>, on a :<br>
-      DI² + DM² = IM²<br>
-      5² + 7² = IM²<br>
-      25 + 49 = IM²<br>
-      74 = IM²<br>
-      donc IM = √74 ≈ <b>8,6 km</b> (<span class="gl" data-t="valeur-exacte">valeur exacte</span> : √74 km ; 8² = 64 &lt; 74 &lt; 81 = 9²).</p>
-      <p>8,6 km &gt; 8 km : <b>ils sont trop loin</b>, ils ne peuvent plus se parler.</p>
-    </div>
-    <div class="btn-row">
-      <button type="button" class="toggle-btn astuce" onclick="toggle('as4')">💡 Astuce</button>
-      <button type="button" class="toggle-btn solution" onclick="sol('fx4',this)">✅ Solution</button>
-    </div>
-    <div class="panel astuce-panel" id="as4"><span class="label">Astuce</span>Dessine le point de départ, une flèche vers le nord et une flèche vers l'est. Elles forment un <span class="gl" data-t="angle-droit">angle droit</span>. Cherche-t-on l'<span class="gl" data-t="hypotenuse">hypoténuse</span> ou un <span class="gl" data-t="cote">côté</span> de l'angle droit ? Compare ensuite ton résultat à 8 km.</div>
-  </div>
-
-  <!-- Exercice 5 : pour aller plus loin -->
-  <div class="fx plus" id="fx5">
-    <div class="plus-tag">🚀 Pour aller plus loin</div>
-    <div class="fxbody">
-      <div>
-        <div class="fx-q"><span class="fx-n">5</span><span><b class="ttl">Les haubans.</b> Pour une fête, on dresse un mât vertical de 6 m, sur un sol horizontal. Deux câbles identiques le maintiennent. Chaque câble va du sommet du mât à un piquet planté à 4,5 m du pied du mât. Pour fixer un câble, il faut prévoir 0,5 m de plus. Combien de mètres de câble faut-il acheter ? <span class="etoiles">★★★</span></span></div>
-        <div class="aide"><span aria-hidden="true">🎯</span> Je prépare mon plan de calcul</div>
-      </div>
-      <div class="fxfig"><svg viewBox="0 0 300 205" role="img" aria-label="Un mât vertical de 6 m tenu par deux câbles identiques fixés à des piquets, à 4,5 m du pied du mât de chaque côté." xmlns="http://www.w3.org/2000/svg">
-        <path d="M8 165H292" fill="none" stroke="#22303F" stroke-width="3"/>
-        <line x1="150" y1="33" x2="150" y2="165" stroke="#5B6B7B" stroke-width="6" stroke-linecap="round"/>
-        <line x1="150" y1="33" x2="51" y2="165" stroke="#B5680A" stroke-width="3"/>
-        <line x1="150" y1="33" x2="249" y2="165" stroke="#B5680A" stroke-width="3"/>
-        <path d="M51 165V176M249 165V176" fill="none" stroke="#22303F" stroke-width="4" stroke-linecap="round"/>
-        <polygon points="150,165 138,165 138,153 150,153" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.2"/>
-        <polygon points="150,165 162,165 162,153 150,153" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.2"/>
-        <path d="M95.7 95.4L105.3 102.6M194.7 102.6L204.3 95.4" fill="none" stroke="#22303F" stroke-width="2.5"/>
-        <path d="M51 184V190H150V184M150 184V190H249V184" fill="none" stroke="#22303F" stroke-width="1.8"/>
-        <text class="fg bold" x="100" y="199" text-anchor="middle" font-size="16">4,5 m</text>
-        <text class="fg bold" x="200" y="199" text-anchor="middle" font-size="16">4,5 m</text>
-        <text class="fg bold" x="158" y="96" text-anchor="start" font-size="16">6 m</text>
-        <text class="fg bold ph" x="104" y="78" text-anchor="end" font-size="20">?</text>
-        <text class="fg bold ans" x="104" y="78" text-anchor="end" font-size="16">7,5 m</text>
-      </svg></div>
-    </div>
-    <div class="sol-only corrige">
-      <p>Soit S le sommet du mât, M son pied et P un piquet. Le mât est vertical et le sol est horizontal : on a <b>SMP</b> un <span class="gl" data-t="triangle-rectangle">triangle rectangle</span> en <b>M</b>. D'après le <span class="gl" data-t="pythagore">théorème de Pythagore</span>, on a :<br>
-      SM² + MP² = SP²<br>
-      6² + 4,5² = SP²<br>
-      36 + 20,25 = SP²<br>
-      56,25 = SP²<br>
-      donc SP = √56,25 = <b>7,5 m</b>.</p>
-      <p>Un câble : 7,5 + 0,5 = 8 m. Deux câbles : 2 × 8 = 16 m. Il faut acheter <b>16 m de câble</b>.</p>
-    </div>
-    <div class="btn-row">
-      <button type="button" class="toggle-btn astuce" onclick="toggle('as5')">💡 Astuce</button>
-      <button type="button" class="toggle-btn solution" onclick="sol('fx5',this)">✅ Solution</button>
-    </div>
-    <div class="panel astuce-panel" id="as5"><span class="label">Astuce</span>Un seul <span class="gl" data-t="triangle">triangle</span> suffit : le mât, le sol et un câble. Donne des lettres aux points. Calcule la <span class="gl" data-t="longueur">longueur</span> d'un câble, ajoute les 0,5 m, puis pense qu'il y a deux câbles.</div>
-  </div>
-
-  </div><!-- /colx 2 -->
-  </div><!-- /exos -->
 
   <div class="col">
   <div class="bilan">
@@ -504,6 +382,671 @@ function sol(id,btn){var e=document.getElementById(id);var on=e.classList.toggle
   $("a-tout").addEventListener("click", function () { etat = N; rendre(); });
   $("a-rec").addEventListener("click", function () { etat = 0; rendre(); });
   rendre();
+})();
+</script>
+<script>
+(function () {
+  "use strict";
+  var KEY = "pyth-s6-ceintures-v1";
+  var NSURL = "http://www.w3.org/2000/svg";
+
+  /* ================= outils ================= */
+  function $(id) { return document.getElementById(id); }
+  function has(o, k) { return Object.prototype.hasOwnProperty.call(o, k); }
+  function add(a, b) { return [a[0] + b[0], a[1] + b[1]]; }
+  function sub(a, b) { return [a[0] - b[0], a[1] - b[1]]; }
+  function mul(a, k) { return [a[0] * k, a[1] * k]; }
+  function len(a) { return Math.sqrt(a[0] * a[0] + a[1] * a[1]); }
+  function norm(a) { var l = len(a) || 1; return [a[0] / l, a[1] / l]; }
+  function dot(a, b) { return a[0] * b[0] + a[1] * b[1]; }
+  function f1(x) { return (Math.round(x * 10) / 10).toFixed(1); }
+  function pts(a) { return a.map(function (p) { return f1(p[0]) + "," + f1(p[1]); }).join(" "); }
+  /* espaces insécables avant ? ! : ; et dans les guillemets */
+  function nb(s) { return s.replace(/ ([?!:;»])/g, "&nbsp;$1").replace(/« /g, "«&nbsp;"); }
+  function G(id, t) { return '<span class="gl" data-t="' + id + '">' + t + "</span>"; }
+  var HYP = G("hypotenuse", "hypoténuse"), AD = G("angle-droit", "angle droit"), TR = G("triangle-rectangle", "triangle rectangle"),
+      PY = G("pythagore", "théorème de Pythagore"), RAC = G("racine-carree", "racine carrée"), DIAG = G("diagonale", "diagonale"),
+      DIX = G("dixieme", "dixième"), CARRE = G("carre", "carré"), COTE = G("cote", "côté");
+
+  /* ================= figures (SVG en texte) ================= */
+  function svgW(W, H, alt, inner) {
+    return '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + alt + '" xmlns="' + NSURL + '">' + inner + "</svg>";
+  }
+  function T(x, y, txt, o) {
+    o = o || {};
+    var cls = o.c || "fg bold";
+    if (txt === "?" && !o.c) cls += " inc";
+    return '<text x="' + f1(x) + '" y="' + f1(y) + '" text-anchor="' + (o.a || "middle") + '" dominant-baseline="central" font-size="' + (o.s || 15) + '" class="' + cls + '"' + (o.f ? ' style="fill:' + o.f + '"' : "") + ">" + txt + "</text>";
+  }
+  function Ln(a, b, st, w, extra) {
+    return '<line x1="' + f1(a[0]) + '" y1="' + f1(a[1]) + '" x2="' + f1(b[0]) + '" y2="' + f1(b[1]) + '" stroke="' + st + '" stroke-width="' + w + '" ' + (extra || "") + "/>";
+  }
+  function Pg(points, fill, st, w) {
+    return '<polygon points="' + pts(points) + '" fill="' + fill + '" stroke="' + st + '" stroke-width="' + w + '" stroke-linejoin="round"/>';
+  }
+  function Rm(V, A, B, m) { /* codage de l'angle droit en V */
+    var u = norm(sub(A, V)), v = norm(sub(B, V));
+    var p1 = add(V, mul(u, m)), p3 = add(V, mul(v, m)), p2 = add(p1, mul(v, m));
+    return '<polygon points="' + pts([V, p1, p2, p3]) + '" fill="#4DB6A0" stroke="#2E8B77" stroke-width="1.2"/>';
+  }
+  function fitter(all, W, H, pad, max) {
+    var xs = all.map(function (p) { return p[0]; }), ys = all.map(function (p) { return p[1]; });
+    var x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs), y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
+    var bw = (x1 - x0) || 1, bh = (y1 - y0) || 1;
+    var sc = Math.min((W - 2 * pad) / bw, (H - 2 * pad) / bh);
+    if (max) sc = Math.min(sc, max);
+    var ox = (W - bw * sc) / 2 - x0 * sc, oy = (H - bh * sc) / 2 - y0 * sc;
+    return function (p) { return [p[0] * sc + ox, p[1] * sc + oy]; };
+  }
+  /* Triangle rectangle en R, côtés RP = a et RQ = b. mode « hyp » : [PQ] horizontale. Sinon RP part dans la direction th (degrés). */
+  function build(c) {
+    var P, Q, R = [0, 0];
+    if (c.mode === "hyp") {
+      var hy = Math.sqrt(c.a * c.a + c.b * c.b), d = c.a * c.a / hy, h = c.a * c.b / hy;
+      P = [0, 0]; Q = [hy, 0]; R = [d, c.below ? h : -h];
+    } else {
+      var t = c.th * Math.PI / 180, s = c.s || 1;
+      P = [c.a * Math.cos(t), c.a * Math.sin(t)];
+      Q = [-c.b * s * Math.sin(t), c.b * s * Math.cos(t)];
+    }
+    var p = {}; p[c.R] = R; p[c.P] = P; p[c.Q] = Q;
+    return p;
+  }
+  function placer(cen, mid, txt, size) {
+    var d = norm(sub(mid, cen)), anc = d[0] > 0.3 ? "start" : (d[0] < -0.3 ? "end" : "middle");
+    var pos = add(mid, [d[0] * 8 + (anc === "start" ? 6 : anc === "end" ? -6 : 0), d[1] * (anc === "middle" ? 16 : 10)]);
+    return T(pos[0], pos[1], txt, { a: anc, s: size || 15 });
+  }
+  function triFig(c, lab, W, H, alt) {
+    var u = build(c), key, all = [], p = {};
+    for (key in u) { if (has(u, key)) all.push(u[key]); }
+    var f = fitter(all, W, H, 40, 30);
+    for (key in u) { if (has(u, key)) p[key] = f(u[key]); }
+    var cen = [(p[c.R][0] + p[c.P][0] + p[c.Q][0]) / 3, (p[c.R][1] + p[c.P][1] + p[c.Q][1]) / 3];
+    var o = Pg([p[c.R], p[c.P], p[c.Q]], "#fff", "#22303F", 2.5) + Rm(p[c.R], p[c.P], p[c.Q], 12);
+    [c.R, c.P, c.Q].forEach(function (n) {
+      var pos = add(p[n], mul(norm(sub(p[n], cen)), 16));
+      o += T(pos[0], pos[1], n, { s: 19, c: "lbl" });
+    });
+    function side(A, B, txt) { return txt ? placer(cen, mul(add(p[A], p[B]), 0.5), txt) : ""; }
+    o += side(c.R, c.P, lab.RP) + side(c.R, c.Q, lab.RQ) + side(c.P, c.Q, lab.PQ);
+    return svgW(W, H, alt, o);
+  }
+  function square(U, V, Wp) {
+    var e = sub(V, U), L = len(e), n = norm([-e[1], e[0]]);
+    if (dot(n, sub(mul(add(U, V), 0.5), Wp)) < 0) n = mul(n, -1);
+    var o = mul(n, L);
+    return [U, V, add(V, o), add(U, o)];
+  }
+  var COL = { r: ["#FDEEEA", "#E4553F"], y: ["#FFF6D6", "#E0AE1B"], g: ["#E8F6EE", "#3FA766"] };
+  function carresFig(c, labs, W, H, alt) {
+    var u = build(c), key, all = [], p = {};
+    for (key in u) { if (has(u, key)) all.push(u[key]); }
+    var sq = [square(u[c.R], u[c.P], u[c.Q]), square(u[c.R], u[c.Q], u[c.P]), square(u[c.P], u[c.Q], u[c.R])];
+    sq.forEach(function (s) { all = all.concat(s); });
+    var f = fitter(all, W, H, 8, 24);
+    for (key in u) { if (has(u, key)) p[key] = f(u[key]); }
+    var cen = [(p[c.R][0] + p[c.P][0] + p[c.Q][0]) / 3, (p[c.R][1] + p[c.P][1] + p[c.Q][1]) / 3];
+    var cols = [COL.r, COL.y, COL.g], o = "";
+    sq.forEach(function (s, i) {
+      var q = s.map(f), ctr = [(q[0][0] + q[2][0]) / 2, (q[0][1] + q[2][1]) / 2];
+      o += Pg(q, cols[i][0], cols[i][1], 2.5) + T(ctr[0], ctr[1], labs[i], { s: 17, c: "lbl" + (labs[i] === "?" ? " inc" : ""), f: labs[i] === "?" ? "#C23B27" : "" });
+    });
+    o += Pg([p[c.R], p[c.P], p[c.Q]], "#fff", "#22303F", 2.5) + Rm(p[c.R], p[c.P], p[c.Q], 12);
+    void cen;
+    return svgW(W, H, alt, o);
+  }
+  /* rectangle ABCD avec la diagonale [AC] : angle droit en B */
+  function rectFig(W, H, tAB, tBC, tAC, alt) {
+    var x0 = 34, y0 = 34, x1 = W - 70, y1 = H - 36;
+    var A = [x0, y0], B = [x1, y0], C = [x1, y1], D = [x0, y1];
+    var o = Pg([A, B, C, D], "#F3F8FE", "#22303F", 2.5) + Ln(A, C, "#2B6CB0", 3, 'stroke-dasharray="7 5"') + Rm(B, A, C, 12);
+    o += T(x0 - 16, y0 - 12, "A", { s: 18, c: "lbl" }) + T(x1 + 16, y0 - 12, "B", { s: 18, c: "lbl" }) + T(x1 + 16, y1 + 14, "C", { s: 18, c: "lbl" }) + T(x0 - 16, y1 + 14, "D", { s: 18, c: "lbl" });
+    o += T((x0 + x1) / 2, y0 - 14, tAB, {}) + T(x1 + 12, (y0 + y1) / 2, tBC, { a: "start" });
+    o += T((x0 + x1) / 2 + 38, (y0 + y1) / 2 - 28, tAC, { c: "lbl", f: tAC === "?" ? "#C23B27" : "#2B6CB0", s: 16 });
+    return svgW(W, H, alt, o);
+  }
+
+  var FIG = {};
+  FIG.B1 = function () { return triFig({ R: "F", P: "E", Q: "G", a: 3, b: 4, th: -28, s: 1 }, {}, 260, 190, "Triangle EFG rectangle en F, tourné, sans longueurs"); };
+  FIG.B2 = function () { return triFig({ R: "M", P: "L", Q: "N", a: 3, b: 4, th: 205, s: -1 }, {}, 260, 190, "Triangle LMN rectangle en M, tourné, sans longueurs"); };
+  FIG.B3 = function () { return carresFig({ R: "A", P: "B", Q: "C", a: 9, b: 12, th: 200, s: -1 }, ["81 cm²", "144 cm²", "?"], 300, 270, "Un triangle rectangle avec un carré sur chaque côté : deux carrés d'aires 81 et 144 cm², l'aire du grand carré est inconnue"); };
+  FIG.B4 = function () {
+    var o = "";
+    o += Pg([[14, 96], [14, 26], [92, 96]], "#EAF4FF", "#22303F", 2.5) + Rm([14, 96], [14, 26], [92, 96], 12) + T(53, 118, "Triangle 1", { s: 14 });
+    o += Pg([[128, 96], [212, 96], [166, 18]], "#FFF6D6", "#22303F", 2.5) + T(158, 86, "65°", { s: 13 }) + T(170, 118, "Triangle 2", { s: 14 });
+    o += Pg([[244, 96], [326, 96], [290, 34]], "#FDEEEA", "#22303F", 2.5) + T(285, 118, "Triangle 3", { s: 14 });
+    return svgW(340, 130, "Trois triangles : le triangle 1 a un angle droit codé, le triangle 2 a un angle de 65 degrés, le triangle 3 n'a aucune indication", o);
+  };
+  FIG.O1 = function () { return triFig({ R: "S", P: "R", Q: "T", a: 7, b: 24, mode: "hyp", below: false }, { RP: "7 cm", RQ: "24 cm", PQ: "?" }, 280, 200, "Triangle RST rectangle en S avec RS = 7 cm et ST = 24 cm"); };
+  FIG.O2 = function () { return rectFig(300, 200, "29,7 cm", "21 cm", "?", "Une feuille A4 rectangulaire ABCD de 29,7 cm sur 21 cm avec sa diagonale AC"); };
+  FIG.O3 = function () { return rectFig(300, 200, "112 cm", "84 cm", "?", "Écran de téléviseur rectangulaire ABCD de 112 cm sur 84 cm avec sa diagonale AC"); };
+  FIG.O4 = function () {
+    var P = [70, 168], H = [70, 48], B = [160, 168], o = "";
+    o += '<rect x="10" y="168" width="280" height="14" fill="#DDEFC9"/>' + Ln([10, 168], [290, 168], "#22303F", 3);
+    o += Ln([62, 56], [62, 168], "#7A5210", 4) + Ln([78, 56], [78, 168], "#7A5210", 4);
+    [72, 90, 108, 126, 144].forEach(function (y) { o += Ln([62, y], [78, y], "#7A5210", 3); });
+    o += '<rect x="56" y="40" width="34" height="8" rx="2" fill="#B5680A" stroke="#22303F" stroke-width="2"/>';
+    o += Ln([88, 46], [160, 166], "#22303F", 11, 'stroke-linecap="round"') + Ln([88, 46], [160, 166], "#E4553F", 6, 'stroke-linecap="round"');
+    o += Rm(P, H, B, 13);
+    o += T(50, 108, "2,4 m", { a: "end" }) + T(115, 188 - 3, "1,8 m") + T(142, 98, "?", { a: "start", s: 20 });
+    o += T(44, 34, "H", { s: 18, c: "lbl" }) + T(50, 176, "P", { s: 18, c: "lbl" }) + T(176, 178, "B", { s: 18, c: "lbl" });
+    return svgW(300, 200, "Un toboggan : l'échelle verticale mesure 2,4 m, le bas de la glissière est à 1,8 m du pied de l'échelle", o);
+  };
+  FIG.G1 = function () { return triFig({ R: "I", P: "H", Q: "J", a: 12, b: 16, mode: "hyp", below: false }, { RP: "12 cm", RQ: "?", PQ: "20 cm" }, 280, 190, "Triangle HIJ rectangle en I avec HI = 12 cm et HJ = 20 cm"); };
+  FIG.G2 = function () { return triFig({ R: "E", P: "D", Q: "F", a: 6, b: Math.sqrt(85), mode: "hyp", below: true }, { RP: "6 cm", RQ: "?", PQ: "11 cm" }, 280, 190, "Triangle DEF rectangle en E avec DE = 6 cm et DF = 11 cm"); };
+  FIG.G3 = function () {
+    var B = [34, 164], S = [254, 164], H = [254, 54], o = "";
+    o += '<rect x="8" y="164" width="284" height="16" fill="#DDEFC9"/>' + Ln([8, 164], [292, 164], "#22303F", 3);
+    o += Ln(H, S, "#2B6CB0", 2.5, 'stroke-dasharray="6 5"') + Rm(S, B, H, 14);
+    o += Ln(B, H, "#22303F", 5, 'stroke-linecap="round"');
+    o += '<rect x="134" y="100" width="22" height="16" rx="3" fill="#E4553F" stroke="#22303F" stroke-width="2" transform="rotate(-27 145 108)"/>';
+    o += '<rect x="20" y="148" width="28" height="16" fill="#FFF6D6" stroke="#22303F" stroke-width="2"/><rect x="240" y="38" width="28" height="16" fill="#FFF6D6" stroke="#22303F" stroke-width="2"/>';
+    o += T(30, 132, "B", { s: 18, c: "lbl" }) + T(268, 28, "H", { s: 18, c: "lbl" }) + T(270, 176, "S", { s: 18, c: "lbl" });
+    o += T(122, 78, "câble 130 m", { a: "end", c: "lbl", s: 15 }) + T(266, 110, "50 m", { a: "start" }) + T(144, 192, "?", { s: 20 });
+    return svgW(300, 200, "Un téléphérique : le câble de 130 m relie la station du bas B à la station du haut H, 50 m plus haut. On cherche la distance horizontale BS", o);
+  };
+  FIG.G4 = function () { return rectFig(300, 200, "15 cm", "?", "25 cm", "Cadre rectangulaire ABCD de largeur 15 cm et de diagonale 25 cm"); };
+  FIG.M1 = function () {
+    var o = '<polygon points="52,76 52,132 244,132" fill="#E3F3D3"/><path d="M52 76V132H244" fill="none" stroke="#9AA6B2" stroke-width="8"/>';
+    o += Rm([52, 132], [52, 76], [244, 132], 12) + Ln([52, 76], [244, 132], "#B5680A", 3.5, 'stroke-dasharray="8 6"');
+    o += '<circle cx="52" cy="76" r="4.5" fill="#22303F"/><circle cx="52" cy="132" r="4.5" fill="#22303F"/><circle cx="244" cy="132" r="4.5" fill="#22303F"/>';
+    o += T(122, 114, "square", { c: "fg", s: 13, f: "#3E7D2B" });
+    o += T(38, 104, "70 m", { a: "end", s: 16 }) + T(148, 154, "240 m", { s: 16 });
+    o += T(52, 60, "B", { s: 17, c: "lbl" }) + T(66, 60, "boulangerie", { a: "start", c: "fg", s: 14 });
+    o += T(36, 150, "C", { s: 17, c: "lbl" }) + T(254, 130, "E", { a: "start", s: 17, c: "lbl" }) + T(252, 150, "école", { a: "start", c: "fg", s: 14 });
+    o += T(150, 80, "BE = ?", { a: "start", s: 16 });
+    return svgW(300, 175, "Plan : deux rues se coupent à angle droit en C. La boulangerie B est à 70 m de C, l'école E à 240 m de C. Un sentier relie B à E à travers un square", o);
+  };
+  FIG.M2 = function () {
+    var o = '<rect x="170" y="26" width="98" height="58" fill="#E8EDF3" stroke="#22303F" stroke-width="2.5"/><rect x="170" y="84" width="98" height="26" fill="#9AA6B2" stroke="#22303F" stroke-width="2.5"/>';
+    o += '<circle cx="202" cy="118" r="14" fill="#22303F"/><circle cx="202" cy="118" r="5" fill="#fff"/>' + T(219, 56, "camion", { c: "fg", s: 14 });
+    o += '<path d="M8 132H272" fill="none" stroke="#22303F" stroke-width="3"/>';
+    o += Ln([30, 132], [170, 84], "#22303F", 9, 'stroke-linecap="round"') + Ln([30, 132], [170, 84], "#C98B4B", 5, 'stroke-linecap="round"');
+    o += Ln([170, 84], [170, 132], "#2B6CB0", 2.5, 'stroke-dasharray="5 4"') + Rm([170, 132], [170, 84], [30, 132], 12);
+    o += T(22, 150, "A", { s: 17, c: "lbl" }) + T(158, 72, "B", { a: "end", s: 17, c: "lbl" }) + T(170, 152, "H", { s: 17, c: "lbl" }) + T(98, 153, "AH = ?", { s: 16 });
+    return svgW(280, 165, "Schéma : la rampe AB relie le sol au plateau du camion. H est le point du sol juste sous B", o);
+  };
+  FIG.M3 = function () {
+    var o = Pg([[130, 38], [46, 150], [214, 150]], "#FFE9C7", "#22303F", 3) + '<path d="M8 150H252" fill="none" stroke="#22303F" stroke-width="3"/>';
+    o += Ln([130, 38], [130, 150], "#9A5A1B", 5) + Rm([130, 150], [130, 38], [214, 150], 12);
+    o += '<path d="M88 143V157M172 143V157" fill="none" stroke="#22303F" stroke-width="2.5"/><path d="M46 173V179H214V173" fill="none" stroke="#22303F" stroke-width="1.8"/>';
+    o += T(130, 191, "2,4 m", { s: 15 }) + T(66, 88, "2 m", { a: "end" }) + T(194, 88, "2 m", { a: "start" });
+    o += T(130, 22, "A", { s: 17, c: "lbl" }) + T(34, 160, "B", { a: "end", s: 17, c: "lbl" }) + T(226, 160, "C", { a: "start", s: 17, c: "lbl" }) + T(130, 163, "H", { s: 17, c: "lbl" });
+    o += T(138, 112, "?", { a: "start", s: 20 });
+    return svgW(260, 196, "Façade de la tente : triangle isocèle ABC avec AB = AC = 2 m et BC = 2,4 m. Le poteau AH est vertical, H est le milieu de BC", o);
+  };
+  FIG.N1 = function () {
+    var o = '<path d="M8 165H292" fill="none" stroke="#22303F" stroke-width="3"/>' + Ln([150, 33], [150, 165], "#5B6B7B", 6, 'stroke-linecap="round"');
+    o += Ln([150, 33], [51, 165], "#B5680A", 3) + Ln([150, 33], [249, 165], "#B5680A", 3) + '<path d="M51 165V176M249 165V176" fill="none" stroke="#22303F" stroke-width="4" stroke-linecap="round"/>';
+    o += Rm([150, 165], [150, 33], [51, 165], 12) + Rm([150, 165], [150, 33], [249, 165], 12);
+    o += '<path d="M51 184V190H150V184M150 184V190H249V184" fill="none" stroke="#22303F" stroke-width="1.8"/>';
+    o += T(100, 199, "4,5 m", { s: 16 }) + T(200, 199, "4,5 m", { s: 16 }) + T(158, 96, "6 m", { a: "start", s: 16 }) + T(104, 78, "?", { a: "end", s: 20 });
+    o += T(150, 20, "S", { s: 17, c: "lbl" }) + T(150, 180, "M", { s: 15, c: "lbl" }) + T(38, 158, "P", { s: 17, c: "lbl" });
+    return svgW(300, 205, "Un mât vertical de 6 m tenu par deux câbles identiques fixés à des piquets, à 4,5 m du pied du mât de chaque côté", o);
+  };
+  FIG.N2 = function () {
+    var A = [64, 36], B = [148, 36], D = [64, 132], C = [220, 132], o = "";
+    o += Pg([A, B, C, D], "#EAF4FF", "#22303F", 2.5) + Rm(A, B, D, 12) + Rm(D, A, C, 12);
+    o += T(106, 20, "7 cm", {}) + T(52, 84, "8 cm", { a: "end" }) + T(142, 152, "13 cm", {}) + T(194, 80, "?", { a: "start", s: 20 });
+    o += T(50, 26, "A", { s: 18, c: "lbl" }) + T(160, 26, "B", { s: 18, c: "lbl" }) + T(234, 142, "C", { s: 18, c: "lbl" }) + T(50, 142, "D", { s: 18, c: "lbl" });
+    return svgW(260, 168, "Trapèze ABCD rectangle en A et en D : AB = 7 cm, AD = 8 cm, DC = 13 cm. On cherche BC", o);
+  };
+  FIG.N3 = function () {
+    var R = [44, 38], B1 = [143, 170], B2 = [99, 170], o = "";
+    o += '<rect x="0" y="24" width="44" height="166" fill="#C9CFD6" stroke="#22303F" stroke-width="2.5"/>';
+    o += '<rect x="44" y="170" width="246" height="30" fill="#CFE6F7"/>' + Ln([44, 170], [290, 170], "#2B6CB0", 3);
+    o += Ln(R, B1, "#E08A2E", 3.5, 'stroke-dasharray="7 5"') + Ln(R, B2, "#3FA766", 3.5);
+    o += '<circle cx="44" cy="38" r="6" fill="#fff" stroke="#22303F" stroke-width="3"/>';
+    o += '<path d="M123 170l4-14h32l4 14z" fill="#fff" fill-opacity=".6" stroke="#22303F" stroke-opacity=".5" stroke-width="2" stroke-dasharray="4 3"/>';
+    o += '<path d="M79 170l4-14h32l4 14z" fill="#FFF6D6" stroke="#22303F" stroke-width="2.5" stroke-linejoin="round"/>';
+    o += Ln([22, 40], [22, 168], "#22303F", 2) + T(22, 104, "12 m", { c: "lbl", s: 13 });
+    o += Ln([170, 50], [196, 50], "#E08A2E", 3.5, 'stroke-dasharray="7 5"') + T(202, 50, "corde 15 m", { a: "start", s: 14, c: "fg bold" });
+    o += Ln([170, 74], [196, 74], "#3FA766", 3.5) + T(202, 74, "corde 13 m", { a: "start", s: 14, c: "fg bold" });
+    o += T(60, 16, "R", { s: 16, c: "lbl" }) + T(44, 184, "A", { s: 16, c: "lbl" }) + T(143, 186, "B₁", { s: 15, c: "lbl" }) + T(99, 186, "B₂", { s: 15, c: "lbl" });
+    return svgW(300, 200, "Une écluse : une corde est attachée à un anneau R du mur, à 12 m au-dessus de l'eau. Le bateau est d'abord en B1 avec une corde de 15 m, puis en B2 avec une corde de 13 m", o);
+  };
+  FIG.N4 = function () {
+    var A = [30, 176], Bp = [140, 176], C = [192, 146], D = [82, 146], E = [30, 46], F = [140, 46], Gp = [192, 16], Hp = [82, 16], o = "";
+    o += Ln(D, A, "#22303F", 2, 'stroke-dasharray="5 4"') + Ln(D, C, "#22303F", 2, 'stroke-dasharray="5 4"') + Ln(D, Hp, "#22303F", 2, 'stroke-dasharray="5 4"');
+    o += Pg([A, Bp, F, E], "#EAF4FF", "#22303F", 2.5) + Pg([E, F, Gp, Hp], "#F7FBFF", "#22303F", 2.5) + Pg([Bp, C, Gp, F], "#DCEBFA", "#22303F", 2.5);
+    o += Ln(A, C, "#2B6CB0", 3, 'stroke-dasharray="7 5"') + Ln(A, Gp, "#3FA766", 3.5, 'stroke-dasharray="8 5"');
+    o += T(85, 194, "40 cm", {}) + T(178, 172, "30 cm", { a: "start" }) + T(20, 112, "120 cm", { a: "end" });
+    o += T(14, 184, "A", { s: 16, c: "lbl" }) + T(142, 190, "B", { s: 16, c: "lbl" }) + T(206, 150, "C", { s: 16, c: "lbl" }) + T(72, 156, "D", { s: 16, c: "lbl" });
+    o += T(14, 40, "E", { s: 16, c: "lbl" }) + T(142, 36, "F", { s: 16, c: "lbl" }) + T(206, 14, "G", { s: 16, c: "lbl" }) + T(72, 10, "H", { s: 16, c: "lbl" });
+    return svgW(290, 206, "Un carton en forme de pavé droit ABCDEFGH : 40 cm de long, 30 cm de large, 120 cm de haut. La diagonale du fond est AC, la plus grande longueur possible est AG", '<g transform="translate(36,0)">' + o + "</g>");
+  };
+
+  /* ================= les ceintures ================= */
+  var CEINT = [
+    { id: "blanche", nom: "Blanche", col: "#FFFFFF", titre: "Je repère", but: "Je sais repérer l’hypoténuse, écrire la bonne égalité et savoir quand utiliser le théorème.", cahier: false },
+    { id: "orange", nom: "Orange", col: "#F28C28", titre: "Je calcule l’hypoténuse", but: "Je calcule une hypoténuse : valeur entière, valeur approchée, nombres décimaux.", cahier: true },
+    { id: "verte", nom: "Verte", col: "#3FA766", titre: "Je cherche un côté de l’angle droit", but: "Je choisis entre additionner et soustraire, puis je calcule le côté qui manque.", cahier: true },
+    { id: "marron", nom: "Marron", col: "#8B5A2B", titre: "J’analyse un problème", but: "Je trouve le triangle rectangle caché dans une situation et je trie les données.", cahier: true },
+    { id: "noire", nom: "Noire", col: "#22303F", titre: "Je relève le défi", but: "Je résous des problèmes en plusieurs étapes, avec plusieurs triangles.", cahier: true }
+  ];
+
+  var EX = [
+    /* ---------------- BLANCHE ---------------- */
+    { id: "B1", c: 0, titre: "L’hypoténuse", but: "Je repère l’hypoténuse", fig: "B1",
+      enonce: "<p>Le triangle EFG est " + G("rectangle", "rectangle") + " en F. Quel est son côté le plus long, l’" + HYP + " ?</p>",
+      champs: [{ k: "ch", q: "L’hypoténuse est…", o: [
+        { t: "[EF]", m: "[EF] touche le sommet F, où est l’angle droit : c’est un côté de l’angle droit." },
+        { t: "[FG]", m: "[FG] touche le sommet F, où est l’angle droit : c’est un côté de l’angle droit." },
+        { t: "[EG]", ok: true }] }],
+      astuces: ["L’hypoténuse est le côté <b>en face</b> de l’angle droit. Elle ne touche pas le sommet de l’angle droit."],
+      sol: "L’angle droit est en F. Le côté en face de F est [EG] : c’est l’" + HYP + "." },
+    { id: "B2", c: 0, titre: "L’égalité de Pythagore", but: "J’écris la bonne égalité", fig: "B2",
+      enonce: "<p>Le triangle LMN est rectangle en M. Quelle égalité est correcte ?</p>",
+      champs: [{ k: "ch", q: "Je choisis l’égalité :", o: [
+        { t: "LM² + MN² = LN²", ok: true },
+        { t: "LN² + LM² = MN²", m: "Ici l’angle droit est en M : l’hypoténuse est [LN], pas [MN]." },
+        { t: "LM + MN = LN", m: "Il manque les carrés : dans le théorème, chaque longueur est au carré." },
+        { t: "LM² = MN² + LN²", m: "L’hypoténuse [LN] doit être seule d’un côté du signe =." }] }],
+      astuces: ["Angle droit en M : l’hypoténuse est [LN]. Son carré est <b>seul</b> d’un côté du signe =."],
+      sol: "L’angle droit est en M : l’hypoténuse est [LN]. Donc <b>LM² + MN² = LN²</b>." },
+    { id: "B3", c: 0, titre: "Les carrés", but: "Je passe des aires à la longueur", fig: "B3",
+      enonce: "<p>Sur chaque côté d’un " + TR + ", on a dessiné un carré. Les deux petits carrés ont pour aires 81 cm² et 144 cm².</p>",
+      champs: [
+        { k: "num", nom: "Aire du grand carré", pre: "Aire du grand carré =", post: "cm²", ans: 225, tol: 0.001, p: [
+          { v: 63, m: "144 − 81 = 63 : il faut <b>additionner</b> les aires des deux petits carrés." },
+          { v: 21, m: "21 = 9 + 12 : ce sont les côtés des petits carrés. Additionne plutôt leurs <b>aires</b>." }] },
+        { k: "num", nom: "Hypoténuse", pre: "Longueur de l’hypoténuse =", post: "cm", ans: 15, tol: 0.001, p: [
+          { v: 225, m: "225, c’est l’aire. La longueur du côté, c’est la " + RAC + " de l’aire." }] }],
+      astuces: ["L’aire du grand carré est la <b>somme</b> des aires des deux autres carrés. Pour passer de l’aire au côté, on utilise la " + RAC + "."],
+      sol: "81 + 144 = 225 : le grand carré a une aire de <b>225 cm²</b>.<br>Son côté mesure √225 = <b>15 cm</b>." },
+    { id: "B4", c: 0, titre: "Quand l’utiliser ?", but: "Je sais quand utiliser Pythagore", fig: "B4",
+      enonce: "<p>Dans quel triangle peut-on utiliser le " + PY + " ?</p>",
+      champs: [{ k: "ch", q: "Je choisis :", o: [
+        { t: "Dans le triangle 1", ok: true },
+        { t: "Dans le triangle 2", m: "On voit un angle de 65°, mais aucun angle droit." },
+        { t: "Dans le triangle 3", m: "Aucun angle droit n’est indiqué dans ce triangle." }] }],
+      astuces: ["Le théorème de Pythagore ne marche que dans un <b>triangle rectangle</b>. Cherche le petit carré vert qui code l’angle droit."],
+      sol: "Seul le triangle 1 a un angle droit codé. Le " + PY + " s’utilise <b>uniquement</b> dans un triangle rectangle." },
+
+    /* ---------------- ORANGE ---------------- */
+    { id: "O1", c: 1, titre: "Un triangle rectangle", but: "Je calcule une hypoténuse entière", fig: "O1",
+      enonce: "<p>Le triangle RST est rectangle en S. RS = 7 cm et ST = 24 cm. Calcule RT.</p>",
+      champs: [{ k: "num", nom: "RT", pre: "RT =", post: "cm", ans: 25, tol: 0.001, p: [
+        { v: 31, m: "31 = 7 + 24 : tu as additionné les longueurs. Il faut additionner les <b>carrés</b>." },
+        { v: 625, m: "625, c’est RT². Il reste à prendre la " + RAC + "." }] }],
+      astuces: ["Écris RS² + ST² = RT². Remplace par les nombres, calcule, puis prends la " + RAC + "."],
+      sol: "On a <b>RST</b> un " + TR + " en <b>S</b>.<br>D’après le " + PY + ", on a :<br>RS² + ST² = RT²<br>7² + 24² = RT²<br>49 + 576 = RT²<br>625 = RT²<br>donc RT = √625 = <b>25 cm</b>." },
+    { id: "O2", c: 1, titre: "La feuille A4", but: "Je calcule une diagonale approchée", fig: "O2",
+      enonce: "<p>Une feuille A4 mesure 29,7 cm sur 21 cm. Calcule sa " + DIAG + " AC. Arrondis au " + DIX + ".</p>",
+      champs: [{ k: "num", nom: "AC", pre: "AC ≈", post: "cm", ans: Math.sqrt(29.7 * 29.7 + 21 * 21), tol: 0.06, p: [
+        { v: 50.7, t: 0.06, m: "50,7 = 29,7 + 21 : tu as additionné les longueurs. Il faut additionner les <b>carrés</b>." },
+        { v: 1323.09, t: 0.1, m: "1 323,09, c’est AC². Il reste à prendre la " + RAC + "." }] }],
+      astuces: ["La diagonale coupe la feuille en deux triangles rectangles. Dans ABC, rectangle en B, la diagonale [AC] est l’" + HYP + ".", "Utilise la touche √ de ta calculatrice, puis arrondis au dixième."],
+      sol: "On a <b>ABC</b> un " + TR + " en <b>B</b>.<br>D’après le " + PY + ", on a :<br>AB² + BC² = AC²<br>29,7² + 21² = AC²<br>882,09 + 441 = AC²<br>1&nbsp;323,09 = AC²<br>donc AC = √1&nbsp;323,09 ≈ <b>36,4 cm</b>." },
+    { id: "O3", c: 1, titre: "Le téléviseur", but: "Je calcule, puis je convertis", fig: "O3",
+      enonce: "<p>Un téléviseur a un écran rectangulaire de 112 cm de large et 84 cm de haut.</p><p>a) Calcule la diagonale AC de l’écran, en cm.<br>b) Une taille d’écran se donne en pouces : 1 pouce = 2,54 cm. Donne la diagonale en pouces, arrondie à l’unité.</p>",
+      champs: [
+        { k: "num", nom: "a)", pre: "a) AC =", post: "cm", ans: 140, tol: 0.001, p: [
+          { v: 196, m: "196 = 112 + 84 : tu as additionné les longueurs. Il faut additionner les <b>carrés</b>." },
+          { v: 19600, m: "19 600, c’est AC². Il reste à prendre la " + RAC + "." }] },
+        { k: "num", nom: "b)", pre: "b) AC ≈", post: "pouces", ans: 140 / 2.54, tol: 0.51, p: [
+          { v: 140, t: 0.1, m: "Tu as laissé la valeur en cm : il faut convertir." },
+          { v: 355.6, t: 0.3, m: "Pour passer des cm aux pouces, on <b>divise</b> par 2,54 (un pouce est plus long qu’un cm)." }] }],
+      astuces: ["112 cm et 84 cm sont les côtés de l’angle droit : la diagonale est l’" + HYP + ".", "Pour la question b), divise la diagonale en cm par 2,54."],
+      sol: "On a <b>ABC</b> un " + TR + " en <b>B</b>.<br>D’après le " + PY + ", on a :<br>AB² + BC² = AC²<br>112² + 84² = AC²<br>12&nbsp;544 + 7&nbsp;056 = AC²<br>19&nbsp;600 = AC²<br>donc AC = √19&nbsp;600 = <b>140 cm</b>.<br>b) 140 ÷ 2,54 ≈ 55,1 : la diagonale mesure environ <b>55 pouces</b>." },
+    { id: "O4", c: 1, titre: "Le toboggan", but: "Je calcule avec des nombres décimaux", fig: "O4",
+      enonce: "<p>Le haut d’un toboggan est à 2,4 m du sol. Le bas de la glissière est à 1,8 m du pied de l’échelle. Quelle est la longueur de la glissière ?</p>",
+      champs: [{ k: "num", nom: "HB", pre: "HB =", post: "m", ans: 3, tol: 0.001, p: [
+        { v: 4.2, t: 0.01, m: "4,2 = 2,4 + 1,8 : tu as additionné les longueurs. Il faut additionner les <b>carrés</b>." },
+        { v: 9, m: "9, c’est HB². Il reste à prendre la " + RAC + "." }] }],
+      astuces: ["L’échelle est verticale, le sol est horizontal : ils forment un " + AD + " en P. La glissière est l’" + HYP + ".", "Calcule d’abord 2,4² puis 1,8², avec ta calculatrice."],
+      sol: "On a <b>HPB</b> un " + TR + " en <b>P</b>.<br>D’après le " + PY + ", on a :<br>PH² + PB² = HB²<br>2,4² + 1,8² = HB²<br>5,76 + 3,24 = HB²<br>9 = HB²<br>donc HB = √9 = <b>3 m</b>." },
+
+    /* ---------------- VERTE ---------------- */
+    { id: "G1", c: 2, titre: "Le côté qui manque", but: "Je choisis la bonne opération", fig: "G1",
+      enonce: "<p>Le triangle HIJ est rectangle en I. HJ = 20 cm et HI = 12 cm. Calcule IJ.</p>",
+      champs: [
+        { k: "ch", nom: "Opération", q: "a) Pour trouver IJ, je…", o: [
+          { t: "j’additionne les carrés", m: "HJ est en face de l’angle droit : c’est l’hypoténuse, et on la connaît. On cherche un côté de l’angle droit : on soustrait." },
+          { t: "je soustrais les carrés", ok: true }] },
+        { k: "num", nom: "IJ", pre: "b) IJ =", post: "cm", ans: 16, tol: 0.001, p: [
+          { v: 23.32, t: 0.06, m: "Tu as additionné : IJ serait plus long que l’hypoténuse (20 cm). C’est impossible." },
+          { v: 8, m: "8 = 20 − 12 : tu as soustrait les longueurs. Il faut soustraire les <b>carrés</b>." },
+          { v: 256, m: "256, c’est IJ². Il reste à prendre la " + RAC + "." }] }],
+      astuces: ["L’angle droit est en I : l’hypoténuse est [HJ], et on la connaît. Écris HI² + IJ² = HJ²."],
+      sol: "On a <b>HIJ</b> un " + TR + " en <b>I</b>.<br>D’après le " + PY + ", on a :<br>HI² + IJ² = HJ²<br>12² + IJ² = 20²<br>IJ² = 20² − 12²<br>IJ² = 400 − 144 = 256<br>donc IJ = √256 = <b>16 cm</b>." },
+    { id: "G2", c: 2, titre: "Une valeur approchée", but: "Je donne la valeur exacte et une valeur approchée", fig: "G2",
+      enonce: "<p>Le triangle DEF est rectangle en E. DF = 11 cm et DE = 6 cm. Calcule EF.</p>",
+      champs: [
+        { k: "num", nom: "Valeur exacte", pre: "Valeur exacte : EF = √", post: "cm", ans: 85, tol: 0.001, w: "4.6em", p: [
+          { v: 157, m: "157 = 121 + 36 : tu as additionné. EF est un côté de l’angle droit : on soustrait." },
+          { v: 5, m: "5 = 11 − 6 : tu as soustrait les longueurs. Il faut soustraire les <b>carrés</b>." }] },
+        { k: "num", nom: "Valeur approchée", pre: "Valeur approchée au " + DIX + " : EF ≈", post: "cm", ans: Math.sqrt(85), tol: 0.06, p: [
+          { v: 85, m: "85, c’est EF². Prends la " + RAC + " avec ta calculatrice." },
+          { v: 12.5, t: 0.06, m: "12,5 est plus long que l’hypoténuse (11 cm) : tu as additionné au lieu de soustraire." }] }],
+      astuces: ["Un côté de l’angle droit est <b>toujours plus court</b> que l’hypoténuse. Écris EF² = DF² − DE²."],
+      sol: "On a <b>DEF</b> un " + TR + " en <b>E</b>.<br>D’après le " + PY + ", on a :<br>DE² + EF² = DF²<br>6² + EF² = 11²<br>EF² = 121 − 36 = 85<br>donc EF = √85 ≈ <b>9,2 cm</b> (valeur exacte : √85 cm).<br>Je vérifie : 9,2 cm &lt; 11 cm ✓" },
+    { id: "G3", c: 2, titre: "Le téléphérique", but: "Je trouve le triangle rectangle dans la scène", fig: "G3",
+      enonce: "<p>Un câble de 130 m relie la station du bas B à la station du haut H. La station H est 50 m plus haute que B. Quelle est la distance horizontale BS entre les deux stations ?</p>",
+      champs: [{ k: "num", nom: "BS", pre: "BS =", post: "m", ans: 120, tol: 0.001, p: [
+        { v: 139.28, t: 0.3, m: "Tu as additionné : la distance horizontale ne peut pas dépasser la longueur du câble (130 m)." },
+        { v: 80, m: "80 = 130 − 50 : tu as soustrait les longueurs. Il faut soustraire les <b>carrés</b>." },
+        { v: 14400, m: "14 400, c’est BS². Il reste à prendre la " + RAC + "." }] }],
+      astuces: ["Le sol est horizontal et la verticale de H tombe à angle droit sur le sol, en S. Le câble [BH] est l’" + HYP + "."],
+      sol: "On a <b>BSH</b> un " + TR + " en <b>S</b>.<br>D’après le " + PY + ", on a :<br>BS² + SH² = BH²<br>BS² + 50² = 130²<br>BS² = 16&nbsp;900 − 2&nbsp;500 = 14&nbsp;400<br>donc BS = √14&nbsp;400 = <b>120 m</b>." },
+    { id: "G4", c: 2, titre: "Le cadre", but: "Je calcule un côté, puis un périmètre", fig: "G4",
+      enonce: "<p>Un cadre rectangulaire ABCD a une " + DIAG + " de 25 cm et une largeur AB de 15 cm.</p><p>a) Calcule sa hauteur BC.<br>b) Calcule son " + G("perimetre", "périmètre") + ".</p>",
+      champs: [
+        { k: "num", nom: "a)", pre: "a) BC =", post: "cm", ans: 20, tol: 0.001, p: [
+          { v: 29.15, t: 0.1, m: "Tu as additionné : BC serait plus long que la diagonale (25 cm). C’est impossible." },
+          { v: 10, m: "10 = 25 − 15 : tu as soustrait les longueurs. Il faut soustraire les <b>carrés</b>." },
+          { v: 400, m: "400, c’est BC². Il reste à prendre la " + RAC + "." }] },
+        { k: "num", nom: "b)", pre: "b) Périmètre =", post: "cm", ans: 70, tol: 0.001, p: [
+          { v: 35, m: "35 = 15 + 20. Un rectangle a 4 côtés : le périmètre est 2 × (15 + 20)." },
+          { v: 300, m: "300 = 15 × 20, c’est l’<b>aire</b>. Le périmètre est le tour du cadre." }] }],
+      astuces: ["La diagonale [AC] est l’" + HYP + " : elle est connue. BC est un côté de l’angle droit, donc on soustrait.", "Pour le périmètre : 2 × (largeur + hauteur)."],
+      sol: "On a <b>ABC</b> un " + TR + " en <b>B</b>.<br>D’après le " + PY + ", on a :<br>AB² + BC² = AC²<br>15² + BC² = 25²<br>BC² = 625 − 225 = 400<br>donc BC = √400 = <b>20 cm</b>.<br>b) Périmètre = 2 × (15 + 20) = <b>70 cm</b>." },
+
+    /* ---------------- MARRON ---------------- */
+    { id: "M1", c: 3, titre: "Le raccourci", but: "Je calcule, puis je compare deux trajets", fig: "M1",
+      enonce: "<p>Léa va de la boulangerie B à l’école E. Les deux rues se coupent à angle droit en C. Elle peut suivre les rues, ou prendre le sentier [BE] à travers le square.</p><p>a) Calcule la longueur du sentier.<br>b) Combien de mètres économise-t-elle avec le sentier ?</p>",
+      champs: [
+        { k: "num", nom: "a)", pre: "a) BE =", post: "m", ans: 250, tol: 0.001, p: [
+          { v: 310, m: "310 = 70 + 240, c’est le trajet par les rues. Le sentier est l’hypoténuse : additionne les <b>carrés</b>." },
+          { v: 62500, m: "62 500, c’est BE². Il reste à prendre la " + RAC + "." }] },
+        { k: "num", nom: "b)", pre: "b) Économie =", post: "m", ans: 60, tol: 0.001, p: [
+          { v: 250, m: "250 m, c’est le sentier. Compare-le au trajet par les rues (70 + 240)." },
+          { v: 310, m: "310 m, c’est le trajet par les rues. Combien de mètres de moins pour le sentier ?" }] }],
+      astuces: ["Les rues se coupent à angle droit en C : BCE est un triangle rectangle. Le sentier [BE] est l’" + HYP + ".", "Par les rues, Léa parcourt BC + CE. Compare avec BE."],
+      sol: "On a <b>BCE</b> un " + TR + " en <b>C</b>.<br>D’après le " + PY + ", on a :<br>BC² + CE² = BE²<br>70² + 240² = BE²<br>4&nbsp;900 + 57&nbsp;600 = BE²<br>62&nbsp;500 = BE²<br>donc BE = √62&nbsp;500 = <b>250 m</b>.<br>b) Par les rues : 70 + 240 = 310 m. Par le sentier : 250 m. Léa économise <b>60 m</b>." },
+    { id: "M2", c: 3, titre: "La rampe du camion", but: "Je trie les données utiles", fig: "M2", fiche: true,
+      enonce: "<p>Un déménageur charge un meuble avec une rampe. Voici la fiche technique du camion.</p>",
+      apres: "<p>Le sol est horizontal. A est le bas de la rampe, B son haut, et H le point du sol juste sous B. À quelle distance du camion faut-il poser le bas de la rampe ? Calcule AH.</p>",
+      champs: [{ k: "num", nom: "AH", pre: "AH =", post: "m", ans: 3.5, tol: 0.001, p: [
+        { v: 3.89, t: 0.05, m: "Tu as additionné : la rampe est l’hypoténuse, c’est le plus long côté. AH doit être plus court que 3,7 m." },
+        { v: 12.25, t: 0.01, m: "12,25, c’est AH². Il reste à prendre la " + RAC + "." },
+        { v: 2.5, m: "2,5 = 3,7 − 1,2 : tu as soustrait les longueurs. Il faut soustraire les <b>carrés</b>." }] }],
+      astuces: ["Toutes les données ne servent pas ! Cherche le triangle rectangle ABH : quelles longueurs en connais-tu ?", "La rampe [AB] est l’" + HYP + ", et on la connaît : on soustrait."],
+      sol: "Seules deux données servent : la rampe (3,7 m) et la hauteur du plateau (1,2 m). La largeur et la charge maximale sont inutiles.<br>Le sol est horizontal et B est juste au-dessus de H : on a <b>ABH</b> un " + TR + " en <b>H</b>.<br>D’après le " + PY + ", on a :<br>AH² + BH² = AB²<br>AH² + 1,2² = 3,7²<br>AH² = 13,69 − 1,44 = 12,25<br>donc AH = √12,25 = <b>3,5 m</b>." },
+    { id: "M3", c: 3, titre: "La tente", but: "Je trouve un triangle rectangle caché", fig: "M3",
+      enonce: "<p>Voici la façade de la tente de Léo : un " + G("isocele", "triangle isocèle") + " ABC. Le poteau [AH] est vertical, sur un sol horizontal. H est le " + G("milieu", "milieu") + " de [BC].</p><p>Calcule la hauteur AH du poteau. Léo mesure 1,65 m.</p>",
+      champs: [
+        { k: "num", nom: "AH", pre: "AH =", post: "m", ans: 1.6, tol: 0.001, p: [
+          { v: 1.2, m: "1,2 m, c’est BH, la moitié de BC. Ce n’est pas la hauteur du poteau." },
+          { v: 2.56, t: 0.01, m: "2,56, c’est AH². Il reste à prendre la " + RAC + "." },
+          { v: 2.33, t: 0.03, m: "Tu as additionné. AH est un côté de l’angle droit : il est plus court que AB (2 m)." }] },
+        { k: "ch", nom: "Debout", q: "Léo peut-il se tenir debout sous le poteau ?", o: [
+          { t: "Oui", m: "Compare la taille de Léo (1,65 m) avec la hauteur du poteau que tu as trouvée." },
+          { t: "Non", ok: true }] }],
+      astuces: ["Le poteau est vertical et le sol est horizontal : ABH est un triangle rectangle. Attention : BH n’est <b>pas</b> égal à BC !", "H est le milieu de [BC] : BH = 2,4 ÷ 2. L’hypoténuse de ABH est [AB]."],
+      sol: "H est le milieu de [BC] : BH = 2,4 ÷ 2 = 1,2 m.<br>On a <b>ABH</b> un " + TR + " en <b>H</b>.<br>D’après le " + PY + ", on a :<br>AH² + BH² = AB²<br>AH² + 1,2² = 2²<br>AH² = 4 − 1,44 = 2,56<br>donc AH = √2,56 = <b>1,6 m</b>.<br>Léo mesure 1,65 m et 1,65 &gt; 1,6 : <b>il ne peut pas</b> se tenir debout." },
+    { id: "M4", c: 3, titre: "Le cerf-volant", but: "Je fais mon schéma, puis je n’oublie rien", fig: null,
+      enonce: "<p>Lisa fait voler un cerf-volant. Elle tient la bobine à 1 m du sol. Le fil tendu mesure 50 m.</p><p>Le cerf-volant est exactement au-dessus d’un arbre. Le pied de l’arbre est à 40 m de Lisa, sur un sol horizontal.</p><p><b>Fais un schéma.</b> À quelle altitude (par rapport au sol) est le cerf-volant ?</p>",
+      champs: [{ k: "num", nom: "Altitude", pre: "Altitude =", post: "m", ans: 31, tol: 0.001, p: [
+        { v: 30, m: "30 m, c’est la hauteur au-dessus de la main de Lisa. Elle tient la bobine à 1 m du sol : n’oublie pas de l’ajouter." },
+        { v: 64.03, t: 0.3, m: "Tu as additionné. Ici le fil (50 m) est l’hypoténuse : on cherche un côté de l’angle droit." },
+        { v: 900, m: "900, c’est le carré d’une longueur. Prends la " + RAC + ", puis relis la question." }] }],
+      astuces: ["Place la main de Lisa M, le cerf-volant C, et le point A à la verticale de C, à la hauteur de la main. MAC est un triangle rectangle.", "Le fil [MC] est l’" + HYP + ". Tu trouves la hauteur AC <b>au-dessus de la main</b> : l’altitude, c’est depuis le sol."],
+      sol: "Soit M la main de Lisa, C le cerf-volant et A le point à la verticale de C, à la hauteur de la main : MA = 40 m.<br>On a <b>MAC</b> un " + TR + " en <b>A</b>.<br>D’après le " + PY + ", on a :<br>MA² + AC² = MC²<br>40² + AC² = 50²<br>AC² = 2&nbsp;500 − 1&nbsp;600 = 900<br>donc AC = √900 = 30 m.<br>La main de Lisa est à 1 m du sol : le cerf-volant est à 30 + 1 = <b>31 m</b> d’altitude." },
+
+    /* ---------------- NOIRE ---------------- */
+    { id: "N1", c: 4, titre: "Les haubans", but: "Je calcule, puis j’organise mes achats", fig: "N1",
+      enonce: "<p>Pour une fête, on dresse un mât vertical de 6 m sur un sol horizontal. Deux câbles identiques le maintiennent. Chaque câble va du sommet du mât à un piquet planté à 4,5 m du pied du mât.</p><p>Pour fixer un câble, il faut prévoir 0,5 m de plus. Le câble se vend en rouleaux de 5 m.</p>",
+      champs: [
+        { k: "num", nom: "a)", pre: "a) Un câble tendu, SP =", post: "m", ans: 7.5, tol: 0.001, p: [
+          { v: 10.5, m: "10,5 = 6 + 4,5 : tu as additionné les longueurs. Il faut additionner les <b>carrés</b>." },
+          { v: 56.25, t: 0.01, m: "56,25, c’est SP². Il reste à prendre la " + RAC + "." }] },
+        { k: "num", nom: "b)", pre: "b) Câble nécessaire en tout =", post: "m", ans: 16, tol: 0.001, p: [
+          { v: 8, m: "8 m, c’est un seul câble. Il y en a deux." },
+          { v: 15, m: "15 = 2 × 7,5. Il manque les 0,5 m de fixation, pour chaque câble." }] },
+        { k: "num", nom: "c)", pre: "c) Rouleaux à acheter :", post: "", ans: 4, tol: 0.001, p: [
+          { v: 3, m: "3 rouleaux font 15 m : ce n’est pas assez pour 16 m. On arrondit au nombre de rouleaux suivant." },
+          { v: 3.2, t: 0.01, m: "On ne peut pas acheter 3,2 rouleaux : arrondis au nombre entier de rouleaux suivant." }] }],
+      astuces: ["Un seul triangle rectangle suffit : le mât, le sol et un câble. Donne des lettres aux points.", "Calcule la longueur d’un câble, ajoute 0,5 m, puis pense qu’il y a deux câbles. Enfin, divise par 5."],
+      sol: "Soit S le sommet du mât, M son pied et P un piquet. On a <b>SMP</b> un " + TR + " en <b>M</b>.<br>D’après le " + PY + ", on a :<br>SM² + MP² = SP²<br>6² + 4,5² = SP²<br>36 + 20,25 = SP²<br>56,25 = SP²<br>donc SP = √56,25 = <b>7,5 m</b>.<br>b) Un câble : 7,5 + 0,5 = 8 m. Deux câbles : 2 × 8 = <b>16 m</b>.<br>c) 16 ÷ 5 = 3,2 : il faut <b>4 rouleaux</b> (3 rouleaux ne suffisent pas)." },
+    { id: "N2", c: 4, titre: "Le trapèze", but: "Je construis le triangle rectangle qui manque", fig: "N2",
+      enonce: "<p>ABCD est un " + G("trapeze", "trapèze") + " rectangle en A et en D. AB = 7 cm, AD = 8 cm et DC = 13 cm. Calcule BC.</p>",
+      champs: [{ k: "num", nom: "BC", pre: "BC =", post: "cm", ans: 10, tol: 0.001, p: [
+        { v: 6, m: "6 cm = 13 − 7 : c’est un côté du triangle rectangle que tu as trouvé. Ce n’est pas encore BC." },
+        { v: 100, m: "100, c’est BC². Il reste à prendre la " + RAC + "." },
+        { v: 8, m: "8 cm, c’est AD. Cherche la longueur de [BC], le côté penché." }] }],
+      astuces: ["Il n’y a pas de triangle rectangle qui contient [BC]… trace-le ! Place H sur [DC], juste sous B : ABHD est un rectangle.", "Dans le rectangle ABHD, BH = AD et DH = AB. Calcule alors HC, puis utilise le triangle BHC."],
+      sol: "Je trace la hauteur [BH], avec H sur [DC], juste sous B. ABHD est un rectangle : BH = AD = 8 cm et DH = AB = 7 cm.<br>Donc HC = DC − DH = 13 − 7 = 6 cm.<br>On a <b>BHC</b> un " + TR + " en <b>H</b>.<br>D’après le " + PY + ", on a :<br>BH² + HC² = BC²<br>8² + 6² = BC²<br>64 + 36 = BC²<br>100 = BC²<br>donc BC = √100 = <b>10 cm</b>." },
+    { id: "N3", c: 4, titre: "L’écluse", but: "J’utilise deux triangles et je compare", fig: "N3",
+      enonce: "<p>Dans une écluse, un bateau est relié par une corde à un anneau R fixé dans le mur, 12 m au-dessus de l’eau. On néglige la hauteur du bateau.</p><p>La corde est tendue et mesure 15 m. L’éclusier la raccourcit de 2 m : elle est de nouveau tendue. De combien de mètres le bateau s’est-il rapproché du mur ?</p>",
+      champs: [
+        { k: "num", nom: "Avant", pre: "Avant : AB₁ =", post: "m", ans: 9, tol: 0.001, p: [
+          { v: 3, m: "3 = 15 − 12 : tu as soustrait les longueurs. Il faut soustraire les <b>carrés</b>." },
+          { v: 81, m: "81, c’est AB₁². Il reste à prendre la " + RAC + "." }] },
+        { k: "num", nom: "Après", pre: "Après : AB₂ =", post: "m", ans: 5, tol: 0.001, p: [
+          { v: 25, m: "25, c’est AB₂². Il reste à prendre la " + RAC + "." },
+          { v: 1, m: "1 = 13 − 12 : tu as soustrait les longueurs. Il faut soustraire les <b>carrés</b>." }] },
+        { k: "num", nom: "Déplacement", pre: "Le bateau s’est rapproché de", post: "m", ans: 4, tol: 0.001, p: [
+          { v: 2, m: "2 m, c’est la longueur de corde enlevée. Mais le bateau ne se rapproche pas de 2 m : compare ses deux distances au mur." }] }],
+      astuces: ["Il y a deux triangles rectangles RAB₁ et RAB₂, avec le même côté RA = 12 m. Dans chacun, la corde est l’" + HYP + ".", "Calcule la distance au mur avant, puis après. Le déplacement est la différence."],
+      sol: "Avant : on a <b>RAB₁</b> un " + TR + " en <b>A</b>.<br>AB₁² = RB₁² − RA² = 15² − 12² = 225 − 144 = 81, donc AB₁ = <b>9 m</b>.<br>Après : la corde mesure 15 − 2 = 13 m. On a <b>RAB₂</b> un triangle rectangle en <b>A</b>.<br>AB₂² = 13² − 12² = 169 − 144 = 25, donc AB₂ = <b>5 m</b>.<br>Le bateau s’est rapproché de 9 − 5 = <b>4 m</b>." },
+    { id: "N4", c: 4, titre: "Le carton", but: "Je passe de la 2D à la 3D", fig: "N4",
+      enonce: "<p>Léa veut ranger un tube de 125 cm dans un carton. Le carton est un " + G("pave-droit", "pavé droit") + " de 40 cm de long, 30 cm de large et 120 cm de haut.</p><p>a) Calcule la diagonale AC du fond.<br>b) Calcule la plus grande longueur qu’on peut ranger dans le carton, de coin à coin (la diagonale AG).</p>",
+      champs: [
+        { k: "num", nom: "a)", pre: "a) AC =", post: "cm", ans: 50, tol: 0.001, p: [
+          { v: 70, m: "70 = 40 + 30 : tu as additionné les longueurs. Il faut additionner les <b>carrés</b>." },
+          { v: 2500, m: "2 500, c’est AC². Il reste à prendre la " + RAC + "." }] },
+        { k: "num", nom: "b)", pre: "b) AG =", post: "cm", ans: 130, tol: 0.001, p: [
+          { v: 170, m: "170 = 50 + 120 : tu as additionné les longueurs. Il faut additionner les <b>carrés</b>." },
+          { v: 16900, m: "16 900, c’est AG². Il reste à prendre la " + RAC + "." }] },
+        { k: "ch", nom: "Tube", q: "c) Le tube de 125 cm peut-il entrer dans le carton ?", o: [
+          { t: "Oui", ok: true },
+          { t: "Non", m: "Compare 125 cm avec la plus grande longueur possible que tu as trouvée en b)." }] }],
+      astuces: ["Deux triangles rectangles, l’un après l’autre. D’abord ABC, rectangle en B, dans le fond du carton : son hypoténuse est [AC].", "Ensuite ACG : il est rectangle en C, car [CG] est vertical. Ses côtés de l’angle droit sont AC et CG = 120 cm."],
+      sol: "a) On a <b>ABC</b> un " + TR + " en <b>B</b> (dans le fond).<br>AB² + BC² = AC²<br>40² + 30² = AC²<br>1&nbsp;600 + 900 = AC²<br>2&nbsp;500 = AC², donc AC = <b>50 cm</b>.<br>b) [CG] est vertical : on a <b>ACG</b> un triangle rectangle en <b>C</b>.<br>AC² + CG² = AG²<br>50² + 120² = AG²<br>2&nbsp;500 + 14&nbsp;400 = AG²<br>16&nbsp;900 = AG², donc AG = <b>130 cm</b>.<br>c) 125 cm &lt; 130 cm : le tube <b>peut entrer</b>, posé en diagonale." }
+  ];
+
+  /* ================= état et enregistrement ================= */
+  var etat = {};
+  function lire() {
+    try { var s = localStorage.getItem(KEY); if (s) { var o = JSON.parse(s); if (o && typeof o === "object") return o; } } catch (e) {}
+    return {};
+  }
+  function ecrire() { try { localStorage.setItem(KEY, JSON.stringify(etat)); } catch (e) {} }
+  function eEx(id) { if (!has(etat, id)) etat[id] = { ok: false, sa: false, a: false, n: 0 }; return etat[id]; }
+
+  /* ================= construction de la page ================= */
+  var tabs = $("ceint-tabs"), panels = $("ceint-panels"), resume = $("ceint-resume");
+  var sel = 0;
+  var parCeint = CEINT.map(function () { return []; });
+  EX.forEach(function (e) { parCeint[e.c].push(e); });
+
+  function champHtml(e, f, i) {
+    var id = e.id + "-" + i;
+    if (f.k === "num") {
+      return '<label class="champ" data-f="' + i + '" for="in-' + id + '"><span class="pre">' + f.pre + '</span><input id="in-' + id + '" type="text" inputmode="decimal" autocomplete="off" autocapitalize="off" spellcheck="false"' + (f.w ? ' style="width:' + f.w + '"' : "") + ' aria-label="' + (f.nom || "Réponse") + '">' + (f.post ? '<span class="post">' + f.post + "</span>" : "") + "</label>";
+    }
+    var h = '<fieldset class="choix" data-f="' + i + '"><legend>' + nb(f.q) + "</legend>";
+    f.o.forEach(function (o, j) { h += '<label class="opt"><input type="radio" name="r-' + id + '" value="' + j + '"><span>' + o.t + "</span></label>"; });
+    return h + "</fieldset>";
+  }
+  function exHtml(e, k) {
+    var h = '<article class="ex" id="ex-' + e.id + '" data-id="' + e.id + '">';
+    h += '<h3 class="ex-t"><span class="fx-n">' + (k + 1) + '</span><span class="ex-nom">' + e.titre + '</span><span class="ex-etat"></span></h3>';
+    h += '<div class="ex-but"><span aria-hidden="true">🎯</span> ' + e.but + "</div>";
+    h += '<div class="ex-enonce">' + nb(e.enonce);
+    if (e.fiche) {
+      h += '<div class="fiche"><div class="ft">Fiche technique</div><table><tr><td>Hauteur du plateau du camion</td><td>1,2 m</td></tr><tr><td>Longueur de la rampe</td><td>3,7 m</td></tr><tr><td>Largeur de la rampe</td><td>0,8 m</td></tr><tr><td>Charge maximale</td><td>250 kg</td></tr></table></div>' + nb(e.apres || "");
+    }
+    h += "</div>";
+    if (e.fig) h += '<div class="fxfig">' + FIG[e.fig]() + "</div>";
+    h += '<form class="champs" novalidate>';
+    e.champs.forEach(function (f, i) { h += champHtml(e, f, i); });
+    h += '<div class="vrow"><button type="submit" class="vbtn">Vérifier</button></div></form>';
+    h += '<div class="retour" role="status" aria-live="polite"></div>';
+    h += '<div class="btn-row"><button type="button" class="toggle-btn astuce" data-act="astuce">💡 Astuce</button><button type="button" class="toggle-btn solution" data-act="sol" disabled>✅ Solution</button><span class="btn-note" data-note>La solution s’ouvre après un essai.</span></div>';
+    h += '<div class="panel astuce-panel" data-panel="astuce"></div>';
+    h += '<div class="panel corrige" data-panel="sol"><span class="label" style="color:#1E7A4C">Solution</span>' + nb(e.sol) + "</div>";
+    return h + "</article>";
+  }
+
+  CEINT.forEach(function (c, i) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "cb"; b.id = "tab-" + i; b.setAttribute("role", "tab"); b.setAttribute("aria-controls", "cp-" + i);
+    b.innerHTML = '<span class="ruban" style="background:' + c.col + '"></span><span class="cb-n">' + c.nom + '</span><span class="cb-c"></span>';
+    b.addEventListener("click", function () { choisir(i); });
+    b.addEventListener("keydown", function (ev) {
+      var d = ev.key === "ArrowRight" ? 1 : ev.key === "ArrowLeft" ? -1 : 0;
+      if (d) { ev.preventDefault(); var j = (i + d + CEINT.length) % CEINT.length; choisir(j); $("tab-" + j).focus(); }
+    });
+    tabs.appendChild(b);
+
+    var s = document.createElement("section");
+    s.id = "cp-" + i; s.setAttribute("role", "tabpanel"); s.setAttribute("aria-labelledby", "tab-" + i); s.hidden = true;
+    var hh = '<div class="cp-tete" style="--cc:' + (c.col === "#FFFFFF" ? "#B8C2CC" : c.col) + '"><h2>Ceinture ' + c.nom.toLowerCase() + " — " + c.titre + "</h2><p>" + nb(c.but) + (c.cahier ? " <b>Dans ton cahier :</b> un schéma et ta rédaction. Ici : seulement les résultats." : "") + "</p></div>";
+    hh += '<div class="cp-valide" data-valide hidden></div><div class="exgrid">';
+    parCeint[i].forEach(function (e, k) { hh += exHtml(e, k); });
+    s.innerHTML = hh + "</div>";
+    panels.appendChild(s);
+  });
+
+  /* ================= vérification ================= */
+  function lireNombre(txt) {
+    var s = String(txt).replace(/[\s  ]/g, "").replace(",", ".").replace(/[a-zA-Zéèêàùôîâ²³°%€]+$/, "");
+    if (!/^-?\d+(\.\d+)?$/.test(s)) return null;
+    return parseFloat(s);
+  }
+  function verifier(e, art) {
+    var tousOk = true, vides = 0, msgs = [];
+    e.champs.forEach(function (f, i) {
+      var box = art.querySelector('[data-f="' + i + '"]'), res = { ok: false, vide: false, m: "" };
+      if (f.k === "num") {
+        var raw = box.querySelector("input").value, v = lireNombre(raw);
+        if (!String(raw).trim()) { res.vide = true; res.m = "Écris ta réponse."; }
+        else if (v === null) { res.m = "Écris seulement un nombre (avec une virgule si besoin)."; }
+        else if (Math.abs(v - f.ans) <= (f.tol || 0.001)) { res.ok = true; }
+        else {
+          res.m = "Pas encore. Reprends ton calcul, ou ouvre l’astuce 💡.";
+          (f.p || []).some(function (q) { if (Math.abs(v - q.v) <= (q.t || 0.001)) { res.m = q.m; return true; } return false; });
+        }
+      } else {
+        var chk = box.querySelector("input:checked");
+        if (!chk) { res.vide = true; res.m = "Choisis une réponse."; }
+        else { var o = f.o[+chk.value]; if (o.ok) res.ok = true; else res.m = o.m || "Ce n’est pas la bonne réponse."; }
+      }
+      box.classList.toggle("ok", res.ok);
+      box.classList.toggle("ko", !res.ok && !res.vide);
+      if (!res.ok) { tousOk = false; if (res.vide) vides++; msgs.push({ nom: f.nom, m: res.m }); }
+    });
+    return { ok: tousOk, msgs: msgs };
+  }
+
+  function maj() {
+    var nbOk = 0, nbSa = 0, hautes = -1, i, lignes = [];
+    CEINT.forEach(function (c, ci) {
+      var tot = parCeint[ci].length, ok = 0;
+      parCeint[ci].forEach(function (e) {
+        var s = etat[e.id], art = $("ex-" + e.id), reussi = !!(s && s.ok);
+        if (reussi) { ok++; nbOk++; if (s.sa) nbSa++; }
+        art.classList.toggle("reussi", reussi);
+        art.querySelector(".ex-etat").textContent = reussi ? (s.sa ? "✔ réussi sans aide" : "✔ réussi") : "";
+      });
+      var b = $("tab-" + ci), fait = ok === tot;
+      b.classList.toggle("fait", fait);
+      b.querySelector(".cb-c").textContent = fait ? "✔ " + ok + "/" + tot : ok + "/" + tot;
+      if (fait) hautes = ci;
+      var v = $("cp-" + ci).querySelector("[data-valide]");
+      if (fait) {
+        var suite = ci < CEINT.length - 1 ? '<button type="button" class="abtn plein" data-suite="' + (ci + 1) + '">Ceinture ' + CEINT[ci + 1].nom.toLowerCase() + " ▶</button>" : "";
+        v.innerHTML = "<span>🎉 Ceinture " + CEINT[ci].nom.toLowerCase() + " validée ! Bravo !</span>" + suite;
+        v.hidden = false;
+      } else { v.hidden = true; v.innerHTML = ""; }
+    });
+    if (hautes < 0) {
+      resume.innerHTML = nbOk ? "<b>Pas encore de ceinture.</b> Tu as réussi " + nbOk + " exercice" + (nbOk > 1 ? "s" : "") + " : il en reste à finir dans une ceinture pour la valider." : "<b>Pas encore de ceinture.</b> Choisis ta ceinture de départ : la blanche, ou plus haut si tu te sens à l’aise.";
+    } else if (hautes === CEINT.length - 1) {
+      resume.innerHTML = "<b>Ta ceinture : noire 🥋</b> Tu as validé toutes les ceintures. Bravo !";
+    } else {
+      resume.innerHTML = "<b>Ta ceinture : " + CEINT[hautes].nom.toLowerCase() + " 🥋</b> Prochain défi : la ceinture " + CEINT[hautes + 1].nom.toLowerCase() + ". <span style=\"color:#51657A\">(" + nbOk + " exercices réussis sur " + EX.length + ", dont " + nbSa + " sans aide)</span>";
+    }
+    void i;
+  }
+  function choisir(i) {
+    sel = i;
+    CEINT.forEach(function (c, j) {
+      $("tab-" + j).setAttribute("aria-selected", j === i ? "true" : "false");
+      $("tab-" + j).tabIndex = j === i ? 0 : -1;
+      $("cp-" + j).hidden = j !== i;
+    });
+  }
+
+  /* ================= interactions ================= */
+  panels.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var art = ev.target.closest(".ex"); if (!art) return;
+    var e = EX.filter(function (x) { return x.id === art.getAttribute("data-id"); })[0];
+    var r = verifier(e, art), s = eEx(e.id), zone = art.querySelector(".retour");
+    s.n++;
+    var vide = r.msgs.length === e.champs.length && r.msgs.every(function (m) { return /^(Écris ta réponse|Choisis une réponse)/.test(m.m); });
+    if (vide) s.n--;
+    if (r.ok) {
+      if (!s.ok) { s.ok = true; s.sa = !s.a; }
+      zone.innerHTML = '<div class="bon">✔ Bravo ! ' + (s.sa ? "Réussi sans aide. " : "") + "Ouvre la solution pour comparer avec ta rédaction.</div>";
+    } else {
+      var h = '<div class="non">';
+      r.msgs.forEach(function (m) { h += "<p>" + (e.champs.length > 1 && m.nom ? "<b>" + m.nom + " :</b> " : "") + nb(m.m) + "</p>"; });
+      zone.innerHTML = h + "</div>";
+    }
+    if (s.n >= 1) { var bs = art.querySelector('[data-act="sol"]'); bs.disabled = false; art.querySelector("[data-note]").textContent = ""; }
+    ecrire(); maj();
+  });
+  panels.addEventListener("click", function (ev) {
+    var su = ev.target.closest("[data-suite]");
+    if (su) { choisir(+su.getAttribute("data-suite")); var t = $("ceint"); if (t && t.scrollIntoView) t.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
+    var btn = ev.target.closest("[data-act],.autre"); if (!btn) return;
+    var art = btn.closest(".ex"), e = EX.filter(function (x) { return x.id === art.getAttribute("data-id"); })[0], s = eEx(e.id);
+    if (btn.classList.contains("autre")) { montrerAstuce(art, e, +btn.getAttribute("data-k")); return; }
+    var act = btn.getAttribute("data-act");
+    if (act === "astuce") {
+      var p = art.querySelector('[data-panel="astuce"]');
+      if (!p.innerHTML) montrerAstuce(art, e, 1); else p.classList.toggle("show");
+      if (p.classList.contains("show") && !s.ok) { s.a = true; ecrire(); }
+    } else if (act === "sol" && !btn.disabled) {
+      var q = art.querySelector('[data-panel="sol"]'), on = q.classList.toggle("show");
+      btn.textContent = on ? "🙈 Masquer la solution" : "✅ Solution";
+      if (on && !s.ok) { s.a = true; ecrire(); }
+    }
+  });
+  function montrerAstuce(art, e, k) {
+    var p = art.querySelector('[data-panel="astuce"]'), h = "";
+    for (var i = 0; i < k; i++) h += "<p>" + (e.astuces.length > 1 ? "<b>Astuce " + (i + 1) + "/" + e.astuces.length + ".</b> " : "") + nb(e.astuces[i]) + "</p>";
+    if (k < e.astuces.length) h += '<button type="button" class="autre" data-k="' + (k + 1) + '">Une autre astuce</button>';
+    p.innerHTML = h; p.classList.add("show");
+    var s = eEx(e.id); if (!s.ok) { s.a = true; ecrire(); }
+  }
+  var rst = $("ceint-reset"), rstT = null;
+  rst.addEventListener("click", function () {
+    if (rst.getAttribute("data-sur") !== "1") {
+      rst.setAttribute("data-sur", "1"); rst.textContent = "Sûr(e) ? Clique encore";
+      rstT = setTimeout(function () { rst.removeAttribute("data-sur"); rst.textContent = "Effacer ma progression"; }, 4000);
+      return;
+    }
+    clearTimeout(rstT); etat = {}; ecrire();
+    rst.removeAttribute("data-sur"); rst.textContent = "Effacer ma progression";
+    Array.prototype.forEach.call(document.querySelectorAll(".ex"), function (a) {
+      a.querySelector(".retour").innerHTML = "";
+      Array.prototype.forEach.call(a.querySelectorAll("input[type=text]"), function (x) { x.value = ""; });
+      Array.prototype.forEach.call(a.querySelectorAll("input[type=radio]"), function (x) { x.checked = false; });
+      Array.prototype.forEach.call(a.querySelectorAll(".ok,.ko"), function (x) { x.classList.remove("ok", "ko"); });
+      Array.prototype.forEach.call(a.querySelectorAll(".panel"), function (x) { x.classList.remove("show"); });
+      var b = a.querySelector('[data-act="sol"]'); b.disabled = true; b.textContent = "✅ Solution";
+      a.querySelector("[data-note]").textContent = "La solution s’ouvre après un essai.";
+      a.querySelector('[data-panel="astuce"]').innerHTML = "";
+    });
+    maj(); choisir(0);
+  });
+
+  etat = lire();
+  /* la ceinture de départ : la première qui n'est pas encore validée */
+  var depart = 0;
+  while (depart < CEINT.length - 1 && parCeint[depart].every(function (e) { return etat[e.id] && etat[e.id].ok; })) depart++;
+  Object.keys(etat).forEach(function (id) {
+    var s = etat[id], art = $("ex-" + id);
+    if (art && s && s.n >= 1) { art.querySelector('[data-act="sol"]').disabled = false; art.querySelector("[data-note]").textContent = ""; }
+  });
+  maj(); choisir(depart);
+  /*@test*/
 })();
 </script>
 <script src="../../assets/catalogue.js"></script>
