@@ -467,11 +467,11 @@ function koch(){let p=[[50,6],[88,72],[12,72]];for(let k=0;k<3;k++){const q=[];f
 function arbre(){let t='';(function f(x,y,ux,uy,n){const vx=uy,vy=-ux;t+=`M${x.toFixed(1)} ${y.toFixed(1)}l${ux.toFixed(1)} ${uy.toFixed(1)}l${vx.toFixed(1)} ${vy.toFixed(1)}l${(-ux).toFixed(1)} ${(-uy).toFixed(1)}Z`;if(!n)return;const px=x+vx,py=y+vy,ax=px+(ux+vx)/2,ay=py+(uy+vy)/2;f(px,py,ax-px,ay-py,n-1);f(ax,ay,px+ux-ax,py+uy-ay,n-1)})(42,96,16,0,7);
  return `<svg viewBox="0 0 100 100" aria-hidden="true"><path class="frac" d="${t}"/></svg>`}
 // 3e : courbe du dragon (une bande de papier pliée en deux, encore et encore)
-function dragonPas(P,s){const Q=[];for(let i=0;i<P.length-1;i++){const a=P[i],b=P[i+1],dx=b[0]-a[0],dy=b[1]-a[1],g=i%2?-1:1;Q.push(a,[(a[0]+b[0])/2-g*s*dy/2,(a[1]+b[1])/2+g*s*dx/2])}Q.push(P[P.length-1]);return Q}
-function dragonPts(k){let P=[[0,0],[1,0]];for(let j=0;j<k;j++)P=dragonPas(P,1);return P}
+function dragonPlie(P,ang){const n=P.length,E=P[n-1],c=Math.cos(ang),sn=Math.sin(ang),Q=P.slice();for(let i=n-2;i>=0;i--){const dx=P[i][0]-E[0],dy=P[i][1]-E[1];Q.push([E[0]+dx*c-dy*sn,E[1]+dx*sn+dy*c])}return Q}
+function dragonPts(k){let P=[[0,0],[1,0]];for(let j=0;j<k;j++)P=dragonPlie(P,Math.PI/2);return P}
 function dragonBoite(P){let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;P.forEach(q=>{x0=Math.min(x0,q[0]);x1=Math.max(x1,q[0]);y0=Math.min(y0,q[1]);y1=Math.max(y1,q[1])});return{x0,y0,x1,y1}}
-function dragon(){const P=dragonPts(11),b=dragonBoite(P),k=88/Math.max(b.x1-b.x0,b.y1-b.y0),ox=50-(b.x0+b.x1)/2*k,oy=50-(b.y0+b.y1)/2*k;
- return `<svg viewBox="0 0 100 100" aria-hidden="true"><path class="frac-trait" style="stroke-width:.55;stroke-linejoin:miter" d="M${P.map(q=>(q[0]*k+ox).toFixed(1)+' '+(q[1]*k+oy).toFixed(1)).join('L')}"/></svg>`}
+function dragon(){const P=dragonPts(8),b=dragonBoite(P),k=88/Math.max(b.x1-b.x0,b.y1-b.y0),ox=50-(b.x0+b.x1)/2*k,oy=50-(b.y0+b.y1)/2*k;
+ return `<svg viewBox="0 0 100 100" aria-hidden="true"><path class="frac-trait" style="stroke-width:2.4" d="M${P.map(q=>(q[0]*k+ox).toFixed(1)+' '+(q[1]*k+oy).toFixed(1)).join('L')}"/></svg>`}
 // Escape games : tapis de Sierpinski dont le trou central est une serrure
 function tapisSerrure(){let t='';(function f(x,y,c,n){if(!n){t+=`M${x.toFixed(2)} ${y.toFixed(2)}h${c.toFixed(2)}v${c.toFixed(2)}h${(-c).toFixed(2)}Z`;return}const u=c/3;for(let i=0;i<3;i++)for(let j=0;j<3;j++)if(i!==1||j!==1)f(x+i*u,y+j*u,u,n-1)})(4,4,92,3);
  return `<svg viewBox="0 0 100 100" aria-hidden="true"><path class="escape-frac" d="${t}"/><circle class="escape-trou" cx="50" cy="45.5" r="6.2"/><path class="escape-trou" d="M46.6 49.5h6.8l2.6 12h-12Z"/></svg>`}
@@ -558,21 +558,17 @@ function trArbre(ctx,W,H,p,cv){
   ctx.save();ctx.translate(0,-1);ctx.rotate(-Math.PI/4);ctx.scale(k,k);br(dep+1);ctx.restore();
   ctx.save();ctx.translate(.5,-1.5);ctx.rotate(Math.PI/4);ctx.scale(k,k);br(dep+1);ctx.restore()})(0);
 }
-/* 3e : courbe du dragon, chaque segment se plie en deux, étape après étape */
-let DRAGON_BOITE=null;
+/* 3e : courbe du dragon, la bande se plie en deux (quart de tour autour de son extrémité), encore et encore */
 function trDragon(ctx,W,H,p,cv){
- const c=rgbDe(getComputedStyle(cv).getPropertyValue('--c')),NK=14,t=p*(NK+1),jaune=[255,201,60];
- if(!DRAGON_BOITE)DRAGON_BOITE=dragonBoite(dragonPts(NK));
- const b=DRAGON_BOITE,k=Math.min((W*.9)/(b.x1-b.x0),(H-18)/(b.y1-b.y0)),ox=W/2-(b.x0+b.x1)/2*k,oy=H/2-(b.y0+b.y1)/2*k;
+ const c=rgbDe(getComputedStyle(cv).getPropertyValue('--c')),NK=9,t=p*(NK+1),clair=[120,215,255];
  const tt=Math.max(0,t-1),k0=Math.min(NK,Math.floor(tt));let P=dragonPts(k0);
- if(k0<NK&&tt>0)P=dragonPas(P,ease(tt-k0));
- const sc=ease(t);ctx.save();ctx.translate(W/2,H/2);ctx.scale(sc,sc);ctx.translate(-W/2,-H/2);
- ctx.lineJoin='miter';ctx.lineCap='butt';ctx.lineWidth=Math.max(1.1,3.6-.25*Math.min(NK,tt));
- const n=P.length,pas=Math.max(2,Math.ceil(n/60));
- for(let i=0;i<n-1;i+=pas){const j=Math.min(n-1,i+pas);ctx.beginPath();ctx.moveTo(P[i][0]*k+ox,P[i][1]*k+oy);for(let m=i+1;m<=j;m++)ctx.lineTo(P[m][0]*k+ox,P[m][1]*k+oy);ctx.strokeStyle=mix(c,jaune,.85*i/n);ctx.stroke()}
- ctx.restore();
+ if(k0<NK&&tt>0)P=dragonPlie(P,ease(tt-k0)*Math.PI/2);
+ const b=dragonBoite(P),bw=Math.max(b.x1-b.x0,.25),bh=Math.max(b.y1-b.y0,.25),k=Math.min(W*.88/bw,(H-16)/bh),ox=W/2-(b.x0+b.x1)/2*k,oy=H/2-(b.y0+b.y1)/2*k;
+ ctx.lineJoin='round';ctx.lineCap='round';ctx.lineWidth=3.2;
+ const n=P.length,pas=Math.max(1,Math.ceil(n/40));
+ for(let i=0;i<n-1;i+=pas){const j=Math.min(n-1,i+pas);ctx.beginPath();ctx.moveTo(P[i][0]*k+ox,P[i][1]*k+oy);for(let m=i+1;m<=j;m++)ctx.lineTo(P[m][0]*k+ox,P[m][1]*k+oy);ctx.strokeStyle=mix(c,clair,.9*i/n);ctx.stroke()}
 }
-const FRACTALES={'6e':[7000,trSierp],'5e':[7000,trKoch],'4e':[8500,trArbre],'3e':[10000,trDragon]};
+const FRACTALES={'6e':[7000,trSierp],'5e':[7000,trKoch],'4e':[8500,trArbre],'3e':[11000,trDragon]};
 
 /* ---------- Énigmes du jour : des énigmes de logique illustrées (assets/enigmes.js), une par jour, choisie d'après la date ---------- */
 const ENIGMES=window.ENIGMES;
