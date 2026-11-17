@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}/* Cahier à carreaux : cartes aux coins nets, contour encre */
+.ex{border-color:var(--ink);border-radius:8px}
+</style>
+<title>Séance 1 — Le quotient, un nombre à trouver</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<style>
+/* Base commune Leçon 4 — titres condensés, texte Work Sans, nombres Space Mono ; ambre = action, vert = juste, rouge = faux */
+:root{
+  color-scheme:light;
+  --bg:#fffef8; --panel:#ffffff; --paper:#ffffff; --ink:#1b2a5e; --muted:#56608a; --line:#c3d1ec; --grid:#dbe5f6;
+  --amber:#ffc61a; --amber-text:#d62839; --amber-ink:#9c1c2a; --fill:#ffe45e; --fill-2:#fff4b8; --on-amber:#1b2a5e;
+  --ok:#17703f; --ok-bg:#dff5e6; --ko:#b3261e; --ko-bg:#ffe5e2;
+  --blue:#1f56d6; --blue-bg:#e6eeff; --magenta:#b8217a; --magenta-bg:#ffe6f3; --teal:#08766f; --teal-bg:#dcf5f2;
+  --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;color:var(--ink);font:16px/1.5 var(--f-text);padding-inline:16px;padding-block:16px 40px;margin:0}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+h1{font:800 clamp(2.1rem,7vw,3.5rem)/.9 var(--f-title);letter-spacing:.01em;margin:0;text-transform:uppercase;text-wrap:balance}
+h1 span{color:var(--amber-text)}
+h2{font:800 clamp(1.4rem,4.5vw,2rem)/1.05 var(--f-title);text-transform:uppercase;letter-spacing:.02em;margin:0;text-wrap:balance}
+.sub{margin:6px 0 0;color:var(--muted);font-size:.95rem;max-width:70ch}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:2px solid var(--line)}
+.tabs button{font:700 1.1rem var(--f-title);letter-spacing:.06em;text-transform:uppercase;background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;border-bottom:4px solid transparent;margin-bottom:-2px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--amber)}
+@media (max-width:440px){.tabs button{padding:8px 8px;font-size:1rem}}
+.seg{display:inline-flex;flex-wrap:wrap;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.seg button{font:600 .9rem var(--f-text);background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;min-height:40px}
+.seg button[aria-pressed="true"]{background:var(--amber);color:var(--on-amber)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:8px 14px;cursor:pointer;min-height:42px}
+.btn:hover{border-color:var(--amber)}
+.btn.main{background:var(--amber);border-color:var(--amber);color:var(--on-amber)}
+.btn:disabled{opacity:.45;cursor:default}
+button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:14px 16px}
+.hint{color:var(--muted);font-size:.9rem;margin:0}
+.recit{margin:0;padding:12px 16px;background:var(--panel);border-left:4px solid var(--amber);border-radius:0 8px 8px 0;max-width:75ch}
+.num{font-family:var(--f-num);font-weight:700}
+.fr{display:inline-flex;flex-direction:column;align-items:center;font:700 1em var(--f-num);line-height:1.05;vertical-align:middle}
+.fr>span:first-child{border-bottom:.09em solid currentColor;padding:0 .15em}
+.msg{min-height:1.5em;font-weight:600;margin:0}
+.msg.ok{color:var(--ok)}.msg.ko{color:var(--ko)}
+input.ans{font:700 1.25rem var(--f-num);text-align:center;border:2px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:6px 4px;width:6em;max-width:100%}
+input.ans:focus{outline:none;border-color:var(--amber)}
+input.ans.ok{border-color:var(--ok);background:var(--ok-bg)}
+input.ans.ko{border-color:var(--ko);background:var(--ko-bg)}
+.lvl{font:600 .85rem var(--f-text);color:var(--muted)}
+/* équipes */
+.teams{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.teams{grid-template-columns:minmax(0,1fr)}}
+.team{border:2px solid var(--tc);border-radius:12px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column}
+.team.t0{--tc:var(--blue);--tb:var(--blue-bg)}.team.t1{--tc:var(--magenta);--tb:var(--magenta-bg)}.team.t2{--tc:var(--teal);--tb:var(--teal-bg)}
+.team .th{background:var(--tb);display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px}
+.team .tn{font:800 1.3rem var(--f-title);text-transform:uppercase;letter-spacing:.05em;color:var(--tc)}
+.team .ts{font:700 1.5rem var(--f-num);color:var(--tc)}
+.team .tb{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.team .draw{display:flex;align-items:center;gap:10px}
+.team .draw button{font:600 .85rem var(--f-text);border:2px solid var(--tc);color:var(--tc);background:none;border-radius:8px;padding:6px 10px;cursor:pointer;min-height:38px}
+.team .who{font:700 1.4rem var(--f-num);color:var(--tc);min-width:2ch}
+.team.turn{box-shadow:0 0 0 4px var(--tc)}
+.team.win{animation:pop .5s}
+.team .res{font-weight:600;min-height:1.4em}
+.team .res.ok{color:var(--ok)}.team .res.ko{color:var(--ko)}
+@keyframes pop{50%{transform:scale(1.04)}}
+.settings{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:.85rem;color:var(--muted)}
+.settings input{width:4em;font:700 .95rem var(--f-num);border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:3px 6px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.team .slot:empty,.team .res:empty{display:none}
+.teams.compact{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.teams.compact .th{flex-direction:column;align-items:flex-start;gap:0;padding:6px 10px}
+.teams.compact .tn{font-size:1.05rem}
+.teams.compact .ts{font-size:1.3rem}
+.teams.compact .tb{padding:6px 10px}
+.teams.compact .draw{flex-wrap:wrap;gap:4px 8px}
+.teams.compact .draw button{padding:4px 8px;min-height:32px;font-size:.8rem}
+.teams.compact .who{font-size:1.1rem}
+@media (max-width:420px){.teams.compact .tn{font-size:.9rem;letter-spacing:.02em}}
+.pane{display:flex;flex-direction:column;gap:16px;min-width:0}
+.grp{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:100%}
+</style>
+<script>
+window.L4=(function(){
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const f=(n,d)=>`<span class="fr"><span>${n}</span><span>${d}</span></span>`;
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+/* nombre en écriture française, sans zéros inutiles (dp = nb max de décimales) */
+const fmt=(x,dp=3)=>{let s=(Math.round(x*10**dp)/10**dp).toFixed(dp);if(s.includes('.'))s=s.replace(/0+$/,'').replace(/\.$/,'');const [a,b]=s.split('.');return a.replace(/\B(?=(\d{3})+(?!\d))/g,' ')+(b?','+b:'');};
+const fmt2=x=>(Math.round(x*100)/100).toFixed(2).replace('.',',');
+/* lecture d'une réponse : "3,5" "3.5" "35/100" "35 %" "1 + 3/10" ; NaN si illisible */
+function parse(v){
+  if(v==null)return NaN;v=String(v).trim().replace(/\s+/g,'').replace(/%$/,'');
+  if(!v)return NaN;
+  if(v.includes('+'))return v.split('+').reduce((s,p)=>s+parse(p),0);
+  const m=v.match(/^(\d+(?:[.,]\d+)?)\/(\d+(?:[.,]\d+)?)$/);
+  if(m){const d=+m[2].replace(',','.');return d?(+m[1].replace(',','.'))/d:NaN;}
+  if(!/^-?\d+(?:[.,]\d+)?$/.test(v)&&!/^-?[.,]\d+$/.test(v))return NaN;
+  return +v.replace(',','.');
+}
+const same=(a,b)=>Math.abs(a-b)<1e-9;
+const store={get(k,d){try{const v=localStorage.getItem('l4.'+k);return v==null?d:JSON.parse(v);}catch(e){return d;}},
+             set(k,v){try{localStorage.setItem('l4.'+k,JSON.stringify(v));}catch(e){}}};
+/* onglets simples : <nav class="tabs"><button data-tab="x"> + éléments [data-pane="x"] */
+function tabs(nav,onChange){
+  nav.setAttribute('role','tablist');
+  const go=t=>{$$('[data-tab]',nav).forEach(b=>{b.setAttribute('role','tab');b.setAttribute('aria-selected',b.dataset.tab===t);});
+    $$('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!==t);onChange&&onChange(t);};
+  nav.addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)go(b.dataset.tab);});
+  return go;
+}
+/* contrôle segmenté : boutons [data-v] */
+function seg(el,onChange,init){
+  const set=v=>{$$('[data-v]',el).forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===String(v)));onChange&&onChange(v);};
+  el.addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(b)set(b.dataset.v);});
+  if(init!=null)set(init);return set;
+}
+/* ---- trois équipes : bleu, magenta, turquoise, tirage au sort d'un élève ---- */
+const TEAMS=['Bleus','Magentas','Turquoises'];
+function Teams(el,opt={}){
+  let size=store.get('teamSize',9);
+  const T=TEAMS.map((n,i)=>({i,name:n,score:0,pool:[],who:null}));
+  let turn=null;
+  el.classList.add('teams');if(opt.compact)el.classList.add('compact');
+  el.innerHTML=T.map(t=>`<section class="team t${t.i}" data-team="${t.i}">
+    <div class="th"><span class="tn">${t.name}</span><span class="ts" aria-label="score">0</span></div>
+    <div class="tb"><div class="draw"><button type="button" data-drawbtn>${opt.compact?'Tirer':'Tirer un élève'}</button><span class="who" aria-live="polite"></span></div>
+    <div class="slot"></div><div class="res" aria-live="polite"></div></div></section>`).join('');
+  const box=i=>el.querySelector(`[data-team="${i}"]`);
+  function refill(t){t.pool=shuffle(Array.from({length:size},(_,k)=>k+1));}
+  function draw(i){
+    const t=T[i];if(!t.pool.length)refill(t);
+    const n=t.pool.pop(),w=box(i).querySelector('.who');
+    const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce){w.textContent='n°'+n;return;}
+    let k=0;const iv=setInterval(()=>{w.textContent='n°'+rnd(1,size);if(++k>9){clearInterval(iv);w.textContent='n°'+n;}},55);
+  }
+  el.addEventListener('click',e=>{const b=e.target.closest('[data-drawbtn]');if(b)draw(+b.closest('[data-team]').dataset.team);});
+  const api={
+    slot:i=>box(i).querySelector('.slot'),
+    res(i,txt,ok){const r=box(i).querySelector('.res');r.textContent=txt||'';r.className='res'+(ok===true?' ok':ok===false?' ko':'');},
+    add(i,p=1){T[i].score+=p;box(i).querySelector('.ts').textContent=T[i].score;if(p>0){const b=box(i);b.classList.remove('win');void b.offsetWidth;b.classList.add('win');}},
+    setTurn(i){turn=i;T.forEach(t=>box(t.i).classList.toggle('turn',t.i===i));},
+    nextTurn(){api.setTurn(turn==null?0:(turn+1)%3);return turn;},
+    get turn(){return turn;},
+    scores:()=>T.map(t=>t.score),
+    reset(){T.forEach(t=>{t.score=0;box(t.i).querySelector('.ts').textContent=0;api.res(t.i,'');});},
+    clearWho(){T.forEach(t=>box(t.i).querySelector('.who').textContent='');},
+    name:i=>T[i].name,
+    settings(container){
+      container.innerHTML=`<label class="settings">Élèves par équipe <input type="number" id="teamsize" min="2" max="15" value="${size}"></label>`;
+      container.querySelector('input').addEventListener('change',e=>{size=Math.max(2,Math.min(15,+e.target.value||9));store.set('teamSize',size);T.forEach(refill);});
+    }
+  };
+  T.forEach(refill);
+  return api;
+}
+/* petit carré dessiné en SVG : n parts coloriées sur u (10 = bandes, 100 = quadrillage), plusieurs carrés si besoin */
+function squaresSVG(t,u,size=60){
+  const n=Math.max(1,Math.ceil(t/u)),gap=6,W=n*size+(n-1)*gap;
+  let s=`<svg viewBox="-1 -1 ${W+2} ${size+2}" width="${W+2}" height="${size+2}" role="img" aria-label="carré colorié">`;
+  for(let k=0;k<n;k++){const x0=k*(size+gap);
+    s+=`<rect x="${x0}" y="0" width="${size}" height="${size}" fill="var(--paper)"/>`;
+    const c=size/10;
+    for(let j=0;j<u;j++){const idx=k*u+j;if(idx>=t)break;
+      if(u===10)s+=`<rect x="${x0}" y="${j*c}" width="${size}" height="${c}" fill="var(--fill)"/>`;
+      else s+=`<rect x="${x0+(j%10)*c}" y="${Math.floor(j/10)*c}" width="${c}" height="${c}" fill="var(--fill)"/>`;}
+    for(let j=1;j<10;j++){s+=`<line x1="${x0}" x2="${x0+size}" y1="${j*c}" y2="${j*c}" stroke="var(--grid)" stroke-width="1"/>`;
+      if(u===100)s+=`<line y1="0" y2="${size}" x1="${x0+j*c}" x2="${x0+j*c}" stroke="var(--grid)" stroke-width="1"/>`;}
+    s+=`<rect x="${x0}" y="0" width="${size}" height="${size}" fill="none" stroke="var(--ink)" stroke-width="1.5"/>`;}
+  return s+'</svg>';
+}
+return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squaresSVG};
+})();
+</script>
+<style>
+/* ---- séance 6e ch.6 : page légère, une figure à la fois ---- */
+.ex{display:flex;flex-direction:column;gap:12px;padding-top:8px;border-top:2px solid var(--line)}
+.ex-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px}
+.ex-h h2 small{font:600 .9rem var(--f-text);text-transform:none;letter-spacing:0;color:var(--muted);margin-left:.4em}
+.consigne{margin:0;max-width:70ch;font-size:1.05rem}
+.fig{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.fig svg{display:block;width:100%;height:auto;max-width:700px}
+.fig .cap{font:700 .95rem var(--f-title);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);align-self:flex-start;padding-left:6px}
+.ex:not(.show) .sol{display:none}
+.ex.show .q{display:none}
+.s{color:var(--ok);font-weight:600}
+.qs{margin:0;padding-left:1.5em;display:flex;flex-direction:column;gap:8px;max-width:75ch}
+.qs li::marker{font-weight:700;color:var(--amber-ink)}
+.qs .sol{display:block}
+.qs.big li{font:700 1.4rem var(--f-num);padding-block:2px}
+.qs.big .sol{font:600 1rem var(--f-text)}
+.hole{display:inline-flex;align-items:center;justify-content:center;min-width:1.35em;height:1.35em;background:var(--amber);color:var(--on-amber);border-radius:8px;border:3px solid var(--ink);font-weight:800}
+table.tb{border-collapse:collapse;font:600 1.1rem var(--f-text);background:var(--panel);max-width:100%}
+.tb th,.tb td{border:2px solid var(--line);padding:8px 16px;text-align:center}
+.tb th{font:800 1.05rem var(--f-title);text-transform:uppercase;letter-spacing:.05em;background:var(--fill-2)}
+.tb td.l{text-align:left}
+.tb .q{color:var(--amber-ink);font:700 1.3rem var(--f-num)}
+.tb .sol{color:var(--ok);font:700 1.05rem var(--f-num)}
+.tb td.l .sol{font-family:var(--f-text)}
+.cas{display:flex;flex-wrap:wrap;gap:10px}
+.cas .btn{font-size:1.05rem;padding:10px 16px}
+.res{margin:0;display:flex;flex-direction:column;gap:6px}
+.res .eq{font:800 clamp(1.9rem,7vw,2.8rem)/1.15 var(--f-num);margin:0;min-height:1.2em}
+.res .eq .fr{font-size:1.05em}
+.res .ver{margin:0;font-size:1.05rem}
+.num{white-space:nowrap}
+.vf{font-weight:700}.vf.t{color:var(--ok)}.vf.f{color:var(--ko)}
+</style>
+<div class="wrap">
+  <header class="top">
+    <div><h1>Le quotient, un nombre <span>à trouver</span></h1>
+    <p class="sub">Chapitre 6, séance 1</p></div>
+  </header>
+
+  <!-- ================= ACTIVITÉ : DES BARRES À PARTAGER ================= -->
+  <section class="ex" id="act">
+    <div class="ex-h"><h2>Activité <small>des barres à partager</small></h2></div>
+    <p class="consigne">Des barres de chocolat sont partagées en parts égales entre des amis. Clique sur chaque cas et regarde ce que reçoit <b>un ami</b> (en jaune).</p>
+    <div class="cas" id="cas">
+      <button class="btn" data-a="15" data-b="3">15 barres, 3 amis</button>
+      <button class="btn" data-a="1" data-b="4">1 barre, 4 amis</button>
+      <button class="btn" data-a="3" data-b="4">3 barres, 4 amis</button>
+    </div>
+    <div class="fig" id="afig"></div>
+    <div class="res" aria-live="polite">
+      <p class="eq" id="aeq"></p>
+      <p class="ver" id="aver"></p>
+    </div>
+    <p class="recit" id="aret" hidden>Ce que reçoit un ami s'appelle le <b><span class="gl" data-t="quotient">quotient</span></b>. Le quotient de 3 par 4 est <span class="fr"><span>3</span><span>4</span></span> : une <span class="gl" data-t="fraction">fraction</span>, car aucune table ne donne ce nombre. Dans les trois cas, on retrouve les barres en <b>multipliant</b> ce que reçoit un ami par le nombre d'amis.</p>
+  </section>
+
+  <!-- ================= EXERCICES ================= -->
+  <section class="ex" id="ex1">
+    <div class="ex-h"><h2>Exercice 1 <small>le nombre caché</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Trouve le nombre caché, puis écris : « 6 est le <span class="gl" data-t="quotient">quotient</span> de 42 par 7 ». Pour c), d) et e), pense aux barres !</p>
+    <ol class="qs big" type="a">
+      <li><span class="hole">?</span> × 7 = 42<span class="sol">6, car 6 × 7 = 42. 6 est le quotient de 42 par 7.</span></li>
+      <li><span class="hole">?</span> × 8 = 64<span class="sol">8, car 8 × 8 = 64. 8 est le quotient de 64 par 8.</span></li>
+      <li><span class="hole">?</span> × 5 = 1<span class="sol">1/5, car 5 × 1/5 = 1. 1/5 est le quotient de 1 par 5.</span></li>
+      <li><span class="hole">?</span> × 3 = 2<span class="sol">2/3, car 3 × 2/3 = 2. 2/3 est le quotient de 2 par 3.</span></li>
+      <li><span class="hole">?</span> × 6 = 5<span class="sol">5/6, car 6 × 5/6 = 5. 5/6 est le quotient de 5 par 6.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex2">
+    <div class="ex-h"><h2>Exercice 2 <small>des dessins à lire</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Pour chaque dessin, compte les barres et les amis. Écris la <span class="gl" data-t="division">division</span> et ce que reçoit un ami.</p>
+    <div class="fig" id="g1"></div>
+    <p class="s sol">12 ÷ 4 = 3 : un ami reçoit 3 barres.</p>
+    <div class="fig" id="g2"></div>
+    <p class="s sol">2 ÷ 3 = 2/3 : un ami reçoit 2/3 de barre (2 morceaux d'un tiers).</p>
+    <div class="fig" id="g3"></div>
+    <p class="s sol">5 ÷ 2 = 5/2 : un ami reçoit 5/2 de barre, donc plus d'une barre.</p>
+  </section>
+
+  <section class="ex" id="ex3">
+    <div class="ex-h"><h2>Exercice 3 <small>plusieurs écritures</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Recopie le tableau et complète chaque ligne. Rappel : <span class="num">3 ÷ 4 = <span class="fr"><span>3</span><span>4</span></span></span> : le nombre qu'on partage est en haut.</p>
+    <div style="overflow-x:auto"><table class="tb">
+      <tr><th>En phrase</th><th>Division</th><th>Fraction</th></tr>
+      <tr><td class="l">le <span class="gl" data-t="quotient">quotient</span> de 3 par 7</td><td><span class="q">?</span><span class="sol">3 ÷ 7</span></td><td><span class="q">?</span><span class="sol"><span class="fr"><span>3</span><span>7</span></span></span></td></tr>
+      <tr><td class="l"><span class="q">?</span><span class="sol">le quotient de 9 par 2</span></td><td class="num">9 ÷ 2</td><td><span class="q">?</span><span class="sol"><span class="fr"><span>9</span><span>2</span></span></span></td></tr>
+      <tr><td class="l"><span class="q">?</span><span class="sol">le quotient de 5 par 8</span></td><td><span class="q">?</span><span class="sol">5 ÷ 8</span></td><td><span class="fr"><span>5</span><span>8</span></span></td></tr>
+    </table></div>
+  </section>
+
+  <section class="ex" id="ex4">
+    <div class="ex-h"><h2>Exercice 4 <small>qui a raison ?</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Écris « Vrai » ou « Faux ». Si c'est faux, écris la bonne réponse.</p>
+    <ol class="qs">
+      <li><b>Léa :</b> « Le <span class="gl" data-t="quotient">quotient</span> de 3 par 5 est <span class="fr"><span>5</span><span>3</span></span>. »<span class="sol s"><span class="vf f">Faux.</span> On partage 3 barres entre 5 amis : c'est <span class="fr"><span>3</span><span>5</span></span>.</span></li>
+      <li><b>Noé :</b> « 7 ÷ 2 = <span class="fr"><span>7</span><span>2</span></span>. »<span class="sol s"><span class="vf t">Vrai.</span> On partage 7 barres entre 2 amis.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex5">
+    <div class="ex-h"><h2>Défi <small>zéro ami</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Peut-on partager 5 barres entre 0 ami ? Écris <span class="num">? × 0 = 5</span> et explique.</p>
+    <p class="recit sol">Non : un nombre multiplié par 0 donne toujours 0, jamais 5. Il n'y a pas de <span class="gl" data-t="quotient">quotient</span> de 5 par 0. On ne peut pas <span class="gl" data-t="division">diviser</span> par 0.</p>
+  </section>
+</div>
+<script>
+(function(){
+const {$,$$,f}=L4;
+
+/* ---------- dessin : a barres partagées entre b amis ; le premier ami est en jaune ---------- */
+function partage(a,b){
+  const W=680,pad=20,top=40,bh=30,gap=8;
+  const fill=k=>k===0?'var(--fill)':(k%2?'var(--blue-bg)':'var(--paper)');
+  let s='',H;
+  if(a%b===0){
+    /* chaque ami reçoit des barres entières */
+    const n=a/b,gc=22,cw=(W-2*pad-(b-1)*gc)/b;
+    H=top+n*(bh+gap)+6;
+    for(let k=0;k<b;k++){
+      const x=pad+k*(cw+gc);
+      s+=`<text x="${x+cw/2}" y="${top-14}" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="${k?500:700}" font-size="15" fill="${k?'var(--muted)':'var(--ink)'}">ami ${k+1}</text>`;
+      for(let j=0;j<n;j++)s+=`<rect x="${x}" y="${top+j*(bh+gap)}" width="${cw}" height="${bh}" rx="3" fill="${fill(k)}" stroke="var(--ink)" stroke-width="3"/>`;
+    }
+  }else{
+    /* chaque barre est coupée en b morceaux : l'ami k prend le morceau k de chaque barre */
+    const bw=W-2*pad,pw=bw/b;
+    H=top+a*(bh+gap)+6;
+    for(let k=0;k<b;k++)
+      s+=`<text x="${pad+k*pw+pw/2}" y="${top-14}" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="${k?500:700}" font-size="15" fill="${k?'var(--muted)':'var(--ink)'}">ami ${k+1}</text>`;
+    for(let i=0;i<a;i++){
+      const y=top+i*(bh+gap);
+      for(let k=0;k<b;k++)s+=`<rect x="${pad+k*pw}" y="${y}" width="${pw}" height="${bh}" fill="${fill(k)}" stroke="var(--ink)" stroke-width="2"/>`;
+      s+=`<rect x="${pad}" y="${y}" width="${bw}" height="${bh}" rx="3" fill="none" stroke="var(--ink)" stroke-width="4"/>`;
+    }
+  }
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${a} barre${a>1?'s':''} partagée${a>1?'s':''} entre ${b} amis">${s}</svg>`;
+}
+
+/* ---------- activité ---------- */
+const TXT={
+  '15-3':{eq:`15 ÷ 3 = 5`,ver:`Un ami reçoit <b>5 barres</b>. Vérification : 3 amis × 5 barres = 15 barres.`},
+  '1-4':{eq:`1 ÷ 4 = ${f(1,4)}`,ver:`Un ami reçoit <b>${f(1,4)} de barre</b> : un morceau sur les 4. Vérification : 4 amis × ${f(1,4)} de barre = 1 barre.`},
+  '3-4':{eq:`3 ÷ 4 = ${f(3,4)}`,ver:`Chaque barre est coupée en 4. Un ami prend 1 morceau de chaque barre : 3 morceaux d'un quart, soit <b>${f(3,4)} de barre</b>. Vérification : 4 amis × ${f(3,4)} de barre = 3 barres.`}
+};
+const vus=new Set();
+$$('#cas .btn').forEach(bt=>bt.addEventListener('click',()=>{
+  const a=+bt.dataset.a,b=+bt.dataset.b,k=a+'-'+b;
+  $$('#cas .btn').forEach(x=>x.classList.toggle('main',x===bt));
+  $('#afig').innerHTML=partage(a,b);
+  $('#aeq').innerHTML=TXT[k].eq;$('#aver').innerHTML=TXT[k].ver;
+  vus.add(k);if(vus.size===3)$('#aret').hidden=false;
+}));
+
+/* ---------- exercice 2 ---------- */
+[[12,4,'g1','Dessin 1'],[2,3,'g2','Dessin 2'],[5,2,'g3','Dessin 3']].forEach(([a,b,id,nom])=>{
+  $('#'+id).innerHTML=`<span class="cap">${nom}</span>`+partage(a,b);
+});
+
+/* ---------- boutons « Correction » ---------- */
+document.addEventListener('click',e=>{const bt=e.target.closest('[data-sol]');if(!bt)return;const s=bt.closest('.ex');const on=s.classList.toggle('show');bt.textContent=on?'Cacher la correction':'Correction';bt.classList.toggle('main',on);bt.setAttribute('aria-pressed',on);});
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>

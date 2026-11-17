@@ -479,6 +479,30 @@ window.SITE = {
           ]
         },
         {
+          id: "6e-ch6", num: 6, titre: "Quotients", prive: true,
+          resume: "Le quotient de deux nombres, son écriture en fraction, puis les quotients entiers, décimaux ou ni l'un ni l'autre.",
+          seances: [
+            {
+              titre: "Le quotient, un nombre à trouver", duree: "50 min",
+              contenu: [
+                "Des barres à partager (15 min, projeté) : 15 barres pour 3 amis, 1 barre pour 4 amis, 3 barres pour 4 amis. Ce que reçoit un ami est le quotient ; on le vérifie en multipliant par le nombre d'amis (5 × 3 = 15, 3/4 × 4 = 3).",
+                "Les exercices (30 min, cahier) : cinq nombres cachés (trois sans table), trois dessins de partage à lire, un tableau phrase / division / fraction, qui a raison ? et un défi : pourquoi pas de partage entre 0 ami."
+              ],
+              ressources: ["6e-ch6-s1"],
+              retenir: [
+                "Le **quotient** de a par b (b différent de 0) est le nombre qui, multiplié par b, donne a.",
+                "On l'écrit a ÷ b ou avec une **fraction** : a ÷ b = a/b. Le **numérateur** a est le nombre qu'on partage, le **dénominateur** b est le nombre de parts.",
+                "On retrouve a en multipliant le quotient par b : a/b × b = a."
+              ],
+              exemple: "Le quotient de 3 par 4 est 3/4, car 3/4 × 4 = 3.",
+              savoir: "expliquer ce qu'est le quotient de a par b, l'écrire sous forme de fraction a/b et le vérifier avec a/b × b = a."
+            }
+          ],
+          ressources: [
+            { id: "6e-ch6-s1", type: "exos", titre: "Séance 1 — Le quotient, un nombre à trouver", resume: "Des barres de chocolat à partager entre amis, le quotient, a ÷ b = a/b, des dessins à lire et pourquoi pas de division par 0. Avec corrections.", ajout: "2026-11-11" }
+          ]
+        },
+        {
           id: "6e-defis", num: null, titre: "Défis calcul",
           resume: "Calculer avec les prix et les durées, en solo ou en équipes.",
           ressources: [
