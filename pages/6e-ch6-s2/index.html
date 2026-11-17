@@ -196,6 +196,7 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 .qs{margin:0;padding-left:1.5em;display:flex;flex-direction:column;gap:10px;max-width:75ch}
 .qs li::marker{font-weight:700;color:var(--amber-ink)}
 .qs .sol{display:block}
+.qs.big{padding-left:2.4em}
 .qs.big li{font:700 1.4rem var(--f-num);padding-block:2px}
 .qs.big .sol{font:600 1rem var(--f-text)}
 .qs.big .sol.in,.qs .sol.in{display:inline;font:800 1.4rem var(--f-num);color:var(--ok);background:var(--ok-bg);border-radius:8px;padding:0 .35em}
@@ -268,11 +269,11 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
     <div class="ex-h"><h2>Exercice 3 <small>où est le trou ?</small></h2><button class="btn" data-sol>Correction</button></div>
     <p class="consigne">Le trou n'est pas toujours au même endroit. Complète chaque égalité.</p>
     <ol class="qs big" type="a">
-      <li><span class="hole">?</span> × 6 = 5<span class="sol">5/6, car 5 ÷ 6 = 5/6.</span></li>
-      <li><span class="fr"><span>7</span><span>3</span></span> × <span class="hole q">?</span> = 7<span class="sol in">3</span></li>
+      <li><span class="hole q">?</span><span class="sol in"><span class="fr"><span>5</span><span>6</span></span></span> × 6 = 5</li>
+      <li><span class="fr"><span>7</span><span>3</span></span> × <span class="hole q">?</span><span class="sol in">3</span> = 7</li>
       <li><span class="fr"><span>8</span><span>5</span></span> × 5 = <span class="hole q">?</span><span class="sol in">8</span></li>
-      <li>4 × <span class="hole">?</span> = 3<span class="sol">3/4, car 3 ÷ 4 = 3/4.</span></li>
-      <li><span class="fr"><span>9</span><span>2</span></span> × <span class="hole q">?</span> = 9<span class="sol in">2</span></li>
+      <li>4 × <span class="hole q">?</span><span class="sol in"><span class="fr"><span>3</span><span>4</span></span></span> = 3</li>
+      <li><span class="fr"><span>9</span><span>2</span></span> × <span class="hole q">?</span><span class="sol in">2</span> = 9</li>
     </ol>
   </section>
 
@@ -289,7 +290,7 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
   <section class="ex" id="ex5">
     <div class="ex-h"><h2>Défi <small>le nombre secret</small></h2><button class="btn" data-sol>Correction</button></div>
     <p class="consigne">Trouve le nombre caché de <span class="num"><span class="hole">?</span> × 8 = 8</span>. Écris-le sous forme de fraction, puis sous forme d'un nombre entier.</p>
-    <p class="recit sol">Le nombre caché est <span class="fr"><span>8</span><span>8</span></span>, et c'est <b>1</b>, car 1 × 8 = 8. Un nombre divisé par lui-même vaut 1.</p>
+    <p class="recit sol">Le nombre caché est <span class="fr"><span>8</span><span>8</span></span>, et c'est <b>1</b>, car <span class="num">1 × 8 = 8</span>. Un nombre divisé par lui-même vaut 1.</p>
   </section>
 </div>
 <script>
