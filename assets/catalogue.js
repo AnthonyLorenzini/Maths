@@ -515,14 +515,14 @@ window.SITE = {
             {
               titre: "Un même nombre, plusieurs écritures", duree: "50 min",
               contenu: [
-                "Une barre, quatre amis (15 min, projeté) : la barre est découpée en 4, en 10 puis en 100 ; la part d'un ami ne change pas et se lit 1/4, 2,5/10 puis 25/100 = 0,25. La carte d'identité de 1/4 se remplit au fil des découpages. Ensuite, les quatre parts remises ensemble donnent 0,25 × 4 = 1 : 0,25 est donc le quotient de 1 par 4.",
-                "Les exercices (35 min, cahier) : lire une barre pour écrire la même part en écriture fractionnaire et décimale, prouver qu'un décimal est un quotient avec une multiplication, ranger six cartes en trois familles et repérer celles qui sont le même nombre, corriger deux erreurs classiques (1/4 = 0,4 ; 1/10 = 0,01), et un défi : la part d'un ami pour 8 amis."
+                "Une barre, quatre amis (20 min, projeté, pas à pas) : la barre est découpée en 4, en 10 puis en 100, les découpages s'empilent et un pointillé montre que la part d'un ami est toujours la même. 1/4 ; puis 2,5 carreaux sur 10 (on coupe les carreaux restants en deux) : 2,5/10 n'est pas une fraction mais une écriture fractionnaire, le quotient de 2,5 par 10 ; puis 25/100, c'est 2 dixièmes et 5 centièmes, donc 0,25. La carte d'identité de 1/4 se remplit à chaque étape. Enfin les quatre parts remises ensemble donnent 0,25 × 4 = 1 : 0,25 est le quotient de 1 par 4, et 0,25 × 10 = 2,5 le confirme pour 2,5/10.",
+                "Les exercices (30 min, cahier) : lire une barre pour écrire la même part en fraction sur 10 ou 100 puis en écriture décimale, prouver avec une multiplication qu'un décimal est un quotient (dont 0,25 × 10 = 2,5), ranger six cartes en trois familles et repérer celles qui sont le même nombre, corriger deux erreurs classiques (1/4 = 0,4 ; 1/10 = 0,01), et un défi : la part d'un ami pour 8 amis."
               ],
               ressources: ["6e-ch6-s3"],
               retenir: [
-                "Un même quotient peut s'écrire de plusieurs façons : 1/4 = 2,5/10 = 0,25.",
-                "1/4 est une **fraction** ; 1/4 et 2,5/10 sont des **écritures fractionnaires** ; 0,25 est une **écriture décimale**.",
-                "Pour prouver que 0,25 est le quotient de 1 par 4, on multiplie : 0,25 × 4 = 1."
+                "Un même quotient peut s'écrire de plusieurs façons : 1/4 = 2,5/10 = 25/100 = 0,25.",
+                "1/4 et 25/100 sont des **fractions** (deux nombres entiers). 2,5/10 n'est pas une fraction : c'est une **écriture fractionnaire**, le quotient de 2,5 par 10. 0,25 est une **écriture décimale** : 0,25 = 2 dixièmes et 5 centièmes.",
+                "Pour prouver qu'une écriture est le quotient de a par b, on multiplie par b : 0,25 × 4 = 1 et 0,25 × 10 = 2,5."
               ],
               exemple: "0,25 × 4 = 1, donc 0,25 est le quotient de 1 par 4 : 0,25 = 1/4.",
               savoir: "écrire un quotient sous forme de fraction, d'écriture fractionnaire et d'écriture décimale, et prouver qu'une écriture décimale est un quotient avec une multiplication."
