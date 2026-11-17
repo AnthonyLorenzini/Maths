@@ -511,11 +511,27 @@ window.SITE = {
               ],
               exemple: "? × 5 = 6 : le nombre caché est 6 ÷ 5 = 6/5, car 6/5 × 5 = 6.",
               savoir: "compléter une égalité à trous du type a/b × b = a et trouver le nombre caché."
+            },
+            {
+              titre: "Un même nombre, plusieurs écritures", duree: "50 min",
+              contenu: [
+                "Une barre, quatre amis (15 min, projeté) : la barre est découpée en 4, en 10 puis en 100 ; la part d'un ami ne change pas et se lit 1/4, 2,5/10 puis 25/100 = 0,25. La carte d'identité de 1/4 se remplit au fil des découpages. Ensuite, les quatre parts remises ensemble donnent 0,25 × 4 = 1 : 0,25 est donc le quotient de 1 par 4.",
+                "Les exercices (35 min, cahier) : lire une barre pour écrire la même part en écriture fractionnaire et décimale, prouver qu'un décimal est un quotient avec une multiplication, ranger six cartes en trois familles et repérer celles qui sont le même nombre, corriger deux erreurs classiques (1/4 = 0,4 ; 1/10 = 0,01), et un défi : la part d'un ami pour 8 amis."
+              ],
+              ressources: ["6e-ch6-s3"],
+              retenir: [
+                "Un même quotient peut s'écrire de plusieurs façons : 1/4 = 2,5/10 = 0,25.",
+                "1/4 est une **fraction** ; 1/4 et 2,5/10 sont des **écritures fractionnaires** ; 0,25 est une **écriture décimale**.",
+                "Pour prouver que 0,25 est le quotient de 1 par 4, on multiplie : 0,25 × 4 = 1."
+              ],
+              exemple: "0,25 × 4 = 1, donc 0,25 est le quotient de 1 par 4 : 0,25 = 1/4.",
+              savoir: "écrire un quotient sous forme de fraction, d'écriture fractionnaire et d'écriture décimale, et prouver qu'une écriture décimale est un quotient avec une multiplication."
             }
           ],
           ressources: [
             { id: "6e-ch6-s1", type: "exos", titre: "Séance 1 — Le quotient, un nombre à trouver", resume: "Des barres de chocolat à partager entre amis, le quotient, a ÷ b = a/b, des dessins à lire et pourquoi pas de division par 0. Avec corrections.", ajout: "2026-11-11" },
-            { id: "6e-ch6-s2", type: "exos", titre: "Séance 2 — Les égalités à trous", resume: "Deux machines ÷ et ×, a/b × b = a, trouver le nombre caché, où est le trou ? et qui a raison ? Avec corrections.", ajout: "2026-11-17" }
+            { id: "6e-ch6-s2", type: "exos", titre: "Séance 2 — Les égalités à trous", resume: "Deux machines ÷ et ×, a/b × b = a, trouver le nombre caché, où est le trou ? et qui a raison ? Avec corrections.", ajout: "2026-11-17" },
+            { id: "6e-ch6-s3", type: "exos", titre: "Séance 3 — Un même nombre, plusieurs écritures", resume: "Une barre de chocolat découpée en 4, 10 puis 100 : 1/4 = 2,5/10 = 0,25. Prouver avec une multiplication, trois familles d'écritures et les erreurs de Léa. Avec corrections.", ajout: "2026-11-17" }
           ]
         },
         {
