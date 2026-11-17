@@ -496,10 +496,26 @@ window.SITE = {
               ],
               exemple: "Le quotient de 3 par 4 est 3/4, car 3/4 × 4 = 3.",
               savoir: "expliquer ce qu'est le quotient de a par b, l'écrire sous forme de fraction a/b et le vérifier avec a/b × b = a."
+            },
+            {
+              titre: "Les égalités à trous", duree: "50 min",
+              contenu: [
+                "Les deux machines (12 min, projeté) : un nombre passe dans une machine ÷ puis dans une machine × et revient tel quel. Trois départs (12, 3, 7) ; à la fin, on voit que a/b × b = a, et que le chemin retour donne le nombre caché de ? × 5 = 6.",
+                "Les exercices (38 min, cahier) : compléter a/b × b = ?, trouver le nombre caché de ? × b = a, repérer où est le trou, vérifier les réponses de trois élèves en multipliant, et un défi : ? × 8 = 8."
+              ],
+              ressources: ["6e-ch6-s2"],
+              retenir: [
+                "Multiplier par b **défait** la division par b : **a/b × b = a**.",
+                "Pour trouver le nombre caché de **? × b = a**, on calcule le **quotient** : ? = a ÷ b = a/b.",
+                "Pour **vérifier** une réponse, on la multiplie par b : on doit retrouver a."
+              ],
+              exemple: "? × 5 = 6 : le nombre caché est 6 ÷ 5 = 6/5, car 6/5 × 5 = 6.",
+              savoir: "compléter une égalité à trous du type a/b × b = a et trouver le nombre caché."
             }
           ],
           ressources: [
-            { id: "6e-ch6-s1", type: "exos", titre: "Séance 1 — Le quotient, un nombre à trouver", resume: "Des barres de chocolat à partager entre amis, le quotient, a ÷ b = a/b, des dessins à lire et pourquoi pas de division par 0. Avec corrections.", ajout: "2026-11-11" }
+            { id: "6e-ch6-s1", type: "exos", titre: "Séance 1 — Le quotient, un nombre à trouver", resume: "Des barres de chocolat à partager entre amis, le quotient, a ÷ b = a/b, des dessins à lire et pourquoi pas de division par 0. Avec corrections.", ajout: "2026-11-11" },
+            { id: "6e-ch6-s2", type: "exos", titre: "Séance 2 — Les égalités à trous", resume: "Deux machines ÷ et ×, a/b × b = a, trouver le nombre caché, où est le trou ? et qui a raison ? Avec corrections.", ajout: "2026-11-17" }
           ]
         },
         {
