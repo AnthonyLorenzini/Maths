@@ -212,6 +212,11 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 .mach .tok{transition:opacity .45s}
 .mach .tok.off{opacity:0}
 .mach .arr.off{opacity:.18}
+.hole .ans{display:none}
+.ex.show .hole.has{background:var(--ok-bg);border-color:var(--ok);color:var(--ok);padding:0 .3em;height:auto;min-height:1.35em}
+.ex.show .hole.has .qm{display:none}
+.ex.show .hole.has .ans{display:inline-flex;align-items:center}
+.hole.has .fr{font-size:.8em}
 .num{white-space:nowrap}
 .vf{font-weight:700}.vf.t{color:var(--ok)}.vf.f{color:var(--ko)}
 </style>
@@ -247,10 +252,10 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
     <div class="ex-h"><h2>Exercice 1 <small>la sortie</small></h2><button class="btn" data-sol>Correction</button></div>
     <p class="consigne">Complète sans calcul : la machine × défait la machine ÷.</p>
     <ol class="qs big" type="a">
-      <li><span class="fr"><span>6</span><span>7</span></span> × 7 = <span class="hole q">?</span><span class="sol in">6</span></li>
-      <li><span class="fr"><span>2</span><span>9</span></span> × 9 = <span class="hole q">?</span><span class="sol in">2</span></li>
-      <li><span class="fr"><span>11</span><span>4</span></span> × 4 = <span class="hole q">?</span><span class="sol in">11</span></li>
-      <li><span class="fr"><span>1</span><span>10</span></span> × 10 = <span class="hole q">?</span><span class="sol in">1</span></li>
+      <li><span class="fr"><span>6</span><span>7</span></span> × 7 = <span class="hole has"><span class="qm">?</span><span class="ans">6</span></span></li>
+      <li><span class="fr"><span>2</span><span>9</span></span> × 9 = <span class="hole has"><span class="qm">?</span><span class="ans">2</span></span></li>
+      <li><span class="fr"><span>11</span><span>4</span></span> × 4 = <span class="hole has"><span class="qm">?</span><span class="ans">11</span></span></li>
+      <li><span class="fr"><span>1</span><span>10</span></span> × 10 = <span class="hole has"><span class="qm">?</span><span class="ans">1</span></span></li>
     </ol>
   </section>
 
@@ -258,10 +263,10 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
     <div class="ex-h"><h2>Exercice 2 <small>le nombre caché</small></h2><button class="btn" data-sol>Correction</button></div>
     <p class="consigne">Trouve le nombre caché avec le chemin retour : le résultat ÷ le nombre qui multiplie. Écris-le sous forme de fraction.</p>
     <ol class="qs big" type="a">
-      <li><span class="hole">?</span> × 7 = 5<span class="sol">5 ÷ 7 = 5/7, car 5/7 × 7 = 5.</span></li>
-      <li><span class="hole">?</span> × 4 = 9<span class="sol">9 ÷ 4 = 9/4, car 9/4 × 4 = 9.</span></li>
-      <li><span class="hole">?</span> × 10 = 3<span class="sol">3 ÷ 10 = 3/10, car 3/10 × 10 = 3.</span></li>
-      <li>9 × <span class="hole">?</span> = 4<span class="sol">4 ÷ 9 = 4/9, car 9 × 4/9 = 4. On peut changer l'ordre d'une multiplication.</span></li>
+      <li><span class="hole has"><span class="qm">?</span><span class="ans"><span class="fr"><span>5</span><span>7</span></span></span></span> × 7 = 5<span class="sol">5 ÷ 7 = 5/7, car 5/7 × 7 = 5.</span></li>
+      <li><span class="hole has"><span class="qm">?</span><span class="ans"><span class="fr"><span>9</span><span>4</span></span></span></span> × 4 = 9<span class="sol">9 ÷ 4 = 9/4, car 9/4 × 4 = 9.</span></li>
+      <li><span class="hole has"><span class="qm">?</span><span class="ans"><span class="fr"><span>3</span><span>10</span></span></span></span> × 10 = 3<span class="sol">3 ÷ 10 = 3/10, car 3/10 × 10 = 3.</span></li>
+      <li>9 × <span class="hole has"><span class="qm">?</span><span class="ans"><span class="fr"><span>4</span><span>9</span></span></span></span> = 4<span class="sol">4 ÷ 9 = 4/9, car 9 × 4/9 = 4. On peut changer l'ordre d'une multiplication.</span></li>
     </ol>
   </section>
 
@@ -269,11 +274,11 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
     <div class="ex-h"><h2>Exercice 3 <small>où est le trou ?</small></h2><button class="btn" data-sol>Correction</button></div>
     <p class="consigne">Le trou n'est pas toujours au même endroit. Complète chaque égalité.</p>
     <ol class="qs big" type="a">
-      <li><span class="hole q">?</span><span class="sol in"><span class="fr"><span>5</span><span>6</span></span></span> × 6 = 5</li>
-      <li><span class="fr"><span>7</span><span>3</span></span> × <span class="hole q">?</span><span class="sol in">3</span> = 7</li>
-      <li><span class="fr"><span>8</span><span>5</span></span> × 5 = <span class="hole q">?</span><span class="sol in">8</span></li>
-      <li>4 × <span class="hole q">?</span><span class="sol in"><span class="fr"><span>3</span><span>4</span></span></span> = 3</li>
-      <li><span class="fr"><span>9</span><span>2</span></span> × <span class="hole q">?</span><span class="sol in">2</span> = 9</li>
+      <li><span class="hole has"><span class="qm">?</span><span class="ans"><span class="fr"><span>5</span><span>6</span></span></span></span> × 6 = 5</li>
+      <li><span class="fr"><span>7</span><span>3</span></span> × <span class="hole has"><span class="qm">?</span><span class="ans">3</span></span> = 7</li>
+      <li><span class="fr"><span>8</span><span>5</span></span> × 5 = <span class="hole has"><span class="qm">?</span><span class="ans">8</span></span></li>
+      <li>4 × <span class="hole has"><span class="qm">?</span><span class="ans"><span class="fr"><span>3</span><span>4</span></span></span></span> = 3</li>
+      <li><span class="fr"><span>9</span><span>2</span></span> × <span class="hole has"><span class="qm">?</span><span class="ans">2</span></span> = 9</li>
     </ol>
   </section>
 
@@ -289,7 +294,7 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 
   <section class="ex" id="ex5">
     <div class="ex-h"><h2>Défi <small>le nombre secret</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="consigne">Trouve le nombre caché de <span class="num"><span class="hole">?</span> × 8 = 8</span>. Écris-le sous forme de fraction, puis sous forme d'un nombre entier.</p>
+    <p class="consigne">Trouve le nombre caché de <span class="num"><span class="hole has"><span class="qm">?</span><span class="ans"><span class="fr"><span>8</span><span>8</span></span></span></span> × 8 = 8</span>. Écris-le sous forme de fraction, puis sous forme d'un nombre entier.</p>
     <p class="recit sol">Le nombre caché est <span class="fr"><span>8</span><span>8</span></span>, et c'est <b>1</b>, car <span class="num">1 × 8 = 8</span>. Un nombre divisé par lui-même vaut 1.</p>
   </section>
 </div>
