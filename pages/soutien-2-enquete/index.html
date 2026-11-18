@@ -1,0 +1,817 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Soutien · Séance 2 — Mission Agence Pi-6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Nunito:wght@600;700;800&display=swap">
+<style>
+/* Concept : une enquête projetée au tableau, sur papier quadrillé de cahier.
+   5 suspects en haut de page ; chaque dossier réussi en élimine, jusqu'au coupable. */
+:root{
+  --paper:#fffdf0; --grid:#d3dcf3; --ink:#1f2a5c; --soft:#5a6494; --hl:#ffe45c; --red:#d9383a; --ok:#1f8a5b; --okbg:#d9f3e6; --badbg:#fde4e3;
+  --i1:#2b59c3; --i2:#1f8a5b; --i3:#c8571d; --i4:#8a3fb5;
+  --display:'Caveat Brush','Segoe Print','Comic Sans MS',cursive;
+  --body:'Nunito','Trebuchet MS',Verdana,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:auto}
+body{
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:30px 30px;
+  color:var(--ink); font-family:var(--body); font-weight:700; font-size:clamp(17px,1.55vw,24px); line-height:1.35;
+  padding-block:0; padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px));
+  min-height:100vh;
+}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.wrap{max-width:1280px;margin:0 auto;padding-block:14px 40px}
+h3{font-family:var(--display);font-weight:400;font-size:1.5em;margin:10px 0 4px}
+
+/* barre du haut */
+.bar{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;justify-content:space-between;background:#fff;border:3px solid var(--ink);border-radius:16px;padding:10px 16px;box-shadow:4px 4px 0 var(--ink)}
+.brand{font-family:var(--display);font-weight:400;font-size:clamp(26px,3vw,40px);letter-spacing:.5px;margin:0;line-height:1}
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.tab{border:2.5px solid var(--ink);background:#fff;border-radius:10px;padding:6px 14px;font-weight:800}
+.tab[aria-current="true"]{background:var(--hl)}
+.tab .tick{display:none;color:var(--ok)}
+.tab.done .tick{display:inline}
+.strip{display:flex;gap:8px;align-items:flex-end}
+.sp{width:64px;text-align:center;font-size:.62em;line-height:1.1;position:relative}
+.sp svg{width:52px;height:52px;display:block;margin:0 auto 2px}
+.sp.out svg{filter:grayscale(1);opacity:.45}
+.sp.out span{text-decoration:line-through;color:var(--soft)}
+.sp .x{display:none;position:absolute;left:6px;top:0;width:52px;height:52px}
+.sp.out .x{display:block}
+
+/* fenêtre de réussite */
+.win{position:fixed;inset:0;background:rgba(31,42,92,.55);display:grid;place-items:center;z-index:60;padding:16px}
+.win[hidden]{display:none!important}
+.win .box{background:#fff;border:4px solid var(--ink);border-radius:20px;padding:20px 26px;max-width:760px;width:100%;text-align:center;box-shadow:6px 6px 0 var(--ink);animation:pop .6s ease-out}
+.win h3{font-size:clamp(30px,3.6vw,52px);margin:0 0 4px}
+.win .out-row{display:flex;gap:18px;justify-content:center;margin:10px 0}
+.win .out-row div{width:110px;font-size:.8em;position:relative}
+.win .out-row svg{width:100px;height:100px;filter:grayscale(1);opacity:.55}
+.win .out-row .x{position:absolute;left:5px;top:0;width:100px;height:100px;filter:none;opacity:1}
+@keyframes pop{0%{opacity:0;transform:translateY(-30px) rotate(-3deg)}60%{opacity:1}100%{transform:none}}
+
+/* écrans */
+.scr{display:none;margin-top:18px}
+.scr.show{display:block}
+.card{background:#fff;border:3px solid var(--c,var(--ink));border-radius:18px;padding:clamp(14px,2vw,26px);box-shadow:5px 5px 0 var(--c,var(--ink))}
+.head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;margin-bottom:6px}
+.head h2{font-family:var(--display);font-size:clamp(28px,3.2vw,46px);margin:0;color:var(--c);line-height:1.05;font-weight:400}
+.but{margin:0 0 10px;font-style:italic;color:var(--soft)}
+.but b{font-style:normal;background:var(--hl);color:var(--ink);padding:0 6px;border-radius:4px}
+.dur{display:none;margin-left:auto;font-size:.7em;color:var(--soft)}
+body.prof .dur{display:block}
+.subnav{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px}
+.pill{border:2.5px solid var(--c);background:#fff;color:var(--c);border-radius:999px;padding:4px 16px;font-weight:800}
+.pill[aria-selected="true"]{background:var(--c);color:#fff}
+.sub{display:none}
+.sub.show{display:block}
+.cols{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start}
+.cols>*{min-width:0}
+.btn{border:3px solid var(--ink);background:var(--hl);border-radius:12px;padding:8px 18px;font-weight:800;box-shadow:3px 3px 0 var(--ink)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.alt{background:#fff}
+.msg{min-height:1.5em;margin:8px 0 0;font-weight:800}
+.msg.ok{color:var(--ok)}
+.msg.no{color:var(--red)}
+.rule{margin:0 0 10px;padding-left:1.2em}
+.rule li{margin:3px 0}
+.hl{background:var(--hl);padding:0 5px;border-radius:4px}
+.help{margin-top:10px;font-size:.85em;background:#fff8d6;border:2px dashed var(--ink);border-radius:10px;padding:6px 12px}
+.help[hidden]{display:none!important}
+.mini{border:2px solid var(--ink);background:#fff;border-radius:8px;padding:4px 12px;font-size:.8em;font-weight:800}
+.note{display:none;margin-top:14px;font-size:.82em;background:#eef1ff;border:2px solid var(--soft);border-radius:10px;padding:8px 14px}
+body.prof .note{display:block}
+.ask{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px;padding-top:12px;border-top:3px dashed var(--c)}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;gap:2px;line-height:1.05;margin:0 2px}
+.frac i{font-style:normal}
+.frac span.fb{width:100%;height:3px;background:currentColor;border-radius:2px}
+.big{font-family:var(--display);font-weight:400;font-size:clamp(28px,3.6vw,52px);line-height:1.15;margin:8px 0}
+.box{border:3px solid var(--c);border-radius:14px;background:#fffbe0;padding:8px 16px;margin:10px 0}
+.box b.t{font-family:var(--display);font-weight:400;font-size:1.3em;color:var(--c)}
+.clue{border:3px dashed var(--red);border-radius:14px;background:#fff6f5;padding:10px 16px;margin:14px 0 8px;font-size:1.1em}
+.clue b{color:var(--red)}
+.fig{width:100%;height:auto;max-width:900px;background:#fff;border-radius:12px;border:2px solid #e2e8fa;touch-action:manipulation}
+
+.todo{border:3px solid var(--ink);border-radius:14px;background:#fff;padding:6px 14px;margin:4px 0 14px}
+.ti{display:flex;gap:14px;align-items:baseline;margin:5px 0}
+.tg{flex:none;min-width:6.2em;text-align:center;font-size:.68em;letter-spacing:.6px;text-transform:uppercase;font-weight:800;border:2.5px solid var(--ink);border-radius:8px;padding:0 8px}
+.tg.c{background:var(--hl)}
+.tg.o{background:#cfe3ff}
+/* choix */
+.opts{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}
+.cb{border:3px solid var(--c);background:#fff;border-radius:12px;padding:6px 18px;min-width:80px;min-height:52px;font-size:1.05em;font-weight:800;box-shadow:3px 3px 0 var(--c)}
+.cb.ok{background:var(--okbg);border-color:var(--ok);box-shadow:3px 3px 0 var(--ok)}
+.cb.bad{background:var(--badbg);border-color:var(--red);box-shadow:none;opacity:.6;animation:sh .3s}
+.cb[disabled]{cursor:default}
+@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.q{margin:8px 0 2px;font-size:1.12em}
+.q b{background:var(--hl);padding:0 6px;border-radius:4px}
+.rows .row{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;border:3px solid var(--c);border-radius:14px;padding:6px 14px;margin:8px 0;background:#fff}
+.rows .row.done{background:#f1fbf6;border-color:var(--ok)}
+.rows .who{display:flex;align-items:center;gap:8px;min-width:150px}
+.rows .who svg{width:54px;height:54px}
+.rows .stmt{flex:1 1 280px}
+.rows .opts{margin:0}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.chip{border:3px solid var(--i1);background:#fff;border-radius:10px;padding:4px 14px;font-weight:800}
+.chip.sel{background:var(--hl)}
+.read{margin:10px 0;padding:8px 14px;border:3px solid var(--c);border-radius:12px;background:#f4f7ff;min-height:3.2em}
+
+/* suspects à désigner */
+.cards{display:flex;flex-wrap:wrap;gap:12px;margin:10px 0}
+.sc{width:170px;border:3px solid var(--c);background:#fff;border-radius:14px;padding:8px;text-align:center;box-shadow:3px 3px 0 var(--c)}
+.sc svg{width:76px;height:76px;display:block;margin:0 auto}
+.sc .inf{font-size:.85em;margin-top:2px;min-height:2.4em}
+.sc.out{background:#eee;opacity:.6;box-shadow:none;cursor:default}
+.sc.out svg{filter:grayscale(1)}
+.suspgrid{display:flex;flex-wrap:wrap;gap:10px}
+.suspgrid .sc{width:150px;box-shadow:none}
+
+/* figures interactives */
+.hit{cursor:pointer}
+.seg{stroke-width:7;stroke-linecap:round}
+.tk{cursor:pointer}
+.tk circle{fill:transparent}
+.tk:hover circle{fill:rgba(255,228,92,.7)}
+.tk.good circle{fill:var(--ok)}
+.wheel-box{border:3px solid var(--c);border-radius:14px;padding:6px 10px;background:#fff;text-align:center;min-width:150px}
+.bikes{display:flex;flex-wrap:wrap;gap:14px;margin:8px 0}
+.bikes svg{width:110px;height:110px}
+.num{width:3.4em;height:2em;border:3px solid var(--red);border-radius:8px;text-align:center;font:inherit;font-weight:800;color:var(--ink);background:#fff}
+.num.ok{border-color:var(--ok);background:var(--okbg)}
+.num.bad{animation:sh .3s;background:var(--badbg)}
+.tbl{border-collapse:separate;border-spacing:8px 6px}
+.tbl td,.tbl th{text-align:left;padding:2px 6px;vertical-align:middle}
+.tbl th{font-size:.75em;color:var(--soft)}
+.pv{border-collapse:separate;border-spacing:4px;margin:6px 0}
+.pv th{font-size:.62em;background:#e8ecff;border:2px solid var(--ink);border-radius:6px;padding:2px 8px}
+.pv td{border:3px solid var(--ink);border-radius:8px;background:#fff;font-family:var(--display);font-size:2em;text-align:center;min-width:2em;color:var(--i3)}
+.pv td.vir{border:none;background:none;min-width:.5em}
+
+/* dénouement */
+.reveal{text-align:center}
+.reveal svg{width:min(280px,60vw);height:auto}
+.know{list-style:none;padding:0;margin:10px auto;max-width:760px;text-align:left}
+.know li{border:3px solid var(--ink);border-radius:12px;background:#fff;margin:8px 0;padding:6px 14px;opacity:.35;transition:opacity .4s}
+.know li.on{opacity:1;background:#f1fbf6;border-color:var(--ok)}
+.fav{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px}
+.fav button{border:3px solid var(--ink);background:#fff;border-radius:14px;padding:10px 20px;min-width:150px;box-shadow:3px 3px 0 var(--ink)}
+.fav b{font-family:var(--display);font-weight:400;font-size:1.5em}
+.confetti{position:fixed;top:-20px;width:12px;height:18px;z-index:50;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.9}}
+@media (prefers-reduced-motion:reduce){.confetti{display:none}.cb.bad,.num.bad,.win .box{animation:none}.know li{transition:none}}
+</style>
+<body class="">
+<div class="wrap">
+  <header class="bar">
+    <h1 class="brand">Mission Agence Pi-6</h1>
+    <nav class="tabs" id="tabs" aria-label="Étapes"></nav>
+    <div class="strip" id="strip" aria-label="Les 5 suspects"></div>
+  </header>
+
+  <!-- BRIEFING -->
+  <section class="scr show" id="s0" style="--c:var(--ink)">
+    <div class="card">
+      <div class="head"><h2>Briefing : le diamant a disparu !</h2><span class="dur">0 → 5 min</span></div>
+      <p class="but"><b>Mission :</b> trouver qui a volé le diamant bleu du musée.</p>
+      <div class="big">Cette nuit, le diamant a disparu. Il y a 5 suspects.</div>
+      <div class="cols">
+        <div style="flex:1 1 380px">
+          <h3>Dans ton cahier</h3>
+          <ol class="rule">
+            <li>Écris en haut de la page : <span class="hl">AGENT</span> + ton prénom.</li>
+            <li>Écris le titre : <span class="hl">Mission Pi-6</span>.</li>
+          </ol>
+          <h3>Les règles de l'agence</h3>
+          <ol class="rule">
+            <li>Chaque dossier est une épreuve.</li>
+            <li>Si on réussit, des suspects sont <span class="hl">éliminés</span>.</li>
+            <li>On a le droit de se tromper. On a le droit de demander un <span class="hl">coup de pouce</span>.</li>
+          </ol>
+        </div>
+        <div style="flex:1 1 420px">
+          <h3>Les 5 suspects</h3>
+          <div class="suspgrid" id="suspgrid"></div>
+        </div>
+      </div>
+      <div class="ask"><button class="btn" id="go1">Ouvrir le dossier 1 →</button></div>
+      
+    </div>
+  </section>
+
+  <!-- DOSSIER 1 -->
+  <section class="scr" id="s1" style="--c:var(--i1)">
+    <div class="card">
+      <div class="head"><h2>Dossier 1 · Les lingots coupés</h2><span class="dur">5 → 17 min</span></div>
+      <p class="but"><b>But :</b> lire et écrire une fraction d'un lingot.</p>
+      <div class="subnav" role="tablist">
+        <button class="pill" role="tab" data-s="0" aria-selected="true">1 · Lire une fraction</button>
+        <button class="pill" role="tab" data-s="1" aria-selected="false">2 · Les suspects</button>
+        <button class="pill" role="tab" data-s="2" aria-selected="false">3 · À toi de colorier</button>
+      </div>
+
+      <div class="sub show" data-s="0">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Recopie l'encadré « À retenir ».</span></div><div class="ti"><span class="tg o">Oral</span><span>Lis la fraction affichée à voix haute : « … parts prises sur … parts égales ».</span></div></div>
+        <p class="q">Les voleurs coupent un lingot d'or en <b>parts égales</b>. Touche des parts pour les <b>prendre</b>.</p>
+        <div class="cols">
+          <div style="flex:1 1 520px">
+            <div class="chips" id="cps"></div>
+            <svg class="fig" id="ing" viewBox="0 0 560 200" role="img" aria-label="Un lingot coupé en parts égales"></svg>
+          </div>
+          <div style="flex:1 1 320px">
+            <div class="read" id="cpRead">Touche une part du lingot.</div>
+            <div class="box"><b class="t">À retenir</b><br>En <b>bas</b> : en combien de parts égales on coupe.<br>En <b>haut</b> : combien de parts on prend.<br>Exemple : <span class="frac"><i>3</i><span class="fb"></span><i>4</i></span> = 3 parts prises sur 4.</div>
+            
+          </div>
+        </div>
+        <button class="mini" data-help="h1a">Coup de pouce</button>
+        <div class="help" id="h1a" hidden>Compte toutes les parts du lingot : c'est le nombre du bas. Compte les parts colorées : c'est le nombre du haut.</div>
+        
+      </div>
+
+      <div class="sub" data-s="1">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Écris la fraction de lingot de chaque suspect : Alix, Bruno, Chloé, Dylan, Emma.</span></div><div class="ti"><span class="tg o">Oral</span><span>Qui n'a pas pris <span class="frac"><i>3</i><span class="fb"></span><i>4</i></span> ? Explique pourquoi.</span></div></div>
+        <p class="q">Choisis la bonne fraction pour chaque suspect.</p>
+        <div class="rows" id="rowsP"></div>
+        <div id="clue1" hidden>
+          <div class="clue"><b>Indice du témoin :</b> « Le voleur a pris <span class="frac"><i>3</i><span class="fb"></span><i>4</i></span> d'un lingot. »</div>
+          <p class="q"><b>À faire :</b> touche les suspects qui n'ont <b>pas</b> pris <span class="frac"><i>3</i><span class="fb"></span><i>4</i></span>.</p>
+          <div class="cards" id="el1"></div>
+        </div>
+        <div class="msg" id="m1"></div>
+        <div class="box" id="ret1" hidden><b class="t">Je retiens</b><br>Une fraction se lit avec des parts <b>égales</b>.<br>Le nombre du bas : toutes les parts. Le nombre du haut : les parts prises.</div>
+        
+      </div>
+
+      <div class="sub" data-s="2">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Dessine un rectangle coupé en 5 parts égales. Colorie <span class="frac"><i>2</i><span class="fb"></span><i>5</i></span>.</span></div><div class="ti"><span class="tg o">Oral</span><span>Combien de parts en tout ? Combien de parts coloriées ?</span></div></div>
+        <p class="q"><b>À toi :</b> ce lingot est coupé en 5 parts égales. Colorie <b><span class="frac"><i>2</i><span class="fb"></span><i>5</i></span></b> du lingot.</p>
+        <svg class="fig" id="ing2" viewBox="0 0 560 160" role="img" aria-label="Un lingot coupé en 5 parts égales à colorier"></svg>
+        <div class="ask" style="border:0;margin-top:6px;padding:0"><button class="btn" id="chk1">Vérifier</button></div>
+        <div class="msg" id="mv1"></div>
+        <button class="mini" data-help="h1c">Coup de pouce</button>
+        <div class="help" id="h1c" hidden>Le 5 en bas dit qu'il y a 5 parts. Le 2 en haut dit qu'il faut en colorier 2.</div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- DOSSIER 2 -->
+  <section class="scr" id="s2" style="--c:var(--i2)">
+    <div class="card">
+      <div class="head"><h2>Dossier 2 · Le plan du musée</h2><span class="dur">17 → 29 min</span></div>
+      <p class="but"><b>But :</b> savoir où est un point par rapport à un cercle.</p>
+      <div class="subnav" role="tablist">
+        <button class="pill" role="tab" data-s="0" aria-selected="true">1 · Les mots</button>
+        <button class="pill" role="tab" data-s="1" aria-selected="false">2 · Mon cercle</button>
+        <button class="pill" role="tab" data-s="2" aria-selected="false">3 · Le plan</button>
+      </div>
+
+      <div class="sub show" data-s="0">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Écris : <b>diamètre = 2 × rayon</b>.</span></div><div class="ti"><span class="tg o">Oral</span><span>Quel segment est un rayon ? Quel segment est un diamètre ?</span></div><div class="ti"><span class="tg o">Oral</span><span>Le rayon mesure 3 cm : combien mesure le diamètre ?</span></div></div>
+        <div class="cols">
+          <div style="flex:1 1 480px"><svg class="fig" id="voc" viewBox="0 0 600 420" role="img" aria-label="Un cercle de centre O avec trois segments"></svg></div>
+          <div style="flex:1 1 320px">
+            <p class="q" id="vq"></p>
+            <div class="opts" id="vc"></div>
+            <div class="msg" id="mvoc"></div>
+            <button class="mini" data-help="h2a">Coup de pouce</button>
+            <div class="help" id="h2a" hidden>Un rayon part du <b>centre O</b> et va jusqu'au cercle. Un diamètre passe par O et touche le cercle des deux côtés.</div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="sub" data-s="1">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Trace le cercle de centre O et de rayon 3 cm.</span></div><div class="ti"><span class="tg o">Oral</span><span>Combien mesure son diamètre ?</span></div></div>
+        <p class="q">Le coffre-fort est au point <b>O</b>.</p>
+        <ol class="rule">
+          <li>Place un point <b>O</b> au milieu de ta page.</li>
+          <li>Écarte le compas de <b>3 cm</b> sur la règle.</li>
+          <li>Pique la pointe en <b>O</b> et fais tourner.</li>
+        </ol>
+        <p class="q">Quand tu as fini, lève la main : <b>ton cercle est prêt !</b></p>
+        
+      </div>
+
+      <div class="sub" data-s="2">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Pour Bruno, Chloé et Dylan, écris : dans le disque, sur le cercle ou dehors.</span></div><div class="ti"><span class="tg o">Oral</span><span>Qui n'est pas sur le cercle ? Pourquoi ?</span></div></div>
+        <p class="q">Le gardien a mesuré la distance de chaque suspect au coffre <b>O</b>.</p>
+        <div class="cols">
+          <div style="flex:1 1 480px"><svg class="fig" id="plan" viewBox="0 0 640 440" role="img" aria-label="Plan : le coffre O, un cercle de rayon 3 cm et trois suspects"></svg></div>
+          <div style="flex:1 1 360px"><div class="rows" id="rowsD"></div></div>
+        </div>
+        <div id="clue2" hidden>
+          <div class="clue"><b>Indice du gardien :</b> « Le voleur était <b>exactement</b> à 3 cm du coffre. »</div>
+          <p class="q"><b>À faire :</b> touche le suspect qui n'était <b>pas sur le cercle</b>.</p>
+          <div class="cards" id="el2"></div>
+        </div>
+        <div class="msg" id="m2"></div>
+        <div class="box" id="ret2" hidden><b class="t">Je retiens</b><br>Distance à O <b>plus petite</b> que le rayon : dans le disque.<br>Distance <b>égale</b> au rayon : sur le cercle.<br>Distance <b>plus grande</b> : dehors.</div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- DOSSIER 3 -->
+  <section class="scr" id="s3" style="--c:var(--i3)">
+    <div class="card">
+      <div class="head"><h2>Dossier 3 · Les empreintes</h2><span class="dur">29 → 40 min</span></div>
+      <p class="but"><b>But :</b> bien lire un nombre décimal et le placer sur une droite.</p>
+      <div class="subnav" role="tablist">
+        <button class="pill" role="tab" data-s="0" aria-selected="true">1 · Les chiffres</button>
+        <button class="pill" role="tab" data-s="1" aria-selected="false">2 · La taille du voleur</button>
+        <button class="pill" role="tab" data-s="2" aria-selected="false">3 · Qui est-ce ?</button>
+      </div>
+
+      <div class="sub show" data-s="0">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Écris en chiffres : 2 unités, 3 dixièmes et 5 centièmes.</span></div><div class="ti"><span class="tg o">Oral</span><span>Dans 3 405, quel est le chiffre des centaines ?</span></div></div>
+        <p class="q">Le nombre <b>3 405</b> :</p>
+        <p class="q">Quel est le chiffre des <b>centaines</b> ?</p>
+        <div class="opts" id="d1a"></div>
+        <div class="msg" id="md1a"></div>
+        <div id="d1b" hidden>
+          <p class="q">Maintenant, un nombre à virgule. <b>2 unités, 3 dixièmes, 5 centièmes.</b></p>
+          <table class="pv" aria-label="tableau de numération"><tr><th>unités</th><th></th><th>dixièmes</th><th>centièmes</th></tr><tr><td>2</td><td class="vir">,</td><td>3</td><td>5</td></tr></table>
+          <p class="q">Comment s'écrit ce nombre ?</p>
+          <div class="opts" id="d1c"></div>
+          <div class="msg" id="md1c"></div>
+        </div>
+        <button class="mini" data-help="h3a">Coup de pouce</button>
+        <div class="help" id="h3a" hidden>On lit le tableau de gauche à droite : d'abord les unités, puis la virgule, puis les dixièmes, puis les centièmes.</div>
+        
+      </div>
+
+      <div class="sub" data-s="1">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Écris la taille du voleur : 1 mètre, 6 dixièmes et 2 centièmes.</span></div><div class="ti"><span class="tg o">Oral</span><span>1,62 et 1,26 : est-ce le même nombre ?</span></div><div class="ti"><span class="tg o">Oral</span><span>Où les place-t-on sur la droite ?</span></div></div>
+        <p class="q"><b>Indice du témoin :</b> « Le voleur mesure <b>1 mètre, 6 dixièmes et 2 centièmes</b>. »</p>
+        <p class="q">Combien mesure-t-il ?</p>
+        <div class="opts" id="d2a"></div>
+        <div class="msg" id="md2a"></div>
+        <div id="d2b" hidden>
+          <p class="q"><b>Place-le sur la droite.</b> D'abord, touche <b>1,6</b>.</p>
+          <svg class="fig" id="line" viewBox="0 0 920 280" role="img" aria-label="Droite graduée de 1 à 2 avec une loupe"></svg>
+          <div class="msg" id="md2b"></div>
+        </div>
+        <div id="d2c" hidden>
+          <p class="q">Et le nombre <b>1,26</b> : il est entre…</p>
+          <div class="opts" id="d2d"></div>
+          <div class="msg" id="md2d"></div>
+        </div>
+        <button class="mini" data-help="h3b">Coup de pouce</button>
+        <div class="help" id="h3b" hidden>Entre 1 et 2, il y a 10 graduations : ce sont les <b>dixièmes</b>. Avec la loupe, on partage encore chaque dixième en 10 : ce sont les <b>centièmes</b>.</div>
+        
+      </div>
+
+      <div class="sub" data-s="2">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Écris 1,26 et 1,62. Entoure le nombre égal à la taille du voleur.</span></div><div class="ti"><span class="tg o">Oral</span><span>Qui mesure 1,62 m ?</span></div></div>
+        <p class="q">Les empreintes de pas donnent la taille de chaque suspect restant. Le voleur mesure <b>1,62 m</b>.</p>
+        <div class="clue"><b>À faire :</b> touche le suspect qui ne mesure <b>pas</b> 1,62 m.</div>
+        <div class="cards" id="el3"></div>
+        <div class="msg" id="m3"></div>
+        <div class="box" id="ret3" hidden><b class="t">Je retiens</b><br>Dans un nombre décimal, <b>la place d'un chiffre compte</b> : 1,62 et 1,26 ne sont pas le même nombre.</div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- DOSSIER 4 -->
+  <section class="scr" id="s4" style="--c:var(--i4)">
+    <div class="card">
+      <div class="head"><h2>Dossier 4 · La roue du fuyard</h2><span class="dur">40 → 46 min · sautable</span></div>
+      <p class="but"><b>But :</b> calculer à peu près le tour d'une roue.</p>
+      <div class="subnav" role="tablist">
+        <button class="pill" role="tab" data-s="0" aria-selected="true">1 · Les roues</button>
+        <button class="pill" role="tab" data-s="1" aria-selected="false">2 · La trace</button>
+      </div>
+
+      <div class="sub show" data-s="0">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Pour chaque vélo, calcule le diamètre, puis le tour (environ 3 × le diamètre). Écris 3 lignes.</span></div><div class="ti"><span class="tg o">Oral</span><span>Quel vélo a la plus grande roue ?</span></div></div>
+        <div class="box"><b class="t">Pour aller vite</b><br>Diamètre = 2 × rayon.<br>Un tour de roue mesure <b>environ 3 × le diamètre</b>.</div>
+        <p class="q">On vérifie ensemble les calculs.</p>
+        <div class="bikes" id="bikes"></div>
+        <table class="tbl" id="bt"></table>
+        <div class="msg" id="m4a"></div>
+        <button class="mini" data-help="h4a">Coup de pouce</button>
+        <div class="help" id="h4a" hidden>Exemple : rayon 10 cm → diamètre 2 × 10 = 20 cm → un tour ≈ 3 × 20 = 60 cm.</div>
+        
+      </div>
+
+      <div class="sub" data-s="1">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg o">Oral</span><span>Quelle roue fait un tour d'environ 180 cm ? Comment le sais-tu ?</span></div></div>
+        <div class="clue"><b>Preuve :</b> la trace de boue laissée par <b>un tour de roue</b> mesure environ <b>180 cm</b>.</div>
+        <p class="q"><b>À faire :</b> touche le vélo qui a laissé cette trace.</p>
+        <div class="cards" id="el4"></div>
+        <div class="msg" id="m4"></div>
+        <div class="ask" id="go5box" hidden><button class="btn" id="go5">Aller au dénouement →</button></div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- DÉNOUEMENT -->
+  <section class="scr" id="s5" style="--c:var(--ink)">
+    <div class="card reveal">
+      <div class="head"><h2>Dénouement</h2><span class="dur">46 → 50 min</span></div>
+      <div id="r0">
+        <p class="big">Qui a volé le diamant ?</p>
+        <div class="msg" id="rmsg"></div>
+        <button class="btn" id="rbtn">Révéler le coupable</button>
+      </div>
+      <div id="r1" hidden>
+        <div id="rav"></div>
+        <p class="big" id="rname"></p>
+        <h3>Ce que je sais faire maintenant</h3>
+        <ul class="know" id="know">
+          <li>Je sais lire une fraction : <b>3/4</b>, c'est 3 parts prises sur 4 parts égales.</li>
+          <li>Je sais dire si un point est <b>dans le disque, sur le cercle ou dehors</b>.</li>
+          <li>Je sais lire <b>1,62</b> et le placer sur une droite graduée.</li>
+          <li>Je sais estimer le <b>tour d'une roue</b> avec le diamètre.</li>
+        </ul>
+        <h3>Mon dossier préféré était…</h3>
+        <div class="fav" id="fav"></div>
+        <div class="msg" id="mfav"></div>
+        
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="win" id="win" hidden><div class="box"><h3 id="winT"></h3><p id="winS" style="margin:0 0 6px"></p><div class="out-row" id="winRow"></div><div style="margin-top:8px"><button class="btn" id="winOk">Continuer</button></div></div></div>
+
+<script>
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var NS='http://www.w3.org/2000/svg';
+  function el(tag,attrs,parent){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
+  function say(id,txt,cls){var m=$('#'+id);m.textContent=txt;m.className='msg'+(cls?' '+cls:'')}
+  function fr(a,b){return '<span class="frac"><i>'+a+'</i><span class="fb"></span><i>'+b+'</i></span>'}
+  var BRAVO=['Bravo !','Exact !','Bien vu !','Oui, c\'est ça !'],bi=0;
+  function bravo(){bi=(bi+1)%BRAVO.length;return BRAVO[bi]}
+
+  /* ---------- les suspects ---------- */
+  var SUS=[
+    {id:'A',nom:'Alix',bg:'#cfe3ff',skin:'#f1c9a5',hair:'#6b4a2b'},
+    {id:'B',nom:'Bruno',bg:'#d9f3e6',skin:'#e0a97d',hair:'#2d2420'},
+    {id:'C',nom:'Chloé',bg:'#ffe0cf',skin:'#f6d3b3',hair:'#b4491f'},
+    {id:'D',nom:'Dylan',bg:'#efe0ff',skin:'#d99b6c',hair:'#2d2420'},
+    {id:'E',nom:'Emma',bg:'#fff3b8',skin:'#f3cfae',hair:'#d9a441'}
+  ];
+  function S(id){return SUS.filter(function(s){return s.id===id})[0]}
+  function avatar(id){
+    var s=S(id),h=s.hair,o='<svg viewBox="0 0 100 100" role="img" aria-label="'+s.nom+'"><circle cx="50" cy="50" r="48" fill="'+s.bg+'" stroke="#1f2a5c" stroke-width="3"/>';
+    if(id==='C')o+='<path d="M17 58 Q12 12 50 12 Q88 12 83 58 L83 92 L68 92 L68 52 L32 52 L32 92 L17 92Z" fill="'+h+'"/>';
+    if(id==='E')o+='<circle cx="50" cy="14" r="11" fill="'+h+'"/>';
+    o+='<circle cx="50" cy="54" r="29" fill="'+s.skin+'" stroke="#1f2a5c" stroke-width="2.5"/>';
+    if(id==='A')o+='<path d="M21 50 Q21 20 50 20 Q79 20 79 50 Q68 33 50 33 Q32 33 21 50Z" fill="'+h+'"/><circle cx="40" cy="53" r="9" fill="none" stroke="#1f2a5c" stroke-width="2.5"/><circle cx="60" cy="53" r="9" fill="none" stroke="#1f2a5c" stroke-width="2.5"/>';
+    if(id==='B')o+='<path d="M22 46 Q24 22 50 22 Q76 22 78 46 Q68 34 50 34 Q32 34 22 46Z" fill="'+h+'"/><path d="M24 62 Q50 100 76 62 Q70 82 50 85 Q30 82 24 62Z" fill="'+h+'"/>';
+    if(id==='C')o+='<path d="M22 46 Q30 28 50 28 Q70 28 78 46 Q64 38 50 38 Q36 38 22 46Z" fill="'+h+'"/>';
+    if(id==='D')o+='<path d="M20 46 Q50 4 80 46Z" fill="#2b59c3"/><path d="M50 46 L94 48 Q94 55 50 52Z" fill="#2b59c3"/>';
+    if(id==='E')o+='<path d="M22 50 Q22 22 50 22 Q78 22 78 50 Q66 34 50 34 Q34 34 22 50Z" fill="'+h+'"/>';
+    if(id!=='A')o+='<circle cx="40" cy="55" r="3.4" fill="#1f2a5c"/><circle cx="60" cy="55" r="3.4" fill="#1f2a5c"/>';
+    else o+='<circle cx="40" cy="53" r="3" fill="#1f2a5c"/><circle cx="60" cy="53" r="3" fill="#1f2a5c"/>';
+    o+='<path d="M40 69 Q50 77 60 69" fill="none" stroke="#1f2a5c" stroke-width="3" stroke-linecap="round"/></svg>';
+    return o;
+  }
+  var XSVG='<svg class="x" viewBox="0 0 100 100" aria-hidden="true"><g stroke="#d9383a" stroke-width="10" stroke-linecap="round"><line x1="18" y1="18" x2="82" y2="82"/><line x1="82" y1="18" x2="18" y2="82"/></g></svg>';
+
+  var out={A:false,B:false,C:false,D:false,E:false};
+  function remaining(){return SUS.filter(function(s){return !out[s.id]})}
+  function strip(){
+    $('#strip').innerHTML=SUS.map(function(s){return '<div class="sp'+(out[s.id]?' out':'')+'">'+avatar(s.id)+XSVG+'<span>'+s.nom+'</span></div>'}).join('');
+    $('#suspgrid').innerHTML=SUS.map(function(s){return '<div class="sc">'+avatar(s.id)+'<b>'+s.nom+'</b></div>'}).join('');
+  }
+  var winCb=null;
+  function openWin(title,sub,ids,cb){
+    $('#winT').textContent=title;$('#winS').textContent=sub;
+    $('#winRow').innerHTML=ids.map(function(id){return '<div>'+avatar(id)+XSVG+'<br>'+S(id).nom+'</div>'}).join('');
+    $('#win').hidden=false;winCb=cb||null;$('#winOk').focus();
+  }
+  $('#winOk').addEventListener('click',function(){$('#win').hidden=true;var c=winCb;winCb=null;if(c)c()});
+
+  /* ---------- navigation ---------- */
+  var names=['Briefing','Dossier 1','Dossier 2','Dossier 3','Dossier 4','Dénouement'];
+  var cur=0,done=[false,false,false,false,false,false];
+  var tabs=$('#tabs');
+  names.forEach(function(n,i){var b=document.createElement('button');b.className='tab';b.innerHTML=n+' <span class="tick">✓</span>';b.addEventListener('click',function(){go(i)});tabs.appendChild(b)});
+  function go(i){cur=i;$$('.scr').forEach(function(s,k){s.classList.toggle('show',k===i)});$$('.tab').forEach(function(t,k){t.setAttribute('aria-current',k===i?'true':'false')});window.scrollTo(0,0)}
+  function markDone(i){done[i]=true;$$('.tab')[i].classList.add('done')}
+  document.addEventListener('keydown',function(e){if(e.target.tagName==='INPUT')return;if(e.key==='ArrowRight'&&cur<5)go(cur+1);if(e.key==='ArrowLeft'&&cur>0)go(cur-1)});
+  $$('.card').forEach(function(card){
+    var nav=$('.subnav',card);if(!nav)return;
+    $$('.pill',nav).forEach(function(p){p.addEventListener('click',function(){showSub(card,p.getAttribute('data-s'))})});
+  });
+  function showSub(card,s){
+    var nav=$('.subnav',card);
+    $$('.pill',nav).forEach(function(q){q.setAttribute('aria-selected',q.getAttribute('data-s')===String(s)?'true':'false')});
+    $$('.sub',card).forEach(function(x){x.classList.toggle('show',x.getAttribute('data-s')===String(s))});
+  }
+  $$('[data-help]').forEach(function(b){b.addEventListener('click',function(){var h=$('#'+b.getAttribute('data-help'));h.hidden=!h.hidden})});
+  $('#go1').addEventListener('click',function(){go(1)});
+  [1,2,3].forEach(function(n){var d=document.createElement('div');d.className='ask';d.innerHTML='<button class="btn alt">Dossier suivant →</button>';$('#s'+n+' .card').appendChild(d);$('button',d).addEventListener('click',function(){go(n+1)})});
+
+  /* ---------- choix à réponse unique ---------- */
+  function choice(boxId,opts,ans,cfg){
+    var box=$('#'+boxId),errs=0;box.innerHTML='';
+    opts.forEach(function(o,i){
+      var b=document.createElement('button');b.className='cb';b.style.setProperty('--c',cfg.c||'var(--ink)');b.innerHTML=o;
+      b.addEventListener('click',function(){
+        if(i===ans){
+          b.classList.add('ok');$$('.cb',box).forEach(function(x){x.disabled=true});
+          if(cfg.msg)say(cfg.msg,bravo(),'ok');
+          if(cfg.row)cfg.row.classList.add('done');
+          if(cfg.ok)cfg.ok();
+        }else{
+          b.classList.add('bad');b.disabled=true;errs++;
+          if(cfg.msg)say(cfg.msg,errs>1?'Pas encore. Regarde le coup de pouce, puis réessaie.':'Presque ! Regarde bien et réessaie.','no');
+          if(errs>=2&&cfg.help){var h=$('#'+cfg.help);if(h)h.hidden=false}
+        }
+      });
+      box.appendChild(b);
+    });
+  }
+  /* ---------- suspects à désigner ---------- */
+  function elim(boxId,ids,toOut,info,msgId,onAll){
+    var box=$('#'+boxId),left=toOut.length;box.innerHTML='';
+    ids.forEach(function(id){
+      var b=document.createElement('button');b.className='sc';b.innerHTML=avatar(id)+'<b>'+S(id).nom+'</b><div class="inf">'+info(id)+'</div>';
+      b.addEventListener('click',function(){
+        if(out[id])return;
+        if(toOut.indexOf(id)>-1){
+          out[id]=true;b.classList.add('out');strip();left--;
+          if(left===0){say(msgId,'','');onAll()}
+          else say(msgId,S(id).nom+' est hors de cause ! Il en reste un à trouver.','ok');
+        }else{
+          say(msgId,S(id).nom+' reste suspect. Relis l\'indice et choisis un autre suspect.','no');
+        }
+      });
+      box.appendChild(b);
+    });
+  }
+  function eliminated(dossier,ids,msg,next){
+    markDone(dossier);
+    var n=remaining().length;
+    openWin(ids.length>1?'Suspects éliminés !':'Suspect éliminé !',msg+' Il reste '+n+' suspect'+(n>1?'s':'')+'.',ids,next);
+  }
+
+  /* ====================== DOSSIER 1 ====================== */
+  function lingot(svgId,n,col,onChange,y,h){
+    var sv=$('#'+svgId);sv.innerHTML='';var w=480/n;
+    for(var k=0;k<n;k++){(function(k){
+      var r=el('rect',{x:40+k*w,y:y,width:w,height:h,rx:8,fill:col[k]?'#2b59c3':'#fff3c4',stroke:'#1f2a5c','stroke-width':4,'class':'hit'},sv);
+      r.addEventListener('click',function(){col[k]=!col[k];lingot(svgId,n,col,onChange,y,h);onChange()});
+    })(k)}
+  }
+  var n1=4,col1=[];
+  function read1(){
+    var k=col1.filter(Boolean).length;
+    $('#cpRead').innerHTML=k===0?'Touche une part du lingot. Il est coupé en <b>'+n1+'</b> parts égales.':'Parts prises : <b>'+k+'</b> sur <b>'+n1+'</b> parts égales.<br>Fraction : '+fr(k,n1)+'.';
+  }
+  function draw1(){lingot('ing',n1,col1,read1,40,120)}
+  var chips=$('#cps');
+  [3,4,5,6].forEach(function(n){
+    var b=document.createElement('button');b.className='chip'+(n===4?' sel':'');b.textContent='Coupé en '+n;
+    b.addEventListener('click',function(){n1=n;col1=[];$$('.chip',chips).forEach(function(x){x.classList.toggle('sel',x===b)});draw1();read1()});
+    chips.appendChild(b);
+  });
+  draw1();read1();
+
+  function bar(n,cols){
+    var w=144/n,o='<svg width="156" height="34" viewBox="0 0 156 34" style="vertical-align:middle">';
+    for(var k=0;k<n;k++)o+='<rect x="'+(6+k*w).toFixed(1)+'" y="3" width="'+w.toFixed(1)+'" height="28" fill="'+(cols.indexOf(k)>-1?'#2b59c3':'#fff3c4')+'" stroke="#1f2a5c" stroke-width="3"/>';
+    return o+'</svg>';
+  }
+  function disc(n,cols){
+    var o='<svg width="64" height="64" viewBox="0 0 64 64" style="vertical-align:middle"><circle cx="32" cy="32" r="29" fill="#fff3c4" stroke="#1f2a5c" stroke-width="3"/>';
+    cols.forEach(function(k){var a0=k*Math.PI/2-Math.PI/2,a1=(k+1)*Math.PI/2-Math.PI/2;
+      o+='<path d="M32 32 L'+(32+29*Math.cos(a0)).toFixed(1)+' '+(32+29*Math.sin(a0)).toFixed(1)+' A29 29 0 0 1 '+(32+29*Math.cos(a1)).toFixed(1)+' '+(32+29*Math.sin(a1)).toFixed(1)+'Z" fill="#2b59c3" stroke="#1f2a5c" stroke-width="3"/>'});
+    o+='<line x1="32" y1="3" x2="32" y2="61" stroke="#1f2a5c" stroke-width="3"/><line x1="3" y1="32" x2="61" y2="32" stroke="#1f2a5c" stroke-width="3"/>';
+    return o+'</svg>';
+  }
+  var P1=[
+    {id:'A',txt:'Sa part sur un lingot : '+bar(4,[0]),opts:[fr(1,3),fr(1,4),fr(4,1)],ans:1},
+    {id:'B',txt:'« J\'ai pris <b>3 parts</b> d\'un lingot coupé en <b>4 parts égales</b>. »',opts:[fr(4,3),fr(3,7),fr(3,4)],ans:2},
+    {id:'C',txt:'Sa part d\'un disque d\'or : '+disc(4,[0,1,2]),opts:[fr(3,1),fr(1,4),fr(3,4)],ans:2},
+    {id:'D',txt:'Sa part sur un lingot : '+bar(4,[0,2,3]),opts:[fr(3,4),fr(1,3),fr(3,1)],ans:0},
+    {id:'E',txt:'Sa part sur un lingot : '+bar(5,[0,1,4]),opts:[fr(3,2),fr(3,5),fr(3,4)],ans:1}
+  ];
+  var rowsP=$('#rowsP'),got1=0;
+  P1.forEach(function(p,i){
+    var row=document.createElement('div');row.className='row';row.style.setProperty('--c','var(--i1)');
+    row.innerHTML='<div class="who">'+avatar(p.id)+'<b>'+S(p.id).nom+'</b></div><div class="stmt">'+p.txt+'</div><div class="opts" id="p1o'+i+'"></div>';
+    rowsP.appendChild(row);
+    choice('p1o'+i,p.opts,p.ans,{c:'var(--i1)',row:row,help:'h1a',ok:function(){
+      got1++;
+      if(got1===P1.length){
+        $('#clue1').hidden=false;
+        elim('el1',['A','B','C','D','E'],['A','E'],function(id){var q=P1.filter(function(x){return x.id===id})[0];return q.opts[q.ans]},'m1',function(){
+          $('#ret1').hidden=false;
+          eliminated(1,['A','E'],'Alix et Emma n\'ont pas pris 3/4 d\'un lingot.',function(){showSub($('#s1 .card'),2)});
+        });
+      }
+    }});
+  });
+  var col2=[];
+  function draw2(){lingot('ing2',5,col2,function(){say('mv1','','')},30,100)}
+  draw2();
+  $('#chk1').addEventListener('click',function(){
+    var k=col2.filter(Boolean).length;
+    if(k===2){say('mv1',bravo()+' 2 parts coloriées sur 5 : c\'est bien 2/5.','ok')}
+    else if(k===0)say('mv1','Touche des parts du lingot pour les colorier.','no');
+    else{say('mv1','Presque ! Tu as colorié '+k+' parts. Il en faut 2 (le nombre du haut).','no');$('#h1c').hidden=false}
+  });
+
+  /* ====================== DOSSIER 2 ====================== */
+  (function(){
+    var s=$('#voc'),O=[300,210],R=150;
+    el('circle',{cx:O[0],cy:O[1],r:R,fill:'#f4fbf7',stroke:'#1f2a5c','stroke-width':4},s);
+    var M=[430,135],N=[170,135],P=[430,285],Rr=[250,357],Ss=[445,250];
+    var segs={ray:[O,M,'#2b59c3'],dia:[N,P,'#1f8a5b'],cor:[Rr,Ss,'#c8571d']};
+    Object.keys(segs).forEach(function(k){
+      var a=segs[k];el('line',{x1:a[0][0],y1:a[0][1],x2:a[1][0],y2:a[1][1],stroke:a[2],'class':'seg'},s);
+      var h=el('line',{x1:a[0][0],y1:a[0][1],x2:a[1][0],y2:a[1][1],stroke:'transparent','stroke-width':34,'class':'hit','data-k':k},s);
+      h.addEventListener('click',function(){pickSeg(k)});
+    });
+    el('circle',{cx:O[0],cy:O[1],r:6,fill:'#1f2a5c','pointer-events':'none'},s);
+    function lab(t,x,y){el('text',{x:x,y:y,'font-size':26,'font-weight':800,fill:'#1f2a5c','pointer-events':'none','font-family':'Nunito,sans-serif'},s).textContent=t}
+    lab('O',O[0]-10,O[1]+30);lab('M',M[0]+10,M[1]-6);lab('N',N[0]-30,N[1]-6);lab('P',P[0]+10,P[1]+24);lab('R',Rr[0]-26,Rr[1]+22);lab('S',Ss[0]+12,Ss[1]+8);
+    var q=0,Q=[
+      'Touche un <b>rayon</b> du cercle.',
+      'Touche un <b>diamètre</b> du cercle.',
+      'Le rayon mesure 3 cm. Combien mesure le <b>diamètre</b> ?'
+    ];
+    function show(){
+      $('#vq').innerHTML=Q[q];
+      if(q===2){
+        choice('vc',['3 cm','6 cm','9 cm'],1,{c:'var(--i2)',msg:'mvoc',help:'h2a',ok:function(){
+          $('#h2a').hidden=false;$('#h2a').innerHTML='Bravo : <b>diamètre = 2 × rayon</b>, donc 2 × 3 = 6 cm.';
+          $('#vq').innerHTML='Tu connais les mots du cercle. Passe à <b>« Mon cercle »</b>.';
+        }});
+      }else $('#vc').innerHTML='';
+    }
+    function pickSeg(k){
+      if(q>1)return;
+      var want=q===0?'ray':'dia';
+      if(k===want){say('mvoc',bravo()+(q===0?' [OM] est un rayon : il part du centre O.':' [NP] est un diamètre : il passe par O.'),'ok');q++;show()}
+      else if(k==='cor')say('mvoc','Celui-là ne passe pas par O : c\'est une corde. Cherche encore.','no');
+      else say('mvoc',q===0?'Celui-là passe par O des deux côtés : c\'est un diamètre. Un rayon part de O.':'Celui-là s\'arrête en O : c\'est un rayon. Un diamètre passe par O.','no');
+    }
+    show();
+  })();
+
+  (function(){
+    var s=$('#plan'),O=[320,220],U=50;
+    el('circle',{cx:O[0],cy:O[1],r:3*U,fill:'#eaf7ef',stroke:'#1f8a5b','stroke-width':4},s);
+    el('rect',{x:20,y:395,width:U,height:8,fill:'#1f2a5c'},s);
+    el('text',{x:80,y:404,'font-size':20,'font-weight':800,fill:'#1f2a5c','font-family':'Nunito,sans-serif'},s).textContent='= 1 cm';
+    var pts=[['B',3,-40],['C',3,200],['D',2,120]];
+    pts.forEach(function(p){
+      var a=p[2]*Math.PI/180,x=O[0]+p[1]*U*Math.cos(a),y=O[1]-p[1]*U*Math.sin(a);
+      el('line',{x1:O[0],y1:O[1],x2:x,y2:y,stroke:'#5a6494','stroke-width':2.5,'stroke-dasharray':'7 6'},s);
+      el('circle',{cx:x,cy:y,r:10,fill:S(p[0]).bg,stroke:'#1f2a5c','stroke-width':3},s);
+      var t=el('text',{stroke:'#fff','stroke-width':6,'paint-order':'stroke',x:x+(Math.cos(a)>=0?16:-16),y:y+(Math.sin(a)>0?-12:26),'text-anchor':Math.cos(a)>=0?'start':'end','font-size':22,'font-weight':800,fill:'#1f2a5c','font-family':'Nunito,sans-serif'},s);t.textContent=S(p[0]).nom+' : '+p[1]+' cm';
+    });
+    el('circle',{cx:O[0],cy:O[1],r:7,fill:'#d9383a'},s);
+    el('text',{stroke:'#fff','stroke-width':6,'paint-order':'stroke',x:O[0]-8,y:O[1]+34,'font-size':26,'font-weight':800,fill:'#d9383a','font-family':'Nunito,sans-serif'},s).textContent='O';
+  })();
+  var P2=[['B','3 cm',1],['C','3 cm',1],['D','2 cm',0]],got2=0,rowsD=$('#rowsD');
+  P2.forEach(function(p,i){
+    var row=document.createElement('div');row.className='row';row.style.setProperty('--c','var(--i2)');
+    row.innerHTML='<div class="who">'+avatar(p[0])+'<b>'+S(p[0]).nom+'</b></div><div class="stmt">À <b>'+p[1]+'</b> de O (le rayon est 3 cm)</div><div class="opts" id="p2o'+i+'"></div>';
+    rowsD.appendChild(row);
+    choice('p2o'+i,['dans le disque','sur le cercle','dehors'],p[2],{c:'var(--i2)',row:row,ok:function(){
+      got2++;
+      if(got2===P2.length){
+        $('#clue2').hidden=false;
+        elim('el2',['B','C','D'],['D'],function(id){return id==='D'?'à 2 cm':'à 3 cm'},'m2',function(){
+          $('#ret2').hidden=false;
+          eliminated(2,['D'],'Dylan était dans le disque, pas sur le cercle.',function(){go(3)});
+        });
+      }
+    }});
+  });
+
+  /* ====================== DOSSIER 3 ====================== */
+  choice('d1a',['3','4','5'],1,{c:'var(--i3)',msg:'md1a',ok:function(){
+    $('#d1b').hidden=false;
+    choice('d1c',['2,35','2,053','3,25'],0,{c:'var(--i3)',msg:'md1c',help:'h3a'});
+  }});
+  choice('d2a',['1,26','1,62','1,602'],1,{c:'var(--i3)',msg:'md2a',help:'h3b',ok:function(){$('#d2b').hidden=false;drawLine()}});
+  function drawLine(){
+    var s=$('#line'),X0=60,W=800,st=0,keep=[];s.innerHTML='';
+    function T(x,y,t,sz,anchor,fill){var e=el('text',{x:x,y:y,'font-size':sz||24,'font-weight':800,'text-anchor':anchor||'middle',fill:fill||'#1f2a5c','font-family':'Nunito,sans-serif'},s);e.textContent=t;return e}
+    el('line',{x1:X0,y1:70,x2:X0+W,y2:70,stroke:'#1f2a5c','stroke-width':5},s);
+    var i;
+    for(i=0;i<=10;i++){
+      var x=X0+i*80;el('line',{x1:x,y1:56,x2:x,y2:84,stroke:'#1f2a5c','stroke-width':i%10===0?5:3},s);
+      T(x,38,i===0?'1':(i===10?'2':'1,'+i),24);
+      (function(i,x){var g=el('g',{'class':'tk'},s);el('circle',{cx:x,cy:70,r:22},g);g.addEventListener('click',function(){
+        if(st!==0)return;
+        if(i===6){st=1;g.classList.add('good');say('md2b',bravo()+' 1,6 est ici. Maintenant, la loupe.','ok');$('#d2b p.q').innerHTML='Avec la loupe, touche <b>1,62</b>.';loupe()}
+        else say('md2b','Presque ! Compte les dixièmes depuis 1 : 1,1 ; 1,2 ; 1,3…','no');
+      })})(i,x);
+    }
+    function loupe(){
+      el('rect',{x:X0+6*80,y:52,width:80,height:36,fill:'rgba(255,228,92,.6)',stroke:'#d9383a','stroke-width':3},s);
+      el('line',{x1:X0+480,y1:90,x2:X0,y2:150,stroke:'#d9383a','stroke-width':2.5,'stroke-dasharray':'8 6'},s);
+      el('line',{x1:X0+560,y1:90,x2:X0+W,y2:150,stroke:'#d9383a','stroke-width':2.5,'stroke-dasharray':'8 6'},s);
+      el('line',{x1:X0,y1:190,x2:X0+W,y2:190,stroke:'#c8571d','stroke-width':5},s);
+      for(var j=0;j<=10;j++){
+        var x=X0+j*80;el('line',{x1:x,y1:176,x2:x,y2:204,stroke:'#c8571d','stroke-width':3},s);
+        T(x,238,j===0?'1,6':(j===10?'1,7':'1,6'+j),22,'middle','#c8571d');
+        (function(j,x){var g=el('g',{'class':'tk'},s);el('circle',{cx:x,cy:190,r:22},g);g.addEventListener('click',function(){
+          if(st!==1)return;
+          if(j===2){st=2;g.classList.add('good');
+            var fl=el('g',{},s);el('line',{x1:x,y1:190,x2:x,y2:130,stroke:'#d9383a','stroke-width':4},fl);el('rect',{x:x-6,y:118,width:70,height:24,fill:'#d9383a'},fl);T(x+29,137,'1,62',19,'middle','#fff');
+            say('md2b','Bravo ! Le voleur est ici : 1,62 m, un peu après 1,6.','ok');$('#d2c').hidden=false;
+            choice('d2d',['1 et 1,1','1,2 et 1,3','1,6 et 1,7'],1,{c:'var(--i3)',msg:'md2d',help:'h3b',ok:function(){$('#md2d').textContent='Oui ! 1,26 est près de 1,3 : très loin de 1,62. Ce n\'est pas le même nombre !';$('#md2d').className='msg ok';}});
+          }else say('md2b','Presque ! Entre 1,6 et 1,7, il y a 10 petits pas : 1,61 ; 1,62…','no');
+        })})(j,x);
+      }
+    }
+  }
+  elim('el3',['B','C'],['B'],function(id){return id==='B'?'1,26 m':'1,62 m'},'m3',function(){
+    $('#ret3').hidden=false;
+    eliminated(3,['B'],'Bruno mesure 1,26 m, pas 1,62 m.',function(){go(4)});
+  });
+
+  /* ====================== DOSSIER 4 ====================== */
+  var BK=[['B',20,40,120],['C',30,60,180],['D',40,80,240]];
+  function wheel(col){
+    var o='<svg viewBox="0 0 110 110" role="img" aria-label="roue"><circle cx="55" cy="55" r="46" fill="#fff" stroke="'+col+'" stroke-width="7"/><circle cx="55" cy="55" r="5" fill="'+col+'"/>';
+    for(var k=0;k<8;k++){var a=k*Math.PI/4;o+='<line x1="55" y1="55" x2="'+(55+43*Math.cos(a)).toFixed(1)+'" y2="'+(55+43*Math.sin(a)).toFixed(1)+'" stroke="'+col+'" stroke-width="2"/>'}
+    return o+'</svg>';
+  }
+  $('#bikes').innerHTML=BK.map(function(b){return '<div class="wheel-box">'+wheel('#8a3fb5')+'<br><b>Vélo de '+S(b[0]).nom+'</b><br>rayon '+b[1]+' cm</div>'}).join('');
+  var bt=$('#bt');bt.innerHTML='<tr><th>Vélo</th><th>Diamètre (2 × rayon)</th><th>Un tour (≈ 3 × diamètre)</th></tr>';
+  var okc=0;
+  BK.forEach(function(b){
+    var tr=document.createElement('tr');tr.innerHTML='<td><b>'+S(b[0]).nom+'</b></td><td><input class="num" inputmode="numeric" aria-label="diamètre de '+S(b[0]).nom+'"> cm</td><td><input class="num" inputmode="numeric" aria-label="tour de roue de '+S(b[0]).nom+'"> cm</td>';
+    bt.appendChild(tr);
+    var ins=$$('input',tr);
+    [b[2],b[3]].forEach(function(v,k){
+      var inp=ins[k];
+      function chk(){
+        if(inp.disabled)return;var t=inp.value.replace(/\s/g,'');if(t==='')return;
+        if(Number(t)===v){inp.classList.remove('bad');inp.classList.add('ok');inp.disabled=true;say('m4a','','');okc++;if(okc===6)say('m4a','Toutes les roues sont calculées. Passe à « La trace ».','ok');var nx=ins[k+1]||(tr.nextElementSibling&&$('input',tr.nextElementSibling));if(nx&&!nx.disabled)nx.focus()}
+        else{inp.classList.remove('bad');void inp.offsetWidth;inp.classList.add('bad');say('m4a','Presque ! Reprends le calcul. Il y a un coup de pouce.','no')}
+      }
+      inp.addEventListener('keydown',function(e){if(e.key==='Enter')chk()});
+      inp.addEventListener('change',chk);
+    });
+  });
+  (function(){
+    var box=$('#el4');
+    BK.forEach(function(b){
+      var c=document.createElement('button');c.className='sc';c.style.setProperty('--c','var(--i4)');
+      c.innerHTML=avatar(b[0])+'<b>Vélo de '+S(b[0]).nom+'</b><div class="inf">rayon '+b[1]+' cm</div>';
+      c.addEventListener('click',function(){
+        if(b[0]==='C'){
+          $$('.sc',box).forEach(function(x){x.disabled=true});c.style.background='var(--okbg)';
+          say('m4','','');markDone(4);$('#go5box').hidden=false;
+          openWin('Preuve trouvée !','C\'est le vélo de Chloé : rayon 30 cm, diamètre 60 cm, un tour ≈ 180 cm.',[],function(){go(5)});
+          $('#winRow').innerHTML='<div>'+avatar('C')+'<br>Chloé</div>';
+        }else say('m4','Le vélo de '+S(b[0]).nom+' laisse une trace de '+b[3]+' cm, pas 180 cm. Essaie un autre vélo.','no');
+      });
+      box.appendChild(c);
+    });
+  })();
+  $('#go5').addEventListener('click',function(){go(5)});
+
+  /* ====================== DÉNOUEMENT ====================== */
+  function confetti(){
+    var cols=['#ffe45c','#d9383a','#2b59c3','#1f8a5b','#8a3fb5','#c8571d'];
+    for(var i=0;i<60;i++){var c=document.createElement('i');c.className='confetti';c.style.left=Math.random()*100+'vw';c.style.background=cols[i%6];c.style.animationDuration=(2.2+Math.random()*2.2)+'s';c.style.animationDelay=(Math.random()*.8)+'s';document.body.appendChild(c);setTimeout(function(x){x.remove()},6000,c)}
+  }
+  $('#rbtn').addEventListener('click',function(){
+    var rest=remaining();
+    if(rest.length!==1){say('rmsg','Il reste encore '+rest.length+' suspects. Retourne finir les dossiers : '+rest.map(function(s){return s.nom}).join(', ')+'.','no');return}
+    var w=rest[0];
+    $('#r0').hidden=true;$('#r1').hidden=false;
+    $('#rav').innerHTML=avatar(w.id);
+    $('#rname').innerHTML='Le voleur du diamant, c\'est <span class="hl">'+w.nom+'</span> !';
+    markDone(5);confetti();
+    $$('#know li').forEach(function(li,i){setTimeout(function(){li.classList.add('on')},900+i*900)});
+  });
+  var FAV=['Les lingots coupés','Le plan du musée','Les empreintes','La roue du fuyard'];
+  FAV.forEach(function(t,i){
+    var b=document.createElement('button');b.innerHTML='<b>Dossier '+(i+1)+'</b><br>'+t;
+    b.addEventListener('click',function(){say('mfav','Noté : dossier '+(i+1)+' !','ok')});
+    $('#fav').appendChild(b);
+  });
+
+  strip();go(0);
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
