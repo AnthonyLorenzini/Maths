@@ -30,6 +30,14 @@
       found = { n: nv, c: { id: "escape", num: null, titre: "Escape games", ressources: [] }, r: r, i: 0 };
     });
   }
+  /* séances de soutien d'un niveau (onglet « Soutien ») : même barre, le « chapitre » est la liste du soutien */
+  if (!found) {
+    S.niveaux.forEach(function (n) {
+      (n.soutien || []).forEach(function (r, i) {
+        if (parts.indexOf(r.id) !== -1) found = { n: n, c: { id: n.id + "/soutien", num: 0, titre: "Soutien", ressources: n.soutien }, r: r, i: i };
+      });
+    });
+  }
   if (!found) return;
 
   var couleurs = { vert: "#0F9562", orange: "#E8700F", violet: "#6E4FE0", bleu: "#1F7AE0" };

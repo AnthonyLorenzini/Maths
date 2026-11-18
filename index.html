@@ -362,6 +362,10 @@ a.niv,a.chap,a.reprendre{text-decoration:none;color:inherit}
 .onglets:not(.trois){grid-template-columns:1fr 1fr}
 .onglets.quatre{grid-template-columns:repeat(4,1fr)}
 .onglets.quatre a{flex-direction:column;gap:3px;font-size:.78rem;padding:10px 2px}
+.onglets.cinq{grid-template-columns:repeat(5,1fr)}
+.onglets.cinq a{flex-direction:column;gap:3px;font-size:.7rem;padding:10px 1px}
+/* onglet Soutien */
+.eval .btn{align-self:flex-start;margin-top:4px}
 /* onglet Leçon : lien + QR code */
 .commune{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:16px;border-radius:20px;background:var(--carte);border:2px solid var(--c);box-shadow:0 4px 0 var(--cc)}
 .commune h2{font-size:1.15rem;margin:0}
@@ -453,6 +457,7 @@ const ICO={
  fleche:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>',
  escape:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="m11 12 8.5-8.5M16 7l3 3M13.5 9.5l2 2"/></svg>',
  eval:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>',
+ soutien:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="m5.6 5.6 3.9 3.9M14.5 14.5l3.9 3.9M18.4 5.6l-3.9 3.9M9.5 14.5l-3.9 3.9"/></svg>',
  monte:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V6M6 12l6-6 6 6"/></svg>'
 };
 
@@ -848,13 +853,14 @@ function commencer(e,cible){
 
 /* ---------- L'onglet Ascension d'une classe, et le test d'un chapitre ---------- */
 function onglets(n,actif){
- const asc=AS.testables(n).length>0,lc=!!n.leconCommune,on=k=>actif===k?' class="on" aria-current="page"':'';
- const nb=2+(asc?1:0)+(lc?1:0);
- return `<nav class="onglets${nb===4?' quatre':nb===3?' trois':''} a-monte" aria-label="Sections de la classe">
+ const asc=AS.testables(n).length>0,lc=!!n.leconCommune,so=!!(n.soutien&&n.soutien.length),on=k=>actif===k?' class="on" aria-current="page"':'';
+ const nb=2+(asc?1:0)+(lc?1:0)+(so?1:0);
+ return `<nav class="onglets${nb===5?' cinq':nb===4?' quatre':nb===3?' trois':''} a-monte" aria-label="Sections de la classe">
   <a href="#${n.id}"${on('chap')}>${ICO.exos} Chapitres</a>
   ${lc?`<a href="#${n.id}/lecon"${on('lecon')}>${ICO.lecon} Leçon</a>`:''}
   ${asc?`<a href="#${n.id}/ascension"${on('asc')}>${ICO.monte} Ascension</a>`:''}
-  <a href="#${n.id}/evaluations"${on('eval')}>${ICO.eval} Évaluations</a></nav>`;
+  <a href="#${n.id}/evaluations"${on('eval')}>${ICO.eval} Évaluations</a>
+  ${so?`<a href="#${n.id}/soutien"${on('sou')}>${ICO.soutien} Soutien</a>`:''}</nav>`;
 }
 /* ---------- L'onglet Leçon d'une classe : la leçon commune, hébergée ailleurs (lien + QR code) ---------- */
 function vueLecon(n){
@@ -889,6 +895,24 @@ function vueEvaluations(n){
    <p class="doux">Retrouve ici les évaluations vierges pour les refaire, puis le corrigé pour te corriger. Essaie d’abord sans regarder le corrigé !</p></section>
   ${L.length?`<section class="vue" style="gap:12px">${L.map(carte).join('')}</section>`
    :`<div class="enigme a-monte" ${d(0,.2)}><p class="q">Les évaluations de la ${esc(n.nom)} arrivent bientôt.</p><p class="doux">Elles seront mises en ligne au fil de l’année, avec leur corrigé.</p></div>`}
+ </div>`,null,{pied:piedAscension(n.id)});
+}
+/* ---------- L'onglet Soutien d'une classe : les séances de soutien, à refaire chez soi ---------- */
+function vueSoutien(n){
+ const L=n.soutien||[];
+ const carte=(r,i)=>`<article class="eval a-monte" ${d(i,.2,.07)}>
+   <div class="eti">${esc(r.etiquette||'Séance de soutien')}${estNeuf(r)?' '+NEUF:''}</div>
+   <h3>${esc(r.titre)}</h3>
+   ${r.resume?`<p class="doux">${esc(r.resume)}</p>`:''}
+   <a class="btn" href="${url(r)}">${ICO.jeu} Ouvrir la séance</a>
+  </article>`;
+ ouvrir(`<div class="vue c-${n.couleur}">
+  <button class="retour a-haut" data-parent="#${n.id}">${ICO.gauche} ${esc(n.nom)}</button>
+  ${onglets(n,'sou')}
+  <section class="vue" style="gap:6px"><h2 class="a-monte" ${d(0,.12)}>Le soutien</h2>
+   <p class="doux">Les séances du soutien reprennent les bases de la classe, en jouant. Tu peux les refaire chez toi, autant de fois que tu veux.</p></section>
+  ${L.length?`<section class="vue" style="gap:12px">${L.map(carte).join('')}</section>`
+   :`<div class="enigme a-monte" ${d(0,.2)}><p class="q">Les séances de soutien arrivent bientôt.</p><p class="doux">Elles seront mises en ligne au fil de l’année.</p></div>`}
  </div>`,null,{pied:piedAscension(n.id)});
 }
 function ligneTest(n,c){
@@ -1167,6 +1191,7 @@ function router(){
  }
  else if(t&&!t.c&&b==='lecon'&&t.n.leconCommune){vueLecon(t.n);document.title='Leçon · '+t.n.nom+' — '+S.titre}
  else if(t&&!t.c&&b==='evaluations'){vueEvaluations(t.n);document.title='Évaluations · '+t.n.nom+' — '+S.titre}
+ else if(t&&!t.c&&b==='soutien'&&(t.n.soutien||[]).length){vueSoutien(t.n);document.title='Soutien · '+t.n.nom+' — '+S.titre}
  else if(t&&t.c){chapitre(t.n,t.c);document.title=t.c.titre+' · '+t.n.nom+' — '+S.titre}
  else if(t){niveau(t.n);document.title='Classe de '+t.n.nom+' — '+S.titre}
  else{accueil();document.title=S.titre}

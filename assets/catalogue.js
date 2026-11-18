@@ -44,6 +44,13 @@
    Le test d'un chapitre est cumulatif : il reprend aussi les questions des chapitres précédents du même niveau.
    Rien à ajouter ici. Les réglages (gain par test, plafond de la semaine, date du sommet, seuil de
    réussite) sont tout en haut de assets/ascension.js. Les mini-jeux ne font pas monter la montgolfière.
+   Soutien (onglet « Soutien » d'une classe, affiché seulement si la liste n'est pas vide) :
+   1. Dépose la séance dans  pages/<nom-du-dossier>/index.html  (elle charge ../../assets/barre.js comme les autres pages).
+   2. Dans le niveau (à côté de « chapitres »), ajoute une ligne à la liste  soutien  :
+        soutien: [
+          { id: "soutien-1-tresor", etiquette: "Chapitres 1 à 4", titre: "Séance 1 — …", resume: "…", ajout: "2026-11-04" }
+        ]
+      Une séance n'apparaît qu'une fois ajoutée ici : ajoute-la quand tu la fais en classe.
    Évaluations (onglet « Évaluations » d'une classe) :
    1. Dépose les PDF dans  evaluations/<niveau>/  (ex. evaluations/4e/4e-ch1-A.pdf, 4e-ch1-A-corrige.pdf).
    2. Dans le niveau (à côté de « chapitres »), ajoute une liste  evaluations  :
@@ -71,6 +78,10 @@ window.SITE = {
         lien: "https://www.pearltrees.com/private/id107692875?access=47ecdee83de.66b434b.dac4513f64c7f6901573f8ed973fad40",
         qr: "assets/qr-lecon-6e.png"
       },
+      soutien: [
+        { id: "soutien-1-tresor", etiquette: "Chapitres 1 à 4", titre: "Séance 1 — Le trésor des 4 îles",
+          resume: "Les bases des chapitres 1 à 4, en jouant : réussis chaque île pour gagner un morceau de la carte au trésor.", ajout: "2026-11-04" }
+      ],
       evaluations: [
         { etiquette: "Chapitres 1 et 2", titre: "Évaluation — Numération & Géométrie",
           resume: "Rang des chiffres, nombres décimaux, vocabulaire et notations, distances. 50 min, sur 20.", ajout: "2026-10-14",

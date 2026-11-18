@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Soutien · Séance 1 — Le trésor des 4 îles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Nunito:wght@600;700;800&display=swap">
+<style>
+/* Concept : une carte au trésor projetée au tableau, sur papier quadrillé de cahier.
+   Une barre de navigation (départ, 4 îles, coffre) et un code de 4 chiffres qui se remplit île après île. */
+:root{
+  --paper:#fffdf0; --grid:#d3dcf3; --ink:#1f2a5c; --soft:#5a6494; --hl:#ffe45c; --red:#d9383a; --ok:#1f8a5b; --okbg:#d9f3e6; --badbg:#fde4e3;
+  --i1:#2b59c3; --i2:#1f8a5b; --i3:#c8571d; --i4:#8a3fb5;
+  --display:'Caveat Brush','Segoe Print','Comic Sans MS',cursive;
+  --body:'Nunito','Trebuchet MS',Verdana,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:auto}
+body{
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:30px 30px;
+  color:var(--ink); font-family:var(--body); font-weight:700; font-size:clamp(17px,1.55vw,24px); line-height:1.35;
+  padding-block:0; padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px));
+  min-height:100vh;
+}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.wrap{max-width:1280px;margin:0 auto;padding-block:14px 40px}
+
+/* barre du haut */
+.bar{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;background:#fff;border:3px solid var(--ink);border-radius:16px;padding:10px 16px;box-shadow:4px 4px 0 var(--ink)}
+.brand{font-family:var(--display);font-size:clamp(26px,3vw,40px);letter-spacing:.5px;margin:0;line-height:1}
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.tab{border:2.5px solid var(--ink);background:#fff;border-radius:10px;padding:6px 14px;font-weight:800;position:relative}
+.tab[aria-current="true"]{background:var(--hl)}
+.tab .tick{display:none;color:var(--ok)}
+.tab.done .tick{display:inline}
+.code{display:flex;gap:8px;align-items:center}
+.code small{font-size:.7em;color:var(--soft);margin-right:4px}
+.mini-map{width:170px;height:auto;display:block;filter:drop-shadow(2px 3px 0 rgba(31,42,92,.25))}
+.map-big{width:100%;max-width:880px;height:auto;display:block;margin:10px auto;filter:drop-shadow(4px 5px 0 rgba(31,42,92,.25))}
+.pc{transform-box:fill-box;transform-origin:center}
+.pcnew{animation:pcpop .9s ease-out}
+@keyframes pcpop{0%{opacity:0;transform:translateY(-30px) rotate(-3deg)}60%{opacity:1}100%{transform:none}}
+.win{position:fixed;inset:0;background:rgba(31,42,92,.55);display:grid;place-items:center;z-index:60;padding:16px}
+.win[hidden]{display:none!important}
+.win .box{background:#fff;border:4px solid var(--ink);border-radius:20px;padding:20px 24px;max-width:760px;width:100%;text-align:center;box-shadow:6px 6px 0 var(--ink);animation:pcpop .6s ease-out}
+.win h3{font-family:var(--display);font-weight:400;font-size:clamp(28px,3.4vw,48px);margin:0 0 4px}
+.win svg{width:100%;max-height:52vh;height:auto}
+.tabl{display:inline-block;margin:6px 10px 6px 0;text-align:center}
+.tabl button{display:block;background:#fff;border:3px solid var(--ink);border-radius:12px;padding:6px;cursor:pointer}
+.tabl button.sel{background:var(--hl)}
+.tabl b{font-family:var(--display);font-size:1.6em;font-weight:400}
+.tabl svg{display:block}
+.slot{width:2.1em;height:2.1em;border:3px solid var(--red);border-radius:8px;background:#fff;display:grid;place-items:center;font-family:var(--display);font-size:1.5em;transition:transform .3s}
+.slot.on{background:var(--hl);transform:rotate(-4deg) scale(1.08)}
+.tools{display:flex;gap:8px}
+.mini{border:2px solid var(--ink);background:#fff;border-radius:8px;padding:4px 10px;font-size:.8em}
+.mini[aria-pressed="true"]{background:var(--ink);color:#fff}
+
+/* écrans */
+.scr{display:none;margin-top:18px}
+.scr.show{display:block}
+.card{background:#fff;border:3px solid var(--c,var(--ink));border-radius:18px;padding:clamp(14px,2vw,26px);box-shadow:5px 5px 0 var(--c,var(--ink))}
+.head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;margin-bottom:6px}
+.head h2{font-family:var(--display);font-size:clamp(28px,3.2vw,46px);margin:0;color:var(--c);line-height:1.05;font-weight:400}
+.but{margin:0 0 10px;font-style:italic;color:var(--soft)}
+.but b{font-style:normal;background:var(--hl);color:var(--ink);padding:0 6px;border-radius:4px}
+.dur{margin-left:auto;font-size:.7em;color:var(--soft)}
+.subnav{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px}
+.pill{border:2.5px solid var(--c);background:#fff;color:var(--c);border-radius:999px;padding:4px 16px;font-weight:800}
+.pill[aria-selected="true"]{background:var(--c);color:#fff}
+.sub{display:none}
+.sub.show{display:block}
+.cols{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start}
+.cols>*{min-width:0}
+.btn{border:3px solid var(--ink);background:var(--hl);border-radius:12px;padding:8px 18px;font-weight:800;box-shadow:3px 3px 0 var(--ink)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.alt{background:#fff}
+.msg{min-height:1.5em;margin:10px 0 0;font-weight:800}
+.msg.ok{color:var(--ok)}
+.msg.no{color:var(--red)}
+.rule{margin:0 0 10px;padding-left:1.2em}
+.rule li{margin:2px 0}
+.hl{background:var(--hl);padding:0 5px;border-radius:4px}
+.help{margin-top:10px;font-size:.85em;background:#fff8d6;border:2px dashed var(--ink);border-radius:10px;padding:6px 12px}
+.help[hidden]{display:none!important}
+.note{display:none;margin-top:14px;font-size:.82em;background:#eef1ff;border:2px solid var(--soft);border-radius:10px;padding:8px 14px}
+body.prof .note{display:block}
+.digit-in{width:2.2em;height:2.2em;border:3px solid var(--red);border-radius:8px;text-align:center;font:inherit;font-family:var(--display);font-size:1.5em;color:var(--ink);background:#fff;padding:0}
+.ask{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px;padding-top:12px;border-top:3px dashed var(--c)}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;gap:4px}
+.frac span.fb{width:100%;height:3px;background:var(--ink)}
+
+/* intro */
+.big{font-family:var(--display);font-weight:400;font-size:clamp(30px,4vw,60px);line-height:1.15;margin:10px 0}
+.vf{display:flex;gap:18px;flex-wrap:wrap;margin:8px 0}
+.vf span{border:3px solid var(--ink);border-radius:12px;padding:6px 16px;background:#fff}
+.ans{font-size:1.2em}
+.dots{display:flex;gap:8px;margin:0 0 8px}
+.dots i{width:16px;height:16px;border-radius:50%;border:2.5px solid var(--ink);background:#fff}
+.dots i.on{background:var(--hl)}
+.dots i.cur{transform:scale(1.35)}
+
+/* île 1 */
+.deck{display:flex;flex-direction:column;gap:12px;align-items:center}
+.cardn{width:150px;height:200px;border:4px solid var(--i1);border-radius:16px;background:#fff;display:grid;place-items:center;font-family:var(--display);font-size:120px;color:var(--i1);box-shadow:5px 5px 0 var(--i1)}
+.cardn.empty{border-style:dashed;color:#b8c3e8;box-shadow:none}
+.board{border-collapse:separate;border-spacing:6px}
+.board th{font-size:.62em;color:var(--soft);font-weight:800;padding:0 2px}
+.board td{padding:0}
+.cell{width:clamp(64px,7vw,100px);height:clamp(70px,8vw,110px);border:3px solid var(--ink);border-radius:10px;background:#fff;font-family:var(--display);font-size:clamp(40px,5vw,70px);color:var(--i1);display:grid;place-items:center;width:100%}
+.cell.can{border-color:var(--red);background:#fff6f5}
+.comma{font-family:var(--display);font-size:3em;vertical-align:bottom}
+.tn{border-collapse:separate;border-spacing:4px}
+.tn th{font-size:.6em;background:#e8ecff;border:2px solid var(--ink);border-radius:6px;padding:2px 6px}
+.tn td{padding:0}
+.tn .cell{height:84px;width:84px;font-size:52px}
+.tn .cell.good{background:var(--okbg);border-color:var(--ok)}
+.tn .cell.bad{background:var(--badbg);border-color:var(--red)}
+.chips{display:flex;gap:10px;margin:8px 0;flex-wrap:wrap}
+.chip{width:64px;height:76px;border:3px solid var(--i1);border-radius:10px;background:#fff;font-family:var(--display);font-size:46px;color:var(--i1)}
+.chip.sel{background:var(--hl);transform:translateY(-6px)}
+.chip.used{opacity:.3}
+
+/* figures */
+.fig{width:100%;height:auto;max-width:900px;background:#fff;border-radius:12px;border:2px solid #e2e8fa;touch-action:manipulation}
+.fig .hit{cursor:pointer}
+.part{cursor:pointer;fill:#fff;stroke:var(--ink);stroke-width:3;transition:fill .15s}
+.part.on{fill:var(--hl)}
+.pairs{display:grid;grid-template-columns:1fr 1fr;gap:10px 80px;max-width:520px}
+.pairs button{border:3px solid var(--i4);border-radius:12px;background:#fff;padding:8px;font-family:var(--display);font-size:1.7em;color:var(--i4)}
+.pairs button.sel{background:var(--hl)}
+.pairs button.p0{background:#cfe3ff;border-color:#2b59c3}.pairs button.p1{background:#d9f3e6;border-color:#1f8a5b}.pairs button.p2{background:#ffe0cf;border-color:#c8571d}
+.pairs button.shake{animation:sh .3s}
+@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+#sq{display:grid;grid-template-columns:repeat(10,1fr);width:min(100%,440px);aspect-ratio:1;border:4px solid var(--ink);background:#fff;touch-action:none;user-select:none}
+#sq i{border-right:3px solid var(--ink);border-bottom:1px solid #9aa6d6}
+#sq i:nth-child(10n){border-right:none}
+#sq i:nth-last-child(-n+10){border-bottom:none}
+#sq i.on{background:var(--i4)}
+.tag{display:inline-block;background:var(--hl);border-radius:6px;padding:0 8px}
+.read{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;margin:10px 0;padding:8px 14px;border:3px solid var(--c);border-radius:12px;background:#faf5ff;min-height:3.2em;font-size:1.1em}
+.read .frac b{font-family:var(--display);font-weight:400;font-size:1.4em;min-width:2.4em;text-align:center}
+.read .big2{font-family:var(--display);font-size:2em;color:var(--c)}
+
+/* coffre */
+.chest{display:flex;gap:14px;justify-content:center;margin:18px 0}
+.chest .slot{width:2.6em;height:2.6em;font-size:2.4em}
+.fav{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px}
+.fav button{border:3px solid var(--c);background:#fff;border-radius:14px;padding:10px 20px;min-width:150px;box-shadow:3px 3px 0 var(--c)}
+.fav b{font-family:var(--display);font-size:1.6em}
+.confetti{position:fixed;top:-20px;width:12px;height:18px;z-index:50;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.9}}
+@media (prefers-reduced-motion:reduce){.confetti{display:none}.slot,.cell,.chip,.pairs button.shake{transition:none;animation:none}}
+</style>
+
+<div class="wrap">
+  <header class="bar">
+    <h1 class="brand">Le trésor des 4 îles</h1>
+    <nav class="tabs" id="tabs" aria-label="Étapes"></nav>
+    <div class="code" aria-label="La carte au trésor"><small>Carte</small><svg class="mini-map" id="mm" role="img" aria-label="Morceaux de carte gagnés"></svg></div>
+  </header>
+
+  <!-- DÉPART -->
+  <section class="scr show" id="s0" style="--c:var(--ink)">
+    <div class="card">
+      <div class="head"><h2>Départ : debout ou assis ?</h2></div>
+      <p class="but"><b>Mission :</b> trouver le code du coffre. On avance ensemble, île après île.</p>
+      <div class="dots" id="dots0"></div>
+      <div class="big" id="stmt"></div>
+      <div class="vf"><span>Debout = vrai</span><span>Assis = faux</span></div>
+      <div class="msg ans" id="stmtAns"></div>
+      <div class="ask" style="--c:var(--ink)"><button class="btn alt" id="stmtShow">Voir la réponse</button><button class="btn" id="stmtNext">Phrase suivante →</button></div>
+          </div>
+  </section>
+
+  <!-- ÎLE 1 -->
+  <section class="scr" id="s1" style="--c:var(--i1)">
+    <div class="card">
+      <div class="head"><h2>Île 1 · L'île des Chiffres</h2></div>
+      <p class="but"><b>But :</b> comprendre qu'un chiffre ne vaut pas pareil selon sa place.</p>
+      <div class="subnav" role="tablist"><button class="pill" role="tab" data-s="0" aria-selected="true">Le plus grand trésor</button><button class="pill" role="tab" data-s="1" aria-selected="false">Défi du coffre</button></div>
+
+      <div class="sub show" data-s="0">
+        <div class="cols">
+          <div style="flex:1 1 300px">
+            <p style="margin:0 0 6px"><b>Dans ton cahier :</b> dessine 4 cases <span class="tag">▢ ▢ ▢ , ▢</span></p>
+            <ol class="rule">
+              <li>Je pioche une carte, tout le monde écrit son chiffre dans <b>une case</b>.</li>
+              <li><b>Interdit de changer après !</b></li>
+              <li>4 cartes : lis ton nombre. Le plus grand gagne.</li>
+            </ol>
+            <div class="deck">
+              <div class="cardn empty" id="cardn">?</div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+                <button class="btn" id="draw">Piocher une carte</button>
+                <button class="btn alt" id="nextRound" hidden>Manche suivante</button>
+              </div>
+              <div id="roundLbl" style="font-size:.85em;color:var(--soft)">Manche 1 sur 3</div>
+            </div>
+          </div>
+          <div style="flex:1 1 360px">
+            <p style="margin:0 0 4px">Sur le tableau : clique une case pour y poser la carte.</p>
+            <table class="board"><thead><tr><th>centaines</th><th>dizaines</th><th>unités</th><th></th><th>dixièmes</th></tr></thead>
+              <tbody><tr><td><button class="cell" data-i="0"></button></td><td><button class="cell" data-i="1"></button></td><td><button class="cell" data-i="2"></button></td><td class="comma">,</td><td><button class="cell" data-i="3"></button></td></tr></tbody></table>
+            <div class="msg" id="g1msg"></div>
+            <div id="best" hidden style="margin-top:14px;padding-top:12px;border-top:3px dashed var(--c)">
+              <p style="margin:0 0 6px"><b>Question :</b> maintenant qu'on connaît les 4 chiffres, quel est le <span class="hl">plus grand nombre possible</span> ?</p>
+              <div class="chips" id="bchips"></div>
+              <table class="board"><thead><tr><th>centaines</th><th>dizaines</th><th>unités</th><th></th><th>dixièmes</th></tr></thead>
+                <tbody><tr><td><button class="cell" data-b="0"></button></td><td><button class="cell" data-b="1"></button></td><td><button class="cell" data-b="2"></button></td><td class="comma">,</td><td><button class="cell" data-b="3"></button></td></tr></tbody></table>
+              <div style="margin-top:8px"><button class="btn alt" id="bCheck">Vérifier</button> <button class="btn alt" id="bShow">Montrer la réponse</button></div>
+              <div class="msg" id="bMsg"></div>
+            </div>
+          </div>
+        </div>
+              </div>
+
+      <div class="sub" data-s="1">
+        <p style="margin:0 0 6px"><b>Dans ton cahier :</b> écris <span class="hl">5 207,36</span> dans un tableau. Ici, clique un chiffre puis une colonne.</p>
+        <div class="chips" id="chips"></div>
+        <table class="tn"><thead><tr><th>milliers</th><th>centaines</th><th>dizaines</th><th>unités</th><th style="background:none;border:none"></th><th>dixièmes</th><th>centièmes</th></tr></thead>
+          <tbody><tr><td><button class="cell" data-t="0"></button></td><td><button class="cell" data-t="1"></button></td><td><button class="cell" data-t="2"></button></td><td><button class="cell" data-t="3"></button></td><td class="comma">,</td><td><button class="cell" data-t="4"></button></td><td><button class="cell" data-t="5"></button></td></tr></tbody></table>
+        <div style="margin-top:8px"><button class="btn alt" id="tnCheck">Vérifier le tableau</button> <button class="btn alt" id="tnReset">Recommencer</button></div>
+        <div class="msg" id="tnMsg"></div>
+        <button class="mini" data-help="h1" style="margin-top:10px">Coup de pouce</button>
+        <div class="help" id="h1" hidden>Regarde le nom de la colonne où se trouve chaque chiffre.</div>
+              </div>
+    </div>
+  </section>
+
+  <!-- ÎLE 2 -->
+  <section class="scr" id="s2" style="--c:var(--i2)">
+    <div class="card">
+      <div class="head"><h2>Île 2 · L'île des Droites</h2></div>
+      <p class="but"><b>But :</b> lire une notation et la transformer en dessin.</p>
+      <div class="cols">
+        <div style="flex:1 1 300px">
+          <p style="margin:0 0 4px"><b>Dans ton cahier :</b> place A et B à 8 cm l'un de l'autre.</p>
+          <ol class="rule" id="steps2" style="list-style:none;padding:0">
+            <li><button class="btn alt" data-st="1" style="width:100%;text-align:left">1 · Trace la droite <b>(AB)</b></button></li>
+            <li><button class="btn alt" data-st="2" style="width:100%;text-align:left" disabled>2 · Repasse le segment <b>[AB]</b> en couleur</button></li>
+            <li><button class="btn alt" data-st="3" style="width:100%;text-align:left" disabled>3 · Place le point <b>M</b>, milieu de <b>[AB]</b></button></li>
+            <li><button class="btn alt" data-st="4" style="width:100%;text-align:left" disabled>4 · Place <b>C ∈ (AB)</b> et <b>C ∉ [AB]</b></button></li>
+          </ol>
+          <div class="help" style="display:block;margin:0 0 8px"><b>Mémo</b> · <span style="color:var(--red)">(AB)</span> droite · <span style="color:var(--red)">[AB]</span> segment · <span style="color:var(--red)">[AB)</span> demi-droite · ∈ appartient · ∉ n'appartient pas</div>
+          <button class="mini" id="ruler" aria-pressed="false">Montrer la règle</button>
+          <div class="msg" id="m2s"></div>
+        </div>
+        <div style="flex:2 1 420px">
+          <svg class="fig" id="fig2" viewBox="0 0 800 300" role="img" aria-label="Figure : points A et B, à 8 cm l'un de l'autre">
+            <ellipse cx="400" cy="150" rx="370" ry="120" fill="#fff6c9" stroke="#e6c94a" stroke-width="2" stroke-dasharray="8 6"/>
+            <g id="ruleG" style="display:none"></g>
+            <line id="lnD" x1="60" y1="150" x2="740" y2="150" stroke="#1f2a5c" stroke-width="3" style="display:none"/>
+            <line id="lnS" x1="200" y1="150" x2="520" y2="150" stroke="#d9383a" stroke-width="7" stroke-linecap="round" style="display:none"/>
+            <g stroke="#1f2a5c" stroke-width="4"><line x1="200" y1="136" x2="200" y2="164"/><line x1="520" y1="136" x2="520" y2="164"/></g>
+            <g font-family="Nunito,sans-serif" font-weight="800" font-size="30" fill="#1f2a5c"><text x="190" y="126">A</text><text x="510" y="126">B</text></g>
+            <g id="ptM"></g><g id="ptC"></g>
+            <text x="20" y="288" font-size="17" fill="#5a6494" font-family="Nunito,sans-serif">Échelle : 1 cm = 40 unités à l'écran</text>
+          </svg>
+        </div>
+      </div>
+      <button class="mini" data-help="h2" style="margin-top:10px">Coup de pouce</button>
+      <div class="help" id="h2" hidden>Le milieu est à la même distance de A et de B. Mesure AB, puis partage en deux.</div>
+          </div>
+  </section>
+
+  <!-- ÎLE 3 -->
+  <section class="scr" id="s3" style="--c:var(--i3)">
+    <div class="card">
+      <div class="head"><h2>Île 3 · L'île des Parts</h2></div>
+      <p class="but"><b>But :</b> savoir ce que disent le nombre du bas et le nombre du haut d'une fraction. <b>Une seule histoire :</b> la tablette de chocolat de Barbe-Noire.</p>
+      <div class="subnav" role="tablist"><button class="pill" role="tab" data-s="0" aria-selected="true">1 · Le partage</button><button class="pill" role="tab" data-s="1" aria-selected="false">2 · Les 5 parts mangées</button><button class="pill" role="tab" data-s="2" aria-selected="false">3 · Sur la droite</button></div>
+
+      <div class="sub show" data-s="0">
+        <p style="margin:0 0 8px">Barbe-Noire partage sa tablette en <span class="hl">6 parts égales</span> pour ses 6 pirates. <b>Quelles tablettes sont bien partagées ?</b> <span style="color:var(--soft)">(clique, il peut y en avoir plusieurs)</span></p>
+        <div id="tabls"></div>
+        <div style="margin-top:8px"><button class="btn alt" id="tCheck">Vérifier</button></div>
+        <div class="msg" id="m3a"></div>
+              </div>
+
+      <div class="sub" data-s="1">
+        <p style="margin:0 0 8px">Un pirate mange <span class="hl">5 parts</span> de la tablette C. <b>Colorie les parts mangées, puis écris la fraction.</b></p>
+        <div class="cols" style="align-items:center">
+          <svg class="fig" id="tabC" viewBox="0 0 420 270" style="max-width:420px" role="img" aria-label="Tablette de 6 parts égales"></svg>
+          <div>
+            <p style="margin:0 0 6px">Fraction mangée :</p>
+            <span class="frac"><input class="digit-in" id="in3a" maxlength="1" inputmode="numeric" aria-label="Nombre de parts mangées"><span class="fb"></span><input class="digit-in" id="in3b" maxlength="1" inputmode="numeric" aria-label="Nombre de parts de la tablette" style="border-color:var(--ink)"></span>
+            <div style="margin-top:10px"><button class="btn" id="ok3b">Vérifier</button> <button class="btn alt" id="tcReset">Effacer</button></div>
+            <div class="msg" id="m3b"></div>
+          </div>
+        </div>
+        <button class="mini" data-help="h3" style="margin-top:6px">Coup de pouce</button>
+        <div class="help" id="h3" hidden>Le nombre du bas dit en combien de parts égales on coupe. Le nombre du haut dit combien on en prend.</div>
+              </div>
+
+      <div class="sub" data-s="2">
+        <p style="margin:0 0 8px">La tablette devient une <b>demi-droite</b> : de 0 à 1, c'est la tablette entière. Place <span class="hl">5/6</span>. <span style="color:var(--soft)">(clique sur la droite)</span></p>
+        <svg class="fig" id="axis" viewBox="0 0 800 200" role="img" aria-label="Demi-droite graduée de 0 à 1, partagée en 6 parts"></svg>
+        <div class="msg" id="m3c"></div>
+              </div>
+    </div>
+  </section>
+
+  <!-- ÎLE 4 -->
+  <section class="scr" id="s4" style="--c:var(--i4)">
+    <div class="card">
+      <div class="head"><h2>Île 4 · L'île des Virgules</h2></div>
+      <p class="but"><b>But :</b> voir qu'un dixième est 0,1, un centième est 0,01, et lire un nombre décimal sur une droite.</p>
+      <div class="subnav" role="tablist"><button class="pill" role="tab" data-s="0" aria-selected="true">1 · Les dixièmes</button><button class="pill" role="tab" data-s="1" aria-selected="false">2 · Les centièmes</button><button class="pill" role="tab" data-s="2" aria-selected="false">3 · La loupe</button><button class="pill" role="tab" data-s="3" aria-selected="false">4 · Relier</button></div>
+
+      <div class="sub show" data-s="0">
+        <p style="margin:0 0 8px">La bande entière vaut <b>1</b>. Elle est partagée en 10 parts égales. <b>Colorie 6 dixièmes</b> : clique sur la 6e part. <span style="color:var(--soft)">(essaie aussi d'autres parts)</span></p>
+        <svg class="fig" id="bar1" viewBox="0 0 800 110" role="img" aria-label="Bande partagée en 10 parts égales"></svg>
+        <div class="read" id="read1"></div>
+        <div class="msg" id="m4a"></div>
+              </div>
+
+      <div class="sub" data-s="1">
+        <div class="cols">
+          <div style="flex:1 1 300px">
+            <p style="margin:0 0 4px">Le carré entier vaut <b>1</b>. Il a 100 petits carrés.</p>
+            <p style="margin:0 0 8px"><span class="tag" id="tgt">Cible : 0,34</span> <span style="color:var(--soft)" id="tgtN">étape 1 sur 3</span></p>
+            <p style="margin:0;color:var(--soft)">Colorie en glissant le doigt ou la souris.</p>
+            <div style="margin:10px 0"><button class="btn alt" id="sqCheck">Vérifier</button> <button class="btn alt" id="sqReset">Effacer</button> <button class="btn" id="sqNext" hidden>Cible suivante →</button></div>
+            <div class="read" id="read2"></div>
+            <div class="msg" id="m4b"></div>
+          </div>
+          <div id="sq" role="img" aria-label="Carré de 100 petits carrés, 10 colonnes"></div>
+        </div>
+              </div>
+
+      <div class="sub" data-s="2">
+        <p style="margin:0 0 8px">Place <span class="hl">1,37</span> sur la droite. <b>D'abord</b>, clique entre quels dixièmes il se trouve. <b>Ensuite</b>, la loupe s'ouvre : clique la bonne graduation.</p>
+        <svg class="fig" id="lp" viewBox="0 0 800 330" role="img" aria-label="Droite graduée de 1 à 2 avec une loupe"></svg>
+        <div class="msg" id="m4c"></div>
+        <button class="mini" data-help="h4" style="margin-top:6px">Coup de pouce</button>
+        <div class="help" id="h4" hidden>Sur la droite du haut, chaque graduation vaut 0,1. Dans la loupe, chaque graduation vaut 0,01.</div>
+              </div>
+
+      <div class="sub" data-s="3">
+        <p style="margin:0 0 8px">Relie les écritures qui montrent le même nombre. Une écriture reste seule. <span style="color:var(--soft)">(clique à gauche, puis à droite)</span></p>
+        <div class="pairs" id="pairs"></div>
+        <div class="msg" id="m4d"></div>
+              </div>
+    </div>
+  </section>
+
+  <!-- COFFRE -->
+  <section class="scr" id="s5" style="--c:var(--red)">
+    <div class="card">
+      <div class="head"><h2>La carte au trésor</h2></div>
+      <p class="but"><b>Mission :</b> les quatre morceaux forment la carte du capitaine. Suis la piste jusqu'à la croix.</p>
+      <svg class="map-big" id="mapBig" role="img" aria-label="Carte au trésor assemblée"></svg>
+      <div class="msg ans" id="mChest" style="text-align:center"></div>
+      <div style="text-align:center"><button class="btn" id="openChest">Creuser là où est la croix</button></div>
+      <div id="favBox" hidden>
+        <p style="margin:18px 0 4px"><b>Mon île préférée était…</b></p>
+        <div class="fav" id="fav"></div>
+      </div>
+                </div>
+  </section>
+</div>
+
+<div class="win" id="win" hidden><div class="box"><h3 id="winT"></h3><p id="winS" style="margin:0 0 6px"></p><svg id="winSvg" role="img" aria-label="Morceau de carte gagné"></svg><div style="margin-top:8px"><button class="btn" id="winOk">Continuer</button></div></div></div>
+
+<script>
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var NS='http://www.w3.org/2000/svg';
+  function el(tag,attrs,parent){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
+  function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+  function say(id,txt,cls){var m=$('#'+id);m.textContent=txt;m.className='msg'+(cls?' '+cls:'')}
+
+  /* ---------- navigation ---------- */
+  var names=['Départ','Île 1','Île 2','Île 3','Île 4','Coffre'];
+  var cur=0;
+  var tabs=$('#tabs');
+  names.forEach(function(n,i){var b=document.createElement('button');b.className='tab';b.innerHTML=n+' <span class="tick">✓</span>';b.addEventListener('click',function(){go(i)});tabs.appendChild(b)});
+  function go(i){cur=i;$$('.scr').forEach(function(s,k){s.classList.toggle('show',k===i)});$$('.tab').forEach(function(t,k){t.setAttribute('aria-current',k===i?'true':'false')});if(i===5)renderChest();window.scrollTo(0,0)}
+  document.addEventListener('keydown',function(e){if(e.target.tagName==='INPUT')return;if(e.key==='ArrowRight'&&cur<5)go(cur+1);if(e.key==='ArrowLeft'&&cur>0)go(cur-1)});
+  go(0);
+
+  $$('.card').forEach(function(card){
+    var nav=$('.subnav',card);if(!nav)return;
+    $$('.pill',nav).forEach(function(p){p.addEventListener('click',function(){
+      $$('.pill',nav).forEach(function(q){q.setAttribute('aria-selected',q===p?'true':'false')});
+      $$('.sub',card).forEach(function(s){s.classList.toggle('show',s.getAttribute('data-s')===p.getAttribute('data-s'))});
+    })});
+  });
+  $$('[data-help]').forEach(function(b){b.addEventListener('click',function(){var h=$('#'+b.getAttribute('data-help'));h.hidden=!h.hidden})});
+
+
+  /* ---------- la carte au trésor : 4 morceaux ---------- */
+  var pieces=[false,false,false,false],IL=['Île des Chiffres','Mont des Droites','Baie des Parts','Cap des Virgules'];
+  var seed=11;function rnd(){seed=(seed*9301+49297)%233280;return seed/233280}
+  var C0=[480,320],Vt=[],Vb=[],Hl=[],Hr=[],y,x;
+  for(y=0;y<320;y+=14)Vt.push([480+(rnd()-.5)*26,y]);
+  for(y=334;y<640;y+=14)Vb.push([480+(rnd()-.5)*26,y]);Vb.push([480+(rnd()-.5)*26,640]);
+  for(x=0;x<480;x+=14)Hl.push([x,320+(rnd()-.5)*26]);
+  for(x=494;x<960;x+=14)Hr.push([x,320+(rnd()-.5)*26]);Hr.push([960,320+(rnd()-.5)*26]);
+  var POLY=[
+    [[0,0]].concat(Vt,[C0],Hl.slice().reverse()),
+    Vt.concat([C0],Hr,[[960,0]]),
+    [C0].concat(Hr,[[960,640]],Vb.slice().reverse()),
+    [C0].concat(Vb,[[0,640]],Hl)
+  ];
+  var CEN=[[240,160],[720,160],[720,480],[240,480]];
+  var VB=['-12 -12 504 344','468 -12 504 344','468 308 504 344','-12 308 504 344'];
+  function pts(p){return p.map(function(a){return a[0].toFixed(1)+','+a[1].toFixed(1)}).join(' ')}
+  function palm(px,py){return '<g transform="translate('+px+' '+py+')"><path d="M0 0 q8 -22 -2 -44" fill="none" stroke="#6b4a1f" stroke-width="5" stroke-linecap="round"/><g fill="none" stroke="#2f6b3c" stroke-width="5" stroke-linecap="round"><path d="M-2 -44 q-22 -4 -34 12"/><path d="M-2 -44 q-12 -18 -30 -16"/><path d="M-2 -44 q4 -22 24 -22"/><path d="M-2 -44 q22 -10 36 4"/><path d="M-2 -44 q14 4 26 20"/></g></g>'}
+  function wave(wx,wy){return '<path d="M0 0 q6 -7 12 0 q6 7 12 0" transform="translate('+wx+' '+wy+')" fill="none" stroke="#4a6f78" stroke-width="2.2" opacity=".7"/>'}
+  function art(){
+    var land='#f6e7bd',ink='#6b4a1f',lab='font-family="Caveat Brush,Segoe Print,cursive" fill="#5a3a12"';
+    var main='M440 160 C520 110 640 90 760 110 C880 130 930 220 910 320 C930 420 900 520 800 570 C700 610 560 590 500 540 C450 500 470 430 490 380 C440 320 420 220 440 160 Z';
+    var west='M130 400 C180 360 300 370 340 420 C380 470 330 540 250 545 C160 550 100 500 130 400 Z';
+    var tl='M40 120 C50 82 118 76 136 108 C148 134 100 154 62 142 C42 134 36 128 40 120 Z';
+    var waves=[[30,190],[250,62],[330,160],[370,270],[60,300],[200,300],[40,390],[56,520],[100,606],[380,600],[408,376],[430,560],[600,56],[720,46],[860,58],[520,88],[540,626],[860,604],[300,40],[150,40]].map(function(w){return wave(w[0],w[1])}).join('');
+    var p='M184 250 C260 255 360 220 480 232 C560 244 620 215 700 245 C780 275 800 300 830 330 C860 365 880 400 850 430 C820 460 760 440 700 480 C640 520 570 520 500 500 C440 480 390 490 340 495 C300 500 270 470 235 442';
+    return ''
+    +'<rect x="-12" y="-12" width="984" height="664" fill="url(#PREg)"/>'
+    +'<circle cx="300" cy="360" r="90" fill="#b98b4a" opacity=".10"/><circle cx="820" cy="80" r="70" fill="#b98b4a" opacity=".12"/><circle cx="120" cy="40" r="50" fill="#b98b4a" opacity=".10"/><circle cx="560" cy="620" r="80" fill="#b98b4a" opacity=".10"/>'
+    +waves
+    +[main,west,tl].map(function(d){return '<path d="'+d+'" fill="none" stroke="#7fa3a8" stroke-width="14" opacity=".35" stroke-linejoin="round"/>'}).join('')
+    +[main,west,tl].map(function(d){return '<path d="'+d+'" fill="'+land+'" stroke="'+ink+'" stroke-width="3.5" stroke-linejoin="round"/>'}).join('')
+    /* TL */
+    +'<g><rect x="22" y="20" width="300" height="56" rx="6" fill="'+land+'" stroke="'+ink+'" stroke-width="3"/><text x="38" y="46" font-size="26" '+lab+'>CARTE DU CAPITAINE</text><text x="38" y="68" font-size="17" '+lab+' opacity=".85">Archipel des Décimales</text></g>'
+    +'<g transform="translate(410 90)"><circle r="34" fill="none" stroke="'+ink+'" stroke-width="2.5"/><polygon points="0,-48 8,-8 0,48 -8,-8" fill="'+ink+'"/><polygon points="-48,0 -8,-8 48,0 -8,8" fill="#8b2a1f"/><text x="-7" y="-56" font-size="22" '+lab+'>N</text></g>'
+    +'<g transform="translate(70 235)"><path d="M30 0 L112 0 L96 26 L46 26 Z" fill="'+ink+'"/><line x1="70" y1="0" x2="70" y2="-72" stroke="'+ink+'" stroke-width="4"/><path d="M70 -66 Q112 -42 70 -6 Z" fill="#fff" stroke="'+ink+'" stroke-width="2.5"/><path d="M70 -66 Q30 -42 70 -6 Z" fill="#fff" stroke="'+ink+'" stroke-width="2.5"/><path d="M70 -72 L96 -66 L70 -60 Z" fill="#222"/></g>'
+    +'<g transform="translate(46 4)">'+palm(60,150)+'</g>'
+    +'<text x="148" y="124" font-size="22" '+lab+'>Île des Chiffres</text>'
+    /* TR */
+    +'<polygon points="640,178 690,92 742,178" fill="#e2cb94" stroke="'+ink+'" stroke-width="3" stroke-linejoin="round"/><polygon points="690,92 676,122 690,114 704,124" fill="#fff" stroke="'+ink+'" stroke-width="2"/><polygon points="590,180 626,128 662,180" fill="#e2cb94" stroke="'+ink+'" stroke-width="3" stroke-linejoin="round"/>'
+    +'<path d="M650 170 L668 150 M672 170 L690 140 M700 170 L714 150" stroke="'+ink+'" stroke-width="2" opacity=".6"/>'
+    +palm(540,205)+palm(830,175)+palm(790,215)
+    +'<text x="600" y="208" font-size="23" '+lab+'>Mont des Droites</text>'
+    /* BR */
+    +'<g transform="translate(740 495)"><path d="M0 40 C-10 0 20 -26 56 -24 C92 -22 110 8 100 40 Z" fill="#c9b78c" stroke="'+ink+'" stroke-width="3"/><ellipse cx="38" cy="2" rx="9" ry="12" fill="#3b2a12"/><ellipse cx="68" cy="2" rx="9" ry="12" fill="#3b2a12"/><path d="M52 18 L58 18 L55 28 Z" fill="#3b2a12"/></g>'
+    +palm(890,430)+palm(560,500)+palm(600,540)
+    +'<text x="560" y="372" font-size="24" '+lab+' transform="rotate(-6 560 372)">Baie des Parts</text>'
+    /* BL */
+    +palm(180,520)+palm(300,520)
+    +'<text x="160" y="410" font-size="23" '+lab+'>Cap des Virgules</text>'
+    +'<path d="'+p+'" fill="none" stroke="#8b2a1f" stroke-width="5.5" stroke-dasharray="1 13" stroke-linecap="round"/>'
+    +'<g stroke="#b3261e" stroke-width="12" stroke-linecap="round"><line x1="203" y1="424" x2="247" y2="468"/><line x1="247" y1="424" x2="203" y2="468"/></g>';
+  }
+  function buildMap(svg,pre){
+    var d='<defs><radialGradient id="'+pre+'g" cx=".5" cy=".5" r=".75"><stop offset="0" stop-color="#f3dfa8"/><stop offset=".7" stop-color="#ecd08a"/><stop offset="1" stop-color="#c99a55"/></radialGradient>';
+    POLY.forEach(function(p,i){d+='<clipPath id="'+pre+'c'+i+'"><polygon points="'+pts(p)+'"/></clipPath>'});
+    d+='<g id="'+pre+'art">'+art().replace(/PRE/g,pre)+'</g></defs>';
+    var b='';
+    POLY.forEach(function(p,i){
+      b+='<g class="pc" data-p="'+i+'" style="display:none"><g clip-path="url(#'+pre+'c'+i+')"><use href="#'+pre+'art"/></g><polygon points="'+pts(p)+'" fill="none" stroke="#6b4a1f" stroke-width="3.5" stroke-linejoin="round"/></g>';
+      b+='<g class="gh" data-p="'+i+'"><polygon points="'+pts(p)+'" fill="rgba(255,255,255,.55)" stroke="#8a8fb5" stroke-width="3" stroke-dasharray="10 7" stroke-linejoin="round"/><text x="'+CEN[i][0]+'" y="'+(CEN[i][1]+14)+'" text-anchor="middle" font-size="46" fill="#8a8fb5" font-family="Caveat Brush,Segoe Print,cursive">Île '+(i+1)+'</text></g>';
+    });
+    svg.setAttribute('viewBox','-12 -12 984 664');
+    svg.innerHTML=d+b;
+  }
+  var maps=[['#mm','m'],['#mapBig','b']].map(function(m){var sv=$(m[0]);buildMap(sv,m[1]);return sv});
+  function refreshMaps(newI){
+    maps.forEach(function(sv){
+      $$('.pc',sv).forEach(function(g){var i=+g.getAttribute('data-p');g.style.display=pieces[i]?'':'none';if(i===newI){g.classList.remove('pcnew');void g.getBoundingClientRect();g.classList.add('pcnew')}});
+      $$('.gh',sv).forEach(function(g){g.style.display=pieces[+g.getAttribute('data-p')]?'none':''});
+    });
+  }
+  function allPieces(){return pieces.every(Boolean)}
+  var winSvg=$('#winSvg');
+  function showWin(i){
+    buildMap(winSvg,'w');
+    $$('.gh',winSvg).forEach(function(g){g.style.display='none'});
+    $$('.pc',winSvg).forEach(function(g){g.style.display=(+g.getAttribute('data-p')===i)?'':'none'});
+    winSvg.setAttribute('viewBox',VB[i]);
+    $('#winT').textContent=allPieces()?'La carte est complète !':'Morceau n°'+(i+1)+' de la carte !';
+    $('#winS').textContent=allPieces()?'Les quatre morceaux s\'assemblent. Direction la carte !':'Tu as gagné le morceau « '+IL[i]+' ». Regarde où la piste continue.';
+    $('#win').hidden=false;$('#winOk').focus();
+  }
+  $('#winOk').addEventListener('click',function(){$('#win').hidden=true;if(allPieces())go(5)});
+  function earn(i){
+    if(pieces[i])return;
+    pieces[i]=true;$$('.tab')[i+1].classList.add('done');refreshMaps(i);showWin(i);renderChest();
+  }
+  function val(id){return $('#'+id).value.trim()}
+
+  /* ---------- départ ---------- */
+  var S=[
+    {t:'Dans 3 407, le chiffre des centaines est 4.',v:true,e:'Vrai : 3 milliers, 4 centaines, 0 dizaine, 7 unités.'},
+    {t:'[AB] et (AB), c\'est exactement la même chose.',v:false,e:'Faux : [AB] est un segment, il s\'arrête en A et en B. (AB) est une droite, elle continue.'},
+    {t:'Dans 3/4, le 4 dit en combien de parts égales on partage.',v:true,e:'Vrai : le nombre du bas dit en combien de parts égales on coupe.'},
+    {t:'0,5 = 5/100',v:false,e:'Faux : 0,5 = 5/10 (cinq dixièmes). Et 5/100 = 0,05.'}
+  ];
+  var si=0;
+  function renderS(){
+    $('#stmt').textContent=(si+1)+'. '+S[si].t;$('#stmtAns').textContent='';
+    var d=$('#dots0');d.innerHTML='';S.forEach(function(_,k){var i=document.createElement('i');if(k<si)i.className='on';if(k===si)i.className+=' cur';d.appendChild(i)});
+    $('#stmtNext').textContent=si<S.length-1?'Phrase suivante →':'Direction l\'île 1 →';
+  }
+  $('#stmtShow').addEventListener('click',function(){var m=$('#stmtAns');m.textContent=(S[si].v?"DEBOUT. ":"ASSIS. ")+S[si].e});
+  $('#stmtNext').addEventListener('click',function(){if(si<S.length-1){si++;renderS()}else go(1)});
+  renderS();
+
+  /* ---------- île 1 : jeu ---------- */
+  var deck=shuffle([0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9]),board=[null,null,null,null],curCard=null,round=1;
+  function renderBoard(){
+    $$('.cell[data-i]').forEach(function(c){var i=+c.getAttribute('data-i');c.textContent=board[i]===null?'':board[i];c.classList.toggle('can',curCard!==null&&board[i]===null)});
+    var cn=$('#cardn');cn.textContent=curCard===null?'?':curCard;cn.classList.toggle('empty',curCard===null);
+    var full=board.every(function(x){return x!==null});
+    $('#draw').disabled=full;
+    $('#nextRound').hidden=!full;
+    $('#nextRound').textContent=round<3?'Manche suivante':'Terminé : passe au défi';
+    $('#roundLbl').textContent='Manche '+round+' sur 3';
+  }
+  $('#draw').addEventListener('click',function(){
+    if(curCard!==null){say('g1msg','Pose d\'abord la carte dans une case.','no');return}
+    if(deck.length<1)deck=shuffle([0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9]);
+    curCard=deck.pop();say('g1msg','Écris '+curCard+' dans une case de ton cahier, puis clique une case ici.');renderBoard();
+  });
+  $$('.cell[data-i]').forEach(function(c){c.addEventListener('click',function(){
+    var i=+c.getAttribute('data-i');
+    if(curCard===null){say('g1msg','Pioche une carte d\'abord.');return}
+    if(board[i]!==null){say('g1msg','Cette case est déjà prise. Interdit de changer !','no');return}
+    board[i]=curCard;curCard=null;say('g1msg','');renderBoard();
+    if(board.every(function(x){return x!==null}))startBest();
+  })});
+  $('#nextRound').addEventListener('click',function(){
+    if(round<3){round++;board=[null,null,null,null];curCard=null;say('g1msg','');$('#best').hidden=true;renderBoard();var cn=$('#cardn');cn.textContent='?'}
+    else{$$('#s1 .pill')[1].click()}
+  });
+  /* ---------- île 1 : le plus grand nombre possible ---------- */
+  var bch=[],bcell=[null,null,null,null],bsel=-1;
+  function startBest(){
+    bch=board.map(function(d){return {d:d,used:false}});bcell=[null,null,null,null];bsel=-1;
+    $('#best').hidden=false;say('bMsg','');
+    say('g1msg','Le nombre de la classe : '+board[0]+board[1]+board[2]+','+board[3]+'. Et si on avait connu les 4 chiffres dès le départ ?');
+    renderBest();
+  }
+  function renderBest(){
+    var box=$('#bchips');box.innerHTML='';
+    bch.forEach(function(c,i){var b=document.createElement('button');b.className='chip'+(c.used?' used':'')+(i===bsel?' sel':'');b.textContent=c.d;b.addEventListener('click',function(){if(c.used)return;bsel=(bsel===i)?-1:i;renderBest()});box.appendChild(b)});
+    $$('.cell[data-b]').forEach(function(c){var i=+c.getAttribute('data-b');c.textContent=bcell[i]===null?'':bch[bcell[i]].d;c.classList.remove('good','bad');c.classList.toggle('can',bsel>=0&&bcell[i]===null)});
+  }
+  $$('.cell[data-b]').forEach(function(c){c.addEventListener('click',function(){
+    var i=+c.getAttribute('data-b');
+    if(bcell[i]!==null){bch[bcell[i]].used=false;bcell[i]=null;bsel=-1;renderBest();return}
+    if(bsel<0){say('bMsg','Choisis d\'abord un chiffre en haut.');return}
+    bcell[i]=bsel;bch[bsel].used=true;bsel=-1;say('bMsg','');renderBest();
+  })});
+  function bestSeq(){return board.slice().sort(function(a,b){return b-a})}
+  $('#bCheck').addEventListener('click',function(){
+    if(bcell.some(function(x){return x===null})){say('bMsg','Place les 4 chiffres dans les cases.','no');return}
+    var mine=bcell.map(function(k){return bch[k].d}),b=bestSeq();
+    if(mine.join('')===b.join('')){say('bMsg','Oui : '+b[0]+b[1]+b[2]+','+b[3]+'. On range les chiffres du plus grand au plus petit, en commençant par les centaines.','ok')}
+    else if(mine[0]!==b[0])say('bMsg','Quel chiffre vaut le plus ? Où faut-il le mettre pour que le nombre soit le plus grand ?','no');
+    else say('bMsg','Bien parti. Regarde la suite : les dizaines valent plus que les unités.','no');
+  });
+  $('#bShow').addEventListener('click',function(){
+    var b=bestSeq(),used=[false,false,false,false];
+    b.forEach(function(d,i){for(var k=0;k<4;k++){if(!used[k]&&bch[k].d===d){used[k]=true;bcell[i]=k;break}}});
+    bch.forEach(function(c,k){c.used=true});bsel=-1;renderBest();say('bMsg','Réponse : '+b[0]+b[1]+b[2]+','+b[3]+'.','ok');
+  });
+  renderBoard();
+
+  /* ---------- île 1 : défi tableau ---------- */
+  var exp=[5,2,0,7,3,6],chips=shuffle([5,2,0,7,3,6]).map(function(d){return {d:d,used:false}}),tn=[null,null,null,null,null,null],selChip=-1;
+  function renderTn(){
+    var box=$('#chips');box.innerHTML='';
+    chips.forEach(function(c,i){var b=document.createElement('button');b.className='chip'+(c.used?' used':'')+(i===selChip?' sel':'');b.textContent=c.d;b.addEventListener('click',function(){if(c.used)return;selChip=(selChip===i)?-1:i;renderTn()});box.appendChild(b)});
+    $$('.cell[data-t]').forEach(function(c){var i=+c.getAttribute('data-t');c.textContent=tn[i]===null?'':chips[tn[i]].d;c.classList.remove('good','bad')});
+  }
+  $$('.cell[data-t]').forEach(function(c){c.addEventListener('click',function(){
+    var i=+c.getAttribute('data-t');
+    if(tn[i]!==null){chips[tn[i]].used=false;tn[i]=null;selChip=-1;renderTn();return}
+    if(selChip<0){say('tnMsg','Choisis d\'abord un chiffre en haut.');return}
+    tn[i]=selChip;chips[selChip].used=true;selChip=-1;say('tnMsg','');renderTn();
+  })});
+  $('#tnCheck').addEventListener('click',function(){
+    var okAll=true;
+    $$('.cell[data-t]').forEach(function(c){var i=+c.getAttribute('data-t');var good=tn[i]!==null&&chips[tn[i]].d===exp[i];if(!good)okAll=false;c.classList.add(tn[i]===null?'bad':(good?'good':'bad'))});
+    say('tnMsg',okAll?'Tout est à sa place. Dans 5 207,36, le 2 est le chiffre des centaines.':'Les cases rouges sont à revoir : relis le nom des colonnes.',okAll?'ok':'no');if(okAll)earn(0);
+  });
+  $('#tnReset').addEventListener('click',function(){chips.forEach(function(c){c.used=false});tn=[null,null,null,null,null,null];selChip=-1;say('tnMsg','');renderTn()});
+  renderTn();
+
+  /* ---------- île 2 ---------- */
+  var fig=$('#fig2'),mode=null,mOk=false,cOk=false,P={A:200,B:520,Y:150,M:360};
+  var rg=$('#ruleG');
+  for(var k=0;k<=8;k++){var x=200+40*k;el('line',{x1:x,y1:150,x2:x,y2:172,stroke:'#5a6494','stroke-width':2},rg);var t=el('text',{x:x-5,y:194,'font-size':17,fill:'#5a6494','font-family':'Nunito,sans-serif'},rg);t.textContent=k}
+  var rt=el('text',{x:560,y:194,'font-size':17,fill:'#5a6494','font-family':'Nunito,sans-serif'},rg);rt.textContent='cm';
+  $('#ruler').addEventListener('click',function(){var on=this.getAttribute('aria-pressed')!=='true';this.setAttribute('aria-pressed',on);rg.style.display=on?'':'none';this.textContent=on?'Cacher la règle':'Montrer la règle'});
+  function enable(n){var b=$('[data-st="'+n+'"]');if(b)b.disabled=false}
+  $$('#steps2 [data-st]').forEach(function(b){b.addEventListener('click',function(){
+    var n=+b.getAttribute('data-st');
+    if(n===1){$('#lnD').style.display='';enable(2);say('m2s','La droite continue des deux côtés.','ok')}
+    if(n===2){$('#lnS').style.display='';enable(3);say('m2s','Le segment s\'arrête en A et en B.','ok')}
+    if(n===3){mode='M';say('m2s','Clique sur la figure pour placer M.')}
+    if(n===4){mode='C';say('m2s','Clique sur la figure pour placer C.')}
+  })});
+  function pt(g,x,name,color){g.innerHTML='';el('circle',{cx:x,cy:P.Y,r:9,fill:color},g);var t=el('text',{x:x-9,y:P.Y-18,'font-size':30,'font-weight':800,fill:color,'font-family':'Nunito,sans-serif'},g);t.textContent=name}
+  fig.addEventListener('click',function(e){
+    if(!mode)return;
+    var r=fig.getBoundingClientRect(),x=(e.clientX-r.left)*800/r.width,y=(e.clientY-r.top)*300/r.height;
+    if(mode==='M'){
+      if(Math.abs(y-P.Y)>40){say('m2s','M doit être sur le segment [AB] : clique sur la ligne rouge.','no');return}
+      if(Math.abs(x-P.M)<=16){pt($('#ptM'),P.M,'M','#1f8a5b');enable(4);mode=null;mOk=true;say('m2s','M est bien le milieu : AM = MB = 4 cm.','ok');if(mOk&&cOk)earn(1)}
+      else{pt($('#ptM'),Math.max(P.A,Math.min(P.B,x)),'M','#d9383a');say('m2s','Pas encore au milieu. Mesure AB avec la règle, puis coupe en deux.','no')}
+    }else if(mode==='C'){
+      if(Math.abs(y-P.Y)>40){say('m2s','C doit appartenir à la droite (AB) : clique sur la droite.','no');return}
+      if(x>=P.A&&x<=P.B){say('m2s','Ce point est sur [AB] : il faut C ∉ [AB]. Place-le en dehors du segment.','no');return}
+      pt($('#ptC'),Math.max(70,Math.min(730,x)),'C','#2b59c3');mode=null;cOk=true;say('m2s','C ∈ (AB) et C ∉ [AB] : c\'est bon.','ok');if(mOk&&cOk)earn(1);
+    }
+  });
+
+  /* ---------- île 3 : la tablette de Barbe-Noire ---------- */
+  var f3={a:false,b:false,c:false};
+  function step3(msgId,done){
+    var left=[];if(!f3.a)left.push('1');if(!f3.b)left.push('2');if(!f3.c)left.push('3');
+    if(!left.length){earn(2);return}
+    say(msgId,done+' Il reste l\'étape '+left.join(' et ')+'.','ok');
+  }
+  var TB=[
+    {n:'A',cuts:[[50,10,50,160],[90,10,90,160],[130,10,130,160],[170,10,170,160],[210,10,210,160]]},
+    {n:'B',cuts:[[30,10,30,160],[100,10,100,160],[130,10,130,160],[180,10,180,160],[220,10,220,160]]},
+    {n:'C',cuts:[[90,10,90,160],[170,10,170,160],[10,85,250,85]]}
+  ],selT={};
+  var tb=$('#tabls');
+  TB.forEach(function(t){
+    var wrap=document.createElement('div');wrap.className='tabl';
+    var b=document.createElement('button');b.setAttribute('aria-label','Tablette '+t.n);
+    var sv=el('svg',{width:260,height:170,viewBox:'0 0 260 170'});
+    el('rect',{x:10,y:10,width:240,height:150,rx:6,fill:'#8a5a2b',stroke:'#3b2a12','stroke-width':3},sv);
+    t.cuts.forEach(function(c){el('line',{x1:c[0],y1:c[1],x2:c[2],y2:c[3],stroke:'#3b2a12','stroke-width':3},sv)});
+    b.appendChild(sv);
+    b.addEventListener('click',function(){selT[t.n]=!selT[t.n];b.classList.toggle('sel',selT[t.n]);say('m3a','')});
+    var lab=document.createElement('b');lab.textContent=t.n;
+    wrap.appendChild(b);wrap.appendChild(lab);tb.appendChild(wrap);
+  });
+  $('#tCheck').addEventListener('click',function(){
+    var A=!!selT.A,B=!!selT.B,Cc=!!selT.C;
+    if(A&&Cc&&!B){f3.a=true;step3('m3a','A et C ont 6 parts de même taille. B a 6 parts, mais elles ne sont pas égales.')}
+    else if(B)say('m3a','Regarde la taille des parts de B : sont-elles toutes pareilles ?','no');
+    else say('m3a','Il y a une autre tablette aux parts égales. Pas besoin que les parts aient la même forme.','no');
+  });
+  var tabC=$('#tabC');
+  for(var r3=0;r3<2;r3++)for(var c3=0;c3<3;c3++){
+    var pp=el('rect',{x:20+c3*125,y:20+r3*115,width:125,height:115,class:'part'},tabC);
+    pp.addEventListener('click',(function(q){return function(){q.classList.toggle('on');say('m3b','')}})(pp));
+  }
+  $('#tcReset').addEventListener('click',function(){$$('.part',tabC).forEach(function(p){p.classList.remove('on')});say('m3b','')});
+  $('#ok3b').addEventListener('click',function(){
+    var n=$$('.part.on',tabC).length;
+    if(n!==5){say('m3b','Tu as colorié '+n+' part'+(n>1?'s':'')+'. Le pirate en mange 5.','no');return}
+    if(val('in3a')!=='5'||val('in3b')!=='6'){say('m3b','Les 5 parts sont coloriées. Pour la fraction : combien de parts mangées en haut, combien de parts en tout en bas ?','no');return}
+    f3.b=true;step3('m3b','5 parts mangées sur 6 : c\'est 5/6.');
+  });
+  var ax=$('#axis'),tx=function(k){return 90+105*k};
+  el('line',{x1:60,y1:90,x2:760,y2:90,stroke:'#1f2a5c','stroke-width':4},ax);
+  el('path',{d:'M750 78 L772 90 L750 102',fill:'none',stroke:'#1f2a5c','stroke-width':4},ax);
+  for(var k2=0;k2<=6;k2++){el('line',{x1:tx(k2),y1:(k2===0||k2===6)?66:74,x2:tx(k2),y2:(k2===0||k2===6)?114:106,stroke:'#1f2a5c','stroke-width':4},ax)}
+  [[0,'0'],[6,'1']].forEach(function(z){var t=el('text',{x:tx(z[0])-8,y:150,'font-size':38,'font-weight':800,fill:'#1f2a5c','font-family':'Nunito,sans-serif'},ax);t.textContent=z[1]});
+  var mk=el('g',{},ax);
+  var hit=el('rect',{x:60,y:50,width:700,height:80,fill:'transparent',class:'hit'},ax);
+  hit.addEventListener('click',function(e){
+    var r=ax.getBoundingClientRect(),x=(e.clientX-r.left)*800/r.width,k=Math.round((x-90)/105);
+    k=Math.max(0,Math.min(6,k));mk.innerHTML='';
+    var X=tx(k);el('line',{x1:X-12,y1:78,x2:X+12,y2:102,stroke:'#d9383a','stroke-width':6,'stroke-linecap':'round'},mk);el('line',{x1:X-12,y1:102,x2:X+12,y2:78,stroke:'#d9383a','stroke-width':6,'stroke-linecap':'round'},mk);
+    if(k===5){var t=el('text',{x:X-18,y:60,'font-size':34,'font-weight':800,fill:'#d9383a','font-family':'Nunito,sans-serif'},mk);t.textContent='5/6';f3.c=true;step3('m3c','Bien placé : 5 graduations après 0, chaque graduation vaut 1/6.')}
+    else say('m3c','Tu es à la graduation '+k+'. Compte 5 graduations à partir de 0.','no');
+  });
+
+  /* ---------- île 4 : dixièmes, centièmes, loupe, relier ---------- */
+  var f4={a:false,b:false,c:false,d:false};
+  function step4(msgId,done){
+    var left=[];if(!f4.a)left.push('1');if(!f4.b)left.push('2');if(!f4.c)left.push('3');if(!f4.d)left.push('4');
+    if(!left.length){earn(3);return}
+    say(msgId,done+' Il reste l\'étape '+left.join(', ')+'.','ok');
+  }
+  function fr(a,b){return '<span class="frac"><b>'+a+'</b><span class="fb"></span><b>'+b+'</b></span>'}
+
+  /* 1 · dixièmes */
+  var bar1=$('#bar1'),nT=0,segs=[];
+  for(var k=0;k<10;k++){
+    var sg=el('rect',{x:20+k*76,y:20,width:76,height:70,class:'part'},bar1);segs.push(sg);
+    sg.addEventListener('click',(function(j){return function(){nT=(nT===j+1)?j:j+1;draw1()}})(k));
+  }
+  function draw1(){
+    segs.forEach(function(g,i){g.classList.toggle('on',i<nT);g.style.fill=i<nT?'#c9a3e6':'#fff'});
+    var dec=nT===10?'1':(nT===0?'0':'0,'+nT);
+    $('#read1').innerHTML=nT===0?'Clique sur une part pour la colorier.':
+      '<span><b>'+nT+'</b> dixième'+(nT>1?'s':'')+'</span><span>=</span>'+fr(nT,10)+'<span>=</span><span class="big2">'+dec+'</span>'+(nT===10?'<span>(la bande entière)</span>':'');
+    if(nT===6&&!f4.a){f4.a=true;step4('m4a','6 dixièmes : '+'6/10, qu\'on écrit 0,6.')}
+    else if(nT!==6&&!f4.a)say('m4a','');
+  }
+  draw1();
+
+  /* 2 · centièmes */
+  var sq=$('#sq'),painting=false,paintVal=true,T=[
+    {n:34,t:'0,34',ok:'34 centièmes = 3 dixièmes + 4 centièmes = 0,34.'},
+    {n:7,t:'0,07',ok:'7 centièmes : aucun dixième. Le 0 garde la place des dixièmes, c\'est pour ça qu\'on écrit 0,07 et pas 0,7.'},
+    {n:50,t:'0,5',ok:'50 petits carrés : 5 dixièmes = 50 centièmes, donc 0,5 = 0,50.'}
+  ],ti=0,tdone=false;
+  for(var q=0;q<100;q++){var c=document.createElement('i');c.setAttribute('data-q',q);sq.appendChild(c)}
+  function count(){
+    var n=$$('#sq i.on').length,d=Math.floor(n/10),u=n%10,dec=n===100?'1':'0,'+String(n).padStart(2,'0');
+    $('#read2').innerHTML=n===0?'Colorie des petits carrés.':'<span><b>'+n+'</b> carré'+(n>1?'s':'')+'</span><span>=</span>'+fr(n,100)+'<span>=</span><span>'+d+' dixième'+(d>1?'s':'')+' et '+u+' centième'+(u>1?'s':'')+'</span><span>=</span><span class="big2">'+dec+'</span>';
+    return n;
+  }
+  function tgtShow(){$('#tgt').textContent='Cible : '+T[ti].t;$('#tgtN').textContent='étape '+(ti+1)+' sur 3'}
+  function cellAt(e){var t=document.elementFromPoint(e.clientX,e.clientY);return (t&&t.parentNode===sq)?t:null}
+  sq.addEventListener('pointerdown',function(e){var cc=cellAt(e);if(!cc)return;painting=true;paintVal=!cc.classList.contains('on');cc.classList.toggle('on',paintVal);count();say('m4b','');sq.setPointerCapture&&sq.setPointerCapture(e.pointerId);e.preventDefault()});
+  sq.addEventListener('pointermove',function(e){if(!painting)return;var cc=cellAt(e);if(cc){cc.classList.toggle('on',paintVal);count()}});
+  window.addEventListener('pointerup',function(){painting=false});
+  $('#sqReset').addEventListener('click',function(){$$('#sq i').forEach(function(cc){cc.classList.remove('on')});count();say('m4b','')});
+  $('#sqCheck').addEventListener('click',function(){
+    if(tdone)return;
+    var n=count(),tg=T[ti];
+    if(n===tg.n){
+      if(ti<2){say('m4b',tg.ok,'ok');$('#sqNext').hidden=false}
+      else{tdone=true;f4.b=true;step4('m4b',tg.ok)}
+    }else if(n>tg.n)say('m4b','Trop : '+tg.t+' correspond à '+tg.n+' petits carrés. Une colonne = 0,1 = 10 carrés.','no');
+    else say('m4b','Il en manque : '+tg.t+' correspond à '+tg.n+' petits carrés. Une colonne = 0,1 = 10 carrés.','no');
+  });
+  $('#sqNext').addEventListener('click',function(){ti++;$$('#sq i').forEach(function(cc){cc.classList.remove('on')});count();tgtShow();say('m4b','');$('#sqNext').hidden=true});
+  count();tgtShow();
+
+  /* 3 · la loupe */
+  var lp=$('#lp'),lx=function(k){return 50+70*k},zoomed=false;
+  el('line',{x1:30,y1:70,x2:770,y2:70,stroke:'#1f2a5c','stroke-width':4},lp);
+  for(var a=0;a<=10;a++){el('line',{x1:lx(a),y1:(a%5===0)?52:60,x2:lx(a),y2:(a%5===0)?88:80,stroke:'#1f2a5c','stroke-width':(a%5===0)?4:3},lp)}
+  [[0,'1'],[5,'1,5'],[10,'2']].forEach(function(z){var t=el('text',{x:lx(z[0])-(z[1].length>1?18:7),y:118,'font-size':30,'font-weight':800,fill:'#1f2a5c','font-family':'Nunito,sans-serif'},lp);t.textContent=z[1]});
+  var seg=el('rect',{x:lx(3),y:56,width:70,height:28,fill:'#c9a3e6',opacity:'.6',style:'display:none'},lp);
+  var lz=el('g',{style:'display:none'},lp);
+  el('line',{x1:lx(3),y1:84,x2:50,y2:210,stroke:'#8a3fb5','stroke-width':2.5,'stroke-dasharray':'8 6'},lz);
+  el('line',{x1:lx(4),y1:84,x2:750,y2:210,stroke:'#8a3fb5','stroke-width':2.5,'stroke-dasharray':'8 6'},lz);
+  el('line',{x1:30,y1:230,x2:770,y2:230,stroke:'#8a3fb5','stroke-width':4},lz);
+  for(var b=0;b<=10;b++){el('line',{x1:lx(b),y1:(b===0||b===10)?212:220,x2:lx(b),y2:(b===0||b===10)?248:240,stroke:'#8a3fb5','stroke-width':(b===0||b===10)?4:3},lz)}
+  [[0,'1,3'],[10,'1,4']].forEach(function(z){var t=el('text',{x:lx(z[0])-20,y:286,'font-size':30,'font-weight':800,fill:'#8a3fb5','font-family':'Nunito,sans-serif'},lz);t.textContent=z[1]});
+  var mk2=el('g',{},lz);
+  var hit1=el('rect',{x:lx(0)-10,y:40,width:720,height:60,fill:'transparent',class:'hit'},lp);
+  hit1.addEventListener('click',function(e){
+    var r=lp.getBoundingClientRect(),x=(e.clientX-r.left)*800/r.width,j=Math.floor((x-50)/70);
+    if(zoomed)return;
+    if(j===3){zoomed=true;seg.style.display='';lz.style.display='';say('m4c','Zoom ! Entre 1,3 et 1,4, chaque graduation vaut 0,01. Où est 1,37 ?')}
+    else say('m4c','1,37 est entre 1,3 et 1,4. Compte les dixièmes à partir de 1.','no');
+  });
+  var hit2=el('rect',{x:lx(0)-10,y:204,width:720,height:56,fill:'transparent',class:'hit'},lz);
+  hit2.addEventListener('click',function(e){
+    var r=lp.getBoundingClientRect(),x=(e.clientX-r.left)*800/r.width,k=Math.max(0,Math.min(10,Math.round((x-50)/70)));
+    mk2.innerHTML='';var X=lx(k);
+    el('line',{x1:X-12,y1:218,x2:X+12,y2:242,stroke:'#d9383a','stroke-width':6,'stroke-linecap':'round'},mk2);el('line',{x1:X-12,y1:242,x2:X+12,y2:218,stroke:'#d9383a','stroke-width':6,'stroke-linecap':'round'},mk2);
+    if(k===7){var t=el('text',{x:X-26,y:200,'font-size':32,'font-weight':800,fill:'#d9383a','font-family':'Nunito,sans-serif'},mk2);t.textContent='1,37';f4.c=true;step4('m4c','Bien placé : 1,3 + 7 centièmes = 1,37.')}
+    else say('m4c','Tu es à la graduation '+k+'. Compte 7 graduations à partir de 1,3.','no');
+  });
+
+  /* 4 · relier */
+  var L=['7/10','25/100','9/100'],Rr=shuffle(['0,25','0,9','0,09','0,7']),ans={'7/10':'0,7','25/100':'0,25','9/100':'0,09'},selL=null,done=0,pbox=$('#pairs');
+  var lb={};
+  for(var i4=0;i4<4;i4++){
+    var l=document.createElement('button');
+    if(i4<L.length){l.textContent=L[i4];l.addEventListener('click',(function(btn,key){return function(){if(btn.dataset.done)return;$$('#pairs button').forEach(function(bb){bb.classList.remove('sel')});selL=key;btn.classList.add('sel');say('m4d','')}})(l,L[i4]));lb[L[i4]]=l}
+    else{l.style.visibility='hidden'}
+    pbox.appendChild(l);
+    var rr=document.createElement('button');rr.textContent=Rr[i4];
+    rr.addEventListener('click',(function(btn,key){return function(){
+      if(btn.dataset.done)return;
+      if(selL===null){say('m4d','Choisis d\'abord une fraction à gauche.');return}
+      if(ans[selL]===key){var lbt=lb[selL];lbt.dataset.done=1;btn.dataset.done=1;lbt.classList.remove('sel');lbt.classList.add('p'+done);btn.classList.add('p'+done);done++;selL=null;
+        if(done===3){f4.d=true;step4('m4d','Trois paires trouvées. Il reste 0,9 : c\'est 9/10, pas 9/100.')}else say('m4d','Bonne paire !','ok')}
+      else{btn.classList.add('shake');setTimeout(function(){btn.classList.remove('shake')},350);say('m4d','Ce n\'est pas le même nombre. Pense au dixième ou au centième.','no')}
+    }})(rr,Rr[i4]));
+    pbox.appendChild(rr);
+  }
+
+  /* ---------- carte complète ---------- */
+  function renderChest(){
+    var miss=pieces.map(function(p,i){return p?0:(i+1)}).filter(Boolean);
+    $('#mChest').className='msg ans';
+    $('#mChest').textContent=miss.length?('Il manque encore le morceau de l\'île '+miss.join(', ')+'.'):'La carte est complète. La croix rouge marque l\'endroit du trésor.';
+  }
+  $('#openChest').addEventListener('click',function(){
+    if(!allPieces()){renderChest();return}
+    $('#mChest').textContent='Le coffre est ouvert. Bravo à tout l\'équipage !';$('#mChest').className='msg ans ok';
+    $('#favBox').hidden=false;
+    if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      var cl=['#d9383a','#ffe45c','#2b59c3','#1f8a5b','#c8571d','#8a3fb5'];
+      for(var i=0;i<70;i++){var d=document.createElement('div');d.className='confetti';d.style.left=Math.random()*100+'vw';d.style.background=cl[i%6];d.style.animationDuration=(2+Math.random()*2)+'s';d.style.animationDelay=(Math.random()*.8)+'s';document.body.appendChild(d);setTimeout((function(x){return function(){x.remove()}})(d),5000)}
+    }
+  });
+  var favN=[0,0,0,0],favBox=$('#fav');
+  ['Chiffres','Droites','Parts','Virgules'].forEach(function(n,i){
+    var b=document.createElement('button');b.style.setProperty('--c',['var(--i1)','var(--i2)','var(--i3)','var(--i4)'][i]);
+    b.innerHTML='Île '+(i+1)+' · '+n+'<br><b>0</b>';
+    b.addEventListener('click',function(){favN[i]++;$('b',b).textContent=favN[i]});
+    favBox.appendChild(b);
+  });
+  refreshMaps(-1);renderChest();
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
