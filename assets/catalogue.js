@@ -533,8 +533,8 @@ window.SITE = {
       accroche: "Automatismes et calcul mental",
       evaluations: [
         { etiquette: "Automatismes", titre: "Évaluation d'automatismes",
-          resume: "17 exercices chronométrés, sans calculatrice, ≈ 25 min, sur 40 (note sur 20 = total ÷ 2). Feuille recto-verso à imprimer ; le chronomètre est dans « Automatismes ».", ajout: "2026-11-18",
-          versions: [ { nom: "", sujet: "evaluations/5e/5e-automatismes-eval-feuille-eleve.pdf", corrige: "evaluations/5e/5e-automatismes-eval-corrige-fiche-prof.pdf" } ] }
+          resume: "17 exercices chronométrés, sans calculatrice, ≈ 25 min, sur 40 (note sur 20 = total ÷ 2). Feuille recto-verso à imprimer, chronomètre à projeter au tableau.", ajout: "2026-11-18",
+          versions: [ { nom: "", sujet: "evaluations/5e/5e-automatismes-eval-feuille-eleve.pdf", corrige: "evaluations/5e/5e-automatismes-eval-corrige-fiche-prof.pdf", page: "pages/eval-automatismes-5e/index.html", pageTxt: "Chronomètre à projeter" } ] }
       ],
       chapitres: [
         {

@@ -880,7 +880,7 @@ function vueEvaluations(n){
    <h3>${esc(e.titre)}</h3>
    ${e.resume?`<p class="doux">${esc(e.resume)}</p>`:''}
    <div class="versions">${vs.map(v=>`<div class="version"><span class="v">${v.nom?'Version '+esc(v.nom):'Évaluation'}</span>
-     <span class="boutons">${v.sujet?pdf(v.sujet,'Sujet vierge','sujet'):''}${v.corrige?pdf(v.corrige,'Corrigé','corrige'):''}</span></div>`).join('')}</div>
+     <span class="boutons">${v.sujet?pdf(v.sujet,'Sujet vierge','sujet'):''}${v.corrige?pdf(v.corrige,'Corrigé','corrige'):''}${v.page?pdf(v.page,v.pageTxt||'Page à projeter','sujet'):''}</span></div>`).join('')}</div>
   </article>`};
  ouvrir(`<div class="vue c-${n.couleur}">
   <button class="retour a-haut" data-parent="#${n.id}">${ICO.gauche} ${esc(n.nom)}</button>
