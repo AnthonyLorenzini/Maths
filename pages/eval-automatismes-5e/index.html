@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Évaluation d'automatismes · 5e</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#E9EEF5; --surface:#FFFFFF; --surface2:#F4F7FB; --ink:#132033; --muted:#55657C; --line:#CCD6E3;
+  --accent:#2B55D6; --chalk:#E9A800; --chalk-soft:#FFF3CC;
+  --ok:#1C8A4A; --ok-soft:#DDF3E5; --bad:#C93A2F;
+  --A:#2B55D6; --A-soft:#E3EAFB; --B:#8E44C7; --B-soft:#F0E5FA;
+  --display:"Bricolage Grotesque",ui-rounded,"Segoe UI",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.45;font-variant-numeric:tabular-nums;overflow:hidden}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.08;text-wrap:balance}
+button{font:inherit;cursor:pointer;color:inherit}
+button:focus-visible{outline:3px solid var(--chalk);outline-offset:2px}
+[hidden]{display:none!important}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05;margin:0 .12em;font-size:.82em}
+.frac>span:first-child{border-bottom:.09em solid currentColor;padding:0 .2em .06em}
+.frac>span:last-child{padding:.06em .2em 0}
+
+#app{height:100vh;height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;grid-template-columns:minmax(0,1fr)}
+/* barre du haut */
+.hdr{display:flex;align-items:center;gap:clamp(8px,1.4vw,22px);padding:clamp(8px,1.2vh,14px) clamp(12px,2vw,28px);background:var(--surface);border-bottom:2px solid var(--line)}
+.hdr .ttl{font-family:var(--display);font-weight:800;font-size:clamp(15px,1.6vw,24px);white-space:nowrap}
+.hdr .ttl small{font-family:var(--body);font-weight:400;color:var(--muted);font-size:.7em;margin-left:.6em}
+.tl{flex:1;display:flex;gap:4px;min-width:0}
+.tl i{display:block;height:clamp(10px,1.6vh,16px);border-radius:99px;background:var(--surface2);border:1.5px solid var(--line);position:relative;overflow:hidden}
+.tl i b{position:absolute;inset:0;background:var(--accent);transform-origin:left;transform:scaleX(0)}
+.tl i.cur{border-color:var(--accent)}
+.tl i em{position:absolute;inset:0;display:grid;place-items:center;font:700 clamp(8px,.9vw,12px)/1 var(--body);font-style:normal;color:var(--ink);mix-blend-mode:normal}
+.ctrl{display:flex;gap:6px}
+.ib{width:clamp(34px,3vw,46px);height:clamp(34px,3vw,46px);border-radius:12px;border:2px solid var(--line);background:var(--surface);font-size:clamp(14px,1.4vw,20px);display:grid;place-items:center}
+.ib:hover{border-color:var(--accent)}
+.rest{font-size:clamp(12px,1.1vw,16px);color:var(--muted);white-space:nowrap}
+
+/* scène */
+#stage{position:relative;display:flex;flex-direction:column;padding:clamp(10px,2vh,28px) clamp(14px,3vw,48px);min-height:0;overflow-y:auto;overflow-x:hidden}
+.top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.top .who{display:flex;flex-direction:column;gap:6px}
+.kick{font-size:clamp(13px,1.4vw,22px);color:var(--muted);font-weight:700;letter-spacing:.02em}
+.top h2{font-size:clamp(26px,4vw,64px);font-weight:800}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.chip{background:var(--surface);border:2px solid var(--line);border-radius:99px;padding:2px 12px;font-size:clamp(12px,1.3vw,20px);font-weight:700}
+.clock{font-family:var(--display);font-weight:800;font-size:clamp(54px,11vw,190px);line-height:.9;color:var(--accent);min-width:2.6ch;text-align:right;font-variant-numeric:tabular-nums}
+.clock.warn{color:#B57300}.clock.end{color:var(--bad)}
+.consigne{font-size:clamp(14px,1.8vw,28px);color:var(--muted);margin:clamp(2px,.8vh,10px) 0 clamp(6px,1.6vh,22px);max-width:62ch}
+.body{flex:1;min-height:0;display:flex;align-items:stretch}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(10px,2vw,32px);width:100%}
+.card{position:relative;background:var(--surface);border:3px solid var(--line);border-radius:22px;padding:clamp(12px,2.4vh,30px) clamp(16px,2.4vw,40px);display:flex;flex-direction:column;justify-content:center;gap:clamp(6px,1.6vh,22px);min-height:0}
+.card.vA{border-color:var(--A);background:linear-gradient(180deg,var(--A-soft),var(--surface) 38%)}
+.card.vB{border-color:var(--B);background:linear-gradient(180deg,var(--B-soft),var(--surface) 38%)}
+.badge{position:absolute;top:-3px;left:-3px;width:clamp(34px,3.6vw,58px);height:clamp(34px,3.6vw,58px);border-radius:22px 0 18px 0;display:grid;place-items:center;color:#fff;font:800 clamp(20px,2.4vw,38px)/1 var(--display)}
+.vA .badge{background:var(--A)}.vB .badge{background:var(--B)}
+.line{font-size:clamp(26px,4.3vw,76px);font-weight:700;white-space:pre-wrap;line-height:1.25;padding-left:clamp(20px,2.4vw,40px)}
+.line.sm{font-size:clamp(20px,2.7vw,46px);font-weight:400}
+.line.sm2{font-size:clamp(22px,3.1vw,54px);font-weight:700}
+.line.step{font-size:clamp(60px,10vw,170px);text-align:center;padding:0;font-family:var(--display);font-weight:800}
+.line.mid{font-size:clamp(22px,3vw,54px);text-align:center;padding:0;color:var(--muted);font-weight:400}
+.commun{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.5vh;text-align:center;background:var(--surface);border:3px solid var(--line);border-radius:22px;padding:3vh 4vw}
+.commun .big{font-size:clamp(26px,3.6vw,64px);font-weight:700;max-width:26ch;text-wrap:balance}
+.commun .hint{font-size:clamp(16px,2vw,32px);color:var(--muted)}
+.dots{display:flex;gap:10px;justify-content:center}
+.dots i{width:clamp(12px,1.6vw,24px);height:clamp(12px,1.6vw,24px);border-radius:99px;background:var(--line)}
+.dots i.on{background:var(--accent)}
+
+/* barre de temps */
+.pbar{height:clamp(14px,2.4vh,26px);background:var(--surface);border:2px solid var(--line);border-radius:99px;overflow:hidden;margin-top:clamp(8px,1.6vh,22px)}
+.pbar b{display:block;height:100%;background:var(--accent);transform-origin:left;transform:scaleX(1)}
+.pbar.warn b{background:#E9A800}.pbar.end b{background:var(--bad)}
+
+/* transition */
+.intro{margin:auto;text-align:center;display:flex;flex-direction:column;align-items:center;gap:2vh}
+.intro .n{font-family:var(--display);font-weight:800;font-size:clamp(20px,3vw,46px);color:var(--muted)}
+.intro h2{font-size:clamp(40px,8vw,140px);font-weight:800}
+.intro .go{font-size:clamp(18px,2.4vw,40px);color:var(--muted)}
+.intro .cd{font-family:var(--display);font-weight:800;font-size:clamp(70px,13vw,220px);line-height:1;color:var(--accent)}
+
+/* accueil / fin */
+.home{margin:auto;max-width:1300px;width:100%;display:flex;flex-direction:column;gap:clamp(10px,2vh,24px)}
+.home h1{font-size:clamp(26px,min(4vw,6.5vh),64px);font-weight:800}
+.home p{margin:0;font-size:clamp(15px,1.6vw,24px);color:var(--muted)}
+.plan{width:100%;border-collapse:collapse;background:var(--surface);border:2px solid var(--line);border-radius:14px;overflow:hidden;font-size:clamp(12px,min(1.3vw,2.1vh),19px)}
+.plan th,.plan td{padding:clamp(2px,.45vh,7px) 12px;text-align:left;border-bottom:1px solid var(--line)}
+.plan th{background:var(--surface2);font-family:var(--display)}
+.plan td:nth-child(1){font-weight:700;width:2.5em;white-space:nowrap}.plan td:nth-child(3),.plan td:nth-child(4){white-space:nowrap}
+.btn{border:0;background:var(--accent);color:#fff;border-radius:16px;padding:clamp(10px,1.8vh,18px) clamp(20px,3vw,44px);font:800 clamp(18px,2.2vw,34px)/1 var(--display);box-shadow:0 5px 0 #1b3a9c}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #1b3a9c}
+.btn.ghost{background:var(--surface);color:var(--ink);border:3px solid var(--line);box-shadow:none}
+.row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.keys{font-size:clamp(12px,1.1vw,16px);color:var(--muted)}
+kbd{font:700 .9em var(--body);background:var(--surface);border:1.5px solid var(--line);border-bottom-width:3px;border-radius:6px;padding:0 6px}
+.done h1{font-size:clamp(44px,9vw,150px)}
+
+/* correction */
+.ans{color:var(--ok);font-weight:800}
+.card .rep{align-self:flex-start;background:var(--ok-soft);border:2px solid var(--ok);color:#0f5c30;border-radius:14px;padding:6px 14px;font-size:clamp(20px,2.8vw,48px);font-weight:800;margin-left:clamp(20px,2.4vw,40px)}
+.card .det{font-size:clamp(13px,1.6vw,26px);color:var(--muted);margin-left:clamp(20px,2.4vw,40px)}
+.cards4{display:flex;gap:10px;margin-left:clamp(20px,2.4vw,40px);flex-wrap:wrap}
+.c4{min-width:clamp(70px,7vw,120px);text-align:center;border:3px solid var(--line);border-radius:14px;padding:1.1em 10px 6px;font-size:clamp(18px,2.4vw,40px);background:var(--surface);position:relative;font-weight:700}
+.c4 small{position:absolute;top:4px;left:9px;font-size:.55em;font-weight:800;color:var(--accent)}
+.c4.ko{border-color:var(--bad);background:#FBE3E0}
+.tbl{border-collapse:collapse;margin-left:clamp(20px,2.4vw,40px);font-size:clamp(16px,2.1vw,36px);max-width:calc(100% - clamp(20px,2.4vw,40px))}
+.tbl td,.tbl th{border:2.5px solid var(--ink);padding:2px clamp(6px,1vw,16px);text-align:center;background:var(--surface)}
+.tbl th{background:var(--surface2);font-size:.5em;font-family:var(--display)}
+.tbl td.rv{background:var(--ok-soft);color:#0f5c30;font-weight:800}
+.bar-tbl{width:100%;max-width:900px}
+.pause{position:absolute;inset:0;background:rgba(19,32,51,.72);display:grid;place-items:center;z-index:5;color:#fff;text-align:center}
+.pause div{font-family:var(--display);font-weight:800;font-size:clamp(40px,8vw,130px)}
+.pause small{display:block;font:400 clamp(16px,2vw,32px)/1.3 var(--body);margin-top:1vh;opacity:.9}
+.foot{padding:6px clamp(12px,2vw,28px);font-size:clamp(11px,1vw,15px);color:var(--muted);background:var(--surface);border-top:2px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (max-width:760px){.plan td{white-space:normal!important}.btn{font-size:18px;padding:12px 18px}.hdr{flex-wrap:wrap}.hdr .ttl{white-space:normal;flex:1}.tl{order:5;flex-basis:100%}.ib{width:38px;height:38px}.chip{font-size:12px}.top{flex-wrap:wrap}.top h2{font-size:30px}.plan{font-size:13px}.home h1{font-size:28px}.cols{grid-template-columns:1fr}.clock{font-size:22vw}.hdr .ttl small,.rest{display:none}}
+
+.card.one{flex:1;border-color:var(--accent);background:linear-gradient(180deg,var(--A-soft),var(--surface) 30%);align-items:flex-start}
+.card.one .line{padding-left:0}
+.kq{font-size:clamp(16px,2.2vw,34px);font-weight:700;color:var(--muted);padding-left:0}
+.line.flash{font-size:clamp(60px,11vw,190px);text-align:center;padding:0;font-family:var(--display);font-weight:800;width:100%}
+.tourne{background:var(--chalk-soft);border:3px solid var(--chalk);border-radius:16px;padding:6px 18px;font-size:clamp(16px,2.2vw,34px);font-weight:800}
+.hgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px 24px;margin-left:0;width:100%}
+.fgrid div{font-size:clamp(20px,2.8vw,48px);font-weight:700;display:flex;justify-content:space-between;gap:12px;border-bottom:2px dashed var(--line)}
+.fgrid b{color:#0f5c30}
+.bilan li{font-size:clamp(18px,2.4vw,40px);margin:1vh 0}
+@media (max-width:760px){.hgrid{grid-template-columns:1fr}}
+</style></head>
+<body>
+<div id="app">
+  <div class="hdr">
+    <div class="ttl">Évaluation · automatismes 5e<small>sans calculatrice · /40</small></div>
+    <div class="tl" id="tl" aria-hidden="true"></div>
+    <span class="rest" id="rest"></span>
+    <div class="ctrl">
+      <button class="ib" id="bPrev" title="Exercice précédent (←)" aria-label="Précédent">⏮</button>
+      <button class="ib" id="bPause" title="Pause / reprendre (espace)" aria-label="Pause">⏯</button>
+      <button class="ib" id="bNext" title="Exercice suivant (→)" aria-label="Suivant">⏭</button>
+      <button class="ib" id="bMute" title="Son (M)" aria-label="Son">🔊</button>
+      <button class="ib" id="bFull" title="Plein écran (F)" aria-label="Plein écran">⛶</button>
+    </div>
+  </div>
+  <main id="stage"></main>
+  <div class="foot"><span>Espace : pause · → : suite · ← : retour · C : correction · M : son · F : plein écran · Échap : accueil</span><span></span></div>
+</div>
+
+
+<script>
+const DATA = {"exos": [{"id": 1, "titre": "Flash calcul", "pts": 4, "type": "flash", "duree": 96, "consigne": "8 questions, une toutes les 12 secondes. Écris seulement la réponse dans la case du numéro.", "items": [["7 × 8", "56"], ["54 ÷ 6", "9"], ["3,5 × 10", "35"], ["72 ÷ 10", "7,2"], ["3,5 + 2,4", "5,9"], ["10 − 6,4", "3,6"], ["Le double de 3,5", "7"], ["25 × 4", "100"]], "detail": "Tables, × et ÷ par 10, décimaux, complément à 10, double, produit astucieux.", "bareme": "0,5 pt par réponse juste.", "k": 1}, {"id": 2, "titre": "Fil rouge", "pts": 1, "type": "fil", "duree": 40, "consigne": "Les consignes arrivent une à une : calcule de tête et écris seulement le résultat final.", "depart": 6, "etapes": ["× 3", "+ 2", "÷ 4", "+ 8"], "rep": ["13"], "detail": "6 → 18 → 20 → 5 → 13", "bareme": "1 pt : résultat final juste.", "k": 2}, {"id": 3, "titre": "Priorités", "pts": 2, "type": "calc", "duree": 45, "consigne": "Calcule de tête. Attention aux priorités !", "lignes": ["a)  5 + 3 × 4", "b)  (5 + 3) × 4"], "rep": ["17", "32"], "detail": "a) 3 × 4 = 12 puis 5 + 12 = 17 · b) parenthèses d'abord : 8 × 4 = 32", "bareme": "1 pt par calcul juste.", "k": 3}, {"id": 4, "titre": "Fraction d'une quantité", "pts": 2, "type": "calc", "duree": 50, "consigne": "Calcule.", "lignes": ["a)  {1/4} de 36", "b)  {3/5} de 20"], "rep": ["9", "12"], "detail": "a) 36 ÷ 4 = 9 · b) 20 ÷ 5 = 4 puis 4 × 3 = 12", "bareme": "1 pt par réponse juste.", "k": 4}, {"id": 5, "titre": "Fractions", "pts": 2, "type": "calc", "duree": 70, "consigne": "Écris le résultat sous forme de fraction simplifiée.", "lignes": ["a)  Simplifie {6/8}", "b)  {1/3} + {1/6}"], "rep": ["{3/4}", "{1/2}"], "detail": "a) 6 et 8 sont dans la table de 2 : {6/8} = {3/4} · b) {1/3} = {2/6} donc {2/6} + {1/6} = {3/6} = {1/2}", "bareme": "1 pt par réponse juste. Une fraction juste mais non simplifiée = 0,5 pt.", "k": 5}, {"id": 6, "titre": "Qui est l'intrus ?", "pts": 1, "type": "support", "duree": 50, "consigne": "Trois cartes ont la même valeur. Écris la lettre de l'intrus.", "cartes": ["{2/4}", "0,5", "5 %", "1 ÷ 2"], "lignes": ["A  {2/4}      B  0,5      C  5 %      D  1 ÷ 2"], "rep": ["C"], "detail": "Les autres cartes valent {1/2} = 0,5 = 50 % ; 5 % n'est pas 50 %.", "bareme": "1 pt : bonne lettre.", "k": 6}, {"id": 7, "titre": "Pourcentages", "pts": 2, "type": "calc", "duree": 45, "consigne": "Calcule.", "lignes": ["a)  10 % de 150", "b)  25 % de 80"], "rep": ["15", "20"], "detail": "a) 10 % = diviser par 10 : 15 · b) 25 % = un quart : 80 ÷ 4 = 20", "bareme": "1 pt par réponse juste.", "k": 7}, {"id": 8, "titre": "Conversions", "pts": 3, "type": "calc", "duree": 60, "consigne": "Complète.", "lignes": ["a)  2,5 km = … m", "b)  450 cm = … m", "c)  1,5 kg = … g"], "rep": ["2 500 m", "4,5 m", "1 500 g"], "detail": "a) 1 km = 1 000 m · b) 1 m = 100 cm · c) 1 kg = 1 000 g", "bareme": "1 pt par réponse juste (unité comprise).", "k": 8}, {"id": 9, "titre": "Durées", "pts": 2, "type": "calc", "duree": 60, "consigne": "Réponds.", "lignes": ["a)  Un film commence à 20 h 45 et dure 1 h 30. À quelle heure finit-il ?", "b)  2,5 h = … h … min"], "rep": ["22 h 15", "2 h 30 min"], "detail": "a) 20 h 45 + 1 h = 21 h 45, puis + 30 min = 22 h 15 · b) 0,5 h = 30 min", "bareme": "1 pt par réponse juste.", "k": 9}, {"id": 10, "titre": "Périmètre et aire", "pts": 2, "type": "support", "duree": 80, "tourne": true, "consigne": "Regarde ton rectangle : calcule son périmètre puis son aire.", "lignes": ["Rectangle de 8 cm sur 5 cm", "a)  Périmètre ?     b)  Aire ?"], "rep": ["26 cm", "40 cm²"], "rect": [8, 5], "detail": "a) 2 × (8 + 5) = 26 · b) 8 × 5 = 40", "bareme": "1 pt par réponse (valeur ET unité).", "k": 11}, {"id": 11, "titre": "Divisibilité", "pts": 2, "type": "support", "duree": 50, "consigne": "Coche les nombres divisibles par 3.", "nombres": [24, 31, 45, 52], "lignes": ["24      31      45      52"], "rep": ["24", "45"], "detail": "Un nombre est divisible par 3 si la somme de ses chiffres l'est : 2 + 4 = 6 ✓ · 3 + 1 = 4 ✗ · 4 + 5 = 9 ✓ · 5 + 2 = 7 ✗", "bareme": "2 pts : 24 et 45 cochés, aucun autre. 1 pt : un seul oubli ou une seule erreur.", "k": 12}, {"id": 12, "titre": "Proportionnalité", "pts": 3, "type": "table", "duree": 180, "consigne": "Complète le tableau de ta feuille. Tu choisis ta méthode pour chaque colonne.", "contexte": "6 stylos coûtent 7,50 €.", "lab": "stylos", "cols": [6, 12, 3, 9], "prix": ["7,50", null, null, null], "lignes": ["6 stylos coûtent 7,50 €.", "Prix de 12, de 3 puis de 9 stylos ?"], "rep": ["15 €", "3,75 €", "11,25 €"], "detail": "12 = 6 × 2 donc 7,50 × 2 = 15 · 3 = 6 ÷ 2 donc 7,50 ÷ 2 = 3,75 · 9 = 6 + 3 donc 7,50 + 3,75 = 11,25", "bareme": "1 pt par colonne juste (méthode libre : coefficient, retour à l'unité ou additivité).", "k": 13}, {"id": 13, "titre": "Droite graduée", "pts": 2, "type": "support", "duree": 80, "consigne": "Lis sur ta droite graduée les nombres repérés par M et par N.", "debut": 3, "fin": 4, "m": 2, "n": 7, "lignes": ["Droite graduée de 3 à 4", "Quels sont les nombres M et N ?"], "rep": ["3,2", "3,7"], "detail": "Entre 3 et 4 il y a 10 intervalles : chacun vaut 0,1. M est à 2 intervalles de 3 ; N à 7.", "bareme": "1 pt par nombre juste.", "k": 14}, {"id": 14, "titre": "Vrai ou faux ?", "pts": 3, "type": "calc", "duree": 90, "consigne": "Pour chaque affirmation, entoure Vrai ou Faux.", "lignes": ["a)  7,3 − 2,8 = 5,5", "b)  {3/4} est plus grand que {5/8}", "c)  0,8 = 8 %"], "rep": ["Faux", "Vrai", "Faux"], "detail": "a) 7,3 − 2,8 = 4,5 (on ne soustrait pas « chiffre le plus grand − le plus petit ») · b) {3/4} = {6/8} et {6/8} > {5/8} · c) 0,8 = {80/100} = 80 %", "bareme": "1 pt par réponse juste.", "k": 15}, {"id": 15, "titre": "Ordre de grandeur", "pts": 3, "type": "support", "duree": 45, "consigne": "Sans poser l'opération, entoure la bonne valeur approchée.", "qcm": [["a)", "48 × 21", ["100", "1 000", "10 000"], "B"], ["b)", "9,8 + 4,1", ["14", "20", "10"], "A"], ["c)", "302 ÷ 3", ["10", "1 000", "100"], "C"]], "lignes": ["a)  48 × 21      A 100     B 1 000     C 10 000", "b)  9,8 + 4,1      A 14     B 20     C 10", "c)  302 ÷ 3      A 10     B 1 000     C 100"], "rep": ["B", "A", "C"], "detail": "a) 50 × 20 = 1 000 · b) 10 + 4 = 14 · c) 300 ÷ 3 = 100", "bareme": "1 pt par réponse juste.", "k": 16}, {"id": 16, "titre": "Pyramide", "pts": 3, "type": "support", "duree": 180, "consigne": "Chaque brique est la somme des deux briques qui sont juste en dessous. Complète la pyramide.", "pyr": {"bas": ["1,2", null, null], "milieu": ["1,9", "3,3"], "haut": null}, "lignes": ["Complète la pyramide de ta feuille.", "Il y a 3 briques à remplir."], "rep": ["0,7", "2,6", "5,2"], "detail": "1,9 − 1,2 = 0,7 · 3,3 − 0,7 = 2,6 · sommet : 1,9 + 3,3 = 5,2", "bareme": "1 pt par brique juste (0,7 ; 2,6 ; 5,2).", "k": 17}, {"id": 17, "titre": "Le petit problème", "pts": 3, "type": "probleme", "duree": 180, "consigne": "Lis, puis réponds aux trois questions de ta feuille, dans l'ordre.", "lignes": ["Léa achète 3 cahiers à 2,50 € l'un et un stylo à 1,80 €. Elle paie avec un billet de 20 €."], "cadres": ["Prix des 3 cahiers", "Dépense totale", "Monnaie rendue à Léa"], "rep": ["7,50 €", "9,30 €", "10,70 €"], "detail": "3 × 2,50 = 7,50 · 7,50 + 1,80 = 9,30 · 20 − 9,30 = 10,70", "bareme": "1 pt par étape : chaque réponse est notée séparément (une erreur reportée mais bien traitée ensuite n'est pas pénalisée).", "k": 18}], "intro": 6, "fil": 6, "flash": 12, "heure": [[0, 3, "Installation", "Feuilles distribuées côté imprimé vers le bas, stylo, pas de calculatrice. Rappeler les règles : un bip = on passe à la suite."], [3, 28, "Évaluation chronométrée", "Lancer la page : tout s'enchaîne. Tourner la feuille à l'exercice 10 (la page l'annonce)."], [28, 43, "Correction collective", "Touche C : on cherche ensemble, puis on affiche. Les élèves corrigent au stylo vert sur leur feuille, en notant la méthode."], [43, 48, "Bilan élève", "Chacun repère ses exercices à retravailler et écrit dans son cahier la cause de chaque erreur."], [48, 50, "Ramassage", "Ramasser les feuilles (corrigées en vert : tu vois aussi ce qu'ils ont compris)."]]};
+const EX = DATA.exos, INTRO = DATA.intro, FIL = DATA.fil, PER = DATA.flash;
+const $ = s => document.querySelector(s);
+const fr = s => String(s).replace(/ ([?!:;])/g,'\u00a0$1').replace(/\{(\d+)\/(\d+)\}/g, (m,n,d)=>`<span class="frac"><span>${n}</span><span>${d}</span></span>`);
+const mmss = s => { s = Math.max(0, Math.ceil(s)); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); };
+const dur = s => s<60 ? s+' s' : Math.floor(s/60)+' min'+(s%60?' '+String(s%60).padStart(2,'0')+' s':'');
+const pts = n => String(n).replace('.',',')+' point'+(n>1?'s':'');
+
+let actx, muted=false;
+function tone(f,d,v=.18){ if(muted) return; try{ actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+  const o=actx.createOscillator(), g=actx.createGain(); o.frequency.value=f; o.type='sine';
+  g.gain.setValueAtTime(v,actx.currentTime); g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+d);
+  o.connect(g).connect(actx.destination); o.start(); o.stop(actx.currentTime+d);}catch(e){} }
+const beepEnd=()=>{tone(660,.55,.22);setTimeout(()=>tone(880,.5,.2),230)};
+const tick=()=>tone(520,.09,.12), clic=()=>tone(980,.12,.14);
+
+const PH=[]; EX.forEach((e,i)=>{PH.push({i,kind:'intro',dur:INTRO});PH.push({i,kind:'run',dur:e.duree});});
+const TOTAL=PH.reduce((a,p)=>a+p.dur,0);
+const S={mode:'home',p:0,t:0,paused:false,ci:0,rev:false,lastRem:null,fk:-1};
+const NSL=EX.length+2; // diapos de correction : exercices, bilan, barème
+
+const tl=$('#tl');
+EX.forEach((e,i)=>{const el=document.createElement('i');el.style.flex=(e.duree+INTRO);el.innerHTML=`<b></b><em>${e.id}</em>`;tl.appendChild(el);});
+function paintTL(){
+  [...tl.children].forEach((el,i)=>{
+    let f=0;
+    if(S.mode==='play'){ const pi=S.p>>1; if(i<pi) f=1; else if(i===pi){ const tot=EX[i].duree+INTRO; f=((S.p&1)?INTRO+S.t:S.t)/tot; } }
+    else if(S.mode==='done'||S.mode==='corr') f=1;
+    el.firstChild.style.transform=`scaleX(${Math.min(1,f)})`;
+    el.classList.toggle('cur',S.mode==='play'&&(S.p>>1)===i);
+  });
+  let left=0; if(S.mode==='play') left=PH.slice(S.p+1).reduce((a,p)=>a+p.dur,0)+(PH[S.p].dur-S.t);
+  $('#rest').textContent = S.mode==='play' ? 'reste ≈ '+Math.max(1,Math.ceil(left/60))+' min' : '';
+}
+
+/* ---------- rendus ---------- */
+const lines=(arr,cls='')=>arr.map(l=>`<div class="line ${cls}">${fr(l)}</div>`).join('');
+const sizeCls=e=>Math.max(...e.lignes.map(l=>l.replace(/\{[^}]*\}/g,'x').length))>30?'sm':'';
+function head(e,withClock){
+  return `<div class="top"><div class="who"><div class="kick">Exercice ${e.id} / ${EX.length}</div><h2>${e.titre}</h2>
+  <div class="chips"><span class="chip">⏱ ${dur(e.duree)}</span><span class="chip">${pts(e.pts)}</span><span class="chip">🚫 calculatrice</span>${e.tourne?'<span class="chip tourne">↻ Tourne ta feuille</span>':''}</div></div>${withClock?'<div class="clock" id="clock">0:00</div>':''}</div>`;
+}
+function renderIntro(e){
+  $('#stage').innerHTML=`<div class="intro"><div class="n">Exercice ${e.id} sur ${EX.length}</div><h2>${e.titre}</h2>
+  <div class="chips" style="justify-content:center"><span class="chip">⏱ ${dur(e.duree)}</span><span class="chip">${pts(e.pts)}</span></div>
+  ${e.tourne?'<div class="tourne">↻ Tourne ta feuille : on continue au verso</div>':''}
+  <div class="cd" id="cd">${INTRO}</div><div class="go">Prends ton stylo, prépare-toi…</div></div>`;
+}
+function renderRun(e){
+  let body;
+  if(e.type==='flash'||e.type==='fil') body='<div class="body" id="body"></div>';
+  else body=`<div class="body"><section class="card one">${lines(e.lignes,sizeCls(e))}</section></div>`;
+  $('#stage').innerHTML=head(e,true)+`<div class="consigne">${e.consigne}</div>`+body+`<div class="pbar" id="pbar"><b id="pb"></b></div>`;
+  S.fk=-1;
+}
+const dotsHTML=(n,k)=>`<div class="dots" style="margin:auto auto 0">${Array.from({length:n},(_,j)=>`<i class="${j<=k?'on':''}"></i>`).join('')}</div>`;
+function setFlash(e,k){
+  $('#body').innerHTML=`<section class="card one" style="align-items:center"><div class="kq">Question ${k+1} / ${e.items.length}</div><div class="line flash">${fr(e.items[k][0])}</div>${dotsHTML(e.items.length,k)}</section>`;
+}
+function setFil(e,k){
+  const n=e.etapes.length; let a,sub='';
+  if(k===0) a=`Pense à <b>${e.depart}</b>`; else if(k<=n) a=e.etapes[k-1]; else {a='?'; sub='<div class="line mid">Écris le résultat final</div>';}
+  $('#body').innerHTML=`<section class="card one" style="align-items:center"><div class="line step">${a}</div>${sub}${dotsHTML(n+1,Math.min(k,n))}</section>`;
+}
+function renderHome(){
+  $('#stage').innerHTML=`<div class="home"><h1>Évaluation d'automatismes · 5e</h1>
+  <p>${EX.length} exercices qui s'enchaînent tout seuls, <b>${Math.ceil(TOTAL/60)} minutes</b>, sans calculatrice. Total sur 40, puis note sur 20 (÷ 2). Chaque élève a la même feuille recto-verso.</p>
+  <div class="row"><button class="btn" id="bGo">▶ Lancer l'évaluation</button><button class="btn ghost" id="bCorr">Voir la correction</button></div>
+  <div class="hgrid"><div><h3 style="margin-bottom:6px">L'heure entière (50 min)</h3><table class="plan"><tbody>${DATA.heure.map(h=>`<tr><td>${h[0]}–${h[1]}</td><td><b>${h[2]}</b><br><span style="color:var(--muted)">${h[3]}</span></td></tr>`).join('')}</tbody></table></div>
+  <div><h3 style="margin-bottom:6px">Les exercices</h3><table class="plan"><tbody>${EX.map(e=>`<tr><td>${e.id}</td><td>${e.titre}</td><td>${dur(e.duree)}</td><td>${String(e.pts).replace('.',',')}</td></tr>`).join('')}</tbody></table></div></div>
+  <p class="keys">Une fois lancée : <kbd>espace</kbd> pause · <kbd>→</kbd> suite · <kbd>←</kbd> retour · <kbd>C</kbd> correction. Un bip signale la fin de chaque exercice.</p></div>`;
+  $('#bGo').onclick=start; $('#bCorr').onclick=()=>startCorr(0);
+}
+function renderDone(){
+  $('#stage').innerHTML=`<div class="home done" style="text-align:center;align-items:center"><h1>Stylos posés !</h1><p>Garde ta feuille : on la corrige ensemble, au stylo vert.</p>
+  <div class="row"><button class="btn" id="bCorr">Passer à la correction</button><button class="btn ghost" id="bRe">Recommencer</button></div></div>`;
+  $('#bCorr').onclick=()=>startCorr(0); $('#bRe').onclick=start;
+}
+
+/* ---------- correction ---------- */
+const pill=t=>`<div class="rep">${fr(t)}</div>`;
+function repBlock(e){
+  if(e.type==='flash') return '';
+  if(e.k===6) return pill("L'intrus : "+e.rep[0]);
+  if(e.k===11) return pill(`Périmètre : ${e.rep[0]} · Aire : ${e.rep[1]}`);
+  if(e.k===12) return pill('Cocher '+e.rep.join(' et '));
+  if(e.k===13) return e.cols.slice(1).map((c,i)=>pill(`${c} ${e.lab} → ${e.rep[i]}`)).join('');
+  if(e.k===14) return pill(`M = ${e.rep[0]} · N = ${e.rep[1]}`);
+  if(e.k===17) return pill(`Briques du bas : ${e.rep[0]} et ${e.rep[1]} · Sommet : ${e.rep[2]}`);
+  if(e.k===18) return e.cadres.map((c,i)=>pill(`${c} : ${e.rep[i]}`)).join('');
+  return e.rep.map(r=>pill(r)).join('');
+}
+function renderCorr(){
+  const i=S.ci;
+  if(i===EX.length){
+    $('#stage').innerHTML=`<div class="home bilan"><h1>Ton bilan</h1><ol style="padding-left:1.2em;margin:0">
+    <li>Sur ta feuille, entoure le numéro des exercices que tu as ratés ou pas finis.</li>
+    <li>Dans ton cahier, écris les <b>3 exercices</b> que tu dois le plus retravailler.</li>
+    <li>Pour chacun, note la cause : <i>erreur de calcul</i>, <i>je ne savais pas faire</i> ou <i>pas eu le temps</i>.</li></ol>
+    <p>Puis on ramasse les feuilles.</p></div>`; return; }
+  if(i===EX.length+1){
+    $('#stage').innerHTML=`<div class="home"><h1>Barème</h1><table class="plan"><thead><tr><th>N°</th><th>Exercice</th><th>Points</th><th>Ce qui est attendu</th></tr></thead><tbody>${EX.map(e=>`<tr><td>${e.id}</td><td>${e.titre}</td><td>${String(e.pts).replace('.',',')}</td><td style="font-size:.85em">${e.bareme}</td></tr>`).join('')}<tr><td></td><td><b>Total</b></td><td><b>40</b></td><td><b>Note sur 20 = total ÷ 2</b></td></tr></tbody></table>
+    <div class="row"><button class="btn ghost" id="bH">Retour à l'accueil</button></div></div>`; $('#bH').onclick=goHome; return; }
+  const e=EX[i]; let card;
+  if(e.type==='flash') card=`<div class="fgrid">${e.items.map((it,k)=>`<div><span>${k+1}) ${fr(it[0])}</span>${S.rev?`<b>${fr(it[1])}</b>`:''}</div>`).join('')}</div>`;
+  else if(e.type==='fil') card=`<div class="line sm">Pense à ${e.depart}, ${e.etapes.join(' ; ')}</div>`+(S.rev?pill(e.rep[0]):'');
+  else card=lines(e.lignes,sizeCls(e)||'sm')+(S.rev?repBlock(e):'');
+  if(S.rev&&e.type!=='flash') card+=`<div class="det">${fr(e.detail)}</div>`;
+  $('#stage').innerHTML=`<div class="top"><div class="who"><div class="kick">Correction · exercice ${e.id} / ${EX.length}</div><h2>${e.titre}</h2><div class="chips"><span class="chip">${pts(e.pts)}</span></div></div></div>
+  <div class="consigne">${S.rev?'':'Espace ou → pour afficher les réponses.'}</div><div class="body"><section class="card one">${card}</section></div>`;
+}
+
+/* ---------- machine d'états ---------- */
+function setPhase(p){
+  if(p<0)p=0;
+  if(p>=PH.length){S.mode='done';S.paused=false;renderDone();paintTL();return;}
+  S.p=p;S.t=0;S.lastRem=null;S.paused=false;
+  const ph=PH[p],e=EX[ph.i];
+  if(ph.kind==='intro') renderIntro(e); else renderRun(e);
+  removePause(); update(); paintTL();
+}
+function start(){ S.mode='play'; try{navigator.wakeLock&&navigator.wakeLock.request('screen').catch(()=>{});}catch(e){} setPhase(0); }
+function startCorr(i){ S.mode='corr'; S.ci=i; S.rev=false; removePause(); renderCorr(); paintTL(); }
+function goHome(){ S.mode='home'; S.paused=false; removePause(); renderHome(); paintTL(); }
+function showPause(){ if($('.pause')) return; const d=document.createElement('div'); d.className='pause'; d.innerHTML='<div>⏸ Pause<small>espace pour reprendre</small></div>'; d.onclick=togglePause; $('#stage').appendChild(d); }
+function removePause(){ const d=$('.pause'); if(d) d.remove(); }
+function togglePause(){ if(S.mode!=='play') return; S.paused=!S.paused; S.paused?showPause():removePause(); }
+
+function update(){
+  if(S.mode!=='play') return;
+  const ph=PH[S.p],e=EX[ph.i],rem=ph.dur-S.t,r=Math.ceil(rem);
+  if(ph.kind==='intro'){
+    const cd=$('#cd'); if(cd) cd.textContent=r;
+    if(S.lastRem!==r){ S.lastRem=r; if(r<=3&&r>=1) tick(); }
+  } else {
+    let crem=rem, cdur=ph.dur;
+    if(e.type==='flash'){ const k=Math.min(Math.floor(S.t/PER),e.items.length-1); crem=PER-(S.t-k*PER); cdur=PER; if(k!==S.fk){ if(S.fk>=0) clic(); S.fk=k; setFlash(e,k);} }
+    if(e.type==='fil'){ const k=Math.min(Math.floor(S.t/FIL),e.etapes.length+1); if(k!==S.fk){ if(S.fk>=0) clic(); S.fk=k; setFil(e,k);} }
+    const cr=Math.ceil(crem);
+    const ck=$('#clock'); if(ck){ ck.textContent=mmss(crem); ck.className='clock'+(cr<=5?' end':cr<=10?' warn':''); }
+    const pb=$('#pb'); if(pb) pb.style.transform=`scaleX(${Math.max(0,Math.min(1,crem/cdur))})`;
+    const pr=$('#pbar'); if(pr) pr.className='pbar'+(cr<=5?' end':cr<=10?' warn':'');
+    if(S.lastRem!==r){ S.lastRem=r; if(r<=3&&r>=1&&e.type!=='fil'&&e.type!=='flash') tick(); }
+  }
+  paintTL();
+}
+let last=performance.now();
+setInterval(()=>{
+  const now=performance.now(),dt=(now-last)/1000;last=now;
+  if(S.mode!=='play'||S.paused) return;
+  S.t+=Math.min(dt,1);
+  const ph=PH[S.p];
+  if(S.t>=ph.dur){ if(ph.kind==='run') beepEnd(); setPhase(S.p+1); return; }
+  update();
+},100);
+
+function next(){
+  if(S.mode==='play'){ const ph=PH[S.p]; setPhase(ph.kind==='intro'?S.p+1:S.p+2); }
+  else if(S.mode==='corr'){ const quick=S.ci>=EX.length; if(!quick&&!S.rev){S.rev=true;renderCorr();} else {S.ci=Math.min(S.ci+1,NSL-1);S.rev=false;renderCorr();} }
+  else if(S.mode==='done') startCorr(0);
+}
+function prev(){
+  if(S.mode==='play'){ const ph=PH[S.p]; if(ph.kind==='run'&&S.t>3) setPhase(S.p-1); else setPhase(Math.max(0,((S.p>>1)-1)*2)); }
+  else if(S.mode==='corr'){ if(S.rev){S.rev=false;renderCorr();} else {S.ci=Math.max(0,S.ci-1);S.rev=false;renderCorr();} }
+}
+$('#bNext').onclick=next; $('#bPrev').onclick=prev; $('#bPause').onclick=()=>{ if(S.mode==='play') togglePause(); else if(S.mode==='corr') next(); };
+$('#bMute').onclick=()=>{muted=!muted;$('#bMute').textContent=muted?'🔇':'🔊';};
+const full=()=>{ try{ if(document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen(); }catch(e){} };
+$('#bFull').onclick=full;
+addEventListener('keydown',ev=>{
+  if(ev.target.tagName==='BUTTON'&&(ev.key===' '||ev.key==='Enter')) return;
+  const k=ev.key;
+  if(k===' '){ ev.preventDefault(); if(S.mode==='home') start(); else if(S.mode==='play') togglePause(); else next(); }
+  else if(k==='ArrowRight'){ ev.preventDefault(); next(); }
+  else if(k==='ArrowLeft'){ ev.preventDefault(); prev(); }
+  else if(k==='c'||k==='C'){ startCorr(0); }
+  else if(k==='m'||k==='M'){ $('#bMute').click(); }
+  else if(k==='f'||k==='F'){ full(); }
+  else if(k==='Escape'&&!document.fullscreenElement){ goHome(); }
+});
+goHome();
+window.__S=S; window.renderCorr=renderCorr; window.__setPhase=setPhase; window.__startCorr=startCorr; window.__PH=PH;
+</script>
+</body>
+</html>

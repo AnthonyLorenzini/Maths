@@ -531,6 +531,11 @@ window.SITE = {
     {
       id: "5e", nom: "5e", couleur: "orange",
       accroche: "Automatismes et calcul mental",
+      evaluations: [
+        { etiquette: "Automatismes", titre: "Évaluation d'automatismes",
+          resume: "17 exercices chronométrés, sans calculatrice, ≈ 25 min, sur 40 (note sur 20 = total ÷ 2). Feuille recto-verso à imprimer ; le chronomètre est dans « Automatismes ».", ajout: "2026-11-18",
+          versions: [ { nom: "", sujet: "evaluations/5e/5e-automatismes-eval-feuille-eleve.pdf", corrige: "evaluations/5e/5e-automatismes-eval-corrige-fiche-prof.pdf" } ] }
+      ],
       chapitres: [
         {
           id: "5e-auto", num: null, titre: "Automatismes",
@@ -538,7 +543,8 @@ window.SITE = {
           ressources: [
             { id: "sprint-automatismes-5e", type: "jeu", titre: "Sprint des automatismes", resume: "Cinq épreuves chronométrées sur les automatismes de 6e.", ajout: "2026-09-16" },
             { id: "heure-automatismes-5e", type: "jeu", titre: "Heure d'automatismes", resume: "Neuf stations, de nouvelles valeurs à chaque tirage.", ajout: "2026-10-07" },
-            { id: "heure-automatismes-5e-2", type: "jeu", titre: "Heure d'automatismes 2", resume: "Six stations pour 50 min, sans calculatrice : rafale, intrus, proportionnalité, pyramide, droite graduée, ticket de sortie.", ajout: "2026-11-04" }
+            { id: "heure-automatismes-5e-2", type: "jeu", titre: "Heure d'automatismes 2", resume: "Six stations pour 50 min, sans calculatrice : rafale, intrus, proportionnalité, pyramide, droite graduée, ticket de sortie.", ajout: "2026-11-04" },
+            { id: "eval-automatismes-5e", type: "jeu", titre: "Évaluation d'automatismes : chronomètre", resume: "17 exercices qui s'enchaînent tout seuls (≈ 25 min), puis correction projetée.", ajout: "2026-11-18" }
           ]
         }
       ]
