@@ -80,7 +80,9 @@ window.SITE = {
       },
       soutien: [
         { id: "soutien-1-tresor", etiquette: "Chapitres 1 à 4", titre: "Séance 1 — Le trésor des 4 îles",
-          resume: "Les bases des chapitres 1 à 4, en jouant : réussis chaque île pour gagner un morceau de la carte au trésor.", ajout: "2026-11-04" }
+          resume: "Les bases des chapitres 1 à 4, en jouant : réussis chaque île pour gagner un morceau de la carte au trésor.", ajout: "2026-11-04" },
+        { id: "soutien-2-enquete", etiquette: "Fractions, cercle, décimaux", titre: "Séance 2 — Mission Agence Pi-6",
+          resume: "Mène l'enquête : lis des fractions, repère un point par rapport à un cercle, compare des nombres décimaux et trouve qui a volé le diamant.", ajout: "2026-11-18" }
       ],
       evaluations: [
         { etiquette: "Chapitres 1 et 2", titre: "Évaluation — Numération & Géométrie",
