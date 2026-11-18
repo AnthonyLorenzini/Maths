@@ -60,6 +60,15 @@
     '<text class="tx f-i" x="43" y="48" text-anchor="middle" font-size="14">r</text>'
   );
 
+  // ----- 6e ch.6 : quotients — le signe ÷ (deux points de part et d'autre d'une barre) dans un disque
+  const quotients = svg(
+    '<circle class="f-c s-i" cx="36" cy="36" r="27" stroke-width="3.2"/>' +
+    '<line class="s-i" x1="19" y1="36" x2="53" y2="36" stroke-width="9"/>' +
+    '<line stroke="#fff" x1="19" y1="36" x2="53" y2="36" stroke-width="4.6"/>' +
+    '<circle class="f-s s-i" cx="36" cy="20.5" r="5.6" stroke-width="2.6"/>' +
+    '<circle class="f-s s-i" cx="36" cy="51.5" r="5.6" stroke-width="2.6"/>'
+  );
+
   // ----- 6e « Défis calcul » : les quatre opérations
   const op = (x, y, fond, couleurTexte, signe) =>
     '<rect class="' + fond + ' s-i" x="' + x + '" y="' + y + '" width="26" height="26" rx="7" stroke-width="2.6"/>' +
@@ -366,6 +375,7 @@
     "6e-ch3": fractions,
     "6e-ch4": decimaux,
     "6e-ch5": cercle,
+    "6e-ch6": quotients,
     "6e-defis": defis,
     "5e-auto": auto,
     "4e-ch1": pourcentages,

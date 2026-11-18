@@ -479,7 +479,7 @@ window.SITE = {
           ]
         },
         {
-          id: "6e-ch6", num: 6, titre: "Quotients", prive: true,
+          id: "6e-ch6", num: 6, titre: "Quotients",
           resume: "Le quotient de deux nombres, son écriture en fraction, puis les quotients entiers, décimaux ou ni l'un ni l'autre.",
           seances: [
             {
