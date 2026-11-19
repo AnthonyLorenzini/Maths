@@ -17,11 +17,11 @@ const P=p=>`sessions/${CODE}/${p}`;
 const store=(k,v)=>{const key=`ds4e:${CODE}:${SID}:${k}`;if(v===undefined){try{return JSON.parse(localStorage.getItem(key))}catch(e){return null}}try{localStorage.setItem(key,JSON.stringify(v))}catch(e){}};
 
 /* ---------- chrono partagé ---------- */
-const pens=()=>Object.values(SES&&SES.ships||{}).reduce((s,x)=>s+(x&&x.pen||0),0);
+const pens=()=>0; /* plus de pénalité de temps : voir les vies */
 function elapsed(){const c=SES.chrono||{};return(c.base||0)+(c.running?(SYNC.now()-c.startAt)/1000:0)}
 const remaining=()=>SES?Math.max(0,(SES.meta&&SES.meta.dur||3000)-elapsed()-60*pens()):0;
 const started=()=>!!(SES&&SES.chrono&&(SES.chrono.running||SES.chrono.base>0));
-const allDone=()=>SYNC.local?ME.step>=6:SHIPS.every(s=>((SES.ships||{})[s.id]||{}).step>=6);
+const allDone=()=>SYNC.local?ME.step>=NR:(!!(SES.meta&&SES.meta.reacOpen)||SHIPS.every(s=>((SES.ships||{})[s.id]||{}).step>=NR));
 
 /* ---------- écritures ---------- */
 function log(ev,txt){if(PREVIEW)return;SYNC.put(P(`log/${SYNC.now()}_${SID}`),{t:SYNC.now(),ship:SID,ev,txt:txt||""}).catch(()=>{})}
@@ -46,12 +46,12 @@ async function boot(){
 }
 function bootPreview(){
   if(!window.SITE_PROF){document.body.innerHTML=`<div class="center"><div class="card"><h2>Accès réservé</h2><p>Ouvrez d'abord le <a href="prof.html" style="color:#7cc8ff">tableau de bord du professeur</a> et saisissez le mot de passe.</p></div></div>`;return}
-  CODE="APERCU";if(!ship(SID))SID="orion";const r0=Math.max(0,Math.min(6,+(qs.get("r")||0)));
+  CODE="APERCU";if(!ship(SID))SID="orion";const r0=Math.max(0,Math.min(NR,+(qs.get("r")||0)));
   SES={meta:{dur:3000},chrono:{running:false,base:0},ships:{},final:null};ME={step:r0,pen:0,hints:{}};SES.ships[SID]=ME;
-  view=r0>=6?"reactor":"room";
-  document.querySelector(".top").insertAdjacentHTML("afterend",`<div class="card prevbar"><span class="tag">Accès professeur · aperçu des salles</span><div class="prevrow"><select id="pvShip">${SHIPS.map(s=>`<option value="${s.id}" ${s.id===SID?"selected":""}>${s.name}</option>`).join("")}</select><div class="pvrooms">${ROOMS.map((r,i)=>`<button class="btn" data-pv="${i}">${i+1}. ${r.short}</button>`).join("")}<button class="btn" data-pv="6">Réacteur</button></div><label class="pvsol"><input type="checkbox" id="pvSol"> Corrigé</label></div></div>`);
+  view=r0>=NR?"reactor":"room";
+  document.querySelector(".top").insertAdjacentHTML("afterend",`<div class="card prevbar"><span class="tag">Accès professeur · aperçu des salles</span><div class="prevrow"><select id="pvShip">${SHIPS.map(s=>`<option value="${s.id}" ${s.id===SID?"selected":""}>${s.name}</option>`).join("")}</select><div class="pvrooms">${ROOMS.map((r,i)=>`<button class="btn" data-pv="${i}">${i+1}. ${r.short}</button>`).join("")}<button class="btn" data-pv="${NR}">Réacteur</button></div><label class="pvsol"><input type="checkbox" id="pvSol"> Corrigé</label></div></div>`);
   $("pvShip").onchange=e=>{SID=e.target.value;SES.ships={[SID]:ME};render()};$("pvSol").onchange=e=>{showSol=e.target.checked;render()};
-  document.querySelectorAll("[data-pv]").forEach(b=>b.onclick=()=>{const r=+b.dataset.pv;ME={step:r,pen:0,hints:{}};SES.ships={[SID]:ME};view=r>=6?"reactor":"room";render()});
+  document.querySelectorAll("[data-pv]").forEach(b=>b.onclick=()=>{const r=+b.dataset.pv;ME={step:r,pen:0,hints:{}};SES.ships={[SID]:ME};view=r>=NR?"reactor":"room";render()});
   render();setInterval(hudTick,1000);
 }
 function solBox(){
@@ -60,8 +60,8 @@ function solBox(){
   const r=ROOMS[ME.step];return `<div class="card sol"><div class="tag">Corrigé · ${ship(SID).name} · ${r.name}</div>${r.sol(ship(SID))}<div class="tag" style="margin-top:8px">Indices proposés aux élèves (−0,25 pt chacun)</div><ol><li>${r.hints[0]}</li><li>${r.hints[1]}</li></ol></div>`;
 }
 function pickView(){
-  if(SES.final)return ME.step>=6?"reactor":"done";
-  if(ME.step>=6)return allDone()?"reactor":"done";
+  if(SES.final)return ME.step>=NR?"reactor":"done";
+  if(ME.step>=NR)return allDone()?"reactor":"done";
   if(!store("brief"))return"brief";
   return"room";
 }
@@ -72,7 +72,7 @@ async function poll(){
   const mine=(s.ships||{})[SID];
   SES=s;SES.ships=SES.ships||{};
   if(mine&&Date.now()-lastWrite>4000&&mine.step!==ME.step){ME.step=mine.step||0;ME.pen=mine.pen||0;view=pickView();render();return}
-  if(mine&&Date.now()-lastWrite>4000){ME.pen=mine.pen||0;ME.ded=mine.ded||0;ME.hu=mine.hu||"";ME.thx=mine.thx||""}
+  if(mine&&Date.now()-lastWrite>4000){ME.pen=mine.pen||0;ME.ded=mine.ded||0;ME.hu=mine.hu||"";ME.thx=mine.thx||"";ME.wr=mine.wr||0}
   if(mine){const o=JSON.stringify(ME.ask||null),n=JSON.stringify(mine.ask||null);if(o!==n){const hadReply=!!(ME.ask&&ME.ask.reply);ME.ask=mine.ask;if(mine.ask&&mine.ask.reply&&!hadReply)toast("📡 Message du commandant de bord");if(view==='room'||view==='reactor')render()}}
   const was=view;
   if(view==="done"&&allDone())view="reactor";
@@ -84,17 +84,17 @@ async function poll(){
 
 /* ---------- affichage ---------- */
 const hu=()=>String(ME&&ME.hu||"").split(",").filter(Boolean);
-const scoreNow=()=>SCORE.calc(SES&&SES.ships||{},SID).live;
-const noteOf=id=>SCORE.calc(SES.ships||{},id).note;
-function noteLine(id){const c=SCORE.calc(SES.ships||{},id);return `<p class="notefin">Note du groupe : <b>${fr(c.note)} / 20</b>${c.ded?` <span class="muted">(aides : −${fr(c.ded/4)}${c.credit?` · entraide : +${fr(c.credit/4)}`:""})</span>`:` <span class="muted">(sans aucune aide !)</span>`}</p>`}
+const scoreNow=()=>SCORE.calc(SES&&SES.ships||{},SID,SES&&SES.final).note;
+const noteOf=id=>SCORE.calc(SES.ships||{},id,SES.final).note;
+function noteLine(id){const c=SCORE.calc(SES.ships||{},id,SES.final),d=(c.hint+c.wrongQ)/4;return `<p class="notefin">Note du groupe : <b>${fr(c.note)} / 20</b>${d?` <span class="muted">(aides et erreurs : −${fr(d)}${c.credit?` · entraide : +${fr(c.credit/4)}`:""})</span>`:` <span class="muted">(sans aucune aide !)</span>`}</p>`}
 function hud(){
-  const t=$("clock");if(!t||!SES)return;const sc=$("score");if(sc)sc.textContent="Note "+fr(scoreNow())+" / 20";
+  const t=$("clock");if(!t||!SES)return;const sc=$("score");if(sc)sc.textContent="Note "+fr(scoreNow())+" / 20";const lv=$("lives");if(lv){const n=SCORE.lives(ME||{});lv.textContent="❤️".repeat(n)+"🖤".repeat(SCORE.L0-n)}
   t.textContent=started()||true?fmt(remaining()):"";t.classList.toggle("low",remaining()<=300&&started());
   const run=SES.chrono&&SES.chrono.running;$("state").textContent=SES.final?"Mission réussie":!started()?"En attente du départ":run?"Mission en cours":"En pause";
   /* carte de la flotte */
-  let s="";const X=i=>16+i*31;s+=`<line x1="${X(0)}" y1="64" x2="${X(6)}" y2="64" stroke="var(--line)" stroke-width="2"/>`;
-  ["Sas","Labo","Mach.","Navig.","Comms","Serre","Réact."].forEach((L,i)=>{s+=`<circle cx="${X(i)}" cy="64" r="5" fill="${i===6&&SES.final?"var(--ok)":"var(--panel2)"}" stroke="var(--muted)"/><text x="${X(i)}" y="85" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-size="8" fill="var(--muted)">${L}</text>`});
-  const stack={};SHIPS.forEach(sh=>{const st=Math.min(((SES.ships[sh.id]||{}).step)||0,6);const k=stack[st]=(stack[st]||0)+1;s+=`<circle cx="${X(st)}" cy="${56-k*10}" r="${sh.id===SID?5.5:4.2}" fill="${sh.c}" ${sh.id===SID?'stroke="#fff" stroke-width="1.5"':""}><title>${sh.name}</title></circle>`});
+  let s="";const X=i=>16+i*(186/NR);s+=`<line x1="${X(0)}" y1="64" x2="${X(NR)}" y2="64" stroke="var(--line)" stroke-width="2"/>`;
+  ROOMS.map(r=>r.short).concat(["Réact."]).forEach((L,i)=>{s+=`<circle cx="${X(i)}" cy="64" r="5" fill="${i===NR&&SES.final?"var(--ok)":"var(--panel2)"}" stroke="var(--muted)"/><text x="${X(i)}" y="85" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-size="8" fill="var(--muted)">${L}</text>`});
+  const stack={};SHIPS.forEach(sh=>{const st=Math.min(((SES.ships[sh.id]||{}).step)||0,NR);const k=stack[st]=(stack[st]||0)+1;s+=`<circle cx="${X(st)}" cy="${56-k*10}" r="${sh.id===SID?5.5:4.2}" fill="${sh.c}" ${sh.id===SID?'stroke="#fff" stroke-width="1.5"':""}><title>${sh.name}</title></circle>`});
   $("map").innerHTML=s;const rp=$("rep");if(rp)rp.innerHTML=repairBar().replace(/^<div class="rep">|<\/div>$/g,"");
 }
 function hudTick(){if(!SES)return;hud();endCheck();lockCheck();thxSync()}
@@ -108,7 +108,7 @@ function toast(t){const d=document.createElement("div");d.className="toast";d.te
 
 function render(){
   const s=ship(SID);
-  $("shipPill").innerHTML=s?`<span class="pill" style="color:${s.c}">${s.name}</span> <span class="pill sc" id="score" title="Note du groupe : 20 si aucune aide"></span>`:"";
+  $("shipPill").innerHTML=s?`<span class="pill" style="color:${s.c}">${s.name}</span> <span class="pill sc" id="score" title="Votre note : elle monte à chaque salle réparée"></span> <span class="pill lv" id="lives" title="3 vies : chaque mauvais code en use une"></span>`:"";
   hud();
   const st=$("stage");
   if(view==="join")return renderJoin();
@@ -122,7 +122,7 @@ async function renderHome(){
   document.querySelector(".top").style.display="none";
   let ships={};try{ships=(await SYNC.get("sessions/LOCAL/ships"))||{}}catch(e){}
   const act=Object.keys(ships).filter(k=>ship(k));
-  const resume=act.map(k=>`<a class="btn primary" href="?v=${k}">Reprendre · ${ship(k).name} (${ships[k].step>=6?"vaisseau réparé":"salle "+(ships[k].step+1)+" / 6"})</a>`).join("");
+  const resume=act.map(k=>`<a class="btn primary" href="?v=${k}">Reprendre · ${ship(k).name} (${ships[k].step>=NR?"vaisseau réparé":"salle "+(ships[k].step+1)+" / "+NR})</a>`).join("");
   $("stage").innerHTML=`<div class="center"><div class="card join"><h1>Dernier <span>Signal</span></h1><p class="tag">Opération Pythagore · 4e</p>
   <p class="note">Mode sur un seul appareil (la synchronisation en direct n'est pas branchée).</p>
   ${resume?`<div class="homebtns">${resume}</div>`:""}
@@ -153,20 +153,20 @@ function renderBrief(s){
   <p class="tag">Rôles conseillés</p><p class="muted">Lecteur · Calculateur · Vérificateur · Scribe · Chef de bord (tape le code)</p>
   <button class="btn primary big" id="goBtn" ${started()||SYNC.local?"":"disabled"}>Prêts, on décolle !</button><p class="tag" id="wait">${started()||SYNC.local?"":"En attente du professeur…"}</p></div></div>`;
 }
-function repairBar(){if(!ME)return"";return `<div class="rep">${ROOMS.map((r,i)=>`<span class="${i<ME.step?"ok":i===ME.step&&ME.step<6?"cur":""}">${i<ME.step?"✓ ":""}${r.part.replace("la réserve de carburant","carburant").replace(/^(la |le |les |l')/,"")}</span>`).join("")}</div>`}
+function repairBar(){if(!ME)return"";return `<div class="rep">${ROOMS.map((r,i)=>`<span class="${i<ME.step?"ok":i===ME.step&&ME.step<NR?"cur":""}">${i<ME.step?"✓ ":""}${r.part.replace("la réserve de carburant","carburant").replace(/^(la |le |les |l')/,"")}</span>`).join("")}</div>`}
 function missionCard(r){return `<div class="mission"><div class="tag" style="color:var(--amber)">Votre mission</div><p class="want">On cherche : <b>${r.want}</b></p><ol class="steps">${r.steps.map(x=>`<li>${x}</li>`).join("")}</ol><p class="codeis">🔑 Le code : <b>${r.codeis}</b></p></div>`}
 function lockSecs(){return(SES.meta&&SES.meta.askLock)||60}
 function askBlock(){
   const a=ME.ask||{};let h="";
   if(a.reply&&a.status!=="seen")h+=`<div class="cmd"><div class="tag" style="color:var(--ok)">📡 Message du commandant de bord</div><p>${esc(a.reply.text)}</p><button class="btn" data-seen="1">Compris</button></div>`;
   if(a.status==="open")h+=`<div class="cmd wait">📡 Signal envoyé. Le commandant de bord vous répond dès que possible.</div>`;
-  else h+=`<button class="btn askbtn" id="askBtn">🆘 Besoin d'aide ?</button><p class="rules" style="margin:0">Chaque aide retire des points à la note du groupe (20 / 20 sans aucune aide).</p>`;
+  else h+=`<button class="btn askbtn" id="askBtn">🆘 Besoin d'aide ?</button><p class="rules" style="margin:0">Chaque aide retire des points à votre note.</p>`;
   if(view==="room")h+=`<div id="thxSlot">${thxHtml()}</div>`;
   return h;
 }
 const thxHtml=()=>(finishedOthers().length&&!hasThx())?`<button class="btn thxbtn" id="thxBtn">🤝 Un autre équipage m'a vraiment aidé</button>`:"";
 function thxSync(){if(view!=="room")return;const sl=$("thxSlot");if(!sl)return;const h=thxHtml();if((h!=="")!==(!!$("thxBtn"))){sl.innerHTML=h;const tb=$("thxBtn");if(tb)tb.onclick=openThanks}}
-const finishedOthers=()=>SHIPS.filter(x=>x.id!==SID&&((SES.ships||{})[x.id]||{}).step>=6);
+const finishedOthers=()=>SHIPS.filter(x=>x.id!==SID&&((SES.ships||{})[x.id]||{}).step>=NR);
 const thxList=()=>String(ME&&ME.thx||"").split(",").filter(Boolean);
 const hasThx=()=>view==="room"&&thxList().some(e=>e.split(":")[0]===ROOMS[ME.step].id);
 function openThanks(){
@@ -216,24 +216,24 @@ function renderRoom(s){
   DEC.setCtx(`${s.name.toUpperCase()} · ${r.name.toUpperCase()}`);
   const scene=r.id==="sas"?decor(s.c,s.d.sas,s.d.sasN):r.id==="machines"?decor(s.c,[1,1,1,1]):r.id==="labo"?decor(s.c,s.d.labo):decor(s.c);DEC.setCtx(null);
   const postes=r.postes(s).map(p=>`<label class="poste"><span>${p.label}</span><span class="fld"><input inputmode="decimal" data-p="${p.id}" value="${esc(sv[p.id]??"")}" autocomplete="off"><em>${p.unit}</em>${p.ck?`<i class="ck"></i>`:""}</span>${p.bad?`<label class="bad"><input type="checkbox" data-bad="${p.id}" ${sv["b"+p.id.slice(1)]?"checked":""}> plaque fausse</label>`:""}</label>`).join("");
-  return `<div class="head"><h2>${r.name}</h2><span class="tag">Salle ${ME.step+1} / 6 · ${r.chap}</span></div>
+  return `<div class="head"><h2>${r.name}</h2><span class="tag">Salle ${ME.step+1} / ${NR} · ${r.chap}</span></div>
   <p class="story"><b>Journal de bord.</b> ${r.story}</p>
   <div class="scene">${scene}</div>
   ${missionCard(r)}
   ${r.docs(s)}
   ${postes?`<div class="card carnet"><div class="tag">Carnet de calculs · chacun prend un poste</div>${postes}</div>`:""}
   <div class="bar">${askBlock()}
-   <form class="answer" id="ansForm"><label for="code">Code de la salle</label><div class="row"><input id="code" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="Code"><button class="btn primary" type="submit">Valider</button></div><p class="rules">Mauvais code : −1 min pour toute la flotte</p></form>
+   <form class="answer" id="ansForm"><label for="code">Code de la salle</label><div class="row"><input id="code" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="Code"><button class="btn primary" type="submit">Valider</button></div><p class="rules">Mauvais code : −1 vie (3 vies, ensuite −0,5 pt par erreur)</p></form>
   </div>${solBox()}`;
 }
 function entraideCard(){
-  const todo=SHIPS.filter(x=>x.id!==SID&&!(((SES.ships||{})[x.id]||{}).step>=6));
-  const c=SCORE.calc(SES.ships||{},SID);
-  const list=todo.length?todo.map(x=>{const st=((SES.ships||{})[x.id]||{}).step||0;return `<li><span style="color:${x.c}"><b>${x.name}</b></span> <span class="muted">· ${esc(ROOMS[Math.min(st,5)].name)} (salle ${Math.min(st+1,6)} / 6)</span></li>`}).join(""):`<li class="muted">Tous les équipages ont réparé leur vaisseau. Bravo !</li>`;
-  return `<div class="card entraide"><div class="tag" style="color:var(--amber)">🤝 Mission d'entraide</div>${c.ded?`<p>Vous avez perdu <b>${fr(c.ded/4)} pt</b> avec les aides. Vous pouvez en <b>regagner</b> : +0,25 pt chaque fois qu'un équipage en difficulté reconnaît que vous l'avez aidé.</p>`:`<p>Vous êtes à 20 / 20 : aidez quand même les autres, c'est l'esprit de la flotte !</p>`}
-  <p class="muted" style="margin:.3em 0">Allez voir un équipage, <b>expliquez-lui la méthode</b> avec vos mots. Ne donnez pas votre réponse : ses valeurs sont différentes des vôtres.</p><ul class="others">${list}</ul>${c.ded?`<p class="tag">Entraide gagnée : +${fr(c.credit/4)} pt · note actuelle ${fr(c.live)} / 20</p>`:""}</div>`}
+  const todo=SHIPS.filter(x=>x.id!==SID&&!(((SES.ships||{})[x.id]||{}).step>=NR));
+  const c=SCORE.calc(SES.ships||{},SID,SES.final);
+  const list=todo.length?todo.map(x=>{const st=((SES.ships||{})[x.id]||{}).step||0;return `<li><span style="color:${x.c}"><b>${x.name}</b></span> <span class="muted">· ${esc(ROOMS[Math.min(st,NR-1)].name)} (salle ${Math.min(st+1,NR)} / ${NR})</span></li>`}).join(""):`<li class="muted">Tous les équipages ont réparé leur vaisseau. Bravo !</li>`;
+  return `<div class="card entraide"><div class="tag" style="color:var(--amber)">🤝 Mission d'entraide</div>${c.ded?`<p>Vous avez perdu <b>${fr(c.ded/4)} pt</b> avec les aides et les erreurs. Vous pouvez en <b>regagner</b> : +0,25 pt chaque fois qu'un équipage en difficulté reconnaît que vous l'avez aidé.</p>`:`<p>Vous n'avez perdu aucun point : aidez quand même les autres, c'est l'esprit de la flotte !</p>`}
+  <p class="muted" style="margin:.3em 0">Allez voir un équipage, <b>expliquez-lui la méthode</b> avec vos mots. Ne donnez pas votre réponse : ses valeurs sont différentes des vôtres.</p><ul class="others">${list}</ul>${c.ded?`<p class="tag">Entraide gagnée : +${fr(c.credit/4)} pt · note actuelle ${fr(c.note)} / 20</p>`:""}</div>`}
 function renderDone(s){
-  const others=SHIPS.filter(x=>x.id!==SID).map(x=>{const st=((SES.ships[x.id]||{}).step)||0;return `<li><span style="color:${x.c}">${x.name}</span> <span class="muted">${st>=6?"vaisseau réparé":"salle "+Math.min(st+1,6)+" / 6"}</span></li>`}).join("");
+  const others=SHIPS.filter(x=>x.id!==SID).map(x=>{const st=((SES.ships[x.id]||{}).step)||0;return `<li><span style="color:${x.c}">${x.name}</span> <span class="muted">${st>=NR?"vaisseau réparé":"salle "+Math.min(st+1,NR)+" / "+NR}</span></li>`}).join("");
   return `<div class="brief"><div class="scene">${DEC.hero(SHIPS,Object.fromEntries(SHIPS.map(x=>[x.id,((SES.ships[x.id]||{}).step)||0])),false,false)}</div>
   <div class="card center2"><div class="big">✅</div><h2 style="color:${s.c}">Vaisseau réparé !</h2>
   <p>Votre barre d'énergie :</p><div class="frag" style="color:${s.c}">${s.frag}<small> min</small></div>
@@ -245,7 +245,7 @@ function renderReactor(s){
   const fields=SHIPS.map(x=>`<label class="poste"><span style="color:${x.c}">Barre de ${x.name}</span><span class="fld"><input inputmode="decimal" data-r="${x.id}" value="${x.id===SID?s.frag:esc(sv[x.id]??"")}" ${x.id===SID?"readonly":""}><em>min</em></span></label>`).join("");
   const fin=SES.final;
   return `<div class="brief"><div class="head"><h2>Réacteur commun</h2><span class="tag">Les 5 équipages ensemble</span></div>
-  <div class="scene">${DEC.hero(SHIPS,Object.fromEntries(SHIPS.map(x=>[x.id,6])),!!fin,true)}</div>
+  <div class="scene">${DEC.hero(SHIPS,Object.fromEntries(SHIPS.map(x=>[x.id,NR])),!!fin,true)}</div>
   <div class="card"><p class="story" style="margin:0"><b>Journal de bord.</b> Les 5 vaisseaux sont réparés ! Il reste à rallumer le réacteur. Chaque équipage a une barre d'énergie (un temps de charge en minutes) : <b>mettez les 5 nombres en commun</b>, en vous les dictant d'un groupe à l'autre.</p>
   <div class="tag" style="margin-top:10px;color:var(--amber)">Votre mission</div><ol class="steps"><li>Chaque barre est découpée en <b>tronçons identiques</b>, les plus longs possible, <b>sans reste</b>. Longueur d'un tronçon : <b>a</b> minutes.</li><li>Nombre total de tronçons : <b>b</b>.</li><li>Le cœur du réacteur est un triangle rectangle dont les côtés de l'angle droit mesurent <b>a dm</b> et <b>b dm</b>. Calculez son hypoténuse.</li></ol>
   <p><b>Le code est la longueur de l'hypoténuse, en dm.</b></p></div>
@@ -253,7 +253,7 @@ function renderReactor(s){
   <label class="poste"><span>a : longueur d'un tronçon</span><span class="fld"><input inputmode="decimal" data-r="a" value="${esc(sv.a??"")}"><em>min</em></span></label>
   <label class="poste"><span>b : nombre de tronçons</span><span class="fld"><input inputmode="decimal" data-r="b" value="${esc(sv.b??"")}"><em></em></span></label></div>
   ${fin?`<div class="card center2"><div class="big">🛰️</div><h2 style="color:var(--ok)">Réacteur rallumé</h2></div>`:`<div class="bar">${askBlock()}
-   <form class="answer" id="ansForm"><label for="code">Code du réacteur</label><div class="row"><input id="code" inputmode="numeric" autocomplete="off" placeholder="Code"><button class="btn primary" type="submit">Valider</button></div><p class="rules">Mauvais code : −1 min pour toute la flotte</p></form></div>`}${fin?"":(SES.ships&&(SES.ships[SID]||{}).step>=6?entraideCard():"")}${solBox()}</div>`;
+   <form class="answer" id="ansForm"><label for="code">Code du réacteur</label><div class="row"><input id="code" inputmode="numeric" autocomplete="off" placeholder="Code"><button class="btn primary" type="submit">Valider</button></div><p class="rules">Mauvais code : −1 vie (3 vies, ensuite −0,5 pt par erreur)</p></form></div>`}${fin?"":(SES.ships&&(SES.ships[SID]||{}).step>=NR?entraideCard():"")}${solBox()}</div>`;
 }
 
 /* ---------- interactions ---------- */
@@ -313,9 +313,10 @@ async function check(){
   if(good){
     if(view==="reactor"){SES.final=SYNC.now();await SYNC.put(P("final"),SES.final).catch(()=>{});log("final","Réacteur rallumé");render();endCheck();return}
     const r=ROOMS[ME.step];ME.step++;await writeMe();log("room",r.id);
-    flash(r.fix);view=ME.step>=6?(allDone()?"reactor":"done"):"room";setTimeout(render,700);
+    flash(r.fix);view=ME.step>=NR?(allDone()?"reactor":"done"):"room";setTimeout(render,700);
   }else{
-    addPen();log("bad",room);toast("Code refusé · −1 min pour la flotte");inp.classList.remove("shake");void inp.offsetWidth;inp.classList.add("shake");inp.select();hud();endCheck();
+    ME.wr=(ME.wr||0)+1;lastWrite=Date.now();SES.ships=SES.ships||{};SES.ships[SID]=Object.assign(SES.ships[SID]||{},{wr:ME.wr});SYNC.patch(P("ships/"+SID),{wr:ME.wr,t:SYNC.now()}).catch(()=>{});
+    log("bad",room);const left=SCORE.lives(ME);toast(left>0?`Code refusé · il vous reste ${left} vie${left>1?"s":""} ❤️`:"Code refusé · plus de vie : −0,5 pt");inp.classList.remove("shake");void inp.offsetWidth;inp.classList.add("shake");inp.select();hud();endCheck();
   }
 }
 boot();

@@ -64,7 +64,7 @@ const fact=n=>{const o=[];let m=n;for(let k=2;k*k<=m;k++)while(m%k===0){o.push(k
 const num=n=>String(n).replace(/\B(?=(\d{3})+$)/g," ");
 const steps=a=>`<ol class="steps">${a.map(x=>`<li>${x}</li>`).join("")}</ol>`;
 
-return [
+const ALL=[
  {id:"sas",name:"Sas d'arrivée",short:"Sas",part:"la coque",chap:"Divisibilité",
   story:"Une tempête solaire vient de percer la coque de votre vaisseau. Impossible de réparer de l'extérieur : il faut entrer par le sas. Son verrou est réglé sur un <b>nombre-clé N</b> et refuse tout composant qui a quelque chose en commun avec N : les <b>intrus</b>. À vous de les repérer.",
   want:"le code d'ouverture du sas",
@@ -110,7 +110,7 @@ return [
   sol:sh=>{let tot=0;const L=sh.d.mac.map(([t,a,b],i)=>{const sq=t==="hyp"?a*a+b*b:a*a-b*b,r=Math.sqrt(sq),ok=Number.isInteger(r);if(ok)tot+=r;const eq=t==="hyp"?`${a}² + ${b}² = ${a*a} + ${b*b} = ${sq}`:`${a}² − ${b}² = ${a*a} − ${b*b} = ${sq}`;return `<li>Plaque ${i+1} (${t==="hyp"?"hypoténuse manquante":"côté de l'angle droit manquant"}) : ${eq}, donc côté = √${sq} ${ok?"= <b>"+r+" cm</b>":"≈ "+r.toFixed(2).replace(".",",")+" : <b>plaque fausse</b>"}.</li>`}).join("");return `<ol>${L}</ol><p>Code = <b>${tot}</b></p>`}},
 
  {id:"nav",name:"Navigation",short:"Navig.",part:"le cap",chap:"Pythagore + Grandeurs",
-  story:"Moteurs relancés ! Le vaisseau est prêt à partir vers la balise du réacteur, mais le pilote automatique ne connaît pas la durée du voyage. Il fonce en <b>ligne droite</b>, à <b>vitesse constante</b>. À vous de la calculer avec la carte.",
+  story:"Le plein est fait ! Le vaisseau est prêt à partir vers la balise du réacteur, mais le pilote automatique ne connaît pas la durée du voyage. Il fonce en <b>ligne droite</b>, à <b>vitesse constante</b>. À vous de la calculer avec la carte.",
   want:"la durée du voyage, en années",
   steps:["Sur la carte, lisez la position de <b>VOUS</b> et de la <b>BALISE</b> grâce aux nombres des bords. Calculez l'<b>écart horizontal</b> et l'<b>écart vertical</b> (en carreaux).","Ces deux écarts sont les côtés de l'angle droit d'un triangle rectangle. La distance en ligne droite est l'<b>hypoténuse</b> : calculez-la avec Pythagore (en carreaux).","Convertissez en années-lumière : multipliez par la valeur d'un carreau (légende de la carte).","Durée = distance ÷ vitesse. Le résultat est un nombre entier d'années."],
   codeis:"la durée du voyage, en années",
@@ -138,7 +138,7 @@ return [
   sol:sh=>{const c=sh.d.com,[h,m]=c.t,t=h+m/60,E=c.P/1000*t;return `<ol><li>${num(c.P)} W = ${fr(c.P/1000)} kW.</li><li>${h} h ${m} min = ${fr(t)} h.</li><li>Énergie = ${fr(c.P/1000)} × ${fr(t)} = ${fr(E)} kWh.</li><li>Coût = ${fr(E)} × ${c.px} = <b>${Math.round(E*c.px)} centimes</b>.</li></ol>`}},
 
  {id:"serre",name:"Serre",short:"Serre",part:"l'oxygène",chap:"Grandeurs + Pourcentages",
-  story:"Signal envoyé ! Dernière panne : l'oxygène. La serre ne produit plus d'air frais car sa cuve d'eau s'est vidée en partie. La pompe doit la remplir. Combien de temps va-t-elle fonctionner ? <b>Ce nombre de minutes</b> sera la <b>barre d'énergie</b> de votre vaisseau : <b>retenez-le</b>, le réacteur en aura besoin !",
+  story:"Cap fixé ! Dernière panne : l'oxygène. La serre ne produit plus d'air frais car sa cuve d'eau s'est vidée en partie. La pompe doit la remplir. Combien de temps va-t-elle fonctionner ? <b>Ce nombre de minutes</b> sera la <b>barre d'énergie</b> de votre vaisseau : <b>retenez-le</b>, le réacteur en aura besoin !",
   want:"la durée de remplissage, en minutes (votre barre d'énergie)",
   steps:["Convertissez les 3 dimensions en <b>dm</b> (1 m = 10 dm ; 10 cm = 1 dm), puis calculez le volume : longueur × largeur × hauteur. 1 dm³ = 1 L.","La cuve est remplie à un certain pourcentage : quel <b>pourcentage reste à remplir</b> ?","Calculez le volume d'eau à ajouter, en litres.","Durée = volume à ajouter ÷ débit de la pompe."],
   codeis:"la durée, en minutes",
@@ -150,14 +150,19 @@ return [
   suggest:v=>v.T||null,
   sol:sh=>{const [L,l,h,p,d]=sh.d.ser,V=L*l*h/1000,A=V*(100-p)/100;return `<ol><li>${L/10} dm × ${l/10} dm × ${h/10} dm = ${V} dm³ = <b>${V} L</b>.</li><li>Remplie à ${p} % : il reste ${100-p} %.</li><li>${100-p} % de ${V} L = <b>${A} L</b>.</li><li>${A} ÷ ${d} = <b>${A/d} min</b> : c'est la barre d'énergie.</li></ol>`}}
 ];
+return ALL.filter(r=>!["machines","comms"].includes(r.id));
 })();
+window.NR=window.ROOMS.length;
 
 window.REACTOR_HINTS=["Pour trouver le plus grand tronçon commun, décomposez chaque barre en facteurs premiers : les facteurs communs à toutes les barres, multipliés entre eux, donnent a.","b = (somme des 5 barres) ÷ a. Ensuite : hypoténuse² = a² + b², puis racine carrée."];
 
 window.SCORE=(function(){
-  const q=x=>Math.round(x*4)/4;
-  function bonus(ships,id){const me=(ships||{})[id]||{};if((me.step||0)<6)return 0;let n=0;Object.keys(ships||{}).forEach(k=>{if(k===id)return;String(((ships||{})[k]||{}).thx||"").split(",").forEach(e=>{if(e.split(":")[1]===id)n++})});return n}
-  function calc(ships,id){const o=(ships||{})[id]||{},st=Math.min(o.step||0,6),ded=o.ded||0,adj=o.adj||0,b=bonus(ships,id),credit=Math.min(ded,Math.max(0,b+adj)),net=ded-credit,base=20*st/6;
-    return{st,ded,bonus:b,adj,credit,net,base,note:Math.max(0,q(base-net/4)),live:Math.max(0,20-net/4)}}
-  return{calc,bonus}
+  const q=x=>Math.round(x*4)/4,L0=3; /* 3 vies ; ensuite chaque mauvais code coûte 0,5 pt */
+  const NRr=()=>window.NR||4;
+  function bonus(ships,id){const me=(ships||{})[id]||{};if((me.step||0)<NRr())return 0;let n=0;Object.keys(ships||{}).forEach(k=>{if(k===id)return;String(((ships||{})[k]||{}).thx||"").split(",").forEach(e=>{if(e.split(":")[1]===id)n++})});return n}
+  const lives=(o)=>Math.max(0,L0-((o&&o.wr)||0));
+  function calc(ships,id,final){const o=(ships||{})[id]||{},N=NRr(),st=Math.min(o.step||0,N),unit=20/(N+1),earned=unit*st+(final&&st>=N?unit:0),
+    hint=o.ded||0,wrongQ=2*Math.max(0,(o.wr||0)-L0),ded=hint+wrongQ,adj=o.adj||0,b=bonus(ships,id),credit=Math.min(ded,Math.max(0,b+adj)),net=ded-credit;
+    return{st,N,earned,hint,wrongQ,ded,bonus:b,adj,credit,net,lives:lives(o),note:Math.min(20,Math.max(0,q(earned-net/4)))}}
+  return{calc,bonus,lives,L0}
 })();

@@ -8,13 +8,13 @@ let CODE="";try{CODE=localStorage.getItem("ds4e-prof-code")||""}catch(e){}
 let SES=null,showSol=false,sound=false,seenAsk={};let actx=null;
 function beep(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();[0,.18].forEach((d,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=i?1100:820;o.connect(g);g.connect(actx.destination);g.gain.setValueAtTime(.18,actx.currentTime+d);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+d+.16);o.start(actx.currentTime+d);o.stop(actx.currentTime+d+.17)})}catch(e){}}
 const P=p=>`sessions/${CODE}/${p}`;
-const pens=()=>Object.values(SES&&SES.ships||{}).reduce((s,x)=>s+(x&&x.pen||0),0);
+const pens=()=>0;
 const elapsed=()=>{const c=SES.chrono||{};return(c.base||0)+(c.running?(SYNC.now()-c.startAt)/1000:0)};
-const remaining=()=>Math.max(0,(SES.meta.dur||3000)-elapsed()-60*pens());
+const remaining=()=>Math.max(0,(SES.meta.dur||3300)-elapsed());
 const step=id=>((SES.ships||{})[id]||{}).step||0;
-const allDone=()=>SHIPS.every(s=>step(s.id)>=6);
+const allDone=()=>!!(SES.meta&&SES.meta.reacOpen)||SHIPS.every(s=>step(s.id)>=NR);
 function newCode(){const a="ABCDEFGHJKMNPQRSTUVWXYZ23456789";let c="";for(let i=0;i<4;i++)c+=a[Math.floor(Math.random()*a.length)];return c}
-const fresh=()=>({meta:{dur:3000,askLock:60,created:Date.now()},chrono:{running:false,startAt:0,base:0},ships:{},final:null,log:null});
+const fresh=()=>({meta:{dur:3300,askLock:60,created:Date.now()},chrono:{running:false,startAt:0,base:0},ships:{},final:null,log:null});
 async function create(){CODE=SYNC.local?"LOCAL":newCode();try{localStorage.setItem("ds4e-prof-code",CODE)}catch(e){}await SYNC.put(P(""),fresh());await SYNC.calibrate(CODE);SES=await SYNC.get(P(""));renderAll()}
 async function boot(){
   if(!SYNC.local&&!window.DS_CONFIG.dbUrl&&!new URLSearchParams(location.search).get("db")){}
@@ -60,10 +60,10 @@ function renderAll(){
 }
 const frn=n=>String(n).replace(".",",");
 function notes(){
-  const rows=SHIPS.map(s=>{const o=(SES.ships||{})[s.id]||{},c=SCORE.calc(SES.ships||{},s.id),hu=String(o.hu||"").split(",").filter(Boolean),n1=hu.filter(x=>x.endsWith("1")).length,n2=hu.filter(x=>x.endsWith("2")).length;
-    return `<tr><td><b style="color:${s.c}">${s.name}</b></td><td>${c.st} / 6</td><td>${n1}</td><td>${n2}</td><td>${o.asks||0}</td><td>−${frn(c.ded/4)}</td><td>+${frn(c.credit/4)} <small class="muted">(${c.bonus} merci${c.bonus>1?"s":""})</small></td><td><button class="btn adjb" data-adj="-1" data-s="${s.id}">−0,25</button> <b>${c.adj>0?"+":""}${frn(c.adj/4)}</b> <button class="btn adjb" data-adj="1" data-s="${s.id}">+0,25</button></td><td><b>${frn(c.note)} / 20</b></td></tr>`}).join("");
-  $("layer").innerHTML=`<div class="overlay" id="ov"><div class="box wide"><h2>Notes des groupes</h2><p class="muted">Chaque groupe est noté sur son propre vaisseau : <b>20 / 20</b> s'il répare ses 6 salles sans aide, sinon au prorata des salles réparées. Indice 1 : −0,25 · Indice 2 : −0,25 · Appel au commandant : −0,5. <b>Entraide :</b> un groupe qui a fini regagne +0,25 chaque fois qu'un groupe en difficulté le remercie (jamais au-dessus de ce qu'il a perdu). La colonne « Ajust. » est votre correction manuelle.</p>
-   <table class="notes"><thead><tr><th>Groupe</th><th>Salles</th><th>Indice 1</th><th>Indice 2</th><th>Appels</th><th>Aides</th><th>Entraide</th><th>Ajust.</th><th>Note</th></tr></thead><tbody>${rows}</tbody></table><button class="btn" id="closeOv">Fermer</button></div></div>`;
+  const rows=SHIPS.map(s=>{const o=(SES.ships||{})[s.id]||{},c=SCORE.calc(SES.ships||{},s.id,SES.final),hu=String(o.hu||"").split(",").filter(Boolean),n1=hu.filter(x=>x.endsWith("1")).length,n2=hu.filter(x=>x.endsWith("2")).length;
+    return `<tr><td><b style="color:${s.c}">${s.name}</b></td><td>${c.st} / ${NR}</td><td>${n1}</td><td>${n2}</td><td>${o.asks||0}</td><td>${o.wr||0} <small class="muted">(−${frn(c.wrongQ/4)})</small></td><td>+${frn(c.credit/4)} <small class="muted">(${c.bonus} merci${c.bonus>1?"s":""})</small></td><td><button class="btn adjb" data-adj="-1" data-s="${s.id}">−0,25</button> <b>${c.adj>0?"+":""}${frn(c.adj/4)}</b> <button class="btn adjb" data-adj="1" data-s="${s.id}">+0,25</button></td><td><b>${frn(c.note)} / 20</b></td></tr>`}).join("");
+  $("layer").innerHTML=`<div class="overlay" id="ov"><div class="box wide"><h2>Notes des groupes</h2><p class="muted">Chaque groupe est noté sur son propre vaisseau, en partant de <b>0</b> : +4 points par salle réparée (4 salles) et +4 points quand le réacteur est rallumé. Indice 1 : −0,25 · Indice 2 : −0,25 · Appel au commandant : −0,5. Chaque groupe a 3 vies : les 3 premiers mauvais codes sont gratuits, ensuite −0,5 par erreur. <b>Entraide :</b> un groupe qui a fini regagne +0,25 chaque fois qu'un groupe en difficulté le remercie (jamais au-dessus de ce qu'il a perdu). La colonne « Ajust. » est votre correction manuelle.</p>
+   <table class="notes"><thead><tr><th>Groupe</th><th>Salles</th><th>Indice 1</th><th>Indice 2</th><th>Appels</th><th>Erreurs</th><th>Entraide</th><th>Ajust.</th><th>Note</th></tr></thead><tbody>${rows}</tbody></table><button class="btn" id="closeOv">Fermer</button></div></div>`;
   $("closeOv").onclick=()=>$("layer").innerHTML="";
   $("ov").onclick=async e=>{const b=e.target.closest("[data-adj]");if(!b)return;const id=b.dataset.s,o=(SES.ships=SES.ships||{})[id]=(SES.ships[id]||{});o.adj=(o.adj||0)+(+b.dataset.adj);await SYNC.patch(P("ships/"+id),{adj:o.adj});notes()}
 }
@@ -74,7 +74,7 @@ function qr(){
 }
 function renderLive(){
   if(!$("clock"))return;
-  const c=SES.chrono;$("play").textContent=chronoBtn();$("pen").textContent=pens()?`−${pens()} min de pénalités`:(c.running?"Mission en cours":c.base>0?"En pause":"Mission non démarrée");
+  const c=SES.chrono;$("play").textContent=chronoBtn();$("pen").textContent=c.running?"Mission en cours":c.base>0?"En pause":"Mission non démarrée";
   const asks=SHIPS.filter(s=>{const o=(SES.ships||{})[s.id];return o&&o.ask&&o.ask.status==="open"}).sort((a,b)=>SES.ships[a.id].ask.t-SES.ships[b.id].ask.t);
   let fresh=false;asks.forEach(s=>{const t=SES.ships[s.id].ask.t;if(!seenAsk[s.id+t]){seenAsk[s.id+t]=1;fresh=true}});
   if(fresh){if(sound)beep();document.title="🔔 Indice demandé · Dernier Signal"}else if(!asks.length)document.title="Dernier Signal · Tableau de bord";
@@ -84,17 +84,18 @@ function renderLive(){
      <div class="alb"><button class="btn" data-rep="m" data-s="${s.id}">Envoyer l'indice 1 (méthode)</button><button class="btn" data-rep="c" data-s="${s.id}">Envoyer l'indice 2 (calcul)</button><button class="btn" data-rep="v" data-s="${s.id}">J'arrive à votre table</button><input data-free="${s.id}" placeholder="Message libre…" style="flex:1;min-width:140px;font-size:15px;width:auto"><button class="btn primary" data-rep="t" data-s="${s.id}">Envoyer</button><button class="mini" data-rep="x" data-s="${s.id}">Ignorer</button></div></div>`}).join("");
   const stp=Object.fromEntries(SHIPS.map(s=>[s.id,step(s.id)]));
   $("hero").innerHTML=DEC.hero(SHIPS,stp,!!SES.final,allDone());
-  const done=SHIPS.filter(s=>step(s.id)>=6).length;
-  $("reactor").innerHTML=`<div class="tag">Réacteur</div><p class="rstate"><b style="color:${SES.final?"var(--ok)":allDone()?"var(--amber)":"var(--muted)"}">${SES.final?"Rallumé : mission réussie !":allDone()?"Prêt : les groupes se mettent d'accord":done+" / 5 vaisseaux réparés"}</b></p>
+  const done=SHIPS.filter(s=>step(s.id)>=NR).length;
+  $("reactor").innerHTML=`<div class="tag">Réacteur</div><p class="rstate"><b style="color:${SES.final?"var(--ok)":allDone()?"var(--amber)":"var(--muted)"}">${SES.final?"Rallumé : mission réussie !":allDone()?(SES.meta.reacOpen&&done<5?"Ouvert par vous · "+done+" / 5 vaisseaux réparés":"Prêt : les groupes se mettent d'accord"):done+" / 5 vaisseaux réparés"}</b></p>${SES.final?"":`<button class="btn ${SES.meta.reacOpen?"":"primary"}" id="reacBtn">${SES.meta.reacOpen?"Refermer le réacteur":"Ouvrir le réacteur maintenant"}</button><p class="muted" style="margin:.4em 0 0">Barres : ${SHIPS.map(s=>`<span style="color:${s.c}">${s.name} ${COR.frags[SHIPS.indexOf(s)]}</span>`).join(" · ")} <small>(à donner aux groupes en retard)</small></p>`}
    ${showSol?`<p class="sol">Barres : ${SHIPS.map(s=>`<span style="color:${s.c}">${s.name} ${COR.frags[SHIPS.indexOf(s)]}</span>`).join(" · ")}<br>somme ${COR.somme} · a = PGCD = ${COR.pgcd} · b = ${COR.lots} · code = <b>${COR.final}</b></p>`:""}`;
+  if($("reacBtn"))$("reacBtn").onclick=async()=>{const v=!SES.meta.reacOpen;SES.meta.reacOpen=v;await SYNC.patch(P("meta"),{reacOpen:v});renderLive()};
   const now=SYNC.now();
-  $("ships").innerHTML=SHIPS.map(s=>{const o=(SES.ships||{})[s.id],st=o?o.step||0:0,hints=(o&&o.asks)||0,sc=SCORE.calc(SES.ships||{},s.id),pend=o&&o.ask&&o.ask.status==="open",idle=o&&o.t?(now-o.t)/60000:0;
-    const stuck=o&&st<6&&(SES.chrono.running)&&idle>5;
-    const room=st>=6?"Vaisseau réparé":ROOMS[st].name;
-    return `<div class="sh ${stuck?"stuck":""} ${pend?"calling":""}" style="--c:${s.c}"><div class="shh"><b style="color:${s.c}">${s.name}</b><span class="tag">${o?(st>=6?"✓ réparé":"salle "+(st+1)+" / 6"):"pas encore connecté"}</span></div>
-     <div class="segs">${Array.from({length:6},(_,i)=>`<i class="${i<st?"on":""}${i===st&&o?" cur":""}"></i>`).join("")}</div>
-     <div class="shm"><span>${o?esc(room):"—"}</span><span class="muted">${pend?"🔔 ":""}Note ${frn(sc.live)}/20${sc.credit?" (+"+frn(sc.credit/4)+" entraide)":""} · 📞 ${hints} · −${(o&&o.pen)||0} min · ${o&&o.t?(idle<1?"actif":"inactif "+Math.round(idle)+" min"):""}</span></div>
-     ${showSol&&st<6?`<div class="sol">Code : <b>${COR.ans[s.id][ROOMS[st].id]}</b></div>`:""}
+  $("ships").innerHTML=SHIPS.map(s=>{const o=(SES.ships||{})[s.id],st=o?o.step||0:0,hints=(o&&o.asks)||0,sc=SCORE.calc(SES.ships||{},s.id,SES.final),pend=o&&o.ask&&o.ask.status==="open",idle=o&&o.t?(now-o.t)/60000:0;
+    const stuck=o&&st<NR&&(SES.chrono.running)&&idle>5;
+    const room=st>=NR?"Vaisseau réparé":ROOMS[st].name;
+    return `<div class="sh ${stuck?"stuck":""} ${pend?"calling":""}" style="--c:${s.c}"><div class="shh"><b style="color:${s.c}">${s.name}</b><span class="tag">${o?(st>=NR?"✓ réparé":"salle "+(st+1)+" / "+NR):"pas encore connecté"}</span></div>
+     <div class="segs">${Array.from({length:NR},(_,i)=>`<i class="${i<st?"on":""}${i===st&&o?" cur":""}"></i>`).join("")}</div>
+     <div class="shm"><span>${o?esc(room):"—"}</span><span class="muted">${pend?"🔔 ":""}${"❤️".repeat(sc.lives)}${"🖤".repeat(SCORE.L0-sc.lives)} · Note ${frn(sc.note)}/20${sc.credit?" (+"+frn(sc.credit/4)+" entraide)":""} · 📞 ${hints} · ${o&&o.t?(idle<1?"actif":"inactif "+Math.round(idle)+" min"):""}</span></div>
+     ${showSol&&st<NR?`<div class="sol">Code : <b>${COR.ans[s.id][ROOMS[st].id]}</b></div>`:""}
      <div class="shb"><button class="mini" data-a="up" data-s="${s.id}" title="Débloquer la salle suivante">+1 salle</button><button class="mini" data-a="down" data-s="${s.id}">−1</button></div></div>`}).join("");
   const log=Object.values(SES.log||{}).sort((a,b)=>b.t-a.t).slice(0,10);
   const sn=id=>(SHIPS.find(s=>s.id===id)||{}).name||id;
@@ -107,7 +108,7 @@ document.addEventListener("click",async e=>{
     if(kind==="m")text=rm.hints[0];else if(kind==="c")text=rm.hints[1];else if(kind==="v")text="Le commandant arrive à votre table !";else if(kind==="t"){const f=document.querySelector(`[data-free="${id}"]`);text=(f&&f.value||"").trim();if(!text)return}
     const upd=kind==="x"?{status:"seen"}:{status:"answered",reply:{t:SYNC.now(),text,kind}};Object.assign(a,upd);await SYNC.patch(P(`ships/${id}/ask`),upd);
     if(kind!=="x")SYNC.put(P(`log/${SYNC.now()}_${id}r`),{t:SYNC.now(),ship:id,ev:"reply",txt:text.slice(0,70)}).catch(()=>{});renderLive();return}
-  const b=e.target.closest(".mini");if(!b||!SES)return;const id=b.dataset.s,o=(SES.ships||{})[id]||{step:0,pen:0};let n=(o.step||0)+(b.dataset.a==="up"?1:-1);n=Math.max(0,Math.min(6,n));
+  const b=e.target.closest(".mini");if(!b||!SES)return;const id=b.dataset.s,o=(SES.ships||{})[id]||{step:0,pen:0};let n=(o.step||0)+(b.dataset.a==="up"?1:-1);n=Math.max(0,Math.min(NR,n));
   SES.ships=SES.ships||{};SES.ships[id]=Object.assign(o,{step:n,t:SYNC.now()});await SYNC.patch(P("ships/"+id),{step:n,t:SYNC.now(),pen:o.pen||0});renderLive();
 });
 boot();

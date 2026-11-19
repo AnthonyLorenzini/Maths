@@ -59,11 +59,11 @@ const shipArt=(u,c,s=1,fl=1,id="")=>`<g transform="scale(${s*fl} ${s})">
 /* ================= HÉROS : la flotte (écran du professeur) ================= */
 const SHIP_P=[[120,92],[120,166],[120,240],[120,314],[120,388]];
 const hero=(ships,prog,final,total)=>{const u="h";seed(5);
-  const px=(i,st)=>{const x0=130,x1=560,y=70+i*62,k=Math.min(st,6)/6;return[x0+(x1-x0)*k,y+Math.sin(k*3.1)*10]};
+  const px=(i,st)=>{const x0=130,x1=560,y=70+i*62,k=Math.min(st,(window.NR||6))/(window.NR||6);return[x0+(x1-x0)*k,y+Math.sin(k*3.1)*10]};
   let sh="";ships.forEach((s,i)=>{const st=prog[s.id]||0,[x,y]=px(i,st);
-    sh+=`<g transform="translate(${x} ${y})" class="${st>=6?"docked":"cruise"}"><g>${shipArt(u,s.c,.42,1)}</g><text x="0" y="-30" text-anchor="middle" ${F} font-weight="700" font-size="13" letter-spacing="2" fill="${s.c}">${s.name.toUpperCase()}</text></g>`;
+    sh+=`<g transform="translate(${x} ${y})" class="${st>=(window.NR||6)?"docked":"cruise"}"><g>${shipArt(u,s.c,.42,1)}</g><text x="0" y="-30" text-anchor="middle" ${F} font-weight="700" font-size="13" letter-spacing="2" fill="${s.c}">${s.name.toUpperCase()}</text></g>`;
     sh+=`<line x1="130" y1="${70+i*62}" x2="560" y2="${70+i*62}" stroke="${s.c}" stroke-opacity=".13" stroke-dasharray="3 8"/>`;
-    for(let k=0;k<=6;k++){sh+=`<circle cx="${130+430*k/6}" cy="${70+i*62}" r="${k<=st?3.4:2}" fill="${k<=st?s.c:"#33476d"}" opacity="${k<=st?.9:.6}"/>`}});
+    for(let k=0,n=(window.NR||6);k<=n;k++){sh+=`<circle cx="${130+430*k/n}" cy="${70+i*62}" r="${k<=st?3.4:2}" fill="${k<=st?s.c:"#33476d"}" opacity="${k<=st?.9:.6}"/>`}});
   const core=final?"#5fd68a":(total?"#ffb547":"#53627f");
   return `<svg viewBox="0 0 800 420" role="img" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">${D(u,"#ffb547")}
 <rect width="800" height="420" fill="#050914"/>
