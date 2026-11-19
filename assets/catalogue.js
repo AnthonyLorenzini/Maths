@@ -499,7 +499,7 @@ window.SITE = {
               titre: "Le quotient, un nombre à trouver", duree: "50 min",
               contenu: [
                 "Des barres à partager (15 min, projeté) : 15 barres pour 3 amis, 1 barre pour 4 amis, 3 barres pour 4 amis. Ce que reçoit un ami est le quotient ; on le vérifie en multipliant par le nombre d'amis (5 × 3 = 15, 3/4 × 4 = 3).",
-                "Les exercices (30 min, cahier) : cinq nombres cachés (trois sans table), trois dessins de partage à lire, un tableau phrase / division / fraction, qui a raison ? et un défi : pourquoi pas de partage entre 0 ami."
+                "Les exercices (30 min, cahier) : cinq divisions (trois sans table), trois dessins de partage à lire, un tableau phrase / division / fraction, qui a raison ? et un défi : pourquoi pas de partage entre 0 ami."
               ],
               ressources: ["6e-ch6-s1"],
               retenir: [
@@ -514,7 +514,7 @@ window.SITE = {
               titre: "Les égalités à trous", duree: "50 min",
               contenu: [
                 "Les deux machines (12 min, projeté) : un nombre passe dans une machine ÷ puis dans une machine × et revient tel quel. Trois départs (12, 3, 7) ; à la fin, on voit que a/b × b = a, et que le chemin retour donne le nombre caché de ? × 5 = 6.",
-                "Les exercices (38 min, cahier) : compléter a/b × b = ?, trouver le nombre caché de ? × b = a, repérer où est le trou, vérifier les réponses de trois élèves en multipliant, et un défi : ? × 8 = 8."
+                "Les exercices (38 min, cahier) : compléter a/b × b = ?, trouver le nombre caché de ? × b = a, repérer où est le trou, vérifier les réponses de trois élèves en multipliant. Pour les élèves rapides (≈ 15 min en plus) : des partages de barres, des devinettes, justes ou fausses ?, puis deux défis (? × 8 = 8, et « deux fois plus »)."
               ],
               ressources: ["6e-ch6-s2"],
               retenir: [
@@ -528,7 +528,7 @@ window.SITE = {
           ],
           ressources: [
             { id: "6e-ch6-s1", type: "exos", titre: "Séance 1 — Le quotient, un nombre à trouver", resume: "Des barres de chocolat à partager entre amis, le quotient, a ÷ b = a/b, des dessins à lire et pourquoi pas de division par 0. Avec corrections.", ajout: "2026-11-11" },
-            { id: "6e-ch6-s2", type: "exos", titre: "Séance 2 — Les égalités à trous", resume: "Deux machines ÷ et ×, a/b × b = a, trouver le nombre caché, où est le trou ? et qui a raison ? Avec corrections.", ajout: "2026-11-17" }
+            { id: "6e-ch6-s2", type: "exos", titre: "Séance 2 — Les égalités à trous", resume: "Deux machines ÷ et ×, a/b × b = a, trouver le nombre caché, où est le trou ?, qui a raison ?, partages, devinettes et défis. Avec corrections.", ajout: "2026-11-17" }
           ]
         },
         {

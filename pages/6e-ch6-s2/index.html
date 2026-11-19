@@ -217,6 +217,7 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 .ex.show .hole.has .qm{display:none}
 .ex.show .hole.has .ans{display:inline-flex;align-items:center}
 .hole.has .fr{font-size:.8em}
+.qs:not(.big) .hole.has .fr{font-size:1.05em}
 .num{white-space:nowrap}
 .vf{font-weight:700}.vf.t{color:var(--ok)}.vf.f{color:var(--ko)}
 </style>
@@ -293,9 +294,48 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
   </section>
 
   <section class="ex" id="ex5">
-    <div class="ex-h"><h2>Défi <small>le nombre secret</small></h2><button class="btn" data-sol>Correction</button></div>
+    <div class="ex-h"><h2>Exercice 5 <small>des partages</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Des barres sont partagées entre des amis. Écris l'égalité à trou « ? × (nombre d'amis) = (nombre de barres) », puis ce que reçoit un ami.</p>
+    <ol class="qs" type="a">
+      <li>4 barres entre 9 amis : un ami reçoit <span class="hole has"><span class="qm">?</span><span class="ans"><span class="fr"><span>4</span><span>9</span></span></span></span> de barre.<span class="sol s">? × 9 = 4, donc ? = 4 ÷ 9 = 4/9. Vérification : 4/9 × 9 = 4.</span></li>
+      <li>10 barres entre 5 amis : un ami reçoit <span class="hole has"><span class="qm">?</span><span class="ans">2</span></span> barres.<span class="sol s">? × 5 = 10, donc ? = 10 ÷ 5 = 2. Vérification : 2 × 5 = 10.</span></li>
+      <li>7 barres entre 2 amis : un ami reçoit <span class="hole has"><span class="qm">?</span><span class="ans"><span class="fr"><span>7</span><span>2</span></span></span></span> de barre.<span class="sol s">? × 2 = 7, donc ? = 7 ÷ 2 = 7/2. Vérification : 7/2 × 2 = 7. C'est plus d'une barre.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex6">
+    <div class="ex-h"><h2>Exercice 6 <small>devinettes</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Je pense à un nombre. Écris l'égalité à trou, puis trouve mon nombre.</p>
+    <ol class="qs" type="a">
+      <li>« Je le multiplie par 5 et j'obtiens 8. » Mon nombre est <span class="hole has"><span class="qm">?</span><span class="ans"><span class="fr"><span>8</span><span>5</span></span></span></span>.<span class="sol s">? × 5 = 8, donc ? = 8 ÷ 5 = 8/5.</span></li>
+      <li>« Je le multiplie par 11 et j'obtiens 2. » Mon nombre est <span class="hole has"><span class="qm">?</span><span class="ans"><span class="fr"><span>2</span><span>11</span></span></span></span>.<span class="sol s">? × 11 = 2, donc ? = 2 ÷ 11 = 2/11.</span></li>
+      <li>« Je le multiplie par 6 et j'obtiens 6. » Mon nombre est <span class="hole has"><span class="qm">?</span><span class="ans">1</span></span>.<span class="sol s">? × 6 = 6, donc ? = 6 ÷ 6 = 1.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex7">
+    <div class="ex-h"><h2>Exercice 7 <small>justes ou fausses ?</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Écris les lettres des égalités <b>justes</b>. Aide-toi de la règle : <span class="num"><span class="fr"><span>a</span><span>b</span></span> × b = a</span>.</p>
+    <ol class="qs big" type="a">
+      <li><span class="fr"><span>4</span><span>9</span></span> × 9 = 4<span class="sol"><span class="vf t">Juste.</span></span></li>
+      <li><span class="fr"><span>4</span><span>9</span></span> × 4 = 9<span class="sol"><span class="vf f">Fausse.</span> Il faut multiplier par 9 pour retrouver 4.</span></li>
+      <li><span class="fr"><span>7</span><span>2</span></span> × 2 = 7<span class="sol"><span class="vf t">Juste.</span></span></li>
+      <li>3 × <span class="fr"><span>5</span><span>3</span></span> = 5<span class="sol"><span class="vf t">Juste.</span> On peut changer l'ordre d'une multiplication.</span></li>
+      <li><span class="fr"><span>6</span><span>5</span></span> × 6 = 5<span class="sol"><span class="vf f">Fausse.</span> Il faut multiplier par 5 pour retrouver 6.</span></li>
+    </ol>
+    <p class="recit sol"><b>Justes : a, c et d.</b></p>
+  </section>
+
+  <section class="ex" id="defi1">
+    <div class="ex-h"><h2>Défi 1 <small>le nombre secret</small></h2><button class="btn" data-sol>Correction</button></div>
     <p class="consigne">Trouve le nombre caché de <span class="num"><span class="hole has"><span class="qm">?</span><span class="ans"><span class="fr"><span>8</span><span>8</span></span></span></span> × 8 = 8</span>. Écris-le sous forme de fraction, puis sous forme d'un nombre entier.</p>
     <p class="recit sol">Le nombre caché est <span class="fr"><span>8</span><span>8</span></span>, et c'est <b>1</b>, car <span class="num">1 × 8 = 8</span>. Un nombre divisé par lui-même vaut 1.</p>
+  </section>
+
+  <section class="ex" id="defi2">
+    <div class="ex-h"><h2>Défi 2 <small>deux fois plus</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Zoé pense à un nombre. Elle le multiplie par 7 et trouve 3. Que trouve-t-elle si elle multiplie ce même nombre par 14 ? Astuce : 14 = 7 × 2.</p>
+    <p class="recit sol">Son nombre est <span class="fr"><span>3</span><span>7</span></span>, car <span class="num"><span class="fr"><span>3</span><span>7</span></span> × 7 = 3</span>. Avec 14 = 7 × 2 : <span class="num"><span class="fr"><span>3</span><span>7</span></span> × 14 = 3 × 2 = 6</span>. Elle trouve <b>6</b>.</p>
   </section>
 </div>
 <script>
