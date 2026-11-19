@@ -226,6 +226,18 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 .recit p{margin:0 0 6px}.recit p:last-child{margin:0}
 .recit pre.div{margin:8px 0 0;align-self:flex-start}
 .fig.col{gap:10px;padding:10px}
+.anim{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start}
+@media (max-width:760px){.anim{grid-template-columns:minmax(0,1fr)}.anim .div{justify-self:center}}
+.div mark.z{background:var(--amber);color:var(--on-amber);border-radius:3px}
+.div .qt{color:var(--amber-ink)}
+#bver{min-height:3.2em;margin:0;font-size:1.05rem}
+#bfig svg{max-width:none}
+.pc{transition:transform .6s cubic-bezier(.4,.1,.2,1)}
+.nt .pc,.pc.nt{transition:none!important}
+.pc line{stroke:#c99a70;stroke-width:1.2;stroke-dasharray:3 3;stroke-opacity:.6;transition:all .3s}
+.pc.cut line{stroke:var(--amber);stroke-width:3;stroke-dasharray:none;stroke-opacity:1}
+@media (prefers-reduced-motion:reduce){.pc,.pc line{transition:none}}
+#beq{font:800 clamp(1.9rem,7vw,2.8rem)/1.15 var(--f-num);margin:0;min-height:0}#beq .fr{font-size:1.05em}
 </style>
 <div class="wrap">
   <header class="top">
@@ -233,25 +245,26 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
     <p class="sub">Chapitre 6, séance 3</p></div>
   </header>
 
-  <!-- ================= ACTIVITÉ : PARTAGER DES BARRES, DIVISION POSÉE ================= -->
+  <!-- ================= ACTIVITÉ : PARTAGER DES BARRES (ANIMATION) ================= -->
   <section class="ex" id="act">
     <div class="ex-h"><h2>Activité <small>partager des barres</small></h2></div>
-    <p class="consigne">Des barres de chocolat à partager entre des amis. On pose la division et on suit les morceaux. Choisis un partage.</p>
+    <p class="consigne">Des barres de chocolat à partager entre des amis. Choisis un partage, puis clique pour avancer : on partage, on coupe ce qui reste, on repartage.</p>
     <div class="cas" id="cas">
       <button class="btn" data-a="1" data-b="2">1 barre, 2 amis</button>
       <button class="btn" data-a="1" data-b="4">1 barre, 4 amis</button>
       <button class="btn" data-a="7" data-b="2">7 barres, 2 amis</button>
       <button class="btn" data-a="3" data-b="4">3 barres, 4 amis</button>
     </div>
-    <div class="pas"><button class="btn main" id="next">Descendre un zéro</button></div>
-    <div class="fig col" id="bfig"></div>
-    <div class="res" aria-live="polite">
-      <p class="eq" id="beq"></p>
-      <p class="ver" id="bver"></p>
+    <div class="pas"><button class="btn main" id="next">Partager les barres</button><button class="btn" id="again">Recommencer</button></div>
+    <p class="ver" id="bver" aria-live="polite"></p>
+    <div class="anim">
+      <div class="fig" id="bfig"></div>
+      <pre class="div" id="bdiv" aria-label="division posée"></pre>
     </div>
+    <p class="eq" id="beq"></p>
     <div class="recit" id="ret" hidden>
       <p>1. Pour écrire un <span class="gl" data-t="quotient">quotient</span> avec une virgule, on <b>pose la division</b>.</p>
-      <p>2. S'il reste quelque chose, on met une virgule au quotient et on <b>descend un zéro</b> : 1 unité = 10 dixièmes, 1 dixième = 10 centièmes.</p>
+      <p>2. S'il reste quelque chose, on met une virgule au quotient et on <b>descend un zéro</b> : on coupe le reste en 10 (1 barre = 10 dixièmes, 1 dixième = 10 centièmes).</p>
       <p>3. La division s'arrête quand le <b>reste est 0</b>.</p>
       <p>4. On vérifie en multipliant : <span class="num">0,25 × 4 = 1</span>. Donc <span class="num"><span class="fr"><span>1</span><span>4</span></span> = 0,25</span> : un même nombre, deux écritures.</p>
     </div>
@@ -340,77 +353,153 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 <script>
 (function(){
 const {$,$$,f}=L4;
-const INK='var(--ink)';
-const COL=['var(--fill)','var(--blue-bg)','var(--magenta-bg)','var(--teal-bg)'];
-const GREY='#d9dbe6';
-const UN=['barre','dixième','centième','millième'];
+const NS='http://www.w3.org/2000/svg';
+const UN=['barre','dixième','centième'];
 const pl=(n,u)=>n+' '+u+(n>1?'s':'');
+const ZC=[['var(--blue)','var(--blue-bg)'],['var(--magenta)','var(--magenta-bg)'],['var(--teal)','var(--teal-bg)'],['#b5651d','#fdebd3']];
+const U=[{w:160,h:60},{w:16,h:60},{w:16,h:6}];
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const sleep=ms=>new Promise(r=>setTimeout(r,RM?0:ms));
+const frame=()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
 
-/* ---------- le calcul : étape 0 = les barres entières, étape k = un zéro de plus ---------- */
+/* ---------- le calcul ---------- */
 function plan(a,b){
   const q0=Math.floor(a/b),r0=a-q0*b,st=[{N:a,q:q0,r:r0}];let r=r0;
-  while(r!==0&&st.length<4){const v=r*10,q=Math.floor(v/b),rr=v-q*b;st.push({N:v,q,r:rr});r=rr;}
+  while(r!==0&&st.length<3){const v=r*10,q=Math.floor(v/b),rr=v-q*b;st.push({N:v,q,r:rr});r=rr;}
   return st;
 }
-const quotient=(P,k)=>String(P[0].q)+(k>0?',':'')+P.slice(1,k+1).map(s=>s.q).join('');
+/* done = nombre d'étapes faites : 1 = barres partagées, 2 = 1er zéro descendu, 3 = dixièmes partagés… */
+const quot=(P,d)=>{if(d<1)return '';let s=String(P[0].q);if(d>=2)s+=',';for(let i=1;i<P.length;i++)if(d>=2*i+1)s+=P[i].q;return s;};
+const value=(P,d)=>quot(P,d).replace(/,$/,'');
 
-/* ---------- la division posée (lignes nouvelles surlignées) ---------- */
-function divHTML(a,b,k){
-  const P=plan(a,b),L=(c,s)=>' '.repeat(c)+s,W=8;
-  let left=[L(1,String(a)),L(0,'-'+(P[0].q*b)),L(1,String(P[0].r))],nw=[1,1,1];
-  for(let i=1;i<=k;i++){
-    const {N:v,q,r}=P[i],c=i+1;nw=nw.map(()=>0);
-    left[left.length-1]=L(c-1,String(v));nw[left.length-1]=1;
-    const p=String(q*b);left.push(L(c-p.length,'-'+p));nw.push(1);
-    left.push(L(c,String(r)));nw.push(1);
+/* ---------- la division posée, au même rythme que l'animation ---------- */
+function divHTML(a,b,P,d){
+  const la=String(a).length,put=(s,e)=>' '.repeat(Math.max(0,e+1-s.length))+s;
+  const R=[{t:put(String(a),la)}];
+  if(d>=1){R.push({t:put('-'+P[0].q*b,la),h:d===1});R.push({t:put(String(P[0].r),la),h:d===1});}
+  for(let i=1;i<P.length;i++){
+    if(d>=2*i){const L=R[R.length-1];L.t=put(String(P[i].N),la+i);L.z=1;L.h=d===2*i;}
+    if(d>=2*i+1){R.push({t:put('-'+P[i].q*b,la+i),h:d===2*i+1});R.push({t:put(String(P[i].r),la+i),h:d===2*i+1});}
   }
-  const right=[String(b),'-----',quotient(P,k)];
-  return left.map((t,i)=>{
-    const l=t.padEnd(W),lm=nw[i]?`<mark class="nw">${l}</mark>`:l;
-    const rt=i===0?'| '+right[0]:i===1?'|'+right[1]:i===2?'| <mark class="nw">'+right[2]+'</mark>':'|';
-    return lm+rt;}).join('\n');
+  while(R.length<3)R.push({t:''});
+  const W=la+P.length+2,q=quot(P,d);
+  const right=['| '+b,'|-----','| '+(q?'<b class="qt">'+q+'</b>':'')];
+  return R.map((r,i)=>{let s=r.t.padEnd(W);
+    if(r.z){const k=r.t.length-1;s=s.slice(0,k)+'<mark class="z">0</mark>'+s.slice(k+1);}
+    if(r.h)s='<mark class="nw">'+s+'</mark>';
+    return s+(right[i]||'|');}).join('\n');
 }
 
-/* ---------- les morceaux : une rangée par ami, puis ce qui reste ---------- */
-function jetons(a,b,k){
-  const P=plan(a,b),{N,q,r}=P[k],u=k,RH=44;
-  const dim=u===0?[38,38]:u===1?[13,38]:[13,13];
-  const tok=(x,y,fill)=>`<rect x="${x}" y="${y+(38-dim[1])/2}" width="${dim[0]}" height="${dim[1]}" fill="${fill}" stroke="${INK}" stroke-width="2"/>`;
-  let s=`<text x="6" y="22" font-family="Work Sans,sans-serif" font-weight="700" font-size="22" fill="${INK}">On partage ${pl(N,UN[u])}</text>`;
-  const y0=36;
-  for(let i=0;i<b;i++){const y=y0+i*RH;
-    s+=`<text x="6" y="${y+26}" font-family="Work Sans,sans-serif" font-weight="600" font-size="18" fill="var(--muted)">ami ${i+1}</text>`;
-    for(let j=0;j<q;j++)s+=tok(78+j*(dim[0]+4),y,COL[i%4]);}
-  const y=y0+b*RH;
-  s+=`<text x="6" y="${y+26}" font-family="Work Sans,sans-serif" font-weight="600" font-size="18" fill="var(--muted)">reste</text>`;
-  if(r===0)s+=`<text x="78" y="${y+27}" font-family="Space Mono,monospace" font-weight="700" font-size="22" fill="${INK}">0</text>`;
-  for(let j=0;j<r;j++)s+=tok(78+j*(dim[0]+4),y,GREY);
-  return `<svg viewBox="0 0 400 ${y+RH}" role="img" aria-label="${pl(N,UN[u])} partagé(es) entre ${b} amis : ${q} chacun, il en reste ${r}">${s}</svg>`;
+/* ---------- la scène : la réserve en haut, une assiette par ami en bas ---------- */
+let A=1,B=2,P,done=0,pcs=[],busy=false,G={};
+function layR(list,VW){
+  const X0=20,XM=VW-20,Y0=46;let x=X0,y=Y0;const pos=[];
+  if(!list.length)return {pos,h:60};
+  const u=list[0].u;
+  if(u===0){list.forEach(()=>{if(x+160>XM&&x>X0){x=X0;y+=70;}pos.push([x,y]);x+=170;});return {pos,h:y-Y0+60};}
+  if(u===1){let prev=null;list.forEach(p=>{let g=prev?(p.grp===prev.grp?3:18):0;if(x+g+16>XM){x=X0;y+=70;g=0;}x+=g;pos.push([x,y]);x+=16;prev=p;});return {pos,h:y-Y0+60};}
+  let prev=null,j=0;list.forEach(p=>{if(prev&&p.grp===prev.grp)j++;else{if(prev)x+=34;j=0;if(x+16>XM){x=X0;y+=88;}}pos.push([x,y+j*8]);prev=p;});
+  return {pos,h:y-Y0+78};
+}
+function layout(){
+  const narrow=$('#bfig').clientWidth<560,VW=narrow?420:760;
+  const cols=narrow?Math.min(B,2):B,rows=Math.ceil(B/cols),zw=(VW-10*(cols+1))/cols;
+  const nb=Math.max(1,Math.floor((zw-20+8)/168)),last=P.length-1,rb=Math.ceil(P[0].q/nb);
+  const ph=34+rb*66+(last>=1||rb===0?66:0)+4;
+  let rh=layR([...Array(A)].map((_,k)=>({u:0,grp:k})),VW).h;
+  for(let i=1;i<=last;i++){const L=[];for(let g=0;g<P[i-1].r;g++)for(let j=0;j<10;j++)L.push({u:i,grp:g});rh=Math.max(rh,layR(L,VW).h);}
+  const RT=46+rh+14,ZY=RT+14;
+  return {narrow,VW,cols,zw,nb,rb,ph,RT,ZY,VH:ZY+rows*(ph+10)};
+}
+function slotPos(L,i,u,k){
+  const zx=10+(i%L.cols)*(L.zw+10),zy=L.ZY+Math.floor(i/L.cols)*(L.ph+10),x0=zx+10,y0=zy+34;
+  if(u===0)return [x0+(k%L.nb)*168,y0+Math.floor(k/L.nb)*66];
+  const sy=y0+L.rb*66;
+  if(u===1)return [x0+k*19,sy];
+  const nd=P[1].q,n=P[2].q;return [x0+nd*19+(nd?8:0),sy+(60-(n*8-2))/2+k*8];
+}
+function mk(u){
+  const g=document.createElementNS(NS,'g');g.setAttribute('class','pc');const {w,h}=U[u];
+  let s=`<rect width="${w}" height="${h}" rx="${u?1.5:5}" fill="#7b4a2e" stroke="#3d2414" stroke-width="${u===0?2.5:u===1?1.5:1}"/>`;
+  if(u===0)for(let j=1;j<10;j++)s+=`<line x1="${j*16}" x2="${j*16}" y1="4" y2="${h-4}"/>`;
+  if(u===1)for(let j=1;j<10;j++)s+=`<line x1="2" x2="${w-2}" y1="${j*6}" y2="${j*6}"/>`;
+  g.innerHTML=s;G.layer.appendChild(g);return g;
+}
+const mv=(p,x,y)=>{p.x=x;p.y=y;p.el.style.transform=`translate(${x}px,${y}px)`;};
+function place(instant){
+  const L=G.L,svg=$('#bfig svg'),R=pcs.filter(p=>p.own<0),r=layR(R,L.VW);
+  if(instant)svg.classList.add('nt');
+  R.forEach((p,k)=>mv(p,...r.pos[k]));
+  pcs.filter(p=>p.own>=0).forEach(p=>mv(p,...slotPos(L,p.own,p.u,p.slot)));
+  if(instant){void svg.getBoundingClientRect();requestAnimationFrame(()=>svg.classList.remove('nt'));}
+}
+function build(){
+  const L=G.L=layout(),T=(x,y,t,o)=>`<text x="${x}" y="${y}" ${o||''} font-family="Work Sans,sans-serif" font-weight="700" font-size="20">${t}</text>`;
+  let s=`<svg viewBox="0 0 ${L.VW} ${L.VH}" role="img" aria-label="${pl(A,'barre')} à partager entre ${B} amis">`;
+  s+=`<rect x="8" y="8" width="${L.VW-16}" height="${L.RT-8}" rx="10" fill="var(--paper)" stroke="var(--muted)" stroke-width="2" stroke-dasharray="7 6"/>`;
+  s+=T(20,34,'','id="rlab" fill="var(--ink)"');
+  for(let i=0;i<B;i++){const zx=10+(i%L.cols)*(L.zw+10),zy=L.ZY+Math.floor(i/L.cols)*(L.ph+10);
+    s+=`<rect x="${zx}" y="${zy}" width="${L.zw}" height="${L.ph}" rx="12" fill="${ZC[i][1]}" stroke="${ZC[i][0]}" stroke-width="2.5"/>`;
+    s+=T(zx+10,zy+24,'ami '+(i+1),`fill="${ZC[i][0]}"`);
+    s+=`<text class="pv" x="${zx+L.zw-10}" y="${zy+25}" text-anchor="end" font-family="Space Mono,monospace" font-weight="700" font-size="22" fill="var(--ink)"></text>`;}
+  s+=`<g id="layer"></g></svg>`;
+  $('#bfig').innerHTML=s;G.layer=$('#layer');
+  pcs.forEach(p=>p.el=mk(p.u));
+  place(true);texts();
 }
 
-function texte(a,b,k){
-  const P=plan(a,b),{N,q,r}=P[k],fin=r===0;
+/* ---------- les deux gestes : partager, couper en 10 ---------- */
+async function share(i){
+  const R=pcs.filter(p=>p.own<0),n=P[i].q*B,d=Math.min(340,2600/Math.max(1,n));
+  for(let t=0;t<n;t++){const p=R[t];p.own=t%B;p.slot=Math.floor(t/B);mv(p,...slotPos(G.L,p.own,p.u,p.slot));await sleep(d);}
+  await sleep(450);place(false);await sleep(500);
+}
+async function cut(i){
+  const R=pcs.filter(p=>p.own<0);
+  R.forEach(p=>p.el.classList.add('cut'));await sleep(700);
+  R.forEach((p,g)=>{for(let j=0;j<10;j++){const c={u:i,own:-1,grp:g};c.el=mk(i);c.el.classList.add('nt');
+    mv(c,i===1?p.x+j*16:p.x,i===1?p.y:p.y+j*6);pcs.push(c);}p.el.remove();});
+  pcs=pcs.filter(p=>!R.includes(p));
+  await frame();pcs.forEach(p=>p.el.classList.remove('nt'));await frame();
+  place(false);await sleep(750);
+}
+
+/* ---------- textes, bouton, division ---------- */
+const fini=new Set();
+function texts(){
+  const last=P.length-1,fin=done===2*last+1,R=pcs.filter(p=>p.own<0);
+  $('#rlab').textContent=done%2===0?`À partager : ${pl(R.length,UN[R.length?R[0].u:0])}`:(R.length?`Reste : ${pl(R.length,UN[R[0].u])}`:'Reste : 0');
+  $$('#bfig .pv').forEach(t=>t.textContent=value(P,done));
+  $('#bdiv').innerHTML=divHTML(A,B,P,done);
+  $('#next').hidden=fin;
+  $('#next').textContent=done%2===0?`Partager les ${UN[done/2]}s`:`Couper en ${UN[(done+1)/2]}s`;
   let t;
-  if(k===0)t=`<b>${pl(a,'barre')}</b> pour <b>${b} amis</b> : chaque ami a <b>${q}</b> barre${q>1?'s':''} entière${q>1?'s':''}, il reste <b>${r}</b> barre${r>1?'s':''}.`;
-  else t=`${k===1?'On met une <b>virgule</b> au quotient et on':'On'} <b>descend un zéro</b> : ${pl(P[k-1].r,UN[k-1])} = <b>${pl(N,UN[k])}</b>. ${N} ÷ ${b} = ${q} reste ${r} : chaque ami a <b>${pl(q,UN[k])}</b>, il en reste ${r}.`;
-  if(fin&&k>0)t+=` Le reste est 0 : c'est fini.`;
-  return t;
-}
-
-let A=1,B=2,st=0;const fini=new Set();
-function etape(n){
-  st=n;const P=plan(A,B),last=P.length-1,done=n===last;
-  $('#bfig').innerHTML=jetons(A,B,n)+'<pre class="div" aria-label="division posée de '+A+' par '+B+'">'+divHTML(A,B,n)+'</pre>';
-  $('#beq').innerHTML=done?`${f(A,B)} = ${quotient(P,n)}`:`${A} ÷ ${B}`;
-  $('#bver').innerHTML=texte(A,B,n)+(done?` <b>Preuve</b> : ${quotient(P,n)} × ${B} = ${A}.`:'');
-  $('#next').hidden=done;
-  if(done){fini.add(A+'-'+B);if(fini.size===4)$('#ret').hidden=false;}
+  if(done===0)t=`<b>${pl(A,'barre')}</b> à partager entre <b>${B} amis</b>.`;
+  else if(done%2===1){const s=(done-1)/2,{N,q,r}=P[s];
+    if(s===0)t=(q>0?`Chaque ami reçoit <b>${pl(q,'barre')}</b> entière${q>1?'s':''}.`:`Pas assez de barres pour en donner une entière à chacun : on écrit <b>0</b> au quotient.`)
+      +(r>0?` Il reste <b>${pl(r,'barre')}</b> : on va ${r>1?'les':'la'} couper en 10.`:' Il ne reste rien.');
+    else t=`${N} ÷ ${B} = ${q} reste ${r} : chaque ami reçoit <b>${pl(q,UN[s])}</b> de plus.`
+      +(r>0?` Il reste <b>${pl(r,UN[s])}</b> : on ${r>1?'les':'le'} coupe en 10.`:` Le reste est <b>0</b> : c'est fini !`);}
+  else{const i=done/2;t=`${i===1?'On met une <b>virgule</b> au quotient et on':'On'} <b>descend un zéro</b> : chaque morceau qui reste est coupé en 10. ${pl(P[i-1].r,UN[i-1])} = <b>${pl(P[i].N,UN[i])}</b>.`;}
+  if(fin){const q=quot(P,done);t+=` <b>Preuve</b> : ${q} × ${B} = ${A}.`;$('#beq').innerHTML=`${f(A,B)} = ${q}`;
+    fini.add(A+'-'+B);if(fini.size===4)$('#ret').hidden=false;}
+  else $('#beq').innerHTML='';
+  $('#bver').innerHTML=t;
 }
 function choisir(a,b,bt){
-  A=a;B=b;$$('#cas .btn').forEach(x=>x.classList.toggle('main',x===bt));etape(0);
+  if(busy)return;A=a;B=b;P=plan(a,b);done=0;
+  pcs=[...Array(a)].map((_,k)=>({u:0,own:-1,grp:k}));
+  if(bt)$$('#cas .btn').forEach(x=>x.classList.toggle('main',x===bt));
+  build();
 }
+$('#next').addEventListener('click',async()=>{
+  if(busy)return;busy=true;$('#next').disabled=true;$$('#cas .btn,#again').forEach(x=>x.disabled=true);
+  if(done%2===0)await share(done/2);else await cut((done+1)/2);
+  done++;texts();busy=false;$('#next').disabled=false;$$('#cas .btn,#again').forEach(x=>x.disabled=false);
+});
+$('#again').addEventListener('click',()=>choisir(A,B));
 $$('#cas .btn').forEach(bt=>bt.addEventListener('click',()=>choisir(+bt.dataset.a,+bt.dataset.b,bt)));
-$('#next').addEventListener('click',()=>{if(st<plan(A,B).length-1)etape(st+1);});
+addEventListener('resize',()=>{if(!busy&&G.L&&($('#bfig').clientWidth<560)!==G.L.narrow)build();});
 choisir(1,2,$('#cas .btn'));
 
 /* ---------- boutons « Correction » ---------- */

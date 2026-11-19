@@ -515,7 +515,7 @@ window.SITE = {
             {
               titre: "Un même nombre, plusieurs écritures", duree: "50 min",
               contenu: [
-                "Partager des barres (20 min, projeté, pas à pas) : quatre partages, de plus en plus riches (1 barre pour 2 amis, 1 pour 4, 7 pour 2, 3 pour 4). À chaque fois on pose la division : on partage les barres entières, puis on met une virgule au quotient et on descend un zéro (1 barre = 10 dixièmes, 1 dixième = 10 centièmes) jusqu'à un reste 0. Les morceaux de chaque ami sont dessinés à côté de la division, et la preuve par la multiplication conclut chaque cas (0,25 × 4 = 1). Aucune égalité de fractions n'est utilisée.",
+                "Partager des barres (20 min, projeté, animation pas à pas) : quatre partages (1 barre pour 2 amis, 1 pour 4, 7 pour 2, 3 pour 4). Les morceaux de chocolat glissent vers l'assiette de chaque ami ; ce qui reste est coupé en 10 sous les yeux des élèves (barres en dixièmes, dixièmes en centièmes) puis repartagé, et la division posée avance au même rythme (virgule, zéro descendu, reste). Chaque cas se termine par la preuve par la multiplication (0,25 × 4 = 1). Aucune égalité de fractions n'est utilisée.",
                 "Les exercices (30 min, cahier) : les trois premiers sont à faire en classe (un seul zéro, deux zéros, s'arrêter ou continuer d'après le reste), les suivants servent à ceux qui vont vite ou de travail à la maison : la preuve par la multiplication, des problèmes de partage (jus, ruban, barres), les erreurs de Léa, et un défi : 1 ÷ 8 pour la part d'un ami entre 8 amis."
               ],
               ressources: ["6e-ch6-s3"],
