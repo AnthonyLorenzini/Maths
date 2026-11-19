@@ -948,8 +948,8 @@ window.SITE = {
      Escape game pas encore fait en classe : ajoute  prive: true  (même mot de passe que les chapitres réservés ; la page du jeu est aussi protégée).
      Un niveau sans escape game affiche « Bientôt ». */
   escapes: [
-    { id: "dernier-signal", niveau: "6e", titre: "Dernier Signal", resume: "Cinq équipages réparent leur vaisseau salle par salle pour rallumer le réacteur.", duree: "50 min", ajout: "2026-11-16", prive: true },
-    { id: "dernier-signal-pythagore", niveau: "4e", titre: "Dernier Signal · Opération Pythagore", resume: "Cinq équipages, un téléphone par groupe : réparer le vaisseau salle par salle avec les pourcentages, les grandeurs, la divisibilité et Pythagore.", duree: "50 min", ajout: "2026-11-16", prive: true }
+    { id: "dernier-signal", niveau: "6e", titre: "Dernier Signal", resume: "Cinq équipages réparent leur vaisseau salle par salle pour rallumer le réacteur.", duree: "50 min", ajout: "2026-11-16" },
+    { id: "dernier-signal-pythagore", niveau: "4e", titre: "Dernier Signal · Opération Pythagore", resume: "Cinq équipages, un téléphone par groupe : réparer le vaisseau salle par salle avec les pourcentages, les grandeurs, la divisibilité et Pythagore.", duree: "50 min", ajout: "2026-11-16" }
   ]
 };
 /* ---- Chapitres réservés (prive: true) : masqués tant que le mot de passe n'a pas été saisi ---- */

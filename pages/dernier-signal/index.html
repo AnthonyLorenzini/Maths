@@ -170,7 +170,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--amber);outline-
 <script src="../../assets/catalogue.js"></script>
 <script>
 (function(){
-  var ok=!!window.SITE_PROF;
+  var ok=true; /* escape game en accès libre */
   document.getElementById("jeu").hidden=!ok;
   document.getElementById("gate").hidden=ok;
   if(ok)return;
@@ -181,7 +181,6 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--amber);outline-
 </script>
 <script>
 (function(){
-if(!window.SITE_PROF)return;
 const ROOMS=[
  {id:"sas",name:"Sas d'arrivée",short:"Sas",page:1,hint:"Comparez deux nombres qui se suivent : on double… et il manque un petit quelque chose."},
  {id:"labo",name:"Laboratoire",short:"Labo",page:2,hint:"Supposez que A dit la vérité et suivez les conséquences. Ça coince ? Alors A ment."},
