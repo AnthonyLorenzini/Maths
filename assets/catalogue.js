@@ -515,23 +515,23 @@ window.SITE = {
             {
               titre: "Un même nombre, plusieurs écritures", duree: "50 min",
               contenu: [
-                "Une barre, quatre amis (20 min, projeté, pas à pas) : la barre est découpée en 4, en 10 puis en 100, les découpages s'empilent et un pointillé montre que la part d'un ami est toujours la même. 1/4 ; puis 2,5 carreaux sur 10 (on coupe les carreaux restants en deux) : 2,5/10 n'est pas une fraction mais une écriture fractionnaire, le quotient de 2,5 par 10 ; puis 25/100, c'est 2 dixièmes et 5 centièmes, donc 0,25. La carte d'identité de 1/4 se remplit à chaque étape. Enfin les quatre parts remises ensemble donnent 0,25 × 4 = 1 : 0,25 est le quotient de 1 par 4, et 0,25 × 10 = 2,5 le confirme pour 2,5/10.",
-                "Les exercices (30 min, cahier) : lire une barre pour écrire la même part en fraction sur 10 ou 100 puis en écriture décimale, prouver avec une multiplication qu'un décimal est un quotient (dont 0,25 × 10 = 2,5), ranger six cartes en trois familles et repérer celles qui sont le même nombre, corriger deux erreurs classiques (1/4 = 0,4 ; 1/10 = 0,01), et un défi : la part d'un ami pour 8 amis."
+                "Une barre, quatre amis (15 min, projeté, pas à pas) : une barre de 100 carreaux est partagée entre 4 amis (25 carreaux chacun), puis la part d'un ami est regroupée en 2 dixièmes et 5 centièmes pour lire 0,25. Les 4 parts remises ensemble donnent 0,25 × 4 = 1 : 0,25 est le quotient de 1 par 4, comme 1/4. Aucune égalité de fractions n'est utilisée.",
+                "Les exercices (35 min, cahier) : trouver le nombre caché de ? × b = 1 avec une virgule (0,5 ; 0,2 ; 0,1) puis de ? × 4 = 3, former les paires fraction / écriture décimale, corriger deux erreurs classiques (1/4 = 0,4 ; 1/10 = 0,01), et un défi : la part d'un ami pour 8 amis."
               ],
               ressources: ["6e-ch6-s3"],
               retenir: [
-                "Un même quotient peut s'écrire de plusieurs façons : 1/4 = 2,5/10 = 25/100 = 0,25.",
-                "1/4 et 25/100 sont des **fractions** (deux nombres entiers). 2,5/10 n'est pas une fraction : c'est une **écriture fractionnaire**, le quotient de 2,5 par 10. 0,25 est une **écriture décimale** : 0,25 = 2 dixièmes et 5 centièmes.",
-                "Pour prouver qu'une écriture est le quotient de a par b, on multiplie par b : 0,25 × 4 = 1 et 0,25 × 10 = 2,5."
+                "Un quotient peut s'écrire de plusieurs façons : 1/4 = 0,25. 1/4 est une **fraction**, 0,25 est une **écriture décimale**.",
+                "Pour trouver l'écriture décimale du quotient de a par b, on cherche le nombre qui, multiplié par b, donne a : 0,25 × 4 = 1.",
+                "Pour vérifier, on multiplie : 0,5 × 2 = 1, donc 0,5 = 1/2."
               ],
               exemple: "0,25 × 4 = 1, donc 0,25 est le quotient de 1 par 4 : 0,25 = 1/4.",
-              savoir: "écrire un quotient sous forme de fraction, d'écriture fractionnaire et d'écriture décimale, et prouver qu'une écriture décimale est un quotient avec une multiplication."
+              savoir: "trouver l'écriture décimale d'un quotient simple (1/2, 1/4, 1/5, 1/10, 3/4) et la vérifier avec une multiplication."
             }
           ],
           ressources: [
             { id: "6e-ch6-s1", type: "exos", titre: "Séance 1 — Le quotient, un nombre à trouver", resume: "Des barres de chocolat à partager entre amis, le quotient, a ÷ b = a/b, des dessins à lire et pourquoi pas de division par 0. Avec corrections.", ajout: "2026-11-11" },
             { id: "6e-ch6-s2", type: "exos", titre: "Séance 2 — Les égalités à trous", resume: "Deux machines ÷ et ×, a/b × b = a, trouver le nombre caché, où est le trou ? et qui a raison ? Avec corrections.", ajout: "2026-11-17" },
-            { id: "6e-ch6-s3", type: "exos", titre: "Séance 3 — Un même nombre, plusieurs écritures", resume: "Une barre de chocolat découpée en 4, 10 puis 100 : 1/4 = 2,5/10 = 0,25. Prouver avec une multiplication, trois familles d'écritures et les erreurs de Léa. Avec corrections.", ajout: "2026-11-17" }
+            { id: "6e-ch6-s3", type: "exos", titre: "Séance 3 — Un même nombre, plusieurs écritures", resume: "Une barre de 100 carreaux partagée entre 4 amis : la part d'un ami s'écrit 0,25 et se prouve par 0,25 × 4 = 1. Nombres cachés avec une virgule, paires fraction / décimal et erreurs de Léa. Avec corrections.", ajout: "2026-11-17" }
           ]
         },
         {
