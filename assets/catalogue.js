@@ -515,8 +515,8 @@ window.SITE = {
             {
               titre: "Un même nombre, plusieurs écritures", duree: "50 min",
               contenu: [
-                "Partager des barres (20 min, projeté, animation pas à pas) : quatre partages (1 barre pour 2 amis, 1 pour 4, 7 pour 2, 3 pour 4). Les morceaux de chocolat glissent vers l'assiette de chaque ami ; ce qui reste est coupé en 10 sous les yeux des élèves (barres en dixièmes, dixièmes en centièmes) puis repartagé, et la division posée avance au même rythme (virgule, zéro descendu, reste). Chaque cas se termine par la preuve par la multiplication (0,25 × 4 = 1). Aucune égalité de fractions n'est utilisée.",
-                "Les exercices (30 min, cahier) : les trois premiers sont à faire en classe (un seul zéro, deux zéros, s'arrêter ou continuer d'après le reste), les suivants servent à ceux qui vont vite ou de travail à la maison : la preuve par la multiplication, des problèmes de partage (jus, ruban, barres), les erreurs de Léa, et un défi : 1 ÷ 8 pour la part d'un ami entre 8 amis."
+                "Partager des barres (20 min, projeté, animation pas à pas) : quatre partages (1 barre pour 4 amis, 9 barres pour 5, 13 pour 4, 17 pour 5). Les morceaux de chocolat glissent vers l'assiette de chaque ami ; ce qui reste est coupé en 10 sous les yeux des élèves (barres en dixièmes, dixièmes en centièmes) puis repartagé, et la division posée avance au même rythme (virgule, zéro descendu, reste). Chaque cas se termine par la preuve par la multiplication (0,25 × 4 = 1). Aucune égalité de fractions n'est utilisée.",
+                "Les exercices (30 min, cahier) : les trois premiers sont à faire en classe (un seul zéro : 7/2, 9/5, 17/5, 23/5 ; deux zéros : 9/4, 13/4, 19/4, 21/4 ; s'arrêter ou continuer d'après le reste), les suivants servent à ceux qui vont vite ou de travail à la maison : la preuve par la multiplication, des problèmes de partage (jus, ruban, barres), les erreurs de Léa, et un défi : 1 ÷ 8 pour la part d'un ami entre 8 amis."
               ],
               ressources: ["6e-ch6-s3"],
               retenir: [
