@@ -515,8 +515,8 @@ window.SITE = {
             {
               titre: "Un même nombre, plusieurs écritures", duree: "50 min",
               contenu: [
-                "Une barre, quatre amis (20 min, projeté, pas à pas) : on pose 1 ÷ 4 et on suit la barre. 1 barre pour 4 amis : quotient entier 0, reste 1 ; on met une virgule et on descend un zéro (1 barre = 10 dixièmes : 2 dixièmes chacun, reste 2) ; on descend un autre zéro (2 dixièmes = 20 centièmes : 5 centièmes chacun, reste 0). Quotient : 0,25, vérifié par 0,25 × 4 = 1. Aucune égalité de fractions n'est utilisée.",
-                "Les exercices (30 min, cahier) : poser des divisions pour écrire 1/2, 3/5, 3/4 et 9/4 avec une virgule, décider s'il faut continuer d'après le reste (1 ÷ 4, 1 ÷ 2, 3 ÷ 8), vérifier les quotients en multipliant, et un défi : 1 ÷ 8 pour la part d'un ami entre 8 amis."
+                "Partager des barres (20 min, projeté, pas à pas) : quatre partages, de plus en plus riches (1 barre pour 2 amis, 1 pour 4, 7 pour 2, 3 pour 4). À chaque fois on pose la division : on partage les barres entières, puis on met une virgule au quotient et on descend un zéro (1 barre = 10 dixièmes, 1 dixième = 10 centièmes) jusqu'à un reste 0. Les morceaux de chaque ami sont dessinés à côté de la division, et la preuve par la multiplication conclut chaque cas (0,25 × 4 = 1). Aucune égalité de fractions n'est utilisée.",
+                "Les exercices (30 min, cahier) : les trois premiers sont à faire en classe (un seul zéro, deux zéros, s'arrêter ou continuer d'après le reste), les suivants servent à ceux qui vont vite ou de travail à la maison : la preuve par la multiplication, des problèmes de partage (jus, ruban, barres), les erreurs de Léa, et un défi : 1 ÷ 8 pour la part d'un ami entre 8 amis."
               ],
               ressources: ["6e-ch6-s3"],
               retenir: [
@@ -531,7 +531,7 @@ window.SITE = {
           ressources: [
             { id: "6e-ch6-s1", type: "exos", titre: "Séance 1 — Le quotient, un nombre à trouver", resume: "Des barres de chocolat à partager entre amis, le quotient, a ÷ b = a/b, des dessins à lire et pourquoi pas de division par 0. Avec corrections.", ajout: "2026-11-11" },
             { id: "6e-ch6-s2", type: "exos", titre: "Séance 2 — Les égalités à trous", resume: "Deux machines ÷ et ×, a/b × b = a, trouver le nombre caché, où est le trou ? et qui a raison ? Avec corrections.", ajout: "2026-11-17" },
-            { id: "6e-ch6-s3", type: "exos", titre: "Séance 3 — Un même nombre, plusieurs écritures", resume: "Une barre pour 4 amis : on pose 1 ÷ 4 et on suit la barre (dixièmes, centièmes) jusqu'à 0,25, vérifié par 0,25 × 4 = 1. Poser des divisions, savoir quand s'arrêter, vérifier en multipliant. Avec corrections.", ajout: "2026-11-17" }
+            { id: "6e-ch6-s3", type: "exos", titre: "Séance 3 — Un même nombre, plusieurs écritures", resume: "Partager des barres entre des amis : poser la division, descendre un zéro, suivre les dixièmes et les centièmes jusqu'à un reste 0, vérifier en multipliant. Six exercices et un défi. Avec corrections.", ajout: "2026-11-17" }
           ]
         },
         {

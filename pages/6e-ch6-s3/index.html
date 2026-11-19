@@ -233,20 +233,27 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
     <p class="sub">Chapitre 6, séance 3</p></div>
   </header>
 
-  <!-- ================= ACTIVITÉ : 1 ÷ 4 POSÉE, AVEC LA BARRE ================= -->
+  <!-- ================= ACTIVITÉ : PARTAGER DES BARRES, DIVISION POSÉE ================= -->
   <section class="ex" id="act">
-    <div class="ex-h"><h2>Activité <small>une barre, quatre amis</small></h2></div>
-    <p class="consigne">Une barre de chocolat pour <b>4 amis</b> : que reçoit chaque ami ? On pose la division <b>1 ÷ 4</b> et on suit la barre.</p>
-    <div class="pas"><button class="btn main" id="next">Partager la barre</button></div>
+    <div class="ex-h"><h2>Activité <small>partager des barres</small></h2></div>
+    <p class="consigne">Des barres de chocolat à partager entre des amis. On pose la division et on suit les morceaux. Choisis un partage.</p>
+    <div class="cas" id="cas">
+      <button class="btn" data-a="1" data-b="2">1 barre, 2 amis</button>
+      <button class="btn" data-a="1" data-b="4">1 barre, 4 amis</button>
+      <button class="btn" data-a="7" data-b="2">7 barres, 2 amis</button>
+      <button class="btn" data-a="3" data-b="4">3 barres, 4 amis</button>
+    </div>
+    <div class="pas"><button class="btn main" id="next">Descendre un zéro</button></div>
     <div class="fig col" id="bfig"></div>
     <div class="res" aria-live="polite">
+      <p class="eq" id="beq"></p>
       <p class="ver" id="bver"></p>
     </div>
     <div class="recit" id="ret" hidden>
-      <p>1. <b>1 ÷ 4 = 0,25</b>. Le reste est 0 : la division s'arrête.</p>
-      <p>2. On vérifie : <b>0,25 × 4 = 1</b> (25 centièmes × 4 = 100 centièmes = 1 barre).</p>
-      <p>3. Pour écrire un <span class="gl" data-t="quotient">quotient</span> avec une virgule : on pose la division, on met une virgule au quotient et on <b>descend un zéro</b> tant que le reste n'est pas 0.</p>
-      <p>4. <span class="num"><span class="fr"><span>1</span><span>4</span></span> = 0,25</span> : un même nombre, deux écritures.</p>
+      <p>1. Pour écrire un <span class="gl" data-t="quotient">quotient</span> avec une virgule, on <b>pose la division</b>.</p>
+      <p>2. S'il reste quelque chose, on met une virgule au quotient et on <b>descend un zéro</b> : 1 unité = 10 dixièmes, 1 dixième = 10 centièmes.</p>
+      <p>3. La division s'arrête quand le <b>reste est 0</b>.</p>
+      <p>4. On vérifie en multipliant : <span class="num">0,25 × 4 = 1</span>. Donc <span class="num"><span class="fr"><span>1</span><span>4</span></span> = 0,25</span> : un même nombre, deux écritures.</p>
     </div>
   </section>
 
@@ -254,18 +261,29 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 
   <!-- ================= EXERCICES ================= -->
   <section class="ex" id="ex1">
-    <div class="ex-h"><h2>Exercice 1 <small>poser la division</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="consigne">Chaque fraction est un quotient. Pose la division et continue après la virgule pour l'écrire avec une virgule.</p>
+    <div class="ex-h"><h2>Exercice 1 <small>un seul zéro</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Chaque fraction est un quotient. Pose la division et écris-la avec une virgule.</p>
     <ol class="qs big" type="a">
-      <li><span class="fr"><span>1</span><span>2</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">0,5</span></span><span class="sol s">10 dixièmes ÷ 2 = 5 dixièmes, reste 0.</span></li>
-      <li><span class="fr"><span>3</span><span>5</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">0,6</span></span><span class="sol s">3 ÷ 5 : 0, puis 30 dixièmes ÷ 5 = 6 dixièmes.</span></li>
-      <li><span class="fr"><span>3</span><span>4</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">0,75</span></span><span class="sol s">30 ÷ 4 = 7 reste 2, puis 20 ÷ 4 = 5.</span></li>
-      <li><span class="fr"><span>9</span><span>4</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">2,25</span></span><span class="sol s">9 ÷ 4 = 2 reste 1, puis 10 ÷ 4 = 2 reste 2, puis 20 ÷ 4 = 5.</span></li>
+      <li><span class="fr"><span>1</span><span>2</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">0,5</span></span><span class="sol s">1 ÷ 2 : 0, puis 10 dixièmes ÷ 2 = 5, reste 0.</span></li>
+      <li><span class="fr"><span>3</span><span>5</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">0,6</span></span><span class="sol s">3 ÷ 5 : 0, puis 30 dixièmes ÷ 5 = 6, reste 0.</span></li>
+      <li><span class="fr"><span>7</span><span>2</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">3,5</span></span><span class="sol s">7 ÷ 2 = 3 reste 1, puis 10 dixièmes ÷ 2 = 5, reste 0.</span></li>
+      <li><span class="fr"><span>9</span><span>5</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">1,8</span></span><span class="sol s">9 ÷ 5 = 1 reste 4, puis 40 dixièmes ÷ 5 = 8, reste 0.</span></li>
     </ol>
   </section>
 
   <section class="ex" id="ex2">
-    <div class="ex-h"><h2>Exercice 2 <small>s'arrêter ou continuer ?</small></h2><button class="btn" data-sol>Correction</button></div>
+    <div class="ex-h"><h2>Exercice 2 <small>deux zéros</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Après le premier zéro, il reste encore quelque chose : continue la division.</p>
+    <ol class="qs big" type="a">
+      <li><span class="fr"><span>5</span><span>4</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">1,25</span></span><span class="sol s">5 ÷ 4 = 1 reste 1 ; 10 ÷ 4 = 2 reste 2 ; 20 ÷ 4 = 5 reste 0.</span></li>
+      <li><span class="fr"><span>7</span><span>4</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">1,75</span></span><span class="sol s">7 ÷ 4 = 1 reste 3 ; 30 ÷ 4 = 7 reste 2 ; 20 ÷ 4 = 5 reste 0.</span></li>
+      <li><span class="fr"><span>9</span><span>4</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">2,25</span></span><span class="sol s">9 ÷ 4 = 2 reste 1 ; 10 ÷ 4 = 2 reste 2 ; 20 ÷ 4 = 5 reste 0.</span></li>
+      <li><span class="fr"><span>13</span><span>4</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">3,25</span></span><span class="sol s">13 ÷ 4 = 3 reste 1 ; 10 ÷ 4 = 2 reste 2 ; 20 ÷ 4 = 5 reste 0.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex3">
+    <div class="ex-h"><h2>Exercice 3 <small>s'arrêter ou continuer ?</small></h2><button class="btn" data-sol>Correction</button></div>
     <p class="consigne">Regarde le reste : faut-il continuer la division ? Écris « continuer » ou « fini », puis le quotient final.</p>
     <ol class="qs" type="a">
       <li>1 ÷ 4 : on a 0,2 et il reste 2. <span class="hole has"><span class="qm">?</span><span class="ans">continuer</span></span>, quotient final : <span class="hole has"><span class="qm">?</span><span class="ans">0,25</span></span><span class="sol s">20 centièmes ÷ 4 = 5 centièmes, reste 0.</span></li>
@@ -274,19 +292,38 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
     </ol>
   </section>
 
-  <section class="ex" id="ex3">
-    <div class="ex-h"><h2>Exercice 3 <small>la preuve</small></h2><button class="btn" data-sol>Correction</button></div>
+  <section class="ex" id="ex4">
+    <div class="ex-h"><h2>Exercice 4 <small>la preuve</small></h2><button class="btn" data-sol>Correction</button></div>
     <p class="consigne">Vérifie tes réponses de l'exercice 1 : multiplie chaque quotient par le nombre du bas de la fraction.</p>
     <ol class="qs big" type="a">
       <li>0,5 × 2 = <span class="hole has"><span class="qm">?</span><span class="ans">1</span></span></li>
       <li>0,6 × 5 = <span class="hole has"><span class="qm">?</span><span class="ans">3</span></span></li>
-      <li>0,75 × 4 = <span class="hole has"><span class="qm">?</span><span class="ans">3</span></span></li>
-      <li>2,25 × 4 = <span class="hole has"><span class="qm">?</span><span class="ans">9</span></span></li>
+      <li>3,5 × 2 = <span class="hole has"><span class="qm">?</span><span class="ans">7</span></span></li>
+      <li>1,8 × 5 = <span class="hole has"><span class="qm">?</span><span class="ans">9</span></span></li>
     </ol>
-    <p class="recit sol s">On retrouve le nombre du haut de la fraction : c'est la preuve que le quotient décimal est juste.</p>
+    <p class="recit sol s">On retrouve le nombre du haut de la fraction : c'est la preuve que le quotient est juste.</p>
   </section>
 
-  <section class="ex" id="ex4">
+  <section class="ex" id="ex5">
+    <div class="ex-h"><h2>Exercice 5 <small>partager</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Écris la division qui donne la part d'un seul, avec une virgule.</p>
+    <ol class="qs" type="a">
+      <li>3 L de jus pour 4 amis : chaque ami a <span class="hole has"><span class="qm">?</span><span class="ans">0,75</span></span> L<span class="sol s">3 ÷ 4 = 0,75.</span></li>
+      <li>Un ruban de 9 m coupé en 5 morceaux égaux : chaque morceau mesure <span class="hole has"><span class="qm">?</span><span class="ans">1,8</span></span> m<span class="sol s">9 ÷ 5 = 1,8.</span></li>
+      <li>5 barres pour 2 amis : chaque ami a <span class="hole has"><span class="qm">?</span><span class="ans">2,5</span></span> barres<span class="sol s">5 ÷ 2 = 2,5.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex6">
+    <div class="ex-h"><h2>Exercice 6 <small>les erreurs de Léa</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Léa a fait deux erreurs. Multiplie pour la prendre en défaut, puis donne la bonne réponse.</p>
+    <ol class="qs" type="a">
+      <li><b>Léa :</b> « 3 ÷ 2 = 15 ». Bonne réponse : <span class="hole has"><span class="qm">?</span><span class="ans">1,5</span></span><span class="sol s">15 × 2 = 30, pas 3 : elle a oublié la virgule. Mais 1,5 × 2 = 3.</span></li>
+      <li><b>Léa :</b> « 1 ÷ 4 = 0,4 ». Bonne réponse : <span class="hole has"><span class="qm">?</span><span class="ans">0,25</span></span><span class="sol s">0,4 × 4 = 1,6, pas 1. Mais 0,25 × 4 = 1.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex7">
     <div class="ex-h"><h2>Défi <small>huit amis</small></h2><button class="btn" data-sol>Correction</button></div>
     <p class="consigne">Une barre pour <b>8 amis</b>. Pose 1 ÷ 8 pour écrire la part d'un ami avec une virgule, puis vérifie en multipliant.</p>
     <div class="recit sol"><p>La part d'un ami est <span class="num"><span class="fr"><span>1</span><span>8</span></span> = 0,125</span>. Vérification : <b>0,125 × 8 = 1</b>.</p><pre class="div"> 1      | 8
@@ -302,56 +339,79 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 </div>
 <script>
 (function(){
-const {$,$$}=L4;
+const {$,$$,f}=L4;
 const INK='var(--ink)';
 const COL=['var(--fill)','var(--blue-bg)','var(--magenta-bg)','var(--teal-bg)'];
 const GREY='#d9dbe6';
-const T=(x,y,t,o)=>`<text x="${x}" y="${y}" ${o||''} font-family="Work Sans,sans-serif" font-weight="600" font-size="22" fill="${INK}">${t}</text>`;
+const UN=['barre','dixième','centième','millième'];
+const pl=(n,u)=>n+' '+u+(n>1?'s':'');
 
-/* ---------- la barre : 1 entier, 10 dixièmes, puis les 2 dixièmes restants en 20 centièmes ---------- */
-function barre(st){
-  const x0=20,W=600,y=14,H=60;let s='';
-  if(st===0){
-    s+=`<rect x="${x0}" y="${y}" width="${W}" height="${H}" fill="var(--paper)" stroke="${INK}" stroke-width="4"/>`;
-    s+=T(320,y+H/2+8,'1 barre','text-anchor="middle"');
-    return `<svg viewBox="0 0 640 100" role="img" aria-label="une barre entière">${s}</svg>`;
-  }
-  for(let i=0;i<10;i++)s+=`<rect x="${x0+i*60}" y="${y}" width="60" height="${H}" fill="${i<8?COL[Math.floor(i/2)]:GREY}" stroke="${INK}" stroke-width="2"/>`;
-  s+=`<rect x="${x0}" y="${y}" width="${W}" height="${H}" fill="none" stroke="${INK}" stroke-width="4"/>`;
-  s+=T(x0,y+H+30,'chaque ami : 2 dixièmes','text-anchor="start"')+T(610,y+H+30,'il en reste 2','text-anchor="end"');
-  if(st===1)return `<svg viewBox="0 0 640 130" role="img" aria-label="la barre coupée en 10 dixièmes, 2 pour chaque ami, 2 restent">${s}</svg>`;
-  const zy=170;
-  s+=`<polygon points="500,${y+H} 620,${y+H} 620,${zy} 20,${zy}" fill="none" stroke="${INK}" stroke-width="2.5" stroke-dasharray="6 5" stroke-opacity=".7"/>`;
-  for(let i=0;i<20;i++)s+=`<rect x="${x0+i*30}" y="${zy}" width="30" height="60" fill="${COL[Math.floor(i/5)]}" stroke="${INK}" stroke-width="1.5"/>`;
-  s+=`<rect x="${x0}" y="${zy}" width="${W}" height="60" fill="none" stroke="${INK}" stroke-width="4"/>`;
-  s+=T(320,zy+90,'les 2 dixièmes restants, coupés en 20 centièmes : 5 chacun','text-anchor="middle" font-size="20"');
-  return `<svg viewBox="0 0 640 275" role="img" aria-label="les 2 dixièmes restants coupés en 20 centièmes, 5 pour chaque ami">${s}</svg>`;
+/* ---------- le calcul : étape 0 = les barres entières, étape k = un zéro de plus ---------- */
+function plan(a,b){
+  const q0=Math.floor(a/b),r0=a-q0*b,st=[{N:a,q:q0,r:r0}];let r=r0;
+  while(r!==0&&st.length<4){const v=r*10,q=Math.floor(v/b),rr=v-q*b;st.push({N:v,q,r:rr});r=rr;}
+  return st;
 }
+const quotient=(P,k)=>String(P[0].q)+(k>0?',':'')+P.slice(1,k+1).map(s=>s.q).join('');
 
 /* ---------- la division posée (lignes nouvelles surlignées) ---------- */
-const DIV=[
-  [[' 1     | 4',1],['-0     |-----',1],[' 1     | 0',1]],
-  [[' 1     | 4',0],['-0     |-----',0],[' 10    | 0,2',1],['- 8    |',1],['  2    |',1]],
-  [[' 1     | 4',0],['-0     |-----',0],[' 10    | 0,25',1],['- 8    |',0],['  20   |',1],[' -20   |',1],['   0   |',1]]
-];
-const pre=st=>DIV[st].map(([t,n])=>n?`<mark class="nw">${t}</mark>`:t).join('\n');
-
-const TXT=[
-  {ver:'<b>1 barre</b> pour <b>4 amis</b> : impossible de donner une barre entière à chacun. Le quotient entier est <b>0</b>, il reste <b>1</b> barre.',next:'Couper la barre en 10'},
-  {ver:'On met une <b>virgule</b> au quotient et on <b>descend un zéro</b> : 1 barre = <b>10 dixièmes</b>. 10 ÷ 4 = 2 reste 2 : chaque ami a <b>2 dixièmes</b>, il en reste 2.',next:'Couper les 2 dixièmes restants'},
-  {ver:'On <b>descend un zéro</b> : les 2 dixièmes restants font <b>20 centièmes</b>. 20 ÷ 4 = 5 reste 0 : chaque ami a <b>5 centièmes</b>. Il reste 0, c\'est fini : <b>0,25</b>.'}
-];
-let st=0;
-function etape(n){
-  st=n;
-  $('#bfig').innerHTML=barre(n)+'<pre class="div" aria-label="division posée de 1 par 4">'+pre(n)+'</pre>';
-  $('#bver').innerHTML=TXT[n].ver;
-  if(n<2)$('#next').textContent=TXT[n].next;
-  else{$('#next').hidden=true;$('#ret').hidden=false;}
+function divHTML(a,b,k){
+  const P=plan(a,b),L=(c,s)=>' '.repeat(c)+s,W=8;
+  let left=[L(1,String(a)),L(0,'-'+(P[0].q*b)),L(1,String(P[0].r))],nw=[1,1,1];
+  for(let i=1;i<=k;i++){
+    const {N:v,q,r}=P[i],c=i+1;nw=nw.map(()=>0);
+    left[left.length-1]=L(c-1,String(v));nw[left.length-1]=1;
+    const p=String(q*b);left.push(L(c-p.length,'-'+p));nw.push(1);
+    left.push(L(c,String(r)));nw.push(1);
+  }
+  const right=[String(b),'-----',quotient(P,k)];
+  return left.map((t,i)=>{
+    const l=t.padEnd(W),lm=nw[i]?`<mark class="nw">${l}</mark>`:l;
+    const rt=i===0?'| '+right[0]:i===1?'|'+right[1]:i===2?'| <mark class="nw">'+right[2]+'</mark>':'|';
+    return lm+rt;}).join('\n');
 }
-$('#next').addEventListener('click',()=>{if(st<2)etape(st+1);});
-etape(0);
-$('#next').textContent='Partager la barre';
+
+/* ---------- les morceaux : une rangée par ami, puis ce qui reste ---------- */
+function jetons(a,b,k){
+  const P=plan(a,b),{N,q,r}=P[k],u=k,RH=44;
+  const dim=u===0?[38,38]:u===1?[13,38]:[13,13];
+  const tok=(x,y,fill)=>`<rect x="${x}" y="${y+(38-dim[1])/2}" width="${dim[0]}" height="${dim[1]}" fill="${fill}" stroke="${INK}" stroke-width="2"/>`;
+  let s=`<text x="6" y="22" font-family="Work Sans,sans-serif" font-weight="700" font-size="22" fill="${INK}">On partage ${pl(N,UN[u])}</text>`;
+  const y0=36;
+  for(let i=0;i<b;i++){const y=y0+i*RH;
+    s+=`<text x="6" y="${y+26}" font-family="Work Sans,sans-serif" font-weight="600" font-size="18" fill="var(--muted)">ami ${i+1}</text>`;
+    for(let j=0;j<q;j++)s+=tok(78+j*(dim[0]+4),y,COL[i%4]);}
+  const y=y0+b*RH;
+  s+=`<text x="6" y="${y+26}" font-family="Work Sans,sans-serif" font-weight="600" font-size="18" fill="var(--muted)">reste</text>`;
+  if(r===0)s+=`<text x="78" y="${y+27}" font-family="Space Mono,monospace" font-weight="700" font-size="22" fill="${INK}">0</text>`;
+  for(let j=0;j<r;j++)s+=tok(78+j*(dim[0]+4),y,GREY);
+  return `<svg viewBox="0 0 400 ${y+RH}" role="img" aria-label="${pl(N,UN[u])} partagé(es) entre ${b} amis : ${q} chacun, il en reste ${r}">${s}</svg>`;
+}
+
+function texte(a,b,k){
+  const P=plan(a,b),{N,q,r}=P[k],fin=r===0;
+  let t;
+  if(k===0)t=`<b>${pl(a,'barre')}</b> pour <b>${b} amis</b> : chaque ami a <b>${q}</b> barre${q>1?'s':''} entière${q>1?'s':''}, il reste <b>${r}</b> barre${r>1?'s':''}.`;
+  else t=`${k===1?'On met une <b>virgule</b> au quotient et on':'On'} <b>descend un zéro</b> : ${pl(P[k-1].r,UN[k-1])} = <b>${pl(N,UN[k])}</b>. ${N} ÷ ${b} = ${q} reste ${r} : chaque ami a <b>${pl(q,UN[k])}</b>, il en reste ${r}.`;
+  if(fin&&k>0)t+=` Le reste est 0 : c'est fini.`;
+  return t;
+}
+
+let A=1,B=2,st=0;const fini=new Set();
+function etape(n){
+  st=n;const P=plan(A,B),last=P.length-1,done=n===last;
+  $('#bfig').innerHTML=jetons(A,B,n)+'<pre class="div" aria-label="division posée de '+A+' par '+B+'">'+divHTML(A,B,n)+'</pre>';
+  $('#beq').innerHTML=done?`${f(A,B)} = ${quotient(P,n)}`:`${A} ÷ ${B}`;
+  $('#bver').innerHTML=texte(A,B,n)+(done?` <b>Preuve</b> : ${quotient(P,n)} × ${B} = ${A}.`:'');
+  $('#next').hidden=done;
+  if(done){fini.add(A+'-'+B);if(fini.size===4)$('#ret').hidden=false;}
+}
+function choisir(a,b,bt){
+  A=a;B=b;$$('#cas .btn').forEach(x=>x.classList.toggle('main',x===bt));etape(0);
+}
+$$('#cas .btn').forEach(bt=>bt.addEventListener('click',()=>choisir(+bt.dataset.a,+bt.dataset.b,bt)));
+$('#next').addEventListener('click',()=>{if(st<plan(A,B).length-1)etape(st+1);});
+choisir(1,2,$('#cas .btn'));
 
 /* ---------- boutons « Correction » ---------- */
 document.addEventListener('click',e=>{const bt=e.target.closest('[data-sol]');if(!bt)return;const s=bt.closest('.ex');const on=s.classList.toggle('show');bt.textContent=on?'Cacher la correction':'Correction';bt.classList.toggle('main',on);bt.setAttribute('aria-pressed',on);});
