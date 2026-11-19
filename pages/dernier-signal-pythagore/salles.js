@@ -77,22 +77,26 @@ return [
   suggest:()=>null,
   sol:sh=>{const N=sh.d.sasN,pN=[...new Set(fact(N).split(" × ").map(Number))],L=sh.d.sas.map(n=>{const c=pN.filter(p=>n%p===0);return c.length?`<li><b>${n}</b> = ${fact(n)} : facteur ${c.join(", ")} commun avec N → <b>intrus</b>.</li>`:`<li><b>${n}</b> = ${premier(n)?"nombre premier":fact(n)} : aucun des facteurs ${pN.join(", ")} → premier avec N.</li>`}).join(""),I=sh.d.sas.filter(n=>pN.some(p=>n%p===0));return `<p>N = ${N} = ${fact(N)} (facteurs interdits : ${pN.join(", ")}).</p><ul>${L}</ul><p>Code = ${I.join(" + ")} = <b>${I.reduce((a,b)=>a+b,0)}</b></p>`}},
 
- {id:"labo",name:"Laboratoire",short:"Labo",part:"la réserve de carburant",chap:"Pourcentages",
-  story:"Coque scellée ! Mais la chaleur de la tempête a fait fondre une partie du carburant. Le laboratoire peut reconstituer la réserve, à condition de savoir quelle quantité il y avait au départ. Lisez son journal.",
-  want:"la réserve de carburant finale, en litres",
-  steps:["Après la baisse, quel pourcentage de la réserve d'avant reste-t-il ?","Cette quantité restante est ce pourcentage de la réserve d'avant. Retrouvez la <b>réserve d'avant la tempête</b>.","La réserve est remise à ce niveau, puis augmentée : calculez la <b>réserve finale</b>."],
-  codeis:"la réserve finale, en litres",
-  fix:"Réserve reconstituée !",
-  hints:["Si une quantité baisse de 20 %, il en reste 80 %. Exemple : il reste 40 L, ce qui représente 80 % de la réserve d'avant (50 L). Ici le pourcentage restant n'est pas 20 : lisez bien l'énoncé.","Pour retrouver la réserve d'avant : cherchez à quoi correspond 1 % (divisez la quantité restante par le pourcentage restant), puis multipliez par 100. Pour la hausse de q %, multipliez par (100 + q) ÷ 100."],
-  docs:sh=>{const [R,p,q]=sh.d.labo,V1=R*(100-p)/100;return `<div class="doc journal"><div class="tag">Journal du laboratoire</div>
-   <p>① <b>Avant la tempête</b> : la réserve de carburant était pleine (quantité inconnue).</p>
-   <p>② <b>Après la tempête</b> : la réserve a <b>baissé de ${p} %</b>. Il reste <b>${V1} L</b>.</p>
-   <p>③ <b>Réparation</b> : on remet la réserve à son niveau d'avant la tempête, puis on l'<b>augmente de ${q} %</b> pour tenir le voyage.</p>
-   <p class="muted">Autres relevés : température du banc d'essai 21 °C, panneau de secours 12 kW.</p></div>`},
-  postes:()=>[post("T","① Pourcentage qui reste après la baisse","%"),post("R","② Réserve avant la tempête","L"),post("F","③ Réserve finale","L")],
-  suggest:v=>v.F||null,
-  sol:sh=>{const [R,p,q]=sh.d.labo,V1=R*(100-p)/100,F=R*(100+q)/100;return `<ol><li>Après une baisse de ${p} %, il reste ${100-p} %.</li><li>${100-p} % de la réserve = ${V1} L. 1 % = ${V1} ÷ ${100-p} = ${V1/(100-p)} L, donc réserve d'avant = ${V1/(100-p)} × 100 = <b>${R} L</b>.</li><li>Hausse de ${q} % : ${R} × ${(100+q)/100} = <b>${F} L</b>.</li></ol>`}},
-
+ {id:"labo",name:"Laboratoire",short:"Labo",part:"le carburant",chap:"Pourcentages",
+  story:"Coque scellée ! Mais le carburant doit contenir assez d'<b>additif</b> pour tenir le voyage. Le laboratoire dispose de deux cuves qui n'ont pas la même teneur en additif : il va les <b>mélanger</b>, et l'analyseur doit afficher le pourcentage d'additif obtenu. Lisez le journal.",
+  want:"le pourcentage d'additif du mélange",
+  steps:["Calculez la <b>quantité d'additif</b> (en litres) contenue dans chacune des deux cuves.","Calculez le <b>volume du mélange</b> (A + B), puis la quantité totale d'additif.","Calculez le <b>pourcentage d'additif du mélange</b> : combien de litres d'additif pour 100 L de mélange ?","Contrôle : le résultat doit se situer <b>entre</b> les deux pourcentages de départ."],
+  codeis:"le pourcentage d'additif du mélange (nombre entier, sans le signe %)",
+  fix:"Carburant prêt ! L'analyseur affiche le bon pourcentage.",
+  hints:["Pour trouver a % d'une quantité, on multiplie par a ÷ 100 (ou on calcule 10 %, puis 5 %, puis on assemble). Faites-le pour chaque cuve : vous obtenez des litres d'additif. Le pourcentage final se calcule avec les quantités totales : (additif total) ÷ (volume total) × 100.","Ne faites pas la moyenne des deux pourcentages : les deux cuves n'ont pas le même volume, elles ne comptent pas autant dans le mélange. Calculez d'abord les litres d'additif réels, additionnez-les, puis demandez-vous : sur 100 L de mélange, combien de litres d'additif ?"],
+  docs:sh=>{const [VA,pa,VB,pb]=sh.d.labo,A=VA*pa/100,B=VB*pb/100,mx=Math.max(VA,VB),w=v=>Math.round(250*v/mx);
+   const bar=(y,nm,V,p)=>`<text x="2" y="${y+16}" font-family="Chakra Petch,sans-serif" font-weight="700" font-size="14" fill="#f1f5ff">${nm}</text><rect x="26" y="${y}" width="${w(V)}" height="26" rx="4" fill="#7cc8ff" opacity=".45" stroke="#7cc8ff"/><rect x="26" y="${y}" width="${w(V)*p/100}" height="26" rx="4" fill="${sh.c}" opacity=".85"/><text x="${26+w(V)+6}" y="${y+17}" font-family="Chakra Petch,sans-serif" font-size="12" fill="#cfd9ee">${V} L</text>`;
+   return `<div class="doc journal"><div class="tag">Journal du laboratoire</div>
+   <p>Le labo mélange le contenu de deux cuves dans une troisième.</p>
+   <p>① <b>Cuve A</b> : <b>${VA} L</b> de carburant, contenant <b>${pa} %</b> d'additif.</p>
+   <p>② <b>Cuve B</b> : <b>${VB} L</b> de carburant, contenant <b>${pb} %</b> d'additif.</p>
+   <p>③ <b>Question</b> : quel est le pourcentage d'additif dans le <b>mélange A + B</b> ?</p>
+   <svg viewBox="0 0 320 78" role="img" aria-label="Schéma des deux cuves : la partie colorée représente l'additif">${bar(2,"A",VA,pa)}${bar(40,"B",VB,pb)}</svg>
+   <p class="muted" style="margin:.2em 0">Schéma : la longueur d'une barre représente le volume ; la partie colorée, l'additif.</p>
+   <p class="muted">Autres relevés : température du banc d'essai 21 °C, pression 3 bars.</p></div>`},
+  postes:()=>[Object.assign(post("A","① Additif dans la cuve A","L"),{ck:1}),Object.assign(post("B","① Additif dans la cuve B","L"),{ck:1}),Object.assign(post("V","② Volume du mélange (A + B)","L"),{ck:1}),post("P","③ Pourcentage d'additif du mélange","%")],
+  suggest:()=>null,
+  sol:sh=>{const [VA,pa,VB,pb]=sh.d.labo,A=VA*pa/100,B=VB*pb/100,T=VA+VB,p=(A+B)*100/T;return `<ol><li>Cuve A : ${pa} % de ${VA} L = ${VA} × ${pa/100} = <b>${A} L</b> d'additif. Cuve B : ${pb} % de ${VB} L = <b>${B} L</b>.</li><li>Volume du mélange : ${VA} + ${VB} = <b>${T} L</b>. Additif total : ${A} + ${B} = <b>${A+B} L</b>.</li><li>Pourcentage : ${A+B} ÷ ${T} × 100 = <b>${p} %</b> (pour 100 L de mélange : ${p} L d'additif).</li><li>Contrôle : ${p} % est bien entre ${Math.min(pa,pb)} % et ${Math.max(pa,pb)} %.</li></ol><p class="muted">Piège : la moyenne de ${pa} % et ${pb} % donne ${(pa+pb)/2} % : c'est faux, car les cuves n'ont pas le même volume.</p>`}},
  {id:"machines",name:"Salle des machines",short:"Machines",part:"les moteurs",chap:"Pythagore",
   story:"Réserve rétablie ! Il faut maintenant relancer les moteurs. Chacun se règle avec une plaque triangulaire dont un côté s'est effacé. La tempête a aussi faussé l'une des quatre plaques : elle est impossible à régler.",
   want:"la somme des côtés manquants des 3 plaques correctes",

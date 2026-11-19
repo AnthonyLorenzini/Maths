@@ -214,8 +214,8 @@ function renderRoom(s){
   const r=ROOMS[ME.step],sv=store("room:"+r.id)||{};
   const decor=DEC[r.id==="sas"?"sas":r.id==="labo"?"labo":r.id==="machines"?"machines":r.id==="nav"?"nav":r.id==="comms"?"comms":"serre"];
   DEC.setCtx(`${s.name.toUpperCase()} · ${r.name.toUpperCase()}`);
-  const scene=r.id==="sas"?decor(s.c,s.d.sas,s.d.sasN):r.id==="machines"?decor(s.c,[1,1,1,1]):decor(s.c);DEC.setCtx(null);
-  const postes=r.postes(s).map(p=>`<label class="poste"><span>${p.label}</span><span class="fld"><input inputmode="decimal" data-p="${p.id}" value="${esc(sv[p.id]??"")}" autocomplete="off"><em>${p.unit}</em></span>${p.bad?`<label class="bad"><input type="checkbox" data-bad="${p.id}" ${sv["b"+p.id.slice(1)]?"checked":""}> plaque fausse</label>`:""}</label>`).join("");
+  const scene=r.id==="sas"?decor(s.c,s.d.sas,s.d.sasN):r.id==="machines"?decor(s.c,[1,1,1,1]):r.id==="labo"?decor(s.c,s.d.labo):decor(s.c);DEC.setCtx(null);
+  const postes=r.postes(s).map(p=>`<label class="poste"><span>${p.label}</span><span class="fld"><input inputmode="decimal" data-p="${p.id}" value="${esc(sv[p.id]??"")}" autocomplete="off"><em>${p.unit}</em>${p.ck?`<i class="ck"></i>`:""}</span>${p.bad?`<label class="bad"><input type="checkbox" data-bad="${p.id}" ${sv["b"+p.id.slice(1)]?"checked":""}> plaque fausse</label>`:""}</label>`).join("");
   return `<div class="head"><h2>${r.name}</h2><span class="tag">Salle ${ME.step+1} / 6 · ${r.chap}</span></div>
   <p class="story"><b>Journal de bord.</b> ${r.story}</p>
   <div class="scene">${scene}</div>
@@ -263,6 +263,7 @@ function updateSuggest(){
   /* le code n'est jamais prérempli : les élèves le calculent et le tapent eux-mêmes */
 }
 function bindStage(){
+  document.querySelectorAll("#stage input[data-p]").forEach(chkField);
   const st=$("stage");
   if(view==="room"){
     const r=ROOMS[ME.step],sv=store("room:"+r.id)||{};
@@ -273,9 +274,17 @@ function bindStage(){
   const h=$("askBtn");if(h)h.onclick=openHelp;const tb=$("thxBtn");if(tb)tb.onclick=openThanks;
   const g=$("goBtn");if(g)g.onclick=()=>{store("brief",true);if(!started()){const c={running:true,startAt:SYNC.now(),base:0};SES.chrono=c;SYNC.put(P("chrono"),c)}view="room";render()};
 }
+let ckT={};
+function chkField(inp){
+  const bd=inp.parentNode&&inp.parentNode.querySelector(".ck");if(!bd||view!=="room")return;
+  const r=ROOMS[ME.step],sh=ship(SID),h=sh&&sh.hc&&sh.hc[r.id]&&sh.hc[r.id][inp.dataset.p],v=norm(inp.value);
+  if(!h||!v){bd.className="ck";bd.textContent="";return}
+  sha(r.id+":"+inp.dataset.p,SID,v).then(x=>{if(norm(inp.value)!==v)return;const ok=x===h;bd.className="ck "+(ok?"ok":"ko");bd.textContent=ok?"✓":"✗ à revoir"})
+}
+function chkSoon(inp){clearTimeout(ckT[inp.dataset.p]);ckT[inp.dataset.p]=setTimeout(()=>chkField(inp),500)}
 function setTile(b,s){b.dataset.s=s||"";b.querySelector(".st").textContent=s==="p"?"✓ premier avec N":s==="l"?"✗ intrus":"?";b.classList.toggle("p",s==="p");b.classList.toggle("l",s==="l")}
 document.addEventListener("input",e=>{
-  const t=e.target;if(view==="room"&&t.dataset.p){stageSave("room:"+ROOMS[ME.step].id,t.dataset.p,t.value);updateSuggest()}
+  const t=e.target;if(view==="room"&&t.dataset.p){stageSave("room:"+ROOMS[ME.step].id,t.dataset.p,t.value);updateSuggest();chkSoon(t)}
   else if(view==="room"&&t.dataset.bad){stageSave("room:"+ROOMS[ME.step].id,"b"+t.dataset.bad.slice(1),t.checked);updateSuggest()}
   else if(view==="reactor"&&t.dataset.r){stageSave("reactor",t.dataset.r,t.value)}
 });
