@@ -514,7 +514,7 @@ window.SITE = {
               titre: "Les égalités à trous", duree: "50 min",
               contenu: [
                 "Les deux machines (12 min, projeté) : un nombre passe dans une machine ÷ puis dans une machine × et revient tel quel. Trois départs (12, 3, 7) ; à la fin, on voit que a/b × b = a, et que le chemin retour donne le nombre caché de ? × 5 = 6.",
-                "Les exercices (38 min, cahier) : compléter a/b × b = ?, trouver le nombre caché de ? × b = a, repérer où est le trou, vérifier les réponses de trois élèves en multipliant. Pour les élèves rapides (≈ 15 min en plus) : des partages de barres, des devinettes, justes ou fausses ?, puis deux défis (? × 8 = 8, et « deux fois plus »)."
+                "Les exercices (38 min, cahier) : compléter a/b × b = ?, trouver le nombre caché de ? × b = a, repérer où est le trou, vérifier les réponses de trois élèves en multipliant. Pour les élèves rapides (≈ 15 min en plus) : des partages de barres, des devinettes (multiplié, divisé, « que deviens-je ? »), justes ou fausses ?, puis deux défis (? × 8 = 8, et « deux fois plus »)."
               ],
               ressources: ["6e-ch6-s2"],
               retenir: [
