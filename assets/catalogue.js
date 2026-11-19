@@ -515,23 +515,23 @@ window.SITE = {
             {
               titre: "Un même nombre, plusieurs écritures", duree: "50 min",
               contenu: [
-                "Une barre, quatre amis (15 min, projeté, pas à pas) : une barre de 100 carreaux est partagée entre 4 amis (25 carreaux chacun), puis la part d'un ami est regroupée en 2 dixièmes et 5 centièmes pour lire 0,25. Les 4 parts remises ensemble donnent 0,25 × 4 = 1 : 0,25 est le quotient de 1 par 4, comme 1/4. Aucune égalité de fractions n'est utilisée.",
-                "Les exercices (35 min, cahier) : trouver le nombre caché de ? × b = 1 avec une virgule (0,5 ; 0,2 ; 0,1) puis de ? × 4 = 3, former les paires fraction / écriture décimale, corriger deux erreurs classiques (1/4 = 0,4 ; 1/10 = 0,01), et un défi : la part d'un ami pour 8 amis."
+                "Une barre, quatre amis (20 min, projeté, pas à pas) : on pose 1 ÷ 4 et on suit la barre. 1 barre pour 4 amis : quotient entier 0, reste 1 ; on met une virgule et on descend un zéro (1 barre = 10 dixièmes : 2 dixièmes chacun, reste 2) ; on descend un autre zéro (2 dixièmes = 20 centièmes : 5 centièmes chacun, reste 0). Quotient : 0,25, vérifié par 0,25 × 4 = 1. Aucune égalité de fractions n'est utilisée.",
+                "Les exercices (30 min, cahier) : poser des divisions pour écrire 1/2, 3/5, 3/4 et 9/4 avec une virgule, décider s'il faut continuer d'après le reste (1 ÷ 4, 1 ÷ 2, 3 ÷ 8), vérifier les quotients en multipliant, et un défi : 1 ÷ 8 pour la part d'un ami entre 8 amis."
               ],
               ressources: ["6e-ch6-s3"],
               retenir: [
                 "Un quotient peut s'écrire de plusieurs façons : 1/4 = 0,25. 1/4 est une **fraction**, 0,25 est une **écriture décimale**.",
-                "Pour trouver l'écriture décimale du quotient de a par b, on cherche le nombre qui, multiplié par b, donne a : 0,25 × 4 = 1.",
-                "Pour vérifier, on multiplie : 0,5 × 2 = 1, donc 0,5 = 1/2."
+                "Pour trouver l'écriture décimale du quotient de a par b, on **pose la division** de a par b : on met une virgule au quotient et on **descend un zéro** (1 unité = 10 dixièmes, 1 dixième = 10 centièmes).",
+                "La division s'arrête quand le reste est 0. On vérifie en multipliant le quotient par b : 0,25 × 4 = 1."
               ],
-              exemple: "0,25 × 4 = 1, donc 0,25 est le quotient de 1 par 4 : 0,25 = 1/4.",
-              savoir: "trouver l'écriture décimale d'un quotient simple (1/2, 1/4, 1/5, 1/10, 3/4) et la vérifier avec une multiplication."
+              exemple: "1 ÷ 4 = 0,25, donc 1/4 = 0,25, car 0,25 × 4 = 1.",
+              savoir: "trouver l'écriture décimale d'un quotient simple (1/2, 1/4, 3/5, 9/4…) en posant la division, et la vérifier avec une multiplication."
             }
           ],
           ressources: [
             { id: "6e-ch6-s1", type: "exos", titre: "Séance 1 — Le quotient, un nombre à trouver", resume: "Des barres de chocolat à partager entre amis, le quotient, a ÷ b = a/b, des dessins à lire et pourquoi pas de division par 0. Avec corrections.", ajout: "2026-11-11" },
             { id: "6e-ch6-s2", type: "exos", titre: "Séance 2 — Les égalités à trous", resume: "Deux machines ÷ et ×, a/b × b = a, trouver le nombre caché, où est le trou ? et qui a raison ? Avec corrections.", ajout: "2026-11-17" },
-            { id: "6e-ch6-s3", type: "exos", titre: "Séance 3 — Un même nombre, plusieurs écritures", resume: "Une barre de 100 carreaux partagée entre 4 amis : la part d'un ami s'écrit 0,25 et se prouve par 0,25 × 4 = 1. Nombres cachés avec une virgule, paires fraction / décimal et erreurs de Léa. Avec corrections.", ajout: "2026-11-17" }
+            { id: "6e-ch6-s3", type: "exos", titre: "Séance 3 — Un même nombre, plusieurs écritures", resume: "Une barre pour 4 amis : on pose 1 ÷ 4 et on suit la barre (dixièmes, centièmes) jusqu'à 0,25, vérifié par 0,25 × 4 = 1. Poser des divisions, savoir quand s'arrêter, vérifier en multipliant. Avec corrections.", ajout: "2026-11-17" }
           ]
         },
         {
