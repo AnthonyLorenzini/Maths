@@ -80,7 +80,7 @@ ${total?`<text x="650" y="360" text-anchor="middle" ${F} font-size="13" letter-s
 <rect width="800" height="420" fill="url(#hvig)"/></svg>`};
 
 /* ================= SALLE 1 · LE SAS ================= */
-const sas=(c,nums)=>{const u="a";seed(21);
+const sas=(c,nums,N)=>{const u="a";seed(21);
   let plates="";nums.forEach((n,i)=>{const col=i%3,row=(i/3)|0,x=406+col*118,y=118+row*96;
     plates+=`<g><rect x="${x}" y="${y}" width="106" height="82" rx="8" fill="#0a1224" stroke="#4b5e86" stroke-width="3"/><rect x="${x+5}" y="${y+5}" width="96" height="72" rx="5" fill="#07111f"/><rect x="${x+5}" y="${y+5}" width="96" height="72" rx="5" fill="${c}" opacity=".08"/>
     <text x="${x+53}" y="${y+54}" text-anchor="middle" ${F} font-weight="700" font-size="40" fill="${c}" filter="url(#${u}neon)">${n}</text>
@@ -95,7 +95,7 @@ const sas=(c,nums)=>{const u="a";seed(21);
   <g class="spin slow"><circle cx="190" cy="222" r="74" fill="none" stroke="#8da2c9" stroke-width="7"/>${[0,60,120,180,240,300].map(a=>`<rect transform="rotate(${a} 190 222)" x="186" y="150" width="8" height="64" rx="4" fill="#8da2c9" stroke="#0a1224"/>`).join("")}<circle cx="190" cy="222" r="20" fill="#5a6f9a" stroke="#0a1224" stroke-width="3"/><circle cx="190" cy="222" r="7" fill="${c}" opacity=".8"/></g>
   <path d="M150 140 L168 176 L152 188 L174 226" fill="none" stroke="#ff6b6b" stroke-width="3" opacity=".85" filter="url(#${u}neon)"/><path d="M150 140 L168 176 L152 188 L174 226" fill="none" stroke="#fff" stroke-width="1"/>
   ${[[150,140],[168,176],[174,226]].map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#ffe08a" class="blink" style="animation-delay:${i*.3}s"/>`).join("")}
-  ${panel(u,386,66,346,262,{r:12,n:5})}<text x="559" y="100" text-anchor="middle" ${F} font-weight="700" font-size="15" letter-spacing="5" fill="${c}">PANNEAUX DU SAS</text>
+  ${panel(u,386,66,346,262,{r:12,n:5})}<text x="559" y="100" text-anchor="middle" ${F} font-weight="700" font-size="15" letter-spacing="4" fill="${c}">NOMBRE-CLÉ · N = ${N}</text>
   <line x1="400" y1="108" x2="718" y2="108" stroke="${c}" stroke-opacity=".5"/>${plates}
   ${panel(u,742,110,44,132,{r:8})}${lamp(u,764,136,"#ff6b6b",5,"blink")}${lamp(u,764,166,"#ffb547",5,"blink",.4)}${lamp(u,764,196,"#5fd68a",5,"blink",.8)}
   ${floor(u,352)}<rect x="24" y="360" width="332" height="18" fill="url(#${u}hz)" opacity=".9"/>

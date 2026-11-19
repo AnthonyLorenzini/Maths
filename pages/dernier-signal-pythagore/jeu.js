@@ -214,7 +214,7 @@ function renderRoom(s){
   const r=ROOMS[ME.step],sv=store("room:"+r.id)||{};
   const decor=DEC[r.id==="sas"?"sas":r.id==="labo"?"labo":r.id==="machines"?"machines":r.id==="nav"?"nav":r.id==="comms"?"comms":"serre"];
   DEC.setCtx(`${s.name.toUpperCase()} · ${r.name.toUpperCase()}`);
-  const scene=r.id==="sas"?decor(s.c,s.d.sas):r.id==="machines"?decor(s.c,[1,1,1,1]):decor(s.c);DEC.setCtx(null);
+  const scene=r.id==="sas"?decor(s.c,s.d.sas,s.d.sasN):r.id==="machines"?decor(s.c,[1,1,1,1]):decor(s.c);DEC.setCtx(null);
   const postes=r.postes(s).map(p=>`<label class="poste"><span>${p.label}</span><span class="fld"><input inputmode="decimal" data-p="${p.id}" value="${esc(sv[p.id]??"")}" autocomplete="off"><em>${p.unit}</em></span>${p.bad?`<label class="bad"><input type="checkbox" data-bad="${p.id}" ${sv["b"+p.id.slice(1)]?"checked":""}> plaque fausse</label>`:""}</label>`).join("");
   return `<div class="head"><h2>${r.name}</h2><span class="tag">Salle ${ME.step+1} / 6 · ${r.chap}</span></div>
   <p class="story"><b>Journal de bord.</b> ${r.story}</p>
@@ -273,7 +273,7 @@ function bindStage(){
   const h=$("askBtn");if(h)h.onclick=openHelp;const tb=$("thxBtn");if(tb)tb.onclick=openThanks;
   const g=$("goBtn");if(g)g.onclick=()=>{store("brief",true);if(!started()){const c={running:true,startAt:SYNC.now(),base:0};SES.chrono=c;SYNC.put(P("chrono"),c)}view="room";render()};
 }
-function setTile(b,s){b.dataset.s=s||"";b.querySelector(".st").textContent=s==="p"?"premier":s==="l"?"leurre":"?";b.classList.toggle("p",s==="p");b.classList.toggle("l",s==="l")}
+function setTile(b,s){b.dataset.s=s||"";b.querySelector(".st").textContent=s==="p"?"✓ premier avec N":s==="l"?"✗ intrus":"?";b.classList.toggle("p",s==="p");b.classList.toggle("l",s==="l")}
 document.addEventListener("input",e=>{
   const t=e.target;if(view==="room"&&t.dataset.p){stageSave("room:"+ROOMS[ME.step].id,t.dataset.p,t.value);updateSuggest()}
   else if(view==="room"&&t.dataset.bad){stageSave("room:"+ROOMS[ME.step].id,"b"+t.dataset.bad.slice(1),t.checked);updateSuggest()}

@@ -100,3 +100,6 @@ table.notes{width:100%;border-collapse:collapse;margin:10px 0}table.notes th,tab
 
 .thxbtn{background:#1c2a1a;border-color:#4d8a3c;color:#d6f5c8;margin-top:8px}.entraide{margin-top:12px;border-color:#6b5326;background:#171a24}.entraide p{margin:.5em 0}
 .adjb{padding:4px 8px!important;font-size:13px!important;min-height:0!important}
+
+.keyn{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#12233a;border:1px solid #5b8fc0;border-radius:12px;padding:10px 14px}.keyn b{font:700 34px var(--display);color:var(--amber)}.tile .st{font-size:11px!important;letter-spacing:.04em!important;text-align:center}
+.keyn b{white-space:nowrap}.keyn .tag{flex:1}
