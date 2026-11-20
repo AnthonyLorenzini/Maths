@@ -217,8 +217,8 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 .ex.show .hole.has .qm{display:none}
 .ex.show .hole.has .ans{display:inline-flex;align-items:center}
 .hole.has .fr{font-size:.8em}
+.qs:not(.big) .hole.has .fr{font-size:1.05em}
 .num{white-space:nowrap}
-.vf{font-weight:700}.vf.t{color:var(--ok)}.vf.f{color:var(--ko)}
 /* ---- séance 3 : division posée + barre ---- */
 .div{margin:0;font:700 clamp(1.05rem,4.6vw,1.35rem)/1.3 var(--f-num);background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:10px 16px;white-space:pre;align-self:center;max-width:100%;overflow-x:auto}
 .div mark.nw{background:var(--fill-2);color:inherit;border-radius:3px}
@@ -238,6 +238,10 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 .pc.cut line{stroke:var(--amber);stroke-width:3;stroke-dasharray:none;stroke-opacity:1}
 @media (prefers-reduced-motion:reduce){.pc,.pc line{transition:none}}
 #beq{font:800 clamp(1.9rem,7vw,2.8rem)/1.15 var(--f-num);margin:0;min-height:0}#beq .fr{font-size:1.05em}
+.pc.cut rect{stroke:var(--amber)}
+.loupe{transition:transform 1s cubic-bezier(.3,.1,.2,1),opacity .5s}
+.loupe.nolab .ll{opacity:0}
+.loupe .ll{transition:opacity .4s}
 </style>
 <div class="wrap">
   <header class="top">
@@ -254,6 +258,8 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
       <button class="btn" data-a="9" data-b="5">9 barres, 5 amis</button>
       <button class="btn" data-a="13" data-b="4">13 barres, 4 amis</button>
       <button class="btn" data-a="17" data-b="5">17 barres, 5 amis</button>
+      <button class="btn" data-a="54" data-b="4" data-c="1">54 barres (5 cartons de 10), 4 amis</button>
+      <button class="btn" data-a="1" data-b="8">1 barre, 8 amis (loupe)</button>
     </div>
     <div class="pas"><button class="btn main" id="next">Partager les barres</button><button class="btn" id="again">Recommencer</button></div>
     <p class="ver" id="bver" aria-live="polite"></p>
@@ -264,9 +270,10 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
     <p class="eq" id="beq"></p>
     <div class="recit" id="ret" hidden>
       <p>1. Pour écrire un <span class="gl" data-t="quotient">quotient</span> avec une virgule, on <b>pose la division</b>.</p>
-      <p>2. S'il reste quelque chose, on met une virgule au quotient et on <b>descend un zéro</b> : on coupe le reste en 10 (1 barre = 10 dixièmes, 1 dixième = 10 centièmes).</p>
-      <p>3. La division s'arrête quand le <b>reste est 0</b>.</p>
-      <p>4. On vérifie en multipliant : <span class="num">0,25 × 4 = 1</span>. Donc <span class="num"><span class="fr"><span>1</span><span>4</span></span> = 0,25</span> : un même nombre, deux écritures.</p>
+      <p>2. S'il reste quelque chose, on met une virgule au quotient et on <b>descend un zéro</b> : on coupe le reste en 10 (1 barre = 10 dixièmes, 1 dixième = 10 centièmes, 1 centième = 10 millièmes).</p>
+      <p>3. À chaque partage, on cherche dans la <b>table du diviseur</b> le plus grand résultat qui ne dépasse pas : 30 ÷ 4, c'est 7, car 4 × 7 = 28 et 4 × 8 = 32 dépasse.</p>
+      <p>4. La division s'arrête quand le <b>reste est 0</b>.</p>
+      <p>5. On vérifie en multipliant : <span class="num">0,25 × 4 = 1</span>. Donc <span class="num"><span class="fr"><span>1</span><span>4</span></span> = 0,25</span> : un même nombre, deux écritures.</p>
     </div>
   </section>
 
@@ -354,85 +361,107 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 (function(){
 const {$,$$,f}=L4;
 const NS='http://www.w3.org/2000/svg';
-const UN=['barre','dixième','centième'];
+const UN=['carton','barre','dixième','centième','millième'];
 const pl=(n,u)=>n+' '+u+(n>1?'s':'');
-const ZC=[['var(--blue)','var(--blue-bg)'],['var(--magenta)','var(--magenta-bg)'],['var(--teal)','var(--teal-bg)'],['#b5651d','#fdebd3'],['#5f6f00','#eef4c9']];
-const U=[{w:160,h:60},{w:16,h:60},{w:16,h:6}];
+const ZC=[['var(--blue)','var(--blue-bg)'],['var(--magenta)','var(--magenta-bg)'],['var(--teal)','var(--teal-bg)'],['#b5651d','#fdebd3'],['#5f6f00','#eef4c9'],['#6a3fb5','#efe7fb'],['#b3261e','#ffe5e2'],['#3d5a80','#e3ebf5']];
+const U=[{w:120,h:70},{w:160,h:60},{w:16,h:60},{w:16,h:6},{w:1.6,h:6}];
+const ZOOM=6,BIG={w:96,h:36},SL=9.6;
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const sleep=ms=>new Promise(r=>setTimeout(r,RM?0:ms));
 const frame=()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
 
-/* ---------- le calcul ---------- */
-function plan(a,b){
-  const q0=Math.floor(a/b),r0=a-q0*b,st=[{N:a,q:q0,r:r0}];let r=r0;
-  while(r!==0&&st.length<3){const v=r*10,q=Math.floor(v/b),rr=v-q*b;st.push({N:v,q,r:rr});r=rr;}
+/* ---------- le calcul : une étape par unité (carton = dizaine, barre, dixième, centième, millième) ---------- */
+function plan(a,b,cart){
+  const st=[];let r;
+  if(cart){const t=Math.floor(a/10),o=a%10,q=Math.floor(t/b);r=t-q*b;st.push({u:0,N:t,q,r});
+    const N=r*10+o,q1=Math.floor(N/b);st.push({u:1,N,q:q1,r:N-q1*b,o});r=N-q1*b;}
+  else{const q=Math.floor(a/b);r=a-q*b;st.push({u:1,N:a,q,r});}
+  while(r!==0&&st[st.length-1].u<4){const N=r*10,q=Math.floor(N/b),rr=N-q*b;st.push({u:st[st.length-1].u+1,N,q,r:rr});r=rr;}
   return st;
 }
-/* done = nombre d'étapes faites : 1 = barres partagées, 2 = 1er zéro descendu, 3 = dixièmes partagés… */
-const quot=(P,d)=>{if(d<1)return '';let s=String(P[0].q);if(d>=2)s+=',';for(let i=1;i<P.length;i++)if(d>=2*i+1)s+=P[i].q;return s;};
-const value=(P,d)=>quot(P,d).replace(/,$/,'');
+/* done = étapes faites : 2i+1 = étape i partagée ; 2i = on vient de descendre le chiffre de l'étape i */
+const quot=d=>{if(d<1)return '';let s='';P.forEach((st,i)=>{if(st.u===2&&d>=2*i)s+=',';if(d>=2*i+1)s+=st.q;});return s.replace(/^0(?=\d)/,'');};
+const value=d=>quot(d).replace(/,$/,'');
+const qOf=u=>{const s=P.find(x=>x.u===u);return s?s.q:0;};
 
-/* ---------- la division posée, au même rythme que l'animation ---------- */
-function divHTML(a,b,P,d){
-  const la=String(a).length,put=(s,e)=>' '.repeat(Math.max(0,e+1-s.length))+s;
-  const R=[{t:put(String(a),la)}];
-  if(d>=1){R.push({t:put('-'+P[0].q*b,la),h:d===1});R.push({t:put(String(P[0].r),la),h:d===1});}
-  for(let i=1;i<P.length;i++){
-    if(d>=2*i){const L=R[R.length-1];L.t=put(String(P[i].N),la+i);L.z=1;L.h=d===2*i;}
-    if(d>=2*i+1){R.push({t:put('-'+P[i].q*b,la+i),h:d===2*i+1});R.push({t:put(String(P[i].r),la+i),h:d===2*i+1});}
-  }
+/* ---------- la division posée ---------- */
+function divHTML(d){
+  const la=String(A).length,e0=CART?la-1:la,put=(s,e)=>' '.repeat(Math.max(0,e+1-s.length))+s;
+  const R=[{t:put(String(A),la)}];
+  P.forEach((st,i)=>{const e=e0+i;
+    if(i>0&&d>=2*i){const L=R[R.length-1];L.t=put(String(st.N),e);L.z=1;L.h=d===2*i;}
+    if(d>=2*i+1){R.push({t:put('-'+st.q*B,e),h:d===2*i+1});R.push({t:put(String(st.r),e),h:d===2*i+1});}
+  });
   while(R.length<3)R.push({t:''});
-  const W=la+P.length+2,q=quot(P,d);
-  const right=['| '+b,'|-----','| '+(q?'<b class="qt">'+q+'</b>':'')];
+  const W=e0+P.length+2,q=quot(d);
+  const right=['| '+B,'|-----','| '+(q?'<b class="qt">'+q+'</b>':'')];
   return R.map((r,i)=>{let s=r.t.padEnd(W);
-    if(r.z){const k=r.t.length-1;s=s.slice(0,k)+'<mark class="z">0</mark>'+s.slice(k+1);}
+    if(r.z){const k=r.t.length-1;s=s.slice(0,k)+'<mark class="z">'+r.t[k]+'</mark>'+s.slice(k+1);}
     if(r.h)s='<mark class="nw">'+s+'</mark>';
     return s+(right[i]||'|');}).join('\n');
 }
 
-/* ---------- la scène : la réserve en haut, une assiette par ami en bas ---------- */
-let A=1,B=2,P,done=0,pcs=[],busy=false,G={};
+/* ---------- la scène ---------- */
+let A=1,B=4,CART=false,P,done=0,pcs=[],busy=false,G={};
+const initList=()=>CART?[...Array(Math.floor(A/10))].map((_,k)=>({u:0,grp:k})).concat([...Array(A%10)].map((_,k)=>({u:1,grp:100+k}))):[...Array(A)].map((_,k)=>({u:1,grp:k}));
 function layR(list,VW,c){
-  const X0=20,XM=VW-20,Y0=46;let x=X0,y=Y0;const pos=[];
+  const X0=20,XM=VW-20,Y0=46,pos=new Array(list.length);
   if(!list.length)return {pos,h:60*c};
-  const u=list[0].u;
-  if(u===0){list.forEach(()=>{if(x+160*c>XM&&x>X0){x=X0;y+=70*c;}pos.push([x,y]);x+=170*c;});return {pos,h:y-Y0+60*c};}
-  if(u===1){let prev=null;list.forEach(p=>{let g=prev?(p.grp===prev.grp?3*c:18*c):0;if(x+g+16*c>XM){x=X0;y+=70*c;g=0;}x+=g;pos.push([x,y]);x+=16*c;prev=p;});return {pos,h:y-Y0+60*c};}
-  let prev=null,j=0;list.forEach(p=>{if(prev&&p.grp===prev.grp)j++;else{if(prev)x+=34*c;j=0;if(x+16*c>XM){x=X0;y+=88*c;}}pos.push([x,y+j*8*c]);prev=p;});
-  return {pos,h:y-Y0+78*c};
+  let y=Y0,rowH=0,first=true;
+  [...new Set(list.map(p=>p.u))].sort().forEach(u=>{
+    if(!first)y+=rowH+10*c;first=false;
+    const idx=[];list.forEach((p,k)=>{if(p.u===u)idx.push(k);});
+    let x=X0,prev=null,j=0;
+    if(u===0){rowH=70*c;idx.forEach(k=>{if(x+120*c>XM&&x>X0){x=X0;y+=80*c;}pos[k]=[x,y];x+=130*c;});}
+    else if(u===1){rowH=60*c;idx.forEach(k=>{if(x+160*c>XM&&x>X0){x=X0;y+=70*c;}pos[k]=[x,y];x+=170*c;});}
+    else if(u===2){rowH=60*c;idx.forEach(k=>{const p=list[k];let g=prev?(p.grp===prev.grp?3*c:18*c):0;if(x+g+16*c>XM){x=X0;y+=70*c;g=0;}x+=g;pos[k]=[x,y];x+=16*c;prev=p;});}
+    else if(u===3){rowH=78*c;idx.forEach(k=>{const p=list[k];if(prev&&p.grp===prev.grp)j++;else{if(prev)x+=34*c;j=0;if(x+16*c>XM){x=X0;y+=88*c;}}pos[k]=[x,y+j*8*c];prev=p;});}
+    else{rowH=6*c;idx.forEach(k=>{const p=list[k];let g=prev?(p.grp===prev.grp?.6*c:8*c):0;if(x+g+1.6*c>XM){x=X0;y+=14*c;g=0;}x+=g;pos[k]=[x,y];x+=1.6*c;prev=p;});}
+  });
+  return {pos,h:y-Y0+rowH};
 }
 function layout(){
   const narrow=$('#bfig').clientWidth<560,VW=narrow?420:760;
-  const cols=narrow?(B<=4?Math.min(B,2):3):B,rows=Math.ceil(B/cols),zw=(VW-10*(cols+1))/cols,inner=zw-20;
-  const last=P.length-1,nd=P[1]?P[1].q:0,n2=P[2]?P[2].q:0;
-  /* taille des morceaux : la plus grande qui tient dans les assiettes et la réserve */
+  const cols=narrow?(B<=2?B:B<=4?2:B<=6?3:4):(B<=5?B:4),rows=Math.ceil(B/cols),zw=(VW-10*(cols+1))/cols,inner=zw-20;
+  const nc=qOf(0),nbar=qOf(1),nd=qOf(2),n3=qOf(3),n4=qOf(4),small=P.some(x=>x.u>=2);
+  const smallW=c=>nd*19*c+(n3?(nd?8*c:0)+16*c:0)+(n4?((nd||n3)?8*c:0)+n4*2.4*c:0);
   let s=.5;
   for(const c of [1,.85,.75,.7,.6,.5]){
-    const per=Math.max(1,Math.floor((VW-40+10*c)/(170*c))),small=nd*19*c+(n2?(nd?8*c:0)+16*c:0);
-    if(160*c<=inner&&small<=inner&&Math.ceil(A/per)<=(narrow?6:3)){s=c;break;}
+    if((!nbar||160*c<=inner)&&(!nc||120*c<=inner)&&smallW(c)<=inner&&layR(initList(),VW,c).h<=(narrow?6:3)*70*c+(CART?80*c:0)){s=c;break;}
   }
-  const nb=Math.max(1,Math.floor((inner+8*s)/(168*s))),rb=Math.ceil(P[0].q/nb);
-  const ph=34+rb*66*s+(last>=1||rb===0?66*s:0)+4;
-  let rh=layR([...Array(A)].map((_,k)=>({u:0,grp:k})),VW,s).h;
-  for(let i=1;i<=last;i++){const L=[];for(let g=0;g<P[i-1].r;g++)for(let j=0;j<10;j++)L.push({u:i,grp:g});rh=Math.max(rh,layR(L,VW,s).h);}
+  const nb=Math.max(1,Math.floor((inner+8*s)/(168*s))),ncr=Math.max(1,Math.floor((inner+10*s)/(130*s)));
+  const rc=Math.ceil(nc/ncr),rb=Math.ceil(nbar/nb);
+  const ph=34+rc*80*s+rb*66*s+(small||(!rc&&!rb)?66*s:0)+4;
+  let rh=layR(initList(),VW,s).h;
+  P.forEach((st,i)=>{if(!i)return;const L=[];for(let g=0;g<P[i-1].r;g++)for(let j=0;j<10;j++)L.push({u:st.u,grp:g});
+    if(st.u===1&&CART)for(let k=0;k<st.o;k++)L.push({u:1,grp:100+k});
+    rh=Math.max(rh,layR(L,VW,s).h);});
+  if(n4)rh=Math.max(rh,narrow?200:140);
   const RT=46+rh+14,ZY=RT+14;
-  return {narrow,VW,cols,zw,nb,rb,ph,RT,ZY,s,VH:ZY+rows*(ph+10)};
+  return {narrow,VW,cols,zw,nb,ncr,rc,rb,ph,RT,ZY,s,VH:ZY+rows*(ph+10)};
 }
 function slotPos(L,i,u,k){
   const s=L.s,zx=10+(i%L.cols)*(L.zw+10),zy=L.ZY+Math.floor(i/L.cols)*(L.ph+10),x0=zx+10,y0=zy+34;
-  if(u===0)return [x0+(k%L.nb)*168*s,y0+Math.floor(k/L.nb)*66*s];
-  const sy=y0+L.rb*66*s;
-  if(u===1)return [x0+k*19*s,sy];
-  const nd=P[1].q,n=P[2].q;return [x0+nd*19*s+(nd?8*s:0),sy+(60-(n*8-2))*s/2+k*8*s];
+  if(u===0)return [x0+(k%L.ncr)*130*s,y0+Math.floor(k/L.ncr)*80*s];
+  const yb=y0+L.rc*80*s;
+  if(u===1)return [x0+(k%L.nb)*168*s,yb+Math.floor(k/L.nb)*66*s];
+  const sy=yb+L.rb*66*s,nd=qOf(2),n3=qOf(3);
+  if(u===2)return [x0+k*19*s,sy];
+  const cx=x0+nd*19*s+(nd?8*s:0);
+  if(u===3)return [cx,sy+(60-(n3*8-2))*s/2+k*8*s];
+  return [cx+(n3?24*s:0)+k*2.4*s,sy+27*s];
 }
-function mk(u){
-  const g=document.createElementNS(NS,'g');g.setAttribute('class','pc');const {w,h}=U[u];
-  let s=`<rect width="${w}" height="${h}" rx="${u?1.5:5}" fill="#7b4a2e" stroke="#3d2414" stroke-width="${u===0?2.5:u===1?1.5:1}"/>`;
-  if(u===0)for(let j=1;j<10;j++)s+=`<line x1="${j*16}" x2="${j*16}" y1="4" y2="${h-4}"/>`;
-  if(u===1)for(let j=1;j<10;j++)s+=`<line x1="2" x2="${w-2}" y1="${j*6}" y2="${j*6}"/>`;
-  g.innerHTML=s;G.layer.appendChild(g);return g;
+const CH='fill="#7b4a2e" stroke="#3d2414"';
+function mk(u,layer){
+  const g=document.createElementNS(NS,'g');g.setAttribute('class','pc');const {w,h}=U[u];let s;
+  if(u===0)s=`<rect width="120" height="70" rx="6" fill="#d9a066" stroke="#7a4f22" stroke-width="2.5"/><path d="M0 18H120M60 0V18" stroke="#7a4f22" stroke-width="2"/><text x="60" y="50" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="700" font-size="19" fill="#4a2e12">10 barres</text>`;
+  else{s=`<rect width="${w}" height="${h}" rx="${u===1?5:u<4?1.5:0}" ${CH} stroke-width="${u===1?2.5:u===2?1.5:u===3?1:.3}"/>`;
+    if(u===1)for(let j=1;j<10;j++)s+=`<line x1="${j*16}" x2="${j*16}" y1="4" y2="${h-4}"/>`;
+    if(u===2)for(let j=1;j<10;j++)s+=`<line x1="2" x2="${w-2}" y1="${j*6}" y2="${j*6}"/>`;}
+  g.innerHTML=s;(layer||G.layer).appendChild(g);return g;
 }
 const mv=(p,x,y)=>{p.x=x;p.y=y;p.el.style.transform=`translate(${x}px,${y}px) scale(${G.L.s})`;};
+const lmv=(p,x,y)=>{p.x=x;p.y=y;p.el.style.transform=`translate(${x}px,${y}px)`;};
 function place(instant){
   const L=G.L,svg=$('#bfig svg'),R=pcs.filter(p=>p.own<0),r=layR(R,L.VW,L.s);
   if(instant)svg.classList.add('nt');
@@ -440,62 +469,115 @@ function place(instant){
   pcs.filter(p=>p.own>=0).forEach(p=>mv(p,...slotPos(L,p.own,p.u,p.slot)));
   if(instant){void svg.getBoundingClientRect();requestAnimationFrame(()=>svg.classList.remove('nt'));}
 }
-function build(){
-  const L=G.L=layout(),T=(x,y,t,o)=>`<text x="${x}" y="${y}" ${o||''} font-family="Work Sans,sans-serif" font-weight="700" font-size="20">${t}</text>`;
-  let s=`<svg viewBox="0 0 ${L.VW} ${L.VH}" role="img" aria-label="${pl(A,'barre')} à partager entre ${B} amis">`;
-  s+=`<rect x="8" y="8" width="${L.VW-16}" height="${L.RT-8}" rx="10" fill="var(--paper)" stroke="var(--muted)" stroke-width="2" stroke-dasharray="7 6"/>`;
-  s+=T(20,34,'','id="rlab" fill="var(--ink)"');
-  for(let i=0;i<B;i++){const zx=10+(i%L.cols)*(L.zw+10),zy=L.ZY+Math.floor(i/L.cols)*(L.ph+10);
-    s+=`<rect x="${zx}" y="${zy}" width="${L.zw}" height="${L.ph}" rx="12" fill="${ZC[i][1]}" stroke="${ZC[i][0]}" stroke-width="2.5"/>`;
-    s+=T(zx+10,zy+24,'ami '+(i+1),`fill="${ZC[i][0]}"`);
-    s+=`<text class="pv" x="${zx+L.zw-10}" y="${zy+25}" text-anchor="end" font-family="Space Mono,monospace" font-weight="700" font-size="22" fill="var(--ink)"></text>`;}
-  s+=`<g id="layer"></g></svg>`;
-  $('#bfig').innerHTML=s;G.layer=$('#layer');
-  pcs.forEach(p=>p.el=mk(p.u));
-  place(true);texts();
+
+/* ---------- la loupe (×6) : les centièmes coupés en millièmes ---------- */
+const i4=()=>P.findIndex(x=>x.u===4);
+function lpos(state,t){
+  const L=G.L,XM=L.VW-28;
+  if(state==='big'){const per=Math.max(1,Math.floor((XM-20+20)/(BIG.w+20)));return [20+(t%per)*(BIG.w+20),58+Math.floor(t/per)*60];}
+  if(state==='cut'){const g=Math.floor(t/10),j=t%10,gw=10*(SL+3)+16,per=Math.max(1,Math.floor((XM-20+16)/gw));return [20+(g%per)*gw+j*(SL+3),58+Math.floor(g/per)*56];}
+  const fr=t%B,k=Math.floor(t/B),per=L.narrow?4:8,gw=(L.VW-40)/per;return [20+(fr%per)*gw+k*(SL+3),58+Math.floor(fr/per)*76];
+}
+function loupe(state,animate,origin){
+  const L=G.L,svg=$('#bfig svg'),lg=document.createElementNS(NS,'g');lg.setAttribute('class','loupe');
+  const per=L.narrow?4:8,gw=(L.VW-40)/per;
+  let s=`<rect x="8" y="8" width="${L.VW-16}" height="${L.RT-8}" rx="12" fill="var(--paper)" stroke="var(--amber)" stroke-width="5"/>`
+   +`<circle cx="${L.VW-46}" cy="30" r="13" fill="none" stroke="var(--ink)" stroke-width="4"/><path d="M${L.VW-37} 39l12 12" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>`
+   +`<text x="20" y="34" font-family="Work Sans,sans-serif" font-weight="700" font-size="20" fill="var(--ink)">Loupe : tout est ${ZOOM} fois plus grand</text>`;
+  for(let fr=0;fr<B;fr++)s+=`<text class="ll" x="${20+(fr%per)*gw}" y="${58+Math.floor(fr/per)*76+54}" font-family="Work Sans,sans-serif" font-weight="700" font-size="16" fill="${ZC[fr][0]}">ami ${fr+1}</text>`;
+  lg.innerHTML=s;svg.appendChild(lg);G.lg=lg;
+  if(state!=='shared')lg.classList.add('nolab');
+  if(animate){lg.style.transformOrigin=`${origin[0]}px ${origin[1]}px`;lg.style.transform='scale(.06)';lg.style.opacity='0';}
+  G.lp=[];
+  if(state==='big'){for(let t=0;t<P[i4()-1].r;t++){const p={el:bigEl(lg,1)};lmv(p,...lpos('big',t));G.lp.push(p);}}
+  else for(let t=0;t<P[i4()].N;t++){const p={el:bigEl(lg,0)};lmv(p,...lpos(state,t));G.lp.push(p);}
+  return lg;
+}
+function bigEl(lg,whole){
+  const g=document.createElementNS(NS,'g');g.setAttribute('class','pc lp');
+  let s=whole?`<rect width="${BIG.w}" height="${BIG.h}" rx="2" ${CH} stroke-width="2"/>`:`<rect width="${SL}" height="${BIG.h}" ${CH} stroke-width="1.2"/>`;
+  if(whole)for(let j=1;j<10;j++)s+=`<line x1="${j*SL}" x2="${j*SL}" y1="3" y2="${BIG.h-3}"/>`;
+  g.innerHTML=s;lg.appendChild(g);return g;
 }
 
-/* ---------- les deux gestes : partager, couper en 10 ---------- */
+function build(){
+  const L=G.L=layout(),T=(x,y,t,o)=>`<text x="${x}" y="${y}" ${o||''} font-family="Work Sans,sans-serif" font-weight="700" font-size="${L.zw<130?17:20}">${t}</text>`;
+  let s=`<svg viewBox="0 0 ${L.VW} ${L.VH}" role="img" aria-label="${pl(A,'barre')} à partager entre ${B} amis">`;
+  s+=`<rect x="8" y="8" width="${L.VW-16}" height="${L.RT-8}" rx="10" fill="var(--paper)" stroke="var(--muted)" stroke-width="2" stroke-dasharray="7 6"/>`;
+  s+=`<text id="rlab" x="20" y="34" font-family="Work Sans,sans-serif" font-weight="700" font-size="20" fill="var(--ink)"></text>`;
+  for(let i=0;i<B;i++){const zx=10+(i%L.cols)*(L.zw+10),zy=L.ZY+Math.floor(i/L.cols)*(L.ph+10);
+    s+=`<rect x="${zx}" y="${zy}" width="${L.zw}" height="${L.ph}" rx="12" fill="${ZC[i][1]}" stroke="${ZC[i][0]}" stroke-width="2.5"/>`;
+    s+=T(zx+10,zy+24,L.zw<130?String(i+1):'ami '+(i+1),`fill="${ZC[i][0]}"`);
+    s+=`<text class="pv" x="${zx+L.zw-10}" y="${zy+25}" text-anchor="end" font-family="Space Mono,monospace" font-weight="700" font-size="${L.zw<130?18:22}" fill="var(--ink)"></text>`;}
+  s+=`<g id="layer"></g></svg>`;
+  $('#bfig').innerHTML=s;G.layer=$('#layer');G.lg=null;G.lp=[];
+  pcs.forEach(p=>p.el=mk(p.u));
+  place(true);
+  const k=i4();if(k>0&&done>=2*k)loupe(done>=2*k+1?'shared':'cut',false);
+  texts();
+}
+
+/* ---------- les gestes : partager, ouvrir un carton, couper en 10, la loupe ---------- */
 async function share(i){
-  const R=pcs.filter(p=>p.own<0),n=P[i].q*B,d=Math.min(340,2600/Math.max(1,n));
-  for(let t=0;t<n;t++){const p=R[t];p.own=t%B;p.slot=Math.floor(t/B);mv(p,...slotPos(G.L,p.own,p.u,p.slot));await sleep(d);}
+  const u=P[i].u,R=pcs.filter(p=>p.own<0&&p.u===u),n=P[i].q*B,d=Math.min(340,2600/Math.max(1,n));
+  if(u===4&&G.lg)G.lg.classList.remove('nolab');
+  for(let t=0;t<n;t++){const p=R[t];p.own=t%B;p.slot=Math.floor(t/B);mv(p,...slotPos(G.L,p.own,p.u,p.slot));
+    if(u===4&&G.lp[t])lmv(G.lp[t],...lpos('shared',t));await sleep(d);}
   await sleep(450);place(false);await sleep(500);
 }
 async function cut(i){
-  const R=pcs.filter(p=>p.own<0);
-  R.forEach(p=>p.el.classList.add('cut'));await sleep(700);
-  R.forEach((p,g)=>{for(let j=0;j<10;j++){const c={u:i,own:-1,grp:g};c.el=mk(i);c.el.classList.add('nt');
-    mv(c,i===1?p.x+j*16*G.L.s:p.x,i===1?p.y:p.y+j*6*G.L.s);pcs.push(c);}p.el.remove();});
+  const L=G.L,s=L.s,u=P[i].u,R=pcs.filter(p=>p.own<0&&p.u===u-1);
+  if(u===4){
+    const o=R.length?[R.reduce((a,p)=>a+p.x,0)/R.length,R.reduce((a,p)=>a+p.y,0)/R.length]:[L.VW/2,40];
+    const lg=loupe('big',true,o);await frame();lg.style.transform='scale(1)';lg.style.opacity='1';await sleep(1100);
+    G.lp.forEach(p=>p.el.classList.add('cut'));await sleep(800);
+    const big=G.lp;G.lp=[];
+    big.forEach(b=>{for(let j=0;j<10;j++){const p={el:bigEl(lg,0)};p.el.classList.add('nt');lmv(p,b.x+j*SL,b.y);G.lp.push(p);}b.el.remove();});
+  } else R.forEach(p=>p.el.classList.add('cut'));
+  if(u!==4)await sleep(700);
+  R.forEach((p,g)=>{for(let j=0;j<10;j++){const c={u,own:-1,grp:200+g};c.el=mk(u);c.el.classList.add('nt');
+    if(u===1)mv(c,p.x+j*5*s,p.y+j*4*s);
+    else mv(c,u===2?p.x+j*16*s:u===4?p.x+j*1.6*s:p.x,u===3?p.y+j*6*s:p.y);
+    pcs.push(c);}p.el.remove();});
   pcs=pcs.filter(p=>!R.includes(p));
-  await frame();pcs.forEach(p=>p.el.classList.remove('nt'));await frame();
-  place(false);await sleep(750);
+  await frame();pcs.forEach(p=>p.el.classList.remove('nt'));G.lp.forEach(p=>p.el.classList.remove('nt'));await frame();
+  place(false);
+  if(u===4)G.lp.forEach((p,t)=>lmv(p,...lpos('cut',t)));
+  await sleep(800);
 }
 
 /* ---------- textes, bouton, division ---------- */
 const fini=new Set();
+function compte(R){const c=[0,0,0,0,0];R.forEach(p=>c[p.u]++);const t=c.map((n,u)=>n?pl(n,UN[u]):'').filter(Boolean);return t.length?t.join(' et '):'0';}
 function texts(){
   const last=P.length-1,fin=done===2*last+1,R=pcs.filter(p=>p.own<0);
-  $('#rlab').textContent=done%2===0?`À partager : ${pl(R.length,UN[R.length?R[0].u:0])}`:(R.length?`Reste : ${pl(R.length,UN[R[0].u])}`:'Reste : 0');
-  $$('#bfig .pv').forEach(t=>t.textContent=value(P,done));
-  $('#bdiv').innerHTML=divHTML(A,B,P,done);
+  $('#rlab').textContent=(done%2===0?'À partager : ':'Reste : ')+compte(R);
+  $$('#bfig .pv').forEach(t=>t.textContent=value(done));
+  $('#bdiv').innerHTML=divHTML(done);
   $('#next').hidden=fin;
-  $('#next').textContent=done%2===0?`Partager les ${UN[done/2]}s`:`Couper en ${UN[(done+1)/2]}s`;
+  if(!fin){if(done%2===0)$('#next').textContent=`Partager les ${UN[P[done/2].u]}s`;
+    else{const n=P[(done+1)/2],r=P[(done-1)/2].r;$('#next').textContent=n.u===1?(r>1?'Ouvrir les cartons':'Ouvrir le carton'):n.u===4?'Couper en millièmes, à la loupe':`Couper en ${UN[n.u]}s`;}}
   let t;
-  if(done===0)t=`<b>${pl(A,'barre')}</b> à partager entre <b>${B} amis</b>.`;
-  else if(done%2===1){const s=(done-1)/2,{N,q,r}=P[s];
-    if(s===0)t=(q>0?`Chaque ami reçoit <b>${pl(q,'barre')}</b> entière${q>1?'s':''}.`:`Pas assez de barres pour en donner une entière à chacun : on écrit <b>0</b> au quotient.`)
-      +(r>0?` Il reste <b>${pl(r,'barre')}</b> : on va ${r>1?'les':'la'} couper en 10.`:' Il ne reste rien.');
-    else t=`${N} ÷ ${B} = ${q} reste ${r} : chaque ami reçoit <b>${pl(q,UN[s])}</b> de plus.`
-      +(r>0?` Il reste <b>${pl(r,UN[s])}</b> : on ${r>1?'les':'le'} coupe en 10.`:` Le reste est <b>0</b> : c'est fini !`);}
-  else{const i=done/2;t=`${i===1?'On met une <b>virgule</b> au quotient et on':'On'} <b>descend un zéro</b> : chaque morceau qui reste est coupé en 10. ${pl(P[i-1].r,UN[i-1])} = <b>${pl(P[i].N,UN[i])}</b>.`;}
-  if(fin){const q=quot(P,done);t+=` <b>Preuve</b> : ${q} × ${B} = ${A}.`;$('#beq').innerHTML=`${f(A,B)} = ${q}`;
-    fini.add(A+'-'+B);if(fini.size===4)$('#ret').hidden=false;}
+  if(done===0)t=CART?`<b>${pl(Math.floor(A/10),'carton')} de 10 barres</b> et <b>${pl(A%10,'barre')}</b> (${A} barres en tout) à partager entre <b>${B} amis</b>. On commence par les cartons : ce sont les <b>dizaines</b>.`
+    :`<b>${pl(A,'barre')}</b> à partager entre <b>${B} amis</b>.`;
+  else if(done%2===1){const i=(done-1)/2,{u,N,q,r}=P[i];
+    t=q===0?`${N} ÷ ${B} : ${B} × 1 = ${B} dépasse déjà ${N}, donc on écrit <b>0</b> au quotient. Personne ne reçoit de ${UN[u]} entière.`
+      :`${N} ÷ ${B} : dans la table de ${B}, <b>${B} × ${q} = ${B*q}</b>${B*q<N?` (et ${B} × ${q+1} = ${B*(q+1)} dépasse ${N})`:''}. Chaque ami reçoit <b>${pl(q,UN[u])}</b>${i>0?' de plus':''}.`;
+    if(i===last)t+=` Le reste est <b>0</b> : c'est fini !`;
+    else if(r>0)t+=` Il reste <b>${pl(r,UN[u])}</b> : on ${P[i+1].u===1?(r>1?'les ouvre':"l'ouvre"):(r>1?'les coupe en 10':'le coupe en 10')}.`;
+    else t+=` Il ne reste aucun ${UN[u]}.`;}
+  else{const i=done/2,st=P[i],r=P[i-1].r;
+    if(st.u===1)t=(r?`On ouvre ${r>1?'les':'le'} ${pl(r,'carton')} : ${r*10} barres, plus les ${st.o} barres qui attendaient : <b>${pl(st.N,'barre')}</b>.`:`Aucun carton à ouvrir : on prend les ${st.o} barres qui attendaient.`)+` Dans la division, on <b>descend le ${st.o}</b>.`;
+    else if(st.u===4)t=`On descend un zéro. Les centièmes sont minuscules : on prend la <b>loupe</b>, tout est ${ZOOM} fois plus grand. Chaque centième est coupé en 10 : ${pl(r,'centième')} = <b>${pl(st.N,'millième')}</b>.`;
+    else t=`${st.u===2?'On met une <b>virgule</b> au quotient et on':'On'} <b>descend un zéro</b> : chaque morceau qui reste est coupé en 10. ${pl(r,UN[st.u-1])} = <b>${pl(st.N,UN[st.u])}</b>.`;}
+  if(fin){const q=quot(done);t+=` <b>Preuve</b> : ${q} × ${B} = ${A}.`;$('#beq').innerHTML=`${f(A,B)} = ${q}`;
+    fini.add(A+'-'+B);if(fini.size>=4)$('#ret').hidden=false;}
   else $('#beq').innerHTML='';
   $('#bver').innerHTML=t;
 }
-function choisir(a,b,bt){
-  if(busy)return;A=a;B=b;P=plan(a,b);done=0;
-  pcs=[...Array(a)].map((_,k)=>({u:0,own:-1,grp:k}));
+function choisir(a,b,c,bt){
+  if(busy)return;A=a;B=b;CART=!!c;P=plan(a,b,CART);done=0;
+  pcs=initList().map(x=>({u:x.u,own:-1,grp:x.grp}));
   if(bt)$$('#cas .btn').forEach(x=>x.classList.toggle('main',x===bt));
   build();
 }
@@ -504,10 +586,10 @@ $('#next').addEventListener('click',async()=>{
   if(done%2===0)await share(done/2);else await cut((done+1)/2);
   done++;texts();busy=false;$('#next').disabled=false;$$('#cas .btn,#again').forEach(x=>x.disabled=false);
 });
-$('#again').addEventListener('click',()=>choisir(A,B));
-$$('#cas .btn').forEach(bt=>bt.addEventListener('click',()=>choisir(+bt.dataset.a,+bt.dataset.b,bt)));
+$('#again').addEventListener('click',()=>choisir(A,B,CART));
+$$('#cas .btn').forEach(bt=>bt.addEventListener('click',()=>choisir(+bt.dataset.a,+bt.dataset.b,bt.dataset.c,bt)));
 addEventListener('resize',()=>{if(!busy&&G.L&&($('#bfig').clientWidth<560)!==G.L.narrow)build();});
-choisir(1,2,$('#cas .btn'));
+choisir(1,4,0,$('#cas .btn'));
 
 /* ---------- boutons « Correction » ---------- */
 document.addEventListener('click',e=>{const bt=e.target.closest('[data-sol]');if(!bt)return;const s=bt.closest('.ex');const on=s.classList.toggle('show');bt.textContent=on?'Cacher la correction':'Correction';bt.classList.toggle('main',on);bt.setAttribute('aria-pressed',on);});
