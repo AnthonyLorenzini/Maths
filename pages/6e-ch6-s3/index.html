@@ -456,6 +456,7 @@ function layout(){
     if(st.u===1&&CART)for(let k=0;k<st.o;k++)L.push({u:1,grp:100+k});cfg.push(L);});
   let rh=Math.min(Math.max(...cfg.map(L=>layR(L,VW,1).h)),narrow?240:200);
   rh=Math.max(rh,...cfg.map(L=>layR(L,VW,.18).h));
+  if(n4)rh=Math.max(rh,narrow?200:140);
   const RT=46+rh+14,ZY=RT+14;
   return {narrow,VW,cols,zw,nb,ncr,rc,rb,ph,RT,ZY,rh,sp:s,VH:ZY+rows*(ph+10)};
 }
