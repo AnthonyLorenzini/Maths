@@ -524,11 +524,27 @@ window.SITE = {
               ],
               exemple: "? × 5 = 6 : le nombre caché est 6 ÷ 5 = 6/5, car 6/5 × 5 = 6.",
               savoir: "compléter une égalité à trous du type a/b × b = a et trouver le nombre caché."
+            },
+            {
+              titre: "Un même nombre, plusieurs écritures", duree: "50 min",
+              contenu: [
+                "Partager des barres (20 min, projeté, animation pas à pas) : quatre partages (1 barre pour 4 amis, 9 barres pour 5, 13 pour 4, 17 pour 5). Les morceaux de chocolat glissent vers l'assiette de chaque ami ; ce qui reste est coupé en 10 sous les yeux des élèves (barres en dixièmes, dixièmes en centièmes) puis repartagé, et la division posée avance au même rythme (virgule, zéro descendu, reste). Chaque cas se termine par la preuve par la multiplication (0,25 × 4 = 1). Aucune égalité de fractions n'est utilisée.",
+                "Les exercices (30 min, cahier) : les trois premiers sont à faire en classe (un seul zéro : 7/2, 9/5, 17/5, 23/5 ; deux zéros : 9/4, 13/4, 19/4, 21/4 ; s'arrêter ou continuer d'après le reste), les suivants servent à ceux qui vont vite ou de travail à la maison : la preuve par la multiplication, des problèmes de partage (jus, ruban, barres), les erreurs de Léa, et un défi : 1 ÷ 8 pour la part d'un ami entre 8 amis."
+              ],
+              ressources: ["6e-ch6-s3"],
+              retenir: [
+                "Un quotient peut s'écrire de plusieurs façons : 1/4 = 0,25. 1/4 est une **fraction**, 0,25 est une **écriture décimale**.",
+                "Pour trouver l'écriture décimale du quotient de a par b, on **pose la division** de a par b : on met une virgule au quotient et on **descend un zéro** (1 unité = 10 dixièmes, 1 dixième = 10 centièmes).",
+                "La division s'arrête quand le reste est 0. On vérifie en multipliant le quotient par b : 0,25 × 4 = 1."
+              ],
+              exemple: "1 ÷ 4 = 0,25, donc 1/4 = 0,25, car 0,25 × 4 = 1.",
+              savoir: "trouver l'écriture décimale d'un quotient simple (1/2, 1/4, 3/5, 9/4…) en posant la division, et la vérifier avec une multiplication."
             }
           ],
           ressources: [
             { id: "6e-ch6-s1", type: "exos", titre: "Séance 1 — Le quotient, un nombre à trouver", resume: "Des barres de chocolat à partager entre amis, le quotient, a ÷ b = a/b, des dessins à lire et pourquoi pas de division par 0. Avec corrections.", ajout: "2026-11-11" },
-            { id: "6e-ch6-s2", type: "exos", titre: "Séance 2 — Les égalités à trous", resume: "Deux machines ÷ et ×, a/b × b = a, trouver le nombre caché, où est le trou ?, qui a raison ?, partages, devinettes et défis. Avec corrections.", ajout: "2026-11-17" }
+            { id: "6e-ch6-s2", type: "exos", titre: "Séance 2 — Les égalités à trous", resume: "Deux machines ÷ et ×, a/b × b = a, trouver le nombre caché, où est le trou ?, qui a raison ?, partages, devinettes et défis. Avec corrections.", ajout: "2026-11-17" },
+            { id: "6e-ch6-s3", type: "exos", titre: "Séance 3 — Un même nombre, plusieurs écritures", resume: "Partager des barres entre des amis : poser la division, descendre un zéro, suivre les dixièmes et les centièmes jusqu'à un reste 0, vérifier en multipliant. Six exercices et un défi. Avec corrections.", ajout: "2026-11-17" }
           ]
         },
         {
