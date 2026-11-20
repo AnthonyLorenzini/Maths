@@ -242,6 +242,10 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 .loupe{transition:transform 1s cubic-bezier(.3,.1,.2,1),opacity .5s}
 .loupe.nolab .ll{opacity:0}
 .loupe .ll{transition:opacity .4s}
+.ex3{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.div.sm{font-size:1rem;padding:6px 12px;align-self:flex-start;margin:0}
+.rep{display:flex;flex-direction:column;gap:10px;font-weight:600}
+.rep span{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 </style>
 <div class="wrap">
   <header class="top">
@@ -304,11 +308,23 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 
   <section class="ex" id="ex3">
     <div class="ex-h"><h2>Exercice 3 <small>s'arrêter ou continuer ?</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="consigne">Regarde le reste : faut-il continuer la division ? Écris « continuer » ou « fini », puis le quotient final.</p>
+    <p class="consigne">Regarde le reste, en jaune en bas de chaque division. Pour chaque lettre, écris deux réponses : « continuer » ou « fini », puis le quotient final.</p>
     <ol class="qs" type="a">
-      <li>1 ÷ 4 : on a 0,2 et il reste 2. <span class="hole has"><span class="qm">?</span><span class="ans">continuer</span></span>, quotient final : <span class="hole has"><span class="qm">?</span><span class="ans">0,25</span></span><span class="sol s">20 centièmes ÷ 4 = 5 centièmes, reste 0.</span></li>
-      <li>1 ÷ 2 : on a 0,5 et il reste 0. <span class="hole has"><span class="qm">?</span><span class="ans">fini</span></span>, quotient final : <span class="hole has"><span class="qm">?</span><span class="ans">0,5</span></span><span class="sol s">Le reste est 0 : la division est terminée.</span></li>
-      <li>3 ÷ 8 : on a 0,3 et il reste 6. <span class="hole has"><span class="qm">?</span><span class="ans">continuer</span></span>, quotient final : <span class="hole has"><span class="qm">?</span><span class="ans">0,375</span></span><span class="sol s">60 ÷ 8 = 7 reste 4, puis 40 ÷ 8 = 5 reste 0.</span></li>
+      <li><div class="ex3"><pre class="div sm"> 1    | 4
+-0    |-----
+ 10   | 0,2
+- 8   |
+  <mark class="z">2</mark>   |</pre><div class="rep"><span>Continuer ou fini ? <span class="hole has"><span class="qm">?</span><span class="ans">continuer</span></span></span><span>Quotient final : <span class="hole has"><span class="qm">?</span><span class="ans">0,25</span></span></span></div></div><span class="sol s">Il reste 2 : on continue. 20 centièmes ÷ 4 = 5, reste 0 : 0,25.</span></li>
+      <li><div class="ex3"><pre class="div sm"> 1    | 2
+-0    |-----
+ 10   | 0,5
+-10   |
+  <mark class="z">0</mark>   |</pre><div class="rep"><span>Continuer ou fini ? <span class="hole has"><span class="qm">?</span><span class="ans">fini</span></span></span><span>Quotient final : <span class="hole has"><span class="qm">?</span><span class="ans">0,5</span></span></span></div></div><span class="sol s">Le reste est 0 : la division est finie.</span></li>
+      <li><div class="ex3"><pre class="div sm"> 3    | 8
+-0    |-----
+ 30   | 0,3
+-24   |
+  <mark class="z">6</mark>   |</pre><div class="rep"><span>Continuer ou fini ? <span class="hole has"><span class="qm">?</span><span class="ans">continuer</span></span></span><span>Quotient final : <span class="hole has"><span class="qm">?</span><span class="ans">0,375</span></span></span></div></div><span class="sol s">Il reste 6 : on continue. 60 ÷ 8 = 7 reste 4, puis 40 ÷ 8 = 5 reste 0 : 0,375.</span></li>
     </ol>
   </section>
 
