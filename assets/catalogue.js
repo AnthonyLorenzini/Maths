@@ -543,9 +543,9 @@ window.SITE = {
             {
               titre: "Ça s'arrête ou ça boucle ?", duree: "50 min",
               contenu: [
-                "Le détecteur de restes (15 min, projeté, pas à pas) : cinq divisions posées (12 ÷ 5, 5 ÷ 3, 1 ÷ 3, 4 ÷ 11, 7 ÷ 6). Chaque reste s'affiche en couleur, dans la division et dans une bande ; la table utilisée est rappelée. 12 ÷ 5 s'arrête sur un reste 0 ; dans les autres, un reste déjà vu revient (« déjà vu ! »), on continue quand même trois étapes et les mêmes chiffres reviennent : 5/3 = 1,666…",
+                "Le détecteur de restes (15 min, projeté, pas à pas) : six divisions posées (12 ÷ 5, 5 ÷ 3, 1 ÷ 3, 4 ÷ 11, 7 ÷ 6, 1 ÷ 7). Chaque reste s'affiche en couleur, dans la division et dans une bande ; la table utilisée est rappelée. 12 ÷ 5 s'arrête sur un reste 0 ; dans les autres, un reste déjà vu revient (« déjà vu ! »), on continue quand même trois étapes et les mêmes chiffres reviennent : 5/3 = 1,666… Avec 1 ÷ 7, les six restes possibles sortent tous avant que le 1 revienne : 1/7 = 0,142857…",
                 "Le nombre le plus proche (5 min, projeté) : 5/3 placé sur une droite graduée en dixièmes, puis agrandie entre 1,6 et 1,7. Valeur exacte 5/3, valeurs approchées 1,7 et 1,67, le signe ≈, et la règle du chiffre suivant.",
-                "Les exercices (30 min, cahier) : les trois premiers en classe (fini ou boucle ? sur des divisions déjà posées : 10 ÷ 3, 7 ÷ 4, 11 ÷ 6, 4 ÷ 9 ; poser 2/3, 4/3, 10/9, 1/6 jusqu'à ce qu'un reste revienne ; = ou ≈ ?), les suivants pour ceux qui vont vite ou à la maison : arrondir au dixième et au centième, des partages (10 € entre 3, 2 L dans 3 verres, une corde de 20 m en 8), les erreurs de Tom, et un défi : 1 ÷ 7 et son motif de 6 chiffres."
+                "Les exercices (30 min, cahier) : les trois premiers en classe (fini ou boucle ? sur des divisions déjà posées : 10 ÷ 3, 7 ÷ 4, 11 ÷ 6 ; poser 2/3, 4/3, 1/6 jusqu'à ce qu'un reste revienne ; le nombre le plus proche, sur une droite graduée puis avec le chiffre suivant), les suivants pour ceux qui vont vite ou à la maison : les erreurs de Tom (= ou ≈, vérifier en multipliant), des partages (10 € entre 3, une corde de 20 m en 8, 2 L dans 3 verres), et un défi : les restes possibles dans une division par 9."
               ],
               ressources: ["6e-ch6-s4"],
               retenir: [
@@ -561,7 +561,7 @@ window.SITE = {
             { id: "6e-ch6-s1", type: "exos", titre: "Séance 1 — Le quotient, un nombre à trouver", resume: "Des barres de chocolat à partager entre amis, le quotient, a ÷ b = a/b, des dessins à lire et pourquoi pas de division par 0. Avec corrections.", ajout: "2026-11-11" },
             { id: "6e-ch6-s2", type: "exos", titre: "Séance 2 — Les égalités à trous", resume: "Deux machines ÷ et ×, a/b × b = a, trouver le nombre caché, où est le trou ?, qui a raison ?, partages, devinettes et défis. Avec corrections.", ajout: "2026-11-17" },
             { id: "6e-ch6-s3", type: "exos", titre: "Séance 3 — Un même nombre, plusieurs écritures", resume: "Partager des barres entre des amis : poser la division, descendre un zéro, suivre les dixièmes et les centièmes jusqu'à un reste 0, vérifier en multipliant. Six exercices et un défi. Avec corrections.", ajout: "2026-11-17" },
-            { id: "6e-ch6-s4", type: "exos", titre: "Séance 4 — Ça s'arrête ou ça boucle ?", resume: "Le détecteur de restes : la division s'arrête sur un reste 0, ou boucle quand un reste revient (5/3 = 1,666…). Valeur exacte, valeur approchée au dixième et au centième, le signe ≈. Six exercices et un défi. Avec corrections.", ajout: "2026-11-23" }
+            { id: "6e-ch6-s4", type: "exos", titre: "Séance 4 — Ça s'arrête ou ça boucle ?", resume: "Le détecteur de restes : la division s'arrête sur un reste 0, ou boucle quand un reste revient (5/3 = 1,666…). Valeur exacte, valeur approchée au dixième et au centième, le signe ≈. Cinq exercices et un défi. Avec corrections.", ajout: "2026-11-23" }
           ]
         },
         {
