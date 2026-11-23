@@ -555,13 +555,30 @@ window.SITE = {
               ],
               exemple: "1 ÷ 3 : le reste 1 revient sans cesse, donc 1/3 = 0,333… et 1/3 ≈ 0,33 au centième.",
               savoir: "reconnaître, en posant la division, si un quotient s'écrit exactement avec une virgule, et donner une valeur approchée au dixième ou au centième."
+            },
+            {
+              titre: "Le tour d'un quotient", duree: "50 min",
+              contenu: [
+                "La carte d'identité d'un quotient (10 min, projeté, pas à pas) : 7 ÷ 4, 7 ÷ 3 et 12 ÷ 4 passent par tout le chapitre : le partage des barres, le nombre caché, la division posée, la vérification. Chacun finit dans sa famille : entier, décimal, ou ni l'un ni l'autre.",
+                "Un grand diviseur (7 min, projeté) : 87 ÷ 12, 50 ÷ 12 et 31 ÷ 25, avec la table du diviseur affichée ; à chaque étape, on y cherche le plus grand nombre qui ne dépasse pas.",
+                "Les exercices (30 min, cahier) : les quatre premiers en classe (qui a raison ? pour le quotient de 6 par 8 ; le trou qui se déplace ; poser avec la table de 12, 15 ou 25 ; la bonne famille), les suivants pour ceux qui vont vite ou à la maison : le plus proche (4/11, 25/12, 50/12, 1/7) et un défi (six fractions avec 3, 4 et 6, rangées en trois familles)."
+              ],
+              ressources: ["6e-ch6-s5"],
+              retenir: [
+                "Un quotient a plusieurs écritures : 7/4 = 7 ÷ 4 = 1,75. On vérifie en multipliant : 1,75 × 4 = 7.",
+                "On pose la division et on regarde les restes. Le reste 0 arrive **avant la virgule** : le quotient est un **entier** (12/4 = 3). Il arrive **après la virgule** : c'est un **décimal** (7/4 = 1,75). Un reste **revient** : **ni l'un ni l'autre** (7/3 = 2,333… ≈ 2,33).",
+                "Avec un grand diviseur, on écrit d'abord sa **table** et on y cherche le plus grand nombre qui ne dépasse pas."
+              ],
+              exemple: "50 ÷ 12 : 12 × 4 = 48, reste 2 ; 20 : 12 × 1 = 12, reste 8 ; 80 : 12 × 6 = 72, reste 8, qui revient. 50/12 = 4,1666… n'est ni un entier, ni un décimal.",
+              savoir: "passer d'une écriture d'un quotient à une autre, poser une division par un grand nombre avec sa table, et dire si un quotient est entier, décimal ou ni l'un ni l'autre."
             }
           ],
           ressources: [
             { id: "6e-ch6-s1", type: "exos", titre: "Séance 1 — Le quotient, un nombre à trouver", resume: "Des barres de chocolat à partager entre amis, le quotient, a ÷ b = a/b, des dessins à lire et pourquoi pas de division par 0. Avec corrections.", ajout: "2026-11-11" },
             { id: "6e-ch6-s2", type: "exos", titre: "Séance 2 — Les égalités à trous", resume: "Deux machines ÷ et ×, a/b × b = a, trouver le nombre caché, où est le trou ?, qui a raison ?, partages, devinettes et défis. Avec corrections.", ajout: "2026-11-17" },
             { id: "6e-ch6-s3", type: "exos", titre: "Séance 3 — Un même nombre, plusieurs écritures", resume: "Partager des barres entre des amis : poser la division, descendre un zéro, suivre les dixièmes et les centièmes jusqu'à un reste 0, vérifier en multipliant. Six exercices et un défi. Avec corrections.", ajout: "2026-11-17" },
-            { id: "6e-ch6-s4", type: "exos", titre: "Séance 4 — Ça s'arrête ou ça boucle ?", resume: "Le détecteur de restes : la division s'arrête sur un reste 0, ou boucle quand un reste revient (5/3 = 1,666…). Valeur exacte, valeur approchée au dixième et au centième, le signe ≈. Cinq exercices et un défi. Avec corrections.", ajout: "2026-11-23" }
+            { id: "6e-ch6-s4", type: "exos", titre: "Séance 4 — Ça s'arrête ou ça boucle ?", resume: "Le détecteur de restes : la division s'arrête sur un reste 0, ou boucle quand un reste revient (5/3 = 1,666…). Valeur exacte, valeur approchée au dixième et au centième, le signe ≈. Cinq exercices et un défi. Avec corrections.", ajout: "2026-11-23" },
+            { id: "6e-ch6-s5", type: "exos", titre: "Séance 5 — Le tour d'un quotient", resume: "Un quotient vu de toutes les façons : partage, nombre caché, division posée, vérification, puis entier, décimal ou ni l'un ni l'autre. Diviser par 12 ou 25 avec la table. Cinq exercices et un défi. Avec corrections.", ajout: "2026-11-23" }
           ]
         },
         {

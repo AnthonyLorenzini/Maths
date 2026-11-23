@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}/* Cahier à carreaux : cartes aux coins nets, contour encre */
+.ex{border-color:var(--ink);border-radius:8px}
+</style>
+<title>Séance 5 — Le tour d’un quotient</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<style>
+/* Base commune Leçon 4 — titres condensés, texte Work Sans, nombres Space Mono ; ambre = action, vert = juste, rouge = faux */
+:root{
+  color-scheme:light;
+  --bg:#fffef8; --panel:#ffffff; --paper:#ffffff; --ink:#1b2a5e; --muted:#56608a; --line:#c3d1ec; --grid:#dbe5f6;
+  --amber:#ffc61a; --amber-text:#d62839; --amber-ink:#9c1c2a; --fill:#ffe45e; --fill-2:#fff4b8; --on-amber:#1b2a5e;
+  --ok:#17703f; --ok-bg:#dff5e6; --ko:#b3261e; --ko-bg:#ffe5e2;
+  --blue:#1f56d6; --blue-bg:#e6eeff; --magenta:#b8217a; --magenta-bg:#ffe6f3; --teal:#08766f; --teal-bg:#dcf5f2;
+  --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;color:var(--ink);font:16px/1.5 var(--f-text);padding-inline:16px;padding-block:16px 40px;margin:0}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+h1{font:800 clamp(2.1rem,7vw,3.5rem)/.9 var(--f-title);letter-spacing:.01em;margin:0;text-transform:uppercase;text-wrap:balance}
+h1 span{color:var(--amber-text)}
+h2{font:800 clamp(1.4rem,4.5vw,2rem)/1.05 var(--f-title);text-transform:uppercase;letter-spacing:.02em;margin:0;text-wrap:balance}
+.sub{margin:6px 0 0;color:var(--muted);font-size:.95rem;max-width:70ch}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:2px solid var(--line)}
+.tabs button{font:700 1.1rem var(--f-title);letter-spacing:.06em;text-transform:uppercase;background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;border-bottom:4px solid transparent;margin-bottom:-2px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--amber)}
+@media (max-width:440px){.tabs button{padding:8px 8px;font-size:1rem}}
+.seg{display:inline-flex;flex-wrap:wrap;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.seg button{font:600 .9rem var(--f-text);background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;min-height:40px}
+.seg button[aria-pressed="true"]{background:var(--amber);color:var(--on-amber)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:8px 14px;cursor:pointer;min-height:42px}
+.btn:hover{border-color:var(--amber)}
+.btn.main{background:var(--amber);border-color:var(--amber);color:var(--on-amber)}
+.btn:disabled{opacity:.45;cursor:default}
+button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:14px 16px}
+.hint{color:var(--muted);font-size:.9rem;margin:0}
+.recit{margin:0;padding:12px 16px;background:var(--panel);border-left:4px solid var(--amber);border-radius:0 8px 8px 0;max-width:75ch}
+.num{font-family:var(--f-num);font-weight:700}
+.fr{display:inline-flex;flex-direction:column;align-items:center;font:700 1em var(--f-num);line-height:1.05;vertical-align:middle}
+.fr>span:first-child{border-bottom:.09em solid currentColor;padding:0 .15em}
+.msg{min-height:1.5em;font-weight:600;margin:0}
+.msg.ok{color:var(--ok)}.msg.ko{color:var(--ko)}
+input.ans{font:700 1.25rem var(--f-num);text-align:center;border:2px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:6px 4px;width:6em;max-width:100%}
+input.ans:focus{outline:none;border-color:var(--amber)}
+input.ans.ok{border-color:var(--ok);background:var(--ok-bg)}
+input.ans.ko{border-color:var(--ko);background:var(--ko-bg)}
+.lvl{font:600 .85rem var(--f-text);color:var(--muted)}
+/* équipes */
+.teams{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.teams{grid-template-columns:minmax(0,1fr)}}
+.team{border:2px solid var(--tc);border-radius:12px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column}
+.team.t0{--tc:var(--blue);--tb:var(--blue-bg)}.team.t1{--tc:var(--magenta);--tb:var(--magenta-bg)}.team.t2{--tc:var(--teal);--tb:var(--teal-bg)}
+.team .th{background:var(--tb);display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px}
+.team .tn{font:800 1.3rem var(--f-title);text-transform:uppercase;letter-spacing:.05em;color:var(--tc)}
+.team .ts{font:700 1.5rem var(--f-num);color:var(--tc)}
+.team .tb{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.team .draw{display:flex;align-items:center;gap:10px}
+.team .draw button{font:600 .85rem var(--f-text);border:2px solid var(--tc);color:var(--tc);background:none;border-radius:8px;padding:6px 10px;cursor:pointer;min-height:38px}
+.team .who{font:700 1.4rem var(--f-num);color:var(--tc);min-width:2ch}
+.team.turn{box-shadow:0 0 0 4px var(--tc)}
+.team.win{animation:pop .5s}
+.team .res{font-weight:600;min-height:1.4em}
+.team .res.ok{color:var(--ok)}.team .res.ko{color:var(--ko)}
+@keyframes pop{50%{transform:scale(1.04)}}
+.settings{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:.85rem;color:var(--muted)}
+.settings input{width:4em;font:700 .95rem var(--f-num);border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:3px 6px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.team .slot:empty,.team .res:empty{display:none}
+.teams.compact{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.teams.compact .th{flex-direction:column;align-items:flex-start;gap:0;padding:6px 10px}
+.teams.compact .tn{font-size:1.05rem}
+.teams.compact .ts{font-size:1.3rem}
+.teams.compact .tb{padding:6px 10px}
+.teams.compact .draw{flex-wrap:wrap;gap:4px 8px}
+.teams.compact .draw button{padding:4px 8px;min-height:32px;font-size:.8rem}
+.teams.compact .who{font-size:1.1rem}
+@media (max-width:420px){.teams.compact .tn{font-size:.9rem;letter-spacing:.02em}}
+.pane{display:flex;flex-direction:column;gap:16px;min-width:0}
+.grp{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:100%}
+</style>
+<script>
+window.L4=(function(){
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const f=(n,d)=>`<span class="fr"><span>${n}</span><span>${d}</span></span>`;
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+/* nombre en écriture française, sans zéros inutiles (dp = nb max de décimales) */
+const fmt=(x,dp=3)=>{let s=(Math.round(x*10**dp)/10**dp).toFixed(dp);if(s.includes('.'))s=s.replace(/0+$/,'').replace(/\.$/,'');const [a,b]=s.split('.');return a.replace(/\B(?=(\d{3})+(?!\d))/g,' ')+(b?','+b:'');};
+const fmt2=x=>(Math.round(x*100)/100).toFixed(2).replace('.',',');
+/* lecture d'une réponse : "3,5" "3.5" "35/100" "35 %" "1 + 3/10" ; NaN si illisible */
+function parse(v){
+  if(v==null)return NaN;v=String(v).trim().replace(/\s+/g,'').replace(/%$/,'');
+  if(!v)return NaN;
+  if(v.includes('+'))return v.split('+').reduce((s,p)=>s+parse(p),0);
+  const m=v.match(/^(\d+(?:[.,]\d+)?)\/(\d+(?:[.,]\d+)?)$/);
+  if(m){const d=+m[2].replace(',','.');return d?(+m[1].replace(',','.'))/d:NaN;}
+  if(!/^-?\d+(?:[.,]\d+)?$/.test(v)&&!/^-?[.,]\d+$/.test(v))return NaN;
+  return +v.replace(',','.');
+}
+const same=(a,b)=>Math.abs(a-b)<1e-9;
+const store={get(k,d){try{const v=localStorage.getItem('l4.'+k);return v==null?d:JSON.parse(v);}catch(e){return d;}},
+             set(k,v){try{localStorage.setItem('l4.'+k,JSON.stringify(v));}catch(e){}}};
+/* onglets simples : <nav class="tabs"><button data-tab="x"> + éléments [data-pane="x"] */
+function tabs(nav,onChange){
+  nav.setAttribute('role','tablist');
+  const go=t=>{$$('[data-tab]',nav).forEach(b=>{b.setAttribute('role','tab');b.setAttribute('aria-selected',b.dataset.tab===t);});
+    $$('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!==t);onChange&&onChange(t);};
+  nav.addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)go(b.dataset.tab);});
+  return go;
+}
+/* contrôle segmenté : boutons [data-v] */
+function seg(el,onChange,init){
+  const set=v=>{$$('[data-v]',el).forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===String(v)));onChange&&onChange(v);};
+  el.addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(b)set(b.dataset.v);});
+  if(init!=null)set(init);return set;
+}
+/* ---- trois équipes : bleu, magenta, turquoise, tirage au sort d'un élève ---- */
+const TEAMS=['Bleus','Magentas','Turquoises'];
+function Teams(el,opt={}){
+  let size=store.get('teamSize',9);
+  const T=TEAMS.map((n,i)=>({i,name:n,score:0,pool:[],who:null}));
+  let turn=null;
+  el.classList.add('teams');if(opt.compact)el.classList.add('compact');
+  el.innerHTML=T.map(t=>`<section class="team t${t.i}" data-team="${t.i}">
+    <div class="th"><span class="tn">${t.name}</span><span class="ts" aria-label="score">0</span></div>
+    <div class="tb"><div class="draw"><button type="button" data-drawbtn>${opt.compact?'Tirer':'Tirer un élève'}</button><span class="who" aria-live="polite"></span></div>
+    <div class="slot"></div><div class="res" aria-live="polite"></div></div></section>`).join('');
+  const box=i=>el.querySelector(`[data-team="${i}"]`);
+  function refill(t){t.pool=shuffle(Array.from({length:size},(_,k)=>k+1));}
+  function draw(i){
+    const t=T[i];if(!t.pool.length)refill(t);
+    const n=t.pool.pop(),w=box(i).querySelector('.who');
+    const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce){w.textContent='n°'+n;return;}
+    let k=0;const iv=setInterval(()=>{w.textContent='n°'+rnd(1,size);if(++k>9){clearInterval(iv);w.textContent='n°'+n;}},55);
+  }
+  el.addEventListener('click',e=>{const b=e.target.closest('[data-drawbtn]');if(b)draw(+b.closest('[data-team]').dataset.team);});
+  const api={
+    slot:i=>box(i).querySelector('.slot'),
+    res(i,txt,ok){const r=box(i).querySelector('.res');r.textContent=txt||'';r.className='res'+(ok===true?' ok':ok===false?' ko':'');},
+    add(i,p=1){T[i].score+=p;box(i).querySelector('.ts').textContent=T[i].score;if(p>0){const b=box(i);b.classList.remove('win');void b.offsetWidth;b.classList.add('win');}},
+    setTurn(i){turn=i;T.forEach(t=>box(t.i).classList.toggle('turn',t.i===i));},
+    nextTurn(){api.setTurn(turn==null?0:(turn+1)%3);return turn;},
+    get turn(){return turn;},
+    scores:()=>T.map(t=>t.score),
+    reset(){T.forEach(t=>{t.score=0;box(t.i).querySelector('.ts').textContent=0;api.res(t.i,'');});},
+    clearWho(){T.forEach(t=>box(t.i).querySelector('.who').textContent='');},
+    name:i=>T[i].name,
+    settings(container){
+      container.innerHTML=`<label class="settings">Élèves par équipe <input type="number" id="teamsize" min="2" max="15" value="${size}"></label>`;
+      container.querySelector('input').addEventListener('change',e=>{size=Math.max(2,Math.min(15,+e.target.value||9));store.set('teamSize',size);T.forEach(refill);});
+    }
+  };
+  T.forEach(refill);
+  return api;
+}
+/* petit carré dessiné en SVG : n parts coloriées sur u (10 = bandes, 100 = quadrillage), plusieurs carrés si besoin */
+function squaresSVG(t,u,size=60){
+  const n=Math.max(1,Math.ceil(t/u)),gap=6,W=n*size+(n-1)*gap;
+  let s=`<svg viewBox="-1 -1 ${W+2} ${size+2}" width="${W+2}" height="${size+2}" role="img" aria-label="carré colorié">`;
+  for(let k=0;k<n;k++){const x0=k*(size+gap);
+    s+=`<rect x="${x0}" y="0" width="${size}" height="${size}" fill="var(--paper)"/>`;
+    const c=size/10;
+    for(let j=0;j<u;j++){const idx=k*u+j;if(idx>=t)break;
+      if(u===10)s+=`<rect x="${x0}" y="${j*c}" width="${size}" height="${c}" fill="var(--fill)"/>`;
+      else s+=`<rect x="${x0+(j%10)*c}" y="${Math.floor(j/10)*c}" width="${c}" height="${c}" fill="var(--fill)"/>`;}
+    for(let j=1;j<10;j++){s+=`<line x1="${x0}" x2="${x0+size}" y1="${j*c}" y2="${j*c}" stroke="var(--grid)" stroke-width="1"/>`;
+      if(u===100)s+=`<line y1="0" y2="${size}" x1="${x0+j*c}" x2="${x0+j*c}" stroke="var(--grid)" stroke-width="1"/>`;}
+    s+=`<rect x="${x0}" y="0" width="${size}" height="${size}" fill="none" stroke="var(--ink)" stroke-width="1.5"/>`;}
+  return s+'</svg>';
+}
+return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squaresSVG};
+})();
+</script>
+<style>
+/* ---- séance 6e ch.6 : page légère, une figure à la fois ---- */
+.ex{display:flex;flex-direction:column;gap:12px;padding-top:8px;border-top:2px solid var(--line)}
+.ex-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px}
+.ex-h h2 small{font:600 .9rem var(--f-text);text-transform:none;letter-spacing:0;color:var(--muted);margin-left:.4em}
+.consigne{margin:0;max-width:70ch;font-size:1.05rem}
+.fig{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.fig svg{display:block;width:100%;height:auto;max-width:760px}
+.ex:not(.show) .sol,.ex:not(.show) .ans{display:none!important}
+.ex.show .q{display:none}
+.s{color:var(--ok);font-weight:600}
+.qs{margin:0;padding-left:1.5em;display:flex;flex-direction:column;gap:10px;max-width:75ch}
+.qs li::marker{font-weight:700;color:var(--amber-ink)}
+.qs .sol{display:block}
+.qs.big{padding-left:2.4em}
+.qs.big li{font:700 1.4rem var(--f-num);padding-block:2px}
+.qs.big .sol{font:600 1rem var(--f-text)}
+.qs.big .sol.in,.qs .sol.in{display:inline;font:800 1.4rem var(--f-num);color:var(--ok);background:var(--ok-bg);border-radius:8px;padding:0 .35em}
+.qs.big .fr{font-size:1.05em}
+.hole{display:inline-flex;align-items:center;justify-content:center;min-width:1.35em;height:1.35em;background:var(--amber);color:var(--on-amber);border-radius:8px;border:3px solid var(--ink);font-weight:800}
+.cas{display:flex;flex-wrap:wrap;gap:10px}
+.cas .btn{font-size:1.05rem;padding:10px 16px}
+.pas{display:flex;flex-wrap:wrap;gap:10px}
+.res{margin:0;display:flex;flex-direction:column;gap:6px}
+.res .eq{font:800 clamp(1.9rem,7vw,2.8rem)/1.15 var(--f-num);margin:0;min-height:1.2em}
+.res .eq .fr{font-size:1.05em}
+.res .ver{margin:0;font-size:1.05rem}
+.mach .tok{transition:opacity .45s}
+.mach .tok.off{opacity:0}
+.mach .arr.off{opacity:.18}
+.hole .ans{display:none}
+.ex.show .hole.has{background:var(--ok-bg);border-color:var(--ok);color:var(--ok);padding:0 .3em;height:auto;min-height:1.35em}
+.ex.show .hole.has .qm{display:none}
+.ex.show .hole.has .ans{display:inline-flex;align-items:center}
+.hole.has .fr{font-size:.8em}
+.qs:not(.big) .hole.has .fr{font-size:1.05em}
+.num{white-space:nowrap}
+/* ---- séance 3 : division posée + barre ---- */
+.div{margin:0;font:700 clamp(1.05rem,4.6vw,1.35rem)/1.3 var(--f-num);background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:10px 16px;white-space:pre;align-self:center;max-width:100%;overflow-x:auto}
+.div mark.nw{background:var(--fill-2);color:inherit;border-radius:3px}
+.mk{padding:0 .3em;border-radius:5px;font-weight:600;color:var(--ink)}
+.recit p{margin:0 0 6px}.recit p:last-child{margin:0}
+.recit pre.div{margin:8px 0 0;align-self:flex-start}
+.fig.col{gap:10px;padding:10px}
+.anim{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start}
+@media (max-width:760px){.anim{grid-template-columns:minmax(0,1fr)}.anim .div{justify-self:center}}
+.div mark.z{background:var(--amber);color:var(--on-amber);border-radius:3px}
+.div .qt{color:var(--amber-ink)}
+#bver{min-height:3.2em;margin:0;font-size:1.05rem}
+.ex3{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.div.sm{font-size:1rem;padding:6px 12px;align-self:flex-start;margin:0}
+.rep{display:flex;flex-direction:column;gap:10px;font-weight:600}
+.rep span{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+@media (max-width:440px){.div.sm{font-size:.82rem;padding:4px 8px}.ex3{gap:8px 10px}.rep{font-size:.9rem;gap:8px}}
+</style>
+<style>
+/* ---- séance 4 : détecteur de restes + droites graduées ---- */
+#beq{font:800 clamp(1.9rem,7vw,2.8rem)/1.15 var(--f-num);margin:0}#beq .fr{font-size:1.05em}
+#beq:empty{display:none}
+.anim{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:700px){.anim{grid-template-columns:minmax(0,1fr)}}
+#bdiv{min-width:9em;align-self:start;justify-self:center}
+.div mark.r{background:var(--cb);color:var(--c);border-radius:3px;box-shadow:inset 0 0 0 2px var(--c)}
+.rest{display:flex;flex-direction:column;gap:8px}
+.rest h3{margin:0;font:800 1.2rem var(--f-title);text-transform:uppercase;letter-spacing:.04em}
+.rest h3 small{font:500 .85rem var(--f-text);text-transform:none;letter-spacing:0;color:var(--muted)}
+.rb-row{display:flex;flex-wrap:wrap;gap:26px 8px;min-height:64px;align-items:flex-end;padding-top:18px}
+.rb{position:relative;display:inline-flex;align-items:center;justify-content:center;min-width:2.2em;height:2.2em;padding:0 .3em;border-radius:12px;font:700 1.6rem var(--f-num);background:var(--cb);color:var(--c);border:3px solid var(--c);animation:rbin .45s}
+.rb.seen{box-shadow:0 0 0 4px var(--amber)}
+.rb.seen::after{content:"déjà vu !";position:absolute;top:-1.55em;left:50%;transform:translateX(-50%);font:700 .72rem var(--f-text);color:var(--amber-ink);white-space:nowrap}
+.rb.zero{--c:var(--ok);--cb:var(--ok-bg)}
+.rb-sep{font:700 1.3rem var(--f-num);color:var(--muted);align-self:center}
+@keyframes rbin{from{transform:scale(.3);opacity:0}}
+.qt .rp{text-decoration:underline 3px var(--amber);text-underline-offset:4px}
+.dr{display:flex;flex-direction:column;gap:4px;align-items:center;width:100%}
+.dr svg{display:block;width:100%;height:auto;max-width:560px}
+.dr p{margin:0;font-weight:600}
+.cmp{display:inline-grid;grid-template-columns:auto auto;gap:2px 10px;align-items:baseline}
+@media (prefers-reduced-motion:reduce){.rb{animation:none}}
+</style>
+<style>
+/* ---- séance 5 : la carte d'identité d'un quotient + grand diviseur ---- */
+.card{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.card>li{display:grid;grid-template-columns:9.5em minmax(0,1fr);gap:12px;align-items:start;background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:10px 14px;animation:rbin .4s}
+.card>li>b.lab{font:800 1.15rem/1.2 var(--f-title);text-transform:uppercase;letter-spacing:.04em;color:var(--amber-ink);padding-top:2px}
+.card>li>div{display:flex;flex-direction:column;gap:6px;min-width:0}
+.card p{margin:0;font-size:1.05rem}
+.card .big{font:800 clamp(1.3rem,5vw,1.7rem)/1.3 var(--f-num)}
+.card .div{align-self:flex-start;margin:0}
+@media (max-width:560px){.card>li{grid-template-columns:minmax(0,1fr);gap:4px}}
+.plates svg{display:block;width:100%;height:auto;max-width:420px}
+.fams{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:560px){.fams{grid-template-columns:minmax(0,1fr)}}
+.fam{border:2px dashed var(--line);border-radius:12px;padding:8px 12px;background:var(--panel);display:flex;flex-direction:column;gap:6px;min-height:5.2em}
+.fam h3{margin:0;font:800 1.15rem var(--f-title);text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.fam.on{border-style:solid;border-color:var(--fc);background:var(--fb)}
+.fam.on h3{color:var(--fc)}
+.fam.e{--fc:var(--blue);--fb:var(--blue-bg)}.fam.d{--fc:var(--teal);--fb:var(--teal-bg)}.fam.n{--fc:var(--magenta);--fb:var(--magenta-bg)}
+.fam .chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:700 1.15rem var(--f-num);background:var(--paper);border:2px solid var(--fc);color:var(--ink);border-radius:10px;padding:2px 10px;animation:rbin .45s}
+.tag{display:inline-block;font:800 1rem var(--f-title);text-transform:uppercase;letter-spacing:.05em;padding:2px 10px;border-radius:8px;color:#fff;background:var(--fc)}
+.tag.e{--fc:var(--blue)}.tag.d{--fc:var(--teal)}.tag.n{--fc:var(--magenta)}
+/* table du diviseur */
+.tbl{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:3px;width:100%;max-width:560px}
+.tbl span{display:flex;flex-direction:column;align-items:center;border:2px solid var(--line);border-radius:8px;background:var(--paper);padding:2px 0;font:700 clamp(.8rem,3.4vw,1.05rem) var(--f-num);transition:background .3s}
+.tbl small{font:600 .7rem var(--f-text);color:var(--muted)}
+.tbl span.pick{background:var(--amber);border-color:var(--ink)}
+.tbl span.pick small{color:var(--on-amber)}
+.tbl span.over{color:var(--ko);border-color:var(--ko);background:var(--ko-bg);text-decoration:line-through}
+.tbl-h{margin:0;font-weight:600}
+#gver{min-height:3.2em;margin:0;font-size:1.05rem}
+.anim2{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:700px){.anim2{grid-template-columns:minmax(0,1fr)}}
+#gdiv{min-width:9em;justify-self:center}
+.who{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.qs .tbl{margin-top:6px}
+.small{font-size:.9rem;color:var(--muted)}
+</style>
+<div class="wrap">
+  <header class="top">
+    <div><h1>Le tour <span>d'un quotient</span></h1>
+    <p class="sub">Chapitre 6, séance 5</p></div>
+  </header>
+
+  <!-- ================= ACTIVITÉ 1 : LA CARTE D'IDENTITÉ ================= -->
+  <section class="ex" id="act">
+    <div class="ex-h"><h2>Activité 1 <small>la carte d'identité d'un quotient</small></h2></div>
+    <p class="consigne">Choisis un quotient, puis avance étape par étape. On le regarde de toutes les façons vues depuis le début du chapitre.</p>
+    <div class="cas" id="cas">
+      <button class="btn" data-a="7" data-b="4">7 ÷ 4</button>
+      <button class="btn" data-a="7" data-b="3">7 ÷ 3</button>
+      <button class="btn" data-a="12" data-b="4">12 ÷ 4</button>
+    </div>
+    <div class="pas"><button class="btn main" id="next">Étape suivante</button><button class="btn" id="again">Recommencer</button></div>
+    <ol class="card" id="card" aria-live="polite"></ol>
+    <div class="fams" id="fams">
+      <div class="fam e" data-f="e"><h3>Entier</h3><div class="chips"></div></div>
+      <div class="fam d" data-f="d"><h3>Décimal</h3><div class="chips"></div></div>
+      <div class="fam n" data-f="n"><h3>Ni l'un ni l'autre</h3><div class="chips"></div></div>
+    </div>
+    <div class="recit" id="ret" hidden>
+      <p>1. Un quotient a plusieurs écritures : <span class="num"><span class="fr"><span>7</span><span>4</span></span> = 7 ÷ 4 = 1,75</span>. On vérifie en multipliant : <span class="num">1,75 × 4 = 7</span>.</p>
+      <p>2. On pose la division et on regarde les <b>restes</b> :</p>
+      <p>· le reste 0 arrive <b>avant la virgule</b> : le quotient est un <b>entier</b>. <span class="num"><span class="fr"><span>12</span><span>4</span></span> = 3</span></p>
+      <p>· le reste 0 arrive <b>après la virgule</b> : le quotient est un <b>décimal</b>. <span class="num"><span class="fr"><span>7</span><span>4</span></span> = 1,75</span></p>
+      <p>· un reste <b>revient</b> : ni l'un ni l'autre. <span class="num"><span class="fr"><span>7</span><span>3</span></span> = 2,333…</span> On donne une valeur approchée : <span class="num"><span class="fr"><span>7</span><span>3</span></span> ≈ 2,33</span>.</p>
+    </div>
+  </section>
+
+  <!-- ================= ACTIVITÉ 2 : UN GRAND DIVISEUR ================= -->
+  <section class="ex" id="act2">
+    <div class="ex-h"><h2>Activité 2 <small>un grand diviseur</small></h2></div>
+    <p class="consigne">Pour diviser par 12 ou par 25, on écrit d'abord sa <b>table</b>. À chaque étape, on y cherche le plus grand nombre qui <b>ne dépasse pas</b>.</p>
+    <div class="cas" id="cas2">
+      <button class="btn" data-a="87" data-b="12">87 ÷ 12</button>
+      <button class="btn" data-a="50" data-b="12">50 ÷ 12</button>
+      <button class="btn" data-a="31" data-b="25">31 ÷ 25</button>
+    </div>
+    <div class="pas"><button class="btn main" id="next2">Commencer</button><button class="btn" id="again2">Recommencer</button></div>
+    <p class="tbl-h" id="gth"></p>
+    <div class="tbl" id="gtbl"></div>
+    <p class="ver" id="gver" aria-live="polite"></p>
+    <div class="anim2"><pre class="div" id="gdiv" aria-label="division posée"></pre><p class="eq" id="geq" style="font:800 clamp(1.7rem,6vw,2.4rem)/1.2 var(--f-num);margin:0"></p></div>
+  </section>
+
+  <p class="hint">Dans ton cahier : la lettre et ta réponse, sans recopier.</p>
+
+  <!-- ================= EXERCICES ================= -->
+  <section class="ex" id="ex1">
+    <div class="ex-h"><h2>Exercice 1 <small>qui a raison ?</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Quel est le quotient de <b>6 par 8</b> ? Il peut y avoir plusieurs gagnants. Vérifie en multipliant par 8, puis écris «&nbsp;juste&nbsp;» ou «&nbsp;faux&nbsp;».</p>
+    <ol class="qs" type="a">
+      <li><b>Léa :</b> «&nbsp;c'est <span class="fr"><span>8</span><span>6</span></span>&nbsp;» &nbsp; <span class="hole has"><span class="qm">?</span><span class="ans">faux</span></span><span class="sol s">Léa a inversé : <span class="fr"><span>8</span><span>6</span></span> × 6 = 8, c'est le quotient de 8 par 6.</span></li>
+      <li><b>Noé :</b> «&nbsp;c'est <span class="fr"><span>6</span><span>8</span></span>&nbsp;» &nbsp; <span class="hole has"><span class="qm">?</span><span class="ans">juste</span></span><span class="sol s"><span class="fr"><span>6</span><span>8</span></span> × 8 = 6.</span></li>
+      <li><b>Inès :</b> «&nbsp;c'est 0,75&nbsp;» &nbsp; <span class="hole has"><span class="qm">?</span><span class="ans">juste</span></span><span class="sol s">0,75 × 8 = 6. <span class="fr"><span>6</span><span>8</span></span> et 0,75 sont deux écritures du même nombre.</span></li>
+      <li><b>Sam :</b> «&nbsp;c'est 1,3&nbsp;» &nbsp; <span class="hole has"><span class="qm">?</span><span class="ans">faux</span></span><span class="sol s">1,3 × 8 = 10,4, pas 6. Sam a divisé 8 par 6.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex2">
+    <div class="ex-h"><h2>Exercice 2 <small>le trou se déplace</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Trouve le nombre caché. Aide : <span class="num"><span class="fr"><span>a</span><span>b</span></span> × b = a</span>.</p>
+    <ol class="qs big" type="a">
+      <li><span class="fr"><span>7</span><span>3</span></span> × 3 = <span class="hole has"><span class="qm">?</span><span class="ans">7</span></span><span class="sol s">On divise par 3 puis on multiplie par 3 : on retrouve 7.</span></li>
+      <li><span class="hole has"><span class="qm">?</span><span class="ans"><span class="fr"><span>4</span><span>9</span></span></span></span> × 9 = 4<span class="sol s">Le nombre caché est 4 ÷ 9 = <span class="fr"><span>4</span><span>9</span></span>.</span></li>
+      <li><span class="fr"><span>5</span><span><span class="hole has"><span class="qm">?</span><span class="ans">6</span></span></span></span> × 6 = 5<span class="sol s"><span class="fr"><span>5</span><span>6</span></span> × 6 = 5 : on multiplie par le dénominateur.</span></li>
+      <li><span class="fr"><span>11</span><span>4</span></span> × <span class="hole has"><span class="qm">?</span><span class="ans">4</span></span> = 11<span class="sol s"><span class="fr"><span>11</span><span>4</span></span> × 4 = 11.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex3">
+    <div class="ex-h"><h2>Exercice 3 <small>avec la table</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Pose la division jusqu'au reste 0. La table du diviseur est donnée.</p>
+    <ol class="qs" type="a">
+      <li><span class="big num">45 ÷ 12 = <span class="hole has"><span class="qm">?</span><span class="ans">3,75</span></span></span><div class="tbl" data-t="12"></div><span class="sol s">45 : 12 × 3 = 36, reste 9. 90 : 12 × 7 = 84, reste 6. 60 : 12 × 5 = 60, reste 0. Preuve : 3,75 × 12 = 45.</span></li>
+      <li><span class="big num">33 ÷ 15 = <span class="hole has"><span class="qm">?</span><span class="ans">2,2</span></span></span><div class="tbl" data-t="15"></div><span class="sol s">33 : 15 × 2 = 30, reste 3. 30 : 15 × 2 = 30, reste 0. Preuve : 2,2 × 15 = 33.</span></li>
+      <li><span class="big num">67 ÷ 25 = <span class="hole has"><span class="qm">?</span><span class="ans">2,68</span></span></span><div class="tbl" data-t="25"></div><span class="sol s">67 : 25 × 2 = 50, reste 17. 170 : 25 × 6 = 150, reste 20. 200 : 25 × 8 = 200, reste 0. Preuve : 2,68 × 25 = 67.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex4">
+    <div class="ex-h"><h2>Exercice 4 <small>la bonne famille</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Pose la division. Écris le quotient, puis sa famille : <span class="tag e">entier</span> <span class="tag d">décimal</span> ou <span class="tag n">ni l'un ni l'autre</span>.</p>
+    <ol class="qs big" type="a">
+      <li><span class="fr"><span>18</span><span>6</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">3</span></span> &nbsp;<span class="hole has"><span class="qm">?</span><span class="ans">entier</span></span><span class="sol s">Reste 0 tout de suite, avant la virgule.</span></li>
+      <li><span class="fr"><span>9</span><span>8</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">1,125</span></span> &nbsp;<span class="hole has"><span class="qm">?</span><span class="ans">décimal</span></span><span class="sol s">Restes 1, 2, 4, puis 0 : ça s'arrête après la virgule.</span></li>
+      <li><span class="fr"><span>5</span><span>6</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">0,8333…</span></span> &nbsp;<span class="hole has"><span class="qm">?</span><span class="ans">ni l'un ni l'autre</span></span><span class="sol s">Restes 5, 2, 2… : le reste 2 revient, ça boucle.</span></li>
+      <li><span class="fr"><span>30</span><span>12</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">2,5</span></span> &nbsp;<span class="hole has"><span class="qm">?</span><span class="ans">décimal</span></span><span class="sol s">30 : 12 × 2 = 24, reste 6. 60 : 12 × 5 = 60, reste 0. De grands nombres, mais un quotient décimal.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex5">
+    <div class="ex-h"><h2>Exercice 5 <small>le plus proche</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Donne la valeur approchée au dixième, puis au centième. Regarde le chiffre <b>juste après</b>.</p>
+    <ol class="qs" type="a">
+      <li><span class="num"><span class="fr"><span>4</span><span>11</span></span> = 0,3636…</span> &nbsp; au dixième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">0,4</span></span> &nbsp; au centième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">0,36</span></span><span class="sol s">0,3<u>6</u> : on monte → 0,4. 0,36<u>3</u> : on garde → 0,36.</span></li>
+      <li><span class="num"><span class="fr"><span>25</span><span>12</span></span> = 2,0833…</span> &nbsp; au dixième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">2,1</span></span> &nbsp; au centième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">2,08</span></span><span class="sol s">2,0<u>8</u> : on monte → 2,1. 2,08<u>3</u> : on garde → 2,08.</span></li>
+      <li><span class="num"><span class="fr"><span>50</span><span>12</span></span> = 4,1666…</span> &nbsp; au dixième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">4,2</span></span> &nbsp; au centième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">4,17</span></span><span class="sol s">4,1<u>6</u> : on monte → 4,2. 4,16<u>6</u> : on monte → 4,17.</span></li>
+      <li><span class="num"><span class="fr"><span>1</span><span>7</span></span> = 0,142857…</span> &nbsp; au dixième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">0,1</span></span> &nbsp; au centième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">0,14</span></span><span class="sol s">0,1<u>4</u> : on garde → 0,1. 0,14<u>2</u> : on garde → 0,14.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex6">
+    <div class="ex-h"><h2>Défi <small>trois chiffres, six fractions</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Avec deux chiffres différents parmi <b>3</b>, <b>4</b> et <b>6</b>, on peut écrire six fractions (<span class="fr"><span>3</span><span>4</span></span>, <span class="fr"><span>4</span><span>3</span></span>…). Écris-les toutes et range-les dans les trois familles.</p>
+    <div class="fams sol">
+      <div class="fam e on"><h3>Entier</h3><div class="chips"><span class="chip"><span class="fr"><span>6</span><span>3</span></span> = 2</span></div></div>
+      <div class="fam d on"><h3>Décimal</h3><div class="chips"><span class="chip"><span class="fr"><span>3</span><span>4</span></span> = 0,75</span><span class="chip"><span class="fr"><span>6</span><span>4</span></span> = 1,5</span><span class="chip"><span class="fr"><span>3</span><span>6</span></span> = 0,5</span></div></div>
+      <div class="fam n on"><h3>Ni l'un ni l'autre</h3><div class="chips"><span class="chip"><span class="fr"><span>4</span><span>3</span></span> = 1,333…</span><span class="chip"><span class="fr"><span>4</span><span>6</span></span> = 0,666…</span></div></div>
+    </div>
+  </section>
+</div>
+<script>
+(function(){
+const {$,$$,f,fmt}=L4;
+const ZC=[['var(--blue)','var(--blue-bg)'],['var(--magenta)','var(--magenta-bg)'],['var(--teal)','var(--teal-bg)'],['#6a3fb5','#efe7fb'],['#b5651d','#fdebd3'],['#3d5a80','#e3ebf5'],['#5f6f00','#eef4c9']];
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const sleep=ms=>new Promise(r=>setTimeout(r,RM?0:ms));
+
+/* ---------- division posée : plan (arrêt au reste 0, ou reste déjà vu + extra étapes) ---------- */
+function plan(a,b,extra){
+  const S=[],seen=new Map(),COL={};let r=0,LOOP=-1;
+  for(let i=0;;i++){
+    const N=i?r*10:a,q=Math.floor(N/b);r=N-q*b;const s={N,q,r,prev:-1};S.push(s);
+    if(!(r in COL))COL[r]=Object.keys(COL).length;
+    if(r===0)break;
+    if(LOOP<0&&seen.has(r)){s.prev=seen.get(r);LOOP=i;}
+    else if(LOOP<0)seen.set(r,i);
+    if(LOOP>=0&&i>=LOOP+extra)break;
+  }
+  return {a,b,S,LOOP,COL};
+}
+const col=(P,r)=>ZC[P.COL[r]%ZC.length];
+function quot(P,k){
+  if(!k)return '';
+  let s=String(P.S[0].q);if(k>1)s+=',';
+  for(let i=1;i<k;i++)s+=P.S[i].q;
+  if(k===P.S.length&&P.LOOP>=0)s+='…';
+  return s;
+}
+function divHTML(P,k,live){
+  const {a:A,b:B,S}=P,la=String(A).length,put=(s,e)=>' '.repeat(Math.max(0,e+1-s.length))+s;
+  const R=[{t:put(String(A),la)}];
+  for(let i=0;i<k;i++){const e=la+i,st=S[i];
+    if(i>0){const L=R[R.length-1];L.t=put(String(st.N),e);L.n=String(S[i-1].r).length;L.z=live&&i===k-1;}
+    R.push({t:put('-'+st.q*B,e),h:live&&i===k-1});
+    R.push({t:put(String(st.r),e),h:live&&i===k-1,n:String(st.r).length,r:st.r});
+  }
+  while(R.length<3)R.push({t:''});
+  const W=la+Math.max(k,1)+2,q=quot(P,k);
+  const right=['| '+B,'|-----','| '+(q?'<b class="qt">'+q+'</b>':'')];
+  return R.map((L,j)=>{let s=L.t.padEnd(W);
+    if(L.n){const a=L.t.length-L.t.trim().length,[c,cb]=L.r===0?['var(--ok)','var(--ok-bg)']:col(P,L.r);
+      const tail=s.slice(a+L.n);
+      s=s.slice(0,a)+`<mark class="r" style="--c:${c};--cb:${cb}">`+s.slice(a,a+L.n)+'</mark>'
+        +(L.z?'<mark class="z">'+tail[0]+'</mark>'+tail.slice(1):tail);}
+    if(L.h)s='<mark class="nw">'+s+'</mark>';
+    return s+(right[j]||'|');}).join('\n');
+}
+const fam=P=>P.LOOP>=0?'n':P.S.length===1?'e':'d';
+
+/* ---------- les assiettes : barres entières + morceaux ---------- */
+function plates(a,b){
+  const q=Math.floor(a/b),r=a%b,cw=96,W=b*cw,bw=64,bh=14,gap=5;
+  const H=24+q*(bh+gap)+(r?bh+gap:0)+6;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="ce que reçoit chaque ami">`;
+  for(let k=0;k<b;k++){const x0=k*cw+(cw-bw)/2,[c]=ZC[k%3];
+    s+=`<text x="${k*cw+cw/2}" y="14" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="600" font-size="12" fill="${c}">ami ${k+1}</text>`;
+    let y=22;
+    for(let j=0;j<q;j++){s+=`<rect x="${x0}" y="${y}" width="${bw}" height="${bh}" rx="2" fill="var(--fill)" stroke="var(--ink)" stroke-width="1.3"/>`;y+=bh+gap;}
+    for(let j=0;j<r;j++){const w=bw/b;s+=`<rect x="${x0+j*(w+3)}" y="${y}" width="${w}" height="${bh}" rx="2" fill="var(--fill)" stroke="var(--amber-ink)" stroke-width="1.3"/>`;}
+  }
+  return s+'</svg>';
+}
+
+/* ---------- activité 1 : la carte ---------- */
+let P,K=0;const placed=new Set();
+const NAME={e:'un entier',d:'un décimal',n:'ni un entier, ni un décimal'};
+function rows(){
+  const {a,b}=P,q=Math.floor(a/b),r=a%b,F=f(a,b),Q=quot(P,P.S.length),fin=P.LOOP<0;
+  const ap=Math.round(a/b*100)/100,ap2=fmt(ap,2);
+  return [
+    ['Partager',`<p>${a} barres pour ${b} amis. Chaque ami reçoit <b class="num">${F}</b> de barre :
+      ${r?`${q} barre${q>1?'s':''} et ${r} morceau${r>1?'x':''} de <span class="num">${f(1,b)}</span>.`:`${q} barres entières.`}</p><div class="plates">${plates(a,b)}</div>`],
+    ['Le nombre caché',`<p class="big"><span class="hole">?</span> × ${b} = ${a}</p><p>Le nombre caché est <b class="num">${a} ÷ ${b} = ${F}</b>.</p>`],
+    ['Poser la division',`<pre class="div">${divHTML(P,P.S.length)}</pre><p class="big">${F} = ${Q}</p>`],
+    ['Vérifier',fin?`<p class="big">${Q} × ${b} = ${a} <span class="s">✔</span></p><p>C'est exact.</p>`
+      :`<p>Ça boucle : on ne peut pas l'écrire exactement avec une virgule. Au centième, <b class="num">${F} ≈ ${ap2}</b>.</p><p class="big">${ap2} × ${b} = ${fmt(ap*b,2)}</p><p>Presque ${a} : c'est une valeur approchée.</p>`],
+    ['La famille',`<p><span class="tag ${fam(P)}">${{e:'entier',d:'décimal',n:"ni l'un ni l'autre"}[fam(P)]}</span></p><p>${
+      fam(P)==='e'?`Le reste 0 arrive <b>avant la virgule</b> : ${F} = ${Q} est ${NAME.e}.`
+      :fam(P)==='d'?`Le reste 0 arrive <b>après la virgule</b> : ${F} = ${Q} est ${NAME.d}.`
+      :`Un reste <b>revient</b> : ${F} n'est ${NAME.n}.`}</p>`]
+  ];
+}
+function show(){
+  const R=rows();
+  $('#card').innerHTML=R.slice(0,K).map(([l,h])=>`<li><b class="lab">${l}</b><div>${h}</div></li>`).join('');
+  $('#next').hidden=K>=R.length;
+  $('#next').textContent=K?'Étape suivante':'Commencer';
+  if(K===R.length){const key=P.a+'/'+P.b,fm=fam(P);
+    if(!placed.has(key)){placed.add(key);
+      $(`.fam[data-f="${fm}"]`).classList.add('on');
+      $(`.fam[data-f="${fm}"] .chips`).insertAdjacentHTML('beforeend',`<span class="chip">${f(P.a,P.b)} = ${quot(P,P.S.length)}</span>`);}
+    if(placed.size===3)$('#ret').hidden=false;}
+}
+function choisir(a,b,bt){P=plan(a,b,2);K=0;if(bt)$$('#cas .btn').forEach(x=>x.classList.toggle('main',x===bt));show();}
+$('#next').addEventListener('click',()=>{K++;show();const li=$('#card li:last-child');if(li&&K>1)li.scrollIntoView({block:'nearest',behavior:RM?'auto':'smooth'});});
+$('#again').addEventListener('click',()=>choisir(P.a,P.b));
+$$('#cas .btn').forEach(bt=>bt.addEventListener('click',()=>choisir(+bt.dataset.a,+bt.dataset.b,bt)));
+choisir(7,4,$('#cas .btn'));
+
+/* ---------- table d'un diviseur ---------- */
+const tbl=(b,pick=-1)=>Array.from({length:9},(_,i)=>{const m=i+1;
+  return `<span class="${m===pick?'pick':m===pick+1&&pick>=0?'over':''}"><small>× ${m}</small>${b*m}</span>`;}).join('');
+$$('.tbl[data-t]').forEach(el=>{el.innerHTML=tbl(+el.dataset.t);el.setAttribute('aria-label','table de '+el.dataset.t);});
+
+/* ---------- activité 2 : grand diviseur, pas à pas ---------- */
+let G,GK=0,busy=false;
+const gloop=()=>G.LOOP>=0&&GK>G.LOOP, gfin=()=>GK===G.S.length;
+function gtext(){
+  const {a:A,b:B,S}=G,k=GK;let t;
+  $('#gth').innerHTML=`La table de ${B} :`;
+  if(!k){t=`<b>${A} ÷ ${B}</b> : on cherche ${A} dans la table de ${B}.`;$('#gtbl').innerHTML=tbl(B);}
+  else{const i=k-1,{N,q,r}=S[i];
+    t=i?`On descend un zéro : <b>${N}</b>. `:'';
+    t+=q===0?`Même ${B} dépasse ${N} : on écrit <b>0</b>.`
+      :`Dans la table, <b>${B*q}</b> ne dépasse pas ${N}${q<9?` (${B*(q+1)} dépasse)`:''} : ${B} × ${q} = ${B*q}, on écrit <b>${q}</b>.`;
+    t+=` Il reste <b>${N} − ${B*q} = ${r}</b>.`;
+    if(r===0)t+=` C'est <b>fini</b> ! Preuve : ${quot(G,k)} × ${B} = ${A}.`;
+    else if(i===G.LOOP)t+=` Le reste ${r} est <b>déjà apparu</b> : ça boucle !`;
+    else if(i>G.LOOP&&G.LOOP>=0)t+=gfin()?` Toujours ${r} : on écrit «&nbsp;…&nbsp;».`:'';
+    $('#gtbl').innerHTML=tbl(B,q||-1);}
+  $('#gver').innerHTML=t;
+  $('#gdiv').innerHTML=divHTML(G,k,true);
+  $('#geq').innerHTML=gfin()?`${f(A,B)} = ${quot(G,k)}`:'';
+  const nx=$('#next2');nx.hidden=gfin();
+  nx.textContent=!k?'Diviser':gloop()?'Continuer quand même':'Descendre un zéro';
+}
+function glock(on){busy=on;$$('#cas2 .btn,#again2,#next2').forEach(x=>x.disabled=on);}
+function gchoisir(a,b,bt){if(busy)return;G=plan(a,b,2);GK=0;if(bt)$$('#cas2 .btn').forEach(x=>x.classList.toggle('main',x===bt));gtext();}
+$('#next2').addEventListener('click',async()=>{
+  if(busy)return;
+  if(gloop()){glock(true);while(!gfin()){GK++;gtext();await sleep(1100);}glock(false);gtext();return;}
+  GK++;gtext();
+});
+$('#again2').addEventListener('click',()=>gchoisir(G.a,G.b));
+$$('#cas2 .btn').forEach(bt=>bt.addEventListener('click',()=>gchoisir(+bt.dataset.a,+bt.dataset.b,bt)));
+gchoisir(87,12,$('#cas2 .btn'));
+
+/* ---------- boutons « Correction » ---------- */
+document.addEventListener('click',e=>{const bt=e.target.closest('[data-sol]');if(!bt)return;const s=bt.closest('.ex');const on=s.classList.toggle('show');bt.textContent=on?'Cacher la correction':'Correction';bt.classList.toggle('main',on);bt.setAttribute('aria-pressed',on);});
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
