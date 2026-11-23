@@ -948,6 +948,33 @@ window.SITE = {
             { id: "4e-ch4-minijeux-racine", type: "jeu", titre: "Mini-jeux — Racine carrée", resume: "Carrés de 1 à 15, racines de carrés parfaits, encadrements et défi de 60 secondes.", ajout: "2026-10-24" }
           ]
         }
+        ,{
+          id: "4e-ch5", num: 5, titre: "Nombres relatifs : multiplication et division", prive: true,
+          resume: "Comprendre la règle des signes, puis multiplier, diviser et enchaîner les calculs avec des relatifs.",
+          seances: [
+            {
+              titre: "Ajouter et soustraire des relatifs", duree: "50 min",
+              contenu: [
+                "Pas d'automatisme : la séance remet en mouvement l'addition et la soustraction vues en 5e.",
+                "Le marcheur : sur la droite graduée, le signe de l'opération donne le sens du regard (+ à droite, − demi-tour), le signe du nombre dit s'il avance (positif) ou recule (négatif).",
+                "Activité 1 : quatre additions animées étape par étape ; on note l'arrivée sur le cahier avant que le marcheur ne bouge. Activité 2 : quatre soustractions, puis on compare avec l'addition de l'opposé : même arrivée.",
+                "Exercices projetés, faits sur le cahier : additions, soustractions, températures de janvier, calculs en chaîne, le sous-marin, et un « pour aller plus loin » qui annonce la multiplication."
+              ],
+              ressources: ["4e-ch5-s1"],
+              retenir: [
+                "Ajouter un nombre **positif** : on va vers la droite. Ajouter un nombre **négatif** : on va vers la gauche.",
+                "**Soustraire un nombre, c'est ajouter son opposé** : 5 − (−2) = 5 + 2 = 7.",
+                "Deux nombres **opposés** ont une somme nulle : −6 + 6 = 0."
+              ],
+              exemple: "−4 − (−7) = −4 + 7 = 3.",
+              savoir: "ajouter et soustraire deux nombres relatifs, et enchaîner plusieurs additions et soustractions."
+            }
+          ],
+          ressources: [
+            { id: "4e-ch5-s1", type: "exos", titre: "Séance 1 — Le marcheur : ajouter et soustraire", resume: "Additions et soustractions animées sur la droite graduée, un marcheur à piloter soi-même, puis les exercices avec des astuces.", ajout: "2026-11-23" },
+            { id: "4e-ch5-minijeux", type: "jeu", titre: "Mini-jeu — Sprint des relatifs", resume: "Calcul mental tiré au hasard : ajouter, soustraire, puis multiplier et diviser au fil du chapitre. Seul en 60 s ou au tableau.", ajout: "2026-11-23" }
+          ]
+        }
       ]
     }
     ,{

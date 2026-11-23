@@ -141,6 +141,16 @@
     { id: "valeur-approchee", nom: "valeur approchée", chap: "4e · Théorème de Pythagore", court: "Nombre proche de la valeur exacte, obtenu en arrondissant. Ex : √2 ≈ 1,41.",
       long: ["Au centième, √2 ≈ 1,41 ; au millième, √2 ≈ 1,414."] },
 
+    /* ---------- 4e · Nombres relatifs ---------- */
+    { id: "relatif", nom: "nombre relatif", chap: "4e · Nombres relatifs", court: "Nombre positif ou négatif. Ex : 7, −3 et −2,5 sont des nombres relatifs.",
+      long: ["Un nombre négatif s'écrit avec le signe − devant : −3 est plus petit que 0.", "0 est à la fois positif et négatif."] },
+    { id: "negatif", nom: "négatif", chap: "4e · Nombres relatifs", court: "Un nombre négatif est plus petit que 0 (ou égal à 0). Il s'écrit avec le signe −. Ex : −4.",
+      long: ["Sur une droite graduée, les nombres négatifs sont à gauche de 0."] },
+    { id: "oppose-nombre", nom: "opposé d'un nombre", chap: "4e · Nombres relatifs", court: "Deux nombres opposés ont la même distance à zéro mais des signes contraires. Ex : 5 et −5. Leur somme est nulle.",
+      long: ["L'opposé de 5 est −5 ; l'opposé de −5 est 5.", "Soustraire un nombre, c'est ajouter son opposé : 3 − (−5) = 3 + 5."] },
+    { id: "distance-zero", nom: "distance à zéro", chap: "4e · Nombres relatifs", court: "Le nombre sans son signe : la distance entre ce nombre et 0 sur la droite graduée. Ex : la distance à zéro de −7 est 7.",
+      long: ["Deux nombres opposés ont la même distance à zéro."] },
+
     /* ---------- Vocabulaire commun à tous les niveaux ---------- */
     { id: "somme", nom: "somme", chap: "Tous niveaux · Calcul et nombres", court: "Résultat d'une addition. Ex : la somme de 3 et 5 est 8.",
       long: ["Pour calculer une somme, on additionne."] },

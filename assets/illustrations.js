@@ -366,8 +366,27 @@
       '<path class="f-c s-i" d="M39 42L49 67H63L47 42Z" stroke-width="3"/>' +
       '<rect class="f-c s-i" x="5" y="22" width="62" height="19" rx="4" stroke-width="3.2"/>' +
       '<rect class="f-s s-i" x="28" y="17" width="16" height="29" rx="4" stroke-width="3.2"/>' +
-      '<path class="s-i" d="M32 28H40M32 35H40" fill="none" stroke-width="2.2"/>')  // la ceinture de judo du « niveau »
+      '<path class="s-i" d="M32 28H40M32 35H40" fill="none" stroke-width="2.2"/>'),  // la ceinture de judo du « niveau »
+    // 4e ch.5 : Nombres relatifs, multiplication et division
+    "4e-ch5-s1": svg( // le marcheur sur la droite graduée, qui recule
+      '<line class="s-i" x1="4" y1="56" x2="68" y2="56" stroke-width="3"/>' +
+      '<line class="s-i" x1="36" y1="50" x2="36" y2="62" stroke-width="3"/>' +
+      '<rect class="f-c s-i" x="38" y="28" width="13" height="18" rx="5" stroke-width="2.6"/>' +
+      '<circle class="f-b s-i" cx="44.5" cy="19" r="7" stroke-width="2.6"/>' +
+      '<path class="s-i" d="M42 46L40 55M47 46L49 55" fill="none" stroke-width="3"/>' +
+      '<path class="s-s" d="M33 66H14" fill="none" stroke-width="4"/><path class="f-s" d="M8 66L16 61V71Z"/>')
   };
+
+  // ----- 4e ch.5 : relatifs — moins par moins donne plus
+  const relatifsMul = svg(
+    '<rect class="f-c s-i" x="6" y="6" width="27" height="27" rx="6" stroke-width="3"/>' +
+    '<text class="tx f-b" x="19.5" y="20" text-anchor="middle" dominant-baseline="central" font-size="22">−</text>' +
+    '<text class="tx f-i" x="36" y="20" text-anchor="middle" dominant-baseline="central" font-size="14">×</text>' +
+    '<rect class="f-c s-i" x="39" y="6" width="27" height="27" rx="6" stroke-width="3"/>' +
+    '<text class="tx f-b" x="52.5" y="20" text-anchor="middle" dominant-baseline="central" font-size="22">−</text>' +
+    '<rect class="f-s s-i" x="22" y="40" width="28" height="27" rx="6" stroke-width="3"/>' +
+    '<text class="tx f-i" x="36" y="54" text-anchor="middle" dominant-baseline="central" font-size="24">+</text>'
+  );
 
   window.ILLU = {
     "6e-ch1": numeration,
@@ -381,7 +400,8 @@
     "4e-ch1": pourcentages,
     "4e-ch2": grandeurs,
     "4e-ch3": divisibilite,
-    "4e-ch4": pythagore
+    "4e-ch4": pythagore,
+    "4e-ch5": relatifsMul
   };
   Object.assign(window.ILLU, SEANCES);
 })();
