@@ -467,11 +467,11 @@ function texts(){
     if(r===0)t+=` C'est <b>fini</b> ! Preuve : ${quot(k)} × ${B} = ${A}.`;
     else if(i===LOOP){t+=` Le reste ${r} est <b>déjà apparu</b> ! On va refaire les mêmes calculs : la division <b>ne s'arrête jamais</b>.`;
       if(new Set(S.slice(0,LOOP).map(x=>x.r)).size===B-1)t+=` Avec ÷ ${B}, les restes possibles sont 1 à ${B-1} : ils sont tous sortis, un reste devait forcément revenir.`;}
-    else if(i>LOOP&&LOOP>=0)t+=fin()?` Encore et toujours ! On pourrait continuer toute sa vie : on s'arrête et on écrit «&nbsp;…&nbsp;».`:` Encore le reste ${r}…`;}
+    else if(i>LOOP&&LOOP>=0)t+=fin()?` Encore et toujours ! On pourrait continuer toute sa vie : on s'arrête et on écrit «&nbsp;…&nbsp;». Arrondi au centième : ≈ ${L4.fmt2(A/B)} (on le verra dans l'activité 2).`:` Encore le reste ${r}…`;}
   $('#bver').innerHTML=t;
   $('#bdiv').innerHTML=divHTML(k);
   badges(k);
-  $('#beq').innerHTML=fin()?`${f(A,B)} = ${quot(k)}`:'';
+  $('#beq').innerHTML=fin()?`${f(A,B)} = ${quot(k)}`+(LOOP>=0?` ≈ ${L4.fmt2(A/B)}`:''):'';
   const nx=$('#next');nx.hidden=fin();
   nx.textContent=!k?'Diviser':looped()?'Continuer quand même':'Descendre un zéro';
   if(fin()){done.add(LOOP>=0?'b':'f');if(done.size>1)$('#ret').hidden=false;}
