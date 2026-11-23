@@ -566,10 +566,10 @@ window.SITE = {
               ressources: ["6e-ch6-s5"],
               retenir: [
                 "Un quotient a plusieurs écritures : 7/4 = 7 ÷ 4 = 1,75. On vérifie en multipliant : 1,75 × 4 = 7.",
-                "On pose la division et on regarde les restes. Le reste 0 arrive **avant la virgule** : le quotient est un **entier** (12/4 = 3). Il arrive **après la virgule** : c'est un **décimal** (7/4 = 1,75). Un reste **revient** : **ni l'un ni l'autre** (7/3 = 2,333… ≈ 2,33).",
+                "On pose la division et on regarde les restes. Le reste 0 arrive **avant la virgule** : le quotient est un **entier** (12/4 = 3). Il arrive **après la virgule** : c'est un **décimal** (7/4 = 1,75). Un reste **revient** : **ni l'un ni l'autre** (7 ÷ 3 donne 2,333…, donc 7/3 ≈ 2,33).",
                 "Avec un grand diviseur, on écrit d'abord sa **table** et on y cherche le plus grand nombre qui ne dépasse pas."
               ],
-              exemple: "50 ÷ 12 : 12 × 4 = 48, reste 2 ; 20 : 12 × 1 = 12, reste 8 ; 80 : 12 × 6 = 72, reste 8, qui revient. 50/12 = 4,1666… n'est ni un entier, ni un décimal.",
+              exemple: "50 ÷ 12 : 12 × 4 = 48, reste 2 ; 20 : 12 × 1 = 12, reste 8 ; 80 : 12 × 6 = 72, reste 8, qui revient. 50/12 ≈ 4,17 n'est ni un entier, ni un décimal.",
               savoir: "passer d'une écriture d'un quotient à une autre, poser une division par un grand nombre avec sa table, et dire si un quotient est entier, décimal ou ni l'un ni l'autre."
             }
           ],

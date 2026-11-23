@@ -327,7 +327,7 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
       <p>2. On pose la division et on regarde les <b>restes</b> :</p>
       <p>· le reste 0 arrive <b>avant la virgule</b> : le quotient est un <b>entier</b>. <span class="num"><span class="fr"><span>12</span><span>4</span></span> = 3</span></p>
       <p>· le reste 0 arrive <b>après la virgule</b> : le quotient est un <b>décimal</b>. <span class="num"><span class="fr"><span>7</span><span>4</span></span> = 1,75</span></p>
-      <p>· un reste <b>revient</b> : ni l'un ni l'autre. <span class="num"><span class="fr"><span>7</span><span>3</span></span> = 2,333…</span> On donne une valeur approchée : <span class="num"><span class="fr"><span>7</span><span>3</span></span> ≈ 2,33</span>.</p>
+      <p>· un reste <b>revient</b> : ni l'un ni l'autre. La division donne <span class="num">2,333…</span> On donne une valeur approchée : <span class="num"><span class="fr"><span>7</span><span>3</span></span> ≈ 2,33</span>.</p>
     </div>
   </section>
 
@@ -384,23 +384,23 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 
   <section class="ex" id="ex4">
     <div class="ex-h"><h2>Exercice 4 <small>la bonne famille</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="consigne">Pose la division. Écris le quotient, puis sa famille : <span class="tag e">entier</span> <span class="tag d">décimal</span> ou <span class="tag n">ni l'un ni l'autre</span>.</p>
+    <p class="consigne">Pose la division. Écris = et le quotient, ou ≈ et sa valeur au centième s'il boucle. Puis sa famille : <span class="tag e">entier</span> <span class="tag d">décimal</span> ou <span class="tag n">ni l'un ni l'autre</span>.</p>
     <ol class="qs big" type="a">
-      <li><span class="fr"><span>18</span><span>6</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">3</span></span> &nbsp;<span class="hole has"><span class="qm">?</span><span class="ans">entier</span></span><span class="sol s">Reste 0 tout de suite, avant la virgule.</span></li>
-      <li><span class="fr"><span>9</span><span>8</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">1,125</span></span> &nbsp;<span class="hole has"><span class="qm">?</span><span class="ans">décimal</span></span><span class="sol s">Restes 1, 2, 4, puis 0 : ça s'arrête après la virgule.</span></li>
-      <li><span class="fr"><span>5</span><span>6</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">0,8333…</span></span> &nbsp;<span class="hole has"><span class="qm">?</span><span class="ans">ni l'un ni l'autre</span></span><span class="sol s">Restes 5, 2, 2… : le reste 2 revient, ça boucle.</span></li>
-      <li><span class="fr"><span>30</span><span>12</span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">2,5</span></span> &nbsp;<span class="hole has"><span class="qm">?</span><span class="ans">décimal</span></span><span class="sol s">30 : 12 × 2 = 24, reste 6. 60 : 12 × 5 = 60, reste 0. De grands nombres, mais un quotient décimal.</span></li>
+      <li><span class="fr"><span>18</span><span>6</span></span> <span class="hole has"><span class="qm">?</span><span class="ans">= 3</span></span> &nbsp;<span class="hole has"><span class="qm">?</span><span class="ans">entier</span></span><span class="sol s">Reste 0 tout de suite, avant la virgule.</span></li>
+      <li><span class="fr"><span>9</span><span>8</span></span> <span class="hole has"><span class="qm">?</span><span class="ans">= 1,125</span></span> &nbsp;<span class="hole has"><span class="qm">?</span><span class="ans">décimal</span></span><span class="sol s">Restes 1, 2, 4, puis 0 : ça s'arrête après la virgule.</span></li>
+      <li><span class="fr"><span>5</span><span>6</span></span> <span class="hole has"><span class="qm">?</span><span class="ans">≈ 0,83</span></span> &nbsp;<span class="hole has"><span class="qm">?</span><span class="ans">ni l'un ni l'autre</span></span><span class="sol s">Restes 5, 2, 2… : le reste 2 revient, ça boucle : 0,8333… ≈ 0,83.</span></li>
+      <li><span class="fr"><span>30</span><span>12</span></span> <span class="hole has"><span class="qm">?</span><span class="ans">= 2,5</span></span> &nbsp;<span class="hole has"><span class="qm">?</span><span class="ans">décimal</span></span><span class="sol s">30 : 12 × 2 = 24, reste 6. 60 : 12 × 5 = 60, reste 0. De grands nombres, mais un quotient décimal.</span></li>
     </ol>
   </section>
 
   <section class="ex" id="ex5">
     <div class="ex-h"><h2>Exercice 5 <small>le plus proche</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="consigne">Donne la valeur approchée au dixième, puis au centième. Regarde le chiffre <b>juste après</b>.</p>
+    <p class="consigne">Chaque division boucle. Donne la valeur approchée au dixième, puis au centième. Regarde le chiffre <b>juste après</b>.</p>
     <ol class="qs" type="a">
-      <li><span class="num"><span class="fr"><span>4</span><span>11</span></span> = 0,3636…</span> &nbsp; au dixième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">0,4</span></span> &nbsp; au centième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">0,36</span></span><span class="sol s">0,3<u>6</u> : on monte → 0,4. 0,36<u>3</u> : on garde → 0,36.</span></li>
-      <li><span class="num"><span class="fr"><span>25</span><span>12</span></span> = 2,0833…</span> &nbsp; au dixième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">2,1</span></span> &nbsp; au centième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">2,08</span></span><span class="sol s">2,0<u>8</u> : on monte → 2,1. 2,08<u>3</u> : on garde → 2,08.</span></li>
-      <li><span class="num"><span class="fr"><span>50</span><span>12</span></span> = 4,1666…</span> &nbsp; au dixième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">4,2</span></span> &nbsp; au centième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">4,17</span></span><span class="sol s">4,1<u>6</u> : on monte → 4,2. 4,16<u>6</u> : on monte → 4,17.</span></li>
-      <li><span class="num"><span class="fr"><span>1</span><span>7</span></span> = 0,142857…</span> &nbsp; au dixième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">0,1</span></span> &nbsp; au centième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">0,14</span></span><span class="sol s">0,1<u>4</u> : on garde → 0,1. 0,14<u>2</u> : on garde → 0,14.</span></li>
+      <li><span class="num">4 ÷ 11</span> donne <span class="num">0,3636…</span> &nbsp; au dixième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">0,4</span></span> &nbsp; au centième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">0,36</span></span><span class="sol s">0,3<u>6</u> : on monte → 0,4. 0,36<u>3</u> : on garde → 0,36.</span></li>
+      <li><span class="num">25 ÷ 12</span> donne <span class="num">2,0833…</span> &nbsp; au dixième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">2,1</span></span> &nbsp; au centième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">2,08</span></span><span class="sol s">2,0<u>8</u> : on monte → 2,1. 2,08<u>3</u> : on garde → 2,08.</span></li>
+      <li><span class="num">50 ÷ 12</span> donne <span class="num">4,1666…</span> &nbsp; au dixième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">4,2</span></span> &nbsp; au centième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">4,17</span></span><span class="sol s">4,1<u>6</u> : on monte → 4,2. 4,16<u>6</u> : on monte → 4,17.</span></li>
+      <li><span class="num">1 ÷ 7</span> donne <span class="num">0,142857…</span> &nbsp; au dixième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">0,1</span></span> &nbsp; au centième ≈ <span class="hole has"><span class="qm">?</span><span class="ans">0,14</span></span><span class="sol s">0,1<u>4</u> : on garde → 0,1. 0,14<u>2</u> : on garde → 0,14.</span></li>
     </ol>
   </section>
 
@@ -410,7 +410,7 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
     <div class="fams sol">
       <div class="fam e on"><h3>Entier</h3><div class="chips"><span class="chip"><span class="fr"><span>6</span><span>3</span></span> = 2</span></div></div>
       <div class="fam d on"><h3>Décimal</h3><div class="chips"><span class="chip"><span class="fr"><span>3</span><span>4</span></span> = 0,75</span><span class="chip"><span class="fr"><span>6</span><span>4</span></span> = 1,5</span><span class="chip"><span class="fr"><span>3</span><span>6</span></span> = 0,5</span></div></div>
-      <div class="fam n on"><h3>Ni l'un ni l'autre</h3><div class="chips"><span class="chip"><span class="fr"><span>4</span><span>3</span></span> = 1,333…</span><span class="chip"><span class="fr"><span>4</span><span>6</span></span> = 0,666…</span></div></div>
+      <div class="fam n on"><h3>Ni l'un ni l'autre</h3><div class="chips"><span class="chip"><span class="fr"><span>4</span><span>3</span></span> ≈ 1,33</span><span class="chip"><span class="fr"><span>4</span><span>6</span></span> ≈ 0,67</span></div></div>
     </div>
   </section>
 </div>
@@ -487,7 +487,7 @@ function rows(){
     ['Partager',`<p>${a} barres pour ${b} amis. Chaque ami reçoit <b class="num">${F}</b> de barre :
       ${r?`${q} barre${q>1?'s':''} et ${r} morceau${r>1?'x':''} de <span class="num">${f(1,b)}</span>.`:`${q} barres entières.`}</p><div class="plates">${plates(a,b)}</div>`],
     ['Le nombre caché',`<p class="big"><span class="hole">?</span> × ${b} = ${a}</p><p>Le nombre caché est <b class="num">${a} ÷ ${b} = ${F}</b>.</p>`],
-    ['Poser la division',`<pre class="div">${divHTML(P,P.S.length)}</pre><p class="big">${F} = ${Q}</p>`],
+    ['Poser la division',`<pre class="div">${divHTML(P,P.S.length)}</pre>${fin?`<p class="big">${F} = ${Q}</p>`:`<p>La division donne <b class="num">${Q}</b> : elle ne s'arrête jamais.</p>`}`],
     ['Vérifier',fin?`<p class="big">${Q} × ${b} = ${a} <span class="s">✔</span></p><p>C'est exact.</p>`
       :`<p>Ça boucle : on ne peut pas l'écrire exactement avec une virgule. Au centième, <b class="num">${F} ≈ ${ap2}</b>.</p><p class="big">${ap2} × ${b} = ${fmt(ap*b,2)}</p><p>Presque ${a} : c'est une valeur approchée.</p>`],
     ['La famille',`<p><span class="tag ${fam(P)}">${{e:'entier',d:'décimal',n:"ni l'un ni l'autre"}[fam(P)]}</span></p><p>${
@@ -504,7 +504,7 @@ function show(){
   if(K===R.length){const key=P.a+'/'+P.b,fm=fam(P);
     if(!placed.has(key)){placed.add(key);
       $(`.fam[data-f="${fm}"]`).classList.add('on');
-      $(`.fam[data-f="${fm}"] .chips`).insertAdjacentHTML('beforeend',`<span class="chip">${f(P.a,P.b)} = ${quot(P,P.S.length)}</span>`);}
+      $(`.fam[data-f="${fm}"] .chips`).insertAdjacentHTML('beforeend',`<span class="chip">${f(P.a,P.b)} ${P.LOOP<0?'= '+quot(P,P.S.length):'≈ '+fmt(Math.round(P.a/P.b*100)/100,2)}</span>`);}
     if(placed.size===3)$('#ret').hidden=false;}
 }
 function choisir(a,b,bt){P=plan(a,b,2);K=0;if(bt)$$('#cas .btn').forEach(x=>x.classList.toggle('main',x===bt));show();}
@@ -536,7 +536,7 @@ function gtext(){
     $('#gtbl').innerHTML=tbl(B,q||-1);}
   $('#gver').innerHTML=t;
   $('#gdiv').innerHTML=divHTML(G,k,true);
-  $('#geq').innerHTML=gfin()?`${f(A,B)} = ${quot(G,k)}`:'';
+  $('#geq').innerHTML=gfin()?(G.LOOP<0?`${f(A,B)} = ${quot(G,k)}`:`${f(A,B)} ≈ ${fmt(Math.round(A/B*100)/100,2)}`):'';
   const nx=$('#next2');nx.hidden=gfin();
   nx.textContent=!k?'Diviser':gloop()?'Continuer quand même':'Descendre un zéro';
 }
