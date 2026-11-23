@@ -949,7 +949,7 @@ window.SITE = {
           ]
         }
         ,{
-          id: "4e-ch5", num: 5, titre: "Nombres relatifs : multiplication et division", prive: true,
+          id: "4e-ch5", num: 5, titre: "Nombres relatifs : multiplication et division",
           resume: "Comprendre la règle des signes, puis multiplier, diviser et enchaîner les calculs avec des relatifs.",
           seances: [
             {
