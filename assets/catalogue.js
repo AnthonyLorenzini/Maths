@@ -539,12 +539,29 @@ window.SITE = {
               ],
               exemple: "1 ÷ 4 = 0,25, donc 1/4 = 0,25, car 0,25 × 4 = 1.",
               savoir: "trouver l'écriture décimale d'un quotient simple (1/2, 1/4, 3/5, 9/4…) en posant la division, et la vérifier avec une multiplication."
+            },
+            {
+              titre: "Ça s'arrête ou ça boucle ?", duree: "50 min",
+              contenu: [
+                "Le détecteur de restes (15 min, projeté, pas à pas) : cinq divisions posées (12 ÷ 5, 5 ÷ 3, 1 ÷ 3, 4 ÷ 11, 7 ÷ 6). Chaque reste s'affiche en couleur, dans la division et dans une bande ; la table utilisée est rappelée. 12 ÷ 5 s'arrête sur un reste 0 ; dans les autres, un reste déjà vu revient (« déjà vu ! »), on continue quand même trois étapes et les mêmes chiffres reviennent : 5/3 = 1,666…",
+                "Le nombre le plus proche (5 min, projeté) : 5/3 placé sur une droite graduée en dixièmes, puis agrandie entre 1,6 et 1,7. Valeur exacte 5/3, valeurs approchées 1,7 et 1,67, le signe ≈, et la règle du chiffre suivant.",
+                "Les exercices (30 min, cahier) : les trois premiers en classe (fini ou boucle ? sur des divisions déjà posées : 10 ÷ 3, 7 ÷ 4, 11 ÷ 6, 4 ÷ 9 ; poser 2/3, 4/3, 10/9, 1/6 jusqu'à ce qu'un reste revienne ; = ou ≈ ?), les suivants pour ceux qui vont vite ou à la maison : arrondir au dixième et au centième, des partages (10 € entre 3, 2 L dans 3 verres, une corde de 20 m en 8), les erreurs de Tom, et un défi : 1 ÷ 7 et son motif de 6 chiffres."
+              ],
+              ressources: ["6e-ch6-s4"],
+              retenir: [
+                "Quand on pose une division, si le **reste devient 0**, la division s'arrête : 12/5 = 2,4.",
+                "Si un **reste revient**, on refait les mêmes calculs : la division **ne s'arrête jamais**. 5/3 = 1,666… (les points veulent dire « et ainsi de suite »). On ne peut pas écrire 5/3 exactement avec une virgule.",
+                "5/3 est la **valeur exacte**. On peut donner une **valeur approchée**, le nombre le plus proche : 5/3 ≈ 1,7 au dixième, 5/3 ≈ 1,67 au centième. Le signe ≈ se lit « environ égal à »."
+              ],
+              exemple: "1 ÷ 3 : le reste 1 revient sans cesse, donc 1/3 = 0,333… et 1/3 ≈ 0,33 au centième.",
+              savoir: "reconnaître, en posant la division, si un quotient s'écrit exactement avec une virgule, et donner une valeur approchée au dixième ou au centième."
             }
           ],
           ressources: [
             { id: "6e-ch6-s1", type: "exos", titre: "Séance 1 — Le quotient, un nombre à trouver", resume: "Des barres de chocolat à partager entre amis, le quotient, a ÷ b = a/b, des dessins à lire et pourquoi pas de division par 0. Avec corrections.", ajout: "2026-11-11" },
             { id: "6e-ch6-s2", type: "exos", titre: "Séance 2 — Les égalités à trous", resume: "Deux machines ÷ et ×, a/b × b = a, trouver le nombre caché, où est le trou ?, qui a raison ?, partages, devinettes et défis. Avec corrections.", ajout: "2026-11-17" },
-            { id: "6e-ch6-s3", type: "exos", titre: "Séance 3 — Un même nombre, plusieurs écritures", resume: "Partager des barres entre des amis : poser la division, descendre un zéro, suivre les dixièmes et les centièmes jusqu'à un reste 0, vérifier en multipliant. Six exercices et un défi. Avec corrections.", ajout: "2026-11-17" }
+            { id: "6e-ch6-s3", type: "exos", titre: "Séance 3 — Un même nombre, plusieurs écritures", resume: "Partager des barres entre des amis : poser la division, descendre un zéro, suivre les dixièmes et les centièmes jusqu'à un reste 0, vérifier en multipliant. Six exercices et un défi. Avec corrections.", ajout: "2026-11-17" },
+            { id: "6e-ch6-s4", type: "exos", titre: "Séance 4 — Ça s'arrête ou ça boucle ?", resume: "Le détecteur de restes : la division s'arrête sur un reste 0, ou boucle quand un reste revient (5/3 = 1,666…). Valeur exacte, valeur approchée au dixième et au centième, le signe ≈. Six exercices et un défi. Avec corrections.", ajout: "2026-11-23" }
           ]
         },
         {
