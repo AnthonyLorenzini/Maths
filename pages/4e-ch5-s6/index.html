@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Séance 6 — Priorités opératoires</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#fffef8; --panel:#fff; --ink:#1b2a5e; --muted:#56608a; --line:#c3d1ec; --grid:#dbe5f6;
+  --amber:#ffc61a; --amber-text:#d62839; --fill:#ffe45e; --fill-2:#fff4b8;
+  --ok:#17703f; --ok-bg:#dff5e6; --ko:#b3261e; --ko-bg:#ffe5e2;
+  --blue:#1f56d6; --blue-bg:#e6eeff; --magenta:#b8217a; --magenta-bg:#ffe6f3;
+  --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;color:var(--ink);font:16px/1.5 var(--f-text);padding:16px 16px 40px}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+h1{font:800 clamp(2rem,6.5vw,3.3rem)/.92 var(--f-title);text-transform:uppercase;margin:0;letter-spacing:.01em}
+h1 span{color:var(--amber-text)}
+h2{font:800 clamp(1.35rem,4vw,1.9rem)/1.05 var(--f-title);text-transform:uppercase;letter-spacing:.02em;margin:0 0 6px}
+h3{font:800 1.25rem/1.1 var(--f-title);text-transform:uppercase;letter-spacing:.03em;margin:0}
+.sub{margin:6px 0 0;color:var(--muted);font-size:.95rem}
+.pill{display:inline-block;font:700 .8rem var(--f-text);background:var(--ink);color:#fff;border-radius:6px;padding:2px 8px;margin-left:6px;vertical-align:middle}
+.panel{background:var(--panel);border:2px solid var(--ink);border-radius:8px;padding:14px 16px}
+.num{font-family:var(--f-num);font-weight:700;white-space:nowrap}
+.btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:7px 13px;cursor:pointer;min-height:40px}
+.btn:hover{border-color:var(--amber)}
+.btn.main{background:var(--amber);border-color:var(--amber)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+/* scène */
+.scene{border:2px solid var(--line);border-radius:8px;background:#fff;margin-top:10px;overflow:hidden}
+.scene svg{display:block;width:100%;height:auto}
+.etapes{margin:0;padding:10px 14px 12px 34px;min-height:3.2em;border-top:2px dashed var(--line)}
+.etapes li{margin:2px 0;font-size:1.02rem}
+.etapes li.der{font-weight:700}
+.etapes .vide{list-style:none;margin-left:-20px;color:var(--muted)}
+.res{display:inline-block;background:var(--fill);border-radius:5px;padding:0 6px}
+.res.m{background:#bcd0ff;color:var(--blue)}
+.res.z{background:#fff;box-shadow:0 0 0 2px var(--line)}
+.concl{margin-top:10px;border-left:5px solid var(--amber);background:var(--fill-2);border-radius:0 8px 8px 0;padding:8px 12px}
+.concl p{margin:2px 0}
+.app{animation:apparait .45s ease}
+@keyframes apparait{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.app{animation:none}}
+/* écriture fractionnaire */
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.15;margin:0 2px}
+.fr>span{padding:0 3px}
+.fr>span:first-child{border-bottom:.12em solid currentColor}
+/* exercices */
+.consigne-cahier{margin:0;color:var(--muted);font-size:.93rem}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+@media (max-width:820px){.cols{grid-template-columns:minmax(0,1fr)}}
+.col{display:flex;flex-direction:column;gap:14px}
+.ex{background:#fff;border:2px solid var(--ink);border-radius:8px;padding:10px 14px 12px}
+.ex.plus{border-style:dashed;border-color:var(--amber-text);background:#fffaf0}
+.ex-tete{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px}
+.stars{color:#c98a00;font-size:1rem;letter-spacing:1px;white-space:nowrap}
+.ex p{margin:4px 0}
+.calc{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px 12px;margin:6px 0;align-items:center}
+.calc span.c{font:700 1rem var(--f-num);white-space:nowrap}
+.calc span.c>i{font-style:normal;color:var(--muted);margin-right:4px}
+.faux{display:flex;flex-direction:column;gap:3px;margin:6px 0}
+.faux span{font:700 1.02rem var(--f-num)}
+.faux span i{font-style:normal;color:var(--muted);margin-right:4px}
+.faux s{text-decoration:none;border-bottom:2.5px wavy var(--ko)}
+.chaine{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0;font:700 1rem var(--f-num)}
+.chaine .bo{border:2.5px solid var(--ink);border-radius:8px;padding:2px 10px;background:#fff}
+.chaine .bo.m{background:#bcd0ff;color:var(--blue)}
+.chaine .op{color:var(--amber-text)}
+.tools{display:flex;gap:8px;margin-top:8px}
+.tools .btn{min-height:34px;padding:4px 12px;font-size:.88rem}
+.ast,.sol{margin-top:8px;border-radius:6px;padding:8px 10px;font-size:.95rem}
+.ast{background:var(--blue-bg);border-left:4px solid var(--blue)}
+.sol{background:var(--ok-bg);border-left:4px solid var(--ok)}
+.sol p{margin:2px 0}
+/* bilan */
+.bilan{border:3px solid var(--ink);border-radius:8px;background:#fff;padding:12px 16px}
+.bilan ul{margin:6px 0 0;padding-left:20px}
+.bilan li{margin:4px 0}
+.bilan .ex-b{margin:8px 0 0;font-size:.95rem;color:var(--muted)}
+.gl{cursor:help}
+/* activités : lignes qui apparaissent */
+.preuve{padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.pr-l{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,340px);gap:6px 14px;align-items:center}
+@media (max-width:760px){.pr-l{grid-template-columns:minmax(0,1fr)}}
+.pr-t{grid-column:1/-1;font:800 1rem var(--f-title);text-transform:uppercase;letter-spacing:.04em;color:var(--amber-text);margin-top:4px}
+.pr-e{font:700 clamp(1.1rem,3.2vw,1.7rem)/1.5 var(--f-num)}
+.pr-n{font-size:.93rem;color:var(--muted);border-left:3px solid var(--line);padding-left:10px}
+.pr-l.neuf .pr-e{animation:monte .45s ease}
+@keyframes monte{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.pr-l.neuf .pr-e{animation:none}}
+.k{border-radius:5px;padding:0 4px;background:#bcd0ff;box-shadow:0 0 0 2px var(--blue);color:var(--blue)}
+
+/* flash */
+.flash{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:8px}
+@media (max-width:900px){.flash{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.flash{grid-template-columns:minmax(0,1fr)}}
+.flash div.txt{font:500 1rem/1.35 var(--f-text);text-align:left}
+.flash .tri{display:block;width:100%;max-width:170px;height:auto;margin:2px auto 0}
+.flash div.txt .rep{font:700 1.1rem var(--f-num);text-align:center}
+.flash div{border:2px solid var(--line);border-radius:8px;background:#fff;padding:10px 12px;font:700 1.35rem var(--f-num);text-align:center}
+.flash div i{font:600 .9rem var(--f-text);font-style:normal;color:var(--muted);margin-right:6px}
+.flash .rep{display:block;margin-top:4px;font-size:1.1rem;color:var(--ok)}
+.flash .rep small{display:block;font:500 .85rem var(--f-text);color:var(--muted)}
+/* priorités : blocs encadrés, étiquettes d'ordre */
+.bl{border:2.5px solid var(--amber-text);border-radius:8px;padding:0 5px;position:relative;white-space:nowrap}
+.bl[data-n]::after{content:attr(data-n);position:absolute;top:-.85em;right:-.55em;font:700 .55em/1.5 var(--f-text);background:var(--amber-text);color:#fff;border-radius:999px;min-width:1.5em;text-align:center}
+.pi{border:2.5px dashed var(--blue);border-radius:8px;padding:0 4px}
+.barre{text-decoration:none;color:var(--muted)}
+.ordre{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:8px 0 4px}
+@media (max-width:700px){.ordre{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ordre div{border:2px solid var(--ink);border-radius:8px;background:#fff;padding:6px 8px;text-align:center;font:600 1rem var(--f-text);color:var(--ink)}
+.ordre b{display:block;font:700 1.3rem var(--f-num);color:var(--amber-text)}
+.cartes{display:flex;gap:8px;margin:6px 0;flex-wrap:wrap}
+.cartes span{font:700 1.15rem var(--f-num);border:2.5px solid var(--ink);border-radius:8px;padding:6px 12px;background:var(--fill)}
+.cartes span.m{background:#bcd0ff;color:var(--blue)}
+.calc .fr{font-size:1.02rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Séance 6 · <span>Priorités opératoires</span></h1>
+  <p class="sub">Une expression avec des +, des −, des ×, des ÷ et des parenthèses : par quoi commencer ? Ce sont les <span class="gl" data-t="priorites">priorités opératoires</span>.</p>
+</header>
+
+<!-- ======================= Flash ======================= -->
+<section class="panel">
+  <h2>Flash <span class="pill">de tête</span></h2>
+  <p style="margin:0">Écris seulement les résultats sur ton cahier.</p>
+  <div class="flash">
+    <div><i>a)</i>(−4) × (−5)<span class="rep" hidden>20<small>deux facteurs négatifs</small></span></div>
+    <div><i>b)</i>7 − (−3)<span class="rep" hidden>10<small>soustraire −3, c'est ajouter 3</small></span></div>
+    <div><i>c)</i>9²<span class="rep" hidden>81<small>9 × 9, et non 9 × 2</small></span></div>
+    <div class="txt"><i>d)</i>Combien mesure BC ?<svg class="tri" viewBox="-16 0 156 104" role="img" aria-label="Triangle ABC rectangle en A : AB = 6 cm, AC = 8 cm, BC inconnu."><path d="M30 82V22L110 82Z" fill="#fff4b8" stroke="#1b2a5e" stroke-width="2.5" stroke-linejoin="round"/><path d="M30 72H40V82" fill="none" stroke="#1b2a5e" stroke-width="1.8"/><g font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="#1b2a5e"><text x="18" y="96">A</text><text x="24" y="16">B</text><text x="114" y="96">C</text></g><g font-family="Space Mono,monospace" font-weight="700" font-size="12" fill="#56608a"><text x="25" y="56" text-anchor="end">6 cm</text><text x="70" y="98" text-anchor="middle">8 cm</text></g><text x="76" y="46" font-family="Space Mono,monospace" font-weight="700" font-size="16" fill="#d62839">?</text></svg><span class="rep" hidden>10 cm<small>BC² = 6² + 8² = 36 + 64 = 100, donc BC = 10 cm</small></span></div>
+  </div>
+  <div class="row" style="margin-top:8px"><button class="btn" id="flash-btn">Réponses</button></div>
+</section>
+
+<!-- ======================= Activité 1 ======================= -->
+<section class="panel">
+  <h2>Activité 1 · Qui passe en premier ?</h2>
+  <p style="margin:0">Léa et Tom calculent de tête la même expression. Ils ne trouvent pas le même résultat.</p>
+  <div class="scene"><div class="preuve" id="a1">
+    <div class="pr-l"><div class="pr-e">2 + 3 × 4 = ?</div><div class="pr-n">Léa trouve 20. Tom trouve 14. Qui a raison ?</div></div>
+    <div class="pr-l" data-e="1"><div class="pr-e">2 + <span class="bl" data-n="1">3 × 4</span> = 2 + 12 = <span class="res">14</span></div><div class="pr-n">Tom a raison : la <span class="gl" data-t="multiplication">multiplication</span> passe <b>avant</b> l'<span class="gl" data-t="addition">addition</span>. Léa a fait 2 + 3 d'abord.</div></div>
+    <div class="pr-l" data-e="2"><div class="pr-t">Avec des relatifs</div><div class="pr-e">−7 + <span class="bl" data-n="1">3 × (−4)</span></div><div class="pr-n">On repère les × et les ÷, et on les <b>encadre</b> : ce sont eux qu'on calcule en premier.</div></div>
+    <div class="pr-l" data-e="3"><div class="pr-e">= −7 + (−12) = <span class="res m">−19</span></div><div class="pr-n">Il ne reste qu'une addition : on la fait.</div></div>
+    <div class="pr-l" data-e="4"><div class="pr-t">Le piège du signe −</div><div class="pr-e">5 − <span class="bl" data-n="1">2 × (−3)</span></div><div class="pr-n">Le − devant le 2 est une <span class="gl" data-t="soustraction">soustraction</span> : il <b>attend</b> son tour. Le bloc 2 × (−3) passe en premier.</div></div>
+    <div class="pr-l" data-e="5"><div class="pr-e">= 5 − (−6) = 5 + 6 = <span class="res">11</span></div><div class="pr-n">Soustraire −6, c'est ajouter 6. Faire 5 − 2 d'abord donnerait −9 : faux !</div></div>
+    <div class="pr-l" data-e="6"><div class="pr-t">Même priorité</div><div class="pr-e"><span class="bl" data-n="1">12 ÷ (−3)</span> × 2 = (−4) × 2 = <span class="res m">−8</span></div><div class="pr-n">Que des ÷ et des × : on calcule <b>de gauche à droite</b>, pas 12 ÷ (−6).</div></div>
+    <div class="pr-l" data-e="7"><div class="pr-e"><span class="bl" data-n="1">−8 − 5</span> + 3 = −13 + 3 = <span class="res m">−10</span></div><div class="pr-n">Que des + et des − : de gauche à droite aussi. Le −8 du début est un nombre négatif.</div></div>
+    <div class="pr-l" data-e="8"><div class="pr-t">À toi</div><div class="pr-e">(−20) ÷ 4 − 3 × (−2)</div><div class="pr-n">Sur ton cahier : encadre les blocs, puis calcule.</div></div>
+    <div class="pr-l" data-e="9"><div class="pr-e"><span class="bl" data-n="1">(−20) ÷ 4</span> − <span class="bl" data-n="1">3 × (−2)</span> = −5 − (−6) = <span class="res">1</span></div><div class="pr-n">Deux blocs, chacun calculé de son côté. Puis −5 − (−6) = −5 + 6.</div></div>
+  </div></div>
+  <div class="row" style="margin-top:8px">
+    <button class="btn main" id="a1-next">Étape suivante ▶</button>
+    <button class="btn" id="a1-reset">Recommencer</button>
+    <button class="btn" id="a1-concl-btn" style="margin-left:auto">Ce qu'on retient</button>
+  </div>
+  <div class="concl" id="a1-concl" hidden>
+    <p>Les <b>×</b> et les <b>÷</b> passent <b>avant</b> les <b>+</b> et les <b>−</b>.</p>
+    <p>Entre des opérations de même priorité, on calcule <b>de gauche à droite</b>.</p>
+    <p>Le − devant un bloc est une soustraction : <span class="num">5 − 2 × (−3) = 5 − (−6) = 11</span>.</p>
+  </div>
+</section>
+
+<!-- ======================= Exercices 1 et 2 ======================= -->
+<section>
+  <h2>À toi de jouer <span class="pill">sans calculatrice</span></h2>
+  <p class="consigne-cahier">Dans ton cahier : le numéro de l'exercice et tes calculs, sans recopier l'énoncé.</p>
+  <div class="cols" style="margin-top:10px">
+    <div class="col">
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 1 · Encadre, puis calcule</h3><span class="stars" aria-label="1 étoile">★☆☆</span></div>
+        <p>Chaque calcul a un seul bloc × ou ÷. Calcule-le d'abord, puis termine.</p>
+        <div class="calc"><span class="c"><i>a)</i>4 + 5 × (−2)</span><span class="c"><i>b)</i>−3 − 6 × 2</span><span class="c"><i>c)</i>10 + (−12) ÷ 4</span><span class="c"><i>d)</i>−1 + (−3) × (−5)</span><span class="c"><i>e)</i>8 − 20 ÷ (−5)</span><span class="c"><i>f)</i>(−2) × 7 − 9</span></div>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>Exemple : −7 + 3 × (−4) = −7 + (−12) = −19. Écris une ligne par étape.</div>
+        <div class="sol" hidden><p>a) 4 + (−10) = −6 &nbsp; b) −3 − 12 = −15 &nbsp; c) 10 + (−3) = 7</p><p>d) −1 + 15 = 14 &nbsp; e) 8 − (−4) = 12 &nbsp; f) −14 − 9 = −23</p></div>
+      </article>
+
+    </div>
+    <div class="col">
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 2 · Deux blocs, ou de gauche à droite</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
+        <p>Attention : certains calculs ont deux blocs, d'autres n'ont que des opérations de même priorité.</p>
+        <div class="calc"><span class="c"><i>a)</i>3 × (−4) + 2 × 5</span><span class="c"><i>b)</i>(−18) ÷ 3 − 4 × (−2)</span><span class="c"><i>c)</i>24 ÷ (−4) × 2</span><span class="c"><i>d)</i>−9 − 4 + 6</span><span class="c"><i>e)</i>6 − 3 × (−2) × (−5)</span><span class="c"><i>f)</i>−2 + 18 ÷ (−3) ÷ (−2)</span></div>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>c) et d) : de gauche à droite. e) et f) : le bloc contient plusieurs × ou ÷ ; calcule-le en entier avant le + ou le −.</div>
+        <div class="sol" hidden><p>a) −12 + 10 = −2 &nbsp; b) −6 − (−8) = 2 &nbsp; c) (−6) × 2 = −12</p><p>d) −13 + 6 = −7 &nbsp; e) 6 − 30 = −24 &nbsp; f) −2 + 3 = 1</p></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================= Activité 2 ======================= -->
+<section class="panel">
+  <h2>Activité 2 · Les parenthèses commandent</h2>
+  <p style="margin:0">Mêmes nombres, mêmes opérations… mais pas les mêmes <span class="gl" data-t="parentheses">parenthèses</span>.</p>
+  <div class="scene"><div class="preuve" id="a2">
+    <div class="pr-l"><div class="pr-e">5 − 2 × (−3) = <span class="res">11</span></div><div class="pr-n">On l'a vu : le bloc × passe en premier.</div></div>
+    <div class="pr-l" data-e="1"><div class="pr-e"><span class="pi">(5 − 2)</span> × (−3)</div><div class="pr-n">Avec des parenthèses, on calcule <b>d'abord ce qui est dedans</b>, même un − ou un +.</div></div>
+    <div class="pr-l" data-e="2"><div class="pr-e">= 3 × (−3) = <span class="res m">−9</span></div><div class="pr-n">Le résultat change : les parenthèses décident de l'ordre.</div></div>
+    <div class="pr-l" data-e="3"><div class="pr-t">La barre de fraction</div><div class="pr-e"><span class="fr"><span><span class="pi">−6 − 9</span></span><span><span class="pi">−3 − 2</span></span></span> = <span class="fr"><span>−15</span><span>−5</span></span> = <span class="res">3</span></div><div class="pr-n">La barre agit comme des <b>parenthèses invisibles</b> : on calcule tout le haut, tout le bas, puis on divise.</div></div>
+    <div class="pr-l" data-e="4"><div class="pr-t">Le carré et le signe −</div><div class="pr-e"><span class="pi">(−3)</span>² = (−3) × (−3) = <span class="res">9</span></div><div class="pr-n">Le <span class="gl" data-t="carre">carré</span> porte sur ce qui est juste devant lui : ici, la parenthèse entière.</div></div>
+    <div class="pr-l" data-e="5"><div class="pr-e">−3² = −(3 × 3) = <span class="res m">−9</span></div><div class="pr-n">Sans parenthèses, le carré ne porte que sur le 3. Le − reste dehors : c'est l'opposé de 9.</div></div>
+    <div class="pr-l" data-e="6"><div class="pr-t">À toi</div><div class="pr-e">(−2)² + 10 &nbsp; ; &nbsp; −2² + 10</div><div class="pr-n">Sur ton cahier : de quoi le carré prend-il le carré ?</div></div>
+    <div class="pr-l" data-e="7"><div class="pr-e">4 + 10 = <span class="res">14</span> &nbsp; ; &nbsp; −4 + 10 = <span class="res">6</span></div><div class="pr-n">Le carré se calcule avant le reste.</div></div>
+    <div class="pr-l" data-e="8"><div class="pr-t">L'ordre complet</div><div class="pr-e" style="font-size:1rem"><div class="ordre"><div><b>1</b>les parenthèses</div><div><b>2</b>les carrés</div><div><b>3</b>× et ÷</div><div><b>4</b>+ et −</div></div></div><div class="pr-n">Même rang : de gauche à droite.</div></div>
+  </div></div>
+  <div class="row" style="margin-top:8px">
+    <button class="btn main" id="a2-next">Étape suivante ▶</button>
+    <button class="btn" id="a2-reset">Recommencer</button>
+    <button class="btn" id="a2-concl-btn" style="margin-left:auto">Ce qu'on retient</button>
+  </div>
+  <div class="concl" id="a2-concl" hidden>
+    <p>On calcule d'abord <b>dans les parenthèses</b>. La barre de fraction est une parenthèse invisible.</p>
+    <p>Le carré porte sur ce qui est juste devant lui : <span class="num">(−3)² = 9</span> mais <span class="num">−3² = −9</span>.</p>
+    <p>Ordre : parenthèses, carrés, × et ÷, puis + et −.</p>
+  </div>
+</section>
+
+<!-- ======================= Exercices 3 à 7 ======================= -->
+<section>
+  <h2>À toi de jouer, suite <span class="pill">sans calculatrice</span></h2>
+  <div class="cols" style="margin-top:10px">
+    <div class="col">
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 3 · Avec ou sans parenthèses</h3><span class="stars" aria-label="1 étoile">★☆☆</span></div>
+        <p>Calcule. Compare ensuite a) avec b), puis c) avec d) : que changent les parenthèses ?</p>
+        <div class="calc"><span class="c"><i>a)</i>(−3 + 8) × (−2)</span><span class="c"><i>b)</i>−3 + 8 × (−2)</span><span class="c"><i>c)</i>(−12 + 4) ÷ (−2)</span><span class="c"><i>d)</i>−12 + 4 ÷ (−2)</span><span class="c"><i>e)</i>(7 − 10) × (4 − 9)</span><span class="c"><i>f)</i>−6 − (2 − 9)</span></div>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>Parenthèses d'abord. Sans parenthèses, cherche le bloc × ou ÷. f) Calcule 2 − 9, puis soustrais le résultat.</div>
+        <div class="sol" hidden><p>a) 5 × (−2) = −10 &nbsp; b) −3 + (−16) = −19</p><p>c) (−8) ÷ (−2) = 4 &nbsp; d) −12 + (−2) = −14</p><p>e) (−3) × (−5) = 15 &nbsp; f) −6 − (−7) = 1</p></div>
+      </article>
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 4 · Le carré et son signe</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
+        <p>Avant de calculer, demande-toi : de quoi prend-on le carré ?</p>
+        <div class="calc"><span class="c"><i>a)</i>(−5)²</span><span class="c"><i>b)</i>−5²</span><span class="c"><i>c)</i>(−1)² + (−1)</span><span class="c"><i>d)</i>3 × (−2)²</span><span class="c"><i>e)</i>−(−4)²</span><span class="c"><i>f)</i>(3 − 7)² − 6</span></div>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>(−5)² = (−5) × (−5), mais −5² = −(5 × 5). e) Calcule (−4)², puis prends l'opposé. f) Parenthèses d'abord.</div>
+        <div class="sol" hidden><p>a) 25 &nbsp; b) −25 &nbsp; c) 1 + (−1) = 0</p><p>d) 3 × 4 = 12 &nbsp; e) −16 &nbsp; f) (−4)² − 6 = 16 − 6 = 10</p></div>
+      </article>
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 5 · La barre de fraction</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
+        <p>Calcule le haut, puis le bas, puis divise.</p>
+        <div class="calc" style="line-height:1.2"><span class="c"><i>a)</i><span class="fr"><span>−7 − 8</span><span>5</span></span></span><span class="c"><i>b)</i><span class="fr"><span>12</span><span>−1 − 3</span></span></span><span class="c"><i>c)</i><span class="fr"><span>−6 + 30</span><span>2 − 8</span></span></span><span class="c"><i>d)</i><span class="fr"><span>3 × (−4)</span><span>−2 − 4</span></span></span></div>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>Imagine des parenthèses autour du haut et autour du bas : a) (−7 − 8) ÷ 5.</div>
+        <div class="sol" hidden><p>a) −15 ÷ 5 = −3 &nbsp; b) 12 ÷ (−4) = −3</p><p>c) 24 ÷ (−6) = −4 &nbsp; d) (−12) ÷ (−6) = 2</p></div>
+      </article>
+
+    </div>
+    <div class="col">
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 6 · Les erreurs de Noah</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
+        <p>Les quatre calculs de Noah sont faux. Écris le bon calcul, puis son erreur en quelques mots.</p>
+        <div class="faux"><span><i>a)</i>5 − 2 × (−3) = <s>3 × (−3)</s> = −9</span><span><i>b)</i>−3² = <s>9</s></span><span><i>c)</i>12 ÷ (−3) × 2 = <s>12 ÷ (−6)</s> = −2</span><span><i>d)</i>−8 − 5 + 3 = <s>−8 − 8</s> = −16</span></div>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>Pour chaque calcul, demande-toi : quelle opération Noah a-t-il faite en premier ? Était-ce la bonne ?</div>
+        <div class="sol" hidden><p>a) 5 − (−6) = 11 : il a fait la soustraction avant la multiplication.</p><p>b) −9 : le carré ne porte que sur le 3, pas sur le −.</p><p>c) (−4) × 2 = −8 : ÷ et × ont la même priorité, on va de gauche à droite.</p><p>d) −13 + 3 = −10 : + et − ont la même priorité, on va de gauche à droite.</p></div>
+      </article>
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 7 · Le quiz de la classe</h3><span class="stars" aria-label="3 étoiles">★★★</span></div>
+        <p>Au quiz, une bonne réponse rapporte 5 points. Une mauvaise réponse fait perdre 3 points.</p>
+        <p>a) Léna a 7 bonnes réponses et 9 mauvaises. Écris son score en <b>une seule expression</b>, puis calcule-le.</p>
+        <p>b) Sacha a 6 bonnes réponses et un score de −3 points. Combien de mauvaises réponses a-t-il ?</p>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>Perdre 3 points, c'est ajouter −3. a) 7 × 5 + 9 × (−3). b) Ses bonnes réponses lui donnent 30 points : combien de fois faut-il perdre 3 pour arriver à −3 ?</div>
+        <div class="sol" hidden><p>a) 7 × 5 + 9 × (−3) = 35 + (−27) = 8 : Léna a 8 points.</p><p>b) 6 × 5 = 30. De 30 à −3, il perd 33 points, et 33 ÷ 3 = 11 : il a 11 mauvaises réponses. Vérification : 30 + 11 × (−3) = 30 − 33 = −3.</p></div>
+      </article>
+
+      <article class="ex plus">
+        <div class="ex-tete"><h3>Pour aller plus loin</h3><span class="stars" aria-label="3 étoiles">★★★</span></div>
+        <p>a) Place les trois cartes, une par case, dans : <span class="num">□ − □ × □</span></p>
+        <div class="cartes"><span class="m">−4</span><span>3</span><span class="m">−2</span></div>
+        <p>Trouve le plus grand résultat possible, puis le plus petit.</p>
+        <p>b) Ajoute des parenthèses dans <span class="num">6 − 2 × (−3) − 1</span> pour obtenir 14, puis pour obtenir −13.</p>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>a) Le produit se calcule d'abord. Pour un grand résultat, on veut soustraire un produit très négatif. b) Essaie de mettre les parenthèses à différents endroits et calcule.</div>
+        <div class="sol" hidden><p>a) Le plus grand : −2 − (−4) × 3 = −2 − (−12) = 10. Le plus petit : 3 − (−4) × (−2) = 3 − 8 = −5.</p><p>b) 6 − 2 × (−3 − 1) = 6 − (−8) = 14 &nbsp; ; &nbsp; (6 − 2) × (−3) − 1 = −12 − 1 = −13.</p></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================= Bilan ======================= -->
+<section class="bilan">
+  <h2>Le bilan à apprendre</h2>
+  <ul>
+    <li>On calcule dans cet ordre : <b>1</b> les parenthèses, <b>2</b> les carrés, <b>3</b> les × et ÷, <b>4</b> les + et −.</li>
+    <li>Entre des opérations de même priorité, on calcule <b>de gauche à droite</b>.</li>
+    <li>Le − devant un bloc est une soustraction : 5 − 2 × (−3) = 5 − (−6) = 11.</li>
+    <li>La barre de fraction est une <b>parenthèse invisible</b>. Et attention : (−3)² = 9, mais −3² = −9.</li>
+  </ul>
+  <p class="ex-b">Exemple : −7 + 3 × (−4) = −7 + (−12) = −19.</p>
+</section>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function bascule(id){ var b = document.getElementById(id + "-concl-btn"), z = document.getElementById(id + "-concl"); b.onclick = function(){ z.hidden = !z.hidden; b.setAttribute("aria-pressed", String(!z.hidden)); }; }
+  function pilote(id, ETAPES, raz){
+    var next = document.getElementById(id + "-next"), etape = 0;
+    function zero(){ etape = 0; raz(); next.disabled = false; }
+    next.onclick = function(){ if (etape >= ETAPES.length) return; ETAPES[etape++](); next.disabled = etape >= ETAPES.length; };
+    document.getElementById(id + "-reset").onclick = zero;
+    zero(); bascule(id);
+  }
+
+  /* ---------- flash ---------- */
+  (function(){
+    var b = document.getElementById("flash-btn");
+    b.onclick = function(){ var ouvert = b.getAttribute("aria-pressed") !== "true"; document.querySelectorAll(".flash .rep").forEach(function(r){ r.hidden = !ouvert; }); b.setAttribute("aria-pressed", String(ouvert)); };
+  })();
+
+  /* ---------- activités : lignes qui apparaissent une à une ---------- */
+  ["a1", "a2"].forEach(function(id){
+    var lignes = Array.prototype.slice.call(document.querySelectorAll("#" + id + " [data-e]")), etape = 0;
+    function maj(){ lignes.forEach(function(l){ var n = +l.dataset.e; l.hidden = n > etape; l.classList.toggle("neuf", n === etape); }); }
+    var ETAPES = lignes.map(function(){ return function(){ etape++; maj(); }; });
+    pilote(id, ETAPES, function(){ etape = 0; maj(); });
+  });
+
+  /* ---------- astuces / solutions ---------- */
+  document.querySelectorAll("[data-ouvre]").forEach(function(b){
+    b.addEventListener("click", function(){
+      var bloc = b.closest(".ex").querySelector("." + b.dataset.ouvre);
+      bloc.hidden = !bloc.hidden; b.setAttribute("aria-pressed", String(!bloc.hidden));
+    });
+  });
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
+</body>
+</html>

@@ -1098,6 +1098,25 @@ window.SITE = {
               ],
               exemple: "(−7,5) ÷ 3 = −2,5 (signes contraires, et 7,5 ÷ 3 = 2,5).",
               savoir: "calculer le quotient de deux nombres relatifs, entiers ou décimaux, en écriture ÷ ou fractionnaire, et expliquer sa règle des signes par la multiplication."
+            },
+            {
+              titre: "Priorités opératoires", duree: "50 min",
+              contenu: [
+                "Flash sans calculatrice : (−4) × (−5) et 7 − (−3), les briques des calculs de la séance, puis 9² et un calcul d'hypoténuse de tête (6 cm et 8 cm) pour ne pas oublier Pythagore.",
+                "Activité 1 : qui passe en premier ? Léa et Tom ne trouvent pas le même résultat pour 2 + 3 × 4. On encadre les blocs × et ÷, calculés en premier, puis le piège 5 − 2 × (−3) = 11 et les opérations de même priorité, de gauche à droite.",
+                "Exercices 1 et 2, tout de suite après : un bloc à encadrer, puis deux blocs ou des opérations de même priorité.",
+                "Activité 2 : les parenthèses commandent. (5 − 2) × (−3) = −9, la barre de fraction comme parenthèse invisible, puis (−3)² = 9 mais −3² = −9, et l'ordre complet.",
+                "Exercices 3 à 7, faits sur le cahier sans calculatrice : avec ou sans parenthèses, le carré et son signe, la barre de fraction, les erreurs de Noah, le quiz de la classe, et un « pour aller plus loin » avec le jeu des cartes."
+              ],
+              ressources: ["4e-ch5-s6"],
+              retenir: [
+                "On calcule dans cet ordre : **parenthèses**, **carrés**, **× et ÷**, puis **+ et −**.",
+                "Entre des opérations de même priorité, on calcule **de gauche à droite**.",
+                "Le − devant un bloc est une **soustraction** : 5 − 2 × (−3) = 5 − (−6) = 11.",
+                "La barre de fraction est une **parenthèse invisible**. (−3)² = 9, mais −3² = −9."
+              ],
+              exemple: "−7 + 3 × (−4) = −7 + (−12) = −19.",
+              savoir: "calculer une expression avec des nombres relatifs en respectant les priorités opératoires, les parenthèses, la barre de fraction et le carré."
             }
           ],
           ressources: [
@@ -1106,6 +1125,7 @@ window.SITE = {
             { id: "4e-ch5-s3", type: "exos", titre: "Séance 3 — Deux facteurs négatifs", resume: "Remonter le temps avec la température de la nuit, la table de −3 prolongée sous zéro, puis la preuve par la distributivité et les exercices avec astuces et solutions.", ajout: "2026-11-24" },
             { id: "4e-ch5-s4", type: "exos", titre: "Séance 4 — Plusieurs facteurs", resume: "La machine × (−2) qui fait basculer le signe, les négatifs qui vont par deux, les couples amis pour calculer de tête, puis les exercices avec astuces et solutions.", ajout: "2026-11-24" },
             { id: "4e-ch5-s5", type: "exos", titre: "Séance 5 — Petit test et quotients", resume: "Un petit test A/B à imprimer pour former les groupes de l'AP, puis la division qui défait la multiplication et le zéro, la barre de fraction, avec les exercices et leurs solutions entre les deux activités.", ajout: "2026-11-24" },
+            { id: "4e-ch5-s6", type: "exos", titre: "Séance 6 — Priorités opératoires", resume: "Les blocs × et ÷ qu'on encadre et qui passent en premier, le piège du signe −, les parenthèses et la barre de fraction, le carré de −3, avec les exercices et leurs solutions entre les deux activités.", ajout: "2026-11-24" },
             { id: "4e-ch5-minijeux", type: "jeu", titre: "Mini-jeu — Sprint des relatifs", resume: "Calcul mental tiré au hasard : ajouter, soustraire, puis multiplier et diviser au fil du chapitre. Seul en 60 s ou au tableau.", ajout: "2026-11-23" }
           ]
         }

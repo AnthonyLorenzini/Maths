@@ -436,7 +436,13 @@
       '<rect class="f-c s-i" x="6" y="42" width="26" height="24" rx="6" stroke-width="2.8"/>' + '<text class="tx f-b" x="19" y="54" text-anchor="middle" dominant-baseline="central" font-size="20">−</text>' +
       '<text class="tx f-i" x="45" y="36" text-anchor="middle" dominant-baseline="central" font-size="17">=</text>' +
       '<circle class="f-s s-i" cx="60" cy="36" r="10" stroke-width="2.6"/>' +
-      '<text class="tx f-i" x="60" y="36.5" text-anchor="middle" dominant-baseline="central" font-size="17">+</text>')
+      '<text class="tx f-i" x="60" y="36.5" text-anchor="middle" dominant-baseline="central" font-size="17">+</text>'),
+    "4e-ch5-s6": svg( // les priorités : des parenthèses autour d'un « × » encadré, avec l'étiquette « 1 »
+      '<path class="s-i" d="M15 12Q2 36 15 60M57 12Q70 36 57 60" fill="none" stroke-width="4"/>' +
+      '<rect class="f-c s-i" x="21" y="23" width="30" height="27" rx="7" stroke-width="2.8"/>' +
+      '<text class="tx f-b" x="36" y="37" text-anchor="middle" dominant-baseline="central" font-size="20">×</text>' +
+      '<circle class="f-s s-i" cx="51" cy="19" r="9" stroke-width="2.6"/>' +
+      '<text class="tx f-i" x="51" y="19.5" text-anchor="middle" dominant-baseline="central" font-size="13">1</text>')
   };
 
   // ----- 4e ch.5 : relatifs — moins par moins donne plus
