@@ -1117,6 +1117,27 @@ window.SITE = {
               ],
               exemple: "−7 + 3 × (−4) = −7 + (−12) = −19.",
               savoir: "calculer une expression avec des nombres relatifs en respectant les priorités opératoires, les parenthèses, la barre de fraction et le carré."
+            },
+            {
+              titre: "Remplacer la lettre", duree: "50 min",
+              contenu: [
+                "Flash sans calculatrice : (−6) × 5, −8 − (−2) et (−4)², les briques de la séance, puis 25 % de 80 pour ne pas oublier les pourcentages.",
+                "Activité 1 : la valeur prend la place de la lettre. Le × caché de 3x réapparaît, une valeur négative entre avec ses parenthèses (3 × (−2) + 5 = −1), puis le piège 5 − 2x pour x = −3.",
+                "Exercices 1 et 2, tout de suite après : remplacer et calculer pour x = −2, puis un tableau de valeurs.",
+                "Activité 2 : le carré et l'opposé. Pour x = −5, x² = 25 et −x = 5 (sur la droite graduée), puis x² − x et 2x², où le carré passe avant le ×.",
+                "Exercices 3 et 4 : carrés et opposés pour x = −3, puis les affirmations de Jade, vraies ou fausses, avec un contre-exemple.",
+                "Activité 3 : tester une égalité. On calcule chaque côté séparément, la balance s'équilibre ou penche : vraie pour une valeur, fausse pour une autre (vers les équations). Activité 4 : traduire un programme de calcul avec des négatifs, et les parenthèses qui gardent l'ordre.",
+                "Exercices 5 et 6 (égalités, deux programmes), puis des problèmes concrets : une nuit d'hiver, la plongée, le dé des relatifs, et un « pour aller plus loin » avec deux programmes qui donnent toujours le même résultat."
+              ],
+              ressources: ["4e-ch5-s7"],
+              retenir: [
+                "On remplace la lettre en remettant le **× caché**, et une valeur **négative** entre **avec ses parenthèses** : pour x = −3, 2x = 2 × (−3) = −6.",
+                "Pour x négatif, **x²** est **positif** et **−x** (l'opposé de x) est **positif** : pour x = −3, x² = 9 et −x = 3.",
+                "Pour **tester une égalité**, on calcule chaque côté **séparément** avec la même valeur, puis on compare.",
+                "Pour traduire un **programme de calcul**, on écrit chaque étape sur x, avec des **parenthèses** si l'ordre l'exige : (x + 3) × (−2)."
+              ],
+              exemple: "Pour x = −2 : 5 − 3x = 5 − 3 × (−2) = 5 − (−6) = 11.",
+              savoir: "calculer une expression littérale pour une valeur relative, tester une égalité et traduire un programme de calcul par une expression."
             }
           ],
           ressources: [
@@ -1126,6 +1147,7 @@ window.SITE = {
             { id: "4e-ch5-s4", type: "exos", titre: "Séance 4 — Plusieurs facteurs", resume: "La machine × (−2) qui fait basculer le signe, les négatifs qui vont par deux, les couples amis pour calculer de tête, puis les exercices avec astuces et solutions.", ajout: "2026-11-24" },
             { id: "4e-ch5-s5", type: "exos", titre: "Séance 5 — Petit test et quotients", resume: "Un petit test A/B à imprimer pour former les groupes de l'AP, puis la division qui défait la multiplication et le zéro, la barre de fraction, avec les exercices et leurs solutions entre les deux activités.", ajout: "2026-11-24" },
             { id: "4e-ch5-s6", type: "exos", titre: "Séance 6 — Priorités opératoires", resume: "Les blocs × et ÷ qu'on encadre et qui passent en premier, le piège du signe −, les parenthèses et la barre de fraction, le carré de −3, avec les exercices et leurs solutions entre les deux activités.", ajout: "2026-11-24" },
+            { id: "4e-ch5-s7", type: "exos", titre: "Séance 7 — Remplacer la lettre", resume: "Le × caché et les parenthèses quand la valeur est négative, x² et −x pour x négatif, la balance pour tester une égalité, les programmes de calcul, puis des problèmes de températures, de plongée et de scores.", ajout: "2026-11-24" },
             { id: "4e-ch5-minijeux", type: "jeu", titre: "Mini-jeu — Sprint des relatifs", resume: "Calcul mental tiré au hasard : ajouter, soustraire, puis multiplier et diviser au fil du chapitre. Seul en 60 s ou au tableau.", ajout: "2026-11-23" }
           ]
         }
