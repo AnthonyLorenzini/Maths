@@ -409,7 +409,14 @@
       '<path class="s-i" d="M62 46Q53 24 44 46M44 46Q35 24 26 46M26 46Q17 24 8 46" fill="none" stroke-width="7"/>' +
       '<path class="s-c" d="M62 46Q53 24 44 46M44 46Q35 24 26 46M26 46Q17 24 8 46" fill="none" stroke-width="3.5"/>' +
       '<path class="f-s s-i" d="M44 49L39 38L49 40Z M26 49L21 38L31 40Z M8 49L3 38L13 40Z" stroke-width="1.6"/>' +
-      lab(36, 64, '×3', 13))
+      lab(36, 64, '×3', 13)),
+    "4e-ch5-s3": svg( // remonter le temps : la flèche qui revient en arrière, et le thermomètre qui monte
+      '<path class="s-c" d="M32 14A21 21 0 0 0 32 56" fill="none" stroke-width="4.5"/>' +
+      '<path class="f-c s-i" d="M39 56L30 50V62Z" stroke-width="1.8"/>' +
+      '<rect class="f-b s-i" x="44" y="8" width="14" height="46" rx="7" stroke-width="3"/>' +
+      '<rect class="f-s" x="48" y="18" width="6" height="40"/>' +
+      '<circle class="f-s s-i" cx="51" cy="60" r="8" stroke-width="3"/>' +
+      lab(23, 35, '+', 20))
   };
 
   // ----- 4e ch.5 : relatifs — moins par moins donne plus

@@ -1021,11 +1021,31 @@ window.SITE = {
               ],
               exemple: "(−0,5) × 8 = −4.",
               savoir: "calculer le produit d'un nombre positif par un nombre négatif, entiers ou décimaux, et expliquer pourquoi il est négatif."
+            },
+            {
+              titre: "Deux facteurs négatifs", duree: "50 min",
+              contenu: [
+                "Flash sans calculatrice : 7 × 98 de tête (la distributivité, qui servira à la preuve), un rappel de la séance 2 et une somme de deux opposés.",
+                "Activité 1 : la nuit, la température baisse de 3 °C par heure et il fait 0 °C à minuit. Dans 2 h, il fera −6 °C ; et il y a 4 h ? On remonte le temps : il faisait 12 °C, soit (−4) × (−3) = 12 ?",
+                "Activité 2 : on prolonge la table de −3 sous zéro, ligne par ligne (le produit augmente de 3 à chaque fois), jusqu'à (−3) × (−4) = 12 : on formule une conjecture.",
+                "Activité 3 : la preuve. (−3) × [4 + (−4)] vaut 0 ; en distribuant, on obtient −12 + (−3) × (−4) = 0, donc (−3) × (−4) = 12. Puis la règle des signes.",
+                "Exercices projetés, faits sur le cahier sans calculatrice : calculer, une table à compléter, des décimaux, remonter le temps, les nombres manquants, et un « pour aller plus loin » avec une preuve à refaire."
+              ],
+              ressources: ["4e-ch5-s3"],
+              retenir: [
+                "Le produit de **deux** nombres **négatifs** est **positif** : (−3) × (−4) = 12.",
+                "**Règle des signes** : deux facteurs de même signe donnent un produit positif ; deux facteurs de signes contraires, un produit négatif.",
+                "La **distance à zéro** du produit est le produit des distances à zéro : (−2,5) × (−4) = 10.",
+                "Pourquoi ? (−3) × [4 + (−4)] = 0 et, avec la **distributivité**, −12 + (−3) × (−4) = 0, donc (−3) × (−4) = 12."
+              ],
+              exemple: "(−0,5) × (−8) = 4.",
+              savoir: "calculer le produit de deux nombres relatifs quelconques, entiers ou décimaux, et expliquer pourquoi le produit de deux négatifs est positif."
             }
           ],
           ressources: [
             { id: "4e-ch5-s1", type: "exos", titre: "Séance 1 — Le marcheur : ajouter et soustraire", resume: "Additions et soustractions animées sur la droite graduée, un marcheur à piloter soi-même, puis les exercices avec astuces et solutions.", ajout: "2026-11-23" },
             { id: "4e-ch5-s2", type: "exos", titre: "Séance 2 — Un seul facteur négatif", resume: "Le marcheur qui répète le même pas, le congélateur qui perd 3 °C par heure, la table de 4 prolongée sous zéro, puis la méthode et les exercices avec astuces et solutions.", ajout: "2026-11-24" },
+            { id: "4e-ch5-s3", type: "exos", titre: "Séance 3 — Deux facteurs négatifs", resume: "Remonter le temps avec la température de la nuit, la table de −3 prolongée sous zéro, puis la preuve par la distributivité et les exercices avec astuces et solutions.", ajout: "2026-11-24" },
             { id: "4e-ch5-minijeux", type: "jeu", titre: "Mini-jeu — Sprint des relatifs", resume: "Calcul mental tiré au hasard : ajouter, soustraire, puis multiplier et diviser au fil du chapitre. Seul en 60 s ou au tableau.", ajout: "2026-11-23" }
           ]
         }
