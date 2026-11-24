@@ -442,7 +442,13 @@
       '<rect class="f-c s-i" x="21" y="23" width="30" height="27" rx="7" stroke-width="2.8"/>' +
       '<text class="tx f-b" x="36" y="37" text-anchor="middle" dominant-baseline="central" font-size="20">×</text>' +
       '<circle class="f-s s-i" cx="51" cy="19" r="9" stroke-width="2.6"/>' +
-      '<text class="tx f-i" x="51" y="19.5" text-anchor="middle" dominant-baseline="central" font-size="13">1</text>')
+      '<text class="tx f-i" x="51" y="19.5" text-anchor="middle" dominant-baseline="central" font-size="13">1</text>'),
+    "4e-ch5-s7": svg( // remplacer la lettre : la case « x » descend et devient « (−3) »
+      '<rect class="f-b s-i" x="22" y="4" width="28" height="25" rx="6" stroke-width="2.8"/>' +
+      '<text class="tx f-i" x="36" y="16.5" text-anchor="middle" dominant-baseline="central" font-size="20" font-style="italic">x</text>' +
+      '<path class="s-i" d="M36 31V39" fill="none" stroke-width="3"/><path class="f-s s-i" d="M29 38H43L36 46Z" stroke-width="2"/>' +
+      '<rect class="f-c s-i" x="6" y="47" width="60" height="22" rx="6" stroke-width="2.8"/>' +
+      '<text class="tx f-b" x="36" y="58.5" text-anchor="middle" dominant-baseline="central" font-size="16">(−3)</text>')
   };
 
   // ----- 4e ch.5 : relatifs — moins par moins donne plus
