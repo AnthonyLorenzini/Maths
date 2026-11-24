@@ -985,10 +985,28 @@ window.SITE = {
               ],
               exemple: "−4 − (−7) = −4 + 7 = 3.",
               savoir: "ajouter et soustraire deux nombres relatifs, et enchaîner plusieurs additions et soustractions."
+            },
+            {
+              titre: "Un seul facteur négatif", duree: "50 min",
+              contenu: [
+                "Flash sans calculatrice : deux calculs de la séance 1, puis (−3) + (−3) + (−3).",
+                "Activité 1 : le marcheur de la séance 1 part de 0 et répète le même pas : 4 × (−3), c'est quatre pas de −3. Activité 2 : un congélateur part de 0 °C et perd 3 °C par heure ; au bout de combien d'heures atteint-il −18 °C ?",
+                "Activité 3 : on prolonge la table de 4 sous zéro, ligne par ligne (on enlève 4 à chaque fois), jusqu'à 4 × (−3) = −12, puis on change l'ordre des facteurs. Activité 4 : la méthode en deux questions (le signe, puis la distance à zéro), avec des décimaux.",
+                "Exercices projetés, faits sur le cahier sans calculatrice : écrire un produit, calculer, des décimaux, des baisses qui se répètent, les erreurs de Tom, et un « pour aller plus loin » en station de ski."
+              ],
+              ressources: ["4e-ch5-s2"],
+              retenir: [
+                "Multiplier par 4, c'est répéter 4 fois : 4 × (−3) = (−3) + (−3) + (−3) + (−3) = −12.",
+                "Quand **un seul** des deux facteurs est **négatif**, le produit est **négatif**.",
+                "Sa **distance à zéro** est le produit des distances à zéro : 2,5 × (−4) = −10, car 2,5 × 4 = 10. On peut changer l'ordre des facteurs : (−3) × 4 = 4 × (−3)."
+              ],
+              exemple: "(−0,5) × 8 = −4.",
+              savoir: "calculer le produit d'un nombre positif par un nombre négatif, entiers ou décimaux, et expliquer pourquoi il est négatif."
             }
           ],
           ressources: [
             { id: "4e-ch5-s1", type: "exos", titre: "Séance 1 — Le marcheur : ajouter et soustraire", resume: "Additions et soustractions animées sur la droite graduée, un marcheur à piloter soi-même, puis les exercices avec astuces et solutions.", ajout: "2026-11-23" },
+            { id: "4e-ch5-s2", type: "exos", titre: "Séance 2 — Un seul facteur négatif", resume: "Le marcheur qui répète le même pas, le congélateur qui perd 3 °C par heure, la table de 4 prolongée sous zéro, puis la méthode et les exercices avec astuces et solutions.", ajout: "2026-11-24" },
             { id: "4e-ch5-minijeux", type: "jeu", titre: "Mini-jeu — Sprint des relatifs", resume: "Calcul mental tiré au hasard : ajouter, soustraire, puis multiplier et diviser au fil du chapitre. Seul en 60 s ou au tableau.", ajout: "2026-11-23" }
           ]
         }
