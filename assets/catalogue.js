@@ -988,7 +988,7 @@ window.SITE = {
             }
           ],
           ressources: [
-            { id: "4e-ch5-s1", type: "exos", titre: "Séance 1 — Le marcheur : ajouter et soustraire", resume: "Additions et soustractions animées sur la droite graduée, un marcheur à piloter soi-même, puis les exercices avec des astuces.", ajout: "2026-11-23" },
+            { id: "4e-ch5-s1", type: "exos", titre: "Séance 1 — Le marcheur : ajouter et soustraire", resume: "Additions et soustractions animées sur la droite graduée, un marcheur à piloter soi-même, puis les exercices avec astuces et solutions.", ajout: "2026-11-23" },
             { id: "4e-ch5-minijeux", type: "jeu", titre: "Mini-jeu — Sprint des relatifs", resume: "Calcul mental tiré au hasard : ajouter, soustraire, puis multiplier et diviser au fil du chapitre. Seul en 60 s ou au tableau.", ajout: "2026-11-23" }
           ]
         }
