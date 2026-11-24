@@ -341,7 +341,7 @@ window.SITE = {
                 "On lit un pourcentage sur une jauge, puis sur une grille de 100.",
                 "On passe d'un pourcentage à une fraction et à un nombre décimal."
               ],
-              ressources: ["jauge-pourcentages"],
+              ressources: ["6e-ch4-s4", "jauge-pourcentages"],
               retenir: [
                 "**p %** veut dire **p sur 100**.",
                 "20 % = 20/100 = 0,2 : on passe d'un pourcentage à une fraction, puis à un nombre décimal.",
@@ -356,7 +356,7 @@ window.SITE = {
                 "On lit l'abscisse d'un point et on place un nombre sur une droite graduée en dixièmes.",
                 "Avec la loupe, on découpe un dixième en 10 pour atteindre les centièmes (mini-jeu La Loupe à Décimaux)."
               ],
-              ressources: ["loupe-decimaux"],
+              ressources: ["6e-ch4-s5", "loupe-decimaux"],
               retenir: [
                 "Sur une droite graduée en dixièmes, chaque graduation vaut **0,1** ; dans la loupe, chaque graduation vaut **0,01**.",
                 "Pour placer un décimal, on repère d'abord le bon dixième, puis on agrandit avec la loupe.",
@@ -390,6 +390,8 @@ window.SITE = {
             { id: "flash-decimaux", type: "jeu", titre: "Le Flash des Décimaux", resume: "Les automatismes de la leçon, en questions flash.", ajout: "2026-10-10" },
             { id: "loupe-decimaux", type: "jeu", titre: "La Loupe à Décimaux", resume: "Lis ou place un nombre décimal sur une droite graduée.", ajout: "2026-10-06" },
             { id: "coffre-decimal", type: "jeu", titre: "L'Énigme du Coffre décimal", resume: "Chaque cadenas résolu donne un chiffre du code.", ajout: "2026-10-06" },
+            { id: "6e-ch4-s4", type: "exos", titre: "Séance 4 — Les pourcentages", resume: "La grille de 100 : un pourcentage, une fraction, un nombre décimal. Grilles, jauges, qui a raison ?, et un défi à plus de 100 %. Avec corrections.", ajout: "2026-11-24" },
+            { id: "6e-ch4-s5", type: "exos", titre: "Séance 5 — Lire et placer un nombre décimal", resume: "La loupe pas à pas : unités, dixièmes, centièmes. Lire des abscisses, retrouver un point, la droite qui ne commence pas à 0 et un défi. Avec corrections.", ajout: "2026-11-24" },
             { id: "jauge-pourcentages", type: "jeu", titre: "La Jauge à Pourcentages", resume: "20 % = 20/100 = 0,2 : lis et remplis la jauge.", ajout: "2026-10-06" }
           ]
         },

@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}/* Cahier à carreaux : cartes aux coins nets, contour encre */
+.ex{border-color:var(--ink);border-radius:8px}
+</style>
+<title>Séance 5 — Lire et placer un nombre décimal</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<style>
+/* Base commune Leçon 4 — titres condensés, texte Work Sans, nombres Space Mono ; ambre = action, vert = juste, rouge = faux */
+:root{
+  color-scheme:light;
+  --bg:#fffef8; --panel:#ffffff; --paper:#ffffff; --ink:#1b2a5e; --muted:#56608a; --line:#c3d1ec; --grid:#dbe5f6;
+  --amber:#ffc61a; --amber-text:#d62839; --amber-ink:#9c1c2a; --fill:#ffe45e; --fill-2:#fff4b8; --on-amber:#1b2a5e;
+  --ok:#17703f; --ok-bg:#dff5e6; --ko:#b3261e; --ko-bg:#ffe5e2;
+  --blue:#1f56d6; --blue-bg:#e6eeff; --magenta:#b8217a; --magenta-bg:#ffe6f3; --teal:#08766f; --teal-bg:#dcf5f2;
+  --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;color:var(--ink);font:16px/1.5 var(--f-text);padding-inline:16px;padding-block:16px 40px;margin:0}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+h1{font:800 clamp(2.1rem,7vw,3.5rem)/.9 var(--f-title);letter-spacing:.01em;margin:0;text-transform:uppercase;text-wrap:balance}
+h1 span{color:var(--amber-text)}
+h2{font:800 clamp(1.4rem,4.5vw,2rem)/1.05 var(--f-title);text-transform:uppercase;letter-spacing:.02em;margin:0;text-wrap:balance}
+.sub{margin:6px 0 0;color:var(--muted);font-size:.95rem;max-width:70ch}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:2px solid var(--line)}
+.tabs button{font:700 1.1rem var(--f-title);letter-spacing:.06em;text-transform:uppercase;background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;border-bottom:4px solid transparent;margin-bottom:-2px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--amber)}
+@media (max-width:440px){.tabs button{padding:8px 8px;font-size:1rem}}
+.seg{display:inline-flex;flex-wrap:wrap;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.seg button{font:600 .9rem var(--f-text);background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;min-height:40px}
+.seg button[aria-pressed="true"]{background:var(--amber);color:var(--on-amber)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:8px 14px;cursor:pointer;min-height:42px}
+.btn:hover{border-color:var(--amber)}
+.btn.main{background:var(--amber);border-color:var(--amber);color:var(--on-amber)}
+.btn:disabled{opacity:.45;cursor:default}
+button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:14px 16px}
+.hint{color:var(--muted);font-size:.9rem;margin:0}
+.recit{margin:0;padding:12px 16px;background:var(--panel);border-left:4px solid var(--amber);border-radius:0 8px 8px 0;max-width:75ch}
+.num{font-family:var(--f-num);font-weight:700}
+.fr{display:inline-flex;flex-direction:column;align-items:center;font:700 1em var(--f-num);line-height:1.05;vertical-align:middle}
+.fr>span:first-child{border-bottom:.09em solid currentColor;padding:0 .15em}
+.msg{min-height:1.5em;font-weight:600;margin:0}
+.msg.ok{color:var(--ok)}.msg.ko{color:var(--ko)}
+input.ans{font:700 1.25rem var(--f-num);text-align:center;border:2px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:6px 4px;width:6em;max-width:100%}
+input.ans:focus{outline:none;border-color:var(--amber)}
+input.ans.ok{border-color:var(--ok);background:var(--ok-bg)}
+input.ans.ko{border-color:var(--ko);background:var(--ko-bg)}
+.lvl{font:600 .85rem var(--f-text);color:var(--muted)}
+/* équipes */
+.teams{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.teams{grid-template-columns:minmax(0,1fr)}}
+.team{border:2px solid var(--tc);border-radius:12px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column}
+.team.t0{--tc:var(--blue);--tb:var(--blue-bg)}.team.t1{--tc:var(--magenta);--tb:var(--magenta-bg)}.team.t2{--tc:var(--teal);--tb:var(--teal-bg)}
+.team .th{background:var(--tb);display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px}
+.team .tn{font:800 1.3rem var(--f-title);text-transform:uppercase;letter-spacing:.05em;color:var(--tc)}
+.team .ts{font:700 1.5rem var(--f-num);color:var(--tc)}
+.team .tb{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.team .draw{display:flex;align-items:center;gap:10px}
+.team .draw button{font:600 .85rem var(--f-text);border:2px solid var(--tc);color:var(--tc);background:none;border-radius:8px;padding:6px 10px;cursor:pointer;min-height:38px}
+.team .who{font:700 1.4rem var(--f-num);color:var(--tc);min-width:2ch}
+.team.turn{box-shadow:0 0 0 4px var(--tc)}
+.team.win{animation:pop .5s}
+.team .res{font-weight:600;min-height:1.4em}
+.team .res.ok{color:var(--ok)}.team .res.ko{color:var(--ko)}
+@keyframes pop{50%{transform:scale(1.04)}}
+.settings{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:.85rem;color:var(--muted)}
+.settings input{width:4em;font:700 .95rem var(--f-num);border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:3px 6px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.team .slot:empty,.team .res:empty{display:none}
+.teams.compact{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.teams.compact .th{flex-direction:column;align-items:flex-start;gap:0;padding:6px 10px}
+.teams.compact .tn{font-size:1.05rem}
+.teams.compact .ts{font-size:1.3rem}
+.teams.compact .tb{padding:6px 10px}
+.teams.compact .draw{flex-wrap:wrap;gap:4px 8px}
+.teams.compact .draw button{padding:4px 8px;min-height:32px;font-size:.8rem}
+.teams.compact .who{font-size:1.1rem}
+@media (max-width:420px){.teams.compact .tn{font-size:.9rem;letter-spacing:.02em}}
+.pane{display:flex;flex-direction:column;gap:16px;min-width:0}
+.grp{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:100%}
+</style>
+<style>
+/* ---- séance 6e ch.6 : page légère, une figure à la fois ---- */
+.ex{display:flex;flex-direction:column;gap:12px;padding-top:8px;border-top:2px solid var(--line)}
+.ex-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px}
+.ex-h h2 small{font:600 .9rem var(--f-text);text-transform:none;letter-spacing:0;color:var(--muted);margin-left:.4em}
+.consigne{margin:0;max-width:70ch;font-size:1.05rem}
+.fig{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.fig svg{display:block;width:100%;height:auto;max-width:760px}
+.ex:not(.show) .sol,.ex:not(.show) .ans{display:none!important}
+.ex.show .q{display:none}
+.s{color:var(--ok);font-weight:600}
+.qs{margin:0;padding-left:1.5em;display:flex;flex-direction:column;gap:10px;max-width:75ch}
+.qs li::marker{font-weight:700;color:var(--amber-ink)}
+.qs .sol{display:block}
+.qs.big{padding-left:2.4em}
+.qs.big li{font:700 1.4rem var(--f-num);padding-block:2px}
+.qs.big .sol{font:600 1rem var(--f-text)}
+.qs.big .sol.in,.qs .sol.in{display:inline;font:800 1.4rem var(--f-num);color:var(--ok);background:var(--ok-bg);border-radius:8px;padding:0 .35em}
+.qs.big .fr{font-size:1.05em}
+.hole{display:inline-flex;align-items:center;justify-content:center;min-width:1.35em;height:1.35em;background:var(--amber);color:var(--on-amber);border-radius:8px;border:3px solid var(--ink);font-weight:800}
+.cas{display:flex;flex-wrap:wrap;gap:10px}
+.cas .btn{font-size:1.05rem;padding:10px 16px}
+.pas{display:flex;flex-wrap:wrap;gap:10px}
+.res{margin:0;display:flex;flex-direction:column;gap:6px}
+.res .eq{font:800 clamp(1.9rem,7vw,2.8rem)/1.15 var(--f-num);margin:0;min-height:1.2em}
+.res .eq .fr{font-size:1.05em}
+.res .ver{margin:0;font-size:1.05rem}
+.mach .tok{transition:opacity .45s}
+.mach .tok.off{opacity:0}
+.mach .arr.off{opacity:.18}
+.hole .ans{display:none}
+.ex.show .hole.has{background:var(--ok-bg);border-color:var(--ok);color:var(--ok);padding:0 .3em;height:auto;min-height:1.35em}
+.ex.show .hole.has .qm{display:none}
+.ex.show .hole.has .ans{display:inline-flex;align-items:center}
+.hole.has .fr{font-size:.8em}
+.qs:not(.big) .hole.has .fr{font-size:1.05em}
+.num{white-space:nowrap}
+/* ---- séance 3 : division posée + barre ---- */
+.div{margin:0;font:700 clamp(1.05rem,4.6vw,1.35rem)/1.3 var(--f-num);background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:10px 16px;white-space:pre;align-self:center;max-width:100%;overflow-x:auto}
+.div mark.nw{background:var(--fill-2);color:inherit;border-radius:3px}
+.mk{padding:0 .3em;border-radius:5px;font-weight:600;color:var(--ink)}
+.recit p{margin:0 0 6px}.recit p:last-child{margin:0}
+.recit pre.div{margin:8px 0 0;align-self:flex-start}
+.fig.col{gap:10px;padding:10px}
+.anim{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start}
+@media (max-width:760px){.anim{grid-template-columns:minmax(0,1fr)}.anim .div{justify-self:center}}
+.div mark.z{background:var(--amber);color:var(--on-amber);border-radius:3px}
+.div .qt{color:var(--amber-ink)}
+#bver{min-height:3.2em;margin:0;font-size:1.05rem}
+#bfig svg{max-width:none}
+.pc{transition:transform .6s cubic-bezier(.4,.1,.2,1)}
+.nt .pc,.pc.nt{transition:none!important}
+.pc line{stroke:#c99a70;stroke-width:1.2;stroke-dasharray:3 3;stroke-opacity:.6;transition:all .3s}
+.pc.cut line{stroke:var(--amber);stroke-width:3;stroke-dasharray:none;stroke-opacity:1}
+@media (prefers-reduced-motion:reduce){.pc,.pc line{transition:none}}
+#beq{font:800 clamp(1.9rem,7vw,2.8rem)/1.15 var(--f-num);margin:0;min-height:0}#beq .fr{font-size:1.05em}
+.pc.cut rect{stroke:var(--amber)}
+.loupe{transition:transform 1s cubic-bezier(.3,.1,.2,1),opacity .5s}
+.loupe.nolab .ll{opacity:0}
+.loupe .ll{transition:opacity .4s}
+.ex3{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.div.sm{font-size:1rem;padding:6px 12px;align-self:flex-start;margin:0}
+.rep{display:flex;flex-direction:column;gap:10px;font-weight:600}
+.rep span{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+@media (max-width:440px){.div.sm{font-size:.82rem;padding:4px 8px}.ex3{gap:8px 10px}.rep{font-size:.9rem;gap:8px}}
+</style>
+<style>
+/* ---- séance 6e ch.4 S5 : droite graduée et loupe ---- */
+.fig svg{max-width:720px}
+#ver{min-height:3.2em;margin:0;font-size:1.05rem}
+.etapes{display:flex;gap:6px;flex-wrap:wrap;font:600 .85rem var(--f-text);color:var(--muted)}
+.etapes span{border:2px solid var(--line);border-radius:999px;padding:2px 10px;background:var(--panel)}
+.etapes span.on{background:var(--amber);border-color:var(--amber);color:var(--on-amber)}
+.pts{display:flex;flex-wrap:wrap;gap:10px 26px;list-style:none;padding:0;margin:0;font:700 1.25rem var(--f-num)}
+.pts li{display:flex;align-items:center;gap:6px}
+.pts li b{font:800 1.25rem var(--f-title);color:var(--amber-ink)}
+.ex .sol.bloc{display:block;margin:0;max-width:75ch}
+.ex:not(.show) .sol.bloc{display:none}
+.defi{border:2px dashed var(--amber);border-radius:12px;padding:12px 14px;background:var(--panel)}
+</style>
+<div class="wrap">
+  <header class="top">
+    <div><h1>Lire et placer <span>sur une droite graduée</span></h1>
+    <p class="sub">Chapitre 4, séance 5</p></div>
+  </header>
+
+  <!-- ================= ACTIVITÉ : LA LOUPE ================= -->
+  <section class="ex" id="act">
+    <div class="ex-h"><h2>Activité <small>la loupe</small></h2></div>
+    <p class="consigne">Choisis un nombre, puis clique sur « Étape suivante » : on le place pas à pas sur la droite.</p>
+    <div class="cas" id="cas">
+      <button class="btn" data-x="140">1,4</button>
+      <button class="btn" data-x="70">0,7</button>
+      <button class="btn" data-x="137">1,37</button>
+      <button class="btn" data-x="205">2,05</button>
+    </div>
+    <div class="etapes" id="etapes"><span>1. les unités</span><span>2. les dixièmes</span><span>3. la loupe</span></div>
+    <div class="fig" id="fig"></div>
+    <p id="ver" aria-live="polite"></p>
+    <div class="pas"><button class="btn main" id="next">Étape suivante</button><button class="btn" id="again">Recommencer</button></div>
+    <div class="recit" id="ret" hidden>
+      <p>1. Je repère d'abord entre quelles <b>unités</b> se trouve le nombre : 1,37 est entre 1 et 2.</p>
+      <p>2. L'unité est coupée en 10 : chaque graduation vaut <b>0,1</b> (un <span class="gl" data-t="dixième">dixième</span>). 1,37 est entre 1,3 et 1,4.</p>
+      <p>3. La <b>loupe</b> coupe ce dixième en 10 : chaque graduation vaut <b>0,01</b> (un <span class="gl" data-t="centième">centième</span>). On compte 7 graduations après 1,3.</p>
+      <p>4. Le nombre qui repère un point s'appelle son <b>abscisse</b> : on écrit A(1,37).</p>
+    </div>
+  </section>
+
+  <p class="hint">Dans ton cahier : le numéro de l'exercice, la lettre et ta réponse, sans recopier.</p>
+
+  <!-- ================= EXERCICES ================= -->
+  <section class="ex" id="ex1">
+    <div class="ex-h"><h2>Exercice 1 <small>lire en dixièmes</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Une graduation vaut 0,1. Écris l'abscisse de chaque point.</p>
+    <div class="fig" data-droite='{"s":0,"e":200,"pts":[[30,"A"],[80,"B"],[110,"C"],[160,"D"]]}'></div>
+    <ol class="pts">
+      <li><b>A</b>(<span class="hole has"><span class="qm">?</span><span class="ans">0,3</span></span>)</li>
+      <li><b>B</b>(<span class="hole has"><span class="qm">?</span><span class="ans">0,8</span></span>)</li>
+      <li><b>C</b>(<span class="hole has"><span class="qm">?</span><span class="ans">1,1</span></span>)</li>
+      <li><b>D</b>(<span class="hole has"><span class="qm">?</span><span class="ans">1,6</span></span>)</li>
+    </ol>
+    <p class="sol s bloc">Pour C : on part de 1 et on compte 1 graduation : 1,1. Pour D : 6 graduations après 1 : 1,6.</p>
+  </section>
+
+  <section class="ex" id="ex2">
+    <div class="ex-h"><h2>Exercice 2 <small>quelle lettre ?</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Les nombres sont déjà placés. Pour chaque nombre, écris la lettre du point qui lui correspond.</p>
+    <div class="fig" data-droite='{"s":300,"e":500,"pts":[[320,"G"],[390,"E"],[410,"H"],[450,"F"]]}'></div>
+    <ol class="qs" type="a" style="font:700 1.25rem var(--f-num)">
+      <li>4,5 → <span class="hole has"><span class="qm">?</span><span class="ans">F</span></span></li>
+      <li>3,9 → <span class="hole has"><span class="qm">?</span><span class="ans">E</span></span></li>
+      <li>4,1 → <span class="hole has"><span class="qm">?</span><span class="ans">H</span></span></li>
+      <li>3,2 → <span class="hole has"><span class="qm">?</span><span class="ans">G</span></span></li>
+    </ol>
+    <p class="sol s bloc">3,9 est juste avant 4 (1 graduation avant) ; 4,1 est juste après 4. Ne les confonds pas !</p>
+  </section>
+
+  <section class="ex" id="ex3">
+    <div class="ex-h"><h2>Exercice 3 <small>dans la loupe</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">La loupe agrandit le morceau entre 2,4 et 2,5. Dans la loupe, une graduation vaut 0,01. Écris l'abscisse de chaque point.</p>
+    <div class="fig" data-droite='{"s":200,"e":300,"zoom":240,"pts":[[242,"K"],[245,"M"],[247,"L"],[249,"N"]]}'></div>
+    <ol class="pts">
+      <li><b>K</b>(<span class="hole has"><span class="qm">?</span><span class="ans">2,42</span></span>)</li>
+      <li><b>M</b>(<span class="hole has"><span class="qm">?</span><span class="ans">2,45</span></span>)</li>
+      <li><b>L</b>(<span class="hole has"><span class="qm">?</span><span class="ans">2,47</span></span>)</li>
+      <li><b>N</b>(<span class="hole has"><span class="qm">?</span><span class="ans">2,49</span></span>)</li>
+    </ol>
+    <p class="sol s bloc">On part de 2,4 (= 2,40) et on compte les centièmes : 2 graduations → 2,42. M est sur la graduation du milieu : 2,45.</p>
+  </section>
+
+  <section class="ex" id="ex4">
+    <div class="ex-h"><h2>Exercice 4 <small>la droite ne commence pas à 0</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Attention : regarde bien les deux nombres écrits. Une graduation vaut 0,1. Écris l'abscisse de chaque point.</p>
+    <div class="fig" data-droite='{"s":700,"e":800,"lab":[720,770],"pts":[[740,"R"],[790,"S"],[710,"T"]]}'></div>
+    <ol class="pts">
+      <li><b>R</b>(<span class="hole has"><span class="qm">?</span><span class="ans">7,4</span></span>)</li>
+      <li><b>S</b>(<span class="hole has"><span class="qm">?</span><span class="ans">7,9</span></span>)</li>
+      <li><b>T</b>(<span class="hole has"><span class="qm">?</span><span class="ans">7,1</span></span>)</li>
+    </ol>
+    <p class="sol s bloc">On part d'un nombre écrit : R est 2 graduations après 7,2 → 7,4. S est 2 graduations après 7,7 → 7,9. T est 1 graduation avant 7,2 → 7,1.</p>
+  </section>
+
+  <section class="ex defi" id="ex5">
+    <div class="ex-h"><h2>Défi <small>une graduation, combien ?</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Ici, l'unité n'est pas coupée en 10. Trouve d'abord ce que vaut une graduation.</p>
+    <div class="fig" data-droite='{"s":0,"e":200,"pas":20,"pts":[[60,"U"],[140,"V"]]}'></div>
+    <ol class="qs" type="a" style="font:700 1.2rem var(--f-num)">
+      <li>Une graduation vaut <span class="hole has"><span class="qm">?</span><span class="ans">0,2</span></span><span class="sol s">De 0 à 1, il y a 5 graduations : 1 ÷ 5 = 0,2.</span></li>
+      <li><b>U</b>(<span class="hole has"><span class="qm">?</span><span class="ans">0,6</span></span>) et <b>V</b>(<span class="hole has"><span class="qm">?</span><span class="ans">1,4</span></span>)<span class="sol s">U : 3 graduations de 0,2 → 0,6. V : 1 + 2 graduations de 0,2 → 1,4.</span></li>
+    </ol>
+  </section>
+</div>
+<script>
+(function(){
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+/* valeurs en centièmes (entiers) */
+const F=v=>{const s=(v/100).toFixed(2).replace(/0+$/,'').replace(/\.$/,'');return s.replace('.',',');};
+const W=480,m=30;
+/* o = {s,e,pas(10),lab:[valeurs écrites] | défaut : les unités, zoom: début du dixième agrandi, pts:[[v,lettre,couleur]], hl:[a,b] surlignage} */
+function droite(o){
+  const pas=o.pas||10,y0=58,yz=190,H=o.zoom!=null?240:100,X=v=>m+(W-2*m)*(v-o.s)/(o.e-o.s);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="droite graduée">`;
+  if(o.hl){const a=X(o.hl[0]),b=X(o.hl[1]);s+=`<rect x="${a}" y="${y0-20}" width="${b-a}" height="40" rx="6" fill="var(--fill-2)"/>`;}
+  s+=`<line x1="${m-16}" x2="${W-m+16}" y1="${y0}" y2="${y0}" stroke="var(--ink)" stroke-width="2.5"/><path d="M${W-m+16} ${y0-6} L${W-m+24} ${y0} L${W-m+16} ${y0+6}" fill="var(--ink)"/>`;
+  for(let v=o.s;v<=o.e;v+=pas){const x=X(v),big=v%100===0,mid=pas===10&&v%50===0;
+    s+=`<line x1="${x}" x2="${x}" y1="${y0-(big?14:mid?10:7)}" y2="${y0+(big?14:mid?10:7)}" stroke="var(--ink)" stroke-width="${big?2.5:1.5}"/>`;
+    const lab=o.lab?o.lab.includes(v):big;
+    if(lab)s+=`<text x="${x}" y="${y0+38}" text-anchor="middle" font-family="Space Mono, monospace" font-weight="700" font-size="18" fill="var(--ink)">${F(v)}</text>`;}
+  let Z=null;
+  if(o.zoom!=null){const zd=o.zoom,a=X(zd),b=X(zd+10),za=m,zb=W-m;Z=v=>za+(zb-za)*(v-zd)/10;
+    s+=`<rect x="${a-3}" y="${y0-13}" width="${b-a+6}" height="26" fill="none" stroke="var(--amber-text)" stroke-width="2.5" rx="4"/>`;
+    s+=`<line x1="${a}" y1="${y0+13}" x2="${za}" y2="${yz-18}" stroke="var(--amber-text)" stroke-dasharray="5 4"/><line x1="${b}" y1="${y0+13}" x2="${zb}" y2="${yz-18}" stroke="var(--amber-text)" stroke-dasharray="5 4"/>`;
+    s+=`<text x="${W/2}" y="${yz-64}" text-anchor="middle" font-family="Work Sans, sans-serif" font-size="15" fill="var(--amber-ink)" font-weight="600">la loupe : ce dixième coupé en 10 centièmes</text>`;
+    s+=`<line x1="${za}" x2="${zb}" y1="${yz}" y2="${yz}" stroke="var(--ink)" stroke-width="2.5"/>`;
+    for(let k=0;k<=10;k++){const x=Z(zd+k),big=k===0||k===10,mid=k===5;s+=`<line x1="${x}" x2="${x}" y1="${yz-(big?14:mid?10:7)}" y2="${yz+(big?14:mid?10:7)}" stroke="var(--ink)" stroke-width="${big?2.5:1.5}"/>`;}
+    s+=`<text x="${za}" y="${yz+38}" text-anchor="middle" font-family="Space Mono, monospace" font-weight="700" font-size="18" fill="var(--ink)">${F(zd)}</text><text x="${zb}" y="${yz+38}" text-anchor="middle" font-family="Space Mono, monospace" font-weight="700" font-size="18" fill="var(--ink)">${F(zd+10)}</text>`;}
+  (o.pts||[]).forEach(([v,l,c])=>{c=c||'var(--amber-text)';const onZ=Z&&v%10!==0&&v>o.zoom&&v<o.zoom+10,x=onZ?Z(v):X(v),y=onZ?yz:y0;
+    s+=`<circle cx="${x}" cy="${y}" r="7" fill="${c}" stroke="var(--panel)" stroke-width="2"/>`;
+    if(l)s+=`<text x="${x}" y="${y-18}" text-anchor="middle" font-family="Big Shoulders Display, Arial Narrow, sans-serif" font-weight="800" font-size="24" fill="${c}">${l}</text>`;});
+  return s+'</svg>';
+}
+$$('[data-droite]').forEach(el=>el.innerHTML=droite(JSON.parse(el.dataset.droite)));
+/* activité */
+let x=140,step=0;const vus=new Set();
+function rendu(){
+  const u=Math.floor(x/100)*100,d=Math.floor(x/10)*10,cent=x%10!==0;
+  const o={s:0,e:300};
+  if(step===1)o.hl=[u,u+100];
+  if(step===2)o.hl=[d,d+10];
+  if(step>=2&&!cent)o.pts=[[x,'A']];
+  if(step===3){o.zoom=d;o.pts=[[x,'A']];}
+  $('#fig').innerHTML=droite(o);
+  const t=[`On va placer le point A d'abscisse <b>${F(x)}</b>. Clique sur « Étape suivante ».`,
+    `<b>Les unités</b> : ${F(x)} est entre <b>${F(u)}</b> et <b>${F(u+100)}</b>.`,
+    cent?`<b>Les dixièmes</b> : chaque graduation vaut 0,1. ${F(x)} est entre <b>${F(d)}</b> et <b>${F(d+10)}</b>… mais pas sur une graduation : il faut la loupe.`
+        :`<b>Les dixièmes</b> : chaque graduation vaut 0,1. On compte ${(x-u)/10} graduation${(x-u)/10>1?'s':''} après ${F(u)} : A(${F(x)}). C'est fini, pas besoin de loupe !`,
+    `<b>La loupe</b> : on coupe le dixième en 10, chaque graduation vaut 0,01. On compte ${x%10} graduation${x%10>1?'s':''} après ${F(d)} : A(${F(x)}).`][step];
+  $('#ver').innerHTML=t;
+  const last=cent?3:2;
+  $$('#etapes span').forEach((sp,i)=>{sp.classList.toggle('on',i<step);sp.hidden=!cent&&i===2;});
+  $('#next').disabled=step>=last;
+  if(step>=last){vus.add(x);if(vus.size>=3)$('#ret').hidden=false;}
+}
+function choisir(v,bt){x=v;step=0;$$('#cas .btn').forEach(b=>b.classList.toggle('main',b===bt));rendu();}
+$$('#cas .btn').forEach(b=>b.addEventListener('click',()=>choisir(+b.dataset.x,b)));
+$('#next').addEventListener('click',()=>{step++;rendu();});
+$('#again').addEventListener('click',()=>{step=0;rendu();});
+choisir(140,$('#cas .btn'));
+/* ---------- boutons « Correction » ---------- */
+document.addEventListener('click',e=>{const bt=e.target.closest('[data-sol]');if(!bt)return;const s=bt.closest('.ex');const on=s.classList.toggle('show');bt.textContent=on?'Cacher la correction':'Correction';bt.classList.toggle('main',on);bt.setAttribute('aria-pressed',on);});
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
+<style id="nuance-chapitre">/* Nuance du cahier : ch4 */:root:root:root{--bg:#f6fcf8;--grid:#d2eadb;--line:#bcdcc8}</style>
