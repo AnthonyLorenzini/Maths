@@ -581,16 +581,16 @@ window.SITE = {
             {
               titre: "Le bon quotient pour le bon problème", duree: "50 min",
               contenu: [
-                "Une division, quatre histoires (15 min, projeté, pas à pas) : 50 ÷ 12 pour des minibus de 12 places, 50 cartes en paquets de 12, un ruban de 50 cm coupé en 12 et mesuré à la règle, et 50 tartes partagées exactement entre 12 tables (les 2 tartes qui restent sont coupées en 12). Chaque histoire passe par la division, le calcul (la division posée, partie utile surlignée) et la réponse, avec un dessin ; les mots de la question qui décident sont surlignés. Les quatre réponses (5 minibus, 4 paquets et il reste 2, ≈ 4,2 cm, 50/12 de tarte) s'affichent côte à côte.",
+                "Une division, quatre histoires (15 min, projeté, pas à pas) : 50 ÷ 8 pour des minibus de 8 places, 50 cartes en paquets de 8, 50 € partagés entre 8 amis et 50 tartes partagées exactement entre 8 tables (les 2 tartes qui restent sont coupées en 8). Chaque histoire passe par la division, le calcul (la division posée, partie utile surlignée) et la réponse, avec un dessin ; les mots de la question qui décident sont surlignés. Les quatre réponses (7 minibus, 6 paquets et il reste 2, 6,25 €, 50/8 de tarte) s'affichent côte à côte.",
                 "Les exercices (35 min, cahier) : la bonne réponse (quatre histoires avec 20 ÷ 3, le calcul est donné) ; des problèmes en trois temps (division, calcul, phrase : cars, boîtes d'œufs, corde, boules de pâte pesées au gramme) ; ça a du sens ? (les réponses de Noé : un jour oublié, le reste pris pour la réponse, un reste trop grand…) ; un défi : inventer des histoires pour 7 ÷ 3 dont la réponse est 3, puis environ 2,33."
               ],
               ressources: ["6e-ch6-s6"],
               retenir: [
                 "Dans un problème, on reconnaît une **division** quand on partage en parts égales ou qu'on fait des groupes de même taille.",
-                "Le calcul est le même, **la réponse dépend de la question** : un nombre de minibus s'**arrondit au-dessus** ; des objets qu'on ne coupe pas donnent un **entier** et un **reste** ; quand on mesure (règle, balance) ou qu'on demande « environ », on donne une **valeur approchée** ; quand on partage tout, exactement, on donne la **valeur exacte**, avec une **fraction** si la division ne s'arrête pas (50/12 de tarte = 4 tartes et 2/12).",
+                "Le calcul est le même, **la réponse dépend de la question** : un nombre de minibus s'**arrondit au-dessus** ; des objets qu'on ne coupe pas donnent un **entier** et un **reste** ; des euros partagés jusqu'au bout donnent un **décimal** (6,25 €) ; des tartes coupées en parts donnent une **fraction** (50/8 de tarte = 6 tartes et 2/8) ; quand on mesure ou qu'on demande « environ », on donne une **valeur approchée**.",
                 "On résout en trois temps : la division, le calcul, puis **une phrase** avec l'unité. On vérifie que la réponse a du sens (pas de « 4,17 minibus » !)."
               ],
-              exemple: "50 élèves, des minibus de 12 places : 50 ÷ 12 = 4, il reste 2. Il faut 5 minibus.",
+              exemple: "50 élèves, des minibus de 8 places : 50 ÷ 8 = 6, il reste 2. Il faut 7 minibus.",
               savoir: "reconnaître une division dans un problème et choisir la forme de la réponse : entier, décimal, fraction, valeur approchée ou arrondi au-dessus."
             }
           ],
@@ -600,7 +600,7 @@ window.SITE = {
             { id: "6e-ch6-s3", type: "exos", titre: "Séance 3 — Un même nombre, plusieurs écritures", resume: "Partager des barres entre des amis : poser la division, descendre un zéro, suivre les dixièmes et les centièmes jusqu'à un reste 0, vérifier en multipliant. Six exercices et un défi. Avec corrections.", ajout: "2026-11-17" },
             { id: "6e-ch6-s4", type: "exos", titre: "Séance 4 — Ça s'arrête ou ça boucle ?", resume: "Le détecteur de restes : la division s'arrête sur un reste 0, ou boucle quand un reste revient (5/3 = 1,666…). Valeur exacte, valeur approchée au dixième et au centième, le signe ≈. Cinq exercices et un défi. Avec corrections.", ajout: "2026-11-23" },
             { id: "6e-ch6-s5", type: "exos", titre: "Séance 5 — Carte d'identité d'un quotient", resume: "La carte d'identité d'un quotient : nombre caché, division posée, vérification, puis entier, décimal ou ni l'un ni l'autre. Diviser par 12, 25 et même 137 avec la table. Trois exercices de cartes et un défi, avec des questions pour aller plus loin. Avec corrections.", ajout: "2026-11-24" },
-            { id: "6e-ch6-s6", type: "exos", titre: "Séance 6 — Le bon quotient pour le bon problème", resume: "Une même division, 50 ÷ 12, dans quatre histoires : minibus, cartes, ruban mesuré à la règle et tartes à la cantine. La réponse dépend de la question : arrondi au-dessus, entier et reste, valeur approchée, fraction. Problèmes en trois temps, réponses absurdes et un défi. Avec corrections.", ajout: "2026-11-24" }
+            { id: "6e-ch6-s6", type: "exos", titre: "Séance 6 — Le bon quotient pour le bon problème", resume: "Une même division, 50 ÷ 8, dans quatre histoires : minibus, cartes, euros et tartes à la cantine. La réponse dépend de la question : arrondi au-dessus, entier et reste, décimal, fraction, et valeur approchée dans les exercices. Problèmes en trois temps, réponses absurdes et un défi. Avec corrections.", ajout: "2026-11-24" }
           ]
         },
         {
