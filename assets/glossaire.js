@@ -151,7 +151,9 @@
     { id: "distance-zero", nom: "distance à zéro", chap: "4e · Nombres relatifs", court: "Le nombre sans son signe : la distance entre ce nombre et 0 sur la droite graduée. Ex : la distance à zéro de −7 est 7.",
       long: ["Deux nombres opposés ont la même distance à zéro."] },
     { id: "regle-signes", nom: "règle des signes", chap: "4e · Nombres relatifs", court: "Le signe d'un produit dépend du nombre de facteurs négatifs : pair, il est positif ; impair, il est négatif.",
-      long: ["Avec deux facteurs : même signe, produit positif ; signes contraires, produit négatif.", "Ex : (−2) × (−5) × (−3) = −30, car il y a 3 facteurs négatifs."] },
+      long: ["Avec deux facteurs : même signe, produit positif ; signes contraires, produit négatif.", "Ex : (−2) × (−5) × (−3) = −30, car il y a 3 facteurs négatifs.", "Elle vaut aussi pour les quotients, car diviser c'est défaire une multiplication : −12 ÷ (−3) = 4."] },
+    { id: "ecriture-fractionnaire", nom: "écriture fractionnaire", chap: "4e · Nombres relatifs", court: "Écrire une division avec une barre : a/b veut dire a ÷ b. Ex : −12/4 = −12 ÷ 4 = −3.",
+      long: ["Le signe − peut être en haut, en bas ou devant la barre : −12/4 = 12/(−4) = −(12/4).", "Le dénominateur n'est jamais 0 : diviser par 0 est impossible."] },
     { id: "nul", nom: "nul", chap: "Tous niveaux · Calcul et nombres", court: "Égal à 0. Un produit est nul dès qu'un de ses facteurs est nul.",
       long: ["Ex : (−8) × 0 × (−9) = 0, quels que soient les signes des autres facteurs."] },
 

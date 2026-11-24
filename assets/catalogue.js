@@ -1063,6 +1063,25 @@ window.SITE = {
               ],
               exemple: "(−25) × 7 × (−4) = 700 (deux négatifs, et 25 × 4 = 100).",
               savoir: "trouver le signe d'un produit de plusieurs nombres relatifs et le calculer de tête en regroupant les facteurs."
+            },
+            {
+              titre: "Petit test et quotients", duree: "50 min",
+              contenu: [
+                "Petit test A/B de 10 minutes sans calculatrice, à la place du flash : huit questions sur les séances 1 à 4, deux par compétence, sur une fiche imprimée (quatre par A4). Les résultats forment les groupes de l'AP.",
+                "Activité 1 : la division défait la multiplication. Avec la famille de (−3) × 4 = −12, on trouve −12 ÷ 4 = −3 et −12 ÷ (−3) = 4 : les quotients suivent la règle des signes, sans rien de nouveau à apprendre.",
+                "Activité 2 : l'écriture fractionnaire. Le signe − peut être en haut, en bas ou devant la barre ; deux signes − vont par deux et donnent un quotient positif.",
+                "Activité 3 : des décimaux avec la méthode « le signe, puis la distance à zéro », puis le zéro : 0 ÷ (−5) = 0, mais diviser par 0 est impossible.",
+                "Exercices projetés, faits sur le cahier sans calculatrice : seulement le signe, calculer, les familles à trous, le grand froid en Laponie, les erreurs d'Inès, une chaîne aller et retour, et un « pour aller plus loin »."
+              ],
+              ressources: ["4e-ch5-s5"],
+              retenir: [
+                "Diviser, c'est **défaire** une multiplication : −12 ÷ 4 = −3 car (−3) × 4 = −12.",
+                "Un quotient suit la **règle des signes** : mêmes signes, quotient **positif** ; signes contraires, quotient **négatif**.",
+                "Le signe − peut se placer en haut, en bas ou devant la barre : −12/4 = 12/(−4) = −(12/4).",
+                "0 divisé par un nombre donne **0**. Diviser **par 0** est **impossible**."
+              ],
+              exemple: "(−7,5) ÷ 3 = −2,5 (signes contraires, et 7,5 ÷ 3 = 2,5).",
+              savoir: "calculer le quotient de deux nombres relatifs, entiers ou décimaux, en écriture ÷ ou fractionnaire, et expliquer sa règle des signes par la multiplication."
             }
           ],
           ressources: [
@@ -1070,6 +1089,7 @@ window.SITE = {
             { id: "4e-ch5-s2", type: "exos", titre: "Séance 2 — Un seul facteur négatif", resume: "Le marcheur qui répète le même pas, le congélateur qui perd 3 °C par heure, la table de 4 prolongée sous zéro, puis la méthode et les exercices avec astuces et solutions.", ajout: "2026-11-24" },
             { id: "4e-ch5-s3", type: "exos", titre: "Séance 3 — Deux facteurs négatifs", resume: "Remonter le temps avec la température de la nuit, la table de −3 prolongée sous zéro, puis la preuve par la distributivité et les exercices avec astuces et solutions.", ajout: "2026-11-24" },
             { id: "4e-ch5-s4", type: "exos", titre: "Séance 4 — Plusieurs facteurs", resume: "La machine × (−2) qui fait basculer le signe, les négatifs qui vont par deux, les couples amis pour calculer de tête, puis les exercices avec astuces et solutions.", ajout: "2026-11-24" },
+            { id: "4e-ch5-s5", type: "exos", titre: "Séance 5 — Petit test et quotients", resume: "Un petit test A/B à imprimer pour former les groupes de l'AP, puis la division qui défait la multiplication, la barre de fraction, les décimaux et le zéro, et les exercices avec astuces et solutions.", ajout: "2026-11-24" },
             { id: "4e-ch5-minijeux", type: "jeu", titre: "Mini-jeu — Sprint des relatifs", resume: "Calcul mental tiré au hasard : ajouter, soustraire, puis multiplier et diviser au fil du chapitre. Seul en 60 s ou au tableau.", ajout: "2026-11-23" }
           ]
         }

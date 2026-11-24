@@ -423,7 +423,14 @@
       '<rect class="f-c s-i" x="50" y="10" width="19" height="21" rx="5" stroke-width="2.8"/>' + '<text class="tx f-b" x="59.5" y="20.5" text-anchor="middle" dominant-baseline="central" font-size="17">−</text>' +
       '<path class="s-s" d="M12.5 34Q24.25 62 36 34" fill="none" stroke-width="4"/>' +
       '<circle class="f-s s-i" cx="24.25" cy="52" r="9" stroke-width="2.6"/>' +
-      '<text class="tx f-i" x="24.25" y="52.5" text-anchor="middle" dominant-baseline="central" font-size="16">+</text>')
+      '<text class="tx f-i" x="24.25" y="52.5" text-anchor="middle" dominant-baseline="central" font-size="16">+</text>'),
+    "4e-ch5-s5": svg( // une barre de fraction : un « − » en haut, un « − » en bas, et le quotient « + »
+      '<rect class="f-c s-i" x="6" y="6" width="26" height="24" rx="6" stroke-width="2.8"/>' + '<text class="tx f-b" x="19" y="18" text-anchor="middle" dominant-baseline="central" font-size="20">−</text>' +
+      '<line class="s-i" x1="3" y1="36" x2="35" y2="36" stroke-width="3.5"/>' +
+      '<rect class="f-c s-i" x="6" y="42" width="26" height="24" rx="6" stroke-width="2.8"/>' + '<text class="tx f-b" x="19" y="54" text-anchor="middle" dominant-baseline="central" font-size="20">−</text>' +
+      '<text class="tx f-i" x="45" y="36" text-anchor="middle" dominant-baseline="central" font-size="17">=</text>' +
+      '<circle class="f-s s-i" cx="60" cy="36" r="10" stroke-width="2.6"/>' +
+      '<text class="tx f-i" x="60" y="36.5" text-anchor="middle" dominant-baseline="central" font-size="17">+</text>')
   };
 
   // ----- 4e ch.5 : relatifs — moins par moins donne plus

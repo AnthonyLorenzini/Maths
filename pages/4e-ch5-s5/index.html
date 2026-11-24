@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Séance 5 — Petit test et quotients</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#fffef8; --panel:#fff; --ink:#1b2a5e; --muted:#56608a; --line:#c3d1ec; --grid:#dbe5f6;
+  --amber:#ffc61a; --amber-text:#d62839; --fill:#ffe45e; --fill-2:#fff4b8;
+  --ok:#17703f; --ok-bg:#dff5e6; --ko:#b3261e; --ko-bg:#ffe5e2;
+  --blue:#1f56d6; --blue-bg:#e6eeff; --magenta:#b8217a; --magenta-bg:#ffe6f3;
+  --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;color:var(--ink);font:16px/1.5 var(--f-text);padding:16px 16px 40px}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+h1{font:800 clamp(2rem,6.5vw,3.3rem)/.92 var(--f-title);text-transform:uppercase;margin:0;letter-spacing:.01em}
+h1 span{color:var(--amber-text)}
+h2{font:800 clamp(1.35rem,4vw,1.9rem)/1.05 var(--f-title);text-transform:uppercase;letter-spacing:.02em;margin:0 0 6px}
+h3{font:800 1.25rem/1.1 var(--f-title);text-transform:uppercase;letter-spacing:.03em;margin:0}
+.sub{margin:6px 0 0;color:var(--muted);font-size:.95rem}
+.pill{display:inline-block;font:700 .8rem var(--f-text);background:var(--ink);color:#fff;border-radius:6px;padding:2px 8px;margin-left:6px;vertical-align:middle}
+.panel{background:var(--panel);border:2px solid var(--ink);border-radius:8px;padding:14px 16px}
+.num{font-family:var(--f-num);font-weight:700;white-space:nowrap}
+.btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:7px 13px;cursor:pointer;min-height:40px}
+.btn:hover{border-color:var(--amber)}
+.btn.main{background:var(--amber);border-color:var(--amber)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+/* scène */
+.scene{border:2px solid var(--line);border-radius:8px;background:#fff;margin-top:10px;overflow:hidden}
+.scene svg{display:block;width:100%;height:auto}
+.etapes{margin:0;padding:10px 14px 12px 34px;min-height:3.2em;border-top:2px dashed var(--line)}
+.etapes li{margin:2px 0;font-size:1.02rem}
+.etapes li.der{font-weight:700}
+.etapes .vide{list-style:none;margin-left:-20px;color:var(--muted)}
+.res{display:inline-block;background:var(--fill);border-radius:5px;padding:0 6px}
+.res.m{background:#bcd0ff;color:var(--blue)}
+.res.z{background:#fff;box-shadow:0 0 0 2px var(--line)}
+.concl{margin-top:10px;border-left:5px solid var(--amber);background:var(--fill-2);border-radius:0 8px 8px 0;padding:8px 12px}
+.concl p{margin:2px 0}
+.app{animation:apparait .45s ease}
+@keyframes apparait{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.app{animation:none}}
+/* écriture fractionnaire */
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.15;margin:0 2px}
+.fr>span{padding:0 3px}
+.fr>span:first-child{border-bottom:.12em solid currentColor}
+/* exercices */
+.consigne-cahier{margin:0;color:var(--muted);font-size:.93rem}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+@media (max-width:820px){.cols{grid-template-columns:minmax(0,1fr)}}
+.col{display:flex;flex-direction:column;gap:14px}
+.ex{background:#fff;border:2px solid var(--ink);border-radius:8px;padding:10px 14px 12px}
+.ex.plus{border-style:dashed;border-color:var(--amber-text);background:#fffaf0}
+.ex-tete{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px}
+.stars{color:#c98a00;font-size:1rem;letter-spacing:1px;white-space:nowrap}
+.ex p{margin:4px 0}
+.calc{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px 12px;margin:6px 0;align-items:center}
+.calc span.c{font:700 1rem var(--f-num);white-space:nowrap}
+.calc span.c>i{font-style:normal;color:var(--muted);margin-right:4px}
+.faux{display:flex;flex-direction:column;gap:3px;margin:6px 0}
+.faux span{font:700 1.02rem var(--f-num)}
+.faux span i{font-style:normal;color:var(--muted);margin-right:4px}
+.faux s{text-decoration:none;border-bottom:2.5px wavy var(--ko)}
+.chaine{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0;font:700 1rem var(--f-num)}
+.chaine .bo{border:2.5px solid var(--ink);border-radius:8px;padding:2px 10px;background:#fff}
+.chaine .bo.m{background:#bcd0ff;color:var(--blue)}
+.chaine .op{color:var(--amber-text)}
+.tools{display:flex;gap:8px;margin-top:8px}
+.tools .btn{min-height:34px;padding:4px 12px;font-size:.88rem}
+.ast,.sol{margin-top:8px;border-radius:6px;padding:8px 10px;font-size:.95rem}
+.ast{background:var(--blue-bg);border-left:4px solid var(--blue)}
+.sol{background:var(--ok-bg);border-left:4px solid var(--ok)}
+.sol p{margin:2px 0}
+/* bilan */
+.bilan{border:3px solid var(--ink);border-radius:8px;background:#fff;padding:12px 16px}
+.bilan ul{margin:6px 0 0;padding-left:20px}
+.bilan li{margin:4px 0}
+.bilan .ex-b{margin:8px 0 0;font-size:.95rem;color:var(--muted)}
+.gl{cursor:help}
+/* petit test */
+.test{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center}
+@media (max-width:700px){.test{grid-template-columns:minmax(0,1fr)}}
+.test ul{margin:4px 0 0;padding-left:20px}
+.test li{margin:2px 0;font-size:1.05rem}
+.chrono{font:700 clamp(3rem,10vw,5.2rem)/1 var(--f-num);text-align:center;border:3px solid var(--ink);border-radius:10px;padding:10px 22px;background:#fff;min-width:250px}
+.chrono.fin{background:var(--ko-bg);color:var(--ko);border-color:var(--ko)}
+.prof{margin-top:12px;border:2px dashed var(--line);border-radius:8px;padding:10px 14px;background:#fbfcff;font-size:.95rem}
+.prof table{border-collapse:collapse;width:100%;margin:6px 0 10px}
+.prof th,.prof td{border:1px solid var(--line);padding:3px 8px;text-align:left;vertical-align:top}
+.prof th{background:var(--blue-bg);font-weight:600}
+.prof td.n{font-family:var(--f-num);font-weight:700;white-space:nowrap}
+.prof ol{margin:4px 0;padding-left:22px}
+.prof p{margin:4px 0}
+/* activités : lignes qui apparaissent */
+.preuve{padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.pr-l{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,340px);gap:6px 14px;align-items:center}
+@media (max-width:760px){.pr-l{grid-template-columns:minmax(0,1fr)}}
+.pr-t{grid-column:1/-1;font:800 1rem var(--f-title);text-transform:uppercase;letter-spacing:.04em;color:var(--amber-text);margin-top:4px}
+.pr-e{font:700 clamp(1.1rem,3.2vw,1.7rem)/1.5 var(--f-num)}
+.pr-n{font-size:.93rem;color:var(--muted);border-left:3px solid var(--line);padding-left:10px}
+.pr-l.neuf .pr-e{animation:monte .45s ease}
+@keyframes monte{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.pr-l.neuf .pr-e{animation:none}}
+.k{border-radius:5px;padding:0 4px;background:#bcd0ff;box-shadow:0 0 0 2px var(--blue);color:var(--blue)}
+
+/* ---------- fiches du petit test (impression) ---------- */
+#fiches{display:none}
+@page{size:A4;margin:8mm}
+@media print{
+  body.imprime-test{background:#fff;padding:0}
+  body.imprime-test > *:not(#fiches){display:none!important}
+  body.imprime-test #fiches{display:grid;grid-template-columns:97mm 97mm;grid-auto-rows:140mm;color:#000;font-family:"Work Sans",Arial,sans-serif}
+  #fiches .fi{border:.6pt dashed #888;padding:4mm 5mm;display:flex;flex-direction:column;overflow:hidden;break-inside:avoid}
+  #fiches .fi:nth-child(4n){break-after:page}
+  #fiches .fi-tete{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.2pt solid #000;padding-bottom:1.5mm}
+  #fiches .fi-tete b{font-size:13pt}
+  #fiches .fi-tete span{font-size:12pt;font-weight:700;border:1.2pt solid #000;border-radius:2mm;padding:0 2mm}
+  #fiches .fi-nom{font-size:9.5pt;margin:2mm 0 1mm}
+  #fiches .fi-cons{font-size:8.5pt;font-style:italic;margin:0 0 1.5mm}
+  #fiches .fi-q{display:flex;align-items:center;gap:2mm;font-size:10pt;min-height:9.6mm;border-bottom:.4pt solid #ccc}
+  #fiches .fi-q i{font-style:normal;font-weight:700;width:4mm}
+  #fiches .fi-q .e{flex:1;font-family:"Space Mono","Courier New",monospace;font-weight:700}
+  #fiches .fi-q .e.t{font-family:"Work Sans",Arial,sans-serif;font-weight:400;font-size:9pt;line-height:1.25}
+  #fiches .fi-q .bx{width:22mm;height:7mm;border:1pt solid #000;border-radius:1.5mm;flex:none}
+  #fiches .fi-q.long{flex-wrap:wrap;padding:1mm 0}
+  #fiches .fi-q.long .bx{width:calc(100% - 6mm);height:7mm;margin-left:6mm}
+  #fiches .fi-prof{margin-top:auto;font-size:8pt;border-top:.6pt solid #000;padding-top:1.5mm;display:flex;gap:2.5mm;align-items:center;flex-wrap:wrap}
+  #fiches .fi-prof .cb{display:inline-block;width:3.2mm;height:3.2mm;border:.8pt solid #000;vertical-align:-.5mm;margin-left:.8mm}
+  #fiches .fi-prof .gr{border-bottom:.6pt solid #000;display:inline-block;width:16mm}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Séance 5 · <span>Petit test et quotients</span></h1>
+  <p class="sub">D'abord un petit test sur les séances 1 à 4. Puis une question : comment diviser des <span class="gl" data-t="relatif">nombres relatifs</span> ?</p>
+</header>
+
+<!-- ======================= Petit test ======================= -->
+<section class="panel">
+  <h2>Petit test <span class="pill">10 min</span></h2>
+  <div class="test">
+    <div>
+      <ul>
+        <li><b>Sans calculatrice.</b></li>
+        <li>Écris seulement tes réponses dans les cases de ta fiche.</li>
+        <li>Tu as fini ? Retourne ta fiche et relis-la dans ta tête.</li>
+      </ul>
+    </div>
+    <div class="chrono" id="chrono" aria-live="polite">10:00</div>
+  </div>
+  <div class="row" style="margin-top:10px">
+    <button class="btn main" id="chrono-go">Lancer le chrono ▶</button>
+    <button class="btn" id="chrono-raz">Remettre à 10:00</button>
+    <button class="btn" id="test-imprimer" style="margin-left:auto">Imprimer les fiches</button>
+    <button class="btn" id="test-prof">Pour le prof : corrigé et groupes</button>
+  </div>
+  <div class="prof" id="prof" hidden></div>
+</section>
+
+<!-- ======================= Activité 1 ======================= -->
+<section class="panel">
+  <h2>Activité 1 · La division défait la multiplication</h2>
+  <p style="margin:0">Trois nombres liés par une multiplication forment une <b>famille</b>. Si on connaît la multiplication, on connaît aussi les deux <span class="gl" data-t="division">divisions</span>.</p>
+  <div class="scene" id="a1"></div>
+  <div class="row" style="margin-top:8px">
+    <button class="btn main" id="a1-next">Étape suivante ▶</button>
+    <button class="btn" id="a1-reset">Recommencer</button>
+    <button class="btn" id="a1-concl-btn" style="margin-left:auto">Ce qu'on retient</button>
+  </div>
+  <div class="concl" id="a1-concl" hidden>
+    <p>Diviser, c'est <b>défaire</b> une multiplication : <span class="num">−12 ÷ 4 = −3</span> car <span class="num">(−3) × 4 = −12</span>.</p>
+    <p>Le <span class="gl" data-t="quotient">quotient</span> suit donc la même <span class="gl" data-t="regle-signes">règle des signes</span> que le produit : mêmes signes, quotient <span class="gl" data-t="positif">positif</span> ; signes contraires, quotient <span class="gl" data-t="negatif">négatif</span>.</p>
+  </div>
+</section>
+
+<!-- ======================= Activité 2 ======================= -->
+<section class="panel">
+  <h2>Activité 2 · La barre de fraction</h2>
+  <p style="margin:0">En 4e, on écrit souvent une division avec une barre : c'est l'<span class="gl" data-t="ecriture-fractionnaire">écriture fractionnaire</span>. Où peut-on placer le signe − ?</p>
+  <div class="scene"><div class="preuve" id="a2">
+    <div class="pr-l"><div class="pr-e"><span class="fr"><span>12</span><span>4</span></span> = 12 ÷ 4 = 3</div><div class="pr-n">La barre veut dire « divisé par ».</div></div>
+    <div class="pr-l" data-e="1"><div class="pr-t">Un seul signe −</div><div class="pr-e"><span class="fr"><span><span class="k">−12</span></span><span>4</span></span> = −12 ÷ 4 = <span class="res m">−3</span></div><div class="pr-n">Le <span class="gl" data-t="numerateur">numérateur</span> est négatif : signes contraires, le quotient est négatif.</div></div>
+    <div class="pr-l" data-e="2"><div class="pr-e"><span class="fr"><span>12</span><span><span class="k">−4</span></span></span> = 12 ÷ (−4) = <span class="res m">−3</span></div><div class="pr-n">Cette fois, c'est le <span class="gl" data-t="denominateur">dénominateur</span>. Même résultat !</div></div>
+    <div class="pr-l" data-e="3"><div class="pr-e"><span class="fr"><span>−12</span><span>4</span></span> = <span class="fr"><span>12</span><span>−4</span></span> = − <span class="fr"><span>12</span><span>4</span></span></div><div class="pr-n">Peu importe où est le signe − : on l'écrit souvent <b>devant la barre</b>.</div></div>
+    <div class="pr-l" data-e="4"><div class="pr-t">Deux signes −</div><div class="pr-e"><span class="fr"><span><span class="k">−12</span></span><span><span class="k">−4</span></span></span> = <span class="fr"><span>12</span><span>4</span></span> = <span class="res">3</span></div><div class="pr-n">Les deux négatifs vont par deux, comme en séance 4 : le quotient est positif.</div></div>
+    <div class="pr-l" data-e="5"><div class="pr-t">À toi</div><div class="pr-e"><span class="fr"><span>−35</span><span>7</span></span> &nbsp; ; &nbsp; <span class="fr"><span>−35</span><span>−7</span></span> &nbsp; ; &nbsp; <span class="fr"><span>35</span><span>−7</span></span></div><div class="pr-n">Sur ton cahier : le signe, puis la <span class="gl" data-t="distance-zero">distance à zéro</span>.</div></div>
+    <div class="pr-l" data-e="6"><div class="pr-e"><span class="res m">−5</span> &nbsp; ; &nbsp; <span class="res">5</span> &nbsp; ; &nbsp; <span class="res m">−5</span></div><div class="pr-n">Un seul négatif : quotient négatif. Deux négatifs : quotient positif.</div></div>
+  </div></div>
+  <div class="row" style="margin-top:8px">
+    <button class="btn main" id="a2-next">Étape suivante ▶</button>
+    <button class="btn" id="a2-reset">Recommencer</button>
+    <button class="btn" id="a2-concl-btn" style="margin-left:auto">Ce qu'on retient</button>
+  </div>
+  <div class="concl" id="a2-concl" hidden>
+    <p>La barre de fraction est une division : même règle des signes.</p>
+    <p><span class="num"><span class="fr"><span>−12</span><span>4</span></span> = <span class="fr"><span>12</span><span>−4</span></span> = − <span class="fr"><span>12</span><span>4</span></span> = −3</span> &nbsp; et &nbsp; <span class="num"><span class="fr"><span>−12</span><span>−4</span></span> = <span class="fr"><span>12</span><span>4</span></span> = 3</span>.</p>
+  </div>
+</section>
+
+<!-- ======================= Activité 3 ======================= -->
+<section class="panel">
+  <h2>Activité 3 · Des décimaux, et le zéro</h2>
+  <p style="margin:0">La méthode de la séance 2 marche encore : <b>le signe, puis la distance à zéro</b>. Mais attention au zéro !</p>
+  <div class="scene"><div class="preuve" id="a3">
+    <div class="pr-l"><div class="pr-e">(−7,5) ÷ 3</div><div class="pr-n">Un quotient avec un décimal.</div></div>
+    <div class="pr-l" data-e="1"><div class="pr-e">(−7,5) ÷ 3 = <span class="res m">−2,5</span></div><div class="pr-n">Le signe : signes contraires, donc −. La distance à zéro : <span class="num">7,5 ÷ 3 = 2,5</span>.</div></div>
+    <div class="pr-l" data-e="2"><div class="pr-e"><span class="fr"><span>−1</span><span>4</span></span> = <span class="res m">−0,25</span></div><div class="pr-n">Un quart : <span class="num">1 ÷ 4 = 0,25</span>.</div></div>
+    <div class="pr-l" data-e="3"><div class="pr-t">À toi</div><div class="pr-e">6 ÷ (−0,5)</div><div class="pr-n">Sur ton cahier. Combien de fois 0,5 dans 6 ?</div></div>
+    <div class="pr-l" data-e="4"><div class="pr-e">6 ÷ (−0,5) = <span class="res m">−12</span></div><div class="pr-n">Il y a 12 fois 0,5 dans 6. On vérifie avec la multiplication : <span class="num">(−12) × (−0,5) = 6</span>.</div></div>
+    <div class="pr-l" data-e="5"><div class="pr-t">Et le zéro ?</div><div class="pr-e">0 ÷ (−5) = <span class="res z">0</span></div><div class="pr-n">Car <span class="num">0 × (−5) = 0</span>. Zéro divisé par un nombre, c'est zéro.</div></div>
+    <div class="pr-l" data-e="6"><div class="pr-e">(−5) ÷ 0 = ?</div><div class="pr-n">Quel nombre, multiplié par 0, donne −5 ? Réfléchis avant de cliquer.</div></div>
+    <div class="pr-l" data-e="7"><div class="pr-e">Aucun : diviser par 0 est <b>impossible</b>.</div><div class="pr-n">Tout nombre multiplié par 0 donne 0, jamais −5. Le dénominateur d'une fraction n'est jamais 0.</div></div>
+  </div></div>
+  <div class="row" style="margin-top:8px">
+    <button class="btn main" id="a3-next">Étape suivante ▶</button>
+    <button class="btn" id="a3-reset">Recommencer</button>
+    <button class="btn" id="a3-concl-btn" style="margin-left:auto">Ce qu'on retient</button>
+  </div>
+  <div class="concl" id="a3-concl" hidden>
+    <p><b>1. Le signe</b> : mêmes signes, positif ; signes contraires, négatif.</p>
+    <p><b>2. La distance à zéro</b> : on divise sans les signes. On vérifie en multipliant.</p>
+    <p>0 divisé par un nombre donne 0. Diviser par 0 est <b>impossible</b>.</p>
+  </div>
+</section>
+
+<!-- ======================= Exercices ======================= -->
+<section>
+  <h2>Exercices <span class="pill">sans calculatrice</span></h2>
+  <p class="consigne-cahier">Dans ton cahier : le numéro de l'exercice et tes réponses, sans recopier l'énoncé.</p>
+  <div class="cols" style="margin-top:10px">
+    <div class="col">
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 1 · Seulement le signe</h3><span class="stars" aria-label="1 étoile">★☆☆</span></div>
+        <p>Ne calcule pas ! Écris seulement le signe du résultat : <b>+</b>, <b>−</b>, ou <b>0</b> s'il est nul. Attention : il y a aussi des produits.</p>
+        <div class="calc"><span class="c"><i>a)</i>(−42) ÷ 6</span><span class="c"><i>b)</i>(−36) ÷ (−9)</span><span class="c"><i>c)</i>0 ÷ (−7)</span><span class="c"><i>d)</i><span class="fr"><span>54</span><span>−6</span></span></span><span class="c"><i>e)</i>(−8) × (−5)</span><span class="c"><i>f)</i><span class="fr"><span>−63</span><span>−7</span></span></span></div>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>Pour un quotient comme pour un produit : mêmes signes → +, signes contraires → −.</div>
+        <div class="sol" hidden><p>a) − &nbsp; b) + &nbsp; c) 0 &nbsp; d) − &nbsp; e) + &nbsp; f) +</p></div>
+      </article>
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 2 · Calculer</h3><span class="stars" aria-label="1 étoile">★☆☆</span></div>
+        <p>Calcule : le signe d'abord, puis la distance à zéro.</p>
+        <div class="calc"><span class="c"><i>a)</i>56 ÷ (−8)</span><span class="c"><i>b)</i>(−81) ÷ (−9)</span><span class="c"><i>c)</i><span class="fr"><span>−48</span><span>6</span></span></span><span class="c"><i>d)</i><span class="fr"><span>−100</span><span>−25</span></span></span><span class="c"><i>e)</i>(−4,5) ÷ 9</span><span class="c"><i>f)</i>3 ÷ (−0,5)</span><span class="c"><i>g)</i><span class="fr"><span>−2</span><span>8</span></span></span><span class="c"><i>h)</i><span class="fr"><span>−0,6</span><span>−3</span></span></span></div>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>e) 4,5 ÷ 9 : la moitié de 9, c'est 4,5. f) Combien de fois 0,5 dans 3 ? g) 2 ÷ 8, c'est un quart.</div>
+        <div class="sol" hidden><p>a) −7 &nbsp; b) 9 &nbsp; c) −8 &nbsp; d) 4</p><p>e) −0,5 &nbsp; f) −6 &nbsp; g) −0,25 &nbsp; h) 0,2</p></div>
+      </article>
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 3 · Les familles à trous</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
+        <p>Trouve le nombre qui manque. Vérifie ta réponse en refaisant le calcul.</p>
+        <div class="calc"><span class="c"><i>a)</i>(−8) × … = 56</span><span class="c"><i>b)</i>… ÷ (−4) = 2,5</span><span class="c"><i>c)</i>(−45) ÷ … = 9</span><span class="c"><i>d)</i>… × (−6) = −3</span><span class="c"><i>e)</i>72 ÷ … = −12</span></div>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>a) Le trou est un facteur : on le trouve avec une division, 56 ÷ (−8). b) Ici, on défait la division avec une multiplication : 2,5 × (−4).</div>
+        <div class="sol" hidden><p>a) −7 &nbsp; b) −10 &nbsp; c) −5</p><p>d) 0,5 &nbsp; e) −6</p></div>
+      </article>
+
+    </div>
+    <div class="col">
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 4 · Grand froid en Laponie</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
+        <p>Écris la division, puis réponds par une phrase.</p>
+        <p>a) Une nuit, à Kiruna, la température baisse de 18 °C en 6 heures, toujours au même rythme. De combien baisse-t-elle chaque heure ?</p>
+        <p>b) Les relevés de la semaine, à 7 h du matin : <span class="num">−12 ; −8 ; −3 ; 2 ; −5 ; 1 ; −3</span> (en °C). Calcule la <span class="gl" data-t="moyenne">moyenne</span>.</p>
+        <p>c) Un sous-marin de recherche descend de 150 m en 6 minutes. De combien varie sa profondeur chaque minute ?</p>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>Une baisse de 18 °C, c'est −18. b) Additionne les 7 relevés (regroupe les négatifs), puis divise par 7.</div>
+        <div class="sol" hidden><p>a) (−18) ÷ 6 = −3 : elle baisse de 3 °C par heure.</p><p>b) La somme vaut −28, et (−28) ÷ 7 = −4 : la moyenne est −4 °C.</p><p>c) (−150) ÷ 6 = −25 : il descend de 25 m par minute.</p></div>
+      </article>
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 5 · Les erreurs d'Inès</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
+        <p>Les quatre réponses d'Inès sont fausses. Écris la bonne réponse, puis son erreur en quelques mots.</p>
+        <div class="faux"><span><i>a)</i>(−20) ÷ (−4) = <s>−5</s></span><span><i>b)</i>0 ÷ (−3) <s>est impossible</s></span><span><i>c)</i>12 ÷ (−3) = <s>4</s></span><span><i>d)</i>(−6) ÷ 0 = <s>0</s></span></div>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>Pour b) et d), vérifie avec une multiplication : quel nombre, multiplié par −3, donne 0 ? Et multiplié par 0, donne −6 ?</div>
+        <div class="sol" hidden><p>a) 5 : deux négatifs, le quotient est positif.</p><p>b) 0, car 0 × (−3) = 0. C'est diviser <b>par</b> 0 qui est impossible.</p><p>c) −4 : signes contraires, elle a oublié le signe.</p><p>d) Impossible : on ne divise jamais par 0. Elle a confondu avec b).</p></div>
+      </article>
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 6 · Aller et retour</h3><span class="stars" aria-label="3 étoiles">★★★</span></div>
+        <p>a) Calcule chaque étape de la chaîne :</p>
+        <div class="chaine"><span class="bo m">−48</span><span class="op">÷ (−2)</span><span class="bo">…</span><span class="op">× (−3)</span><span class="bo">…</span><span class="op">÷ 8</span><span class="bo">…</span></div>
+        <p>b) Je pense à un nombre. Je le divise par −4, puis je multiplie le résultat par 3. J'obtiens −18. À quel nombre ai-je pensé ?</p>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>b) Pars de la fin et défais chaque étape : une multiplication se défait par une division, une division par une multiplication.</div>
+        <div class="sol" hidden><p>a) −48 ÷ (−2) = 24 ; 24 × (−3) = −72 ; −72 ÷ 8 = −9.</p><p>b) −18 ÷ 3 = −6, puis (−6) × (−4) = 24. J'ai pensé à 24.</p></div>
+      </article>
+
+      <article class="ex plus">
+        <div class="ex-tete"><h3>Pour aller plus loin</h3><span class="stars" aria-label="3 étoiles">★★★</span></div>
+        <p>a) Calcule (−2) × (−6) ÷ (−3).</p>
+        <p>b) Trouve le signe, puis calcule : (−1,2) × 5 ÷ (−0,3) ÷ (−4).</p>
+        <p>c) Trouve deux nombres dont le quotient vaut −4 et la somme vaut 15.</p>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>b) Compte les nombres négatifs, comme pour un produit. c) Le quotient est négatif : un des deux nombres est négatif. Essaie −5.</div>
+        <div class="sol" hidden><p>a) 12 ÷ (−3) = −4.</p><p>b) Trois nombres négatifs : −. (−6) ÷ (−0,3) = 20, puis 20 ÷ (−4) = −5.</p><p>c) 20 et −5 : 20 ÷ (−5) = −4 et 20 + (−5) = 15.</p></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================= Bilan ======================= -->
+<section class="bilan">
+  <h2>Le bilan à apprendre</h2>
+  <ul>
+    <li>Diviser, c'est <b>défaire</b> une multiplication : −12 ÷ 4 = −3 car (−3) × 4 = −12.</li>
+    <li>Un quotient suit la <b>règle des signes</b> : mêmes signes, quotient <b>positif</b> ; signes contraires, quotient <b>négatif</b>.</li>
+    <li>Le signe − peut se placer en haut, en bas ou devant la barre : <span class="num"><span class="fr"><span>−12</span><span>4</span></span> = <span class="fr"><span>12</span><span>−4</span></span> = − <span class="fr"><span>12</span><span>4</span></span></span>.</li>
+    <li>0 divisé par un nombre donne <b>0</b>. Diviser <b>par 0</b> est <b>impossible</b>.</li>
+  </ul>
+  <p class="ex-b">Exemple : (−7,5) ÷ 3 = −2,5 (signes contraires, et 7,5 ÷ 3 = 2,5).</p>
+</section>
+
+</div>
+
+<!-- fiches du petit test : générées par le script, visibles seulement à l'impression -->
+<div id="fiches" aria-hidden="true"></div>
+
+<script>
+(function(){
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  var LENT = !(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  var INK = "#1b2a5e", BLEU = "#1f56d6", ROUGE = "#d62839", MUET = "#56608a";
+  var JAUNE = "#ffe45e", BLEU_C = "#bcd0ff";
+  function fmt(n){ var s = String(Math.round(Math.abs(n) * 100) / 100).replace(".", ","); return n < 0 ? "−" + s : s; }
+  function el(tag, att, parent){ var e = document.createElementNS(NS, tag); for (var k in att) e.setAttribute(k, att[k]); if (parent) parent.appendChild(e); return e; }
+  function txt(att, t, parent){ var e = el("text", att, parent); e.textContent = t; return e; }
+  function liste(ol){
+    return {
+      vide: function(html){ ol.innerHTML = '<li class="vide">' + html + '</li>'; },
+      ligne: function(html){ var d = ol.querySelector("li.der"); if (d) d.classList.remove("der"); var v = ol.querySelector(".vide"); if (v) v.remove(); var li = document.createElement("li"); li.className = "der"; li.innerHTML = html; ol.appendChild(li); }
+    };
+  }
+  function nouvelleOl(parent){ var ol = document.createElement("ol"); ol.className = "etapes"; parent.appendChild(ol); return ol; }
+  function bascule(id){ var b = document.getElementById(id + "-concl-btn"), z = document.getElementById(id + "-concl"); b.onclick = function(){ z.hidden = !z.hidden; b.setAttribute("aria-pressed", String(!z.hidden)); }; }
+  function pilote(id, ETAPES, raz){
+    var next = document.getElementById(id + "-next"), etape = 0, occupe = false;
+    function zero(){ etape = 0; raz(); next.disabled = false; }
+    next.onclick = function(){
+      if (occupe || etape >= ETAPES.length) return;
+      occupe = true;
+      Promise.resolve(ETAPES[etape++]()).then(function(){ occupe = false; next.disabled = etape >= ETAPES.length; });
+    };
+    document.getElementById(id + "-reset").onclick = function(){ if (!occupe) zero(); };
+    zero(); bascule(id);
+  }
+  var N = function(s){ return '<span class="num">' + s + '</span>'; };
+  var R = function(n){ return '<span class="num res' + (n < 0 ? " m" : (n === 0 ? " z" : "")) + '">' + fmt(n) + '</span>'; };
+
+  /* ---------- Petit test : sujets A et B (mêmes structures, valeurs différentes) ---------- */
+  var COMP = {
+    C1: "Ajouter et soustraire (S1)",
+    C2: "Produit de deux relatifs (S2-S3)",
+    C3: "Plusieurs facteurs (S4)",
+    C4: "Facteur nul, remonter le temps (S3-S4)"
+  };
+  var TEST = [
+    { c: "C1", A: ["(−7) + 3", "−4"], B: ["(−8) + 5", "−3"] },
+    { c: "C1", A: ["5 − (−4)", "9"], B: ["6 − (−2)", "8"] },
+    { c: "C2", A: ["(−6) × 7", "−42"], B: ["8 × (−5)", "−40"] },
+    { c: "C2", A: ["(−9) × (−4)", "36"], B: ["(−7) × (−6)", "42"] },
+    { c: "C3", A: ["Signe seulement : (−2) × 3 × (−1) × (−5) × 4", "−"], B: ["Signe seulement : (−3) × (−2) × 4 × (−1) × (−5)", "+"], t: true },
+    { c: "C3", A: ["(−25) × 3 × (−4)", "300"], B: ["(−5) × 9 × (−20)", "900"] },
+    { c: "C4", A: ["(−8) × 0 × (−3) × 5", "0"], B: ["4 × (−6) × 0 × (−2)", "0"] },
+    { c: "C4", long: true,
+      A: ["La température baisse de 3 °C par heure. Il y a 4 heures, faisait-il plus chaud ou plus froid que maintenant ? De combien ?", "plus chaud de 12 °C : (−4) × (−3) = 12"],
+      B: ["Le niveau d'un bassin baisse de 2 cm par jour. Il y a 5 jours, le niveau était-il plus haut ou plus bas ? De combien ?", "plus haut de 10 cm : (−5) × (−2) = 10"] }
+  ];
+  var LETTRES = "abcdefgh";
+
+  (function(){
+    // fiches imprimables : 4 par A4, A B A B
+    function fiche(s){
+      var h = '<div class="fi"><div class="fi-tete"><b>Petit test · Relatifs</b><span>Sujet ' + s + '</span></div>' +
+        '<div class="fi-nom">Nom : ……………………………… Classe : ………</div>' +
+        '<p class="fi-cons">Sans calculatrice. Écris seulement tes réponses dans les cases.</p>';
+      TEST.forEach(function(q, i){
+        var e = q[s][0], t = q.t || q.long;
+        h += '<div class="fi-q' + (q.long ? " long" : "") + '"><i>' + LETTRES[i] + ')</i><span class="e' + (t ? " t" : "") + '">' + e + '</span><span class="bx"></span></div>';
+      });
+      h += '<div class="fi-prof">Prof : C1<span class="cb"></span> C2<span class="cb"></span> C3<span class="cb"></span> C4<span class="cb"></span> &nbsp;Groupe : <span class="gr"></span></div></div>';
+      return h;
+    }
+    document.getElementById("fiches").innerHTML = fiche("A") + fiche("B") + fiche("A") + fiche("B");
+    document.getElementById("test-imprimer").onclick = function(){
+      document.body.classList.add("imprime-test");
+      window.print();
+      setTimeout(function(){ document.body.classList.remove("imprime-test"); }, 500);
+    };
+    window.addEventListener("afterprint", function(){ document.body.classList.remove("imprime-test"); });
+
+    // corrigé et grille de répartition (pour le prof)
+    var p = document.getElementById("prof");
+    var h = '<p><b>Corrigé.</b> Les questions vont par deux : une compétence est <b>acquise</b> avec les 2 bonnes réponses sur 2.</p>' +
+      '<table><thead><tr><th></th><th>Compétence</th><th>Sujet A</th><th>Sujet B</th></tr></thead><tbody>';
+    TEST.forEach(function(q, i){
+      h += '<tr><td class="n">' + LETTRES[i] + ')</td><td>' + q.c + ' · ' + COMP[q.c] + '</td><td>' + (q.long ? "" : q.A[0] + " → ") + '<b>' + q.A[1] + '</b></td><td>' + (q.long ? "" : q.B[0] + " → ") + '<b>' + q.B[1] + '</b></td></tr>';
+    });
+    h += '</tbody></table><p><b>Groupes de l\'AP</b> : le groupe, c\'est la <b>première</b> compétence non acquise.</p><ol>' +
+      '<li><b>Marcheur</b> : C1 non acquise (reprendre l\'addition et la soustraction sur la droite graduée).</li>' +
+      '<li><b>Signes</b> : C1 acquise, C2 non (produit de deux relatifs, règle des signes).</li>' +
+      '<li><b>Facteurs</b> : C1 et C2 acquises, C3 ou C4 non (plusieurs facteurs, facteur nul, contextes).</li>' +
+      '<li><b>Défis</b> : les quatre compétences acquises.</li></ol>' +
+      '<p>Imprimer : 4 fiches par feuille A4 (A, B, A, B), à découper. Distribue A et B en alternant les rangs.</p>';
+    p.innerHTML = h;
+    var b = document.getElementById("test-prof");
+    b.onclick = function(){ p.hidden = !p.hidden; b.setAttribute("aria-pressed", String(!p.hidden)); };
+  })();
+
+  /* ---------- chrono 10 min ---------- */
+  (function(){
+    var DUREE = 600, reste = DUREE, tic = null, aff = document.getElementById("chrono"), go = document.getElementById("chrono-go");
+    function maj(){ var m = Math.floor(reste / 60), s = reste % 60; aff.textContent = m + ":" + (s < 10 ? "0" : "") + s; aff.classList.toggle("fin", reste === 0); }
+    function stop(){ clearInterval(tic); tic = null; go.textContent = reste === 0 ? "Terminé" : "Reprendre ▶"; go.disabled = reste === 0; }
+    go.onclick = function(){
+      if (tic) return stop();
+      go.textContent = "Pause ❚❚";
+      var fin = Date.now() + reste * 1000;
+      tic = setInterval(function(){ reste = Math.max(0, Math.round((fin - Date.now()) / 1000)); maj(); if (reste === 0) stop(); }, 250);
+    };
+    document.getElementById("chrono-raz").onclick = function(){ clearInterval(tic); tic = null; reste = DUREE; maj(); go.textContent = "Lancer le chrono ▶"; go.disabled = false; };
+    maj();
+  })();
+
+  /* ---------- Activité 1 : la famille de calculs ---------- */
+  (function(){
+    var hote = document.getElementById("a1");
+    var svg = el("svg", { viewBox: "0 0 920 320", role: "img", "aria-label": "Un triangle de trois nombres : en haut le produit, en bas les deux facteurs. À droite, la multiplication et les deux divisions de la famille." }, hote);
+    var S;
+    var P = { t: [210, 70], l: [100, 250], r: [320, 250] };
+    function noeud(pos, v, cache, parent){
+      var g = el("g", {}, parent), x = pos[0], y = pos[1];
+      el("rect", { x: x - 62, y: y - 34, width: 124, height: 68, rx: 12, fill: cache ? "#fff" : (v > 0 ? JAUNE : BLEU_C), stroke: cache ? ROUGE : INK, "stroke-width": cache ? 3 : 2.8, "stroke-dasharray": cache ? "8 5" : "none" }, g);
+      txt({ x: x, y: y + 11, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 31, "font-weight": 700, fill: cache ? ROUGE : (v < 0 ? BLEU : INK) }, cache ? "?" : fmt(v), g);
+    }
+    function dessine(){
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+      // arêtes du triangle
+      el("path", { d: "M" + P.t[0] + " " + (P.t[1] + 34) + "L" + (P.l[0] + 20) + " " + (P.l[1] - 34) + "M" + P.t[0] + " " + (P.t[1] + 34) + "L" + (P.r[0] - 20) + " " + (P.r[1] - 34) + "M" + (P.l[0] + 62) + " " + P.l[1] + "L" + (P.r[0] - 62) + " " + P.r[1], fill: "none", stroke: "#c3d1ec", "stroke-width": 4 }, svg);
+      txt({ x: (P.l[0] + P.r[0]) / 2, y: P.l[1] + 11, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 30, "font-weight": 700, fill: INK }, "×", svg);
+      txt({ x: P.t[0], y: 24, "text-anchor": "middle", "font-family": "Work Sans, sans-serif", "font-size": 15, "font-weight": 600, fill: MUET }, "le produit", svg);
+      txt({ x: P.t[0], y: 308, "text-anchor": "middle", "font-family": "Work Sans, sans-serif", "font-size": 15, "font-weight": 600, fill: MUET }, "les deux facteurs", svg);
+      noeud(P.t, S.t, false, svg);
+      noeud(P.l, S.l, S.cL, svg);
+      noeud(P.r, S.r, S.cR, svg);
+      // les calculs de la famille
+      el("line", { x1: 450, y1: 30, x2: 450, y2: 290, stroke: "#c3d1ec", "stroke-width": 2, "stroke-dasharray": "6 6" }, svg);
+      S.lignes.forEach(function(li, i){
+        var t = txt({ x: 490, y: 95 + i * 72, "font-family": "Space Mono, monospace", "font-size": 30, "font-weight": 700, fill: INK }, "", svg);
+        if (i === S.neuve) t.setAttribute("class", "app");
+        var a = el("tspan", {}, t); a.textContent = li[0];
+        var b = el("tspan", { fill: li[1] === null ? ROUGE : (li[1] < 0 ? BLEU : INK) }, t); b.textContent = li[1] === null ? "?" : fmt(li[1]);
+      });
+    }
+    function etat(o){ for (var k in o) S[k] = o[k]; dessine(); return Promise.resolve(); }
+    function remplit(i, v, o){ S.lignes[i][1] = v; S.neuve = i; return etat(o || {}); }
+    var L = liste(nouvelleOl(hote));
+    var ETAPES = [
+      function(){ L.ligne("Diviser, c'est <b>défaire</b> la multiplication. " + N("12 ÷ 4") + " cherche le nombre qui, multiplié par 4, donne 12 : c'est 3."); S.lignes.push(["12 ÷ 4 = ", 3], ["12 ÷ 3 = ", 4]); return etat({ neuve: 1 }); },
+      function(){ L.ligne("Avec des relatifs : on sait depuis la séance 2 que " + N("(−3) × 4 = −12") + "."); S = { t: -12, l: -3, r: 4, cL: false, cR: false, lignes: [["(−3) × 4 = ", -12]], neuve: 0 }; return etat({}); },
+      function(){ L.ligne("<i>" + N("−12 ÷ 4") + " : quel nombre, multiplié par 4, donne −12 ? Écris-le sur ton cahier.</i>"); S.lignes.push(["−12 ÷ 4 = ", null]); return etat({ cL: true, neuve: 1 }); },
+      function(){ L.ligne("C'est −3, car (−3) × 4 = −12. Donc " + N("−12 ÷ 4 = ") + R(-3) + " : signes contraires, quotient négatif."); return remplit(1, -3, { cL: false }); },
+      function(){ L.ligne("<i>Et " + N("−12 ÷ (−3)") + " ? Quel nombre, multiplié par (−3), donne −12 ?</i>"); S.lignes.push(["−12 ÷ (−3) = ", null]); return etat({ cR: true, neuve: 2 }); },
+      function(){ L.ligne("C'est 4, car (−3) × 4 = −12. Donc " + N("−12 ÷ (−3) = ") + R(4) + " : deux négatifs, quotient positif."); return remplit(2, 4, { cR: false }); },
+      function(){ L.ligne("<i>À toi : " + N("(−5) × (−6) = 30") + ". Calcule les deux divisions de la famille sur ton cahier.</i>"); S = { t: 30, l: -5, r: -6, cL: true, cR: true, lignes: [["(−5) × (−6) = ", 30], ["30 ÷ (−6) = ", null], ["30 ÷ (−5) = ", null]], neuve: -1 }; return etat({}); },
+      function(){ L.ligne(N("30 ÷ (−6) = ") + R(-5) + " et " + N("30 ÷ (−5) = ") + R(-6) + " : signes contraires, quotient négatif."); S.lignes[1][1] = -5; S.lignes[2][1] = -6; return etat({ cL: false, cR: false, neuve: -1 }); },
+      function(){ L.ligne("Les signes des quotients suivent la règle des signes, comme les quatre messieurs : mêmes signes, contents (positif) ; signes contraires, pas contents (négatif). Rien de nouveau à apprendre !"); return Promise.resolve(); }
+    ];
+    function raz(){
+      S = { t: 12, l: 3, r: 4, cL: false, cR: false, lignes: [["3 × 4 = ", 12]], neuve: -1 }; dessine();
+      L.vide("Une famille de nombres positifs pour commencer : " + N("3 × 4 = 12") + ". Clique sur « Étape suivante ».");
+    }
+    pilote("a1", ETAPES, raz);
+  })();
+
+  /* ---------- Activités 2 et 3 : lignes qui apparaissent ---------- */
+  ["a2", "a3"].forEach(function(id){
+    var lignes = Array.prototype.slice.call(document.querySelectorAll("#" + id + " [data-e]")), etape = 0;
+    function maj(){ lignes.forEach(function(l){ var n = +l.dataset.e; l.hidden = n > etape; l.classList.toggle("neuf", n === etape); }); }
+    var ETAPES = lignes.map(function(){ return function(){ etape++; maj(); }; });
+    pilote(id, ETAPES, function(){ etape = 0; maj(); });
+  });
+
+  /* ---------- astuces / solutions ---------- */
+  document.querySelectorAll("[data-ouvre]").forEach(function(b){
+    b.addEventListener("click", function(){
+      var bloc = b.closest(".ex").querySelector("." + b.dataset.ouvre);
+      bloc.hidden = !bloc.hidden; b.setAttribute("aria-pressed", String(!bloc.hidden));
+    });
+  });
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
+</body>
+</html>
