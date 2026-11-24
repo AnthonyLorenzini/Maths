@@ -183,6 +183,39 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
   <div class="concl" id="a1-concl" hidden>
     <p>Diviser, c'est <b>défaire</b> une multiplication : <span class="num">−12 ÷ 4 = −3</span> car <span class="num">(−3) × 4 = −12</span>.</p>
     <p>Le <span class="gl" data-t="quotient">quotient</span> suit donc la même <span class="gl" data-t="regle-signes">règle des signes</span> que le produit : mêmes signes, quotient <span class="gl" data-t="positif">positif</span> ; signes contraires, quotient <span class="gl" data-t="negatif">négatif</span>.</p>
+    <p>0 divisé par un nombre donne <b>0</b>. Diviser <b>par</b> 0 est <b>impossible</b> : aucun nombre multiplié par 0 ne donne −5.</p>
+  </div>
+</section>
+
+<!-- ======================= Exercices 1 et 2 ======================= -->
+<section>
+  <h2>À toi de jouer <span class="pill">sans calculatrice</span></h2>
+  <p class="consigne-cahier">Dans ton cahier : le numéro de l'exercice et tes réponses, sans recopier l'énoncé.</p>
+  <div class="cols" style="margin-top:10px">
+    <div class="col">
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 1 · Seulement le signe</h3><span class="stars" aria-label="1 étoile">★☆☆</span></div>
+        <p>Ne calcule pas ! Écris seulement le signe du résultat : <b>+</b>, <b>−</b>, ou <b>0</b> s'il est nul. Attention : il y a aussi un produit.</p>
+        <div class="calc"><span class="c"><i>a)</i>(−42) ÷ 6</span><span class="c"><i>b)</i>(−36) ÷ (−9)</span><span class="c"><i>c)</i>0 ÷ (−7)</span><span class="c"><i>d)</i>54 ÷ (−6)</span><span class="c"><i>e)</i>(−8) × (−5)</span><span class="c"><i>f)</i>(−63) ÷ (−7)</span></div>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>Pour un quotient comme pour un produit : mêmes signes → +, signes contraires → −.</div>
+        <div class="sol" hidden><p>a) − &nbsp; b) + &nbsp; c) 0 &nbsp; d) − &nbsp; e) + &nbsp; f) +</p></div>
+      </article>
+
+    </div>
+    <div class="col">
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 2 · Calculer</h3><span class="stars" aria-label="1 étoile">★☆☆</span></div>
+        <p>Calcule : le signe d'abord, puis la distance à zéro. Pas de calculatrice, même avec les décimaux.</p>
+        <div class="calc"><span class="c"><i>a)</i>56 ÷ (−8)</span><span class="c"><i>b)</i>(−81) ÷ (−9)</span><span class="c"><i>c)</i>(−48) ÷ 6</span><span class="c"><i>d)</i>(−100) ÷ (−25)</span><span class="c"><i>e)</i>(−4,5) ÷ 9</span><span class="c"><i>f)</i>3 ÷ (−0,5)</span><span class="c"><i>g)</i>(−2) ÷ 8</span><span class="c"><i>h)</i>(−0,6) ÷ (−3)</span></div>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>Même méthode avec les décimaux. Exemple : (−7,5) ÷ 3 : signes contraires, donc −, puis 7,5 ÷ 3 = 2,5, donc −2,5. f) Combien de fois 0,5 dans 3 ? g) 2 ÷ 8, c'est un quart.</div>
+        <div class="sol" hidden><p>a) −7 &nbsp; b) 9 &nbsp; c) −8 &nbsp; d) 4</p><p>e) −0,5 &nbsp; f) −6 &nbsp; g) −0,25 &nbsp; h) 0,2</p></div>
+      </article>
+
+    </div>
   </div>
 </section>
 
@@ -210,59 +243,24 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
   </div>
 </section>
 
-<!-- ======================= Activité 3 ======================= -->
-<section class="panel">
-  <h2>Activité 3 · Des décimaux, et le zéro</h2>
-  <p style="margin:0">La méthode de la séance 2 marche encore : <b>le signe, puis la distance à zéro</b>. Mais attention au zéro !</p>
-  <div class="scene"><div class="preuve" id="a3">
-    <div class="pr-l"><div class="pr-e">(−7,5) ÷ 3</div><div class="pr-n">Un quotient avec un décimal.</div></div>
-    <div class="pr-l" data-e="1"><div class="pr-e">(−7,5) ÷ 3 = <span class="res m">−2,5</span></div><div class="pr-n">Le signe : signes contraires, donc −. La distance à zéro : <span class="num">7,5 ÷ 3 = 2,5</span>.</div></div>
-    <div class="pr-l" data-e="2"><div class="pr-e"><span class="fr"><span>−1</span><span>4</span></span> = <span class="res m">−0,25</span></div><div class="pr-n">Un quart : <span class="num">1 ÷ 4 = 0,25</span>.</div></div>
-    <div class="pr-l" data-e="3"><div class="pr-t">À toi</div><div class="pr-e">6 ÷ (−0,5)</div><div class="pr-n">Sur ton cahier. Combien de fois 0,5 dans 6 ?</div></div>
-    <div class="pr-l" data-e="4"><div class="pr-e">6 ÷ (−0,5) = <span class="res m">−12</span></div><div class="pr-n">Il y a 12 fois 0,5 dans 6. On vérifie avec la multiplication : <span class="num">(−12) × (−0,5) = 6</span>.</div></div>
-    <div class="pr-l" data-e="5"><div class="pr-t">Et le zéro ?</div><div class="pr-e">0 ÷ (−5) = <span class="res z">0</span></div><div class="pr-n">Car <span class="num">0 × (−5) = 0</span>. Zéro divisé par un nombre, c'est zéro.</div></div>
-    <div class="pr-l" data-e="6"><div class="pr-e">(−5) ÷ 0 = ?</div><div class="pr-n">Quel nombre, multiplié par 0, donne −5 ? Réfléchis avant de cliquer.</div></div>
-    <div class="pr-l" data-e="7"><div class="pr-e">Aucun : diviser par 0 est <b>impossible</b>.</div><div class="pr-n">Tout nombre multiplié par 0 donne 0, jamais −5. Le dénominateur d'une fraction n'est jamais 0.</div></div>
-  </div></div>
-  <div class="row" style="margin-top:8px">
-    <button class="btn main" id="a3-next">Étape suivante ▶</button>
-    <button class="btn" id="a3-reset">Recommencer</button>
-    <button class="btn" id="a3-concl-btn" style="margin-left:auto">Ce qu'on retient</button>
-  </div>
-  <div class="concl" id="a3-concl" hidden>
-    <p><b>1. Le signe</b> : mêmes signes, positif ; signes contraires, négatif.</p>
-    <p><b>2. La distance à zéro</b> : on divise sans les signes. On vérifie en multipliant.</p>
-    <p>0 divisé par un nombre donne 0. Diviser par 0 est <b>impossible</b>.</p>
-  </div>
-</section>
-
-<!-- ======================= Exercices ======================= -->
+<!-- ======================= Exercices 3 à 7 ======================= -->
 <section>
-  <h2>Exercices <span class="pill">sans calculatrice</span></h2>
-  <p class="consigne-cahier">Dans ton cahier : le numéro de l'exercice et tes réponses, sans recopier l'énoncé.</p>
+  <h2>À toi de jouer, suite <span class="pill">sans calculatrice</span></h2>
   <div class="cols" style="margin-top:10px">
     <div class="col">
 
       <article class="ex">
-        <div class="ex-tete"><h3>Exercice 1 · Seulement le signe</h3><span class="stars" aria-label="1 étoile">★☆☆</span></div>
-        <p>Ne calcule pas ! Écris seulement le signe du résultat : <b>+</b>, <b>−</b>, ou <b>0</b> s'il est nul. Attention : il y a aussi des produits.</p>
-        <div class="calc"><span class="c"><i>a)</i>(−42) ÷ 6</span><span class="c"><i>b)</i>(−36) ÷ (−9)</span><span class="c"><i>c)</i>0 ÷ (−7)</span><span class="c"><i>d)</i><span class="fr"><span>54</span><span>−6</span></span></span><span class="c"><i>e)</i>(−8) × (−5)</span><span class="c"><i>f)</i><span class="fr"><span>−63</span><span>−7</span></span></span></div>
+        <div class="ex-tete"><h3>Exercice 3 · Avec la barre de fraction</h3><span class="stars" aria-label="1 étoile">★☆☆</span></div>
+        <p>Calcule ces quotients, puis réponds à la question g).</p>
+        <div class="calc"><span class="c"><i>a)</i><span class="fr"><span>−35</span><span>7</span></span></span><span class="c"><i>b)</i><span class="fr"><span>48</span><span>−6</span></span></span><span class="c"><i>c)</i><span class="fr"><span>−90</span><span>−15</span></span></span><span class="c"><i>d)</i><span class="fr"><span>−9</span><span>2</span></span></span><span class="c"><i>e)</i><span class="fr"><span>7,5</span><span>−3</span></span></span><span class="c"><i>f)</i><span class="fr"><span>−1</span><span>−0,5</span></span></span></div>
+        <p style="line-height:2.3">g) Écris le nombre <span class="fr"><span>−18</span><span>6</span></span> de deux autres façons, avec le signe − placé ailleurs.</p>
         <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
-        <div class="ast" hidden>Pour un quotient comme pour un produit : mêmes signes → +, signes contraires → −.</div>
-        <div class="sol" hidden><p>a) − &nbsp; b) + &nbsp; c) 0 &nbsp; d) − &nbsp; e) + &nbsp; f) +</p></div>
+        <div class="ast" hidden>La barre veut dire « divisé par ». d) 9 ÷ 2 : la moitié de 9. f) Combien de fois 0,5 dans 1 ?</div>
+        <div class="sol" hidden><p>a) −5 &nbsp; b) −8 &nbsp; c) 6 &nbsp; d) −4,5 &nbsp; e) −2,5 &nbsp; f) 2</p><p>g) <span class="fr"><span>18</span><span>−6</span></span> et − <span class="fr"><span>18</span><span>6</span></span> (le nombre vaut −3).</p></div>
       </article>
 
       <article class="ex">
-        <div class="ex-tete"><h3>Exercice 2 · Calculer</h3><span class="stars" aria-label="1 étoile">★☆☆</span></div>
-        <p>Calcule : le signe d'abord, puis la distance à zéro.</p>
-        <div class="calc"><span class="c"><i>a)</i>56 ÷ (−8)</span><span class="c"><i>b)</i>(−81) ÷ (−9)</span><span class="c"><i>c)</i><span class="fr"><span>−48</span><span>6</span></span></span><span class="c"><i>d)</i><span class="fr"><span>−100</span><span>−25</span></span></span><span class="c"><i>e)</i>(−4,5) ÷ 9</span><span class="c"><i>f)</i>3 ÷ (−0,5)</span><span class="c"><i>g)</i><span class="fr"><span>−2</span><span>8</span></span></span><span class="c"><i>h)</i><span class="fr"><span>−0,6</span><span>−3</span></span></span></div>
-        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
-        <div class="ast" hidden>e) 4,5 ÷ 9 : la moitié de 9, c'est 4,5. f) Combien de fois 0,5 dans 3 ? g) 2 ÷ 8, c'est un quart.</div>
-        <div class="sol" hidden><p>a) −7 &nbsp; b) 9 &nbsp; c) −8 &nbsp; d) 4</p><p>e) −0,5 &nbsp; f) −6 &nbsp; g) −0,25 &nbsp; h) 0,2</p></div>
-      </article>
-
-      <article class="ex">
-        <div class="ex-tete"><h3>Exercice 3 · Les familles à trous</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
+        <div class="ex-tete"><h3>Exercice 4 · Les familles à trous</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
         <p>Trouve le nombre qui manque. Vérifie ta réponse en refaisant le calcul.</p>
         <div class="calc"><span class="c"><i>a)</i>(−8) × … = 56</span><span class="c"><i>b)</i>… ÷ (−4) = 2,5</span><span class="c"><i>c)</i>(−45) ÷ … = 9</span><span class="c"><i>d)</i>… × (−6) = −3</span><span class="c"><i>e)</i>72 ÷ … = −12</span></div>
         <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
@@ -270,11 +268,8 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
         <div class="sol" hidden><p>a) −7 &nbsp; b) −10 &nbsp; c) −5</p><p>d) 0,5 &nbsp; e) −6</p></div>
       </article>
 
-    </div>
-    <div class="col">
-
       <article class="ex">
-        <div class="ex-tete"><h3>Exercice 4 · Grand froid en Laponie</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
+        <div class="ex-tete"><h3>Exercice 5 · Grand froid en Laponie</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
         <p>Écris la division, puis réponds par une phrase.</p>
         <p>a) Une nuit, à Kiruna, la température baisse de 18 °C en 6 heures, toujours au même rythme. De combien baisse-t-elle chaque heure ?</p>
         <p>b) Les relevés de la semaine, à 7 h du matin : <span class="num">−12 ; −8 ; −3 ; 2 ; −5 ; 1 ; −3</span> (en °C). Calcule la <span class="gl" data-t="moyenne">moyenne</span>.</p>
@@ -284,8 +279,11 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
         <div class="sol" hidden><p>a) (−18) ÷ 6 = −3 : elle baisse de 3 °C par heure.</p><p>b) La somme vaut −28, et (−28) ÷ 7 = −4 : la moyenne est −4 °C.</p><p>c) (−150) ÷ 6 = −25 : il descend de 25 m par minute.</p></div>
       </article>
 
+    </div>
+    <div class="col">
+
       <article class="ex">
-        <div class="ex-tete"><h3>Exercice 5 · Les erreurs d'Inès</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
+        <div class="ex-tete"><h3>Exercice 6 · Les erreurs d'Inès</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
         <p>Les quatre réponses d'Inès sont fausses. Écris la bonne réponse, puis son erreur en quelques mots.</p>
         <div class="faux"><span><i>a)</i>(−20) ÷ (−4) = <s>−5</s></span><span><i>b)</i>0 ÷ (−3) <s>est impossible</s></span><span><i>c)</i>12 ÷ (−3) = <s>4</s></span><span><i>d)</i>(−6) ÷ 0 = <s>0</s></span></div>
         <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
@@ -294,7 +292,7 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
       </article>
 
       <article class="ex">
-        <div class="ex-tete"><h3>Exercice 6 · Aller et retour</h3><span class="stars" aria-label="3 étoiles">★★★</span></div>
+        <div class="ex-tete"><h3>Exercice 7 · Aller et retour</h3><span class="stars" aria-label="3 étoiles">★★★</span></div>
         <p>a) Calcule chaque étape de la chaîne :</p>
         <div class="chaine"><span class="bo m">−48</span><span class="op">÷ (−2)</span><span class="bo">…</span><span class="op">× (−3)</span><span class="bo">…</span><span class="op">÷ 8</span><span class="bo">…</span></div>
         <p>b) Je pense à un nombre. Je le divise par −4, puis je multiplie le résultat par 3. J'obtiens −18. À quel nombre ai-je pensé ?</p>
@@ -449,7 +447,7 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
     var P = { t: [210, 70], l: [100, 250], r: [320, 250] };
     function noeud(pos, v, cache, parent){
       var g = el("g", {}, parent), x = pos[0], y = pos[1];
-      el("rect", { x: x - 62, y: y - 34, width: 124, height: 68, rx: 12, fill: cache ? "#fff" : (v > 0 ? JAUNE : BLEU_C), stroke: cache ? ROUGE : INK, "stroke-width": cache ? 3 : 2.8, "stroke-dasharray": cache ? "8 5" : "none" }, g);
+      el("rect", { x: x - 62, y: y - 34, width: 124, height: 68, rx: 12, fill: (cache || v === 0) ? "#fff" : (v > 0 ? JAUNE : BLEU_C), stroke: cache ? ROUGE : INK, "stroke-width": cache ? 3 : 2.8, "stroke-dasharray": cache ? "8 5" : "none" }, g);
       txt({ x: x, y: y + 11, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 31, "font-weight": 700, fill: cache ? ROUGE : (v < 0 ? BLEU : INK) }, cache ? "?" : fmt(v), g);
     }
     function dessine(){
@@ -468,7 +466,7 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
         var t = txt({ x: 490, y: 95 + i * 72, "font-family": "Space Mono, monospace", "font-size": 30, "font-weight": 700, fill: INK }, "", svg);
         if (i === S.neuve) t.setAttribute("class", "app");
         var a = el("tspan", {}, t); a.textContent = li[0];
-        var b = el("tspan", { fill: li[1] === null ? ROUGE : (li[1] < 0 ? BLEU : INK) }, t); b.textContent = li[1] === null ? "?" : fmt(li[1]);
+        var b = el("tspan", { fill: (li[1] === null || typeof li[1] === "string") ? ROUGE : (li[1] < 0 ? BLEU : INK) }, t); b.textContent = li[1] === null ? "?" : (typeof li[1] === "string" ? li[1] : fmt(li[1]));
       });
     }
     function etat(o){ for (var k in o) S[k] = o[k]; dessine(); return Promise.resolve(); }
@@ -483,7 +481,11 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
       function(){ L.ligne("C'est 4, car (−3) × 4 = −12. Donc " + N("−12 ÷ (−3) = ") + R(4) + " : deux négatifs, quotient positif."); return remplit(2, 4, { cR: false }); },
       function(){ L.ligne("<i>À toi : " + N("(−5) × (−6) = 30") + ". Calcule les deux divisions de la famille sur ton cahier.</i>"); S = { t: 30, l: -5, r: -6, cL: true, cR: true, lignes: [["(−5) × (−6) = ", 30], ["30 ÷ (−6) = ", null], ["30 ÷ (−5) = ", null]], neuve: -1 }; return etat({}); },
       function(){ L.ligne(N("30 ÷ (−6) = ") + R(-5) + " et " + N("30 ÷ (−5) = ") + R(-6) + " : signes contraires, quotient négatif."); S.lignes[1][1] = -5; S.lignes[2][1] = -6; return etat({ cL: false, cR: false, neuve: -1 }); },
-      function(){ L.ligne("Les signes des quotients suivent la règle des signes, comme les quatre messieurs : mêmes signes, contents (positif) ; signes contraires, pas contents (négatif). Rien de nouveau à apprendre !"); return Promise.resolve(); }
+      function(){ L.ligne("Les signes des quotients suivent la règle des signes, comme les quatre messieurs : mêmes signes, contents (positif) ; signes contraires, pas contents (négatif). Rien de nouveau à apprendre !"); return Promise.resolve(); },
+      function(){ L.ligne("<i>Et le zéro ? On sait que " + N("0 × (−5) = 0") + ".</i> Quelle division peut-on en déduire ?"); S = { t: 0, l: 0, r: -5, cL: false, cR: false, lignes: [["0 × (−5) = ", 0]], neuve: 0 }; return etat({}); },
+      function(){ L.ligne("On défait la multiplication : " + N("0 ÷ (−5) = ") + R(0) + ". Zéro divisé par un nombre, c'est zéro."); S.lignes.push(["0 ÷ (−5) = ", 0]); return etat({ neuve: 1 }); },
+      function(){ L.ligne("<i>Et " + N("(−5) ÷ 0") + " ? Quel nombre, multiplié par 0, donne −5 ? Réfléchis avant de cliquer.</i>"); S = { t: -5, l: 0, r: 0, cL: false, cR: true, lignes: [["(−5) ÷ 0 = ", null]], neuve: 0 }; return etat({}); },
+      function(){ L.ligne("Aucun : tout nombre multiplié par 0 donne 0, jamais −5. Diviser <b>par</b> 0 est <b>impossible</b>."); S.lignes[0][1] = "impossible"; return etat({ neuve: 0 }); }
     ];
     function raz(){
       S = { t: 12, l: 3, r: 4, cL: false, cR: false, lignes: [["3 × 4 = ", 12]], neuve: -1 }; dessine();
@@ -492,8 +494,8 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
     pilote("a1", ETAPES, raz);
   })();
 
-  /* ---------- Activités 2 et 3 : lignes qui apparaissent ---------- */
-  ["a2", "a3"].forEach(function(id){
+  /* ---------- Activité 2 : lignes qui apparaissent ---------- */
+  ["a2"].forEach(function(id){
     var lignes = Array.prototype.slice.call(document.querySelectorAll("#" + id + " [data-e]")), etape = 0;
     function maj(){ lignes.forEach(function(l){ var n = +l.dataset.e; l.hidden = n > etape; l.classList.toggle("neuf", n === etape); }); }
     var ETAPES = lignes.map(function(){ return function(){ etape++; maj(); }; });
