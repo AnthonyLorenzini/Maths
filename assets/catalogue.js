@@ -582,7 +582,7 @@ window.SITE = {
               titre: "Le bon quotient pour le bon problème", duree: "50 min",
               contenu: [
                 "Une division, quatre histoires (15 min, projeté, pas à pas) : 50 ÷ 8 pour des minibus de 8 places, 50 cartes en paquets de 8, 50 € partagés entre 8 amis et 50 tartes partagées exactement entre 8 tables (les 2 tartes qui restent sont coupées en 8). Chaque histoire passe par la division, le calcul (la division posée, partie utile surlignée) et la réponse, avec un dessin ; les mots de la question qui décident sont surlignés. Les quatre réponses (7 minibus, 6 paquets et il reste 2, 6,25 €, 50/8 de tarte) s'affichent côte à côte.",
-                "Les exercices (35 min, cahier) : la bonne réponse (quatre histoires avec 20 ÷ 3, le calcul est donné) ; des problèmes en trois temps (division, calcul, phrase : cars, boîtes d'œufs, corde, boules de pâte pesées au gramme) ; ça a du sens ? (les réponses de Noé : un jour oublié, le reste pris pour la réponse, un reste trop grand…) ; un défi : inventer des histoires pour 7 ÷ 3 dont la réponse est 3, puis environ 2,33."
+                "Les exercices (35 min, cahier) : la bonne réponse (quatre histoires avec 20 ÷ 3, le calcul est donné) ; des problèmes en trois temps (division, calcul, phrase : pots de peinture, jus dans des verres, prix d'un yaourt au centime, feuilles qui restent au professeur) ; ça a du sens ? (les réponses de Noé : un jour oublié, le reste pris pour la réponse, un reste trop grand…) ; un défi : inventer des histoires pour 7 ÷ 3 dont la réponse est 3, puis environ 2,33."
               ],
               ressources: ["6e-ch6-s6"],
               retenir: [
