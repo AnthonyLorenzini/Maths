@@ -1086,7 +1086,7 @@ window.SITE = {
             {
               titre: "Priorités opératoires", duree: "50 min",
               contenu: [
-                "Flash sans calculatrice : (−4) × (−5), 7 − (−3) et (−24) ÷ 6, les briques des calculs de la séance.",
+                "Flash sans calculatrice : (−4) × (−5) et 7 − (−3), les briques des calculs de la séance, puis 9² et un calcul d'hypoténuse de tête (6 cm et 8 cm) pour ne pas oublier Pythagore.",
                 "Activité 1 : qui passe en premier ? Léa et Tom ne trouvent pas le même résultat pour 2 + 3 × 4. On encadre les blocs × et ÷, calculés en premier, puis le piège 5 − 2 × (−3) = 11 et les opérations de même priorité, de gauche à droite.",
                 "Exercices 1 et 2, tout de suite après : un bloc à encadrer, puis deux blocs ou des opérations de même priorité.",
                 "Activité 2 : les parenthèses commandent. (5 − 2) × (−3) = −9, la barre de fraction comme parenthèse invisible, puis (−3)² = 9 mais −3² = −9, et l'ordre complet.",

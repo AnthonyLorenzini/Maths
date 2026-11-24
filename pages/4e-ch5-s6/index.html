@@ -100,8 +100,11 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
 .k{border-radius:5px;padding:0 4px;background:#bcd0ff;box-shadow:0 0 0 2px var(--blue);color:var(--blue)}
 
 /* flash */
-.flash{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:8px}
-@media (max-width:700px){.flash{grid-template-columns:minmax(0,1fr)}}
+.flash{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:8px}
+@media (max-width:900px){.flash{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.flash{grid-template-columns:minmax(0,1fr)}}
+.flash div.txt{font:500 1rem/1.35 var(--f-text);text-align:left}
+.flash div.txt .rep{font:700 1.1rem var(--f-num);text-align:center}
 .flash div{border:2px solid var(--line);border-radius:8px;background:#fff;padding:10px 12px;font:700 1.35rem var(--f-num);text-align:center}
 .flash div i{font:600 .9rem var(--f-text);font-style:normal;color:var(--muted);margin-right:6px}
 .flash .rep{display:block;margin-top:4px;font-size:1.1rem;color:var(--ok)}
@@ -136,7 +139,8 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
   <div class="flash">
     <div><i>a)</i>(−4) × (−5)<span class="rep" hidden>20<small>deux facteurs négatifs</small></span></div>
     <div><i>b)</i>7 − (−3)<span class="rep" hidden>10<small>soustraire −3, c'est ajouter 3</small></span></div>
-    <div><i>c)</i>(−24) ÷ 6<span class="rep" hidden>−4<small>signes contraires</small></span></div>
+    <div><i>c)</i>9²<span class="rep" hidden>81<small>9 × 9, et non 9 × 2</small></span></div>
+    <div class="txt"><i>d)</i>ABC est rectangle en A, avec AB = 6 cm et AC = 8 cm. Combien mesure BC ?<span class="rep" hidden>10 cm<small>BC² = 6² + 8² = 36 + 64 = 100, donc BC = 10 cm</small></span></div>
   </div>
   <div class="row" style="margin-top:8px"><button class="btn" id="flash-btn">Réponses</button></div>
 </section>
