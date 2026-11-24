@@ -154,6 +154,10 @@
       long: ["Avec deux facteurs : même signe, produit positif ; signes contraires, produit négatif.", "Ex : (−2) × (−5) × (−3) = −30, car il y a 3 facteurs négatifs.", "Elle vaut aussi pour les quotients, car diviser c'est défaire une multiplication : −12 ÷ (−3) = 4."] },
     { id: "ecriture-fractionnaire", nom: "écriture fractionnaire", chap: "4e · Nombres relatifs", court: "Écrire une division avec une barre : a/b veut dire a ÷ b. Ex : −12/4 = −12 ÷ 4 = −3.",
       long: ["Le signe − peut être en haut, en bas ou devant la barre : −12/4 = 12/(−4) = −(12/4).", "Le dénominateur n'est jamais 0 : diviser par 0 est impossible."] },
+    { id: "priorites", nom: "priorités opératoires", chap: "4e · Nombres relatifs", court: "L'ordre des calculs : 1. parenthèses, 2. carrés, 3. × et ÷, 4. + et −. À priorité égale, de gauche à droite.",
+      long: ["Exemple : 5 − 2 × (−3) = 5 − (−6) = 11. La multiplication passe avant la soustraction.", "La barre de fraction agit comme des parenthèses invisibles autour du haut et du bas."] },
+    { id: "parentheses", nom: "parenthèses", chap: "Tous niveaux · Calcul et nombres", court: "Dans un calcul, on effectue d'abord ce qui est entre parenthèses. Ex : (5 − 2) × (−3) = 3 × (−3) = −9.",
+      long: ["Les parenthèses changent l'ordre des calculs : 5 − 2 × (−3) = 11, mais (5 − 2) × (−3) = −9.", "Avec un carré : (−3)² = 9, mais −3² = −9."] },
     { id: "nul", nom: "nul", chap: "Tous niveaux · Calcul et nombres", court: "Égal à 0. Un produit est nul dès qu'un de ses facteurs est nul.",
       long: ["Ex : (−8) × 0 × (−9) = 0, quels que soient les signes des autres facteurs."] },
 
