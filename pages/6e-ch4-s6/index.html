@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}/* Cahier à carreaux : cartes aux coins nets, contour encre */
+.ex{border-color:var(--ink);border-radius:8px}
+</style>
+<title>Séance 6 — Prix et durées</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<style>
+/* Base commune Leçon 4 — titres condensés, texte Work Sans, nombres Space Mono ; ambre = action, vert = juste, rouge = faux */
+:root{
+  color-scheme:light;
+  --bg:#fffef8; --panel:#ffffff; --paper:#ffffff; --ink:#1b2a5e; --muted:#56608a; --line:#c3d1ec; --grid:#dbe5f6;
+  --amber:#ffc61a; --amber-text:#d62839; --amber-ink:#9c1c2a; --fill:#ffe45e; --fill-2:#fff4b8; --on-amber:#1b2a5e;
+  --ok:#17703f; --ok-bg:#dff5e6; --ko:#b3261e; --ko-bg:#ffe5e2;
+  --blue:#1f56d6; --blue-bg:#e6eeff; --magenta:#b8217a; --magenta-bg:#ffe6f3; --teal:#08766f; --teal-bg:#dcf5f2;
+  --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;color:var(--ink);font:16px/1.5 var(--f-text);padding-inline:16px;padding-block:16px 40px;margin:0}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+h1{font:800 clamp(2.1rem,7vw,3.5rem)/.9 var(--f-title);letter-spacing:.01em;margin:0;text-transform:uppercase;text-wrap:balance}
+h1 span{color:var(--amber-text)}
+h2{font:800 clamp(1.4rem,4.5vw,2rem)/1.05 var(--f-title);text-transform:uppercase;letter-spacing:.02em;margin:0;text-wrap:balance}
+.sub{margin:6px 0 0;color:var(--muted);font-size:.95rem;max-width:70ch}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:2px solid var(--line)}
+.tabs button{font:700 1.1rem var(--f-title);letter-spacing:.06em;text-transform:uppercase;background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;border-bottom:4px solid transparent;margin-bottom:-2px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--amber)}
+@media (max-width:440px){.tabs button{padding:8px 8px;font-size:1rem}}
+.seg{display:inline-flex;flex-wrap:wrap;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.seg button{font:600 .9rem var(--f-text);background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;min-height:40px}
+.seg button[aria-pressed="true"]{background:var(--amber);color:var(--on-amber)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:8px 14px;cursor:pointer;min-height:42px}
+.btn:hover{border-color:var(--amber)}
+.btn.main{background:var(--amber);border-color:var(--amber);color:var(--on-amber)}
+.btn:disabled{opacity:.45;cursor:default}
+button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:14px 16px}
+.hint{color:var(--muted);font-size:.9rem;margin:0}
+.recit{margin:0;padding:12px 16px;background:var(--panel);border-left:4px solid var(--amber);border-radius:0 8px 8px 0;max-width:75ch}
+.num{font-family:var(--f-num);font-weight:700}
+.fr{display:inline-flex;flex-direction:column;align-items:center;font:700 1em var(--f-num);line-height:1.05;vertical-align:middle}
+.fr>span:first-child{border-bottom:.09em solid currentColor;padding:0 .15em}
+.msg{min-height:1.5em;font-weight:600;margin:0}
+.msg.ok{color:var(--ok)}.msg.ko{color:var(--ko)}
+input.ans{font:700 1.25rem var(--f-num);text-align:center;border:2px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:6px 4px;width:6em;max-width:100%}
+input.ans:focus{outline:none;border-color:var(--amber)}
+input.ans.ok{border-color:var(--ok);background:var(--ok-bg)}
+input.ans.ko{border-color:var(--ko);background:var(--ko-bg)}
+.lvl{font:600 .85rem var(--f-text);color:var(--muted)}
+/* équipes */
+.teams{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.teams{grid-template-columns:minmax(0,1fr)}}
+.team{border:2px solid var(--tc);border-radius:12px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column}
+.team.t0{--tc:var(--blue);--tb:var(--blue-bg)}.team.t1{--tc:var(--magenta);--tb:var(--magenta-bg)}.team.t2{--tc:var(--teal);--tb:var(--teal-bg)}
+.team .th{background:var(--tb);display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px}
+.team .tn{font:800 1.3rem var(--f-title);text-transform:uppercase;letter-spacing:.05em;color:var(--tc)}
+.team .ts{font:700 1.5rem var(--f-num);color:var(--tc)}
+.team .tb{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.team .draw{display:flex;align-items:center;gap:10px}
+.team .draw button{font:600 .85rem var(--f-text);border:2px solid var(--tc);color:var(--tc);background:none;border-radius:8px;padding:6px 10px;cursor:pointer;min-height:38px}
+.team .who{font:700 1.4rem var(--f-num);color:var(--tc);min-width:2ch}
+.team.turn{box-shadow:0 0 0 4px var(--tc)}
+.team.win{animation:pop .5s}
+.team .res{font-weight:600;min-height:1.4em}
+.team .res.ok{color:var(--ok)}.team .res.ko{color:var(--ko)}
+@keyframes pop{50%{transform:scale(1.04)}}
+.settings{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:.85rem;color:var(--muted)}
+.settings input{width:4em;font:700 .95rem var(--f-num);border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:3px 6px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.team .slot:empty,.team .res:empty{display:none}
+.teams.compact{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.teams.compact .th{flex-direction:column;align-items:flex-start;gap:0;padding:6px 10px}
+.teams.compact .tn{font-size:1.05rem}
+.teams.compact .ts{font-size:1.3rem}
+.teams.compact .tb{padding:6px 10px}
+.teams.compact .draw{flex-wrap:wrap;gap:4px 8px}
+.teams.compact .draw button{padding:4px 8px;min-height:32px;font-size:.8rem}
+.teams.compact .who{font-size:1.1rem}
+@media (max-width:420px){.teams.compact .tn{font-size:.9rem;letter-spacing:.02em}}
+.pane{display:flex;flex-direction:column;gap:16px;min-width:0}
+.grp{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:100%}
+</style>
+<style>
+/* ---- séance 6e ch.6 : page légère, une figure à la fois ---- */
+.ex{display:flex;flex-direction:column;gap:12px;padding-top:8px;border-top:2px solid var(--line)}
+.ex-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px}
+.ex-h h2 small{font:600 .9rem var(--f-text);text-transform:none;letter-spacing:0;color:var(--muted);margin-left:.4em}
+.consigne{margin:0;max-width:70ch;font-size:1.05rem}
+.fig{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.fig svg{display:block;width:100%;height:auto;max-width:760px}
+.ex:not(.show) .sol,.ex:not(.show) .ans{display:none!important}
+.ex.show .q{display:none}
+.s{color:var(--ok);font-weight:600}
+.qs{margin:0;padding-left:1.5em;display:flex;flex-direction:column;gap:10px;max-width:75ch}
+.qs li::marker{font-weight:700;color:var(--amber-ink)}
+.qs .sol{display:block}
+.qs.big{padding-left:2.4em}
+.qs.big li{font:700 1.4rem var(--f-num);padding-block:2px}
+.qs.big .sol{font:600 1rem var(--f-text)}
+.qs.big .sol.in,.qs .sol.in{display:inline;font:800 1.4rem var(--f-num);color:var(--ok);background:var(--ok-bg);border-radius:8px;padding:0 .35em}
+.qs.big .fr{font-size:1.05em}
+.hole{display:inline-flex;align-items:center;justify-content:center;min-width:1.35em;height:1.35em;background:var(--amber);color:var(--on-amber);border-radius:8px;border:3px solid var(--ink);font-weight:800}
+.cas{display:flex;flex-wrap:wrap;gap:10px}
+.cas .btn{font-size:1.05rem;padding:10px 16px}
+.pas{display:flex;flex-wrap:wrap;gap:10px}
+.res{margin:0;display:flex;flex-direction:column;gap:6px}
+.res .eq{font:800 clamp(1.9rem,7vw,2.8rem)/1.15 var(--f-num);margin:0;min-height:1.2em}
+.res .eq .fr{font-size:1.05em}
+.res .ver{margin:0;font-size:1.05rem}
+.mach .tok{transition:opacity .45s}
+.mach .tok.off{opacity:0}
+.mach .arr.off{opacity:.18}
+.hole .ans{display:none}
+.ex.show .hole.has{background:var(--ok-bg);border-color:var(--ok);color:var(--ok);padding:0 .3em;height:auto;min-height:1.35em}
+.ex.show .hole.has .qm{display:none}
+.ex.show .hole.has .ans{display:inline-flex;align-items:center}
+.hole.has .fr{font-size:.8em}
+.qs:not(.big) .hole.has .fr{font-size:1.05em}
+.num{white-space:nowrap}
+/* ---- séance 3 : division posée + barre ---- */
+.div{margin:0;font:700 clamp(1.05rem,4.6vw,1.35rem)/1.3 var(--f-num);background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:10px 16px;white-space:pre;align-self:center;max-width:100%;overflow-x:auto}
+.div mark.nw{background:var(--fill-2);color:inherit;border-radius:3px}
+.mk{padding:0 .3em;border-radius:5px;font-weight:600;color:var(--ink)}
+.recit p{margin:0 0 6px}.recit p:last-child{margin:0}
+.recit pre.div{margin:8px 0 0;align-self:flex-start}
+.fig.col{gap:10px;padding:10px}
+.anim{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start}
+@media (max-width:760px){.anim{grid-template-columns:minmax(0,1fr)}.anim .div{justify-self:center}}
+.div mark.z{background:var(--amber);color:var(--on-amber);border-radius:3px}
+.div .qt{color:var(--amber-ink)}
+#bver{min-height:3.2em;margin:0;font-size:1.05rem}
+#bfig svg{max-width:none}
+.pc{transition:transform .6s cubic-bezier(.4,.1,.2,1)}
+.nt .pc,.pc.nt{transition:none!important}
+.pc line{stroke:#c99a70;stroke-width:1.2;stroke-dasharray:3 3;stroke-opacity:.6;transition:all .3s}
+.pc.cut line{stroke:var(--amber);stroke-width:3;stroke-dasharray:none;stroke-opacity:1}
+@media (prefers-reduced-motion:reduce){.pc,.pc line{transition:none}}
+#beq{font:800 clamp(1.9rem,7vw,2.8rem)/1.15 var(--f-num);margin:0;min-height:0}#beq .fr{font-size:1.05em}
+.pc.cut rect{stroke:var(--amber)}
+.loupe{transition:transform 1s cubic-bezier(.3,.1,.2,1),opacity .5s}
+.loupe.nolab .ll{opacity:0}
+.loupe .ll{transition:opacity .4s}
+.ex3{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.div.sm{font-size:1rem;padding:6px 12px;align-self:flex-start;margin:0}
+.rep{display:flex;flex-direction:column;gap:10px;font-weight:600}
+.rep span{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+@media (max-width:440px){.div.sm{font-size:.82rem;padding:4px 8px}.ex3{gap:8px 10px}.rep{font-size:.9rem;gap:8px}}
+</style>
+<style>
+.ticket{background:#fff;border:2px dashed var(--line);border-radius:6px;padding:12px 16px;font:700 1.05rem var(--f-num);max-width:300px;display:flex;flex-direction:column;gap:4px}
+.ticket .l{display:flex;justify-content:space-between;gap:16px}
+.ticket .t{border-top:2px solid var(--ink);margin-top:4px;padding-top:4px}
+.act2{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:640px){.act2{grid-template-columns:minmax(0,1fr)}}
+.pose{margin:0;font:700 clamp(1.3rem,5vw,1.7rem)/1.35 var(--f-num);background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:10px 18px;white-space:pre;align-self:start;justify-self:start}
+.pose .z{background:var(--fill);border-radius:3px}
+.pose .v{color:var(--amber-text)}
+.pose .res{color:var(--ok)}
+.calc{font:800 clamp(1.3rem,5vw,1.9rem)/1.2 var(--f-num);margin:0;min-height:1.2em}
+.calc mark{background:var(--fill);color:inherit;border-radius:6px;padding:0 .2em}
+.heures{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-end}
+.heures span{display:flex;align-items:center;justify-content:center;height:44px;border:2px solid var(--ink);border-radius:6px;font:700 .95rem var(--f-num);background:var(--fill-2)}
+.heures span.h{background:var(--fill)}
+.etapes{display:flex;gap:6px;flex-wrap:wrap;font:600 .85rem var(--f-text);color:var(--muted)}
+.etapes span{border:2px solid var(--line);border-radius:999px;padding:2px 10px;background:var(--panel)}
+.etapes span.on{background:var(--amber);border-color:var(--amber);color:var(--on-amber)}
+.ex .sol.bloc{display:block;margin:0;max-width:75ch}
+.ex:not(.show) .sol.bloc,.ex:not(.show) .solfig{display:none!important}
+.solfig{display:flex;flex-wrap:wrap;gap:12px 24px}
+.dial{display:flex;flex-direction:column;gap:6px;font:500 1.05rem var(--f-text)}
+.dial .bulle{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:6px 12px;align-self:flex-start}
+.dial .bulle b{color:var(--amber-ink)}
+.defi{border:2px dashed var(--amber);border-radius:12px;padding:12px 14px;background:var(--panel)}
+#ver1,#ver2{min-height:2.6em;margin:0;font-size:1.05rem}
+</style>
+<div class="wrap">
+  <header class="top">
+    <div><h1>Prix <span>et durées</span></h1>
+    <p class="sub">Chapitre 4, séance 6</p></div>
+  </header>
+
+  <section class="ex" id="act1">
+    <div class="ex-h"><h2>Activité 1 <small>le ticket de caisse</small></h2></div>
+    <p class="consigne">Choisis un client, puis clique sur « Étape suivante » : on calcule le total, puis la monnaie à rendre.</p>
+    <div class="cas" id="cas1">
+      <button class="btn" data-k="0">Client 1</button>
+      <button class="btn" data-k="1">Client 2</button>
+      <button class="btn" data-k="2">Client 3</button>
+    </div>
+    <div class="etapes" id="et1"><span>1. aligner les virgules</span><span>2. compléter par des zéros</span><span>3. additionner</span><span>4. rendre la monnaie</span></div>
+    <div class="act2">
+      <div class="ticket" id="ticket"></div>
+      <pre class="pose" id="pose"></pre>
+    </div>
+    <p class="calc" id="calc1"></p>
+    <p id="ver1" aria-live="polite"></p>
+    <div class="pas"><button class="btn main" id="next1">Étape suivante</button><button class="btn" id="again1">Recommencer</button></div>
+  </section>
+
+  <section class="ex" id="act2">
+    <div class="ex-h"><h2>Activité 2 <small>des heures en minutes</small></h2></div>
+    <p class="consigne">Une heure, c'est 60 minutes, pas 100 ! Choisis une durée et regarde-la en minutes.</p>
+    <div class="cas" id="cas2">
+      <button class="btn" data-m="90">1 h 30 min</button>
+      <button class="btn" data-m="135">2 h 15 min</button>
+      <button class="btn" data-m="200">3 h 20 min</button>
+    </div>
+    <div class="heures" id="heures"></div>
+    <p class="calc" id="calc2"></p>
+    <p id="ver2" aria-live="polite"></p>
+    <div class="recit" id="ret" hidden>
+      <p>1. Pour additionner ou soustraire des décimaux, on pose l'opération <b>virgule sous virgule</b>, et on complète avec des <b>zéros</b> : 3,5 = 3,50.</p>
+      <p>2. La monnaie à rendre : <b>somme donnée − total à payer</b>.</p>
+      <p>3. Les durées ne comptent pas par 10 : <b>1 h = 60 min</b> et <b>1 min = 60 s</b>. On convertit avant de calculer.</p>
+    </div>
+  </section>
+
+  <p class="hint">Dans ton cahier : le numéro de l'exercice, la lettre et ta réponse, sans recopier.</p>
+
+  <section class="ex" id="ex1">
+    <div class="ex-h"><h2>Exercice 1 <small>virgule sous virgule</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Pose chaque addition dans ton cahier, virgule sous virgule, et calcule.</p>
+    <ol class="qs" type="a" style="font:700 1.25rem var(--f-num)">
+      <li>12,5 + 3,75 = <span class="hole has"><span class="qm">?</span><span class="ans">16,25</span></span></li>
+      <li>4,8 + 0,35 = <span class="hole has"><span class="qm">?</span><span class="ans">5,15</span></span></li>
+      <li>7 + 2,45 = <span class="hole has"><span class="qm">?</span><span class="ans">9,45</span></span></li>
+    </ol>
+    <div class="solfig" id="sol1"></div>
+    <p class="sol s bloc">Pour c : 7, c'est 7,00. On écrit la virgule et les zéros pour bien aligner.</p>
+  </section>
+
+  <section class="ex" id="ex2">
+    <div class="ex-h"><h2>Exercice 2 <small>à la boulangerie</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Voici le ticket de Malo. Il paie avec un billet de 10 €.</p>
+    <div class="ticket"><div class="l"><span>Pain</span><span>1,35 €</span></div><div class="l"><span>Lait</span><span>0,98 €</span></div><div class="l"><span>Fromage</span><span>3,50 €</span></div></div>
+    <ol class="qs" type="a">
+      <li>Quel est le total à payer ? <span class="hole has"><span class="qm">?</span><span class="ans">5,83 €</span></span><span class="sol s">1,35 + 0,98 + 3,50 = 5,83 €.</span></li>
+      <li>Combien la boulangère doit-elle lui rendre ? <span class="hole has"><span class="qm">?</span><span class="ans">4,17 €</span></span><span class="sol s">10,00 − 5,83 = 4,17 €. Vérification : 5,83 + 4,17 = 10.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex3">
+    <div class="ex-h"><h2>Exercice 3 <small>qui a raison ?</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Hugo et Lucie ont posé la même addition. Lequel a raison ?</p>
+    <div class="solfig" style="display:flex!important" id="hl"></div>
+    <p>Qui a raison ? <span class="hole has"><span class="qm">?</span><span class="ans">Lucie</span></span></p>
+    <p class="sol s bloc">Lucie. Hugo a aligné les chiffres à droite, comme pour des entiers : son 5 (des dixièmes) est sous un 5 (des centièmes). Il faut aligner les virgules : 3,5 + 1,25 = 4,75.</p>
+  </section>
+
+  <section class="ex" id="ex4">
+    <div class="ex-h"><h2>Exercice 4 <small>convertir des durées</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Complète. Attention : 1 h = 60 min et 1 min = 60 s.</p>
+    <ol class="qs" type="a" style="font:700 1.2rem var(--f-num)">
+      <li>2 h = <span class="hole has"><span class="qm">?</span><span class="ans">120</span></span> min<span class="sol s">2 × 60 = 120.</span></li>
+      <li>1 h 45 min = <span class="hole has"><span class="qm">?</span><span class="ans">105</span></span> min<span class="sol s">60 + 45 = 105.</span></li>
+      <li>90 min = <span class="hole has"><span class="qm">?</span><span class="ans">1</span></span> h <span class="hole has"><span class="qm">?</span><span class="ans">30</span></span> min<span class="sol s">90 = 60 + 30 : 1 h et 30 min (et pas 0,9 h !).</span></li>
+      <li>3 min = <span class="hole has"><span class="qm">?</span><span class="ans">180</span></span> s<span class="sol s">3 × 60 = 180.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex5">
+    <div class="ex-h"><h2>Exercice 5 <small>les trains</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Lis l'horaire, puis réponds. Avance par étapes, en passant par l'heure pile.</p>
+    <ol class="qs" type="a">
+      <li>Un train part à <b>14 h 35</b>. Le trajet dure <b>50 min</b>. À quelle heure arrive-t-il ? <span class="hole has"><span class="qm">?</span><span class="ans">15 h 25</span></span><span class="sol s">14 h 35 + 25 min = 15 h pile, puis + 25 min (car 50 = 25 + 25) = 15 h 25.</span></li>
+      <li>Un train part à <b>9 h 40</b> et arrive à <b>11 h 05</b>. Combien de temps dure le trajet ? <span class="hole has"><span class="qm">?</span><span class="ans">1 h 25 min</span></span><span class="sol s">9 h 40 → 10 h : 20 min ; 10 h → 11 h : 1 h ; 11 h → 11 h 05 : 5 min. Total : 1 h 25 min.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex defi" id="ex6">
+    <div class="ex-h"><h2>Défi <small>la rentrée</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Léa a 20 €. Elle achète 3 cahiers à 2,45 € chacun et un stylo à 1,90 €. Combien lui reste-t-il ?</p>
+    <p>Il lui reste : <span class="hole has"><span class="qm">?</span><span class="ans">10,75 €</span></span></p>
+    <p class="sol s bloc">Les cahiers : 2,45 + 2,45 + 2,45 = 7,35 €. Total : 7,35 + 1,90 = 9,25 €. Il reste 20,00 − 9,25 = 10,75 €.</p>
+  </section>
+</div>
+
+<script>
+(function(){
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const F=c=>(c/100).toFixed(2).replace('.',',');           /* centimes -> "3,50" */
+const nz=s=>s.replace(/0+$/,'').replace(/,$/,'');           /* "3,50" -> "3,5" */
+/* addition posée ; nums en centimes ; opt.zeros : compléter ; opt.res : afficher le résultat ; opt.droite : aligné à droite (erreur) */
+function poser(nums,opt={},signe='+'){
+  const txt=nums.map(c=>opt.zeros?F(c):nz(F(c))),res=nums.reduce((a,b)=>a+b,0);
+  const intW=Math.max(...txt.map(t=>t.split(',')[0].length),opt.res?F(res).split(',')[0].length:0)+1;
+  let L;
+  if(opt.droite){const w=Math.max(...txt.map(t=>t.length))+2;L=txt.map((t,i)=>(i?signe:' ')+' '.repeat(w-1-t.length)+t);}
+  else L=txt.map((t,i)=>{const [a,b]=t.split(',');let dec=b===undefined?'':','+b;
+    if(opt.zeros){const [a2,b2]=F(nums[i]).split(',');const orig=nz(F(nums[i])),add=F(nums[i]).length-orig.length;
+      dec=','+b2;if(add>0)dec=','+b2.slice(0,2-Math.min(2,add))+`<span class="z">${b2.slice(2-Math.min(2,add))}</span>`;
+      if(!orig.includes(','))dec=`<span class="z">,${b2}</span>`;
+      return (i?signe:' ')+' '.repeat(intW-1-a2.length)+a2+dec.replace(',','<span class="v">,</span>');}
+    return (i?signe:' ')+' '.repeat(intW-1-a.length)+a+(dec?dec.replace(',','<span class="v">,</span>'):'');});
+  const w=opt.droite?L[0].length:intW+3;
+  let out=L.join('\n')+'\n'+'─'.repeat(w);
+  if(opt.res!=null)out+='\n'+`<span class="res">${opt.droite?opt.res:' '.repeat(intW-F(opt.res).split(',')[0].length)+F(opt.res)}</span>`;
+  return out;
+}
+/* ----- activité 1 ----- */
+const T=[{a:[['Croissant',115],['Jus de pomme',230],['Pommes',4]].map(([n,c])=>[n,c==4?400:c]),paye:1000},
+         {a:[['Cahier',245],['Stylo',190],['Gomme',85]],paye:1000},
+         {a:[['Pizza',750],['Eau',65],['Glace',325]],paye:2000}];
+T[0].a[2][1]=400;
+let k=0,step=0;
+function rendu1(){const t=T[k],nums=t.a.map(x=>x[1]),tot=nums.reduce((a,b)=>a+b,0);
+  $('#ticket').innerHTML=t.a.map(([n,c])=>`<div class="l"><span>${n}</span><span>${nz(F(c))} €</span></div>`).join('')+`<div class="l t"><span>Payé avec</span><span>${F(t.paye).replace(',00','')} €</span></div>`;
+  if(step===0)$('#pose').innerHTML='Clique sur\n« Étape suivante »';
+  else if(step<4)$('#pose').innerHTML=poser(nums,{zeros:step>=2,res:step>=3?tot:null});
+  else $('#pose').innerHTML=poser([t.paye,tot],{zeros:true,res:null},'−').replace(/─+$/,m=>m)+`\n<span class="res">${' '.repeat(Math.max(...[t.paye,tot].map(c=>F(c).split(',')[0].length))+1-F(t.paye-tot).split(',')[0].length)}${F(t.paye-tot)}</span>`;
+  $('#calc1').innerHTML=step>=3?`Total : <mark>${F(tot)} €</mark>`+(step>=4?` · Monnaie : <mark>${F(t.paye-tot)} €</mark>`:''):'';
+  $('#ver1').innerHTML=['Le client pose ses articles. Combien doit-il payer ?',
+    'On écrit les prix les uns sous les autres, <b>virgule sous virgule</b> (en rouge).',
+    'On complète avec des <b>zéros</b> (en jaune) : toutes les lignes ont le même nombre de chiffres après la virgule.',
+    'On additionne comme d\'habitude, de droite à gauche, et on descend la virgule.',
+    `La monnaie : <b>somme donnée − total</b>. Vérification : ${F(tot)} + ${F(t.paye-tot)} = ${F(t.paye)}.`][step];
+  $$('#et1 span').forEach((s,i)=>s.classList.toggle('on',i<step));$('#next1').disabled=step>=4;
+  $$('#cas1 .btn').forEach(b=>b.classList.toggle('main',+b.dataset.k===k));
+  if(step>=4)vu1=true;check();}
+let vu1=false,vu2=new Set();
+$$('#cas1 .btn').forEach(b=>b.addEventListener('click',()=>{k=+b.dataset.k;step=0;rendu1();}));
+$('#next1').addEventListener('click',()=>{step++;rendu1();});
+$('#again1').addEventListener('click',()=>{step=0;rendu1();});
+/* ----- activité 2 ----- */
+function rendu2(m){const h=Math.floor(m/60),r=m%60;
+  $('#heures').innerHTML=Array.from({length:h},()=>`<span class="h" style="width:120px">60 min</span>`).join('')+(r?`<span style="width:${120*r/60}px">${r}</span>`:'');
+  $('#calc2').innerHTML=`${h} h ${r} min = ${Array(h).fill('60').join(' + ')} + ${r} = <mark>${m} min</mark>`;
+  $('#ver2').innerHTML=`Chaque bloc jaune est <b>une heure = 60 min</b>. Attention : ${h} h ${r} min ne fait pas ${h}${r<10?'0':''}${r} min !`;
+  $$('#cas2 .btn').forEach(b=>b.classList.toggle('main',+b.dataset.m===m));vu2.add(m);check();}
+$$('#cas2 .btn').forEach(b=>b.addEventListener('click',()=>rendu2(+b.dataset.m)));
+function check(){if(vu1&&vu2.size>=2)$('#ret').hidden=false;}
+rendu1();rendu2(90);
+/* ----- figures des exercices ----- */
+$('#sol1').innerHTML=[[[1250,375]],[[480,35]],[[700,245]]].map(([n],i)=>`<pre class="pose" style="font-size:1.1rem">${poser(n,{zeros:true,res:n[0]+n[1]})}</pre>`).join('');
+$('#hl').innerHTML=`<figure style="margin:0"><figcaption><b>Hugo</b></figcaption><pre class="pose" style="font-size:1.1rem">${poser([350,125],{droite:true,res:'1,60'}).replace('3,50','3,5')}</pre></figure><figure style="margin:0"><figcaption><b>Lucie</b></figcaption><pre class="pose" style="font-size:1.1rem">${poser([350,125],{zeros:true,res:475})}</pre></figure>`;
+/* boutons « Correction » */
+document.addEventListener('click',e=>{const bt=e.target.closest('[data-sol]');if(!bt)return;const s=bt.closest('.ex');const on=s.classList.toggle('show');bt.textContent=on?'Cacher la correction':'Correction';bt.classList.toggle('main',on);bt.setAttribute('aria-pressed',on);});
+})();
+
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
+<style id="nuance-chapitre">/* Nuance du cahier : ch4 */:root:root:root{--bg:#f6fcf8;--grid:#d2eadb;--line:#bcdcc8}</style>

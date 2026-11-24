@@ -375,7 +375,7 @@ window.SITE = {
                 "Le jeu de la caisse : on calcule le total d'un ticket de caisse, puis la monnaie à rendre (mini-jeu La Caisse Enregistreuse).",
                 "Chrono Fou : on convertit des durées et on calcule des horaires de trains (mini-jeu Le Chrono Fou)."
               ],
-              ressources: ["caisse-enregistreuse", "chrono-fou"],
+              ressources: ["6e-ch4-s6", "caisse-enregistreuse", "chrono-fou"],
               retenir: [
                 "Pour additionner ou soustraire des décimaux, on pose l'opération en mettant **la virgule sous la virgule**, et on complète avec des zéros.",
                 "La monnaie à rendre est une soustraction : somme donnée − total à payer.",
@@ -396,6 +396,7 @@ window.SITE = {
             { id: "coffre-decimal", type: "jeu", titre: "L'Énigme du Coffre décimal", resume: "Chaque cadenas résolu donne un chiffre du code.", ajout: "2026-10-06" },
             { id: "6e-ch4-s4", type: "exos", titre: "Séance 4 — Les pourcentages", resume: "La grille de 100 : un pourcentage, une fraction, un nombre décimal. Grilles, jauges, qui a raison ?, et un défi à plus de 100 %. Avec corrections.", ajout: "2026-11-24" },
             { id: "6e-ch4-s5", type: "exos", titre: "Séance 5 — Lire et placer un nombre décimal", resume: "La loupe pas à pas : unités, dixièmes, centièmes. Lire des abscisses, retrouver un point, la droite qui ne commence pas à 0 et un défi. Avec corrections.", ajout: "2026-11-24" },
+            { id: "6e-ch4-s6", type: "exos", titre: "Séance 6 — Prix et durées", resume: "Le ticket de caisse pas à pas (virgule sous virgule, zéros, monnaie), les heures en minutes, l'erreur d'Hugo, les trains et un défi de rentrée. Avec corrections.", ajout: "2026-11-24" },
             { id: "jauge-pourcentages", type: "jeu", titre: "La Jauge à Pourcentages", resume: "20 % = 20/100 = 0,2 : lis et remplis la jauge.", ajout: "2026-10-06" }
           ]
         },
