@@ -402,7 +402,14 @@
       '<rect class="f-c s-i" x="38" y="28" width="13" height="18" rx="5" stroke-width="2.6"/>' +
       '<circle class="f-b s-i" cx="44.5" cy="19" r="7" stroke-width="2.6"/>' +
       '<path class="s-i" d="M42 46L40 55M47 46L49 55" fill="none" stroke-width="3"/>' +
-      '<path class="s-s" d="M33 66H14" fill="none" stroke-width="4"/><path class="f-s" d="M8 66L16 61V71Z"/>')
+      '<path class="s-s" d="M33 66H14" fill="none" stroke-width="4"/><path class="f-s" d="M8 66L16 61V71Z"/>'),
+    "4e-ch5-s2": svg( // le même pas répété trois fois vers la gauche : 3 × (−2)
+      '<line class="s-i" x1="4" y1="52" x2="68" y2="52" stroke-width="3"/>' +
+      '<line class="s-i" x1="62" y1="46" x2="62" y2="58" stroke-width="3"/>' +
+      '<path class="s-i" d="M62 46Q53 24 44 46M44 46Q35 24 26 46M26 46Q17 24 8 46" fill="none" stroke-width="7"/>' +
+      '<path class="s-c" d="M62 46Q53 24 44 46M44 46Q35 24 26 46M26 46Q17 24 8 46" fill="none" stroke-width="3.5"/>' +
+      '<path class="f-s s-i" d="M44 49L39 38L49 40Z M26 49L21 38L31 40Z M8 49L3 38L13 40Z" stroke-width="1.6"/>' +
+      lab(36, 64, '×3', 13))
   };
 
   // ----- 4e ch.5 : relatifs — moins par moins donne plus

@@ -158,6 +158,8 @@
       long: ["Elle dit aussi de combien deux nombres diffèrent."] },
     { id: "produit", nom: "produit", chap: "Tous niveaux · Calcul et nombres", court: "Résultat d'une multiplication. Ex : le produit de 3 et 5 est 15.",
       long: ["Les nombres que l'on multiplie s'appellent des facteurs."] },
+    { id: "facteur", nom: "facteur", chap: "Tous niveaux · Calcul et nombres", court: "Chacun des nombres que l'on multiplie. Ex : dans 4 × (−3), les facteurs sont 4 et −3.",
+      long: ["Le résultat de la multiplication s'appelle le produit.", "On peut changer l'ordre des facteurs : 4 × (−3) = (−3) × 4."] },
     { id: "quotient", nom: "quotient", chap: "Tous niveaux · Calcul et nombres", court: "Résultat d'une division. Ex : le quotient de 12 par 4 est 3.",
       long: ["On l'écrit aussi comme une fraction : 12 ÷ 4 = 12/4."] },
     { id: "addition", nom: "addition", chap: "Tous niveaux · Calcul et nombres", court: "Opération qui réunit deux quantités. Son résultat est la somme.",
