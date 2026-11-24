@@ -278,7 +278,7 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 .answers>span{display:inline-flex;align-items:center;gap:8px;background:var(--panel);border:2px solid var(--ink);border-radius:10px;padding:4px 12px;font:700 1.15rem var(--f-num)}
 .answers i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:1.6em;height:1.6em;border-radius:50%;background:var(--amber);color:var(--on-amber);font:800 1rem var(--f-text)}
 .qs .hole.has{margin-left:6px}
-.hole.has .ans i{font-style:normal;font-weight:800;margin-right:4px}
+.hole.has .ans i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:1.45em;height:1.45em;border-radius:50%;background:var(--amber);color:var(--on-amber);font:800 .85em var(--f-text);margin-right:6px}
 .qs.pb{gap:18px}
 .qs.pb .card{margin-top:6px;gap:6px}
 .qs.pb .card>li{animation:none;padding:6px 12px;grid-template-columns:8em minmax(0,1fr);align-items:center}
@@ -287,6 +287,9 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 @media (max-width:560px){.qs.pb .card>li{grid-template-columns:minmax(0,1fr)}}
 .vf{font-weight:700}.vf.t{color:var(--ok)}.vf.f{color:var(--ko)}
 .say{font-style:italic}
+.tries{display:flex;flex-direction:column;gap:6px;padding:4px 8px;align-self:center}
+.tries p{margin:0;display:flex;align-items:center;gap:14px;font-size:clamp(1.1rem,4.4vw,1.5rem)}
+.tries .vf{font-size:1rem}
 .plus{display:table;margin:0 0 4px;padding:1px 10px;border-radius:999px;background:var(--amber);color:var(--on-amber);font:700 .85rem var(--f-text)}
 .pl{margin-top:6px}
 .pl .sol{display:block;margin-top:4px}
@@ -300,24 +303,25 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
   <!-- ================= ACTIVITÉ : UNE DIVISION, QUATRE HISTOIRES ================= -->
   <section class="ex" id="act">
     <div class="ex-h"><h2>Activité <small>une division, quatre histoires</small></h2></div>
-    <p class="consigne">Les quatre histoires se calculent avec la <b>même</b> <span class="gl" data-t="division">division</span> : <b class="num">50 ÷ 12</b>. Choisis une histoire, lis bien la question, puis avance étape par étape.</p>
+    <p class="consigne">Quatre histoires, une seule <span class="gl" data-t="division">division</span> : <b class="num">50 ÷ 12</b>. Choisis une histoire et avance étape par étape.</p>
     <div class="cas" id="cas">
       <button class="btn" data-k="0">Les minibus<span class="ok">✓</span></button>
-      <button class="btn" data-k="1">Les euros<span class="ok">✓</span></button>
-      <button class="btn" data-k="2">Les cartes<span class="ok">✓</span></button>
-      <button class="btn" data-k="3">Le ruban<span class="ok">✓</span></button>
+      <button class="btn" data-k="1">Les cartes<span class="ok">✓</span></button>
+      <button class="btn" data-k="2">Le ruban<span class="ok">✓</span></button>
+      <button class="btn" data-k="3">Le nombre de Lina<span class="ok">✓</span></button>
     </div>
     <p class="recit story" id="story" hidden></p>
     <ol class="card" id="steps" aria-live="polite"></ol>
     <div class="pas"><button class="btn main" id="next">Commencer</button></div>
     <div class="tally" id="tally">
       <div class="tile k0"><b>Les minibus</b><span>?</span></div>
-      <div class="tile k1"><b>Les euros</b><span>?</span></div>
-      <div class="tile k2"><b>Les cartes</b><span>?</span></div>
-      <div class="tile k3"><b>Le ruban</b><span>?</span></div>
+      <div class="tile k1"><b>Les cartes</b><span>?</span></div>
+      <div class="tile k2"><b>Le ruban</b><span>?</span></div>
+      <div class="tile k3"><b>Le nombre de Lina</b><span>?</span></div>
     </div>
     <div class="recit" id="ret" hidden>
       <p><b>Le calcul est le même, la réponse dépend de la question.</b></p>
+      <p>On mesure, ou on demande « environ » : une <b>valeur approchée</b>. On demande « exactement » : la <b>valeur exacte</b>, parfois une fraction.</p>
       <p>Pour résoudre un problème :</p>
       <ol class="steps3"><li>j'écris la <b>division</b> ;</li><li>je fais le <b>calcul</b> ;</li><li>je relis la question et je <b>réponds par une phrase</b>, avec l'unité. Ma réponse a-t-elle du sens ?</li></ol>
     </div>
@@ -328,54 +332,54 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
   <!-- ================= EXERCICES ================= -->
   <section class="ex" id="ex1">
     <div class="ex-h"><h2>Exercice 1 <small>la bonne réponse</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="consigne">Les quatre histoires se calculent avec <b class="num">20 ÷ 3</b>. Le calcul est déjà fait : <span class="num">20 ÷ 3 = 6</span>, il reste 2, et <span class="num">20 ÷ 3 = 6,666…</span> Trouve la bonne réponse de chaque histoire et écris son numéro.</p>
-    <div class="answers"><span><i>1</i>6, il reste 2</span><span><i>2</i>≈ 6,67</span><span><i>3</i>7</span><span><i>4</i><span class="fr"><span>20</span><span>3</span></span></span></div>
+    <p class="consigne">Même calcul pour les quatre histoires : <span class="num">20 ÷ 3 = 6</span>, il reste 2, ou <span class="num">20 ÷ 3 = 6,666…</span><br>Pour chaque histoire, écris le numéro de la bonne réponse.</p>
+    <div class="answers"><span><i>1</i>6, il reste 2</span><span><i>2</i>≈ 6,7</span><span><i>3</i>7</span><span><i>4</i><span class="fr"><span>20</span><span>3</span></span></span></div>
     <ol class="qs" type="a">
-      <li>20 enfants vont au cinéma. Une voiture emmène 3 enfants. Combien de voitures faut-il ? <span class="hole has"><span class="qm">?</span><span class="ans"><i>3</i>7 voitures</span></span><span class="sol s">6 voitures emmènent 18 enfants : 2 enfants restent. Il faut une 7<sup>e</sup> voiture.</span></li>
-      <li>3 frères se partagent 20 €. Combien reçoit chacun, au centime près ? <span class="hole has"><span class="qm">?</span><span class="ans"><i>2</i>≈ 6,67 €</span></span><span class="sol s">Au centime, c'est au centième : 6,666… ≈ 6,67.</span></li>
-      <li>3 enfants se partagent 20 billes. Chacun a le même nombre de billes. Combien de billes a chacun ? Combien en reste-t-il ? <span class="hole has"><span class="qm">?</span><span class="ans"><i>1</i>6 billes, il en reste 2</span></span><span class="sol s">On ne coupe pas une bille : on s'arrête avant la virgule.</span></li>
-      <li>Un fil de 20 m est coupé en 3 morceaux de même longueur. Quelle est la longueur exacte d'un morceau ? <span class="hole has"><span class="qm">?</span><span class="ans"><i>4</i><span class="fr"><span>20</span><span>3</span></span>&nbsp;m</span></span><span class="sol s">« Exacte » : 6,67 n'est qu'une valeur approchée. La valeur exacte est la fraction.</span></li>
+      <li>20 enfants vont au cinéma. Une voiture emmène 3 enfants. Combien de voitures faut-il ? <span class="hole has"><span class="qm">?</span><span class="ans"><i>3</i>7 voitures</span></span><span class="sol s">6 voitures emmènent 18 enfants : il en reste 2. Il faut une 7<sup>e</sup> voiture.</span></li>
+      <li>3 enfants se partagent 20 billes. Combien de billes a chacun ? Combien en reste-t-il ? <span class="hole has"><span class="qm">?</span><span class="ans"><i>1</i>6 billes, il en reste 2</span></span><span class="sol s">On ne coupe pas une bille : on s'arrête avant la virgule.</span></li>
+      <li>Avec ta règle, tu coupes une ficelle de 20 cm en 3 morceaux égaux. Combien mesure un morceau, au millimètre près ? <span class="hole has"><span class="qm">?</span><span class="ans"><i>2</i>≈ 6,7 cm</span></span><span class="sol s">Au millimètre, c'est au dixième de cm : 6,666… ≈ 6,7.</span></li>
+      <li>Quel nombre, multiplié par 3, donne exactement 20 ? <span class="hole has"><span class="qm">?</span><span class="ans"><i>4</i><span class="fr"><span>20</span><span>3</span></span></span></span><span class="sol s">6,7 × 3 = 20,1 : ce n'est pas exactement 20. La fraction, elle, marche : <span class="fr"><span>20</span><span>3</span></span> × 3 = 20.</span></li>
     </ol>
   </section>
 
   <section class="ex" id="ex2">
     <div class="ex-h"><h2>Exercice 2 <small>en trois temps</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="consigne">Résous chaque problème en trois temps : <b>la division</b>, <b>le calcul</b>, puis <b>une phrase</b> qui répond à la question. Attention à ce que demande la question !</p>
+    <p class="consigne">Pour chaque problème : écris la division, calcule, puis réponds par une phrase.</p>
     <ol class="qs pb" type="a">
-      <li>84 élèves partent en sortie. Un car a 30 places. <b>Combien de cars faut-il ?</b>
+      <li>84 élèves partent en sortie. Un car a 30 places. <b>Combien de cars faut-il&nbsp;?</b>
         <ol class="card"><li><b class="lab">1. La division</b><div><p><span class="hole has"><span class="qm">?</span><span class="ans">84 ÷ 30</span></span></p></div></li><li><b class="lab">2. Le calcul</b><div><p><span class="hole has"><span class="qm">?</span><span class="ans">2, il reste 24</span></span></p></div></li><li><b class="lab">3. La phrase</b><div><p><span class="hole has"><span class="qm">?</span><span class="ans">Il faut 3 cars.</span></span></p></div></li></ol>
         <span class="sol s">Avec 2 cars, 24 élèves restent à pied : on arrondit au-dessus.</span></li>
-      <li>3 amis achètent une pizza à 25 € et partagent le prix. <b>Combien paie chacun, au centime près ?</b>
-        <ol class="card"><li><b class="lab">1. La division</b><div><p><span class="hole has"><span class="qm">?</span><span class="ans">25 ÷ 3</span></span></p></div></li><li><b class="lab">2. Le calcul</b><div><p><span class="hole has"><span class="qm">?</span><span class="ans">8,333…</span></span></p></div></li><li><b class="lab">3. La phrase</b><div><p><span class="hole has"><span class="qm">?</span><span class="ans">Chacun paie environ 8,33 €.</span></span></p></div></li></ol>
-        <span class="sol s">Le reste 1 revient : on donne une valeur approchée au centime.</span></li>
-      <li>Un fermier range 100 œufs dans des boîtes de 6. <b>Combien de boîtes pleines remplit-il ?</b>
+      <li>Un fermier range 100 œufs dans des boîtes de 6. <b>Combien de boîtes pleines remplit-il&nbsp;?</b>
         <ol class="card"><li><b class="lab">1. La division</b><div><p><span class="hole has"><span class="qm">?</span><span class="ans">100 ÷ 6</span></span></p></div></li><li><b class="lab">2. Le calcul</b><div><p><span class="hole has"><span class="qm">?</span><span class="ans">16, il reste 4</span></span></p></div></li><li><b class="lab">3. La phrase</b><div><p><span class="hole has"><span class="qm">?</span><span class="ans">Il remplit 16 boîtes pleines.</span></span></p></div></li></ol>
-        <span class="sol s">Ici, pas d'arrondi au-dessus : une 17<sup>e</sup> boîte n'aurait que 4 œufs, elle ne serait pas pleine.</span></li>
-      <li>Une corde de 9 m est coupée en 4 morceaux de même longueur. <b>Combien mesure un morceau ?</b>
+        <span class="sol s">Pas d'arrondi au-dessus ici : une 17<sup>e</sup> boîte n'aurait que 4 œufs, elle ne serait pas pleine.</span></li>
+      <li>Une corde de 9 m est coupée en 4 morceaux égaux. <b>Combien mesure un morceau&nbsp;?</b>
         <ol class="card"><li><b class="lab">1. La division</b><div><p><span class="hole has"><span class="qm">?</span><span class="ans">9 ÷ 4</span></span></p></div></li><li><b class="lab">2. Le calcul</b><div><p><span class="hole has"><span class="qm">?</span><span class="ans">2,25</span></span></p></div></li><li><b class="lab">3. La phrase</b><div><p><span class="hole has"><span class="qm">?</span><span class="ans">Un morceau mesure 2,25 m.</span></span></p></div></li></ol>
         <span class="sol s">La division s'arrête : 2,25 m est la valeur exacte. Vérifie : 2,25 × 4 = 9.</span></li>
+      <li>Un boulanger partage 1 000 g de pâte en 6 boules égales. Sa balance pèse au gramme près. <b>Combien pèse une boule&nbsp;?</b>
+        <ol class="card"><li><b class="lab">1. La division</b><div><p><span class="hole has"><span class="qm">?</span><span class="ans">1 000 ÷ 6</span></span></p></div></li><li><b class="lab">2. Le calcul</b><div><p><span class="hole has"><span class="qm">?</span><span class="ans">166,66…</span></span></p></div></li><li><b class="lab">3. La phrase</b><div><p><span class="hole has"><span class="qm">?</span><span class="ans">Une boule pèse environ 167 g.</span></span></p></div></li></ol>
+        <span class="sol s">La balance pèse au gramme : on arrondit à l'unité. 166,66… est plus près de 167 que de 166.</span></li>
     </ol>
   </section>
 
   <section class="ex" id="ex3">
     <div class="ex-h"><h2>Exercice 3 <small>ça a du sens ?</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="consigne">Noé a bien calculé, mais il n'a pas relu les questions. Pour chaque réponse, écris « ça va » ou « absurde ». Si c'est absurde, écris la bonne réponse.</p>
+    <p class="consigne">Noé a bien calculé, mais a-t-il bien répondu ? Écris « juste » ou « faux ». Si c'est faux, corrige.</p>
     <ol class="qs" type="a">
-      <li>50 élèves, des minibus de 12 places. Combien de minibus faut-il ? <b>Noé :</b> <span class="say">« Il faut 4,17 minibus. »</span><span class="hole has"><span class="qm">?</span><span class="ans">absurde : 5 minibus</span></span><span class="sol s">On ne coupe pas un minibus en morceaux ! Il en faut 5 pour que tout le monde ait une place.</span></li>
-      <li>50 cartes, des paquets de 12. Combien de paquets complets ? <b>Noé :</b> <span class="say">« Je fais 5 paquets complets. »</span><span class="hole has"><span class="qm">?</span><span class="ans">absurde : 4 paquets</span></span><span class="sol s">5 paquets de 12, c'est 60 cartes : il n'en a que 50. Il fait 4 paquets et il reste 2 cartes.</span></li>
-      <li>3 amis se partagent 10 €. Combien reçoit chacun ? <b>Noé :</b> <span class="say">« Chacun reçoit 3,333 €. »</span><span class="hole has"><span class="qm">?</span><span class="ans">absurde : environ 3,33 €</span></span><span class="sol s">Il n'existe rien de plus petit que 1 centime (0,01 €) : on arrondit au centième.</span></li>
-      <li>Un ruban de 6 m est coupé en 4 morceaux égaux. Combien mesure un morceau ? <b>Noé :</b> <span class="say">« Un morceau mesure 1,5 m. »</span><span class="hole has"><span class="qm">?</span><span class="ans">ça va</span></span><span class="sol s"><span class="vf t">Juste.</span> 6 ÷ 4 = 1,5, et 1,5 × 4 = 6.</span></li>
+      <li>50 élèves, des minibus de 12 places. Combien de minibus faut-il ? <b>Noé :</b> <span class="say">« 4,17 minibus. »</span><span class="hole has"><span class="qm">?</span><span class="ans">faux : 5 minibus</span></span><span class="sol s">On ne coupe pas un minibus ! Il en faut 5 pour que tout le monde ait une place.</span></li>
+      <li>50 cartes, des paquets de 12. Combien de paquets complets ? <b>Noé :</b> <span class="say">« 5 paquets. »</span><span class="hole has"><span class="qm">?</span><span class="ans">faux : 4 paquets</span></span><span class="sol s">5 paquets de 12, c'est 60 cartes : Léo n'en a que 50. Il fait 4 paquets, et il reste 2 cartes.</span></li>
+      <li>Quel nombre, multiplié par 3, donne exactement 10 ? <b>Noé :</b> <span class="say">« 3,33. »</span><span class="hole has"><span class="qm">?</span><span class="ans">faux : <span class="fr"><span>10</span><span>3</span></span></span></span><span class="sol s">3,33 × 3 = 9,99 : ce n'est pas exactement 10. La réponse exacte est la fraction.</span></li>
+      <li>Un ruban de 6 m coupé en 4 morceaux égaux. Combien mesure un morceau ? <b>Noé :</b> <span class="say">« 1,5 m. »</span><span class="hole has"><span class="qm">?</span><span class="ans">juste</span></span><span class="sol s">6 ÷ 4 = 1,5, et 1,5 × 4 = 6.</span></li>
     </ol>
   </section>
 
   <section class="ex" id="ex4">
     <div class="ex-h"><h2>Défi <small>à toi d'inventer</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="consigne">Invente deux petites histoires qui se calculent avec <b class="num">7 ÷ 3</b>. Écris la question de chacune.</p>
+    <p class="consigne">Invente une petite histoire qui se calcule avec <b class="num">7 ÷ 3</b>, et dont la réponse est :</p>
     <ol class="qs" type="a">
-      <li>Une histoire dont la réponse est <b class="num">3</b>.<span class="sol s">Par exemple : « 7 enfants, des voitures de 3 places. Combien de voitures faut-il ? » Il en faut 3.</span></li>
-      <li>Une histoire dont la réponse est <b class="num">environ 2,33</b>.<span class="sol s">Par exemple : « 3 amis se partagent 7 €. Combien reçoit chacun, au centime près ? » Environ 2,33 €.</span></li>
+      <li><b class="num">3</b><span class="sol s">Par exemple : « 7 enfants, des voitures de 3 places. Combien de voitures faut-il ? » Il en faut 3.</span></li>
+      <li><b class="num">environ 2,33</b><span class="sol s">Par exemple : « Une corde de 7 m coupée en 3 morceaux égaux. Combien mesure un morceau, au centimètre près ? » Environ 2,33 m.</span></li>
     </ol>
-    <div class="pl"><span class="plus">★ Pour aller plus loin</span> Invente une troisième histoire, avec 7 ÷ 3, dont la réponse est <b class="num">2</b>.<span class="sol s">Par exemple : « 7 gâteaux, des boîtes de 3. Combien de boîtes pleines ? » 2 boîtes, et il reste 1 gâteau. D'autres histoires sont justes : relis ta question et vérifie que ta réponse a du sens.</span></div>
+    <div class="pl"><span class="plus">★ Pour aller plus loin</span> Une troisième histoire avec 7 ÷ 3, dont la réponse est <b class="num">2</b>.<span class="sol s">Par exemple : « 7 gâteaux, des boîtes de 3. Combien de boîtes pleines ? » 2 boîtes, et il reste 1 gâteau. D'autres histoires sont justes : vérifie que ta réponse a du sens.</span></div>
   </section>
 </div>
 <script>
@@ -395,12 +399,6 @@ function bus(){ /* 50 élèves, 5 minibus de 12 places : 4 pleins, 1 avec 2 él�
     s+=T(x+W/2,98,last?'2 élèves':'12 élèves',`font-size="14" fill="${last?hi:ink}"`);}
   return s+'</svg>';
 }
-function coins(){ /* 50 € partagés entre 12 amis */
-  let s=`<svg viewBox="0 0 492 142" role="img" aria-label="12 parts d'environ 4,17 euros">`;
-  for(let k=0;k<12;k++){const cx=41+(k%6)*82,cy=36+Math.floor(k/6)*70;
-    s+=`<circle cx="${cx}" cy="${cy}" r="30" fill="${fill}" stroke="${ink}" stroke-width="2"/>`+T(cx,cy+5,'≈ 4,17 €',`font-size="13" fill="${ink}"`);}
-  return s+'</svg>';
-}
 function cards(){ /* 50 cartes : 4 paquets de 12, il reste 2 */
   let s=`<svg viewBox="0 0 430 120" role="img" aria-label="4 paquets de 12 cartes et 2 cartes qui restent">`;
   for(let p=0;p<4;p++){const x=10+p*72;
@@ -410,37 +408,45 @@ function cards(){ /* 50 cartes : 4 paquets de 12, il reste 2 */
   s+=T(364,110,'il reste 2',`font-size="14" fill="${hi}"`);
   return s+'</svg>';
 }
-function ribbon(){ /* 50 cm coupés en 12 morceaux égaux */
-  const x0=12,L=600,u=L/12;let s=`<svg viewBox="0 0 624 132" role="img" aria-label="un ruban de 50 cm coupé en 12 morceaux égaux">`;
-  s+=`<path d="M${x0} 22V14H${x0+L}V22" fill="none" stroke="${ink}" stroke-width="1.8"/>`+T(x0+L/2,10,'50 cm',`font-size="14" fill="${ink}"`);
-  for(let k=0;k<12;k++)s+=`<rect x="${x0+k*u}" y="30" width="${u}" height="30" fill="${k?'#efe7fb':fill}" stroke="${ink}" stroke-width="${k?1.2:2.4}"/>`;
-  s+=`<path d="M${x0} 66V74H${x0+u}V66" fill="none" stroke="${hi}" stroke-width="2.4"/>`;
-  s+=T(x0+u/2,92,'50',`font-size="15" font-family="Space Mono,monospace" font-weight="700" fill="${hi}"`)+`<line x1="${x0+u/2-14}" x2="${x0+u/2+14}" y1="98" y2="98" stroke="${hi}" stroke-width="2"/>`+T(x0+u/2,116,'12',`font-size="15" font-family="Space Mono,monospace" font-weight="700" fill="${hi}"`);
-  s+=T(x0+u/2+20,109,'cm',`font-size="15" fill="${hi}" text-anchor="start"`);
+function rule(){ /* un morceau de 50/12 cm posé sur une règle graduée en millimètres */
+  const z=100,x0=30,len=50/12*z;let s=`<svg viewBox="0 0 620 168" role="img" aria-label="un morceau de ruban posé sur une règle : il s'arrête entre 4,1 et 4,2 cm, plus près de 4,2">`;
+  s+=T(310,13,'le ruban de 50 cm, coupé en 12',`font-size="13" fill="${ink}"`);
+  for(let k=0;k<12;k++)s+=`<rect x="${10+k*50}" y="20" width="50" height="14" fill="${k?'#efe7fb':fill}" stroke="${ink}" stroke-width="${k?1:2.2}"/>`;
+  s+=`<path d="M10 34L${x0} 62M60 34L${x0+len} 62" stroke="${ink}" stroke-width="1" stroke-dasharray="3 4" fill="none"/>`;
+  s+=`<rect x="${x0}" y="62" width="${len}" height="24" fill="${fill}" stroke="${ink}" stroke-width="2"/>`;
+  s+=`<rect x="${x0-10}" y="92" width="${5*z+30}" height="40" rx="4" fill="${paper}" stroke="${ink}" stroke-width="1.6"/>`;
+  for(let m=0;m<=50;m++){const x=x0+m*10,c=m%10===0,h=c?16:m%5===0?11:7;
+    s+=`<line x1="${x}" x2="${x}" y1="92" y2="${92+h}" stroke="${ink}" stroke-width="${c?1.6:1}"/>`;
+    if(c)s+=T(x,124,m/10,`font-size="12" fill="${ink}"`);}
+  s+=`<line x1="${x0+420}" x2="${x0+420}" y1="56" y2="114" stroke="${hi}" stroke-width="3"/>`+T(x0+420,156,'4,2 cm',`font-size="15" font-weight="700" fill="${hi}"`);
   return s+'</svg>';
 }
+const tries=()=>`<div class="tries">
+  <p><span class="num">4,2 × 12 = 50,4</span><b class="vf f">✗ trop grand</b></p>
+  <p><span class="num">4,17 × 12 = 50,04</span><b class="vf f">✗ presque !</b></p>
+  <p><span class="num">${f(50,12)} × 12 = 50</span><b class="vf t">✓ exactement</b></p></div>`;
 
 /* ---------- la division posée (même calcul, partie utile surlignée) ---------- */
 const DIV_E=`<pre class="div" aria-label="50 divisé par 12 : 4, il reste 2"> 50 | 12\n-48 |----\n  <mark class="r">2</mark> | <mark class="hl">4</mark></pre>`;
 const DIV_D=(q,r)=>`<pre class="div" aria-label="50 divisé par 12 : 4,166…"> 50    | 12\n-48    |------\n  20   | ${q?'<mark class="hl">4,16…</mark>':'4,16…'}\n -12   |\n   ${r?'<mark class="r">8</mark>':'8'}0  |\n  -72  |\n    ${r?'<mark class="r">8</mark>':'8'}  |</pre>`;
 
 const H=[
- {story:'50 élèves partent en sortie en minibus. Un minibus a 12 places. <b>Combien de minibus <mark class="kw">faut-il</mark> ?</b>',
+ {story:'50 élèves partent en sortie en minibus. Un minibus a 12 places. <b>Combien de minibus <mark class="kw">faut-il</mark>&nbsp;?</b>',
   div:'On fait des groupes de 12 élèves.',
   calc:DIV_E,calcTxt:'4 minibus pleins (4 × 12 = 48), et il reste 2 élèves.',
   fig:bus,rep:'Il faut 5 minibus.',tag:'On arrondit au-dessus',why:'Avec 4 minibus, 2 élèves resteraient à pied : il faut un minibus de plus.',tile:'5 minibus'},
- {story:'12 amis gagnent 50 € à un concours. Ils se partagent l\'argent en parts égales. <b>Combien reçoit chaque ami, <mark class="kw">au centime près</mark> ?</b>',
-  div:'On partage 50 € entre 12 amis.',
-  calc:DIV_D(1,0),calcTxt:'On continue après la virgule : 50 ÷ 12 = 4,166…',
-  fig:coins,rep:'Chaque ami reçoit environ 4,17 €.',tag:'Valeur approchée au centime',why:'Le centime, c\'est 0,01 € : au centime, c\'est au centième. 4,166… ≈ 4,17.',tile:'≈ 4,17 €'},
- {story:'Léo a 50 cartes. Il fait des paquets de 12 cartes. <b>Combien de paquets <mark class="kw">complets</mark> peut-il faire ? Combien de cartes <mark class="kw">reste-t-il</mark> ?</b>',
+ {story:'Léo a 50 cartes. Il fait des paquets de 12 cartes. <b>Combien de paquets <mark class="kw">complets</mark> peut-il faire ? Combien de cartes <mark class="kw">reste-t-il</mark>&nbsp;?</b>',
   div:'On fait des paquets de 12 cartes.',
   calc:DIV_E,calcTxt:'4 paquets (4 × 12 = 48), et il reste 2 cartes.',
   fig:cards,rep:'Léo fait 4 paquets et il reste 2 cartes.',tag:'Un entier et un reste',why:'On ne coupe pas les cartes : on s\'arrête avant la virgule.',tile:'4 paquets, reste 2'},
- {story:'Un ruban de 50 cm est coupé en 12 morceaux de même longueur. <b>Quelle est la longueur <mark class="kw">exacte</mark> d\'un morceau ?</b>',
+ {story:'Tu coupes un ruban de 50 cm en 12 morceaux égaux. Tu les mesures avec <mark class="kw">ta règle</mark>. <b>Combien mesure un morceau, <mark class="kw">au millimètre près</mark>&nbsp;?</b>',
   div:'On partage 50 cm en 12 parts égales.',
+  calc:DIV_D(1,0),calcTxt:'On continue après la virgule : 50 ÷ 12 = 4,16…',
+  fig:rule,rep:'Un morceau mesure environ 4,2 cm.',tag:'Valeur approchée',why:'La règle ne mesure pas plus fin que le millimètre (0,1 cm). Le bout du morceau tombe entre 4,1 et 4,2 cm, plus près de 4,2.',tile:'≈ 4,2 cm'},
+ {story:'Lina pense à un nombre. Elle le multiplie par 12 et trouve <mark class="kw">exactement</mark> 50. <b>Quel est son nombre&nbsp;?</b>',
+  div:'On cherche le nombre caché de ? × 12 = 50.',
   calc:DIV_D(0,1),calcTxt:'Le reste 8 revient : la division ne s\'arrête jamais. 50 ÷ 12 = 4,166…',
-  fig:ribbon,rep:`Un morceau mesure exactement ${f(50,12)} cm, environ 4,17 cm.`,tag:'Valeur exacte : une fraction',why:'La question demande la longueur exacte. 4,17 n\'est qu\'une valeur approchée : on écrit la fraction.',tile:`${f(50,12)} cm`}
+  fig:tries,rep:`Le nombre de Lina est ${f(50,12)}.`,tag:'Valeur exacte : une fraction',why:'Aucun nombre à virgule ne donne exactement 50. Seule la fraction marche.',tile:`${f(50,12)}`}
 ];
 const LAB=['1. La division','2. Le calcul','3. La réponse'];
 let cur=-1,step=0;const done=new Set();
