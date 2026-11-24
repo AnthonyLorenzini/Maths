@@ -141,6 +141,34 @@
     '<path class="f-b s-i" d="M12 54V18L60 54Z" stroke-width="3"/>' +
     '<path class="s-i" d="M12 47H19V54" fill="none" stroke-width="2.2"/>' + etiqs;
   const SEANCES = {
+    // 6e ch.6 : Quotients
+    "6e-ch6-s1": svg( // le quotient, un nombre à trouver : une tablette à partager, et ce que reçoit chacun ?
+      '<rect class="f-c" x="6" y="10" width="60" height="34"/>' +
+      '<g class="s-i" stroke-width="2.4"><line x1="21" y1="10" x2="21" y2="44"/><line x1="36" y1="10" x2="36" y2="44"/><line x1="51" y1="10" x2="51" y2="44"/><line x1="6" y1="27" x2="66" y2="27"/></g>' +
+      '<rect class="s-i" x="6" y="10" width="60" height="34" rx="4" fill="none" stroke-width="3.2"/>' +
+      '<circle class="f-s s-i" cx="52" cy="53" r="13" stroke-width="3"/>' + lab(52, 54, '?', 20)),
+    "6e-ch6-s2": svg( // les égalités à trous : la machine × défait la machine ÷
+      '<rect class="f-c s-i" x="4" y="14" width="25" height="25" rx="6" stroke-width="3"/>' +
+      '<text class="tx f-b" x="16.5" y="27" text-anchor="middle" dominant-baseline="central" font-size="22">÷</text>' +
+      '<rect class="f-s s-i" x="43" y="14" width="25" height="25" rx="6" stroke-width="3"/>' +
+      lab(55.5, 27, '×', 22) +
+      '<path class="s-i" d="M31 26.5H39M35.5 22.5L40 26.5L35.5 30.5" fill="none" stroke-width="2.8"/>' +
+      '<path class="s-c" d="M55.5 45Q55.5 62 36 62Q16.5 62 16.5 47M12 51.5L16.5 45.5L21 51.5" fill="none" stroke-width="3.4"/>'),
+    "6e-ch6-s3": svg( // un même nombre, plusieurs écritures : 1/4 = 0,25
+      lab(14, 22, '1', 17) + '<line class="s-i" x1="6" y1="36" x2="22" y2="36" stroke-width="3"/>' + lab(14, 50, '4', 17) +
+      lab(29, 37, '=', 17) +
+      '<rect class="f-s s-i" x="36" y="23" width="32" height="27" rx="6" stroke-width="3"/>' + lab(52, 37, '0,25', 12.5)),
+    "6e-ch6-s4": svg( // ça s'arrête ou ça boucle ? un 6 qui revient sans cesse
+      '<path class="s-c" d="M36 11A25 25 0 1 1 13.8 24.5" fill="none" stroke-width="5"/>' +
+      '<path class="f-c" d="M7.2 19.5L14.5 33L22.4 21.4Z"/>' +
+      '<circle class="f-s s-i" cx="36" cy="36" r="14" stroke-width="3"/>' + lab(36, 37, '6', 20)),
+    "6e-ch6-s5": svg( // le tour d'un quotient : sa carte d'identité
+      '<rect class="f-b s-i" x="4" y="13" width="64" height="46" rx="7" stroke-width="3.2"/>' +
+      '<rect class="f-c s-i" x="10" y="20" width="21" height="27" rx="4" stroke-width="2.6"/>' +
+      '<text class="tx f-b" x="20.5" y="33.5" text-anchor="middle" dominant-baseline="central" font-size="20">÷</text>' +
+      '<g class="s-i" stroke-width="3" stroke-linecap="round"><line x1="37" y1="24" x2="61" y2="24"/><line x1="37" y1="33" x2="56" y2="33"/></g>' +
+      '<rect class="f-s s-i" x="37" y="40" width="22" height="9" rx="4.5" stroke-width="2.2"/>' +
+      '<line class="s-i" x1="10" y1="53" x2="31" y2="53" stroke-width="3" stroke-linecap="round"/>'),
     // 6e ch.5 : Cercle et disque
     "6e-ch5-s1": svg( // le vocabulaire : un cercle, son diamètre, une corde et un arc
       '<circle class="f-b s-i" cx="36" cy="38" r="27" stroke-width="3.4"/>' +
