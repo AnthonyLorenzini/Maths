@@ -150,6 +150,10 @@
       long: ["L'opposé de 5 est −5 ; l'opposé de −5 est 5.", "Soustraire un nombre, c'est ajouter son opposé : 3 − (−5) = 3 + 5."] },
     { id: "distance-zero", nom: "distance à zéro", chap: "4e · Nombres relatifs", court: "Le nombre sans son signe : la distance entre ce nombre et 0 sur la droite graduée. Ex : la distance à zéro de −7 est 7.",
       long: ["Deux nombres opposés ont la même distance à zéro."] },
+    { id: "regle-signes", nom: "règle des signes", chap: "4e · Nombres relatifs", court: "Le signe d'un produit dépend du nombre de facteurs négatifs : pair, il est positif ; impair, il est négatif.",
+      long: ["Avec deux facteurs : même signe, produit positif ; signes contraires, produit négatif.", "Ex : (−2) × (−5) × (−3) = −30, car il y a 3 facteurs négatifs."] },
+    { id: "nul", nom: "nul", chap: "Tous niveaux · Calcul et nombres", court: "Égal à 0. Un produit est nul dès qu'un de ses facteurs est nul.",
+      long: ["Ex : (−8) × 0 × (−9) = 0, quels que soient les signes des autres facteurs."] },
 
     /* ---------- Vocabulaire commun à tous les niveaux ---------- */
     { id: "somme", nom: "somme", chap: "Tous niveaux · Calcul et nombres", court: "Résultat d'une addition. Ex : la somme de 3 et 5 est 8.",

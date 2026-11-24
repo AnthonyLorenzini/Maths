@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Séance 4 — Plusieurs facteurs</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#fffef8; --panel:#fff; --ink:#1b2a5e; --muted:#56608a; --line:#c3d1ec; --grid:#dbe5f6;
+  --amber:#ffc61a; --amber-text:#d62839; --fill:#ffe45e; --fill-2:#fff4b8;
+  --ok:#17703f; --ok-bg:#dff5e6; --ko:#b3261e; --ko-bg:#ffe5e2;
+  --blue:#1f56d6; --blue-bg:#e6eeff; --magenta:#b8217a; --magenta-bg:#ffe6f3;
+  --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;color:var(--ink);font:16px/1.5 var(--f-text);padding:16px 16px 40px}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+h1{font:800 clamp(2rem,6.5vw,3.3rem)/.92 var(--f-title);text-transform:uppercase;margin:0;letter-spacing:.01em}
+h1 span{color:var(--amber-text)}
+h2{font:800 clamp(1.35rem,4vw,1.9rem)/1.05 var(--f-title);text-transform:uppercase;letter-spacing:.02em;margin:0 0 6px}
+h3{font:800 1.25rem/1.1 var(--f-title);text-transform:uppercase;letter-spacing:.03em;margin:0}
+.sub{margin:6px 0 0;color:var(--muted);font-size:.95rem}
+.pill{display:inline-block;font:700 .8rem var(--f-text);background:var(--ink);color:#fff;border-radius:6px;padding:2px 8px;margin-left:6px;vertical-align:middle}
+.panel{background:var(--panel);border:2px solid var(--ink);border-radius:8px;padding:14px 16px}
+.num{font-family:var(--f-num);font-weight:700;white-space:nowrap}
+.btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:7px 13px;cursor:pointer;min-height:40px}
+.btn:hover{border-color:var(--amber)}
+.btn.main{background:var(--amber);border-color:var(--amber)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+/* scène */
+.scene{border:2px solid var(--line);border-radius:8px;background:#fff;margin-top:10px;overflow:hidden}
+.scene svg{display:block;width:100%;height:auto}
+.etapes{margin:0;padding:10px 14px 12px 34px;min-height:3.2em;border-top:2px dashed var(--line)}
+.etapes li{margin:2px 0;font-size:1.02rem}
+.etapes li.der{font-weight:700}
+.etapes .vide{list-style:none;margin-left:-20px;color:var(--muted)}
+.res{display:inline-block;background:var(--fill);border-radius:5px;padding:0 6px}
+.res.m{background:#bcd0ff;color:var(--blue)}
+.concl{margin-top:10px;border-left:5px solid var(--amber);background:var(--fill-2);border-radius:0 8px 8px 0;padding:8px 12px}
+.concl p{margin:2px 0}
+.app{animation:apparait .45s ease}
+@keyframes apparait{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.app{animation:none}}
+/* exercices */
+.consigne-cahier{margin:0;color:var(--muted);font-size:.93rem}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+@media (max-width:820px){.cols{grid-template-columns:minmax(0,1fr)}}
+.col{display:flex;flex-direction:column;gap:14px}
+.ex{background:#fff;border:2px solid var(--ink);border-radius:8px;padding:10px 14px 12px}
+.ex.plus{border-style:dashed;border-color:var(--amber-text);background:#fffaf0}
+.ex-tete{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px}
+.stars{color:#c98a00;font-size:1rem;letter-spacing:1px;white-space:nowrap}
+.ex p{margin:4px 0}
+.calc{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:4px 12px;margin:6px 0}
+.calc span{font:700 .95rem var(--f-num);white-space:nowrap}
+.calc span i{font-style:normal;color:var(--muted);margin-right:4px}
+.faux{display:flex;flex-direction:column;gap:3px;margin:6px 0}
+.faux span{font:700 1.02rem var(--f-num)}
+.faux span i{font-style:normal;color:var(--muted);margin-right:4px}
+.faux s{text-decoration:none;border-bottom:2.5px wavy var(--ko)}
+.cartes{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.carte{display:inline-flex;align-items:center;justify-content:center;width:52px;height:70px;border:2.5px solid var(--ink);border-radius:8px;font:700 1.25rem var(--f-num)}
+.carte.p{background:var(--fill)}
+.carte.m{background:#bcd0ff;color:var(--blue)}
+.tools{display:flex;gap:8px;margin-top:8px}
+.tools .btn{min-height:34px;padding:4px 12px;font-size:.88rem}
+.ast,.sol{margin-top:8px;border-radius:6px;padding:8px 10px;font-size:.95rem}
+.ast{background:var(--blue-bg);border-left:4px solid var(--blue)}
+.sol{background:var(--ok-bg);border-left:4px solid var(--ok)}
+.sol p{margin:2px 0}
+/* bilan */
+.bilan{border:3px solid var(--ink);border-radius:8px;background:#fff;padding:12px 16px}
+.bilan ul{margin:6px 0 0;padding-left:20px}
+.bilan li{margin:4px 0}
+.bilan .ex-b{margin:8px 0 0;font-size:.95rem;color:var(--muted)}
+.gl{cursor:help}
+/* flash */
+.flash{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:8px}
+@media (max-width:700px){.flash{grid-template-columns:minmax(0,1fr)}}
+.flash div{border:2px solid var(--line);border-radius:8px;background:#fff;padding:10px 12px;font:700 1.35rem var(--f-num);text-align:center}
+.flash div i{font:600 .9rem var(--f-text);font-style:normal;color:var(--muted);margin-right:6px}
+.flash .rep{display:block;margin-top:4px;font-size:1.1rem;color:var(--ok)}
+.flash .rep small{display:block;font:500 .85rem var(--f-text);color:var(--muted)}
+/* activité 3 : lignes qui apparaissent */
+.preuve{padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.pr-l{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,320px);gap:6px 14px;align-items:center}
+@media (max-width:760px){.pr-l{grid-template-columns:minmax(0,1fr)}}
+.pr-t{grid-column:1/-1;font:800 1rem var(--f-title);text-transform:uppercase;letter-spacing:.04em;color:var(--amber-text);margin-top:4px}
+.pr-e{font:700 clamp(1.1rem,3.2vw,1.7rem)/1.5 var(--f-num)}
+.pr-n{font-size:.93rem;color:var(--muted);border-left:3px solid var(--line);padding-left:10px}
+.pr-l.neuf .pr-e,.pr-l.neuf .amis{animation:monte .45s ease}
+@keyframes monte{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.pr-l.neuf .pr-e,.pr-l.neuf .amis{animation:none}}
+.k,.a{border-radius:5px;padding:0 4px}
+.k{background:#bcd0ff;box-shadow:0 0 0 2px var(--blue);color:var(--blue)}
+.a{background:var(--fill-2);box-shadow:0 0 0 2px var(--amber)}
+.amis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (max-width:600px){.amis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.amis span{border:2px solid var(--amber);background:var(--fill-2);border-radius:8px;padding:6px 8px;text-align:center;font:700 1.15rem var(--f-num)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Séance 4 · <span>Plusieurs facteurs</span></h1>
+  <p class="sub">Trois, quatre, cinq <span class="gl" data-t="facteur">facteurs</span>… Comment trouver le signe d'un <span class="gl" data-t="produit">produit</span> sans se tromper, puis le calculer de tête ?</p>
+</header>
+
+<!-- ======================= Flash ======================= -->
+<section class="panel">
+  <h2>Flash <span class="pill">de tête</span></h2>
+  <p style="margin:0">Écris seulement les résultats sur ton cahier.</p>
+  <div class="flash">
+    <div><i>a)</i>(−6) × (−5)<span class="rep" hidden>30<small>deux facteurs négatifs</small></span></div>
+    <div><i>b)</i>25 × 13 × 4<span class="rep" hidden>1 300<small>25 × 4 = 100, puis 100 × 13</small></span></div>
+    <div><i>c)</i>(−1) × 4,7<span class="rep" hidden>−4,7<small>multiplier par −1 donne l'opposé</small></span></div>
+  </div>
+  <div class="row" style="margin-top:8px"><button class="btn" id="flash-btn">Réponses</button></div>
+</section>
+
+<!-- ======================= Activité 1 ======================= -->
+<section class="panel">
+  <h2>Activité 1 · La machine × (−2)</h2>
+  <p style="margin:0">Cette machine <b>multiplie par (−2)</b> le nombre qu'on y met. On part de <b>1</b>, puis on remet chaque résultat dans la machine. Le résultat sera-t-il au-dessus ou en dessous de zéro ?</p>
+  <div class="scene" id="a1"></div>
+  <div class="row" style="margin-top:8px">
+    <button class="btn main" id="a1-next">Étape suivante ▶</button>
+    <button class="btn" id="a1-reset">Recommencer</button>
+    <button class="btn" id="a1-concl-btn" style="margin-left:auto">Ce qu'on retient</button>
+  </div>
+  <div class="concl" id="a1-concl" hidden>
+    <p>Chaque facteur <span class="gl" data-t="negatif">négatif</span> fait <b>basculer</b> le signe du produit : positif, négatif, positif, négatif…</p>
+    <p>Avec 2, 4, 6… facteurs négatifs, le produit est <span class="gl" data-t="positif">positif</span>. Avec 1, 3, 5…, il est négatif.</p>
+  </div>
+</section>
+
+<!-- ======================= Activité 2 ======================= -->
+<section class="panel">
+  <h2>Activité 2 · Les négatifs vont par deux</h2>
+  <p style="margin:0">Chaque jeton est un facteur : <b>jaune</b> s'il est positif, <b>bleu</b> s'il est négatif. Pour trouver le signe, pas besoin de tout calculer. Réponds avant de cliquer.</p>
+  <div class="scene" id="a2"></div>
+  <div class="row" style="margin-top:8px">
+    <button class="btn main" id="a2-next">Étape suivante ▶</button>
+    <button class="btn" id="a2-reset">Recommencer</button>
+    <button class="btn" id="a2-concl-btn" style="margin-left:auto">Ce qu'on retient</button>
+  </div>
+  <div class="concl" id="a2-concl" hidden>
+    <p>On compte les facteurs négatifs. Nombre <span class="gl" data-t="pair">pair</span> : le produit est <b>positif</b>. Nombre <span class="gl" data-t="impair">impair</span> : le produit est <b>négatif</b>.</p>
+    <p>Les facteurs positifs ne changent pas le signe. Et si un facteur vaut 0, le produit est <span class="gl" data-t="nul">nul</span>.</p>
+    <p>C'est la <span class="gl" data-t="regle-signes">règle des signes</span>, pour autant de facteurs qu'on veut.</p>
+  </div>
+</section>
+
+<!-- ======================= Activité 3 ======================= -->
+<section class="panel">
+  <h2>Activité 3 · Le signe, puis les couples amis</h2>
+  <p style="margin:0">Comment calculer ce produit de tête, sans se tromper ?</p>
+  <div class="scene"><div class="preuve" id="a3">
+    <div class="pr-l"><div class="pr-e">(−25) × 7 × (−4)</div><div class="pr-n">Le produit à calculer.</div></div>
+    <div class="pr-l" data-e="1"><div class="pr-t">1 · Le signe</div><div class="pr-e"><span class="k">(−25)</span> × 7 × <span class="k">(−4)</span></div><div class="pr-n">Deux facteurs négatifs : c'est un nombre pair. Le produit est <b>positif</b>.</div></div>
+    <div class="pr-l" data-e="2"><div class="pr-t">2 · La distance à zéro</div><div class="pr-e">25 × 7 × 4</div><div class="pr-n">On multiplie les <span class="gl" data-t="distance-zero">distances à zéro</span>. Dans l'ordre : 25 × 7 = 175, puis 175 × 4… Pas facile de tête !</div></div>
+    <div class="pr-l" data-e="3"><div class="pr-e"><span class="a">25 × 4</span> × 7 = 100 × 7 = 700</div><div class="pr-n">On peut changer l'ordre des facteurs. 25 et 4 sont des <b>couples amis</b> : leur produit est 100.</div></div>
+    <div class="pr-l" data-e="4"><div class="pr-e"><span class="res">(−25) × 7 × (−4) = 700</span></div><div class="pr-n">Le signe (+), puis la distance à zéro (700).</div></div>
+    <div class="pr-l" data-e="5"><div class="pr-t">À toi</div><div class="pr-e"><span class="k">(−0,5)</span> × 9 × <span class="k">(−2)</span> × <span class="k">(−10)</span></div><div class="pr-n">Sur ton cahier : le signe, puis la distance à zéro.</div></div>
+    <div class="pr-l" data-e="6"><div class="pr-e"><span class="res m">(−0,5) × 9 × (−2) × (−10) = −90</span></div><div class="pr-n">Trois facteurs négatifs : impair, donc négatif. Puis <span class="num">0,5 × 2 = 1</span> et <span class="num">1 × 9 × 10 = 90</span>.</div></div>
+    <div class="pr-l" data-e="7"><div class="pr-t">Les couples amis à repérer</div>
+      <div class="amis"><span>2 × 5 = 10</span><span>4 × 25 = 100</span><span>20 × 5 = 100</span><span>8 × 125 = 1 000</span><span>0,5 × 2 = 1</span><span>0,25 × 4 = 1</span></div>
+      <div class="pr-n">Cherche-les avant de calculer : ils donnent 1, 10, 100 ou 1 000.</div></div>
+  </div></div>
+  <div class="row" style="margin-top:8px">
+    <button class="btn main" id="a3-next">Étape suivante ▶</button>
+    <button class="btn" id="a3-reset">Recommencer</button>
+    <button class="btn" id="a3-concl-btn" style="margin-left:auto">Ce qu'on retient</button>
+  </div>
+  <div class="concl" id="a3-concl" hidden>
+    <p><b>1. Le signe</b> : on compte les facteurs négatifs.</p>
+    <p><b>2. La distance à zéro</b> : on multiplie les nombres sans leur signe, dans l'ordre qu'on veut, en regroupant les couples amis.</p>
+  </div>
+</section>
+
+<!-- ======================= Exercices ======================= -->
+<section>
+  <h2>Exercices <span class="pill">sans calculatrice</span></h2>
+  <p class="consigne-cahier">Dans ton cahier : le numéro de l'exercice et tes réponses, sans recopier l'énoncé.</p>
+  <div class="cols" style="margin-top:10px">
+    <div class="col">
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 1 · Seulement le signe</h3><span class="stars" aria-label="1 étoile">★☆☆</span></div>
+        <p>Ne calcule pas ! Écris seulement le signe du produit : <b>+</b>, <b>−</b>, ou <b>0</b> s'il est nul.</p>
+        <div class="calc"><span><i>a)</i>(−3) × 5 × (−2)</span><span><i>b)</i>(−1) × (−1) × (−1)</span><span><i>c)</i>4 × (−7) × 2 × 3</span><span><i>d)</i>(−2) × (−3) × (−4) × (−5)</span><span><i>e)</i>(−8) × 0 × (−9)</span><span><i>f)</i>(−0,5) × 4 × (−2) × (−1)</span></div>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>Compte seulement les facteurs négatifs : les positifs ne changent rien. Et regarde s'il y a un 0.</div>
+        <div class="sol" hidden><p>a) + (2 négatifs) &nbsp; b) − (3 négatifs) &nbsp; c) − (1 négatif)</p><p>d) + (4 négatifs) &nbsp; e) 0 (un facteur nul) &nbsp; f) − (3 négatifs)</p></div>
+      </article>
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 2 · Calculer</h3><span class="stars" aria-label="1 étoile">★☆☆</span></div>
+        <p>Calcule : le signe d'abord, puis la distance à zéro.</p>
+        <div class="calc"><span><i>a)</i>(−2) × 3 × (−5)</span><span><i>b)</i>(−4) × (−1) × (−6)</span><span><i>c)</i>2 × (−3) × (−1) × (−5)</span><span><i>d)</i>(−5) × (−2) × (−3) × (−2)</span></div>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>a) Deux facteurs négatifs : le produit est positif. Puis 2 × 3 × 5.</div>
+        <div class="sol" hidden><p>a) 30 &nbsp; b) −24 &nbsp; c) −30 &nbsp; d) 60</p></div>
+      </article>
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 3 · Les couples amis</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
+        <p>Calcule de tête : le signe, puis regroupe les couples amis.</p>
+        <div class="calc"><span><i>a)</i>(−4) × 17 × (−25)</span><span><i>b)</i>0,5 × (−13) × (−2) × (−1)</span><span><i>c)</i>(−8) × 3 × (−125)</span><span><i>d)</i>2,5 × (−7) × (−4)</span><span><i>e)</i>(−5) × (−19) × (−20)</span></div>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>Les couples amis : 4 × 25 = 100 ; 0,5 × 2 = 1 ; 8 × 125 = 1 000 ; 2,5 × 4 = 10 ; 5 × 20 = 100.</div>
+        <div class="sol" hidden><p>a) 1 700 (100 × 17) &nbsp; b) −13 (1 × 13) &nbsp; c) 3 000 (1 000 × 3)</p><p>d) 70 (10 × 7) &nbsp; e) −1 900 (100 × 19)</p></div>
+      </article>
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 4 · Les erreurs de Mattéo</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
+        <p>Les trois résultats de Mattéo sont faux. Écris le bon résultat, puis son erreur en quelques mots.</p>
+        <div class="faux"><span><i>a)</i>(−2) × (−5) × (−3) = <s>30</s></span><span><i>b)</i>(−3) × (−4) × (−5) × 2 = <s>120</s></span><span><i>c)</i>(−4) × 6 × 0 × (−5) = <s>120</s></span></div>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>Pour le b), Mattéo a dit : « 4 facteurs, c'est pair ». Que faut-il compter ?</div>
+        <div class="sol" hidden><p>a) −30 : trois facteurs négatifs, c'est impair.</p><p>b) −120 : il a compté tous les facteurs, au lieu de compter seulement les négatifs (il y en a 3).</p><p>c) 0 : un des facteurs est nul.</p></div>
+      </article>
+
+    </div>
+    <div class="col">
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 5 · Remonter le temps</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
+        <p>Comme en séance 3, mais avec trois facteurs : écris le produit, puis réponds.</p>
+        <p>a) Une piscine se vide de 5 L par minute. Il y a 2 heures, contenait-elle plus ou moins d'eau qu'aujourd'hui ? Combien de litres ?</p>
+        <p>b) Pendant une sécheresse, le niveau d'un lac baisse de 0,5 cm par jour. Il y a 4 semaines, le niveau était-il plus haut ou plus bas ? De combien ?</p>
+        <p>c) Et dans 2 semaines, si la sécheresse continue ?</p>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>« Il y a 2 heures », c'est −2 ; une heure, c'est 60 minutes ; une baisse de 5 L, c'est −5. Une semaine, c'est 7 jours.</div>
+        <div class="sol" hidden><p>a) (−2) × 60 × (−5) = 600 : elle contenait 600 L de plus.</p><p>b) (−4) × 7 × (−0,5) = 14 : le niveau était 14 cm plus haut.</p><p>c) 2 × 7 × (−0,5) = −7 : il sera 7 cm plus bas.</p></div>
+      </article>
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 6 · Le jeu des cartes</h3><span class="stars" aria-label="3 étoiles">★★★</span></div>
+        <p>Tu choisis <b>3 cartes</b> et tu multiplies leurs nombres.</p>
+        <div class="cartes" aria-label="Cartes : −5, −4, −1, 2, 3"><span class="carte m">−5</span><span class="carte m">−4</span><span class="carte m">−1</span><span class="carte p">2</span><span class="carte p">3</span></div>
+        <p>a) Quel est le plus grand produit possible ?</p><p>b) Et le plus petit ?</p><p>c) Quelles cartes donnent 12 ?</p>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>a) Il faut un produit positif : combien de cartes bleues ? b) Il faut un produit négatif, le plus loin possible de zéro.</div>
+        <div class="sol" hidden><p>a) (−5) × (−4) × 3 = 60 &nbsp; b) (−5) × 2 × 3 = −30</p><p>c) (−4) × (−1) × 3 = 12</p></div>
+      </article>
+
+      <article class="ex plus">
+        <div class="ex-tete"><h3>Pour aller plus loin</h3><span class="stars" aria-label="3 étoiles">★★★</span></div>
+        <p>a) Calcule (−1) × (−1) × (−1) × … × (−1), avec 2 027 facteurs.</p>
+        <p>b) Calcule le produit de tous les entiers de −4 à −1.</p>
+        <p>c) Calcule le produit de tous les entiers de −5 à 5.</p>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>a) 2 027 est-il pair ou impair ? c) Écris tous les entiers de −5 à 5 : n'en oublie aucun.</div>
+        <div class="sol" hidden><p>a) −1 : 2 027 facteurs négatifs, c'est impair.</p><p>b) (−4) × (−3) × (−2) × (−1) = 24 : quatre facteurs négatifs.</p><p>c) 0 : parmi les entiers de −5 à 5, il y a 0.</p></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================= Bilan ======================= -->
+<section class="bilan">
+  <h2>Le bilan à apprendre</h2>
+  <ul>
+    <li>Pour trouver le <b>signe</b> d'un produit, on compte les facteurs <b>négatifs</b>.</li>
+    <li>Nombre <b>pair</b> de facteurs négatifs : produit <b>positif</b>. Nombre <b>impair</b> : produit <b>négatif</b>.</li>
+    <li>Si un des facteurs est <b>0</b>, le produit est <b>nul</b>.</li>
+    <li>Pour la <b>distance à zéro</b>, on multiplie sans les signes, dans l'ordre qu'on veut, en regroupant les couples amis.</li>
+  </ul>
+  <p class="ex-b">Exemple : (−25) × 7 × (−4) = 700 (deux négatifs, et 25 × 4 = 100).</p>
+</section>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  var LENT = !(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  var INK = "#1b2a5e", BLEU = "#1f56d6", ROUGE = "#d62839", MUET = "#56608a";
+  var JAUNE = "#ffe45e", BLEU_C = "#bcd0ff";
+  function fmt(n){ var s = String(Math.round(Math.abs(n) * 100) / 100).replace(".", ","); return n < 0 ? "−" + s : s; }
+  function el(tag, att, parent){ var e = document.createElementNS(NS, tag); for (var k in att) e.setAttribute(k, att[k]); if (parent) parent.appendChild(e); return e; }
+  function txt(att, t, parent){ var e = el("text", att, parent); e.textContent = t; return e; }
+  function anim(duree, f){ return new Promise(function(ok){ if (!LENT) { f(1); return ok(); } var t0 = null; function pas(t){ if (t0 === null) t0 = t; var p = Math.min(1, (t - t0) / duree); f(p); if (p < 1) requestAnimationFrame(pas); else ok(); } requestAnimationFrame(pas); }); }
+  function liste(ol){
+    return {
+      vide: function(html){ ol.innerHTML = '<li class="vide">' + html + '</li>'; },
+      ligne: function(html){ var d = ol.querySelector("li.der"); if (d) d.classList.remove("der"); var v = ol.querySelector(".vide"); if (v) v.remove(); var li = document.createElement("li"); li.className = "der"; li.innerHTML = html; ol.appendChild(li); }
+    };
+  }
+  function nouvelleOl(parent){ var ol = document.createElement("ol"); ol.className = "etapes"; parent.appendChild(ol); return ol; }
+  function bascule(id){ var b = document.getElementById(id + "-concl-btn"), z = document.getElementById(id + "-concl"); b.onclick = function(){ z.hidden = !z.hidden; b.setAttribute("aria-pressed", String(!z.hidden)); }; }
+  function pilote(id, ETAPES, raz){
+    var next = document.getElementById(id + "-next"), etape = 0, occupe = false;
+    function zero(){ etape = 0; raz(); next.disabled = false; }
+    next.onclick = function(){
+      if (occupe || etape >= ETAPES.length) return;
+      occupe = true;
+      Promise.resolve(ETAPES[etape++]()).then(function(){ occupe = false; next.disabled = etape >= ETAPES.length; });
+    };
+    document.getElementById(id + "-reset").onclick = function(){ if (!occupe) zero(); };
+    zero(); bascule(id);
+  }
+  var N = function(s){ return '<span class="num">' + s + '</span>'; };
+
+  /* ---------- flash ---------- */
+  (function(){
+    var b = document.getElementById("flash-btn");
+    b.onclick = function(){ var ouvert = b.getAttribute("aria-pressed") !== "true"; document.querySelectorAll(".flash .rep").forEach(function(r){ r.hidden = !ouvert; }); b.setAttribute("aria-pressed", String(ouvert)); };
+  })();
+
+  /* ---------- Activité 1 : la machine × (−2) ---------- */
+  (function(){
+    var VALS = [1, -2, 4, -8, 16, -32], X0 = 92, DX = 148, YL = 190, YP = 108, YN = 272, CW = 96, CH = 58, YC = 378;
+    function xC(i){ return X0 + i * DX; }
+    function yC(v){ return v > 0 ? YP : YN; }
+    var hote = document.getElementById("a1");
+    var svg = el("svg", { viewBox: "0 0 920 404", role: "img", "aria-label": "On part de 1 et on multiplie par −2 à chaque passage : 1, −2, 4, −8, 16, −32" }, hote);
+    el("rect", { x: 0, y: 0, width: 920, height: YL, fill: "#fff4b8" }, svg);
+    el("rect", { x: 0, y: YL, width: 920, height: 146, fill: "#e6eeff" }, svg);
+    txt({ x: 14, y: 26, "font-family": "Work Sans, sans-serif", "font-size": 15, "font-weight": 600, fill: "#a5761a" }, "au-dessus de zéro : positif", svg);
+    txt({ x: 14, y: 326, "font-family": "Work Sans, sans-serif", "font-size": 15, "font-weight": 600, fill: BLEU }, "en dessous de zéro : négatif", svg);
+    el("line", { x1: 0, y1: YL, x2: 896, y2: YL, stroke: INK, "stroke-width": 3 }, svg);
+    txt({ x: 908, y: YL + 6, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 17, "font-weight": 700, fill: INK }, "0", svg);
+    txt({ x: 14, y: 354, "font-family": "Work Sans, sans-serif", "font-size": 14, "font-weight": 600, fill: MUET }, "nombre de facteurs (−2) :", svg);
+    var fleches = el("g", {}, svg);
+    var items = VALS.map(function(v, i){
+      var it = { v: v };
+      if (i > 0) {
+        var x1 = xC(i - 1) + CW / 2, y1 = yC(VALS[i - 1]), x2 = xC(i) - CW / 2 - 3, y2 = yC(v);
+        it.fl = el("g", { opacity: 0 }, fleches);
+        el("path", { d: "M" + x1 + " " + y1 + "C" + (x1 + 34) + " " + y1 + " " + (x2 - 34) + " " + y2 + " " + x2 + " " + y2, fill: "none", stroke: ROUGE, "stroke-width": 2.6 }, it.fl);
+        el("path", { d: "M" + (x2 + 3) + " " + y2 + "l-12 -7v14z", fill: ROUGE }, it.fl);
+        var xm = (x1 + x2) / 2;
+        el("rect", { x: xm - 34, y: YL - 13, width: 68, height: 26, rx: 6, fill: "#fff", stroke: ROUGE, "stroke-width": 2 }, it.fl);
+        txt({ x: xm, y: YL + 6, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 15, "font-weight": 700, fill: ROUGE }, "×(−2)", it.fl);
+        it.q = el("g", { opacity: 0 }, svg);
+        el("circle", { cx: xC(i), cy: YL, r: 22, fill: "#fff", stroke: ROUGE, "stroke-width": 2.5 }, it.q);
+        txt({ x: xC(i), y: YL + 10, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 28, "font-weight": 700, fill: ROUGE }, "?", it.q);
+      }
+      it.carte = el("g", { opacity: 0 }, svg);
+      el("rect", { x: xC(i) - CW / 2, y: yC(v) - CH / 2, width: CW, height: CH, rx: 9, fill: v > 0 ? JAUNE : BLEU_C, stroke: INK, "stroke-width": 2.5 }, it.carte);
+      txt({ x: xC(i), y: yC(v) + 10, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 27, "font-weight": 700, fill: v < 0 ? BLEU : INK }, fmt(v), it.carte);
+      it.cpt = el("g", { opacity: 0 }, svg);
+      it.rond = el("circle", { cx: xC(i), cy: YC, r: 17, fill: "#fff", stroke: "#c3d1ec", "stroke-width": 2 }, it.cpt);
+      txt({ x: xC(i), y: YC + 7, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 19, "font-weight": 700, fill: INK }, String(i), it.cpt);
+      return it;
+    });
+    function montre(e, p){ e.setAttribute("opacity", p); }
+    function question(i){ return anim(300, function(p){ montre(items[i].q, p); }); }
+    function passe(i){
+      var it = items[i];
+      montre(it.q, 0);
+      return anim(450, function(p){ montre(it.fl, p); })
+        .then(function(){ return anim(400, function(p){ montre(it.carte, p); montre(it.cpt, p); }); });
+    }
+    function colore(){
+      items.forEach(function(it){ it.rond.setAttribute("fill", it.v > 0 ? JAUNE : BLEU_C); it.rond.setAttribute("stroke", INK); });
+      return anim(300, function(){});
+    }
+    var L = liste(nouvelleOl(hote));
+    var ETAPES = [
+      function(){ L.ligne("1<sup>er</sup> passage : " + N("1 × (−2) = −2") + ". Le résultat passe <b>sous zéro</b>."); return passe(1); },
+      function(){ L.ligne("2<sup>e</sup> passage : " + N("(−2) × (−2) = 4") + ". Il <b>remonte</b> au-dessus de zéro !"); return passe(2); },
+      function(){ L.ligne("<i>3<sup>e</sup> passage : au-dessus ou en dessous de zéro ? Réponds sur ton cahier.</i>"); return question(3); },
+      function(){ L.ligne(N("4 × (−2) = −8") + " : en dessous. Le signe <b>bascule</b> à chaque passage."); return passe(3); },
+      function(){ L.ligne("Et ça continue : 16, puis −32. La distance à zéro double, et le signe bascule."); return passe(4).then(function(){ return passe(5); }); },
+      function(){ L.ligne("Après 5 passages, on a multiplié 1 par cinq facteurs (−2) : " + N("(−2) × (−2) × (−2) × (−2) × (−2) = −32") + "."); return Promise.resolve(); },
+      function(){ L.ligne("Au-dessus de zéro : 0, 2 ou 4 facteurs négatifs, un nombre <b>pair</b>. En dessous : 1, 3 ou 5, un nombre <b>impair</b>."); return colore(); },
+      function(){ L.ligne("<i>Et après 10 passages ? Écris + ou − sur ton cahier.</i>"); return Promise.resolve(); },
+      function(){ L.ligne("10 est pair : le résultat est <b>positif</b>. Il vaut même " + N("1 024") + " !"); return Promise.resolve(); },
+      function(){ L.ligne("Pourquoi ? Multiplier par un nombre négatif change le signe (séances 2 et 3). Deux bascules, et on retrouve le signe de départ."); return Promise.resolve(); }
+    ];
+    function raz(){
+      items.forEach(function(it, i){
+        var vis = i === 0 ? 1 : 0;
+        montre(it.carte, vis); montre(it.cpt, vis);
+        if (it.fl) { montre(it.fl, 0); montre(it.q, 0); }
+        it.rond.setAttribute("fill", "#fff"); it.rond.setAttribute("stroke", "#c3d1ec");
+      });
+      L.vide("On part de <b class=\"num\">1</b>, au-dessus de zéro. Clique sur « Étape suivante ».");
+    }
+    pilote("a1", ETAPES, raz);
+  })();
+
+  /* ---------- Activité 2 : les négatifs vont par deux ---------- */
+  (function(){
+    var EX = {
+      A: { f: [-2, 3, -1, -5, 2], paires: [[0, 2]], seul: 3, res: -60 },
+      B: { f: [-1, -2, 5, -3, -1], paires: [[0, 1], [3, 4]], seul: -1, res: 30 },
+      C: { f: [7, -3, 0, -8], paires: [], seul: -1, zero: 2, res: 0 }
+    };
+    var TW = 104, TH = 70, G = 62, YT = 92, H = 296;
+    var hote = document.getElementById("a2");
+    var svg = el("svg", { viewBox: "0 0 920 " + H, role: "img", "aria-label": "Des jetons : un par facteur, jaunes pour les positifs, bleus pour les négatifs" }, hote);
+    var S = {};
+    function xs(n){ var tot = n * TW + (n - 1) * G, x0 = (920 - tot) / 2 + TW / 2; var r = []; for (var i = 0; i < n; i++) r.push(x0 + i * (TW + G)); return r; }
+    function dessine(neuf){
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+      var ex = EX[S.ex], X = xs(ex.f.length);
+      function g(cle){ return el("g", neuf === cle ? { "class": "app" } : {}, svg); }
+      // signes ×
+      for (var i = 1; i < X.length; i++) txt({ x: (X[i - 1] + X[i]) / 2, y: YT + 10, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 28, "font-weight": 700, fill: INK }, "×", svg);
+      // paires (sous les jetons)
+      for (var p = 0; p < S.paires; p++) {
+        var a = X[ex.paires[p][0]], b = X[ex.paires[p][1]], gp = g("paire" + p), m = (a + b) / 2;
+        el("path", { d: "M" + a + " " + (YT + TH / 2 + 4) + "Q" + m + " " + (YT + TH / 2 + 96) + " " + b + " " + (YT + TH / 2 + 4), fill: "none", stroke: "#c98a00", "stroke-width": 4 }, gp);
+        el("circle", { cx: m, cy: YT + TH / 2 + 50, r: 19, fill: JAUNE, stroke: INK, "stroke-width": 2.5 }, gp);
+        txt({ x: m, y: YT + TH / 2 + 59, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 26, "font-weight": 700, fill: INK }, "+", gp);
+      }
+      // jetons
+      ex.f.forEach(function(v, i){
+        var estZero = v === 0, pos = v > 0;
+        var gj = el("g", { opacity: S.fade && pos ? .3 : 1 }, svg);
+        el("rect", { x: X[i] - TW / 2, y: YT - TH / 2, width: TW, height: TH, rx: 12, fill: estZero ? "#fff" : (pos ? JAUNE : BLEU_C), stroke: INK, "stroke-width": 2.8 }, gj);
+        txt({ x: X[i], y: YT + 11, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 30, "font-weight": 700, fill: v < 0 ? BLEU : INK }, fmt(v), gj);
+      });
+      // le négatif seul / le zéro
+      var cible = S.seul ? ex.seul : (S.zero ? ex.zero : -1);
+      if (cible >= 0) {
+        var gs = g("seul");
+        el("rect", { x: X[cible] - TW / 2 - 8, y: YT - TH / 2 - 8, width: TW + 16, height: TH + 16, rx: 16, fill: "none", stroke: ROUGE, "stroke-width": 3, "stroke-dasharray": "8 5" }, gs);
+        txt({ x: X[cible], y: YT + TH / 2 + 34, "text-anchor": "middle", "font-family": "Work Sans, sans-serif", "font-size": 17, "font-weight": 700, fill: ROUGE }, S.seul ? "tout seul !" : "un facteur nul", gs);
+      }
+      // résultat
+      if (S.res) {
+        var gr = g("res"), r = ex.res, lib = "produit : " + fmt(r);
+        el("rect", { x: 460 - 130, y: H - 62, width: 260, height: 48, rx: 10, fill: r > 0 ? JAUNE : (r < 0 ? BLEU_C : "#fff"), stroke: INK, "stroke-width": 2.5 }, gr);
+        txt({ x: 460, y: H - 29, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 26, "font-weight": 700, fill: r < 0 ? BLEU : INK }, lib, gr);
+      }
+    }
+    function etat(o, neuf){ for (var k in o) S[k] = o[k]; dessine(neuf); return Promise.resolve(); }
+    var L = liste(nouvelleOl(hote));
+    var ETAPES = [
+      function(){ L.ligne("Les facteurs <b>positifs</b> ne changent pas le signe : pour le signe, on peut les oublier."); return etat({ fade: true }); },
+      function(){ L.ligne("Deux facteurs négatifs donnent un produit positif : " + N("(−2) × (−1) = 2") + ". La paire est contente, comme monsieur − −."); return etat({ paires: 1 }, "paire0"); },
+      function(){ L.ligne("Il reste <b>un</b> facteur négatif sans partenaire : (−5). Il fait basculer le signe : le produit est <b>négatif</b>."); return etat({ seul: true }, "seul"); },
+      function(){ L.ligne("Puis la distance à zéro : " + N("2 × 3 × 1 × 5 × 2 = 60") + ". Le produit vaut <span class=\"num res m\">−60</span>."); return etat({ res: true }, "res"); },
+      function(){ L.ligne("<i>Un autre produit. À toi : fais les paires. Reste-t-il un facteur négatif tout seul ?</i>"); return etat({ ex: "B", fade: false, paires: 0, seul: false, res: false }); },
+      function(){ L.ligne("Deux paires, et aucun négatif tout seul : le produit est <b>positif</b>."); return etat({ fade: true, paires: 1 }, "paire0").then(function(){ return new Promise(function(ok){ setTimeout(function(){ etat({ paires: 2 }, "paire1"); ok(); }, LENT ? 500 : 0); }); }); },
+      function(){ L.ligne("Distance à zéro : " + N("1 × 2 × 5 × 3 × 1 = 30") + ". Le produit vaut <span class=\"num res\">30</span>."); return etat({ res: true }, "res"); },
+      function(){ L.ligne("<i>Et s'il y a un 0 parmi les facteurs ?</i>"); return etat({ ex: "C", fade: false, paires: 0, seul: false, res: false }); },
+      function(){ L.ligne("Multiplier par 0 donne 0 : le produit est <b>nul</b>, quels que soient les signes des autres facteurs."); return etat({ zero: true, res: true }, "seul"); }
+    ];
+    function raz(){
+      S = { ex: "A", fade: false, paires: 0, seul: false, zero: false, res: false }; dessine();
+      L.vide("Un produit de 5 facteurs. Est-il positif ou négatif ? Clique sur « Étape suivante ».");
+    }
+    pilote("a2", ETAPES, raz);
+  })();
+
+  /* ---------- Activité 3 : lignes qui apparaissent ---------- */
+  (function(){
+    var lignes = Array.prototype.slice.call(document.querySelectorAll("#a3 [data-e]"));
+    var ETAPES = lignes.map(function(){ return function(){ etape++; maj(); }; }), etape = 0;
+    function maj(){ lignes.forEach(function(l){ var n = +l.dataset.e; l.hidden = n > etape; l.classList.toggle("neuf", n === etape); }); }
+    pilote("a3", ETAPES, function(){ etape = 0; maj(); });
+  })();
+
+  /* ---------- astuces / solutions ---------- */
+  document.querySelectorAll("[data-ouvre]").forEach(function(b){
+    b.addEventListener("click", function(){
+      var bloc = b.closest(".ex").querySelector("." + b.dataset.ouvre);
+      bloc.hidden = !bloc.hidden; b.setAttribute("aria-pressed", String(!bloc.hidden));
+    });
+  });
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
+</body>
+</html>

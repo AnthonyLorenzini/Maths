@@ -416,7 +416,14 @@
       '<rect class="f-b s-i" x="44" y="8" width="14" height="46" rx="7" stroke-width="3"/>' +
       '<rect class="f-s" x="48" y="18" width="6" height="40"/>' +
       '<circle class="f-s s-i" cx="51" cy="60" r="8" stroke-width="3"/>' +
-      lab(23, 35, '+', 20))
+      lab(23, 35, '+', 20)),
+    "4e-ch5-s4": svg( // les négatifs vont par deux : deux jetons liés par un « + », le troisième reste seul
+      '<rect class="f-c s-i" x="3" y="10" width="19" height="21" rx="5" stroke-width="2.8"/>' + '<text class="tx f-b" x="12.5" y="20.5" text-anchor="middle" dominant-baseline="central" font-size="17">−</text>' +
+      '<rect class="f-c s-i" x="26.5" y="10" width="19" height="21" rx="5" stroke-width="2.8"/>' + '<text class="tx f-b" x="36" y="20.5" text-anchor="middle" dominant-baseline="central" font-size="17">−</text>' +
+      '<rect class="f-c s-i" x="50" y="10" width="19" height="21" rx="5" stroke-width="2.8"/>' + '<text class="tx f-b" x="59.5" y="20.5" text-anchor="middle" dominant-baseline="central" font-size="17">−</text>' +
+      '<path class="s-s" d="M12.5 34Q24.25 62 36 34" fill="none" stroke-width="4"/>' +
+      '<circle class="f-s s-i" cx="24.25" cy="52" r="9" stroke-width="2.6"/>' +
+      '<text class="tx f-i" x="24.25" y="52.5" text-anchor="middle" dominant-baseline="central" font-size="16">+</text>')
   };
 
   // ----- 4e ch.5 : relatifs — moins par moins donne plus

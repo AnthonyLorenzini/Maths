@@ -1044,12 +1044,32 @@ window.SITE = {
               ],
               exemple: "(−0,5) × (−8) = 4.",
               savoir: "calculer le produit de deux nombres relatifs quelconques, entiers ou décimaux, et expliquer pourquoi le produit de deux négatifs est positif."
+            },
+            {
+              titre: "Plusieurs facteurs", duree: "50 min",
+              contenu: [
+                "Flash sans calculatrice : un rappel de la séance 3, 25 × 13 × 4 de tête (on regroupe 25 et 4) et (−1) × 4,7.",
+                "Activité 1 : la machine × (−2). On part de 1 et on remet chaque résultat dans la machine : 1, −2, 4, −8, 16, −32. Le signe bascule à chaque facteur négatif ; après 10 passages, le résultat est positif.",
+                "Activité 2 : les négatifs vont par deux. Avec des jetons (jaunes positifs, bleus négatifs), on met de côté les positifs, on regroupe les négatifs par paires et on regarde s'il en reste un tout seul ; puis le cas d'un facteur nul.",
+                "Activité 3 : calculer de tête, d'abord le signe, puis la distance à zéro en regroupant les couples amis : (−25) × 7 × (−4) = 700.",
+                "Exercices projetés, faits sur le cahier sans calculatrice : seulement le signe, calculer, les couples amis, les erreurs de Mattéo, remonter le temps avec trois facteurs, le jeu des cartes, et un « pour aller plus loin » avec 2 027 facteurs."
+              ],
+              ressources: ["4e-ch5-s4"],
+              retenir: [
+                "Pour trouver le **signe** d'un produit, on compte les facteurs **négatifs**.",
+                "Nombre **pair** de facteurs négatifs : produit **positif**. Nombre **impair** : produit **négatif**.",
+                "Si un des facteurs est **0**, le produit est **nul**.",
+                "Pour la **distance à zéro**, on multiplie sans les signes, dans l'ordre qu'on veut, en regroupant les couples amis."
+              ],
+              exemple: "(−25) × 7 × (−4) = 700 (deux négatifs, et 25 × 4 = 100).",
+              savoir: "trouver le signe d'un produit de plusieurs nombres relatifs et le calculer de tête en regroupant les facteurs."
             }
           ],
           ressources: [
             { id: "4e-ch5-s1", type: "exos", titre: "Séance 1 — Le marcheur : ajouter et soustraire", resume: "Additions et soustractions animées sur la droite graduée, un marcheur à piloter soi-même, puis les exercices avec astuces et solutions.", ajout: "2026-11-23" },
             { id: "4e-ch5-s2", type: "exos", titre: "Séance 2 — Un seul facteur négatif", resume: "Le marcheur qui répète le même pas, le congélateur qui perd 3 °C par heure, la table de 4 prolongée sous zéro, puis la méthode et les exercices avec astuces et solutions.", ajout: "2026-11-24" },
             { id: "4e-ch5-s3", type: "exos", titre: "Séance 3 — Deux facteurs négatifs", resume: "Remonter le temps avec la température de la nuit, la table de −3 prolongée sous zéro, puis la preuve par la distributivité et les exercices avec astuces et solutions.", ajout: "2026-11-24" },
+            { id: "4e-ch5-s4", type: "exos", titre: "Séance 4 — Plusieurs facteurs", resume: "La machine × (−2) qui fait basculer le signe, les négatifs qui vont par deux, les couples amis pour calculer de tête, puis les exercices avec astuces et solutions.", ajout: "2026-11-24" },
             { id: "4e-ch5-minijeux", type: "jeu", titre: "Mini-jeu — Sprint des relatifs", resume: "Calcul mental tiré au hasard : ajouter, soustraire, puis multiplier et diviser au fil du chapitre. Seul en 60 s ou au tableau.", ajout: "2026-11-23" }
           ]
         }
