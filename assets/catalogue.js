@@ -563,7 +563,7 @@ window.SITE = {
               contenu: [
                 "La carte d'identité d'un quotient (10 min, projeté, pas à pas) : 7 ÷ 4, 7 ÷ 3 et 12 ÷ 4 passent par le nombre caché, la division posée et la vérification. Chacun finit dans sa famille : entier, décimal, ou ni l'un ni l'autre.",
                 "Un grand diviseur (8 min, projeté) : 87 ÷ 12, 50 ÷ 12, 31 ÷ 25, puis 970 562 ÷ 137, chiffre par chiffre : avec la table du diviseur, la méthode marche même avec de très grands nombres.",
-                "Les exercices (30 min, cahier) : compléter la carte de 9 ÷ 4 ; faire la carte courte de divisions de plus en plus grandes (7 ÷ 2, 5 ÷ 8, 26 ÷ 3, 96 ÷ 12) ; la carte mystère (retrouver le quotient à partir d'une seule ligne) ; un défi (six fractions avec 3, 4 et 6, rangées en trois familles). Les questions « Pour aller plus loin » sont pour les élèves à l'aise."
+                "Les exercices (30 min, cahier) : compléter la carte de 9 ÷ 4 ; faire la carte courte de divisions de plus en plus grandes (7 ÷ 2, 5 ÷ 8, 26 ÷ 3, 96 ÷ 12) ; la division cachée (retrouver une division et son résultat à partir d'un indice) ; un défi (six fractions avec 3, 4 et 6, rangées en trois familles). Les questions « Pour aller plus loin » sont pour les élèves à l'aise."
               ],
               ressources: ["6e-ch6-s5"],
               retenir: [
