@@ -61,6 +61,7 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--amber);outline
 @media (max-width:820px){.cols{grid-template-columns:minmax(0,1fr)}}
 .col{display:flex;flex-direction:column;gap:14px}
 .ex{background:#fff;border:2px solid var(--ink);border-radius:8px;padding:10px 14px 12px}
+.bq{display:inline-flex;align-items:center;justify-content:center;width:3.2em;height:2em;border:2px solid var(--ink);border-radius:4px;background:var(--fill-2)}
 .ex.plus{border-style:dashed;border-color:var(--amber-text);background:#fffaf0}
 .ex-tete{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px}
 .stars{color:#c98a00;font-size:1rem;letter-spacing:1px;white-space:nowrap}
@@ -235,6 +236,57 @@ table.t td.n{font-family:var(--f-num);font-weight:700}
         <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
         <div class="ast" hidden>Pour a), où le marcheur doit-il aller pour passer de −7 à −2 ? Pour d), on répète quatre fois le même déplacement.</div>
         <div class="sol" hidden><p>a) 5, car −7 + 5 = −2. &nbsp; b) −5, car 3 − (−5) = 3 + 5 = 8.</p><p>c) −5, car −5 − (−4) = −5 + 4 = −1.</p><p>d) −12. On ajoute quatre fois −3 : on peut écrire 4 × (−3). C'est l'idée de la prochaine séance !</p></div>
+      </article>
+
+    </div>
+  </div>
+
+  <h3 style="margin:18px 0 4px;font:800 1.3rem var(--f-title);text-transform:uppercase;letter-spacing:.03em">Tu as fini ? Encore trois défis</h3>
+  <div class="cols" style="margin-top:6px">
+    <div class="col">
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 6 · La chaîne de montagnes</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
+        <p>Une randonnée part du bord de la mer Morte (A), à −430 m. Sur chaque tronçon, on lit de combien on monte (+) ou on descend (−).</p>
+        <svg viewBox="0 0 460 214" role="img" aria-label="profil d'une randonnée de A à F" style="display:block;width:100%;height:auto;margin:6px 0"><polygon points="22,204 22,186.0 92,101.1 162,147.6 242,36.0 312,75.7 378,110.0 378,204" fill="#e9e4d4"/><line x1="8" x2="456" y1="127.1" y2="127.1" stroke="var(--blue)" stroke-width="1.5" stroke-dasharray="6 4"/><text x="456" y="142.1" text-anchor="end" font-size="11" fill="var(--blue)" font-family="Work Sans,sans-serif">niveau de la mer : 0 m</text><polyline points="22,186.0 92,101.1 162,147.6 242,36.0 312,75.7 378,110.0" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/><text x="46" y="162" text-anchor="end" font-family="Space Mono,monospace" font-weight="700" font-size="13" fill="var(--ok)">+620 m</text><text x="134" y="110" text-anchor="start" font-family="Space Mono,monospace" font-weight="700" font-size="13" fill="var(--ko)">−340 m</text><text x="196" y="88" text-anchor="end" font-family="Space Mono,monospace" font-weight="700" font-size="13" fill="var(--ok)">+815 m</text><text x="284" y="46" text-anchor="start" font-family="Space Mono,monospace" font-weight="700" font-size="13" fill="var(--ko)">−290 m</text><text x="352" y="84" text-anchor="start" font-family="Space Mono,monospace" font-weight="700" font-size="13" fill="var(--amber-text)">?</text><circle cx="22" cy="186.0" r="4.5" fill="var(--amber)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="92" cy="101.1" r="4.5" fill="var(--amber)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="162" cy="147.6" r="4.5" fill="var(--amber)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="242" cy="36.0" r="4.5" fill="var(--amber)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="312" cy="75.7" r="4.5" fill="var(--amber)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="378" cy="110.0" r="4.5" fill="var(--amber)" stroke="var(--ink)" stroke-width="1.5"/><text x="22" y="203" text-anchor="start" font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="var(--ink)">A : −430 m</text><text x="92" y="90" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="var(--ink)">B</text><text x="162" y="166" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="var(--ink)">C</text><text x="242" y="25" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="var(--ink)">D</text><text x="312" y="95" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="var(--ink)">E</text><text x="386" y="114" text-anchor="start" font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="var(--ink)">F : 125 m</text></svg>
+        <p>a) Calcule l'altitude des points B, C, D et E.</p>
+        <p>b) L'arrivée F est à 125 m. Quel est le dénivelé du dernier tronçon ?</p>
+        <p>c) Quel écart y a-t-il entre le point le plus haut et le point le plus bas ?</p>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>a) Pars de A et enchaîne : B = −430 + 620. b) Dénivelé = altitude d'arrivée − altitude de départ. c) Le plus haut moins le plus bas.</div>
+        <div class="sol" hidden><p>a) B = −430 + 620 = 190 m. C = 190 − 340 = −150 m. D = −150 + 815 = 665 m. E = 665 − 290 = 375 m.</p><p>b) 125 − 375 = −250 : on descend de 250 m.</p><p>c) Le plus haut est D (665 m), le plus bas est A (−430 m) : 665 − (−430) = 665 + 430 = 1 095 m.</p></div>
+      </article>
+
+    </div>
+    <div class="col">
+
+      <article class="ex">
+        <div class="ex-tete"><h3>Exercice 7 · Le carré magique</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
+        <p>Dans ce carré, chaque ligne, chaque colonne et chaque diagonale a la <b>même somme</b>.</p>
+        <table class="t" style="width:auto;margin:6px auto;font-size:1.15rem">
+          <tr><td class="n" style="width:3em;height:2.2em">−4</td><td class="n" style="width:3em">?</td><td class="n" style="width:3em">0</td></tr>
+          <tr><td class="n" style="height:2.2em">?</td><td class="n">−1</td><td class="n">?</td></tr>
+          <tr><td class="n" style="height:2.2em">?</td><td class="n">−3</td><td class="n">2</td></tr>
+        </table>
+        <p>a) Calcule cette somme avec la diagonale complète.</p>
+        <p>b) Trouve les quatre nombres cachés.</p>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>La diagonale −4 ; −1 ; 2 est complète. Ensuite, cherche une ligne ou une colonne où il ne manque qu'un seul nombre.</div>
+        <div class="sol" hidden><p>a) −4 + (−1) + 2 = −3.</p><p>b) Ligne 1 : −4 + ? + 0 = −3, donc ? = 1. Colonne 3 : 0 + ? + 2 = −3, donc ? = −5.</p><p>Ligne 3 : ? + (−3) + 2 = −3, donc ? = −2. Colonne 1 : −4 + ? + (−2) = −3, donc ? = 3.</p><p>Vérification, ligne 2 : 3 + (−1) + (−5) = −3. ✔</p></div>
+      </article>
+
+      <article class="ex plus">
+        <div class="ex-tete"><h3>Exercice 8 · La pyramide</h3><span class="stars" aria-label="3 étoiles">★★★</span></div>
+        <p>Chaque brique est la <b>somme</b> des deux briques juste en dessous. Complète la pyramide.</p>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin:8px 0;font:700 1.05rem var(--f-num)">
+          <div style="display:flex;gap:4px"><span class="bq">?</span></div>
+          <div style="display:flex;gap:4px"><span class="bq">?</span><span class="bq">?</span></div>
+          <div style="display:flex;gap:4px"><span class="bq">?</span><span class="bq">1</span><span class="bq">?</span></div>
+          <div style="display:flex;gap:4px"><span class="bq">−6</span><span class="bq">4</span><span class="bq">?</span><span class="bq">−1</span></div>
+        </div>
+        <div class="tools"><button class="btn" data-ouvre="ast">Astuce</button><button class="btn" data-ouvre="sol">Solution</button></div>
+        <div class="ast" hidden>La brique 1 est au-dessus de 4 et d'une brique cachée : 4 + ? = 1. Quel nombre faut-il ajouter à 4 pour arriver à 1 ?</div>
+        <div class="sol" hidden><p>En bas : 4 + ? = 1, donc ? = −3.</p><p>2<sup>e</sup> rangée : −6 + 4 = −2 ; 1 ; −3 + (−1) = −4.</p><p>3<sup>e</sup> rangée : −2 + 1 = −1 ; 1 + (−4) = −3.</p><p>Sommet : −1 + (−3) = −4.</p></div>
       </article>
 
     </div>
