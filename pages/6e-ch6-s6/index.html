@@ -258,6 +258,7 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 @media (max-width:560px){.card>li{grid-template-columns:minmax(0,1fr);gap:4px}}
 @keyframes rbin{from{transform:scale(.6);opacity:0}}
 .div mark.hl{background:var(--fill);color:inherit;border-radius:3px}
+.div mark.z0{background:var(--ok-bg);color:var(--ok);border-radius:3px;box-shadow:inset 0 0 0 2px var(--ok)}
 .div mark.r{background:var(--magenta-bg);color:var(--magenta);border-radius:3px;box-shadow:inset 0 0 0 2px var(--magenta)}
 .tag{display:inline-block;align-self:flex-start;font:800 1rem var(--f-title);text-transform:uppercase;letter-spacing:.05em;padding:2px 10px;border-radius:8px;color:#fff;background:var(--fc)}
 .k0{--fc:var(--blue);--fb:var(--blue-bg)}.k1{--fc:var(--teal);--fb:var(--teal-bg)}.k2{--fc:var(--magenta);--fb:var(--magenta-bg)}.k3{--fc:#6a3fb5;--fb:#efe7fb}
@@ -303,11 +304,11 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
   <!-- ================= ACTIVITÉ : UNE DIVISION, QUATRE HISTOIRES ================= -->
   <section class="ex" id="act">
     <div class="ex-h"><h2>Activité <small>une division, quatre histoires</small></h2></div>
-    <p class="consigne">Quatre histoires, une seule <span class="gl" data-t="division">division</span> : <b class="num">50 ÷ 12</b>. Choisis une histoire et avance étape par étape.</p>
+    <p class="consigne">Quatre histoires, une seule <span class="gl" data-t="division">division</span> : <b class="num">50 ÷ 8</b>. Choisis une histoire et avance étape par étape.</p>
     <div class="cas" id="cas">
       <button class="btn" data-k="0">Les minibus<span class="ok">✓</span></button>
       <button class="btn" data-k="1">Les cartes<span class="ok">✓</span></button>
-      <button class="btn" data-k="2">Le ruban<span class="ok">✓</span></button>
+      <button class="btn" data-k="2">Les euros<span class="ok">✓</span></button>
       <button class="btn" data-k="3">Les tartes<span class="ok">✓</span></button>
     </div>
     <p class="recit story" id="story" hidden></p>
@@ -316,12 +317,11 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
     <div class="tally" id="tally">
       <div class="tile k0"><b>Les minibus</b><span>?</span></div>
       <div class="tile k1"><b>Les cartes</b><span>?</span></div>
-      <div class="tile k2"><b>Le ruban</b><span>?</span></div>
+      <div class="tile k2"><b>Les euros</b><span>?</span></div>
       <div class="tile k3"><b>Les tartes</b><span>?</span></div>
     </div>
     <div class="recit" id="ret" hidden>
       <p><b>Le calcul est le même, la réponse dépend de la question.</b></p>
-      <p>On mesure, ou on demande « environ » : une <b>valeur approchée</b>. On partage tout, exactement : la <b>valeur exacte</b>, parfois une fraction.</p>
       <p>Pour résoudre un problème :</p>
       <ol class="steps3"><li>j'écris la <b>division</b> ;</li><li>je fais le <b>calcul</b> ;</li><li>je relis la question et je <b>réponds par une phrase</b>, avec l'unité. Ma réponse a-t-elle du sens ?</li></ol>
     </div>
@@ -389,82 +389,76 @@ const ink='var(--ink)',fill='var(--fill)',paper='var(--paper)',hi='var(--amber-t
 const T=(x,y,t,o='')=>`<text x="${x}" y="${y}" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="600" ${o}>${t}</text>`;
 
 /* ---------- les dessins ---------- */
-function bus(){ /* 50 élèves, 5 minibus de 12 places : 4 pleins, 1 avec 2 élèves */
-  const W=126,G=10;let s=`<svg viewBox="0 0 ${5*W+4*G} 104" role="img" aria-label="5 minibus : 4 pleins et un dernier avec 2 élèves">`;
-  for(let b=0;b<5;b++){const x=b*(W+G),last=b===4,n=last?2:12;
+function bus(){ /* 50 élèves, 7 minibus de 8 places : 6 pleins, 1 avec 2 élèves */
+  const W=84,G=8;let s=`<svg viewBox="0 0 ${7*W+6*G} 104" role="img" aria-label="7 minibus : 6 pleins et un dernier avec 2 élèves">`;
+  for(let b=0;b<7;b++){const x=b*(W+G),last=b===6,n=last?2:8;
     s+=`<rect x="${x+1.5}" y="6" width="${W-3}" height="62" rx="12" fill="${last?'var(--fill-2)':'var(--blue-bg)'}" stroke="${last?hi:ink}" stroke-width="${last?3:2}"/>`;
-    for(let k=0;k<12;k++){const cx=x+16+(k%6)*19,cy=24+Math.floor(k/6)*22;
+    for(let k=0;k<8;k++){const cx=x+15+(k%4)*18,cy=24+Math.floor(k/4)*22;
       s+=`<rect x="${cx-7}" y="${cy-7}" width="14" height="14" rx="3" fill="${k<n?fill:paper}" stroke="${ink}" stroke-width="1.2"/>`;}
-    s+=`<circle cx="${x+28}" cy="70" r="8" fill="${ink}"/><circle cx="${x+W-28}" cy="70" r="8" fill="${ink}"/>`;
-    s+=T(x+W/2,98,last?'2 élèves':'12 élèves',`font-size="14" fill="${last?hi:ink}"`);}
+    s+=`<circle cx="${x+21}" cy="70" r="8" fill="${ink}"/><circle cx="${x+W-21}" cy="70" r="8" fill="${ink}"/>`;
+    s+=T(x+W/2,98,last?'2 élèves':'8 élèves',`font-size="14" fill="${last?hi:ink}"`);}
   return s+'</svg>';
 }
-function cards(){ /* 50 cartes : 4 paquets de 12, il reste 2 */
-  let s=`<svg viewBox="0 0 430 120" role="img" aria-label="4 paquets de 12 cartes et 2 cartes qui restent">`;
-  for(let p=0;p<4;p++){const x=10+p*72;
+function cards(){ /* 50 cartes : 6 paquets de 8, il reste 2 */
+  let s=`<svg viewBox="0 0 560 120" role="img" aria-label="6 paquets de 8 cartes et 2 cartes qui restent">`;
+  for(let p=0;p<6;p++){const x=8+p*66;
     for(let j=2;j>=0;j--)s+=`<rect x="${x+j*4}" y="${18-j*4}" width="44" height="62" rx="5" fill="${j?'var(--magenta-bg)':paper}" stroke="${ink}" stroke-width="1.8"/>`;
-    s+=T(x+22,56,'12',`font-size="18" font-family="Space Mono,monospace" font-weight="700" fill="${ink}"`)+T(x+26,104,'paquet',`font-size="13" fill="${ink}"`);}
-  [[318,-12],[362,10]].forEach(([x,r])=>{s+=`<rect x="${x}" y="22" width="44" height="62" rx="5" fill="${paper}" stroke="${hi}" stroke-width="3" transform="rotate(${r} ${x+22} 53)"/>`;});
-  s+=T(364,110,'il reste 2',`font-size="14" fill="${hi}"`);
+    s+=T(x+22,56,'8',`font-size="18" font-family="Space Mono,monospace" font-weight="700" fill="${ink}"`)+T(x+26,104,'paquet',`font-size="13" fill="${ink}"`);}
+  [[446,-12],[490,10]].forEach(([x,r])=>{s+=`<rect x="${x}" y="22" width="44" height="62" rx="5" fill="${paper}" stroke="${hi}" stroke-width="3" transform="rotate(${r} ${x+22} 53)"/>`;});
+  s+=T(492,110,'il reste 2',`font-size="14" fill="${hi}"`);
   return s+'</svg>';
 }
-function rule(){ /* un morceau de 50/12 cm posé sur une règle graduée en millimètres */
-  const z=100,x0=30,len=50/12*z;let s=`<svg viewBox="0 0 620 168" role="img" aria-label="un morceau de ruban posé sur une règle : il s'arrête entre 4,1 et 4,2 cm, plus près de 4,2">`;
-  s+=T(310,13,'le ruban de 50 cm, coupé en 12',`font-size="13" fill="${ink}"`);
-  for(let k=0;k<12;k++)s+=`<rect x="${10+k*50}" y="20" width="50" height="14" fill="${k?'#efe7fb':fill}" stroke="${ink}" stroke-width="${k?1:2.2}"/>`;
-  s+=`<path d="M10 34L${x0} 62M60 34L${x0+len} 62" stroke="${ink}" stroke-width="1" stroke-dasharray="3 4" fill="none"/>`;
-  s+=`<rect x="${x0}" y="62" width="${len}" height="24" fill="${fill}" stroke="${ink}" stroke-width="2"/>`;
-  s+=`<rect x="${x0-10}" y="92" width="${5*z+30}" height="40" rx="4" fill="${paper}" stroke="${ink}" stroke-width="1.6"/>`;
-  for(let m=0;m<=50;m++){const x=x0+m*10,c=m%10===0,h=c?16:m%5===0?11:7;
-    s+=`<line x1="${x}" x2="${x}" y1="92" y2="${92+h}" stroke="${ink}" stroke-width="${c?1.6:1}"/>`;
-    if(c)s+=T(x,124,m/10,`font-size="12" fill="${ink}"`);}
-  s+=`<line x1="${x0+420}" x2="${x0+420}" y1="56" y2="114" stroke="${hi}" stroke-width="3"/>`+T(x0+420,156,'4,2 cm',`font-size="15" font-weight="700" fill="${hi}"`);
+function coins(){ /* 50 € partagés entre 8 amis : 6,25 € chacun */
+  let s=`<svg viewBox="0 0 336 150" style="max-width:400px" role="img" aria-label="8 parts de 6,25 euros">`;
+  for(let k=0;k<8;k++){const cx=42+(k%4)*84,cy=38+Math.floor(k/4)*74;
+    s+=`<circle cx="${cx}" cy="${cy}" r="33" fill="${fill}" stroke="${ink}" stroke-width="2"/>`+T(cx,cy+5,'6,25 €',`font-size="15" fill="${ink}"`);}
   return s+'</svg>';
 }
-function tarts(){ /* 50 tartes pour 12 tables : 4 tartes entières + 2/12 de tarte (une part dans chacune des 2 tartes qui restent) */
-  let s=`<svg viewBox="0 0 560 150" role="img" aria-label="une table reçoit 4 tartes entières, plus une part de 1/12 dans chacune des 2 tartes qui restent">`;
-  const tarte=(cx,cy,r,parts,on)=>{let t=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${parts?paper:fill}" stroke="${ink}" stroke-width="2"/>`;
-    if(parts){for(let k=0;k<12;k++){const a=(k*30-90)*Math.PI/180,b=((k+1)*30-90)*Math.PI/180;
-      if(k===on)t+=`<path d="M${cx} ${cy}L${(cx+r*Math.cos(a)).toFixed(1)} ${(cy+r*Math.sin(a)).toFixed(1)}A${r} ${r} 0 0 1 ${(cx+r*Math.cos(b)).toFixed(1)} ${(cy+r*Math.sin(b)).toFixed(1)}Z" fill="${fill}" stroke="${hi}" stroke-width="2.4"/>`;
-      t+=`<line x1="${cx}" y1="${cy}" x2="${(cx+r*Math.cos(a)).toFixed(1)}" y2="${(cy+r*Math.sin(a)).toFixed(1)}" stroke="${ink}" stroke-width="1"/>`;}
+function tarts(){ /* 50 tartes pour 8 tables : 6 tartes entières + 2/8 de tarte (une part dans chacune des 2 tartes qui restent) */
+  let s=`<svg viewBox="0 0 560 160" role="img" aria-label="une table reçoit 6 tartes entières, plus une part de 1/8 dans chacune des 2 tartes qui restent">`;
+  const tarte=(cx,cy,r,cut)=>{let t=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${cut?paper:fill}" stroke="${ink}" stroke-width="2"/>`;
+    if(cut){const P=a=>[(cx+r*Math.cos(a)).toFixed(1),(cy+r*Math.sin(a)).toFixed(1)];
+      const [ax,ay]=P(-Math.PI/2),[bx,by]=P(-Math.PI/4);
+      t+=`<path d="M${cx} ${cy}L${ax} ${ay}A${r} ${r} 0 0 1 ${bx} ${by}Z" fill="${fill}" stroke="${hi}" stroke-width="2.6"/>`;
+      for(let k=0;k<8;k++){const [x,y]=P(k*Math.PI/4-Math.PI/2);t+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="${ink}" stroke-width="1.3"/>`;}
       t+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${ink}" stroke-width="2"/>`;}
     return t;};
-  for(let k=0;k<4;k++)s+=tarte(34+(k%2)*64,38+Math.floor(k/2)*62,27,0);
-  s+=T(66,146,'4 tartes entières',`font-size="13" fill="${ink}"`);
-  s+=T(178,74,'+',`font-size="34" fill="${ink}"`);
-  s+=tarte(270,66,52,1,0)+tarte(400,66,52,1,0);
-  s+=T(335,146,'les 2 tartes qui restent, coupées en 12 : une part dans chacune',`font-size="13" fill="${hi}"`);
+  for(let k=0;k<6;k++)s+=tarte(30+(k%3)*56,36+Math.floor(k/3)*56,24,0);
+  s+=T(86,152,'6 tartes entières',`font-size="13" fill="${ink}"`);
+  s+=T(212,76,'+',`font-size="34" fill="${ink}"`);
+  s+=tarte(310,66,54,1)+tarte(450,66,54,1);
+  s+=T(380,152,'2 tartes coupées en 8 : 1 part dans chacune',`font-size="13" fill="${hi}"`);
   return s+'</svg>';
 }
 
 /* ---------- la division posée (même calcul, partie utile surlignée) ---------- */
-const DIV_E=`<pre class="div" aria-label="50 divisé par 12 : 4, il reste 2"> 50 | 12\n-48 |----\n  <mark class="r">2</mark> | <mark class="hl">4</mark></pre>`;
-const DIV_D=(q,r)=>`<pre class="div" aria-label="50 divisé par 12 : 4,166…"> 50    | 12\n-48    |------\n  20   | ${q?'<mark class="hl">4,16…</mark>':'4,16…'}\n -12   |\n   ${r?'<mark class="r">8</mark>':'8'}0  |\n  -72  |\n    ${r?'<mark class="r">8</mark>':'8'}  |</pre>`;
+const DIV_E=`<pre class="div" aria-label="50 divisé par 8 : 6, il reste 2"> 50 | 8\n-48 |---\n  <mark class="r">2</mark> | <mark class="hl">6</mark></pre>`;
+const DIV_D=`<pre class="div" aria-label="50 divisé par 8 : 6,25"> 50    | 8\n-48    |------\n  20   | <mark class="hl">6,25</mark>\n -16   |\n   40  |\n  -40  |\n    <mark class="z0">0</mark>  |</pre>`;
 
 const H=[
- {story:'50 élèves partent en sortie en minibus. Un minibus a 12 places. <b>Combien de minibus <mark class="kw">faut-il</mark>&nbsp;?</b>',
-  div:'On fait des groupes de 12 élèves.',
-  calc:DIV_E,calcTxt:'4 minibus pleins (4 × 12 = 48), et il reste 2 élèves.',
-  fig:bus,rep:'Il faut 5 minibus.',tag:'On arrondit au-dessus',why:'Avec 4 minibus, 2 élèves resteraient à pied : il faut un minibus de plus.',tile:'5 minibus'},
- {story:'Léo a 50 cartes. Il fait des paquets de 12 cartes. <b>Combien de paquets <mark class="kw">complets</mark> peut-il faire ? Combien de cartes <mark class="kw">reste-t-il</mark>&nbsp;?</b>',
-  div:'On fait des paquets de 12 cartes.',
-  calc:DIV_E,calcTxt:'4 paquets (4 × 12 = 48), et il reste 2 cartes.',
-  fig:cards,rep:'Léo fait 4 paquets et il reste 2 cartes.',tag:'Un entier et un reste',why:'On ne coupe pas les cartes : on s\'arrête avant la virgule.',tile:'4 paquets, reste 2'},
- {story:'Tu coupes un ruban de 50 cm en 12 morceaux égaux. Tu les mesures avec <mark class="kw">ta règle</mark>. <b>Combien mesure un morceau, <mark class="kw">au millimètre près</mark>&nbsp;?</b>',
-  div:'On partage 50 cm en 12 parts égales.',
-  calc:DIV_D(1,0),calcTxt:'On continue après la virgule : 50 ÷ 12 = 4,16…',
-  fig:rule,rep:'Un morceau mesure environ 4,2 cm.',tag:'Valeur approchée',why:'La règle ne mesure pas plus fin que le millimètre (0,1 cm). Le bout du morceau tombe entre 4,1 et 4,2 cm, plus près de 4,2.',tile:'≈ 4,2 cm'},
- {story:'La cantine a 50 tartes pour 12 tables. Chaque table doit avoir <mark class="kw">exactement</mark> la même quantité de tarte. <b>Combien de tartes reçoit chaque table&nbsp;?</b>',
-  div:'On partage 50 tartes entre 12 tables.',
-  calc:DIV_E,calcTxt:`Chaque table reçoit 4 tartes, et il reste 2 tartes. On les partage aussi entre les 12 tables : 2 ÷ 12 = ${f(2,12)}.`,
-  fig:tarts,rep:`Chaque table reçoit 4 tartes et ${f(2,12)} de tarte, soit ${f(50,12)} de tarte.`,tag:'Valeur exacte : une fraction',why:'« 4,17 tartes », on ne sait pas le couper ! La fraction dit comment faire : on coupe chaque tarte qui reste en 12 parts.',tile:`${f(50,12)} de tarte`}
+ {story:'50 élèves partent en sortie en minibus. Un minibus a 8 places. <b>Combien de minibus <mark class="kw">faut-il</mark>&nbsp;?</b>',
+  div:'On fait des groupes de 8 élèves.',
+  calc:DIV_E,calcTxt:'6 minibus pleins (6 × 8 = 48), et il reste 2 élèves.',
+  fig:bus,rep:'Il faut 7 minibus.',tag:'On arrondit au-dessus',why:'Avec 6 minibus, 2 élèves resteraient à pied : il faut un minibus de plus.',tile:'7 minibus'},
+ {story:'Léo a 50 cartes. Il fait des paquets de 8 cartes. <b>Combien de paquets <mark class="kw">complets</mark> peut-il faire ? Combien de cartes <mark class="kw">reste-t-il</mark>&nbsp;?</b>',
+  div:'On fait des paquets de 8 cartes.',
+  calc:DIV_E,calcTxt:'6 paquets (6 × 8 = 48), et il reste 2 cartes.',
+  fig:cards,rep:'Léo fait 6 paquets et il reste 2 cartes.',tag:'Un entier et un reste',why:'On ne coupe pas les cartes : on s\'arrête avant la virgule.',tile:'6 paquets, reste 2'},
+ {story:'8 amis gagnent 50 € à un concours. Ils se partagent <mark class="kw">tout l\'argent</mark> en parts égales. <b>Combien reçoit chaque ami&nbsp;?</b>',
+  div:'On partage 50 € entre 8 amis.',
+  calc:DIV_D,calcTxt:'On continue après la virgule, et le reste 0 arrive : la division s\'arrête. 50 ÷ 8 = 6,25.',
+  fig:coins,rep:'Chaque ami reçoit 6,25 €.',tag:'Un nombre décimal',why:'Les euros se partagent jusqu\'aux centimes, et ici rien ne reste. Vérifie : 6,25 × 8 = 50.',tile:'6,25 €'},
+ {story:'La cantine a 50 tartes pour 8 tables. Chaque table doit avoir <mark class="kw">exactement</mark> la même quantité de tarte. <b>Combien de tarte reçoit chaque table&nbsp;?</b>',
+  div:'On partage 50 tartes entre 8 tables.',
+  calc:DIV_E,calcTxt:`Chaque table reçoit 6 tartes, et il reste 2 tartes. On les partage aussi entre les 8 tables : 2 ÷ 8 = ${f(2,8)}.`,
+  fig:tarts,rep:`Chaque table reçoit 6 tartes et ${f(2,8)} de tarte, soit ${f(50,8)} de tarte.`,tag:'Une fraction',why:'Une tarte se coupe en 8 parts : chaque table a 6 tartes et 2 parts. « 6,25 tartes », c\'est juste, mais on ne sait pas le couper ; la fraction dit comment faire.',tile:`${f(50,8)} de tarte`}
 ];
 const LAB=['1. La division','2. Le calcul','3. La réponse'];
 let cur=-1,step=0;const done=new Set();
 const next=$('#next'),box=$('#steps'),story=$('#story');
 
 function stepHTML(h,i){
-  if(i===0)return `<p>${h.div}</p><p class="big">50 ÷ 12</p>`;
+  if(i===0)return `<p>${h.div}</p><p class="big">50 ÷ 8</p>`;
   if(i===1)return `${h.calc}<p>${h.calcTxt}</p>`;
   return `<div class="fig">${h.fig()}</div><p class="big txt">${h.rep}</p><span class="tag">${h.tag}</span><p>${h.why}</p>`;
 }
