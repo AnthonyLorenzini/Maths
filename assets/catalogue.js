@@ -557,7 +557,7 @@ window.SITE = {
               savoir: "reconnaître, en posant la division, si un quotient s'écrit exactement avec une virgule, et donner une valeur approchée au dixième ou au centième."
             },
             {
-              titre: "Le tour d'un quotient", duree: "50 min",
+              titre: "Carte d'identité d'un quotient", duree: "50 min",
               contenu: [
                 "La carte d'identité d'un quotient (10 min, projeté, pas à pas) : 7 ÷ 4, 7 ÷ 3 et 12 ÷ 4 passent par le nombre caché, la division posée et la vérification. Chacun finit dans sa famille : entier, décimal, ou ni l'un ni l'autre.",
                 "Un grand diviseur (8 min, projeté) : 87 ÷ 12, 50 ÷ 12, 31 ÷ 25, puis 970 562 ÷ 137, chiffre par chiffre : avec la table du diviseur, la méthode marche même avec de très grands nombres.",
@@ -578,7 +578,7 @@ window.SITE = {
             { id: "6e-ch6-s2", type: "exos", titre: "Séance 2 — Les égalités à trous", resume: "Deux machines ÷ et ×, a/b × b = a, trouver le nombre caché, où est le trou ?, qui a raison ?, partages, devinettes et défis. Avec corrections.", ajout: "2026-11-17" },
             { id: "6e-ch6-s3", type: "exos", titre: "Séance 3 — Un même nombre, plusieurs écritures", resume: "Partager des barres entre des amis : poser la division, descendre un zéro, suivre les dixièmes et les centièmes jusqu'à un reste 0, vérifier en multipliant. Six exercices et un défi. Avec corrections.", ajout: "2026-11-17" },
             { id: "6e-ch6-s4", type: "exos", titre: "Séance 4 — Ça s'arrête ou ça boucle ?", resume: "Le détecteur de restes : la division s'arrête sur un reste 0, ou boucle quand un reste revient (5/3 = 1,666…). Valeur exacte, valeur approchée au dixième et au centième, le signe ≈. Cinq exercices et un défi. Avec corrections.", ajout: "2026-11-23" },
-            { id: "6e-ch6-s5", type: "exos", titre: "Séance 5 — Le tour d'un quotient", resume: "La carte d'identité d'un quotient : nombre caché, division posée, vérification, puis entier, décimal ou ni l'un ni l'autre. Diviser par 12, 25 et même 137 avec la table. Trois exercices de cartes et un défi, avec des questions pour aller plus loin. Avec corrections.", ajout: "2026-11-24" }
+            { id: "6e-ch6-s5", type: "exos", titre: "Séance 5 — Carte d'identité d'un quotient", resume: "La carte d'identité d'un quotient : nombre caché, division posée, vérification, puis entier, décimal ou ni l'un ni l'autre. Diviser par 12, 25 et même 137 avec la table. Trois exercices de cartes et un défi, avec des questions pour aller plus loin. Avec corrections.", ajout: "2026-11-24" }
           ]
         },
         {

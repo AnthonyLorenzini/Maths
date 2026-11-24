@@ -162,7 +162,7 @@
       '<path class="s-c" d="M36 11A25 25 0 1 1 13.8 24.5" fill="none" stroke-width="5"/>' +
       '<path class="f-c" d="M7.2 19.5L14.5 33L22.4 21.4Z"/>' +
       '<circle class="f-s s-i" cx="36" cy="36" r="14" stroke-width="3"/>' + lab(36, 37, '6', 20)),
-    "6e-ch6-s5": svg( // le tour d'un quotient : sa carte d'identité
+    "6e-ch6-s5": svg( // carte d'identité d'un quotient
       '<rect class="f-b s-i" x="4" y="13" width="64" height="46" rx="7" stroke-width="3.2"/>' +
       '<rect class="f-c s-i" x="10" y="20" width="21" height="27" rx="4" stroke-width="2.6"/>' +
       '<text class="tx f-b" x="20.5" y="33.5" text-anchor="middle" dominant-baseline="central" font-size="20">÷</text>' +
