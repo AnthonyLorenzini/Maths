@@ -1028,7 +1028,7 @@ window.SITE = {
                 "Flash sans calculatrice : 7 × 98 de tête (la distributivité, qui servira à la preuve), un rappel de la séance 2 et une somme de deux opposés.",
                 "Activité 1 : la nuit, la température baisse de 3 °C par heure et il fait 0 °C à minuit. Dans 2 h, il fera −6 °C ; et il y a 4 h ? On remonte le temps : il faisait 12 °C, soit (−4) × (−3) = 12 ?",
                 "Activité 2 : on prolonge la table de −3 sous zéro, ligne par ligne (le produit augmente de 3 à chaque fois), jusqu'à (−3) × (−4) = 12 : on formule une conjecture.",
-                "Activité 3 : la preuve. (−3) × [4 + (−4)] vaut 0 ; en distribuant, on obtient −12 + (−3) × (−4) = 0, donc (−3) × (−4) = 12. Puis la règle des signes.",
+                "Activité 3 : la preuve. (−3) × [4 + (−4)] vaut 0 ; en distribuant, on obtient −12 + (−3) × (−4) = 0, donc (−3) × (−4) = 12. Activité 4 : la règle des signes avec les quatre messieurs (+ + et − − sont contents, + − et − + ne le sont pas).",
                 "Exercices projetés, faits sur le cahier sans calculatrice : calculer, une table à compléter, des décimaux, remonter le temps, les nombres manquants, et un « pour aller plus loin » avec une preuve à refaire."
               ],
               ressources: ["4e-ch5-s3"],

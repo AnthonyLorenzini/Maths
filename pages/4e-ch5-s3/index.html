@@ -108,6 +108,13 @@ table.t td.n{font-family:var(--f-num);font-weight:700}
 .b{background:var(--magenta-bg);box-shadow:0 0 0 2px var(--magenta)}
 .z{background:var(--fill)}
 .boite{border:2.5px dashed var(--amber-text);border-radius:6px;padding:0 5px}
+/* les messieurs */
+.mrs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:14px}
+@media (max-width:700px){.mrs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.mr{text-align:center}
+.mr svg{width:100%;max-width:150px;height:auto;display:block;margin:0 auto}
+.mr b{display:block;font:800 1.15rem var(--f-title);text-transform:uppercase;letter-spacing:.03em;margin-top:4px}
+.mr .num{display:block;font-size:1.05rem;margin-top:2px;min-height:1.6em}
 /* règle des signes */
 .signes{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center;margin-top:6px}
 table.sg{border-collapse:collapse;font:700 1.2rem var(--f-num)}
@@ -187,19 +194,24 @@ table.sg td.m{background:#bcd0ff}
     <button class="btn" id="a3-concl-btn" style="margin-left:auto">Ce qu'on retient</button>
   </div>
   <div class="concl" id="a3-concl" hidden>
-    <p>Le produit de <b>deux nombres négatifs</b> est <b>positif</b>. D'où la <b>règle des signes</b> :</p>
-    <div class="signes">
-      <table class="sg" aria-label="Règle des signes">
-        <tr><th>×</th><th>+</th><th>−</th></tr>
-        <tr><th>+</th><td class="p">+</td><td class="m">−</td></tr>
-        <tr><th>−</th><td class="m">−</td><td class="p">+</td></tr>
-      </table>
-      <div>
-        <p>Même signe : produit <b>positif</b>.</p>
-        <p>Signes contraires : produit <b>négatif</b>.</p>
-        <p>Puis la <span class="gl" data-t="distance-zero">distance à zéro</span> : <span class="num">(−2,5) × (−4) = 10</span>, car <span class="num">2,5 × 4 = 10</span>.</p>
-      </div>
-    </div>
+    <p>Le produit de <b>deux nombres négatifs</b> est <b>positif</b> : <span class="num">(−3) × (−4) = 12</span>.</p>
+    <p>Puis la <span class="gl" data-t="distance-zero">distance à zéro</span>, comme en séance 2 : <span class="num">(−2,5) × (−4) = 10</span>, car <span class="num">2,5 × 4 = 10</span>.</p>
+  </div>
+</section>
+
+<!-- ======================= Activité 4 ======================= -->
+<section class="panel">
+  <h2>Activité 4 · Pour s'en souvenir : les quatre messieurs</h2>
+  <p style="margin:0">Les yeux de chaque monsieur sont les signes des deux facteurs. Est-il content (produit positif) ou pas (produit négatif) ? Réponds avant de cliquer.</p>
+  <div class="scene"><div class="mrs" id="a4"></div></div>
+  <div class="row" style="margin-top:8px">
+    <button class="btn main" id="a4-next">Étape suivante ▶</button>
+    <button class="btn" id="a4-reset">Recommencer</button>
+    <button class="btn" id="a4-concl-btn" style="margin-left:auto">Ce qu'on retient</button>
+  </div>
+  <div class="concl" id="a4-concl" hidden>
+    <p><b>Règle des signes</b> : même signe, produit <b>positif</b> ; signes contraires, produit <b>négatif</b>.</p>
+    <p>Monsieur + + et monsieur − − sont contents. Monsieur + − et monsieur − + ne le sont pas.</p>
   </div>
 </section>
 
@@ -475,6 +487,38 @@ table.sg td.m{background:#bcd0ff}
     next.onclick = function(){ if (etape < lignes.length) { etape++; maj(); } };
     document.getElementById("a3-reset").onclick = function(){ etape = 0; maj(); };
     maj(); bascule("a3");
+  })();
+
+  /* ---------- Activité 4 : les quatre messieurs ---------- */
+  (function(){
+    var MRS = [ ["+", "+"], ["−", "−"], ["+", "−"], ["−", "+"] ];
+    var hote = document.getElementById("a4"), next = document.getElementById("a4-next"), cartes = [];
+    function oeil(x, sg, g){
+      el("path", { d: "M" + (x - 11) + " 58H" + (x + 11), stroke: INK, "stroke-width": 7, "stroke-linecap": "round" }, g);
+      if (sg === "+") el("path", { d: "M" + x + " 47V69", stroke: INK, "stroke-width": 7, "stroke-linecap": "round" }, g);
+    }
+    MRS.forEach(function(m){
+      var content = m[0] === m[1];
+      var d = document.createElement("div"); d.className = "mr"; hote.appendChild(d);
+      var svg = el("svg", { viewBox: "0 0 140 140", role: "img", "aria-label": "Monsieur " + m[0] + " " + m[1] }, d);
+      var tete = el("circle", { cx: 70, cy: 70, r: 60, fill: "#fff", stroke: INK, "stroke-width": 4 }, svg);
+      oeil(48, m[0], svg); oeil(92, m[1], svg);
+      var q = txt({ x: 70, y: 112, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 28, "font-weight": 700, fill: ROUGE }, "?", svg);
+      var bouche = el("path", { d: content ? "M42 92Q70 120 98 92" : "M44 110Q70 86 96 110", fill: "none", stroke: INK, "stroke-width": 6, "stroke-linecap": "round", opacity: 0 }, svg);
+      var nom = document.createElement("b"); nom.textContent = "Monsieur " + m[0] + " " + m[1]; d.appendChild(nom);
+      var r = document.createElement("span"); r.className = "num"; d.appendChild(r);
+      cartes.push({ tete: tete, q: q, bouche: bouche, r: r, m: m, content: content });
+    });
+    var etape = 0;
+    function montre(c, oui){
+      c.q.setAttribute("opacity", oui ? 0 : 1); c.bouche.setAttribute("opacity", oui ? 1 : 0);
+      c.tete.setAttribute("fill", oui ? (c.content ? "#ffe45e" : "#bcd0ff") : "#fff");
+      c.r.textContent = oui ? c.m[0] + " × " + c.m[1] + " = " + (c.content ? "+" : "−") : "";
+    }
+    function maj(){ cartes.forEach(function(c, i){ montre(c, i < etape); }); next.disabled = etape >= cartes.length; }
+    next.onclick = function(){ if (etape < cartes.length) { etape++; maj(); } };
+    document.getElementById("a4-reset").onclick = function(){ etape = 0; maj(); };
+    maj(); bascule("a4");
   })();
 
   /* ---------- astuces / solutions ---------- */
