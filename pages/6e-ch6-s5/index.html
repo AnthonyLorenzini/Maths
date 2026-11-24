@@ -304,6 +304,16 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 .card.mini>li>b.lab{font-size:.9rem}
 .card.mini p{font:600 1.05rem/1.6 var(--f-text)}
 .qs.cards{gap:18px}
+.ind{display:grid;grid-template-columns:8.5em minmax(0,1fr);gap:10px;align-items:center;background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:8px 12px;margin:4px 0 6px;max-width:34em}
+.ind .lab{font:800 .9rem/1.2 var(--f-title);text-transform:uppercase;letter-spacing:.04em;color:var(--amber-ink)}
+.ind p{margin:0;font:700 1.15rem var(--f-num)}
+.rep3{display:flex;flex-wrap:wrap;align-items:center;gap:6px 28px;margin:0;font:600 1.05rem var(--f-text)}
+.rep3 b,.rep3 .hole{font-family:var(--f-num)}
+.ind p.txt{font:600 1.05rem/1.45 var(--f-text)}
+.exemple{border:2px dashed var(--line);border-radius:12px;padding:8px 12px;margin:0 0 12px;max-width:36em}
+.exemple>b{font:700 .9rem var(--f-text);color:var(--muted)}
+@media (max-width:560px){.ind{grid-template-columns:minmax(0,1fr);gap:2px}}
+
 .idc{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:6px}
 .idc>div{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:6px 10px}
 .idc .lab{display:block;font:800 .8rem/1.2 var(--f-title);text-transform:uppercase;letter-spacing:.04em;color:var(--amber-ink)}
@@ -388,14 +398,16 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
   </section>
 
   <section class="ex" id="ex3">
-    <div class="ex-h"><h2>Exercice 3 <small>la carte mystère</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="consigne">On ne voit qu'une ligne de la carte. Retrouve le quotient : écris la fraction, puis son écriture à virgule.</p>
+    <div class="ex-h"><h2>Exercice 3 <small>la division cachée</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Chaque carte donne un <b>indice</b>. Retrouve la <b>division</b> cachée, puis son <b>résultat</b>.</p>
+    <div class="exemple"><b>Exemple</b><div class="ind"><b class="lab">Indice</b><p>1,5 × 2 = 3</p></div><p class="rep3"><span>Division : <b>3 ÷ 2</b></span><span>Résultat : <b>1,5</b></span></p></div>
     <ol class="qs" type="a">
-      <li><ol class="card mini"><li><b class="lab">Poser la division</b><div><p><span class="hole">?</span> ÷ 5 = 2,6</p></div></li></ol>Le quotient : <span class="hole has"><span class="qm">?</span><span class="ans"><span class="fr"><span>13</span><span>5</span></span></span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">2,6</span></span><span class="sol s">On vérifie en multipliant : 2,6 × 5 = 13. Le nombre divisé est 13, donc 13/5 = 2,6.</span></li>
-      <li><ol class="card mini"><li><b class="lab">Le nombre caché</b><div><p><span class="hole">?</span> × 6 = 9</p></div></li></ol>Le quotient : <span class="hole has"><span class="qm">?</span><span class="ans"><span class="fr"><span>9</span><span>6</span></span></span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">1,5</span></span><span class="sol s">Le nombre caché est 9 ÷ 6 = 9/6. 9 ÷ 6 = 1 reste 3 ; 30 ÷ 6 = 5 reste 0 : 1,5.</span></li>
-      <li><ol class="card mini"><li><b class="lab">Vérifier</b><div><p>0,75 × 4 = 3</p></div></li></ol>Le quotient : <span class="hole has"><span class="qm">?</span><span class="ans"><span class="fr"><span>3</span><span>4</span></span></span></span> = <span class="hole has"><span class="qm">?</span><span class="ans">0,75</span></span><span class="sol s">0,75 × 4 = 3, donc 0,75 est le quotient de 3 par 4.</span></li>
-      <li class="pl"><span class="plus">★ Pour aller plus loin</span><ol class="card mini"><li><b class="lab">La famille</b><div><p><span class="tag n">ni l'un ni l'autre</span></p></div></li><li><b class="lab">Indices</b><div><p>On divise par 6. Le quotient est entre 1 et 2.</p></div></li></ol>Le quotient : <span class="hole has"><span class="qm">?</span><span class="ans"><span class="fr"><span>7</span><span>6</span></span>, <span class="fr"><span>8</span><span>6</span></span>, <span class="fr"><span>10</span><span>6</span></span> ou <span class="fr"><span>11</span><span>6</span></span></span></span><span class="sol s">Entre 1 et 2 : 7/6, 8/6, 9/6, 10/6, 11/6. Mais 9/6 = 1,5 est un décimal. Les autres bouclent : 7/6 ≈ 1,17 ; 8/6 ≈ 1,33 ; 10/6 ≈ 1,67 ; 11/6 ≈ 1,83.</span></li>
-      <li class="pl"><span class="plus">★ Pour aller plus loin</span><ol class="card mini"><li><b class="lab">La famille</b><div><p><span class="tag d">décimal</span></p></div></li><li><b class="lab">Indices</b><div><p>On divise par 3. Le quotient n'est pas un entier.</p></div></li></ol>Le quotient : <span class="hole has"><span class="qm">?</span><span class="ans">impossible !</span></span><span class="sol s">En divisant par 3, il reste 0, 1 ou 2. Reste 0 : c'est un entier. Reste 1 : 10 ÷ 3 = 3 reste 1, le reste revient. Reste 2 : 20 ÷ 3 = 6 reste 2, il revient aussi. Un quotient par 3 est donc entier, ou il boucle.</span></li>
+      <li><div class="ind"><b class="lab">Indice</b><p>0,75 × 4 = 3</p></div><p class="rep3"><span>Division : <span class="hole has"><span class="qm">?</span><span class="ans">3 ÷ 4</span></span></span><span>Résultat : <span class="hole has"><span class="qm">?</span><span class="ans">0,75</span></span></span></p><span class="sol s">On vérifie 3 ÷ 4 en multipliant 0,75 par 4. Donc 3 ÷ 4 = 0,75.</span></li>
+      <li><div class="ind"><b class="lab">Indice</b><p><span class="hole">?</span> × 6 = 9</p></div><p class="rep3"><span>Division : <span class="hole has"><span class="qm">?</span><span class="ans">9 ÷ 6</span></span></span><span>Résultat : <span class="hole has"><span class="qm">?</span><span class="ans">1,5</span></span></span></p><span class="sol s">Le nombre caché est 9 ÷ 6. On pose : 9 ÷ 6 = 1 reste 3 ; 30 ÷ 6 = 5 reste 0. Donc 1,5.</span></li>
+      <li><div class="ind"><b class="lab">Indice</b><p>2,6 × 5 = 13</p></div><p class="rep3"><span>Division : <span class="hole has"><span class="qm">?</span><span class="ans">13 ÷ 5</span></span></span><span>Résultat : <span class="hole has"><span class="qm">?</span><span class="ans">2,6</span></span></span></p><span class="sol s">On vérifie 13 ÷ 5 en multipliant 2,6 par 5. Donc 13 ÷ 5 = 2,6.</span></li>
+      <li><div class="ind"><b class="lab">Indice</b><p><span class="hole">?</span> × 8 = 6</p></div><p class="rep3"><span>Division : <span class="hole has"><span class="qm">?</span><span class="ans">6 ÷ 8</span></span></span><span>Résultat : <span class="hole has"><span class="qm">?</span><span class="ans">0,75</span></span></span></p><span class="sol s">Le nombre caché est 6 ÷ 8 = 0,75. C’est le même résultat qu’au a) : deux divisions différentes peuvent donner le même nombre.</span></li>
+      <li class="pl"><span class="plus">★ Pour aller plus loin</span><div class="ind"><b class="lab">Qui suis-je ?</b><p class="txt">Je suis une division <b>par 6</b>. Mon résultat est <b>entre 1 et 2</b>. Ma division <b>boucle</b>.</p></div><p class="rep3"><span>Division : <span class="hole has"><span class="qm">?</span><span class="ans">7 ÷ 6, 8 ÷ 6, 10 ÷ 6 ou 11 ÷ 6</span></span></span></p><span class="sol s">Entre 1 et 2, on peut diviser 7, 8, 9, 10 ou 11 par 6. Mais 9 ÷ 6 = 1,5 s’arrête. Les autres bouclent : 7 ÷ 6 = 1,166… ; 8 ÷ 6 = 1,333… ; 10 ÷ 6 = 1,666… ; 11 ÷ 6 = 1,833…</span></li>
+      <li class="pl"><span class="plus">★ Pour aller plus loin</span><div class="ind"><b class="lab">Qui suis-je ?</b><p class="txt">Je suis une division <b>par 3</b>. Mon résultat est un <b>décimal</b>, mais <b>pas un entier</b>. Est-ce que j’existe ?</p></div><p class="rep3"><span>Réponse : oui ou non ? <span class="hole has"><span class="qm">?</span><span class="ans">non</span></span></span></p><span class="sol s">En divisant par 3, il reste 0, 1 ou 2. Reste 0 : c’est un entier. Reste 1 : 10 ÷ 3 = 3 reste 1, le reste revient. Reste 2 : 20 ÷ 3 = 6 reste 2, il revient aussi. Une division par 3 donne un entier, ou elle boucle.</span></li>
     </ol>
   </section>
 
