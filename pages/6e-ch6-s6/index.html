@@ -308,7 +308,7 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
       <button class="btn" data-k="0">Les minibus<span class="ok">✓</span></button>
       <button class="btn" data-k="1">Les cartes<span class="ok">✓</span></button>
       <button class="btn" data-k="2">Le ruban<span class="ok">✓</span></button>
-      <button class="btn" data-k="3">Le nombre de Lina<span class="ok">✓</span></button>
+      <button class="btn" data-k="3">Les tartes<span class="ok">✓</span></button>
     </div>
     <p class="recit story" id="story" hidden></p>
     <ol class="card" id="steps" aria-live="polite"></ol>
@@ -317,11 +317,11 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
       <div class="tile k0"><b>Les minibus</b><span>?</span></div>
       <div class="tile k1"><b>Les cartes</b><span>?</span></div>
       <div class="tile k2"><b>Le ruban</b><span>?</span></div>
-      <div class="tile k3"><b>Le nombre de Lina</b><span>?</span></div>
+      <div class="tile k3"><b>Les tartes</b><span>?</span></div>
     </div>
     <div class="recit" id="ret" hidden>
       <p><b>Le calcul est le même, la réponse dépend de la question.</b></p>
-      <p>On mesure, ou on demande « environ » : une <b>valeur approchée</b>. On demande « exactement » : la <b>valeur exacte</b>, parfois une fraction.</p>
+      <p>On mesure, ou on demande « environ » : une <b>valeur approchée</b>. On partage tout, exactement : la <b>valeur exacte</b>, parfois une fraction.</p>
       <p>Pour résoudre un problème :</p>
       <ol class="steps3"><li>j'écris la <b>division</b> ;</li><li>je fais le <b>calcul</b> ;</li><li>je relis la question et je <b>réponds par une phrase</b>, avec l'unité. Ma réponse a-t-elle du sens ?</li></ol>
     </div>
@@ -338,7 +338,7 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
       <li>20 enfants vont au cinéma. Une voiture emmène 3 enfants. Combien de voitures faut-il ? <span class="hole has"><span class="qm">?</span><span class="ans"><i>3</i>7 voitures</span></span><span class="sol s">6 voitures emmènent 18 enfants : il en reste 2. Il faut une 7<sup>e</sup> voiture.</span></li>
       <li>3 enfants se partagent 20 billes. Combien de billes a chacun ? Combien en reste-t-il ? <span class="hole has"><span class="qm">?</span><span class="ans"><i>1</i>6 billes, il en reste 2</span></span><span class="sol s">On ne coupe pas une bille : on s'arrête avant la virgule.</span></li>
       <li>Avec ta règle, tu coupes une ficelle de 20 cm en 3 morceaux égaux. Combien mesure un morceau, au millimètre près ? <span class="hole has"><span class="qm">?</span><span class="ans"><i>2</i>≈ 6,7 cm</span></span><span class="sol s">Au millimètre, c'est au dixième de cm : 6,666… ≈ 6,7.</span></li>
-      <li>Quel nombre, multiplié par 3, donne exactement 20 ? <span class="hole has"><span class="qm">?</span><span class="ans"><i>4</i><span class="fr"><span>20</span><span>3</span></span></span></span><span class="sol s">6,7 × 3 = 20,1 : ce n'est pas exactement 20. La fraction, elle, marche : <span class="fr"><span>20</span><span>3</span></span> × 3 = 20.</span></li>
+      <li>3 enfants se partagent 20 crêpes. On coupe celles qui restent pour que chacun ait exactement la même quantité. Combien de crêpes a chacun ? <span class="hole has"><span class="qm">?</span><span class="ans"><i>4</i><span class="fr"><span>20</span><span>3</span></span>&nbsp;crêpes</span></span><span class="sol s">6 crêpes chacun, il en reste 2, qu'on coupe en 3 : chacun a 6 crêpes et <span class="fr"><span>2</span><span>3</span></span>, soit <span class="fr"><span>20</span><span>3</span></span>. Les crêpes se coupent, les billes non !</span></li>
     </ol>
   </section>
 
@@ -363,12 +363,12 @@ return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squares
 
   <section class="ex" id="ex3">
     <div class="ex-h"><h2>Exercice 3 <small>ça a du sens ?</small></h2><button class="btn" data-sol>Correction</button></div>
-    <p class="consigne">Noé a bien calculé, mais a-t-il bien répondu ? Écris « juste » ou « faux ». Si c'est faux, corrige.</p>
+    <p class="consigne">Noé a-t-il bien répondu ? Écris « juste » ou « faux ». Si c'est faux, corrige.</p>
     <ol class="qs" type="a">
-      <li>50 élèves, des minibus de 12 places. Combien de minibus faut-il ? <b>Noé :</b> <span class="say">« 4,17 minibus. »</span><span class="hole has"><span class="qm">?</span><span class="ans">faux : 5 minibus</span></span><span class="sol s">On ne coupe pas un minibus ! Il en faut 5 pour que tout le monde ait une place.</span></li>
-      <li>50 cartes, des paquets de 12. Combien de paquets complets ? <b>Noé :</b> <span class="say">« 5 paquets. »</span><span class="hole has"><span class="qm">?</span><span class="ans">faux : 4 paquets</span></span><span class="sol s">5 paquets de 12, c'est 60 cartes : Léo n'en a que 50. Il fait 4 paquets, et il reste 2 cartes.</span></li>
-      <li>Quel nombre, multiplié par 3, donne exactement 10 ? <b>Noé :</b> <span class="say">« 3,33. »</span><span class="hole has"><span class="qm">?</span><span class="ans">faux : <span class="fr"><span>10</span><span>3</span></span></span></span><span class="sol s">3,33 × 3 = 9,99 : ce n'est pas exactement 10. La réponse exacte est la fraction.</span></li>
-      <li>Un ruban de 6 m coupé en 4 morceaux égaux. Combien mesure un morceau ? <b>Noé :</b> <span class="say">« 1,5 m. »</span><span class="hole has"><span class="qm">?</span><span class="ans">juste</span></span><span class="sol s">6 ÷ 4 = 1,5, et 1,5 × 4 = 6.</span></li>
+      <li>Un livre a 100 pages. Lou lit 30 pages par jour. En combien de jours finit-elle le livre ? <b>Noé :</b> <span class="say">« 100 ÷ 30 = 3, il reste 10 : 3 jours. »</span><span class="hole has"><span class="qm">?</span><span class="ans">faux : 4 jours</span></span><span class="sol s">Après 3 jours, il reste 10 pages à lire : il faut un 4<sup>e</sup> jour.</span></li>
+      <li>Un fleuriste a 70 roses. Il fait des bouquets de 12 roses. Combien de bouquets fait-il ? <b>Noé :</b> <span class="say">« 70 ÷ 12 = 5, il reste 10 : 10 bouquets. »</span><span class="hole has"><span class="qm">?</span><span class="ans">faux : 5 bouquets</span></span><span class="sol s">Noé a répondu avec le reste ! 10, ce sont les roses en trop. Il fait 5 bouquets.</span></li>
+      <li>45 photos dans un album, 6 photos par page. Combien de pages pleines ? <b>Noé :</b> <span class="say">« 6 pages pleines, il reste 9 photos. »</span><span class="hole has"><span class="qm">?</span><span class="ans">faux : 7 pages</span></span><span class="sol s">Avec 9 photos, on remplit encore une page : le reste doit être plus petit que 6. 7 pages pleines, il reste 3 photos.</span></li>
+      <li>5 enfants se partagent 24 biscuits, sans les casser. Combien de biscuits a chacun ? <b>Noé :</b> <span class="say">« 4 biscuits chacun, il en reste 4. »</span><span class="hole has"><span class="qm">?</span><span class="ans">juste</span></span><span class="sol s">5 × 4 = 20, il reste 4 biscuits, et 4 est plus petit que 5.</span></li>
     </ol>
   </section>
 
@@ -421,10 +421,21 @@ function rule(){ /* un morceau de 50/12 cm posé sur une règle graduée en mill
   s+=`<line x1="${x0+420}" x2="${x0+420}" y1="56" y2="114" stroke="${hi}" stroke-width="3"/>`+T(x0+420,156,'4,2 cm',`font-size="15" font-weight="700" fill="${hi}"`);
   return s+'</svg>';
 }
-const tries=()=>`<div class="tries">
-  <p><span class="num">4,2 × 12 = 50,4</span><b class="vf f">✗ trop grand</b></p>
-  <p><span class="num">4,17 × 12 = 50,04</span><b class="vf f">✗ presque !</b></p>
-  <p><span class="num">${f(50,12)} × 12 = 50</span><b class="vf t">✓ exactement</b></p></div>`;
+function tarts(){ /* 50 tartes pour 12 tables : 4 tartes entières + 2/12 de tarte (une part dans chacune des 2 tartes qui restent) */
+  let s=`<svg viewBox="0 0 560 150" role="img" aria-label="une table reçoit 4 tartes entières, plus une part de 1/12 dans chacune des 2 tartes qui restent">`;
+  const tarte=(cx,cy,r,parts,on)=>{let t=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${parts?paper:fill}" stroke="${ink}" stroke-width="2"/>`;
+    if(parts){for(let k=0;k<12;k++){const a=(k*30-90)*Math.PI/180,b=((k+1)*30-90)*Math.PI/180;
+      if(k===on)t+=`<path d="M${cx} ${cy}L${(cx+r*Math.cos(a)).toFixed(1)} ${(cy+r*Math.sin(a)).toFixed(1)}A${r} ${r} 0 0 1 ${(cx+r*Math.cos(b)).toFixed(1)} ${(cy+r*Math.sin(b)).toFixed(1)}Z" fill="${fill}" stroke="${hi}" stroke-width="2.4"/>`;
+      t+=`<line x1="${cx}" y1="${cy}" x2="${(cx+r*Math.cos(a)).toFixed(1)}" y2="${(cy+r*Math.sin(a)).toFixed(1)}" stroke="${ink}" stroke-width="1"/>`;}
+      t+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${ink}" stroke-width="2"/>`;}
+    return t;};
+  for(let k=0;k<4;k++)s+=tarte(34+(k%2)*64,38+Math.floor(k/2)*62,27,0);
+  s+=T(66,146,'4 tartes entières',`font-size="13" fill="${ink}"`);
+  s+=T(178,74,'+',`font-size="34" fill="${ink}"`);
+  s+=tarte(270,66,52,1,0)+tarte(400,66,52,1,0);
+  s+=T(335,146,'les 2 tartes qui restent, coupées en 12 : une part dans chacune',`font-size="13" fill="${hi}"`);
+  return s+'</svg>';
+}
 
 /* ---------- la division posée (même calcul, partie utile surlignée) ---------- */
 const DIV_E=`<pre class="div" aria-label="50 divisé par 12 : 4, il reste 2"> 50 | 12\n-48 |----\n  <mark class="r">2</mark> | <mark class="hl">4</mark></pre>`;
@@ -443,10 +454,10 @@ const H=[
   div:'On partage 50 cm en 12 parts égales.',
   calc:DIV_D(1,0),calcTxt:'On continue après la virgule : 50 ÷ 12 = 4,16…',
   fig:rule,rep:'Un morceau mesure environ 4,2 cm.',tag:'Valeur approchée',why:'La règle ne mesure pas plus fin que le millimètre (0,1 cm). Le bout du morceau tombe entre 4,1 et 4,2 cm, plus près de 4,2.',tile:'≈ 4,2 cm'},
- {story:'Lina pense à un nombre. Elle le multiplie par 12 et trouve <mark class="kw">exactement</mark> 50. <b>Quel est son nombre&nbsp;?</b>',
-  div:'On cherche le nombre caché de ? × 12 = 50.',
-  calc:DIV_D(0,1),calcTxt:'Le reste 8 revient : la division ne s\'arrête jamais. 50 ÷ 12 = 4,166…',
-  fig:tries,rep:`Le nombre de Lina est ${f(50,12)}.`,tag:'Valeur exacte : une fraction',why:'Aucun nombre à virgule ne donne exactement 50. Seule la fraction marche.',tile:`${f(50,12)}`}
+ {story:'La cantine a 50 tartes pour 12 tables. Chaque table doit avoir <mark class="kw">exactement</mark> la même quantité de tarte. <b>Combien de tartes reçoit chaque table&nbsp;?</b>',
+  div:'On partage 50 tartes entre 12 tables.',
+  calc:DIV_E,calcTxt:`Chaque table reçoit 4 tartes, et il reste 2 tartes. On les partage aussi entre les 12 tables : 2 ÷ 12 = ${f(2,12)}.`,
+  fig:tarts,rep:`Chaque table reçoit 4 tartes et ${f(2,12)} de tarte, soit ${f(50,12)} de tarte.`,tag:'Valeur exacte : une fraction',why:'« 4,17 tartes », on ne sait pas le couper ! La fraction dit comment faire : on coupe chaque tarte qui reste en 12 parts.',tile:`${f(50,12)} de tarte`}
 ];
 const LAB=['1. La division','2. Le calcul','3. La réponse'];
 let cur=-1,step=0;const done=new Set();
