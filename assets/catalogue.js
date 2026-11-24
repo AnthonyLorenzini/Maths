@@ -223,7 +223,7 @@ window.SITE = {
                 "On partage une forme (rectangle, grille, disque) en parts égales et on colorie la fraction demandée.",
                 "Défi de la tablette : colorier une grille avec 4 couleurs pour obtenir 4 parts égales. Il existe plusieurs façons de le faire."
               ],
-              ressources: ["atelier-partages"],
+              ressources: ["6e-ch3-s1", "atelier-partages"],
               retenir: [
                 "Dans la fraction **a/b**, le **dénominateur b** est le nombre de parts égales de l'unité, le **numérateur a** est le nombre de parts prises.",
                 "Des parts égales ont la même taille, pas forcément la même forme.",
@@ -238,7 +238,7 @@ window.SITE = {
                 "On lit et on place des fractions sur une demi-droite graduée, seul puis en équipes.",
                 "Piège à repérer : l'origine n'est pas toujours 0."
               ],
-              ressources: ["course-fractions"],
+              ressources: ["6e-ch3-s2", "course-fractions"],
               retenir: [
                 "L'**unité** est le segment de 0 à 1 : on le partage en autant de parts que le dénominateur.",
                 "Pour placer a/b, on compte **a graduations** depuis l'origine ; chaque graduation vaut 1/b. Le nombre qui repère un point est son **abscisse**.",
@@ -253,7 +253,7 @@ window.SITE = {
                 "On tire une consigne (par exemple « un segment de 8 cm en 4 parts égales »), on la construit à la règle, puis on vérifie avec le chronomètre.",
                 "On s'entraîne ensuite avec le simulateur interactif."
               ],
-              ressources: ["chantier-graduations"],
+              ressources: ["6e-ch3-s3", "chantier-graduations"],
               retenir: [
                 "Pour partager un segment en **N parts égales**, on calcule l'écart entre deux graduations : **longueur ÷ N**.",
                 "On reporte ensuite cet écart de proche en proche, à partir d'une extrémité."
@@ -268,7 +268,7 @@ window.SITE = {
                 "Escape game final : 5 épreuves, un chiffre de code à gagner à chaque épreuve (placer une fraction, graduer, trouver un milieu…).",
                 "Exercices du TD, **page 52**."
               ],
-              ressources: ["course-fractions", "enigme-segment"],
+              ressources: ["6e-ch3-s4", "course-fractions", "enigme-segment"],
               retenir: [
                 "Le **milieu** de [AB] est le point à égale distance de A et de B : il partage le segment en deux parts égales.",
                 "Sur une droite graduée, on compte les graduations entre A et B, puis on **divise par 2**.",
@@ -279,6 +279,10 @@ window.SITE = {
             }
           ],
           ressources: [
+            { id: "6e-ch3-s1", type: "exos", titre: "Séance 1 — Partager en parts égales", resume: "Colorie et lis la fraction, le piège des parts inégales, plus d'une unité et le défi de la tablette. Avec corrections.", ajout: "2026-11-24" },
+            { id: "6e-ch3-s2", type: "exos", titre: "Séance 2 — Placer une fraction sur une demi-droite", resume: "Les sauts de puce : l'unité, partager, compter les sauts. Lire une abscisse, retrouver un point, la droite qui commence à 1. Avec corrections.", ajout: "2026-11-24" },
+            { id: "6e-ch3-s3", type: "exos", titre: "Séance 3 — Graduer un segment", resume: "Le chantier : calculer l'écart, reporter à la règle, vérifier. L'erreur de Nathan et deux fractions sur la même droite. Avec corrections.", ajout: "2026-11-24" },
+            { id: "6e-ch3-s4", type: "exos", titre: "Séance 4 — Le milieu d'un segment et synthèse", resume: "Les deux fourmis, le milieu sur une droite graduée et avec des longueurs, un exercice sur tout le chapitre et la fourmi perdue. Avec corrections.", ajout: "2026-11-24" },
             { id: "atelier-partages", type: "jeu", titre: "L'Atelier des Partages", resume: "Partage une forme, colorie, et regarde la fraction s'écrire.", ajout: "2026-09-22" },
             { id: "course-fractions", type: "jeu", titre: "La Course aux Fractions", resume: "Place le point au bon endroit sur la demi-droite graduée.", ajout: "2026-09-22" },
             { id: "chantier-graduations", type: "jeu", titre: "Le Chantier des Graduations", resume: "Des défis de construction à la règle, chronométrés.", ajout: "2026-09-22" },
