@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}/* Cahier à carreaux : cartes aux coins nets, contour encre */
+.ex{border-color:var(--ink);border-radius:8px}
+</style>
+<title>Séance 3 — Graduer un segment</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<style>
+/* Base commune Leçon 4 — titres condensés, texte Work Sans, nombres Space Mono ; ambre = action, vert = juste, rouge = faux */
+:root{
+  color-scheme:light;
+  --bg:#fffef8; --panel:#ffffff; --paper:#ffffff; --ink:#1b2a5e; --muted:#56608a; --line:#c3d1ec; --grid:#dbe5f6;
+  --amber:#ffc61a; --amber-text:#d62839; --amber-ink:#9c1c2a; --fill:#ffe45e; --fill-2:#fff4b8; --on-amber:#1b2a5e;
+  --ok:#17703f; --ok-bg:#dff5e6; --ko:#b3261e; --ko-bg:#ffe5e2;
+  --blue:#1f56d6; --blue-bg:#e6eeff; --magenta:#b8217a; --magenta-bg:#ffe6f3; --teal:#08766f; --teal-bg:#dcf5f2;
+  --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;color:var(--ink);font:16px/1.5 var(--f-text);padding-inline:16px;padding-block:16px 40px;margin:0}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+h1{font:800 clamp(2.1rem,7vw,3.5rem)/.9 var(--f-title);letter-spacing:.01em;margin:0;text-transform:uppercase;text-wrap:balance}
+h1 span{color:var(--amber-text)}
+h2{font:800 clamp(1.4rem,4.5vw,2rem)/1.05 var(--f-title);text-transform:uppercase;letter-spacing:.02em;margin:0;text-wrap:balance}
+.sub{margin:6px 0 0;color:var(--muted);font-size:.95rem;max-width:70ch}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:2px solid var(--line)}
+.tabs button{font:700 1.1rem var(--f-title);letter-spacing:.06em;text-transform:uppercase;background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;border-bottom:4px solid transparent;margin-bottom:-2px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--amber)}
+@media (max-width:440px){.tabs button{padding:8px 8px;font-size:1rem}}
+.seg{display:inline-flex;flex-wrap:wrap;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.seg button{font:600 .9rem var(--f-text);background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;min-height:40px}
+.seg button[aria-pressed="true"]{background:var(--amber);color:var(--on-amber)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:8px 14px;cursor:pointer;min-height:42px}
+.btn:hover{border-color:var(--amber)}
+.btn.main{background:var(--amber);border-color:var(--amber);color:var(--on-amber)}
+.btn:disabled{opacity:.45;cursor:default}
+button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:14px 16px}
+.hint{color:var(--muted);font-size:.9rem;margin:0}
+.recit{margin:0;padding:12px 16px;background:var(--panel);border-left:4px solid var(--amber);border-radius:0 8px 8px 0;max-width:75ch}
+.num{font-family:var(--f-num);font-weight:700}
+.fr{display:inline-flex;flex-direction:column;align-items:center;font:700 1em var(--f-num);line-height:1.05;vertical-align:middle}
+.fr>span:first-child{border-bottom:.09em solid currentColor;padding:0 .15em}
+.msg{min-height:1.5em;font-weight:600;margin:0}
+.msg.ok{color:var(--ok)}.msg.ko{color:var(--ko)}
+input.ans{font:700 1.25rem var(--f-num);text-align:center;border:2px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:6px 4px;width:6em;max-width:100%}
+input.ans:focus{outline:none;border-color:var(--amber)}
+input.ans.ok{border-color:var(--ok);background:var(--ok-bg)}
+input.ans.ko{border-color:var(--ko);background:var(--ko-bg)}
+.lvl{font:600 .85rem var(--f-text);color:var(--muted)}
+/* équipes */
+.teams{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.teams{grid-template-columns:minmax(0,1fr)}}
+.team{border:2px solid var(--tc);border-radius:12px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column}
+.team.t0{--tc:var(--blue);--tb:var(--blue-bg)}.team.t1{--tc:var(--magenta);--tb:var(--magenta-bg)}.team.t2{--tc:var(--teal);--tb:var(--teal-bg)}
+.team .th{background:var(--tb);display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px}
+.team .tn{font:800 1.3rem var(--f-title);text-transform:uppercase;letter-spacing:.05em;color:var(--tc)}
+.team .ts{font:700 1.5rem var(--f-num);color:var(--tc)}
+.team .tb{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.team .draw{display:flex;align-items:center;gap:10px}
+.team .draw button{font:600 .85rem var(--f-text);border:2px solid var(--tc);color:var(--tc);background:none;border-radius:8px;padding:6px 10px;cursor:pointer;min-height:38px}
+.team .who{font:700 1.4rem var(--f-num);color:var(--tc);min-width:2ch}
+.team.turn{box-shadow:0 0 0 4px var(--tc)}
+.team.win{animation:pop .5s}
+.team .res{font-weight:600;min-height:1.4em}
+.team .res.ok{color:var(--ok)}.team .res.ko{color:var(--ko)}
+@keyframes pop{50%{transform:scale(1.04)}}
+.settings{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:.85rem;color:var(--muted)}
+.settings input{width:4em;font:700 .95rem var(--f-num);border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:3px 6px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.team .slot:empty,.team .res:empty{display:none}
+.teams.compact{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.teams.compact .th{flex-direction:column;align-items:flex-start;gap:0;padding:6px 10px}
+.teams.compact .tn{font-size:1.05rem}
+.teams.compact .ts{font-size:1.3rem}
+.teams.compact .tb{padding:6px 10px}
+.teams.compact .draw{flex-wrap:wrap;gap:4px 8px}
+.teams.compact .draw button{padding:4px 8px;min-height:32px;font-size:.8rem}
+.teams.compact .who{font-size:1.1rem}
+@media (max-width:420px){.teams.compact .tn{font-size:.9rem;letter-spacing:.02em}}
+.pane{display:flex;flex-direction:column;gap:16px;min-width:0}
+.grp{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:100%}
+</style>
+<style>
+/* ---- séance 6e ch.6 : page légère, une figure à la fois ---- */
+.ex{display:flex;flex-direction:column;gap:12px;padding-top:8px;border-top:2px solid var(--line)}
+.ex-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px}
+.ex-h h2 small{font:600 .9rem var(--f-text);text-transform:none;letter-spacing:0;color:var(--muted);margin-left:.4em}
+.consigne{margin:0;max-width:70ch;font-size:1.05rem}
+.fig{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.fig svg{display:block;width:100%;height:auto;max-width:760px}
+.ex:not(.show) .sol,.ex:not(.show) .ans{display:none!important}
+.ex.show .q{display:none}
+.s{color:var(--ok);font-weight:600}
+.qs{margin:0;padding-left:1.5em;display:flex;flex-direction:column;gap:10px;max-width:75ch}
+.qs li::marker{font-weight:700;color:var(--amber-ink)}
+.qs .sol{display:block}
+.qs.big{padding-left:2.4em}
+.qs.big li{font:700 1.4rem var(--f-num);padding-block:2px}
+.qs.big .sol{font:600 1rem var(--f-text)}
+.qs.big .sol.in,.qs .sol.in{display:inline;font:800 1.4rem var(--f-num);color:var(--ok);background:var(--ok-bg);border-radius:8px;padding:0 .35em}
+.qs.big .fr{font-size:1.05em}
+.hole{display:inline-flex;align-items:center;justify-content:center;min-width:1.35em;height:1.35em;background:var(--amber);color:var(--on-amber);border-radius:8px;border:3px solid var(--ink);font-weight:800}
+.cas{display:flex;flex-wrap:wrap;gap:10px}
+.cas .btn{font-size:1.05rem;padding:10px 16px}
+.pas{display:flex;flex-wrap:wrap;gap:10px}
+.res{margin:0;display:flex;flex-direction:column;gap:6px}
+.res .eq{font:800 clamp(1.9rem,7vw,2.8rem)/1.15 var(--f-num);margin:0;min-height:1.2em}
+.res .eq .fr{font-size:1.05em}
+.res .ver{margin:0;font-size:1.05rem}
+.mach .tok{transition:opacity .45s}
+.mach .tok.off{opacity:0}
+.mach .arr.off{opacity:.18}
+.hole .ans{display:none}
+.ex.show .hole.has{background:var(--ok-bg);border-color:var(--ok);color:var(--ok);padding:0 .3em;height:auto;min-height:1.35em}
+.ex.show .hole.has .qm{display:none}
+.ex.show .hole.has .ans{display:inline-flex;align-items:center}
+.hole.has .fr{font-size:.8em}
+.qs:not(.big) .hole.has .fr{font-size:1.05em}
+.num{white-space:nowrap}
+/* ---- séance 3 : division posée + barre ---- */
+.div{margin:0;font:700 clamp(1.05rem,4.6vw,1.35rem)/1.3 var(--f-num);background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:10px 16px;white-space:pre;align-self:center;max-width:100%;overflow-x:auto}
+.div mark.nw{background:var(--fill-2);color:inherit;border-radius:3px}
+.mk{padding:0 .3em;border-radius:5px;font-weight:600;color:var(--ink)}
+.recit p{margin:0 0 6px}.recit p:last-child{margin:0}
+.recit pre.div{margin:8px 0 0;align-self:flex-start}
+.fig.col{gap:10px;padding:10px}
+.anim{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start}
+@media (max-width:760px){.anim{grid-template-columns:minmax(0,1fr)}.anim .div{justify-self:center}}
+.div mark.z{background:var(--amber);color:var(--on-amber);border-radius:3px}
+.div .qt{color:var(--amber-ink)}
+#bver{min-height:3.2em;margin:0;font-size:1.05rem}
+#bfig svg{max-width:none}
+.pc{transition:transform .6s cubic-bezier(.4,.1,.2,1)}
+.nt .pc,.pc.nt{transition:none!important}
+.pc line{stroke:#c99a70;stroke-width:1.2;stroke-dasharray:3 3;stroke-opacity:.6;transition:all .3s}
+.pc.cut line{stroke:var(--amber);stroke-width:3;stroke-dasharray:none;stroke-opacity:1}
+@media (prefers-reduced-motion:reduce){.pc,.pc line{transition:none}}
+#beq{font:800 clamp(1.9rem,7vw,2.8rem)/1.15 var(--f-num);margin:0;min-height:0}#beq .fr{font-size:1.05em}
+.pc.cut rect{stroke:var(--amber)}
+.loupe{transition:transform 1s cubic-bezier(.3,.1,.2,1),opacity .5s}
+.loupe.nolab .ll{opacity:0}
+.loupe .ll{transition:opacity .4s}
+.ex3{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.div.sm{font-size:1rem;padding:6px 12px;align-self:flex-start;margin:0}
+.rep{display:flex;flex-direction:column;gap:10px;font-weight:600}
+.rep span{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+@media (max-width:440px){.div.sm{font-size:.82rem;padding:4px 8px}.ex3{gap:8px 10px}.rep{font-size:.9rem;gap:8px}}
+</style>
+<style>/* ---- séances fractions 6e ---- */
+.fig svg{max-width:720px}
+.ex .sol.bloc{display:block;margin:0;max-width:75ch}
+.ex:not(.show) .sol.bloc,.ex:not(.show) .solfig{display:none!important}
+.defi{border:2px dashed var(--amber);border-radius:12px;padding:12px 14px;background:var(--panel)}
+.formes{display:flex;flex-wrap:wrap;gap:16px 26px;list-style:none;padding:0;margin:0}
+.formes li{display:flex;flex-direction:column;align-items:center;gap:6px;font:700 1.15rem var(--f-num)}
+.formes li>b{font:800 1.15rem var(--f-title);color:var(--amber-ink);align-self:flex-start}
+.formes svg{height:96px;width:auto;max-width:100%}
+.formes .sol{font:600 .9rem var(--f-text);max-width:15em;text-align:center}
+.pts{display:flex;flex-wrap:wrap;gap:10px 26px;list-style:none;padding:0;margin:0;font:700 1.25rem var(--f-num)}
+.pts li{display:flex;align-items:center;gap:6px}
+.pts li b{font:800 1.25rem var(--f-title);color:var(--amber-ink)}
+.solfig{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center}
+.solfig [data-forme] svg{height:70px;width:auto;max-width:100%}
+.solfig [data-droite]{display:block;width:min(420px,100%)}
+.solfig figure{width:min(420px,100%)}
+.solfig [data-droite] svg,.solfig figure>svg{height:auto;width:100%}
+.solfig figure{margin:0;display:flex;flex-direction:column;gap:4px;font:600 .9rem var(--f-text);color:var(--ok)}
+.dial{display:flex;flex-direction:column;gap:6px;font:500 1.05rem var(--f-text)}
+.dial .bulle{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:6px 12px;align-self:flex-start}
+.dial .bulle b{color:var(--amber-ink)}
+#ver{min-height:3.2em;margin:0;font-size:1.05rem}
+.big-fr{font:800 clamp(2rem,7vw,2.8rem)/1.1 var(--f-num);display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:0}
+.big-fr .fr{font-size:1em}
+.alerte{color:var(--ko);font-weight:700}
+.saut{opacity:0;animation:apparait .3s forwards}
+@keyframes apparait{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.saut{animation:none;opacity:1}}
+div[data-forme]{max-width:240px}
+div[data-forme] svg{width:100%;height:auto}
+</style>
+<style>
+.etapes{display:flex;gap:6px;flex-wrap:wrap;font:600 .85rem var(--f-text);color:var(--muted)}
+.etapes span{border:2px solid var(--line);border-radius:999px;padding:2px 10px;background:var(--panel)}
+.etapes span.on{background:var(--amber);border-color:var(--amber);color:var(--on-amber)}
+.calc{font:800 clamp(1.5rem,5vw,2.2rem)/1.2 var(--f-num);margin:0;min-height:1.2em}
+.calc mark{background:var(--fill);color:inherit;border-radius:6px;padding:0 .2em}
+.tick{opacity:0;animation:apparait .25s forwards}
+</style>
+<div class="wrap">
+  <header class="top">
+    <div><h1>Graduer <span>un segment</span></h1>
+    <p class="sub">Chapitre 3, séance 3</p></div>
+  </header>
+
+  <section class="ex" id="act">
+    <div class="ex-h"><h2>Activité <small>le chantier</small></h2></div>
+    <p class="consigne">Choisis une commande, puis clique sur « Étape suivante » : on gradue le segment à la règle.</p>
+    <div class="cas" id="cas">
+      <button class="btn" data-l="8" data-n="4">8 cm en 4 parts</button>
+      <button class="btn" data-l="6" data-n="3">6 cm en 3 parts</button>
+      <button class="btn" data-l="10" data-n="5">10 cm en 5 parts</button>
+      <button class="btn" data-l="12" data-n="2">12 cm en 2 parts</button>
+    </div>
+    <div class="etapes" id="etapes"><span>1. l'écart</span><span>2. reporter</span><span>3. vérifier</span></div>
+    <div class="fig" id="fig"></div>
+    <p class="calc" id="calc"></p>
+    <p id="ver" aria-live="polite"></p>
+    <div class="pas"><button class="btn main" id="next">Étape suivante</button><button class="btn" id="again">Recommencer</button></div>
+    <div class="recit" id="ret" hidden>
+      <p>1. Pour partager un segment en <b>N parts égales</b>, je calcule l'écart entre deux graduations : <b>longueur ÷ N</b>.</p>
+      <p>2. Je pose la règle avec le 0 sur une extrémité, et je marque un trait tous les « écart » cm.</p>
+      <p>3. Je vérifie : N parts × l'écart = la longueur du segment.</p>
+    </div>
+  </section>
+
+  <p class="hint">Dans ton cahier : le numéro de l'exercice, la lettre et ta réponse, sans recopier.</p>
+
+  <section class="ex" id="ex1">
+    <div class="ex-h"><h2>Exercice 1 <small>l'écart</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">On veut graduer chaque segment en parts égales. Calcule l'écart entre deux graduations.</p>
+    <ol class="qs" type="a" style="font:700 1.2rem var(--f-num)">
+      <li>12 cm en 3 parts : <span class="hole has"><span class="qm">?</span><span class="ans">4 cm</span></span><span class="sol s">12 ÷ 3 = 4.</span></li>
+      <li>10 cm en 5 parts : <span class="hole has"><span class="qm">?</span><span class="ans">2 cm</span></span><span class="sol s">10 ÷ 5 = 2.</span></li>
+      <li>15 cm en 5 parts : <span class="hole has"><span class="qm">?</span><span class="ans">3 cm</span></span><span class="sol s">15 ÷ 5 = 3.</span></li>
+      <li>14 cm en 7 parts : <span class="hole has"><span class="qm">?</span><span class="ans">2 cm</span></span><span class="sol s">14 ÷ 7 = 2.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex2">
+    <div class="ex-h"><h2>Exercice 2 <small>à la règle</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Dans ton cahier, trace le segment à la règle et gradue-le. Écris aussi à combien de cm de A tu as mis chaque trait.</p>
+    <ol class="qs" type="a">
+      <li>[AB] de <b>6 cm</b>, en <b>3</b> parts égales. Traits à : <span class="hole has"><span class="qm">?</span><span class="ans">2 cm et 4 cm</span></span><span class="sol s">6 ÷ 3 = 2 cm : un trait à 2 cm, un autre à 4 cm.</span></li>
+      <li>[AB] de <b>8 cm</b>, en <b>4</b> parts égales. Traits à : <span class="hole has"><span class="qm">?</span><span class="ans">2, 4 et 6 cm</span></span><span class="sol s">8 ÷ 4 = 2 cm : des traits à 2, 4 et 6 cm.</span></li>
+    </ol>
+    <div class="solfig" id="sol2"></div>
+  </section>
+
+  <section class="ex" id="ex3">
+    <div class="ex-h"><h2>Exercice 3 <small>trouve l'erreur</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Nathan devait graduer un segment de 12 cm en <b>4</b> parts égales. Voici son travail.</p>
+    <div class="fig" id="nathan"></div>
+    <ol class="qs" type="a">
+      <li>Combien de parts Nathan a-t-il obtenues ? <span class="hole has"><span class="qm">?</span><span class="ans">3</span></span><span class="sol s">Il a mis un trait tous les 4 cm : 3 parts de 4 cm.</span></li>
+      <li>Quel écart fallait-il ? <span class="hole has"><span class="qm">?</span><span class="ans">3 cm</span></span><span class="sol s">12 ÷ 4 = 3 cm. Nathan a pris le nombre de parts (4) pour l'écart.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex4">
+    <div class="ex-h"><h2>Exercice 4 <small>dans l'autre sens</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Cette fois, on connaît l'écart. Réponds à chaque question.</p>
+    <ol class="qs" type="a">
+      <li>Un segment est gradué en 5 parts de 3 cm. Quelle est sa longueur ? <span class="hole has"><span class="qm">?</span><span class="ans">15 cm</span></span><span class="sol s">5 × 3 = 15 cm.</span></li>
+      <li>Un segment de 18 cm a un trait tous les 6 cm. En combien de parts est-il partagé ? <span class="hole has"><span class="qm">?</span><span class="ans">3</span></span><span class="sol s">18 ÷ 6 = 3 parts.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex defi" id="ex5">
+    <div class="ex-h"><h2>Défi <small>deux fractions sur la même droite</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Dans ton cahier, trace une demi-droite. L'unité mesure <b>12 carreaux</b>. Place <span class="fr"><span>1</span><span>4</span></span> et <span class="fr"><span>2</span><span>3</span></span>.</p>
+    <ol class="qs" type="a">
+      <li><span class="fr"><span>1</span><span>4</span></span> est à combien de carreaux de 0 ? <span class="hole has"><span class="qm">?</span><span class="ans">3</span></span><span class="sol s">12 ÷ 4 = 3 carreaux par quart : 1 quart = 3 carreaux.</span></li>
+      <li><span class="fr"><span>2</span><span>3</span></span> est à combien de carreaux de 0 ? <span class="hole has"><span class="qm">?</span><span class="ans">8</span></span><span class="sol s">12 ÷ 3 = 4 carreaux par tiers : 2 tiers = 8 carreaux.</span></li>
+    </ol>
+    <div class="solfig"><span data-droite='{"d":12,"n":1,"W":420,"lab":[0,12],"pts":[[3,"1/4"],[8,"2/3"]]}' style="width:min(420px,100%)"></span></div>
+  </section>
+</div>
+
+<script>
+(function(){
+/* ---- outils communs : séances fractions 6e ---- */
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const FR=(n,d)=>`<span class="fr"><span>${n}</span><span>${d}</span></span>`;
+const FONT_N='Space Mono, monospace',FONT_T='Big Shoulders Display, Arial Narrow, sans-serif';
+/* fraction dessinée en SVG (texte empilé) */
+function frSVG(x,y,n,d,size=17,color='var(--ink)'){
+  const w=Math.max(String(n).length,String(d).length)*size*.62+6;
+  return `<text x="${x}" y="${y}" text-anchor="middle" font-family="${FONT_N}" font-weight="700" font-size="${size}" fill="${color}">${n}</text>`+
+         `<line x1="${x-w/2}" x2="${x+w/2}" y1="${y+5}" y2="${y+5}" stroke="${color}" stroke-width="2"/>`+
+         `<text x="${x}" y="${y+5+size}" text-anchor="middle" font-family="${FONT_N}" font-weight="700" font-size="${size}" fill="${color}">${d}</text>`;
+}
+/* demi-droite graduée
+   o = {d: parts par unité, n: unités affichées, s: origine (en parts, défaut 0), lab: 'unites' | [valeurs en parts] | 'fr',
+        pts: [[parts, lettre, couleur]], sauts: [de, à] (arcs), hl: [de, à], W } */
+function droite(o){
+  const W=o.W||520,m=30,y0=o.y0||70,H=o.H||(o.lab==='fr'?140:120),s=o.s||0,e=s+o.d*o.n;
+  const X=v=>m+(W-2*m-16)*(v-s)/(e-s);
+  let g=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="demi-droite graduée">`;
+  if(o.hl){const a=X(o.hl[0]),b=X(o.hl[1]);g+=`<rect x="${a}" y="${y0-22}" width="${b-a}" height="44" rx="6" fill="var(--fill-2)"/>`;}
+  g+=`<line x1="${X(s)}" x2="${W-m+6}" y1="${y0}" y2="${y0}" stroke="var(--ink)" stroke-width="2.5"/><path d="M${W-m+4} ${y0-6} L${W-m+12} ${y0} L${W-m+4} ${y0+6}" fill="var(--ink)"/>`;
+  if(o.sauts){const [a,b]=o.sauts;for(let k=a;k<b;k++){const x1=X(k),x2=X(k+1),mx=(x1+x2)/2;
+    g+=`<path d="M${x1} ${y0-4} Q${mx} ${y0-34} ${x2} ${y0-4}" fill="none" stroke="var(--amber-text)" stroke-width="2" ${o.anim?`class="saut" style="animation-delay:${(k-a)*.35}s"`:''}/>`;
+    g+=`<text x="${mx}" y="${y0-30}" text-anchor="middle" font-family="${FONT_N}" font-weight="700" font-size="12" fill="var(--amber-ink)" ${o.anim?`class="saut" style="animation-delay:${(k-a)*.35}s"`:''}>${k-a+1}</text>`;}}
+  for(let v=s;v<=e;v++){const x=X(v),big=v%o.d===0;if(o.grosSeul&&!big)continue;
+    g+=`<line x1="${x}" x2="${x}" y1="${y0-(big?14:8)}" y2="${y0+(big?14:8)}" stroke="var(--ink)" stroke-width="${big?2.5:1.6}"/>`;
+    const lab=o.lab==='fr'?true:Array.isArray(o.lab)?o.lab.includes(v):big;
+    if(lab){ if(o.lab==='fr'&&!big)g+=frSVG(x,y0+36,v,o.d,15);
+      else g+=`<text x="${x}" y="${y0+38}" text-anchor="middle" font-family="${FONT_N}" font-weight="700" font-size="18" fill="var(--ink)">${big?v/o.d:FRtxt(v,o.d)}</text>`;}}
+  (o.pts||[]).forEach(([v,l,c])=>{c=c||'var(--amber-text)';const x=X(v);
+    g+=`<circle cx="${x}" cy="${y0}" r="7" fill="${c}" stroke="var(--panel)" stroke-width="2"/>`;
+    if(l)g+=`<text x="${x}" y="${y0-20}" text-anchor="middle" font-family="${FONT_T}" font-weight="800" font-size="24" fill="${c}">${l}</text>`;});
+  return g+'</svg>';
+}
+const FRtxt=(n,d)=>n+'/'+d;
+/* formes partagées
+   bande : {f:'bande', p: parts, col: [indices], u: nb d'unités}
+   disque : {f:'disque', p, col}
+   grille : {f:'grille', c: colonnes, r: lignes, col:[indices]} */
+function forme(o,size=110){
+  const col=new Set(o.col||[]),fill=i=>col.has(i)?(o.couleur||'var(--amber)'):'var(--paper)';
+  if(o.f==='disque'){const R=size/2-4,c=size/2;let g=`<svg viewBox="0 0 ${size} ${size}" role="img" aria-label="disque partagé en ${o.p} parts">`;
+    for(let i=0;i<o.p;i++){const a1=-Math.PI/2+2*Math.PI*i/o.p,a2=a1+2*Math.PI/o.p,big=o.p===1?1:0;
+      g+=`<path d="M${c} ${c} L${c+R*Math.cos(a1)} ${c+R*Math.sin(a1)} A${R} ${R} 0 ${big} 1 ${c+R*Math.cos(a2)} ${c+R*Math.sin(a2)} Z" fill="${fill(i)}" stroke="var(--ink)" stroke-width="2" data-i="${i}"/>`;}
+    return g+'</svg>';}
+  if(o.f==='grille'){const k=Math.min(26,(size*1.6)/o.c),W=o.c*k+4,H=o.r*k+4;let g=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="tablette de ${o.c*o.r} carrés">`;
+    for(let i=0;i<o.c*o.r;i++){const x=2+(i%o.c)*k,y=2+Math.floor(i/o.c)*k;g+=`<rect x="${x}" y="${y}" width="${k}" height="${k}" fill="${o.couleurs?o.couleurs[i]:fill(i)}" stroke="var(--ink)" stroke-width="1.5" data-i="${i}"/>`;}
+    return g+'</svg>';}
+  /* bande(s) : u unités côte à côte, chacune en p parts */
+  const u=o.u||1,bw=size*1.5,bh=40,gap=14,W=u*bw+(u-1)*gap+4,H=bh+4;let g=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="bande partagée en ${o.p} parts">`;
+  for(let k=0;k<u;k++){const x0=2+k*(bw+gap),w=bw/o.p;
+    for(let i=0;i<o.p;i++)g+=`<rect x="${x0+i*w}" y="2" width="${w}" height="${bh}" fill="${fill(k*o.p+i)}" stroke="var(--ink)" stroke-width="1.6" data-i="${k*o.p+i}"/>`;
+    g+=`<rect x="${x0}" y="2" width="${bw}" height="${bh}" fill="none" stroke="var(--ink)" stroke-width="3" rx="2"/>`;}
+  return g+'</svg>';
+}
+$$('[data-forme]').forEach(el=>el.innerHTML=forme(JSON.parse(el.dataset.forme),+(el.dataset.taille||110)));
+$$('[data-droite]').forEach(el=>el.innerHTML=droite(JSON.parse(el.dataset.droite)));
+/* boutons « Correction » */
+document.addEventListener('click',e=>{const bt=e.target.closest('[data-sol]');if(!bt)return;const s=bt.closest('.ex');const on=s.classList.toggle('show');bt.textContent=on?'Cacher la correction':'Correction';bt.classList.toggle('main',on);bt.setAttribute('aria-pressed',on);});
+
+/* segment à l'échelle avec règle */
+function segment(L,N,opt={}){
+  const W=560,m=30,y0=46,k=(W-2*m)/Math.max(L,12),H=opt.regle?120:90,e=opt.ecart||L/N;
+  let g=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="segment de ${L} cm">`;
+  if(opt.regle){const ry=y0+16;g+=`<rect x="${m-8}" y="${ry}" width="${L*k+16}" height="40" rx="4" fill="#fff4b8" stroke="var(--ink)" stroke-width="1.5" opacity=".95"/>`;
+    for(let c=0;c<=L;c++){const x=m+c*k;g+=`<line x1="${x}" x2="${x}" y1="${ry}" y2="${ry+12}" stroke="var(--ink)" stroke-width="1.4"/><text x="${x}" y="${ry+30}" text-anchor="middle" font-family="${FONT_N}" font-size="12" fill="var(--ink)">${c}</text>`;
+      if(c<L)g+=`<line x1="${x+k/2}" x2="${x+k/2}" y1="${ry}" y2="${ry+6}" stroke="var(--ink)" stroke-width="1"/>`;}}
+  g+=`<line x1="${m}" x2="${m+L*k}" y1="${y0}" y2="${y0}" stroke="var(--ink)" stroke-width="3"/>`;
+  [[0,'A'],[L,'B']].forEach(([c,l])=>{const x=m+c*k;g+=`<line x1="${x}" x2="${x}" y1="${y0-12}" y2="${y0+12}" stroke="var(--ink)" stroke-width="3"/><text x="${x}" y="${y0-18}" text-anchor="middle" font-family="${FONT_T}" font-weight="800" font-size="22" fill="var(--ink)">${l}</text>`;});
+  if(opt.traits){let i=0;for(let c=e;c<L-1e-9;c+=e){const x=m+c*k;
+    g+=`<line class="${opt.anim?'tick':''}" style="animation-delay:${i*.4}s" x1="${x}" x2="${x}" y1="${y0-10}" y2="${y0+10}" stroke="var(--amber-text)" stroke-width="3"/>`;
+    if(opt.cm)g+=`<text class="${opt.anim?'tick':''}" style="animation-delay:${i*.4}s" x="${x}" y="${y0-16}" text-anchor="middle" font-family="${FONT_N}" font-weight="700" font-size="14" fill="var(--amber-ink)">${c} cm</text>`;i++;}}
+  if(opt.parts){for(let j=0;j<N;j++){const x=m+(j+.5)*e*k;g+=`<text x="${x}" y="${y0+(opt.regle?-16:30)}" text-anchor="middle" font-family="${FONT_N}" font-weight="700" font-size="13" fill="var(--ok)">${e} cm</text>`;}}
+  return g+'</svg>';
+}
+let L=8,N=4,step=0;const vus=new Set();
+function rendu(){
+  const e=L/N;
+  $('#fig').innerHTML=segment(L,N,{regle:step>=1&&step<3,traits:step>=2,anim:step===2,cm:step===2,parts:step===3});
+  $('#calc').innerHTML=step>=1?`${L} cm ÷ ${N} = <mark>${e} cm</mark>`:'';
+  $('#ver').innerHTML=[`Commande : un segment de <b>${L} cm</b> à partager en <b>${N} parts égales</b>. Clique sur « Étape suivante ».`,
+    `<b>L'écart</b> entre deux graduations : on divise la longueur par le nombre de parts.`,
+    `<b>On reporte</b> : la règle commence à A (0 cm), on marque un trait tous les ${e} cm.`,
+    `<b>On vérifie</b> : ${N} parts de ${e} cm, et ${N} × ${e} = ${L} cm. Chaque part est ${FR(1,N)} du segment.`][step];
+  $$('#etapes span').forEach((s,i)=>s.classList.toggle('on',i<step));
+  $('#next').disabled=step>=3;
+  if(step>=3){vus.add(L+'-'+N);if(vus.size>=3)$('#ret').hidden=false;}
+}
+$$('#cas .btn').forEach(b=>b.addEventListener('click',()=>{L=+b.dataset.l;N=+b.dataset.n;step=0;$$('#cas .btn').forEach(x=>x.classList.toggle('main',x===b));rendu();}));
+$('#next').addEventListener('click',()=>{step++;rendu();});
+$('#again').addEventListener('click',()=>{step=0;rendu();});
+$('#cas .btn').classList.add('main');rendu();
+$('#nathan').innerHTML=segment(12,3,{traits:true,ecart:4,cm:true});
+$('#sol2').innerHTML=`<figure style="width:min(100%,420px)">${segment(6,3,{traits:true,cm:true})}a.</figure><figure style="width:min(100%,420px)">${segment(8,4,{traits:true,cm:true})}b.</figure>`;
+
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>
+<style id="nuance-chapitre">/* Nuance du cahier : ch3 */:root:root:root{--bg:#fff8f4;--grid:#f2d8cc;--line:#e8c5b6}</style>
