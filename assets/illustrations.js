@@ -169,6 +169,12 @@
       '<g class="s-i" stroke-width="3" stroke-linecap="round"><line x1="37" y1="24" x2="61" y2="24"/><line x1="37" y1="33" x2="56" y2="33"/></g>' +
       '<rect class="f-s s-i" x="37" y="40" width="22" height="9" rx="4.5" stroke-width="2.2"/>' +
       '<line class="s-i" x1="10" y1="53" x2="31" y2="53" stroke-width="3" stroke-linecap="round"/>'),
+    "6e-ch6-s6": svg( // le bon quotient pour le bon problème : un minibus plein… il en faut un de plus (+1)
+      '<rect class="f-c s-i" x="4" y="14" width="64" height="36" rx="9" stroke-width="3.2"/>' +
+      '<g class="s-i" stroke-width="2.2"><rect class="f-s" x="11" y="21" width="11" height="11" rx="2.5"/><rect class="f-s" x="25" y="21" width="11" height="11" rx="2.5"/><rect class="f-s" x="39" y="21" width="11" height="11" rx="2.5"/><rect class="f-s" x="53" y="21" width="9" height="11" rx="2.5"/></g>' +
+      '<circle class="f-i" cx="19" cy="52" r="7"/><circle class="f-b" cx="19" cy="52" r="2.6"/>' +
+      '<circle class="f-i" cx="53" cy="52" r="7"/><circle class="f-b" cx="53" cy="52" r="2.6"/>' +
+      '<circle class="f-b s-i" cx="58" cy="13" r="11" stroke-width="2.6"/>' + lab(58, 13.5, '+1', 12)),
     // 6e ch.5 : Cercle et disque
     "6e-ch5-s1": svg( // le vocabulaire : un cercle, son diamètre, une corde et un arc
       '<circle class="f-b s-i" cx="36" cy="38" r="27" stroke-width="3.4"/>' +
