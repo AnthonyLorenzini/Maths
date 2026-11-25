@@ -1,6 +1,6 @@
 /* ===== Style « tableau d'enquête » du projet : liège, punaises, papiers, ruban, tampons ===== */
 :root{--cork:#c58f55;--paper:#fbf8f0;--tw:"Special Elite","Courier New",monospace;--hand:Caveat,"Segoe Print",cursive;--pin:radial-gradient(circle at 35% 30%,#ff8a80,#d01622 55%,#7a0b12)}
-body{background-color:var(--cork);background-image:radial-gradient(rgba(90,50,15,.35) 1px,transparent 1.6px),radial-gradient(rgba(255,235,200,.25) 1px,transparent 1.5px),radial-gradient(rgba(70,35,10,.25) 2px,transparent 2.5px);background-size:9px 9px,13px 13px,23px 23px;background-position:0 0,4px 6px,10px 3px}
+html,body{background-color:var(--cork);background-image:radial-gradient(rgba(90,50,15,.35) 1px,transparent 1.6px),radial-gradient(rgba(255,235,200,.25) 1px,transparent 1.5px),radial-gradient(rgba(70,35,10,.25) 2px,transparent 2.5px);background-size:9px 9px,13px 13px,23px 23px;background-position:0 0,4px 6px,10px 3px}
 header{position:relative;background:var(--paper);padding:22px 24px 18px;box-shadow:0 8px 18px rgba(0,0,0,.35);transform:rotate(-.6deg);max-width:860px}
 header::before,.step::before,.bilan::before,details.notes::before{content:"";position:absolute;top:-9px;left:50%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--pin);box-shadow:0 3px 3px rgba(0,0,0,.45);z-index:2}
 .tag{font-family:var(--tw);font-weight:400;font-size:16px;color:#6d5f4b;letter-spacing:.03em}
@@ -38,3 +38,7 @@ td.ans{font-family:var(--hand);font-weight:700;font-size:28px;color:#b3121b}
 details.notes{position:relative;background:var(--paper);border:0;border-radius:2px;box-shadow:0 6px 14px rgba(0,0,0,.3)}
 details.notes summary{font-family:var(--tw);font-weight:400}
 @media(prefers-reduced-motion:reduce){header,.step,.bilan{transform:none!important}}
+/* vidéoprojection : sur grand écran, toute la page grandit (texte, figures, boutons) */
+@media(min-width:1500px){.wrap{zoom:1.22}}
+@media(min-width:1800px){.wrap{zoom:1.4}}
+.bilan{margin:-10px 0 40px}
