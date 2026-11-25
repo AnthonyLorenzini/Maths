@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="robots" content="noindex">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Les Gardiens du temps · Poste central</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<link rel="stylesheet" href="style.css?v=20261125b"><link rel="stylesheet" href="poste.css?v=20261125b"></head>
+<body>
+<div id="gate" class="center" hidden><div class="card" style="max-width:440px;text-align:center"><div class="astro"><i></i><i></i><i></i><b></b></div><h1 style="color:var(--gold)">Les Gardiens du temps</h1><p style="color:var(--mute)">Poste central réservé au professeur.</p>
+<form id="gateForm" style="display:flex;gap:10px;justify-content:center"><input type="password" id="gatePw" placeholder="Mot de passe" autocomplete="off" class="inp"><button class="btn solid" type="submit">Entrer</button></form><p id="gateErr" style="color:var(--bad)"></p><a href="../../index.html" style="color:var(--mute)">← Retour au site</a></div></div>
+<div id="app" hidden></div><div id="fx"></div>
+<script src="../../assets/catalogue.js"></script>
+<script>
+(function(){var ok=!!window.SITE_PROF;document.getElementById("gate").hidden=ok;document.getElementById("app").hidden=!ok;
+ if(ok){["config.js","sync.js","donnees.js","scenes.js","outils.js","poste.js"].reduce(function(p,src){return p.then(function(){return new Promise(function(r){var s=document.createElement("script");s.src=src+"?v=20261125b";s.onload=r;s.async=false;document.body.appendChild(s)})})},Promise.resolve());return}
+ document.getElementById("gateForm").addEventListener("submit",function(e){e.preventDefault();if(window.SITE_ouvrir(document.getElementById("gatePw").value)){location.reload()}else{document.getElementById("gateErr").textContent="Mot de passe incorrect."}})})();
+</script></body></html>
