@@ -3,15 +3,15 @@
 <title>Les Gardiens du temps · Escape game 6e</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
-<link rel="stylesheet" href="style.css?v=20261125a">
+<link rel="stylesheet" href="style.css?v=20261125b">
 <style>
 body{overflow-y:auto}.wrap{max-width:1000px;margin:0 auto;padding:40px 22px}
 .hero{text-align:center;margin-bottom:30px}.hero h1{color:var(--gold);font-size:clamp(32px,5vw,54px);margin:6px 0}.hero p{color:var(--mute);max-width:640px;margin:8px auto 0}
 .cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.c{display:block;text-decoration:none;color:var(--ink);background:rgba(27,22,64,.85);border:1.5px solid var(--line);border-radius:22px;overflow:hidden;transition:transform .2s}
+.c{display:block;text-decoration:none;color:var(--ink);background:#fff;box-shadow:var(--shadow);border:1.5px solid var(--line);border-radius:22px;overflow:hidden;transition:transform .2s}
 .c:hover{transform:translateY(-3px);border-color:var(--gold)}
 .c .scene{aspect-ratio:16/7;border-radius:0}.c div.t{padding:16px 20px}.c h2{color:var(--gold2);font-size:24px}.c p{margin:6px 0 0;color:var(--mute);font-size:16px}
-.docs{margin-top:26px;background:rgba(27,22,64,.85);border:1.5px solid var(--line);border-radius:22px;padding:18px 22px}
+.docs{margin-top:26px;background:#fff;box-shadow:var(--shadow);border:1.5px solid var(--line);border-radius:22px;padding:18px 22px}
 .docs h2{font-size:20px;color:var(--gold2);margin-bottom:10px}.docs a{display:inline-block;margin:6px 10px 6px 0;padding:10px 16px;border-radius:12px;border:1.5px solid var(--line);color:var(--ink);text-decoration:none;font-size:16px}
 .docs a:hover{border-color:var(--gold)}
 .back{display:inline-block;margin-top:22px;color:var(--mute)}
@@ -19,7 +19,7 @@ body{overflow-y:auto}.wrap{max-width:1000px;margin:0 auto;padding:40px 22px}
 </style></head>
 <body>
 <div id="gate" class="center" hidden><div class="card" style="max-width:440px;text-align:center"><div class="astro"><i></i><i></i><i></i><b></b></div><h1 style="color:var(--gold)">Les Gardiens du temps</h1><p style="color:var(--mute)">Escape game réservé au professeur.</p>
-<form id="gateForm" style="display:flex;gap:10px;justify-content:center"><input type="password" id="gatePw" placeholder="Mot de passe" autocomplete="off" style="font:inherit;padding:10px 14px;border-radius:12px;border:1.5px solid var(--line);background:rgba(0,0,0,.3);color:var(--ink)"><button class="btn solid" type="submit">Entrer</button></form><p id="gateErr" style="color:var(--bad)"></p><a href="../../index.html" style="color:var(--mute)">← Retour au site</a></div></div>
+<form id="gateForm" style="display:flex;gap:10px;justify-content:center"><input type="password" id="gatePw" placeholder="Mot de passe" autocomplete="off" style="font:inherit;padding:10px 14px;border-radius:12px;border:1.5px solid var(--line);background:#fff;color:var(--ink)"><button class="btn solid" type="submit">Entrer</button></form><p id="gateErr" style="color:var(--bad)"></p><a href="../../index.html" style="color:var(--mute)">← Retour au site</a></div></div>
 <div id="app" hidden><div class="wrap">
  <div class="hero"><div class="astro"><i></i><i></i><i></i><b></b></div><div class="kick">Escape game · 6e · 50 min</div><h1>Les Gardiens du temps</h1>
  <p>La frise de l'histoire des mathématiques est déréglée. Six salles, six époques, une pièce manquante cachée dans chacune… et un secret au bout de la frise.</p></div>
@@ -34,6 +34,6 @@ body{overflow-y:auto}.wrap{max-width:1000px;margin:0 auto;padding:40px 22px}
 <script src="../../assets/catalogue.js"></script>
 <script>
 (function(){var ok=!!window.SITE_PROF;document.getElementById("gate").hidden=ok;document.getElementById("app").hidden=!ok;
- if(ok){var s=document.createElement("script");s.src="scenes.js?v=20261125a";s.onload=function(){document.getElementById("s1").innerHTML=SCENES.sceau;document.getElementById("s2").innerHTML=SCENES.eucl};document.body.appendChild(s);return}
+ if(ok){var s=document.createElement("script");s.src="scenes.js?v=20261125b";s.onload=function(){document.getElementById("s1").innerHTML=SCENES.sceau;document.getElementById("s2").innerHTML=SCENES.eucl};document.body.appendChild(s);return}
  document.getElementById("gateForm").addEventListener("submit",function(e){e.preventDefault();if(window.SITE_ouvrir(document.getElementById("gatePw").value)){location.reload()}else{document.getElementById("gateErr").textContent="Mot de passe incorrect."}})})();
 </script></body></html>

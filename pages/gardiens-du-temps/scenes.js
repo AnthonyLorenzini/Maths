@@ -6,8 +6,8 @@ const palm=(x,y,h,col)=>`<path d="M${x} ${y}q2 -${h/2} -1 -${h}" stroke="${col}"
 const S={};
 
 /* Babylone : ziggourat au crépuscule, palmiers, Euphrate */
-S.bab=`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">${sky("gb","#3b2240","#c8643a","#f4b46a")}
-${stars(18,7,.5)}<circle cx="248" cy="104" r="26" fill="#ffd08a" opacity=".9"/>
+S.bab=`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">${sky("gb","#f0a070","#f6c48a","#fbe2b0")}
+<circle cx="248" cy="104" r="26" fill="#ffd08a" opacity=".9"/>
 <path d="M0 132 L320 132 L320 180 L0 180Z" fill="#7a3b22"/>
 <g fill="#5a2a18"><path d="M70 132 h150 v-16 h-14 v-16 h-14 v-16 h-14 v-14 h-50 v14 h-14 v16 h-14 v16 h-14 v16 h-16z"/>
 <path d="M134 70 h22 v-10 h-22z"/></g>
@@ -29,7 +29,7 @@ S.egy=`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">${sky("ge
 <path d="M0 166 Q160 158 320 168 L320 180 L0 180Z" fill="#d49a40"/></svg>`;
 
 /* Alexandrie : phare, colonnes de la Bibliothèque, mer bleue */
-S.eucl=`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">${sky("gx","#1f3f7a","#5f9bd6","#bfe0fb")}
+S.eucl=`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">${sky("gx","#4f86c6","#86b8e4","#cfe7fb")}
 <circle cx="60" cy="40" r="14" fill="#fff8dc" opacity=".9"/>
 <path d="M0 126 L320 122 L320 180 L0 180Z" fill="#2f6aa6"/>
 <path d="M0 134 Q60 130 120 136 T240 132 T320 134" stroke="#bfe0fb" stroke-width="1" fill="none" opacity=".6"/>
@@ -42,8 +42,8 @@ ${[22,40,58,76,94,112].map(x=>`<rect x="${x}" y="108" width="9" height="22"/>`).
 <path d="M0 150 Q80 146 160 152 T320 150 L320 180 L0 180Z" fill="#245a92"/></svg>`;
 
 /* Syracuse : temple grec, trière, grand soleil rond */
-S.arch=`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">${sky("gs","#2c1846","#8a4aa8","#f2a7b8")}
-${stars(14,3,.45)}<circle cx="170" cy="118" r="40" fill="#ffd3a1"/><circle cx="170" cy="118" r="52" fill="#ffd3a1" opacity=".2"/>
+S.arch=`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">${sky("gs","#86bde8","#c7b8e6","#f6d0d6")}
+${''}<circle cx="170" cy="118" r="40" fill="#ffd3a1"/><circle cx="170" cy="118" r="52" fill="#ffd3a1" opacity=".2"/>
 <path d="M0 118 L320 118 L320 180 L0 180Z" fill="#4b2a6e"/>
 <path d="M60 128 Q170 120 300 130" stroke="#ffd3a1" stroke-width="2" opacity=".45" fill="none"/><path d="M90 138 Q170 132 260 140" stroke="#ffd3a1" stroke-width="1.4" opacity=".3" fill="none"/>
 <path d="M0 112 L90 104 L104 180 L0 180Z" fill="#2a163e"/>
@@ -52,8 +52,8 @@ ${stars(14,3,.45)}<circle cx="170" cy="118" r="40" fill="#ffd3a1"/><circle cx="1
 <path d="M118 70 A26 26 0 0 1 170 70 A10 10 0 0 0 150 70 A16 16 0 0 0 118 70Z" fill="none" stroke="#fff" stroke-width="1" opacity=".45"/></svg>`;
 
 /* Inde : temple, banian, lune, manuscrit sur feuilles de palmier */
-S.inde=`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">${sky("gi","#123b33","#2f8f6a","#f2c46b")}
-${stars(16,11,.5)}<circle cx="70" cy="44" r="15" fill="#fff4cf"/><circle cx="76" cy="40" r="13" fill="#2a7a5d" opacity=".0"/>
+S.inde=`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">${sky("gi","#93d4bb","#c6e6b4","#f5dc95")}
+${''}<circle cx="70" cy="44" r="15" fill="#fff4cf"/><circle cx="76" cy="40" r="13" fill="#2a7a5d" opacity=".0"/>
 <path d="M0 130 L320 128 L320 180 L0 180Z" fill="#1f5a45"/>
 <g fill="#123b2f"><path d="M178 130 v-30 h70 v30z"/><path d="M188 100 q25 -70 50 0z"/><path d="M206 52 h14 l-2 -8 h-10z"/><circle cx="213" cy="42" r="3"/>
 <path d="M160 130 v-18 h18 v18z"/><path d="M162 112 q7 -22 14 0z"/><path d="M248 130 v-18 h18 v18z"/><path d="M250 112 q7 -22 14 0z"/></g>
@@ -62,7 +62,7 @@ ${stars(16,11,.5)}<circle cx="70" cy="44" r="15" fill="#fff4cf"/><circle cx="76"
 <text x="60" y="12.5" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="#1f5a45" font-weight="bold">1 2 3 4 5 6 7 8 9 0</text></g></svg>`;
 
 /* Pise : port, navires marchands, coupole, étals */
-S.fibo=`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">${sky("gp","#5a1e2e","#c4495c","#ffc9a8")}
+S.fibo=`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">${sky("gp","#f2a291","#f8c4ab","#ffe3c9")}
 <circle cx="250" cy="70" r="20" fill="#ffe1c4" opacity=".9"/>
 <path d="M0 124 L320 124 L320 180 L0 180Z" fill="#3c5d7d"/>
 <g fill="#4a1a24"><path d="M20 124 v-34 h90 v34z"/><path d="M40 90 a25 25 0 0 1 50 0z"/><rect x="62" y="56" width="6" height="10"/>
@@ -74,7 +74,7 @@ ${[26,42,58,74,90].map(x=>`<path d="M${x} 124 v-16 a6 6 0 0 1 12 0 v16z" fill="#
 <path d="M0 140 Q80 136 160 142 T320 140" stroke="#ffc9a8" stroke-width="1" fill="none" opacity=".5"/></svg>`;
 
 /* Sceau final : la frise du temps et ses six lueurs */
-S.sceau=`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">${sky("gf","#0d0b1f","#221c4a","#3a2f6b")}
+S.sceau=`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">${sky("gf","#4b4f9e","#7c7fcc","#c3bdea")}
 ${stars(40,5,.7)}<g fill="none" stroke="#f2c14e" opacity=".5"><circle cx="160" cy="92" r="60" stroke-width=".8"/><circle cx="160" cy="92" r="44" stroke-width=".5" stroke-dasharray="2 3"/><circle cx="160" cy="92" r="72" stroke-width=".4"/></g>
 <path d="M30 92 H290" stroke="#f2c14e" stroke-width="1.6"/>${[50,92,138,182,226,270].map(x=>`<circle cx="${x}" cy="92" r="5" fill="#f2c14e"/><circle cx="${x}" cy="92" r="10" fill="#f2c14e" opacity=".25"/>`).join("")}
 <text x="160" y="150" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#f2c14e" opacity=".9">?</text></svg>`;
