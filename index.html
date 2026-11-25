@@ -372,6 +372,35 @@ a.niv,a.chap,a.reprendre{text-decoration:none;color:inherit}
 .pj-boutons{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}.pj-boutons .btn{margin:0}
 .btn-pdf svg{width:18px;height:18px;margin-right:6px}
 .eval.off{opacity:.55}.eval.off .doux{margin:0}
+/* onglet Projet : le tableau blanc (chemin de post-it reliés au feutre) */
+.wb{position:relative;padding:18px 16px 20px;border-radius:20px;border:2px solid var(--trait);background-color:#fff;background-image:radial-gradient(color-mix(in srgb,var(--c) 22%,transparent) 1.2px,transparent 1.3px);background-size:22px 22px}
+.wb-titre{margin:0 0 14px;font-size:1.2rem}
+.wb-chemin{list-style:none;margin:0;padding:0;position:relative;display:flex;flex-direction:column;gap:22px}
+.wb-chemin::before{content:"";position:absolute;left:50%;top:20px;bottom:20px;border-left:3px dashed var(--c);opacity:.55}
+.wb-pas{position:relative;width:calc(50% - 22px);display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.wb-pas:nth-child(odd){align-self:flex-start}.wb-pas:nth-child(even){align-self:flex-end}
+.wb-pas::after{content:"";position:absolute;top:26px;width:22px;border-top:3px dashed var(--c);opacity:.55}
+.wb-pas:nth-child(odd)::after{right:-22px}.wb-pas:nth-child(even)::after{left:-22px}
+.wb-note{position:relative;display:flex;flex-direction:column;gap:3px;width:100%;padding:12px 14px 12px 14px;border-radius:6px 6px 14px 6px;background:#fff6c4;color:var(--encre);text-decoration:none;box-shadow:0 3px 0 rgba(0,0,0,.06),0 8px 16px rgba(0,0,0,.06);transform:rotate(-1.2deg)}
+.wb-pas:nth-child(even) .wb-note{transform:rotate(1.2deg)}
+.wb-note.on{background:#ffe45e;outline:2.5px solid var(--c);transition:transform .15s}
+.wb-note.on:hover,.wb-note.on:focus-visible{transform:rotate(0) scale(1.02)}
+.wb-note:not(.on){opacity:.62}
+.wb-num{position:absolute;top:-10px;right:-8px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--c);color:#fff;font-family:var(--f-titre);font-weight:800;font-size:.95rem}
+.wb-eti{font-size:.74rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--encre-2)}
+.wb-note strong{font-family:var(--f-titre);font-size:1.02rem;line-height:1.2}
+.wb-notion{font-size:.82rem;color:var(--encre-2)}
+.wb-go{display:inline-flex;align-items:center;gap:2px;margin-top:4px;font-weight:800;color:var(--c)}.wb-go svg{width:16px;height:16px}
+.wb-bientot{margin-top:4px;font-size:.82rem;font-style:italic;color:var(--encre-2)}
+.btn-pdf.mini{min-height:36px;padding:0 10px;font-size:.82rem;border-radius:10px}
+.wb-blocs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px}
+.wb-bloc{padding:12px 14px;border:2px solid var(--c);border-radius:12px;background:var(--carte)}
+.wb-bloc h3{margin:0 0 6px;font-size:1rem;color:var(--c)}
+.wb-bloc ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:.92rem}
+@media(min-width:521px){.wb-pas+.wb-pas{margin-top:-64px}}
+@media(max-width:520px){.wb-chemin::before{left:14px}.wb-pas,.wb-pas:nth-child(odd),.wb-pas:nth-child(even){width:auto;align-self:stretch;margin-left:36px}
+ .wb-pas::after,.wb-pas:nth-child(even)::after{left:-22px;right:auto}.wb-blocs{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.wb-note,.wb-pas:nth-child(even) .wb-note{transform:none}}
 /* onglet Soutien */
 .eval .btn{align-self:flex-start;margin-top:4px}
 /* onglet Leçon : lien + QR code */
@@ -443,7 +472,7 @@ svg .pastille{fill:var(--orange)} svg .pastille-t{fill:#fff;font-family:var(--f-
 <div class="page" id="app"></div>
 <div id="voile" class="voile" hidden></div>
 <div id="toast" class="toast" role="status" hidden></div>
-<script src="assets/catalogue.js?v=20261125b"></script>
+<script src="assets/catalogue.js?v=20261125c"></script>
 <script src="assets/illustrations.js?v=20261116a"></script>
 <script src="assets/ascension.js?v=20261018a"></script>
 <script src="assets/questions.js?v=20261016b"></script>
@@ -927,18 +956,21 @@ function vueSoutien(n){
 }
 /* ---------- L'onglet Projet d'une classe : un projet sur l'année (séances d'AP), séance par séance ---------- */
 function vueProjet(n){
- const pdf=(f,txt)=>`<a class="btn-pdf" href="${esc(f)}" target="_blank" rel="noopener">${ICO.imprimer} ${txt}</a>`;
- const seance=(s,i)=>s.bientot||!s.id
-  ?`<article class="eval off a-monte" ${d(i,.25,.06)} aria-disabled="true"><div class="eti">Séance ${i+1}</div><h3>${esc(s.titre)}</h3><p class="doux">Bientôt</p></article>`
-  :`<article class="eval a-monte" ${d(i,.25,.06)}><div class="eti">Séance ${i+1}${s.duree?' · '+esc(s.duree):''}${estNeuf(s)?' '+NEUF:''}</div><h3>${esc(s.titre)}</h3>${s.resume?`<p class="doux">${esc(s.resume)}</p>`:''}
-    <div class="pj-boutons"><a class="btn" href="${url(s)}">${ICO.classe} Ouvrir la séance</a>${s.fiche?pdf(s.fiche,s.ficheTxt||'Feuille à imprimer'):''}</div></article>`;
+ const pdf=(f,txt)=>`<a class="btn-pdf mini" href="${esc(f)}" target="_blank" rel="noopener">${ICO.imprimer} ${txt}</a>`;
+ const note=(s,i)=>{const ok=s.id&&!s.bientot;
+  const dedans=`<span class="wb-num">${i+1}</span><span class="wb-eti">Séance ${i+1}${ok&&estNeuf(s)?' '+NEUF:''}</span><strong>${esc(s.titre)}</strong>${s.notion?`<span class="wb-notion">${esc(s.notion)}</span>`:''}${ok?`<span class="wb-go">Ouvrir ${ICO.fleche}</span>`:'<span class="wb-bientot">Bientôt</span>'}`;
+  return `<li class="wb-pas a-monte" ${d(i,.2,.07)}>${ok?`<a class="wb-note on" href="${url(s)}">${dedans}</a>${s.fiche?pdf(s.fiche,s.ficheTxt||'Feuille à imprimer'):''}`:`<div class="wb-note" aria-disabled="true">${dedans}</div>`}</li>`};
  ouvrir(`<div class="vue c-${n.couleur}">
   <button class="retour a-haut" data-parent="#${n.id}">${ICO.gauche} ${esc(n.nom)}</button>
   ${onglets(n,'projet')}
   ${n.projets.map(P=>`<section class="pj-tete a-pop" ${d(0,.12)}>
     <div><div class="eti">${esc(P.etiquette||'Projet')}</div><h2>${esc(P.titre)}</h2>${P.resume?`<p class="doux">${esc(P.resume)}</p>`:''}</div>
     <div class="pj-vig">${frac(n.id)}</div></section>
-   <section class="vue" style="gap:12px"><h2>Les séances</h2>${(P.seances||[]).map(seance).join('')}</section>`).join('')}
+   <section class="wb a-monte" ${d(0,.2)} aria-label="Tableau du projet">
+    <h2 class="wb-titre">Le chemin de la maquette</h2>
+    <ol class="wb-chemin">${(P.seances||[]).map(note).join('')}</ol>
+    ${(P.blocs||[]).length?`<div class="wb-blocs">${P.blocs.map(b=>`<div class="wb-bloc"><h3>${esc(b.titre)}</h3><ul>${b.items.map(t=>`<li>${gras(t)}</li>`).join('')}</ul></div>`).join('')}</div>`:''}
+   </section>`).join('')}
  </div>`,null,{pied:piedAscension(n.id)});
 }
 function ligneTest(n,c){

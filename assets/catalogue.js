@@ -57,9 +57,10 @@
         projets: [
           { titre: "…", etiquette: "Projet de l'année · AP", resume: "…",
             seances: [
-              { id: "4e-projet-arbre-s1", titre: "…", resume: "…", duree: "50 min", fiche: "fiches/4e/….pdf", ajout: "2026-11-25" },
-              { titre: "…", bientot: true }
-            ] }
+              { id: "4e-projet-arbre-s1", titre: "…", notion: "…", resume: "…", duree: "50 min", fiche: "fiches/4e/….pdf", ajout: "2026-11-25" },
+              { titre: "…", notion: "…", bientot: true }
+            ],
+            blocs: [ { titre: "…", items: ["…", "…"] } ] }      ← encadrés sous le tableau (facultatif)
         ]
    Évaluations (onglet « Évaluations » d'une classe) :
    1. Dépose les PDF dans  evaluations/<niveau>/  (ex. evaluations/4e/4e-ch1-A.pdf, 4e-ch1-A-corrige.pdf).
@@ -656,12 +657,22 @@ window.SITE = {
           seances: [
             { id: "4e-projet-arbre-s1", titre: "Fais pousser l'arbre", duree: "50 min", ajout: "2026-11-25",
               resume: "Construire l'arbre sur quadrillage et découvrir ce qui ne change jamais d'un niveau à l'autre.",
-              fiche: "fiches/4e/4e-projet-arbre-s1-feuille.pdf" },
-            { titre: "Calculer les longueurs", bientot: true },
-            { titre: "Les patrons et la fabrication", bientot: true },
-            { titre: "Compter les pièces avec les puissances", bientot: true },
-            { titre: "Le montage de la maquette", bientot: true },
-            { titre: "L'exposition", bientot: true }
+              notion: "Pythagore · les aires", fiche: "fiches/4e/4e-projet-arbre-s1-feuille.pdf" },
+            { titre: "Calculer les longueurs", notion: "Pythagore · racine carrée", bientot: true },
+            { titre: "Les patrons et la fabrication", notion: "Patrons · prismes droits", bientot: true },
+            { titre: "Compter les pièces", notion: "Les puissances", bientot: true },
+            { titre: "Le montage de la maquette", notion: "Cosinus · précision", bientot: true },
+            { titre: "L'exposition", notion: "Agrandissement et réduction", bientot: true }
+          ],
+          blocs: [
+            { titre: "Les maths du projet", items: [
+              "**Pythagore** : la longueur des arêtes à chaque niveau",
+              "**Puissances** : 2, 4, 8, 16… pièces par niveau",
+              "**Patrons** : le cube et le prisme droit" ] },
+            { titre: "La maquette", items: [
+              "4 niveaux : **31 cubes** et **15 prismes**",
+              "Chaque élève fabrique ses pièces en bristol",
+              "Le toit (isocèle ou 3-4-5) se choisit en votant" ] }
           ] }
       ],
       evaluations: [
