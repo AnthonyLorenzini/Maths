@@ -524,7 +524,7 @@ window.SITE = {
                 "Les deux machines (12 min, projeté) : un nombre passe dans une machine ÷ puis dans une machine × et revient tel quel. Trois départs (12, 3, 7) ; à la fin, on voit que a/b × b = a, et que le chemin retour donne le nombre caché de ? × 5 = 6.",
                 "Les exercices (38 min, cahier) : compléter a/b × b = ?, trouver le nombre caché de ? × b = a, repérer où est le trou, vérifier les réponses de trois élèves en multipliant. Pour les élèves rapides (≈ 15 min en plus) : des partages de barres, des devinettes (multiplié, divisé, « que deviens-je ? »), justes ou fausses ?, puis deux défis (? × 8 = 8, et « deux fois plus »)."
               ],
-              ressources: ["6e-ch6-s2"],
+              ressources: ["6e-ch6-s2", "6e-ch6-minijeux"],
               retenir: [
                 "Multiplier par b **défait** la division par b : **a/b × b = a**.",
                 "Pour trouver le nombre caché de **? × b = a**, on calcule le **quotient** : ? = a ÷ b = a/b.",
@@ -602,7 +602,8 @@ window.SITE = {
             { id: "6e-ch6-s3", type: "exos", titre: "Séance 3 — Un même nombre, plusieurs écritures", resume: "Partager des barres entre des amis : poser la division, descendre un zéro, suivre les dixièmes et les centièmes jusqu'à un reste 0, vérifier en multipliant. Six exercices et un défi. Avec corrections.", ajout: "2026-11-17" },
             { id: "6e-ch6-s4", type: "exos", titre: "Séance 4 — Ça s'arrête ou ça boucle ?", resume: "Le détecteur de restes : la division s'arrête sur un reste 0, ou boucle quand un reste revient (5/3 = 1,666…). Valeur exacte, valeur approchée au dixième et au centième, le signe ≈. Cinq exercices et un défi. Avec corrections.", ajout: "2026-11-23" },
             { id: "6e-ch6-s5", type: "exos", titre: "Séance 5 — Carte d'identité d'un quotient", resume: "La carte d'identité d'un quotient : nombre caché, division posée, vérification, puis entier, décimal ou ni l'un ni l'autre. Diviser par 12, 25 et même 137 avec la table. Trois exercices de cartes et un défi, avec des questions pour aller plus loin. Avec corrections.", ajout: "2026-11-24" },
-            { id: "6e-ch6-s6", type: "exos", titre: "Séance 6 — Le bon quotient pour le bon problème", resume: "Une même division, 50 ÷ 8, dans quatre histoires : minibus, cartes, euros et tartes à la cantine. La réponse dépend de la question : arrondi au-dessus, entier et reste, décimal, fraction, et valeur approchée dans les exercices. Problèmes en trois temps, réponses absurdes et un défi. Avec corrections.", ajout: "2026-11-24" }
+            { id: "6e-ch6-s6", type: "exos", titre: "Séance 6 — Le bon quotient pour le bon problème", resume: "Une même division, 50 ÷ 8, dans quatre histoires : minibus, cartes, euros et tartes à la cantine. La réponse dépend de la question : arrondi au-dessus, entier et reste, décimal, fraction, et valeur approchée dans les exercices. Problèmes en trois temps, réponses absurdes et un défi. Avec corrections.", ajout: "2026-11-24" },
+            { id: "6e-ch6-minijeux", type: "jeu", titre: "Mini-jeux — Le jardin des taupes", resume: "Multiplications et divisions à trou : tape la taupe qui porte le nombre caché, bouche les trous, mémory piégé (seul ou à deux) et mode tableau pour la classe.", ajout: "2026-11-25" }
           ]
         },
         {
