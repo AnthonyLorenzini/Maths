@@ -1171,7 +1171,7 @@ window.SITE = {
      Un niveau sans escape game affiche « Bientôt ». */
   escapes: [
     { id: "dernier-signal", niveau: "6e", titre: "Dernier Signal", resume: "Cinq équipages réparent leur vaisseau salle par salle pour rallumer le réacteur.", duree: "50 min", ajout: "2026-11-16" },
-    { id: "gardiens-du-temps", niveau: "6e", titre: "Les Gardiens du temps", resume: "Six salles, six époques de l'histoire des maths : réparer la frise du temps salle par salle pour découvrir son secret.", duree: "50 min", ajout: "2026-11-25", prive: true },
+    { id: "gardiens-du-temps", niveau: "6e", titre: "Les Gardiens du temps", resume: "Six salles, six époques de l'histoire des maths : réparer la frise du temps salle par salle pour découvrir son secret.", duree: "50 min", ajout: "2026-11-25" },
     { id: "dernier-signal-pythagore", niveau: "4e", titre: "Dernier Signal · Opération Pythagore", resume: "Cinq équipages, un téléphone par groupe : réparer le vaisseau salle par salle avec les pourcentages, les grandeurs, la divisibilité et Pythagore.", duree: "50 min", ajout: "2026-11-16" }
   ]
 };
