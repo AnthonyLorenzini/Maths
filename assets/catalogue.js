@@ -51,6 +51,16 @@
           { id: "soutien-1-tresor", etiquette: "Chapitres 1 à 4", titre: "Séance 1 — …", resume: "…", ajout: "2026-11-04" }
         ]
       Une séance n'apparaît qu'une fois ajoutée ici : ajoute-la quand tu la fais en classe.
+   Projet de l'année (onglet « Projet » d'une classe, affiché seulement si la liste n'est pas vide) :
+   1. Dépose chaque séance dans  pages/<nom-du-dossier>/index.html  (elle charge ../../assets/barre.js) et sa feuille dans fiches/<niveau>/.
+   2. Dans le niveau, ajoute une liste  projets  ; une séance pas encore prête garde  bientot: true  (sans id) :
+        projets: [
+          { titre: "…", etiquette: "Projet de l'année · AP", resume: "…",
+            seances: [
+              { id: "4e-projet-arbre-s1", titre: "…", resume: "…", duree: "50 min", fiche: "fiches/4e/….pdf", ajout: "2026-11-25" },
+              { titre: "…", bientot: true }
+            ] }
+        ]
    Évaluations (onglet « Évaluations » d'une classe) :
    1. Dépose les PDF dans  evaluations/<niveau>/  (ex. evaluations/4e/4e-ch1-A.pdf, 4e-ch1-A-corrige.pdf).
    2. Dans le niveau (à côté de « chapitres »), ajoute une liste  evaluations  :
@@ -640,6 +650,20 @@ window.SITE = {
     {
       id: "4e", nom: "4e", couleur: "violet",
       accroche: "Pourcentages, grandeurs, nombres premiers, géométrie",
+      projets: [
+        { titre: "L'arbre de Pythagore en 3D", etiquette: "Projet de l'année · AP",
+          resume: "Toute l'année, on construit pour la classe une maquette de l'arbre de Pythagore : des cubes et des prismes, calculés avec Pythagore, les puissances et les patrons.",
+          seances: [
+            { id: "4e-projet-arbre-s1", titre: "Fais pousser l'arbre", duree: "50 min", ajout: "2026-11-25",
+              resume: "Construire l'arbre sur quadrillage et découvrir ce qui ne change jamais d'un niveau à l'autre.",
+              fiche: "fiches/4e/4e-projet-arbre-s1-feuille.pdf" },
+            { titre: "Calculer les longueurs", bientot: true },
+            { titre: "Les patrons et la fabrication", bientot: true },
+            { titre: "Compter les pièces avec les puissances", bientot: true },
+            { titre: "Le montage de la maquette", bientot: true },
+            { titre: "L'exposition", bientot: true }
+          ] }
+      ],
       evaluations: [
         { chapitre: "4e-ch1", etiquette: "Chapitre 1 · Petit test", titre: "Petit test — Les évolutions en pourcentage",
           resume: "Une hausse puis une baisse du même pourcentage : retrouve-t-on le nombre de départ ?", ajout: "2026-10-14",

@@ -38,6 +38,17 @@
       });
     });
   }
+  /* séances d'un projet de l'année (onglet « Projet ») : le « chapitre » est la liste des séances en ligne du projet */
+  if (!found) {
+    S.niveaux.forEach(function (n) {
+      (n.projets || []).forEach(function (P) {
+        var dispo = (P.seances || []).filter(function (x) { return x.id && !x.bientot; });
+        dispo.forEach(function (r, i) {
+          if (parts.indexOf(r.id) !== -1) found = { n: n, c: { id: n.id + "/projet", num: 0, titre: "Projet · " + P.titre, ressources: dispo }, r: r, i: i };
+        });
+      });
+    });
+  }
   if (!found) return;
 
   var couleurs = { vert: "#0F9562", orange: "#E8700F", violet: "#6E4FE0", bleu: "#1F7AE0" };

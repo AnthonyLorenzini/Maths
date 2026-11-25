@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projet · Séance 1 — Fais pousser l'arbre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE : séance projetée, claire, une idée par étape, ton direct pour des 4e
+   IDEA : une page de cahier à carreaux sur laquelle l'arbre pousse
+   PICTURE : l'arbre de Pythagore qui grandit, puis la maquette 3D qui tourne
+   COLOUR and TYPE : palette « cahier à carreaux » du site (crème, bleu nuit, surligneur jaune, rouge) ; Big Shoulders Display + Work Sans
+   LAYOUT : un bandeau, puis 4 étapes empilées, chacune image + consignes courtes */
+:root{color-scheme:light;--bg:#fffef8;--grid:#dbe5f6;--ink:#1b2a5e;--soft:#56608a;--hl:#ffe45e;--red:#d62839;--card:#fff;--line:#c3d1ec;--ft:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--fx:"Work Sans",system-ui,sans-serif}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;color:var(--ink);font:17px/1.55 var(--fx);overflow-x:clip;
+background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px}
+.wrap{max-width:1180px;margin:0 auto;padding:clamp(18px,3vw,40px) max(4vw,14px) 60px}
+header{display:grid;gap:6px;margin-bottom:22px}
+.tag{font-family:var(--ft);font-weight:800;font-size:21px;color:var(--red)}
+h1{font:800 clamp(2rem,6.5vw,3.3rem)/.95 var(--ft);text-transform:uppercase;margin:0;text-wrap:balance}
+.goal{font-size:18px;margin:4px 0 0}
+.goal b{background:linear-gradient(transparent 55%,var(--hl) 55%)}
+.mat{color:var(--soft);font-size:15px}
+.step{background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:clamp(16px,2.4vw,28px);margin:22px 0;box-shadow:5px 5px 0 var(--ink)}
+.step h2{font:800 clamp(1.5rem,3.4vw,2.1rem)/1.05 var(--ft);text-transform:uppercase;margin:0 0 4px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.num{font-family:var(--ft);font-weight:800;color:#fff;background:var(--ink);border-radius:50%;width:42px;height:42px;display:inline-grid;place-items:center;font-size:26px;flex:none}
+.time{font-size:15px;color:var(--soft);font-weight:400}
+.cols{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:24px;align-items:start;margin-top:12px}
+@media(max-width:820px){.cols{grid-template-columns:minmax(0,1fr)}}
+.fig{position:relative;background:#fff;border:1.5px solid var(--line);border-radius:10px;aspect-ratio:1.5/1}
+.fig canvas{position:absolute;inset:0;width:100%;height:100%;border-radius:10px}
+.fig.tall{aspect-ratio:1.25/1}
+.q{font-size:20px;font-weight:600;margin:0 0 10px}
+ol.do{padding-left:1.3em;margin:6px 0 12px}ol.do li{margin:7px 0}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+button{font:600 16px var(--fx);min-height:44px;padding:8px 16px;border-radius:10px;border:2px solid var(--ink);background:#fff;color:var(--ink);cursor:pointer}
+button:hover{background:#fff6c2}button:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+button.main{background:var(--ink);color:#fff}button.main:hover{background:#26375e}
+button.on{background:var(--hl)}
+.reveal{display:none;margin-top:10px;padding:12px 14px;border-radius:10px;border:2px dashed var(--ink);background:#fffbe0}
+.reveal.show{display:block}
+.reveal.tip{background:#eef5fc;border-color:#3d7ab8}
+.cap{font-family:var(--fx);font-weight:600;font-size:18px;line-height:1.35;margin:10px 0 0;min-height:2.6em}
+.warn{font-size:15px;color:var(--red);margin:8px 0 0}
+table{border-collapse:collapse;width:100%;font-size:18px;background:#fff}
+th,td{border:1.5px solid var(--ink);padding:9px 8px;text-align:center}
+th{background:#eef3f9;font-size:15px;font-weight:600}
+td.k{font-weight:700}
+td.ans{cursor:pointer;font-family:var(--ft);font-weight:800;font-size:24px;color:var(--red);min-width:4.5em}
+td.ans:hover{background:#fffbe0}
+td.ans.done{color:var(--ink)}
+.dot{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-1px;margin-right:6px;border:1px solid var(--ink)}
+.small{font-size:14px;color:var(--soft)}
+.bilan{border:3px solid var(--red);border-radius:14px;background:#fff;padding:18px 22px;margin-top:18px}
+.bilan h3{margin:0 0 6px;font:800 1.5rem var(--ft);text-transform:uppercase}.bilan ul{margin:6px 0;padding-left:1.2em}
+.bilan p{margin:6px 0 0}
+.mark{background:linear-gradient(transparent 55%,var(--hl) 55%)}
+.seg{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+input[type=range]{width:180px;accent-color:var(--ink)}
+details{margin-top:28px;background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:10px 16px}
+summary{cursor:pointer;font-weight:600;min-height:32px}
+details li{margin:5px 0}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <span class="tag">AP · Projet arbre de Pythagore · Séance 1 sur 6</span>
+  <h1>Fais pousser l'arbre de Pythagore</h1>
+  <p class="goal">Objectif : construire l'arbre sur quadrillage et découvrir <b>ce qui ne change jamais</b> d'un niveau à l'autre.</p>
+  <span class="mat">Matériel : <a href="../../fiches/4e/4e-projet-arbre-s1-feuille.pdf" target="_blank" rel="noopener">la feuille quadrillée</a> (A4 paysage, à 100 %), un crayon à papier, une règle, des crayons de couleur.</span>
+</header>
+
+<!-- ÉTAPE 1 -->
+<section class="step" id="observe">
+  <h2><span class="num">1</span>Observe <span class="time">5 min</span></h2>
+  <div class="cols">
+    <div>
+      <div class="fig"><canvas id="cGrow"></canvas></div>
+      <div class="bar">
+        <button class="main" id="bGrow">Faire pousser un niveau</button>
+        <button id="bGrowReset">Recommencer</button>
+      </div>
+    </div>
+    <div>
+      <p class="q">Comment passe-t-on d'un niveau au suivant ?</p>
+      <p>Regarde l'arbre pousser. Décris ce qui se répète.</p>
+      <div class="bar">
+        <button data-r="r1a">Astuce</button>
+        <button data-r="r1b">Solution</button>
+      </div>
+      <div class="reveal tip" id="r1a">Regarde la forme blanche coincée entre trois carrés.</div>
+      <div class="reveal" id="r1b">Sur chaque carré, on pose un <b>toit</b> : un triangle rectangle isocèle.<br>Puis on construit un <b>carré sur chaque côté du toit</b>. Et on recommence !</div>
+    </div>
+  </div>
+</section>
+
+<!-- ÉTAPE 2 -->
+<section class="step" id="construis">
+  <h2><span class="num">2</span>Construis ton arbre <span class="time">20 min</span></h2>
+  <div class="cols">
+    <div>
+      <div class="fig"><canvas id="cBuild"></canvas></div>
+      <p class="cap" id="capBuild"></p>
+      <div class="bar">
+        <button id="bPrev">← Retour</button>
+        <button class="main" id="bNext">Étape suivante →</button>
+      </div>
+    </div>
+    <div>
+      <p class="q">Sur ta feuille, le tronc est déjà tracé.</p>
+      <ol class="do">
+        <li>Pose un <b>toit</b> sur le carré.</li>
+        <li>Construis un <b>carré</b> sur chaque côté du toit.</li>
+        <li>Recommence sur chaque nouveau carré.</li>
+        <li>Colorie : <b>une couleur par niveau</b>. Note-la dans ta légende.</li>
+      </ol>
+      <p><span class="mark">Objectif : niveau 3.</span> Les plus rapides : niveau 4.</p>
+      <div class="bar"><button data-r="r2a">Astuce : un carré penché</button></div>
+      <div class="reveal tip" id="r2a">Compte les carreaux.<br>Si un côté fait « 4 → 4 ↑ », le côté suivant tourne d'un quart de tour : « 4 ← 4 ↑ ».</div>
+      <p class="warn">Au niveau 4, les branches du milieu se touchent : c'est normal.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ÉTAPE 3 -->
+<section class="step" id="calcule">
+  <h2><span class="num">3</span>Ce qui ne change jamais <span class="time">15 min</span></h2>
+  <div class="cols">
+    <div>
+      <p class="q">Recopie et complète le tableau dans ton cahier.</p>
+      <p class="small">Unité d'aire : un carreau. Le prof clique sur un « ? » pour corriger.</p>
+      <table id="tab">
+        <thead><tr><th>Niveau</th><th>Nombre de carrés</th><th>Aire d'un carré</th><th>Aire totale du niveau</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="bar">
+        <button data-r="r3a">Astuce : l'aire d'un carré penché</button>
+        <button id="bAll">Tout corriger</button>
+      </div>
+      <div class="reveal tip" id="r3a">Utilise Pythagore ! Le côté du carré penché est l'hypoténuse d'un triangle rectangle de côtés 4 et 4.<br>Aire = côté² = 4² + 4².</div>
+    </div>
+    <div>
+      <p class="q">Que remarques-tu dans la dernière colonne ? Pourquoi ?</p>
+      <div class="bar">
+        <button data-r="r3b">Solution</button>
+      </div>
+      <div class="reveal" id="r3b">
+        L'aire totale vaut toujours <b>64</b>.<br>
+        Chaque carré donne deux carrés dont les aires s'additionnent pour retrouver la sienne :
+        <div class="fig tall" style="margin-top:10px"><canvas id="cPyth"></canvas></div>
+        <p style="margin:8px 0 0"><b>32 + 32 = 64</b> : c'est exactement le théorème de Pythagore !</p>
+      </div>
+      <div class="bar"><button data-r="r3c">Pour aller plus loin</button></div>
+      <div class="reveal tip" id="r3c">Combien de carrés au niveau 10 ? Quelle est l'aire de chacun ?</div>
+      <div class="bar"><button data-r="r3d">Solution du « Pour aller plus loin »</button></div>
+      <div class="reveal" id="r3d">On multiplie par 2 dix fois : 2 × 2 × … × 2 = <b>1&nbsp;024 carrés</b>.<br>Chacun a une aire de 64 ÷ 1&nbsp;024 = <b>1/16 de carreau</b>.<br>Bientôt, on écrira 2 × 2 × … × 2 plus vite, avec les <b>puissances</b>.</div>
+    </div>
+  </div>
+  <div class="bilan">
+    <h3>Je retiens</h3>
+    <p>Dans l'arbre de Pythagore, quand on passe au niveau suivant :</p>
+    <ul>
+      <li>le nombre de carrés est <b>multiplié par 2</b> ;</li>
+      <li>l'aire de chaque carré est <b>divisée par 2</b> ;</li>
+      <li>l'aire totale <b>ne change pas</b>.</li>
+    </ul>
+    <p>C'est le théorème de Pythagore : l'aire du carré posé sur l'hypoténuse est égale à la somme des aires des deux autres carrés.</p>
+  </div>
+</section>
+
+<!-- ÉTAPE 4 -->
+<section class="step" id="projet">
+  <h2><span class="num">4</span>Notre projet de l'année <span class="time">8 min</span></h2>
+  <div class="cols">
+    <div>
+      <div class="fig"><canvas id="c3d"></canvas></div>
+      <div class="bar seg">
+        <button id="bIso" class="on">Toit isocèle</button>
+        <button id="b345">Toit 3-4-5</button>
+        <label class="small" for="lv">Niveaux : <b id="lvOut">4</b></label>
+        <input type="range" id="lv" min="0" max="7" value="4">
+      </div>
+      <div class="bar seg">
+        <button id="bFlat" class="on">Sans pivot</button>
+        <button id="bPiv">Et si on tournait chaque étage ?</button>
+      </div>
+      <p class="small">Fais glisser la maquette pour la tourner.</p>
+    </div>
+    <div>
+      <p class="q">Cette année, on construit l'arbre en vrai, en 3D, pour la classe.</p>
+      <ul>
+        <li>Les carrés deviennent des <b>cubes</b>.</li>
+        <li>Les toits deviennent des <b>prismes</b>.</li>
+      </ul>
+      <p class="q" style="margin-top:16px">On vote à main levée : quel arbre construit-on ?</p>
+      <p><b>Isocèle :</b> symétrique, toutes les branches sont pareilles.<br><b>3-4-5 :</b> le toit a des côtés 3, 4 et 5. L'arbre penche, comme un vrai arbre.</p>
+      <div class="bar"><button data-r="r4a">Pour aller plus loin</button></div>
+      <div class="reveal tip" id="r4a">Si on tourne chaque étage d'un quart de tour, l'arbre prend du volume. Est-ce que les longueurs et les aires changent ?</div>
+    </div>
+  </div>
+</section>
+
+<details>
+  <summary>Notes pour les deux professeurs</summary>
+  <ul>
+    <li><b>Prof 1</b> pilote la projection (étapes 1, 2 et 4). <b>Prof 2</b> circule dès l'étape 2 : la difficulté est le premier carré penché.</li>
+    <li>Imprimer la feuille en A4 paysage, à 100 % (carreaux de 5 mm). La page 2 est le corrigé.</li>
+    <li>Dès qu'un élève a fini le niveau 1, il peut commencer le tableau de l'étape 3 pour les niveaux 0 et 1.</li>
+    <li>Ramasser les arbres coloriés : ils peuvent former une première frise au mur, en attendant la maquette.</li>
+    <li>Sans pivot, les branches du milieu se touchent dès le niveau 4 : la maquette s'arrête là (31 cubes, 15 prismes).</li>
+    <li>Noter le résultat du vote : il fixe les dimensions calculées à la séance 2.</li>
+  </ul>
+</details>
+</div>
+
+<script>
+{
+const COL=['#1f3a5f','#3d7ab8','#2a9d8f','#e9b949','#ef8a4c','#d9534f','#8e3b62','#6b4f9e'];
+const INK='#14213d';
+
+/* ---------- arbre 2D en coordonnées « carreaux » ---------- */
+function tree2D(maxL){
+  const sq=[],roofs=[];
+  (function rec(p,v,l){
+    const n=[-v[1],v[0]];
+    const pts=[p,[p[0]+v[0],p[1]+v[1]],[p[0]+v[0]+n[0],p[1]+v[1]+n[1]],[p[0]+n[0],p[1]+n[1]]];
+    sq.push({l,pts,v,n});
+    if(l===maxL)return;
+    const a=pts[3],b=pts[2],m=[(a[0]+b[0])/2,(a[1]+b[1])/2],w=[b[0]-a[0],b[1]-a[1]];
+    const ap=[m[0]-w[1]/2,m[1]+w[0]/2];
+    roofs.push({l,pts:[a,ap,b]});
+    rec(a,[ap[0]-a[0],ap[1]-a[1]],l+1);
+    rec(ap,[b[0]-ap[0],b[1]-ap[1]],l+1);
+  })([24,2],[8,0],0);
+  return {sq,roofs};
+}
+
+function setup(cv,draw){
+  const ro=new ResizeObserver(()=>{const r=cv.getBoundingClientRect(),d=devicePixelRatio||1;cv.width=r.width*d;cv.height=r.height*d;draw()});
+  ro.observe(cv);return ro;
+}
+function view(cv,x0,x1,y0,y1){
+  const W=cv.width,H=cv.height,s=Math.min(W/(x1-x0),H/(y1-y0));
+  const ox=(W-s*(x1-x0))/2,oy=(H-s*(y1-y0))/2;
+  return {s,X:x=>ox+(x-x0)*s,Y:y=>H-oy-(y-y0)*s,W,H,x0,x1,y0,y1};
+}
+function gridLines(g,v,col){
+  g.strokeStyle=col;g.lineWidth=1;g.beginPath();
+  for(let x=Math.ceil(v.x0);x<=v.x1;x++){g.moveTo(v.X(x),v.Y(v.y0));g.lineTo(v.X(x),v.Y(v.y1))}
+  for(let y=Math.ceil(v.y0);y<=v.y1;y++){g.moveTo(v.X(v.x0),v.Y(y));g.lineTo(v.X(v.x1),v.Y(y))}
+  g.stroke();
+}
+function poly(g,v,pts,fill,stroke,lw,alpha){
+  g.beginPath();pts.forEach((p,i)=>i?g.lineTo(v.X(p[0]),v.Y(p[1])):g.moveTo(v.X(p[0]),v.Y(p[1])));g.closePath();
+  if(fill){g.globalAlpha=alpha??1;g.fillStyle=fill;g.fill();g.globalAlpha=1}
+  if(stroke){g.strokeStyle=stroke;g.lineWidth=lw||1.5;g.stroke()}
+}
+
+/* ---------- Étape 1 : l'arbre pousse ---------- */
+const cG=document.getElementById('cGrow');let lvG=0,animT=1;const T6=tree2D(6);
+function drawGrow(){
+  const g=cG.getContext('2d'),v=view(cG,4,52,0,33);g.clearRect(0,0,v.W,v.H);
+  for(const r of T6.roofs) if(r.l<lvG) poly(g,v,r.pts,'#f4efe0',INK,1.2*(devicePixelRatio||1));
+  for(const q of T6.sq){
+    if(q.l>lvG)continue;
+    let pts=q.pts;
+    if(q.l===lvG&&animT<1){const c=[(pts[0][0]+pts[1][0])/2,(pts[0][1]+pts[1][1])/2];pts=pts.map(p=>[c[0]+(p[0]-c[0])*animT,c[1]+(p[1]-c[1])*animT])}
+    poly(g,v,pts,COL[q.l],INK,1.2*(devicePixelRatio||1));
+  }
+}
+setup(cG,drawGrow);
+function anim(){animT=0;const t0=performance.now(),D=matchMedia('(prefers-reduced-motion:reduce)').matches?1:600;
+  (function f(t){animT=Math.min(1,(t-t0)/D);drawGrow();if(animT<1)requestAnimationFrame(f)})(t0)}
+document.getElementById('bGrow').onclick=()=>{if(lvG<6){lvG++;anim()}};
+document.getElementById('bGrowReset').onclick=()=>{lvG=0;animT=1;drawGrow()};
+
+/* ---------- Étape 2 : construction pas à pas ---------- */
+const cB=document.getElementById('cBuild'),cap=document.getElementById('capBuild');const T3=tree2D(3);
+const L1=T3.sq.filter(q=>q.l===1),L2=T3.sq.filter(q=>q.l===2),L3=T3.sq.filter(q=>q.l===3);
+const R0=T3.roofs.filter(r=>r.l===0),R1=T3.roofs.filter(r=>r.l===1),R2=T3.roofs.filter(r=>r.l===2);
+function vl(v){const a=[];if(v[0])a.push(Math.abs(v[0])+(v[0]>0?' →':' ←'));if(v[1])a.push(Math.abs(v[1])+(v[1]>0?' ↑':' ↓'));return a.join('  ')}
+const STAGES=[
+ {txt:"Le tronc : un carré de 8 carreaux de côté. Il est déjà sur ta feuille.",sq:[0],roofs:[]},
+ {txt:"1. Le toit. Sur un carré droit, ses côtés suivent les diagonales des carreaux.",sq:[0],roofs:R0,lab:R0[0].pts.slice(0,2)},
+ {txt:"2. Un carré sur le côté gauche du toit. Le côté « 4 → 4 ↑ » tourne d'un quart de tour : « 4 ← 4 ↑ ».",sq:[0,1],roofs:R0,only:[L1[0]],turn:L1[0]},
+ {txt:"3. Pareil à droite. Le niveau 1 est fini : colorie-le !",sq:[0,1],roofs:R0},
+ {txt:"4. Sur un carré penché, le toit est fait d'un trait horizontal et d'un trait vertical.",sq:[0,1],roofs:[...R0,...R1]},
+ {txt:"5. Les carrés du niveau 2 sont droits. Le toit suivant sera de nouveau en diagonale.",sq:[0,1,2],roofs:[...R0,...R1]},
+ {txt:"6. Et on recommence : voici le niveau 3. Les côtés sont divisés par 2 tous les deux niveaux.",sq:[0,1,2,3],roofs:[...R0,...R1,...R2]}
+];
+let st=0;
+function drawBuild(){
+  const g=cB.getContext('2d'),v=view(cB,8,48,0,26),d=devicePixelRatio||1,S=STAGES[st];
+  g.clearRect(0,0,v.W,v.H);gridLines(g,v,'#d5e2ef');
+  for(const r of S.roofs) poly(g,v,r.pts,'#fff6c2',INK,2*d);
+  for(const q of T3.sq){
+    if(!S.sq.includes(q.l))continue;
+    if(S.only&&q.l===1&&!S.only.includes(q))continue;
+    poly(g,v,q.pts,COL[q.l],INK,2*d,q.l===0&&st===0?0.25:0.85);
+  }
+  g.font=`${15*d}px Work Sans, sans-serif`;g.textAlign='center';g.textBaseline='middle';
+  const tag=(x,y,t,c)=>{const w=g.measureText(t).width+12*d;g.fillStyle='#fff';g.strokeStyle=c;g.lineWidth=2*d;g.beginPath();g.roundRect(v.X(x)-w/2,v.Y(y)-13*d,w,26*d,6*d);g.fill();g.stroke();g.fillStyle=c;g.fillText(t,v.X(x),v.Y(y))};
+  if(S.lab){const [a,b]=S.lab;tag((a[0]+b[0])/2-2.6,(a[1]+b[1])/2+1.4,vl([b[0]-a[0],b[1]-a[1]]),'#d6453d')}
+  if(S.turn){const p=S.turn.pts;tag((p[0][0]+p[1][0])/2+2.6,(p[0][1]+p[1][1])/2-0.6,vl(S.turn.v),'#d6453d');tag((p[1][0]+p[2][0])/2+2.4,(p[1][1]+p[2][1])/2+1.6,vl(S.turn.n),'#3d7ab8')}
+  if(st===4){for(const r of R1){const [a,b,c]=r.pts;g.fillStyle='#d6453d';[a,b,c].forEach(p=>{g.beginPath();g.arc(v.X(p[0]),v.Y(p[1]),4*d,0,7);g.fill()})}}
+  cap.textContent=S.txt;
+  document.getElementById('bPrev').disabled=st===0;document.getElementById('bNext').disabled=st===STAGES.length-1;
+}
+setup(cB,drawBuild);
+document.getElementById('bNext').onclick=()=>{if(st<STAGES.length-1){st++;drawBuild()}};
+document.getElementById('bPrev').onclick=()=>{if(st>0){st--;drawBuild()}};
+
+/* ---------- Étape 3 : tableau ---------- */
+const ROWS=[[0,1,64,64],[1,2,32,64],[2,4,16,64],[3,8,8,64],[4,16,4,64]];
+document.querySelector('#tab tbody').innerHTML=ROWS.map(r=>`<tr><td class="k"><span class="dot" style="background:${COL[r[0]]}"></span>${r[0]}</td>`+
+  r.slice(1).map((x,i)=>(r[0]===0&&i<2)?`<td class="k">${x}</td>`:`<td class="ans" data-a="${x}" tabindex="0">?</td>`).join('')+'</tr>').join('');
+const show=td=>{td.textContent=td.dataset.a;td.classList.add('done')};
+document.querySelectorAll('td.ans').forEach(td=>{td.onclick=()=>show(td);td.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(td)}}});
+document.getElementById('bAll').onclick=()=>document.querySelectorAll('td.ans').forEach(show);
+
+/* schéma Pythagore 64 = 32 + 32 */
+const cP=document.getElementById('cPyth');
+function drawPyth(){
+  const g=cP.getContext('2d'),v=view(cP,15,41,5,23),d=devicePixelRatio||1;g.clearRect(0,0,v.W,v.H);
+  gridLines(g,v,'#e3ebf3');
+  const T=tree2D(1);
+  poly(g,v,T.roofs[0].pts,'#fff6c2',INK,2*d);
+  T.sq.forEach(q=>poly(g,v,q.pts,COL[q.l],INK,2*d,0.85));
+  g.font=`700 ${22*d}px Work Sans, sans-serif`;g.fillStyle='#fff';g.textAlign='center';g.textBaseline='middle';
+  T.sq.forEach(q=>{const c=q.pts.reduce((s,p)=>[s[0]+p[0]/4,s[1]+p[1]/4],[0,0]);g.fillText(q.l?'32':'64',v.X(c[0]),v.Y(c[1]))});
+}
+setup(cP,drawPyth);
+
+/* ---------- boutons Astuce / Solution ---------- */
+document.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{const r=document.getElementById(b.dataset.r);r.classList.toggle('show');if(r.id==='r3b')drawPyth()});
+
+/* ---------- Étape 4 : maquette 3D ---------- */
+const c3=document.getElementById('c3d');let theta=Math.PI/4,maxL=4,pivot=false,yaw=0.6,pitch=0.32,drag=null,auto=true;
+const add=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]],sc=(a,k)=>[a[0]*k,a[1]*k,a[2]*k],sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]];
+const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+let faces=[],center=[0,0,0],rad=1;
+function build(){
+  faces=[];const all=[];
+  const face=(pts,ctr,col,l)=>{let n=cross(sub(pts[1],pts[0]),sub(pts[2],pts[0]));const fc=pts.reduce((s,p)=>add(s,sc(p,1/pts.length)),[0,0,0]);
+    if(dot(n,sub(fc,ctr))<0)n=sc(n,-1);const m=Math.hypot(...n);faces.push({pts,n:sc(n,1/m),col,l});all.push(...pts)};
+  (function rec(P,u,a,s,l){
+    const b=cross(u,a),h=s/2,V=(x,y,z)=>add(add(add(P,sc(a,x)),sc(b,y)),sc(u,z));
+    const v=[V(-h,-h,0),V(h,-h,0),V(h,h,0),V(-h,h,0),V(-h,-h,s),V(h,-h,s),V(h,h,s),V(-h,h,s)],ctr=V(0,0,h);
+    [[0,1,2,3],[4,5,6,7],[0,1,5,4],[1,2,6,5],[2,3,7,6],[3,0,4,7]].forEach(f=>face(f.map(i=>v[i]),ctr,COL[l],l));
+    if(l===maxL)return;
+    const T=add(P,sc(u,s)),L=sub(T,sc(a,h)),R=add(T,sc(a,h)),c=Math.cos(theta),si=Math.sin(theta);
+    const A=add(add(L,sc(a,s*c*c)),sc(u,s*c*si));
+    const off=k=>p=>add(p,sc(b,k*h)),pc=sc(add(add(L,R),A),1/3);
+    face([L,A,R].map(off(-1)),pc,'#f4efe0',-1);face([L,A,R].map(off(1)),pc,'#f4efe0',-1);
+    face([off(-1)(L),off(-1)(A),off(1)(A),off(1)(L)],pc,'#f4efe0',-1);face([off(-1)(A),off(-1)(R),off(1)(R),off(1)(A)],pc,'#f4efe0',-1);
+    const nl=add(sc(a,-si),sc(u,c)),nr=add(sc(a,c),sc(u,si));
+    const al=pivot?b:add(sc(a,c),sc(u,si)),ar=pivot?b:sub(sc(a,si),sc(u,c));
+    rec(sc(add(L,A),.5),nl,al,s*c,l+1);rec(sc(add(A,R),.5),nr,ar,s*si,l+1);
+  })([0,0,0],[0,1,0],[1,0,0],1,0);
+  const mn=[1e9,1e9,1e9],mx=[-1e9,-1e9,-1e9];all.forEach(p=>{for(let i=0;i<3;i++){mn[i]=Math.min(mn[i],p[i]);mx[i]=Math.max(mx[i],p[i])}});
+  center=sc(add(mn,mx),.5);rad=Math.max(...all.map(p=>Math.hypot(...sub(p,center))));
+}
+function shade(hex,k){const n=parseInt(hex.slice(1),16),f=x=>Math.round(Math.min(255,x*k));return `rgb(${f(n>>16)},${f(n>>8&255)},${f(n&255)})`}
+function draw3(){
+  const g=c3.getContext('2d'),W=c3.width,H=c3.height;g.clearRect(0,0,W,H);
+  const cy=Math.cos(yaw),sy=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch),D=rad*4.2,F=Math.min(W,H)*0.47/rad*D/(D-rad*0.3);
+  const tr=p=>{const q=sub(p,center);let x=q[0]*cy+q[2]*sy,z=-q[0]*sy+q[2]*cy,y=q[1];const y2=y*cp-z*sp,z2=y*sp+z*cp;return [x,y2,z2]};
+  const light=[0.45,0.8,0.4],L=Math.hypot(...light);
+  const list=[];
+  for(const f of faces){
+    const P=f.pts.map(tr),n=tr(add(f.n,center));
+    const fc=P.reduce((s,p)=>add(s,sc(p,1/P.length)),[0,0,0]);
+    const view=[fc[0],fc[1],fc[2]-D];if(dot(n,view)>=0)continue;
+    const k=0.62+0.5*Math.max(0,dot(f.n,light)/L);
+    list.push({P,z:fc[2],col:shade(f.col,k)});
+  }
+  list.sort((a,b)=>a.z-b.z);
+  const pr=p=>[W/2+p[0]*F*D/(D-p[2]),H*0.52-p[1]*F*D/(D-p[2])];
+  g.lineJoin='round';g.lineWidth=Math.max(0.6,(devicePixelRatio||1)*0.8);g.strokeStyle='rgba(20,33,61,.55)';
+  for(const o of list){g.beginPath();o.P.forEach((p,i)=>{const [x,y]=pr(p);i?g.lineTo(x,y):g.moveTo(x,y)});g.closePath();g.fillStyle=o.col;g.fill();g.stroke()}
+}
+build();setup(c3,draw3);
+c3.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY,yaw,pitch];auto=false;c3.setPointerCapture(e.pointerId)});
+c3.addEventListener('pointermove',e=>{if(!drag)return;yaw=drag[2]+(e.clientX-drag[0])*0.01;pitch=Math.max(-0.2,Math.min(1.2,drag[3]+(e.clientY-drag[1])*0.006));draw3()});
+c3.addEventListener('pointerup',()=>drag=null);c3.style.touchAction='none';c3.style.cursor='grab';
+if(!matchMedia('(prefers-reduced-motion:reduce)').matches){(function spin(){if(auto){yaw+=0.004;draw3()}requestAnimationFrame(spin)})()}
+const bI=document.getElementById('bIso'),b5=document.getElementById('b345');
+bI.onclick=()=>{theta=Math.PI/4;bI.classList.add('on');b5.classList.remove('on');build();draw3()};
+b5.onclick=()=>{theta=Math.acos(0.6);b5.classList.add('on');bI.classList.remove('on');build();draw3()};
+const bF=document.getElementById('bFlat'),bP=document.getElementById('bPiv');
+bF.onclick=()=>{pivot=false;bF.classList.add('on');bP.classList.remove('on');build();draw3()};
+bP.onclick=()=>{pivot=true;bP.classList.add('on');bF.classList.remove('on');build();draw3()};
+document.getElementById('lv').oninput=e=>{maxL=+e.target.value;document.getElementById('lvOut').textContent=maxL;build();draw3()};
+}
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</body>
+</html>

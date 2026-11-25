@@ -364,6 +364,14 @@ a.niv,a.chap,a.reprendre{text-decoration:none;color:inherit}
 .onglets.quatre a{flex-direction:column;gap:3px;font-size:.78rem;padding:10px 2px}
 .onglets.cinq{grid-template-columns:repeat(5,1fr)}
 .onglets.cinq a{flex-direction:column;gap:3px;font-size:.7rem;padding:10px 1px}
+/* onglet Projet */
+.pj-tete{display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:14px;align-items:center;padding:16px;border-radius:20px;background:var(--carte);border:2px solid var(--c);box-shadow:0 4px 0 var(--cc)}
+.pj-tete h2{font-size:1.35rem;margin:2px 0 0}.pj-tete p{margin:6px 0 0}.pj-tete .eti{color:var(--c)}
+.pj-vig svg{width:120px;height:120px;display:block}
+@media(max-width:420px){.pj-tete{grid-template-columns:1fr}.pj-vig{order:-1}.pj-vig svg{width:96px;height:96px}}
+.pj-boutons{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}.pj-boutons .btn{margin:0}
+.btn-pdf svg{width:18px;height:18px;margin-right:6px}
+.eval.off{opacity:.55}.eval.off .doux{margin:0}
 /* onglet Soutien */
 .eval .btn{align-self:flex-start;margin-top:4px}
 /* onglet Leçon : lien + QR code */
@@ -435,7 +443,7 @@ svg .pastille{fill:var(--orange)} svg .pastille-t{fill:#fff;font-family:var(--f-
 <div class="page" id="app"></div>
 <div id="voile" class="voile" hidden></div>
 <div id="toast" class="toast" role="status" hidden></div>
-<script src="assets/catalogue.js?v=20261125a"></script>
+<script src="assets/catalogue.js?v=20261125b"></script>
 <script src="assets/illustrations.js?v=20261116a"></script>
 <script src="assets/ascension.js?v=20261018a"></script>
 <script src="assets/questions.js?v=20261016b"></script>
@@ -458,6 +466,7 @@ const ICO={
  escape:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="m11 12 8.5-8.5M16 7l3 3M13.5 9.5l2 2"/></svg>',
  eval:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>',
  soutien:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="m5.6 5.6 3.9 3.9M14.5 14.5l3.9 3.9M18.4 5.6l-3.9 3.9M9.5 14.5l-3.9 3.9"/></svg>',
+ projet:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 7.5v9L12 21l8-4.5v-9Z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></svg>',
  monte:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V6M6 12l6-6 6 6"/></svg>'
 };
 
@@ -853,10 +862,11 @@ function commencer(e,cible){
 
 /* ---------- L'onglet Ascension d'une classe, et le test d'un chapitre ---------- */
 function onglets(n,actif){
- const asc=AS.testables(n).length>0,lc=!!n.leconCommune,so=!!(n.soutien&&n.soutien.length),on=k=>actif===k?' class="on" aria-current="page"':'';
- const nb=2+(asc?1:0)+(lc?1:0)+(so?1:0);
+ const asc=AS.testables(n).length>0,lc=!!n.leconCommune,so=!!(n.soutien&&n.soutien.length),pj=!!(n.projets&&n.projets.length),on=k=>actif===k?' class="on" aria-current="page"':'';
+ const nb=2+(asc?1:0)+(lc?1:0)+(so?1:0)+(pj?1:0);
  return `<nav class="onglets${nb===5?' cinq':nb===4?' quatre':nb===3?' trois':''} a-monte" aria-label="Sections de la classe">
   <a href="#${n.id}"${on('chap')}>${ICO.exos} Chapitres</a>
+  ${pj?`<a href="#${n.id}/projet"${on('projet')}>${ICO.projet} Projet</a>`:''}
   ${lc?`<a href="#${n.id}/lecon"${on('lecon')}>${ICO.lecon} Leçon</a>`:''}
   ${asc?`<a href="#${n.id}/ascension"${on('asc')}>${ICO.monte} Ascension</a>`:''}
   <a href="#${n.id}/evaluations"${on('eval')}>${ICO.eval} Évaluations</a>
@@ -913,6 +923,22 @@ function vueSoutien(n){
    <p class="doux">Les séances du soutien reprennent les bases de la classe, en jouant. Tu peux les refaire chez toi, autant de fois que tu veux.</p></section>
   ${L.length?`<section class="vue" style="gap:12px">${L.map(carte).join('')}</section>`
    :`<div class="enigme a-monte" ${d(0,.2)}><p class="q">Les séances de soutien arrivent bientôt.</p><p class="doux">Elles seront mises en ligne au fil de l’année.</p></div>`}
+ </div>`,null,{pied:piedAscension(n.id)});
+}
+/* ---------- L'onglet Projet d'une classe : un projet sur l'année (séances d'AP), séance par séance ---------- */
+function vueProjet(n){
+ const pdf=(f,txt)=>`<a class="btn-pdf" href="${esc(f)}" target="_blank" rel="noopener">${ICO.imprimer} ${txt}</a>`;
+ const seance=(s,i)=>s.bientot||!s.id
+  ?`<article class="eval off a-monte" ${d(i,.25,.06)} aria-disabled="true"><div class="eti">Séance ${i+1}</div><h3>${esc(s.titre)}</h3><p class="doux">Bientôt</p></article>`
+  :`<article class="eval a-monte" ${d(i,.25,.06)}><div class="eti">Séance ${i+1}${s.duree?' · '+esc(s.duree):''}${estNeuf(s)?' '+NEUF:''}</div><h3>${esc(s.titre)}</h3>${s.resume?`<p class="doux">${esc(s.resume)}</p>`:''}
+    <div class="pj-boutons"><a class="btn" href="${url(s)}">${ICO.classe} Ouvrir la séance</a>${s.fiche?pdf(s.fiche,s.ficheTxt||'Feuille à imprimer'):''}</div></article>`;
+ ouvrir(`<div class="vue c-${n.couleur}">
+  <button class="retour a-haut" data-parent="#${n.id}">${ICO.gauche} ${esc(n.nom)}</button>
+  ${onglets(n,'projet')}
+  ${n.projets.map(P=>`<section class="pj-tete a-pop" ${d(0,.12)}>
+    <div><div class="eti">${esc(P.etiquette||'Projet')}</div><h2>${esc(P.titre)}</h2>${P.resume?`<p class="doux">${esc(P.resume)}</p>`:''}</div>
+    <div class="pj-vig">${frac(n.id)}</div></section>
+   <section class="vue" style="gap:12px"><h2>Les séances</h2>${(P.seances||[]).map(seance).join('')}</section>`).join('')}
  </div>`,null,{pied:piedAscension(n.id)});
 }
 function ligneTest(n,c){
@@ -1190,6 +1216,7 @@ function router(){
  }
  else if(t&&!t.c&&b==='lecon'&&t.n.leconCommune){vueLecon(t.n);document.title='Leçon · '+t.n.nom+' — '+S.titre}
  else if(t&&!t.c&&b==='evaluations'){vueEvaluations(t.n);document.title='Évaluations · '+t.n.nom+' — '+S.titre}
+ else if(t&&!t.c&&b==='projet'&&(t.n.projets||[]).length){vueProjet(t.n);document.title='Projet · '+t.n.nom+' — '+S.titre}
  else if(t&&!t.c&&b==='soutien'&&(t.n.soutien||[]).length){vueSoutien(t.n);document.title='Soutien · '+t.n.nom+' — '+S.titre}
  else if(t&&t.c){chapitre(t.n,t.c);document.title=t.c.titre+' · '+t.n.nom+' — '+S.titre}
  else if(t){niveau(t.n);document.title='Classe de '+t.n.nom+' — '+S.titre}
