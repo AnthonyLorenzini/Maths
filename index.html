@@ -6,7 +6,7 @@
 <title>Les maths de M. Lorenzini</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=Special+Elite&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <style>
 /* Jardin de fractales : fond clair et lumineux (thème clair uniquement, choisi), une fractale par niveau, la montgolfière en pied de page */
 :root{
@@ -372,35 +372,38 @@ a.niv,a.chap,a.reprendre{text-decoration:none;color:inherit}
 .pj-boutons{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}.pj-boutons .btn{margin:0}
 .btn-pdf svg{width:18px;height:18px;margin-right:6px}
 .eval.off{opacity:.55}.eval.off .doux{margin:0}
-/* onglet Projet : le tableau blanc (chemin de post-it reliés au feutre) */
-.wb{position:relative;padding:18px 16px 20px;border-radius:20px;border:2px solid var(--trait);background-color:#fff;background-image:radial-gradient(color-mix(in srgb,var(--c) 22%,transparent) 1.2px,transparent 1.3px);background-size:22px 22px}
-.wb-titre{margin:0 0 14px;font-size:1.2rem}
-.wb-chemin{list-style:none;margin:0;padding:0;position:relative;display:flex;flex-direction:column;gap:22px}
-.wb-chemin::before{content:"";position:absolute;left:50%;top:20px;bottom:20px;border-left:3px dashed var(--c);opacity:.55}
-.wb-pas{position:relative;width:calc(50% - 22px);display:flex;flex-direction:column;gap:6px;align-items:flex-start}
-.wb-pas:nth-child(odd){align-self:flex-start}.wb-pas:nth-child(even){align-self:flex-end}
-.wb-pas::after{content:"";position:absolute;top:26px;width:22px;border-top:3px dashed var(--c);opacity:.55}
-.wb-pas:nth-child(odd)::after{right:-22px}.wb-pas:nth-child(even)::after{left:-22px}
-.wb-note{position:relative;display:flex;flex-direction:column;gap:3px;width:100%;padding:12px 14px 12px 14px;border-radius:6px 6px 14px 6px;background:#fff6c4;color:var(--encre);text-decoration:none;box-shadow:0 3px 0 rgba(0,0,0,.06),0 8px 16px rgba(0,0,0,.06);transform:rotate(-1.2deg)}
-.wb-pas:nth-child(even) .wb-note{transform:rotate(1.2deg)}
-.wb-note.on{background:#ffe45e;outline:2.5px solid var(--c);transition:transform .15s}
-.wb-note.on:hover,.wb-note.on:focus-visible{transform:rotate(0) scale(1.02)}
-.wb-note:not(.on){opacity:.62}
-.wb-num{position:absolute;top:-10px;right:-8px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--c);color:#fff;font-family:var(--f-titre);font-weight:800;font-size:.95rem}
-.wb-eti{font-size:.74rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--encre-2)}
-.wb-note strong{font-family:var(--f-titre);font-size:1.02rem;line-height:1.2}
-.wb-notion{font-size:.82rem;color:var(--encre-2)}
-.wb-go{display:inline-flex;align-items:center;gap:2px;margin-top:4px;font-weight:800;color:var(--c)}.wb-go svg{width:16px;height:16px}
-.wb-bientot{margin-top:4px;font-size:.82rem;font-style:italic;color:var(--encre-2)}
-.btn-pdf.mini{min-height:36px;padding:0 10px;font-size:.82rem;border-radius:10px}
-.wb-blocs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px}
-.wb-bloc{padding:12px 14px;border:2px solid var(--c);border-radius:12px;background:var(--carte)}
-.wb-bloc h3{margin:0 0 6px;font-size:1rem;color:var(--c)}
-.wb-bloc ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:.92rem}
-@media(min-width:521px){.wb-pas+.wb-pas{margin-top:-64px}}
-@media(max-width:520px){.wb-chemin::before{left:14px}.wb-pas,.wb-pas:nth-child(odd),.wb-pas:nth-child(even){width:auto;align-self:stretch;margin-left:36px}
- .wb-pas::after,.wb-pas:nth-child(even)::after{left:-22px;right:auto}.wb-blocs{grid-template-columns:1fr}}
-@media(prefers-reduced-motion:reduce){.wb-note,.wb-pas:nth-child(even) .wb-note{transform:none}}
+/* onglet Projet : le tableau d'enquête (liège, punaises, fil rouge) */
+.enq{position:relative;padding:22px 16px 26px;border-radius:14px;border:10px solid #6b4423;box-shadow:inset 0 0 40px rgba(60,30,5,.45),0 6px 0 #4a2e15;
+ background-color:#c58f55;background-image:radial-gradient(rgba(90,50,15,.35) 1px,transparent 1.6px),radial-gradient(rgba(255,235,200,.25) 1px,transparent 1.5px),radial-gradient(rgba(70,35,10,.25) 2px,transparent 2.5px);background-size:9px 9px,13px 13px,23px 23px;background-position:0 0,4px 6px,10px 3px}
+.enq-titre{position:relative;z-index:3;display:block;width:max-content;max-width:100%;margin:0 auto 22px;padding:8px 16px;background:#f6f1e3;color:#1f1a14;font:400 1.15rem/1.2 "Special Elite",monospace;text-align:center;transform:rotate(-1deg);box-shadow:0 4px 10px rgba(0,0,0,.3)}
+.enq-titre b{display:block;font:700 1.9rem/1 Caveat,cursive;color:#b3121b}
+.enq-grille{position:relative;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px 22px}
+@media(max-width:560px){.enq-grille{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 14px}}
+.enq-fil{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;overflow:visible}
+.enq-fil path{fill:none;stroke:#c1121f;stroke-width:2.4;filter:drop-shadow(0 2px 1.5px rgba(0,0,0,.35))}
+.enq-piece{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px}
+.enq-pin{position:absolute;top:-9px;left:50%;width:18px;height:18px;margin-left:-9px;border-radius:50%;z-index:4;background:radial-gradient(circle at 35% 30%,#ff8a80,#d01622 55%,#7a0b12);box-shadow:0 3px 3px rgba(0,0,0,.45)}
+.enq-photo{position:relative;display:block;width:100%;padding:8px 8px 10px;background:#fbf8f0;color:#1f1a14;text-decoration:none;box-shadow:0 6px 14px rgba(0,0,0,.4);transition:transform .2s}
+.enq-photo .img{position:relative;display:block;aspect-ratio:4/3;background:#2d3440;overflow:hidden}
+.enq-photo .img svg{position:absolute;inset:0;width:100%;height:100%}
+.enq-photo .leg{display:block;margin-top:7px;font:700 1.15rem/1.05 Caveat,cursive;color:#1f1a14}
+.enq-photo .no{display:block;font:400 .72rem "Special Elite",monospace;color:#6d5f4b;letter-spacing:.04em}
+.enq-photo .notion{display:block;font:400 .74rem "Special Elite",monospace;color:#3d3326;margin-top:3px}
+a.enq-photo:hover,a.enq-photo:focus-visible{transform:rotate(0) scale(1.04)!important;outline:3px solid #ffd60a;outline-offset:2px}
+.enq-tampon{position:absolute;top:14px;right:6px;padding:2px 8px;border:3px solid #c1121f;border-radius:4px;color:#c1121f;font:400 .95rem "Special Elite",monospace;transform:rotate(12deg);background:rgba(251,248,240,.85)}
+.enq-scelle .img svg{filter:blur(2.5px) grayscale(1);opacity:.55}
+.enq-scelle .ruban{position:absolute;left:-12%;right:-12%;top:42%;padding:3px 0;transform:rotate(-14deg);text-align:center;font:400 .7rem "Special Elite",monospace;letter-spacing:.06em;color:#111;background:repeating-linear-gradient(-45deg,#ffd60a 0 14px,#ffd60a 14px 15px);box-shadow:0 2px 4px rgba(0,0,0,.4);white-space:nowrap;overflow:hidden}
+.enq-fiche{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;background:#fbf8f0;color:#1f1a14;border-radius:3px;font:400 .8rem "Special Elite",monospace;text-decoration:none;box-shadow:0 3px 6px rgba(0,0,0,.35)}
+.enq-fiche svg{width:16px;height:16px}
+.enq-notes{position:relative;z-index:3;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:30px}
+@media(max-width:560px){.enq-notes{grid-template-columns:1fr}}
+.enq-note{position:relative;padding:18px 14px 12px;color:#1f1a14;box-shadow:0 6px 12px rgba(0,0,0,.35);background:#fff9c9 linear-gradient(transparent 27px,#9cc3e6 27px,#9cc3e6 28px) 0 14px/100% 28px}
+.enq-note:nth-child(2){background-color:#fdfdfb;transform:rotate(1.4deg)}.enq-note:nth-child(1){transform:rotate(-1.2deg)}
+.enq-note h3{margin:0 0 4px;font:700 1.45rem/1 Caveat,cursive;color:#b3121b}
+.enq-note ul{margin:0;padding-left:18px;font:600 1.15rem/28px Caveat,cursive}
+.enq-note li strong{color:#0d3b66}
+.enq .img .frac{fill:#e9dcc3}
+@media(prefers-reduced-motion:reduce){.enq-photo{transition:none}}
 /* onglet Soutien */
 .eval .btn{align-self:flex-start;margin-top:4px}
 /* onglet Leçon : lien + QR code */
@@ -955,24 +958,43 @@ function vueSoutien(n){
  </div>`,null,{pied:piedAscension(n.id)});
 }
 /* ---------- L'onglet Projet d'une classe : un projet sur l'année (séances d'AP), séance par séance ---------- */
+/* photos des pièces à conviction : un dessin par séance (sinon la fractale du niveau) */
+const PHOTOS=[
+ ()=>frac('4e').replace('<svg','<svg preserveAspectRatio="xMidYMid meet" style="color:#e9dcc3;padding:10%"'),
+ ()=>`<svg viewBox="0 0 120 90"><path d="M30 72h62V26Z" fill="none" stroke="#e9dcc3" stroke-width="3" stroke-linejoin="round"/><path d="M84 72v-8h8" fill="none" stroke="#e9dcc3" stroke-width="2"/><path d="M28 80h66M30 76v8M92 76v8" stroke="#ffd60a" stroke-width="2"/><text x="44" y="46" fill="#ffd60a" font-size="16" font-family="Special Elite,monospace">?</text><text x="61" y="88" fill="#e9dcc3" font-size="9" text-anchor="middle" font-family="Special Elite,monospace">a² + b² = c²</text></svg>`,
+ ()=>`<svg viewBox="0 0 120 90"><g fill="none" stroke="#e9dcc3" stroke-width="2.5"><path d="M48 8h16v16H48zM32 24h16v16H32zM48 24h16v16H48zM64 24h16v16H64zM48 40h16v16H48zM48 56h16v16H48z"/></g><path d="M80 24l8 3v10l-8 3M32 24l-6 3v10l6 3" fill="none" stroke="#ffd60a" stroke-width="1.6" stroke-dasharray="3 2"/></svg>`,
+ ()=>`<svg viewBox="0 0 120 90"><g fill="#e9dcc3"><rect x="56" y="70" width="10" height="10"/><rect x="45" y="56" width="10" height="10"/><rect x="67" y="56" width="10" height="10"/>${[0,1,2,3].map(k=>`<rect x="${29+k*16}" y="42" width="8" height="8"/>`).join('')}${[0,1,2,3,4,5,6,7].map(k=>`<rect x="${21+k*10}" y="30" width="6" height="6"/>`).join('')}</g><text x="60" y="20" fill="#ffd60a" font-size="15" text-anchor="middle" font-family="Special Elite,monospace">2ⁿ</text></svg>`,
+ ()=>`<svg viewBox="0 0 120 90"><g fill="none" stroke="#e9dcc3" stroke-width="2.2" stroke-linejoin="round"><path d="M45 80V54h26v26ZM45 54l8-7h26l-8 7M79 47v26l-8 7"/><path d="M45 54l13-14 13 14"/><path d="M58 40l-8-9 11-11 8 9"/></g><path d="M52 54a7 7 0 0 1 2-6" fill="none" stroke="#ffd60a" stroke-width="2"/><text x="92" y="30" fill="#ffd60a" font-size="10" font-family="Special Elite,monospace">cos</text></svg>`,
+ ()=>`<svg viewBox="0 0 120 90"><path d="M60 0 30 90h60Z" fill="#ffd60a" opacity=".14"/><rect x="40" y="70" width="40" height="12" fill="#e9dcc3"/><g fill="#e9dcc3"><rect x="52" y="54" width="16" height="16"/><rect x="42" y="40" width="12" height="12" transform="rotate(-45 48 46)"/><rect x="66" y="40" width="12" height="12" transform="rotate(45 72 46)"/><rect x="38" y="28" width="8" height="8"/><rect x="74" y="28" width="8" height="8"/></g></svg>`
+];
 function vueProjet(n){
- const pdf=(f,txt)=>`<a class="btn-pdf mini" href="${esc(f)}" target="_blank" rel="noopener">${ICO.imprimer} ${txt}</a>`;
- const note=(s,i)=>{const ok=s.id&&!s.bientot;
-  const dedans=`<span class="wb-num">${i+1}</span><span class="wb-eti">Séance ${i+1}${ok&&estNeuf(s)?' '+NEUF:''}</span><strong>${esc(s.titre)}</strong>${s.notion?`<span class="wb-notion">${esc(s.notion)}</span>`:''}${ok?`<span class="wb-go">Ouvrir ${ICO.fleche}</span>`:'<span class="wb-bientot">Bientôt</span>'}`;
-  return `<li class="wb-pas a-monte" ${d(i,.2,.07)}>${ok?`<a class="wb-note on" href="${url(s)}">${dedans}</a>${s.fiche?pdf(s.fiche,s.ficheTxt||'Feuille à imprimer'):''}`:`<div class="wb-note" aria-disabled="true">${dedans}</div>`}</li>`};
+ const ROT=[-3,2.2,-1.6,2.6,-2.2,1.6];
+ const piece=(s,i)=>{const ok=s.id&&!s.bientot,ph=(PHOTOS[i]||PHOTOS[0])();
+  const dedans=`<span class="img">${ph}${ok?'':'<span class="ruban">SCELLÉ · NE PAS OUVRIR · SCELLÉ · NE PAS OUVRIR</span>'}</span>
+   <span class="no">PIÈCE N° ${i+1}${s.duree?' · '+esc(s.duree):''}</span><span class="leg">${esc(s.titre)}</span>${s.notion?`<span class="notion">${esc(s.notion)}</span>`:''}${ok?`<span class="enq-tampon">${estNeuf(s)?'NOUVEAU':'OUVERT'}</span>`:''}`;
+  return `<li class="enq-piece"><span class="enq-pin"></span>${ok?`<a class="enq-photo" href="${url(s)}" style="transform:rotate(${ROT[i%6]}deg)" aria-label="Séance ${i+1} : ${esc(s.titre)}">${dedans}</a>${s.fiche?`<a class="enq-fiche" href="${esc(s.fiche)}" target="_blank" rel="noopener">${ICO.imprimer} ${esc(s.ficheTxt||'Feuille à imprimer')}</a>`:''}`
+   :`<div class="enq-photo enq-scelle" style="transform:rotate(${ROT[i%6]}deg)" aria-label="Séance ${i+1} : ${esc(s.titre)}, bientôt">${dedans}</div>`}</li>`};
  ouvrir(`<div class="vue c-${n.couleur}">
   <button class="retour a-haut" data-parent="#${n.id}">${ICO.gauche} ${esc(n.nom)}</button>
   ${onglets(n,'projet')}
-  ${n.projets.map(P=>`<section class="pj-tete a-pop" ${d(0,.12)}>
-    <div><div class="eti">${esc(P.etiquette||'Projet')}</div><h2>${esc(P.titre)}</h2>${P.resume?`<p class="doux">${esc(P.resume)}</p>`:''}</div>
-    <div class="pj-vig">${frac(n.id)}</div></section>
-   <section class="wb a-monte" ${d(0,.2)} aria-label="Tableau du projet">
-    <h2 class="wb-titre">Le chemin de la maquette</h2>
-    <ol class="wb-chemin">${(P.seances||[]).map(note).join('')}</ol>
-    ${(P.blocs||[]).length?`<div class="wb-blocs">${P.blocs.map(b=>`<div class="wb-bloc"><h3>${esc(b.titre)}</h3><ul>${b.items.map(t=>`<li>${gras(t)}</li>`).join('')}</ul></div>`).join('')}</div>`:''}
+  ${n.projets.map(P=>`<section class="enq a-monte" ${d(0,.12)} aria-label="Tableau du projet">
+    <h2 class="enq-titre">${esc(P.etiquette||'Projet')}<b>Affaire : ${esc(P.titre)}</b></h2>
+    <div style="position:relative"><svg class="enq-fil" aria-hidden="true"></svg>
+    <ol class="enq-grille">${(P.seances||[]).map(piece).join('')}</ol></div>
+    ${(P.blocs||[]).length?`<div class="enq-notes">${P.blocs.map(b=>`<div class="enq-note"><span class="enq-pin"></span><h3>${esc(b.titre)}</h3><ul>${b.items.map(t=>`<li>${gras(t)}</li>`).join('')}</ul></div>`).join('')}</div>`:''}
    </section>`).join('')}
- </div>`,null,{pied:piedAscension(n.id)});
+ </div>`,filRouge,{pied:piedAscension(n.id)});
 }
+/* le fil rouge relie les punaises des séances, dans l'ordre, avec un léger mou */
+function filRouge(){
+ const tracer=()=>document.querySelectorAll('.enq-fil').forEach(svg=>{
+  const box=svg.getBoundingClientRect(),pins=[...svg.parentNode.querySelectorAll('.enq-grille .enq-pin')].map(p=>{const r=p.getBoundingClientRect();return [r.left+r.width/2-box.left,r.top+r.height/2-box.top]});
+  let d='';for(let k=1;k<pins.length;k++){const [a,b]=pins[k-1],[c,e]=pins[k],mou=Math.min(40,Math.hypot(c-a,e-b)*.12);d+=`M${a.toFixed(1)} ${b.toFixed(1)}Q${((a+c)/2).toFixed(1)} ${(Math.max(b,e)+mou).toFixed(1)} ${c.toFixed(1)} ${e.toFixed(1)}`}
+  svg.innerHTML=`<path d="${d}"/>`});
+ tracer();[300,700,1200].forEach(t=>setTimeout(tracer,t));
+ window._filRouge=tracer;
+}
+addEventListener('resize',()=>{if(document.querySelector('.enq-fil')&&window._filRouge)window._filRouge()});
 function ligneTest(n,c){
  const dispo=AS.aTest(c.id)&&!c.bientot,st=AS.stats(n.id,c.id),deja=AS.dejaAujourdhui(n.id,c.id);
  const sous=!dispo?(c.bientot?'Chapitre à venir':'Test bientôt disponible')
