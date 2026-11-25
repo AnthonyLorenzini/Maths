@@ -1,0 +1,1027 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Soutien · Séance 3 — Le labo du Pr Virgule</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Nunito:wght@600;700;800&display=swap">
+<style>
+/* Concept : le laboratoire du Pr Virgule, projeté au tableau sur papier de cahier.
+   Le chat Milli est devenu invisible. Chaque instrument bien lu ajoute un ingrédient
+   dans le chaudron (barre du haut). Avec les 4 ingrédients, la potion fait réapparaître Milli. */
+:root{
+  --paper:#fffdf0; --grid:#d3dcf3; --ink:#1f2a5c; --soft:#5a6494; --hl:#ffe45c; --red:#d9383a; --ok:#1f8a5b; --okbg:#d9f3e6; --badbg:#fde4e3;
+  --i1:#2b59c3; --i2:#c8571d; --i3:#0f7c8c; --i4:#8a3fb5; --i5:#1f8a5b;
+  --rD:#7b8bd6; --rU:#f2a900; --rd:#e0457b; --rc:#1f8a5b; --rm:#2b9fd9;
+  --display:'Caveat Brush','Segoe Print','Comic Sans MS',cursive;
+  --body:'Nunito','Trebuchet MS',Verdana,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:auto}
+body{
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:30px 30px;
+  color:var(--ink); font-family:var(--body); font-weight:700; font-size:clamp(17px,1.55vw,24px); line-height:1.35;
+  padding-block:0; padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px));
+  min-height:100vh;
+}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.wrap{max-width:1280px;margin:0 auto;padding-block:14px 40px}
+h3{font-family:var(--display);font-weight:400;font-size:1.5em;margin:10px 0 4px}
+
+/* barre du haut : titre, étapes, chaudron + recette */
+.bar{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;justify-content:space-between;background:#fff;border:3px solid var(--ink);border-radius:16px;padding:10px 16px;box-shadow:4px 4px 0 var(--ink)}
+.brand{font-family:var(--display);font-weight:400;font-size:clamp(26px,3vw,40px);margin:0;line-height:1}
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.tab{border:2.5px solid var(--ink);background:#fff;border-radius:10px;padding:5px 12px;font-weight:800;font-size:.85em}
+.tab[aria-current="true"]{background:var(--hl)}
+.tab .tick{display:none;color:var(--ok)}
+.tab.done .tick{display:inline}
+.recipe{display:flex;gap:6px;align-items:flex-end}
+.recipe .cau{width:74px;height:74px}
+.slot{width:54px;text-align:center;font-size:.55em;line-height:1.1}
+.slot svg{width:44px;height:44px;display:block;margin:0 auto 2px;border:2.5px dashed var(--soft);border-radius:12px;background:#f6f6f6;padding:3px}
+.slot svg *{opacity:.25}
+.slot.on svg{border:2.5px solid var(--ok);background:var(--okbg)}
+.slot.on svg *{opacity:1}
+.slot span{color:var(--soft)}
+.slot.on span{color:var(--ink)}
+.slot.bonus{display:none}
+.slot.bonus.on{display:block}
+
+/* chaudron */
+.liq{transition:fill 1s}
+.bub{animation:bub 2.4s ease-in infinite;opacity:0}
+.bub:nth-of-type(2){animation-delay:.8s}.bub:nth-of-type(3){animation-delay:1.6s}
+@keyframes bub{0%{transform:translateY(0);opacity:0}20%{opacity:.9}100%{transform:translateY(-26px);opacity:0}}
+.fire{opacity:0;transition:opacity .8s}
+.hot .fire{opacity:1}
+.fl{animation:fl .5s ease-in-out infinite alternate;transform-origin:center bottom}
+@keyframes fl{to{transform:scaleY(1.18)}}
+
+/* fenêtre de réussite */
+.win{position:fixed;inset:0;background:rgba(31,42,92,.55);display:grid;place-items:center;z-index:60;padding:16px}
+.win[hidden]{display:none!important}
+.win .box{background:#fff;border:4px solid var(--ink);border-radius:20px;padding:20px 26px;max-width:760px;width:100%;text-align:center;box-shadow:6px 6px 0 var(--ink);animation:pop .6s ease-out}
+.win h3{font-size:clamp(30px,3.6vw,52px);margin:0 0 4px}
+.win .pics{display:flex;gap:22px;justify-content:center;align-items:center;margin:8px 0}
+.win .pics svg{width:120px;height:120px}
+.win .arrow{font-size:2.2em;color:var(--soft)}
+@keyframes pop{0%{opacity:0;transform:translateY(-30px) rotate(-3deg)}60%{opacity:1}100%{transform:none}}
+
+/* écrans */
+.scr{display:none;margin-top:18px}
+.scr.show{display:block}
+.card{background:#fff;border:3px solid var(--c,var(--ink));border-radius:18px;padding:clamp(14px,2vw,26px);box-shadow:5px 5px 0 var(--c,var(--ink))}
+.head{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;margin-bottom:6px}
+.head h2{font-family:var(--display);font-size:clamp(28px,3.2vw,46px);margin:0;color:var(--c);line-height:1.05;font-weight:400}
+.head .ico{width:56px;height:56px;flex:none}
+.but{margin:0 0 10px;font-style:italic;color:var(--soft)}
+.but b{font-style:normal;background:var(--hl);color:var(--ink);padding:0 6px;border-radius:4px}
+.dur{display:none;margin-left:auto;font-size:.7em;color:var(--soft)}
+body.prof .dur{display:block}
+.pr{display:flex;gap:12px;align-items:center;margin:4px 0 12px}
+.pr svg{width:70px;height:70px;flex:none}
+.pr p{margin:0;background:#f4f7ff;border:3px solid var(--ink);border-radius:16px 16px 16px 4px;padding:8px 14px;position:relative}
+.subnav{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px}
+.pill{border:2.5px solid var(--c);background:#fff;color:var(--c);border-radius:999px;padding:4px 16px;font-weight:800}
+.pill[aria-selected="true"]{background:var(--c);color:#fff}
+.sub{display:none}
+.sub.show{display:block}
+.cols{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start}
+.cols>*{min-width:0}
+.btn{border:3px solid var(--ink);background:var(--hl);border-radius:12px;padding:8px 18px;font-weight:800;box-shadow:3px 3px 0 var(--ink)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.btn.alt{background:#fff}
+.msg{min-height:1.5em;margin:8px 0 0;font-weight:800}
+.msg.ok{color:var(--ok)}
+.msg.no{color:var(--red)}
+.rule{margin:0 0 10px;padding-left:1.2em}
+.rule li{margin:3px 0}
+.hl{background:var(--hl);padding:0 5px;border-radius:4px}
+.help{margin-top:10px;font-size:.85em;background:#fff8d6;border:2px dashed var(--ink);border-radius:10px;padding:6px 12px}
+.help[hidden]{display:none!important}
+.mini{border:2px solid var(--ink);background:#fff;border-radius:8px;padding:4px 12px;font-size:.8em;font-weight:800;margin-top:8px}
+.note{display:none;margin-top:14px;font-size:.8em;background:#eef1ff;border:2px solid var(--soft);border-radius:10px;padding:8px 14px}
+.note b{color:var(--i1)}
+body.prof .note{display:block}
+.ask{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px;padding-top:12px;border-top:3px dashed var(--c)}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;gap:2px;line-height:1.05;margin:0 2px}
+.frac i{font-style:normal}
+.frac span.fb{width:100%;height:3px;background:currentColor;border-radius:2px}
+.big{font-family:var(--display);font-weight:400;font-size:clamp(28px,3.6vw,52px);line-height:1.15;margin:8px 0}
+.box{border:3px solid var(--c);border-radius:14px;background:#fffbe0;padding:8px 16px;margin:10px 0}
+.box[hidden]{display:none}
+.box b.t{font-family:var(--display);font-weight:400;font-size:1.3em;color:var(--c)}
+.recette{border:3px dashed var(--red);border-radius:14px;background:#fff6f5;padding:10px 16px;margin:10px 0;font-size:1.1em}
+.recette b.t{color:var(--red)}
+.fig{width:100%;height:auto;background:#fff;border-radius:12px;border:2px solid #e2e8fa;touch-action:manipulation}
+
+.todo{border:3px solid var(--ink);border-radius:14px;background:#fff;padding:6px 14px;margin:4px 0 14px}
+.ti{display:flex;gap:14px;align-items:baseline;margin:5px 0}
+.tg{flex:none;min-width:6.2em;text-align:center;font-size:.68em;letter-spacing:.6px;text-transform:uppercase;font-weight:800;border:2.5px solid var(--ink);border-radius:8px;padding:0 8px}
+.tg.c{background:var(--hl)}
+.tg.o{background:#cfe3ff}
+
+/* choix */
+.opts{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}
+.cb{border:3px solid var(--c);background:#fff;border-radius:12px;padding:6px 18px;min-width:80px;min-height:52px;font-size:1.05em;font-weight:800;box-shadow:3px 3px 0 var(--c)}
+.cb.ok{background:var(--okbg);border-color:var(--ok);box-shadow:3px 3px 0 var(--ok)}
+.cb.bad{background:var(--badbg);border-color:var(--red);box-shadow:none;opacity:.6;animation:sh .3s}
+.cb[disabled]{cursor:default}
+@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.q{margin:8px 0 2px;font-size:1.12em}
+.q b{background:var(--hl);padding:0 6px;border-radius:4px}
+.step[hidden]{display:none}
+
+/* contenants et tableau de numération */
+.chain{display:flex;flex-wrap:wrap;align-items:flex-end;gap:6px 10px;margin:6px 0}
+.chain .ct{text-align:center;font-size:.72em;line-height:1.15}
+.chain .ct svg{display:block;margin:0 auto 2px}
+.chain .eq{font-size:.9em;padding-bottom:28px;color:var(--soft)}
+.pv{border-collapse:separate;border-spacing:5px;margin:6px 0}
+.pv th{font-size:.62em;border:2px solid var(--ink);border-radius:6px;padding:2px 8px;background:#fff}
+.pv th.U,.pv td.U{background:var(--hl)}
+.pv td{border:3px solid var(--ink);border-radius:8px;background:#fff;font-family:var(--display);font-size:2em;text-align:center;min-width:1.6em;height:1.4em;line-height:1.2}
+.pv th.vir{border:none;background:none;min-width:.4em}
+.pv td.vir{border:none;background:none;min-width:.4em;color:var(--red)}
+.pv td.ic{font-family:var(--body);font-size:1em;height:auto;vertical-align:bottom;padding:4px;min-width:3.6em}
+.pv td.ic div{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;max-width:7.5em;margin:0 auto}
+.pv td.pm{border:none;background:none;height:auto;font-family:var(--body);font-size:1em;padding:0}
+.pv td.pm button{border:2.5px solid var(--ink);background:#fff;border-radius:8px;width:2.2em;height:1.9em;font-weight:800;margin:1px;padding:0}
+.pv td.pm button.plus{background:var(--hl)}
+.digits{display:flex;align-items:flex-end;gap:4px;margin:10px 0;font-family:var(--display);font-size:clamp(54px,7vw,96px);line-height:1}
+.digits button{border:3px solid var(--ink);border-radius:12px;background:#fff;min-width:1.05em;padding:2px 6px;font-family:inherit;font-weight:400;box-shadow:3px 3px 0 var(--ink);line-height:1}
+.digits button.good{background:var(--okbg);border-color:var(--ok);box-shadow:3px 3px 0 var(--ok)}
+.digits button.nope{animation:sh .3s;background:var(--badbg)}
+.digits .cm{color:var(--red);padding:0 2px}
+.digits .gap{width:.3em}
+.digits .lbl{display:block;font-family:var(--body);font-size:.16em;font-weight:800;margin-top:2px;min-height:1.2em;color:var(--ok)}
+.shelf{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0}
+
+/* figures cliquables */
+.tk{cursor:pointer}
+.tk circle{fill:transparent}
+.tk:hover circle{fill:rgba(255,228,92,.8)}
+.tk.good circle{fill:var(--ok)}
+.tk.bad circle{fill:rgba(217,56,58,.35)}
+.beam{transition:transform 1s cubic-bezier(.4,1.6,.6,1);transform-origin:260px 70px}
+.pan{transition:transform 1s cubic-bezier(.4,1.6,.6,1)}
+.pan{cursor:pointer}
+.pan:hover .vial{filter:drop-shadow(0 0 6px #ffe45c)}
+.duel{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.vials{display:flex;flex-wrap:wrap;gap:14px;margin:10px 0}
+.vb{border:3px solid var(--i4);background:#fff;border-radius:14px;padding:6px 10px;text-align:center;box-shadow:3px 3px 0 var(--i4);min-width:110px}
+.vb svg{width:60px;height:90px;display:block;margin:0 auto}
+.vb b{font-size:1.15em}
+.vb.used{opacity:.25;box-shadow:none;cursor:default}
+.vb.nope{animation:sh .3s;background:var(--badbg)}
+.rack{display:flex;flex-wrap:wrap;align-items:center;gap:8px;min-height:72px;border:3px solid var(--i4);border-radius:14px;padding:6px 12px;background:#faf5ff}
+.rack .sl{min-width:90px;height:52px;border:2.5px dashed var(--i4);border-radius:10px;display:grid;place-items:center;font-size:1.05em}
+.rack .sl.f{border-style:solid;background:#fff}
+.rack .lt{color:var(--i4);font-size:1.2em}
+.vf .row{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;border:3px solid var(--ink);border-radius:14px;padding:6px 14px;margin:8px 0;background:#fff}
+.vf .row.done{background:#f1fbf6;border-color:var(--ok)}
+.vf .stmt{flex:1 1 320px}
+.vf .opts{margin:0}
+.vf .why{flex-basis:100%;font-size:.85em;color:var(--ok);margin:0}
+
+/* final */
+.reveal{text-align:center}
+.milli{width:min(330px,70vw);height:auto;display:block;margin:0 auto}
+.milli.ghost .cat{opacity:.12;filter:grayscale(1)}
+.milli .cat{transition:opacity 2.5s,filter 2.5s}
+.milli .spark{opacity:0}
+.milli.shiny .spark{animation:tw 1.2s ease-in-out infinite alternate}
+@keyframes tw{from{opacity:.2;transform:scale(.7)}to{opacity:1;transform:scale(1.1)}}
+.spark{transform-box:fill-box;transform-origin:center}
+.know{list-style:none;padding:0;margin:10px auto;max-width:780px;text-align:left}
+.know li{border:3px solid var(--ink);border-radius:12px;background:#fff;margin:8px 0;padding:6px 14px;opacity:.35;transition:opacity .4s}
+.know li.on{opacity:1;background:#f1fbf6;border-color:var(--ok)}
+.fav{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;justify-content:center}
+.fav button{border:3px solid var(--ink);background:#fff;border-radius:14px;padding:8px 14px;min-width:130px;box-shadow:3px 3px 0 var(--ink)}
+.fav button svg{width:50px;height:50px;display:block;margin:0 auto}
+.fav button.sel{background:var(--hl)}
+.confetti{position:fixed;top:-20px;width:12px;height:18px;z-index:50;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.9}}
+@media (prefers-reduced-motion:reduce){.confetti{display:none}.bub,.fl,.cb.bad,.win .box,.milli.shiny .spark{animation:none}.beam{transition:none}}
+</style>
+<body class="">
+<div class="wrap">
+  <header class="bar">
+    <h1 class="brand">Le labo du Pr Virgule</h1>
+    <nav class="tabs" id="tabs" aria-label="Étapes"></nav>
+    <div class="recipe" id="recipe" aria-label="Le chaudron et les ingrédients"></div>
+  </header>
+
+  <!-- ACCUEIL -->
+  <section class="scr show" id="s0" style="--c:var(--ink)">
+    <div class="card">
+      <div class="head"><h2>Au secours, Milli a disparu !</h2><span class="dur">0 → 3 min</span></div>
+      <p class="but"><b>Mission :</b> fabriquer la potion qui fait réapparaître Milli, le chat du labo.</p>
+      <svg class="fig" id="scene" viewBox="0 0 900 330" role="img" aria-label="Le laboratoire : le Pr Virgule, le chaudron et Milli devenu invisible"></svg>
+      <div class="cols" style="margin-top:12px">
+        <div style="flex:1 1 400px">
+          <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Écris la date et le titre : <span class="hl">Le labo du Pr Virgule</span>.</span></div><div class="ti"><span class="tg o">Oral</span><span>Combien d'ingrédients faut-il pour la potion ?</span></div></div>
+        </div>
+        <div style="flex:1 1 400px">
+          <h3>Les règles du labo</h3>
+          <ol class="rule">
+            <li>Chaque instrument donne <span class="hl">une mesure</span>.</li>
+            <li>Mesure juste = l'ingrédient tombe dans le <span class="hl">chaudron</span>.</li>
+            <li>On a le droit de se tromper et de demander un <span class="hl">coup de pouce</span>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="ask"><button class="btn" id="go1">Entrer dans le labo →</button></div>
+    </div>
+  </section>
+
+  <!-- ÉTAPE 1 : L'ÉTAGÈRE -->
+  <section class="scr" id="s1" style="--c:var(--i1)">
+    <div class="card">
+      <div class="head"><span class="ico" data-ico="eau"></span><h2>1 · L'étagère des contenants</h2><span class="dur">3 → 12 min</span></div>
+      <p class="but"><b>But :</b> savoir ce que vaut chaque chiffre d'un nombre à virgule.</p>
+      <div class="pr" data-pr="Pour la potion, il me faut de l'eau de pluie. Je range mes contenants du plus grand au plus petit."></div>
+      <div class="subnav" role="tablist">
+        <button class="pill" role="tab" data-s="0" aria-selected="true">1 · Les contenants</button>
+        <button class="pill" role="tab" data-s="1" aria-selected="false">2 · Où sont les unités ?</button>
+        <button class="pill" role="tab" data-s="2" aria-selected="false">3 · La dose d'eau</button>
+      </div>
+
+      <div class="sub show" data-s="0">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg o">Oral</span><span>Combien de flacons vois-tu ?</span></div><div class="ti"><span class="tg o">Oral</span><span>Combien de tubes pour remplir une fiole ?</span></div></div>
+        <div class="chain" id="chain1"></div>
+        <div class="step" id="c1a">
+          <p class="q">Combien de <b>flacons</b> sur cette étagère ?</p>
+          <div class="shelf" id="sh0"></div>
+          <div class="opts" id="o1a"></div>
+        </div>
+        <div class="step" id="c1b" hidden>
+          <p class="q">Combien de <b>tubes</b> pour remplir <b>1 fiole</b> ?</p>
+          <div class="opts" id="o1b"></div>
+        </div>
+        <div class="msg" id="m1a"></div>
+        <button class="mini" data-help="h1a">Coup de pouce</button>
+        <div class="help" id="h1a" hidden>Regarde la chaîne en haut : chaque contenant se remplit avec <b>10</b> contenants plus petits.</div>
+      </div>
+
+      <div class="sub" data-s="1">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Trace le tableau (dizaines, unités, virgule, dixièmes, centièmes). Écris 25,38 dedans.</span></div><div class="ti"><span class="tg o">Oral</span><span>Où sont toujours les unités ?</span></div></div>
+        <p class="q" id="dq1"></p>
+        <div class="digits" id="dg1"></div>
+        <div class="msg" id="m1b"></div>
+        <div class="box" id="tab1" hidden><b class="t">Dans le tableau</b>
+          <table class="pv" aria-label="25,38 dans le tableau de numération"><tr><th>dizaines</th><th class="U">unités</th><th class="vir"></th><th>dixièmes</th><th>centièmes</th></tr><tr><td>2</td><td class="U">5</td><td class="vir">,</td><td>3</td><td>8</td></tr></table>
+          Les <b>unités</b> sont toujours <span class="hl">juste avant la virgule</span>.
+        </div>
+        <button class="mini" data-help="h1b">Coup de pouce</button>
+        <div class="help" id="h1b" hidden>Pose ton doigt sur la virgule. Le chiffre juste à <b>gauche</b> : les unités. Juste à <b>droite</b> : les dixièmes. Encore après : les centièmes.</div>
+      </div>
+
+      <div class="sub" data-s="2">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Écris le nombre de chaque étagère.</span></div><div class="ti"><span class="tg o">Oral</span><span>Pourquoi écrit-on un 0 sur la deuxième étagère ?</span></div></div>
+        <div class="step" id="e1a">
+          <p class="q">Étagère A : quel nombre de litres ?</p>
+          <div class="shelf" id="shA"></div>
+          <div class="opts" id="o1c"></div>
+        </div>
+        <div class="step" id="e1b" hidden>
+          <p class="q">Étagère B : voici <b>l'eau de pluie</b> de la potion. Combien de litres ?</p>
+          <div class="shelf" id="shB"></div>
+          <div class="opts" id="o1d"></div>
+        </div>
+        <div class="msg" id="m1c"></div>
+        <button class="mini" data-help="h1c">Coup de pouce</button>
+        <div class="help" id="h1c" hidden>Compte chaque sorte de contenant et écris les nombres dans le tableau : bidons = dizaines, flacons = unités, fioles = dixièmes, tubes = centièmes. <b>Pas de fiole ? On écrit 0.</b></div>
+        <div class="box" id="ret1" hidden><b class="t">Je retiens</b><br>Les unités sont <b>juste avant la virgule</b>.<br>Après la virgule : d'abord les <b>dixièmes</b>, puis les <b>centièmes</b>.<br>10 dixièmes = 1 unité · 10 centièmes = 1 dixième.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÉTAPE 2 : LE THERMOMÈTRE -->
+  <section class="scr" id="s2" style="--c:var(--i2)">
+    <div class="card">
+      <div class="head"><span class="ico" data-ico="feu"></span><h2>2 · Le thermomètre</h2><span class="dur">12 → 20 min</span></div>
+      <p class="but"><b>But :</b> lire un nombre à virgule sur une droite graduée, avec la loupe.</p>
+      <div class="pr" data-pr="Maintenant, il faut chauffer la potion. Pas trop, pas trop peu : exactement !"></div>
+      <div class="subnav" role="tablist">
+        <button class="pill" role="tab" data-s="0" aria-selected="true">1 · L'instrument</button>
+        <button class="pill" role="tab" data-s="1" aria-selected="false">2 · Lire la température</button>
+        <button class="pill" role="tab" data-s="2" aria-selected="false">3 · La loupe</button>
+      </div>
+
+      <div class="sub show" data-s="0">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg o">Oral</span><span>Que mesure un thermomètre ? Avec quelle unité ?</span></div></div>
+        <p class="q">Un thermomètre mesure…</p>
+        <div class="opts" id="o2a"></div>
+        <div class="msg" id="m2a"></div>
+      </div>
+
+      <div class="sub" data-s="1">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Écris la température du thermomètre.</span></div><div class="ti"><span class="tg o">Oral</span><span>Entre 37 et 38, combien y a-t-il de petits espaces ?</span></div></div>
+        <p class="q">Le liquide rouge s'arrête où ? Quelle est la température ?</p>
+        <svg class="fig" id="th1" viewBox="0 0 920 190" role="img" aria-label="Thermomètre gradué de 36 à 39"></svg>
+        <div class="opts" id="o2b"></div>
+        <div class="msg" id="m2b"></div>
+        <button class="mini" data-help="h2b">Coup de pouce</button>
+        <div class="help" id="h2b" hidden>Entre 37 et 38, il y a <b>10</b> petits espaces : ce sont les <b>dixièmes</b>. Compte les graduations après 37.</div>
+      </div>
+
+      <div class="sub" data-s="2">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Écris : 37,64 = 37 unités, 6 dixièmes, 4 centièmes.</span></div><div class="ti"><span class="tg o">Oral</span><span>Pourquoi a-t-on besoin de la loupe ?</span></div></div>
+        <div class="recette"><b class="t">Recette :</b> chauffer la potion à <b>37,64 °C</b>.</div>
+        <p class="q" id="q2c">D'abord, touche la graduation <b>37,6</b> sur le thermomètre.</p>
+        <svg class="fig" id="th2" viewBox="0 0 920 190" role="img" aria-label="Thermomètre à régler"></svg>
+        <div class="step" id="lp2" hidden>
+          <p class="q">La loupe partage l'espace entre 37,6 et 37,7 en <b>10</b>. Touche <b>37,64</b>.</p>
+          <svg class="fig" id="loupe" viewBox="0 0 920 200" role="img" aria-label="Loupe entre 37,6 et 37,7"></svg>
+        </div>
+        <div class="msg" id="m2c"></div>
+        <button class="mini" data-help="h2c">Coup de pouce</button>
+        <div class="help" id="h2c" hidden>37,64 : 37 unités, <b>6</b> dixièmes, <b>4</b> centièmes. Sur le thermomètre, trouve 37,6. Dans la loupe, avance de <b>4</b> petites graduations.</div>
+        <div class="box" id="ret2" hidden><b class="t">Je retiens</b><br>Entre deux unités, il y a 10 <b>dixièmes</b>.<br>Avec la loupe, chaque dixième se partage en 10 <b>centièmes</b>.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÉTAPE 3 : LE COMPTE-GOUTTES -->
+  <section class="scr" id="s3" style="--c:var(--i3)">
+    <div class="card">
+      <div class="head"><span class="ico" data-ico="lune"></span><h2>3 · Le compte-gouttes</h2><span class="dur">20 → 29 min</span></div>
+      <p class="but"><b>But :</b> comprendre les millièmes et écrire un nombre à partir de fractions décimales.</p>
+      <div class="pr" data-pr="Le jus de lune est très puissant : on le dose jusqu'à la goutte près !"></div>
+      <div class="subnav" role="tablist">
+        <button class="pill" role="tab" data-s="0" aria-selected="true">1 · La goutte</button>
+        <button class="pill" role="tab" data-s="1" aria-selected="false">2 · La recette secrète</button>
+        <button class="pill" role="tab" data-s="2" aria-selected="false">3 · Doser le jus de lune</button>
+      </div>
+
+      <div class="sub show" data-s="0">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg o">Oral</span><span>Le litre s'écrit comment ?</span></div><div class="ti"><span class="tg o">Oral</span><span>1 goutte, c'est un dixième, un centième ou un millième de litre ?</span></div></div>
+        <div class="chain" id="chain3"></div>
+        <div class="step" id="g3a">
+          <p class="q">On mesure le jus de lune en <b>litres</b>. Le litre s'écrit…</p>
+          <div class="opts" id="o3a"></div>
+        </div>
+        <div class="step" id="g3b" hidden>
+          <p class="q">10 gouttes remplissent 1 tube. Alors <b>1 goutte</b>, c'est…</p>
+          <div class="opts" id="o3b"></div>
+        </div>
+        <div class="msg" id="m3a"></div>
+        <button class="mini" data-help="h3a">Coup de pouce</button>
+        <div class="help" id="h3a" hidden>Dixième → centième → millième : à chaque fois, c'est <b>10 fois plus petit</b>. Après le tube (centième) vient la goutte.</div>
+      </div>
+
+      <div class="sub" data-s="1">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Recopie la recette et écris le nombre à virgule.</span></div><div class="ti"><span class="tg o">Oral</span><span>Combien de chiffres après la virgule pour des millièmes ?</span></div></div>
+        <p class="q">Le professeur a écrit ses doses avec des fractions. Retrouve le bon flacon.</p>
+        <div class="step" id="f3a">
+          <div class="recette"><b class="t">Dose 1 :</b> <span id="fa"></span></div>
+          <div class="opts" id="o3c"></div>
+        </div>
+        <div class="step" id="f3b" hidden>
+          <div class="recette"><b class="t">Dose 2 :</b> <span id="fb"></span></div>
+          <div class="opts" id="o3d"></div>
+        </div>
+        <div class="step" id="f3c" hidden>
+          <div class="recette"><b class="t">Jus de lune :</b> <span id="fc"></span></div>
+          <div class="opts" id="o3e"></div>
+        </div>
+        <div class="msg" id="m3b"></div>
+        <button class="mini" data-help="h3b">Coup de pouce</button>
+        <div class="help" id="h3b" hidden>Sur 10 : dixièmes (1<sup>er</sup> chiffre après la virgule). Sur 100 : centièmes (2<sup>e</sup>). Sur 1 000 : millièmes (3<sup>e</sup>). <b>Un rang vide ? On écrit 0.</b></div>
+      </div>
+
+      <div class="sub" data-s="2">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Écris : 1,325 = 1 + <span class="frac"><i>3</i><span class="fb"></span><i>10</i></span> + <span class="frac"><i>2</i><span class="fb"></span><i>100</i></span> + <span class="frac"><i>5</i><span class="fb"></span><i>1000</i></span></span></div><div class="ti"><span class="tg o">Oral</span><span>Combien de flacons, de fioles, de tubes et de gouttes ?</span></div></div>
+        <div class="recette"><b class="t">À verser :</b> <b>1,325 L</b> de jus de lune. Utilise les boutons <b>+</b> et <b>−</b>.</div>
+        <table class="pv" id="bld" aria-label="Doser avec les contenants"></table>
+        <p class="q">Ta dose : <b id="bnum">0,000 L</b></p>
+        <div class="ask" style="border:0;margin-top:4px;padding:0"><button class="btn" id="pour3">Verser dans le chaudron</button></div>
+        <div class="msg" id="m3c"></div>
+        <button class="mini" data-help="h3c">Coup de pouce</button>
+        <div class="help" id="h3c" hidden>1,325 : <b>1</b> flacon, <b>3</b> fioles, <b>2</b> tubes, <b>5</b> gouttes. Si tu mets 10 gouttes, elles se changent en 1 tube !</div>
+        <div class="box" id="ret3" hidden><b class="t">Je retiens</b><br><span class="frac"><i>1</i><span class="fb"></span><i>10</i></span> = 0,1 (dixième) · <span class="frac"><i>1</i><span class="fb"></span><i>100</i></span> = 0,01 (centième) · <span class="frac"><i>1</i><span class="fb"></span><i>1000</i></span> = 0,001 (millième).<br>1,325 = 1 + <span class="frac"><i>3</i><span class="fb"></span><i>10</i></span> + <span class="frac"><i>2</i><span class="fb"></span><i>100</i></span> + <span class="frac"><i>5</i><span class="fb"></span><i>1000</i></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÉTAPE 4 : LA BALANCE -->
+  <section class="scr" id="s4" style="--c:var(--i4)">
+    <div class="card">
+      <div class="head"><span class="ico" data-ico="fiole"></span><h2>4 · La balance</h2><span class="dur">29 → 39 min</span></div>
+      <p class="but"><b>But :</b> comparer et ranger des nombres à virgule.</p>
+      <div class="pr" data-pr="Dernier ingrédient : mes 4 fioles magiques. On les verse de la plus légère à la plus lourde !"></div>
+      <div class="subnav" role="tablist">
+        <button class="pill" role="tab" data-s="0" aria-selected="true">1 · Les duels</button>
+        <button class="pill" role="tab" data-s="1" aria-selected="false">2 · Ranger les fioles</button>
+      </div>
+
+      <div class="sub show" data-s="0">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Pour chaque duel, écris les deux masses avec &lt;, &gt; ou =.</span></div><div class="ti"><span class="tg o">Oral</span><span>Le nombre le plus long est-il toujours le plus grand ?</span></div></div>
+        <p class="q" id="dq4"></p>
+        <div class="duel">
+          <svg class="fig" id="bal" viewBox="0 0 520 300" style="max-width:620px;flex:1 1 420px" role="img" aria-label="Une balance à deux plateaux"></svg>
+          <div style="flex:1 1 260px">
+            <p style="margin:0 0 6px">Touche la fiole <b>la plus lourde</b>.</p>
+            <button class="btn alt" id="same">Elles pèsent pareil</button>
+            <div class="box" style="--c:var(--i4)"><b class="t">Astuce</b><br>Compare d'abord les <b>unités</b>, puis les <b>dixièmes</b>, puis les <b>centièmes</b>.</div>
+          </div>
+        </div>
+        <div class="msg" id="m4a"></div>
+        <button class="mini" data-help="h4a">Coup de pouce</button>
+        <div class="help" id="h4a" hidden></div>
+      </div>
+
+      <div class="sub" data-s="1">
+        <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Range les 4 masses de la plus légère à la plus lourde avec &lt;.</span></div><div class="ti"><span class="tg o">Oral</span><span>Quelle fiole est la plus légère ? Comment le sais-tu ?</span></div></div>
+        <p class="q">Touche les fioles <b>de la plus légère à la plus lourde</b>.</p>
+        <div class="vials" id="vials"></div>
+        <div class="rack" id="rack"></div>
+        <div class="msg" id="m4b"></div>
+        <button class="mini" data-help="h4b">Coup de pouce</button>
+        <div class="help" id="h4b" hidden>Regarde d'abord les unités : deux fioles ont <b>1</b> unité, deux fioles ont <b>2</b> unités. Ensuite compare les dixièmes : 1,6 = 1,60 et 2,5 = 2,50.</div>
+        <div class="box" id="ret4" hidden><b class="t">Je retiens</b><br>Pour comparer, on regarde <b>rang par rang</b> : unités, puis dixièmes, puis centièmes.<br>On peut ajouter un 0 à la fin : 2,5 = 2,50. Donc <b>2,5 &gt; 2,35</b>.<br>Un nombre plus long n'est pas forcément plus grand.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÉTAPE 5 : LE MICROSCOPE (sautable) -->
+  <section class="scr" id="s5" style="--c:var(--i5)">
+    <div class="card">
+      <div class="head"><span class="ico" data-ico="paillette"></span><h2>5 · Le microscope</h2><span class="dur">39 → 43 min · sautable</span></div>
+      <p class="but"><b>But :</b> lire un grand nombre entier.</p>
+      <div class="pr" data-pr="Bonus ! Sous le microscope, je compte les paillettes magiques. Elles feront briller Milli."></div>
+      <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Écris le nombre en lettres.</span></div><div class="ti"><span class="tg o">Oral</span><span>Lis le nombre par paquets de 3 chiffres.</span></div></div>
+      <div class="cols">
+        <div style="flex:0 1 260px"><svg id="micro" viewBox="0 0 220 240" style="width:100%;max-width:240px" role="img" aria-label="Un microscope rempli de paillettes"></svg></div>
+        <div style="flex:1 1 480px">
+          <div class="step" id="k5a">
+            <p class="q">Le microscope compte : <b>1 253 400</b> paillettes. Comment se lit ce nombre ?</p>
+            <div class="opts" id="o5a" style="flex-direction:column;align-items:flex-start"></div>
+          </div>
+          <div class="step" id="k5b" hidden>
+            <p class="q" id="dq5"></p>
+            <div class="digits" id="dg5"></div>
+          </div>
+          <div class="msg" id="m5"></div>
+          <button class="mini" data-help="h5">Coup de pouce</button>
+          <div class="help" id="h5" hidden>On sépare en paquets de 3 en partant de la droite : <b>1</b> million · <b>253</b> mille · <b>400</b>. Dans chaque paquet : centaines, dizaines, unités.</div>
+          <div class="box" id="ret5" hidden><b class="t">Je retiens</b><br>Un grand nombre se lit <b>par paquets de 3</b> : millions · mille · unités.<br>1 253 400 : un million deux cent cinquante-trois mille quatre cents.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BONUS : L'ERREUR DE L'ASSISTANT -->
+  <section class="scr" id="s6" style="--c:var(--ink)">
+    <div class="card">
+      <div class="head"><h2>Bonus · Les erreurs de Gaston</h2><span class="dur">si on a de l'avance</span></div>
+      <p class="but"><b>But :</b> repérer les erreurs de l'assistant.</p>
+      <div class="pr" data-pr="Mon assistant Gaston a écrit des phrases dans le cahier du labo. Certaines sont fausses !" data-who="gaston"></div>
+      <div class="todo" aria-label="Questions"><div class="ti"><span class="tg c">Cahier</span><span>Corrige chaque phrase fausse.</span></div><div class="ti"><span class="tg o">Oral</span><span>Pourquoi est-ce faux ?</span></div></div>
+      <div class="vf" id="vf"></div>
+      <div class="msg" id="m6"></div>
+    </div>
+  </section>
+
+  <!-- LA POTION -->
+  <section class="scr" id="s7" style="--c:var(--ink)">
+    <div class="card reveal">
+      <div class="head"><h2>La potion</h2><span class="dur">43 → 50 min</span></div>
+      <svg class="milli ghost" id="milli" viewBox="0 0 300 250" role="img" aria-label="Milli, le chat du labo"></svg>
+      <div id="r0">
+        <p class="big">La potion est-elle prête ?</p>
+        <div class="msg" id="rmsg"></div>
+        <button class="btn" id="rbtn">Verser la potion sur Milli</button>
+      </div>
+      <div id="r1" hidden>
+        <p class="big" id="rname"></p>
+        <h3>Ce que je sais faire maintenant</h3>
+        <ul class="know" id="know"></ul>
+        <h3>Mon instrument préféré était…</h3>
+        <div class="fav" id="fav"></div>
+        <div class="msg" id="mfav"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="win" id="win" hidden><div class="box"><h3 id="winT"></h3><p id="winS" style="margin:0 0 6px"></p><div class="pics" id="winP"></div><div style="margin-top:8px"><button class="btn" id="winOk">Continuer</button></div></div></div>
+
+<script>
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  function say(id,txt,cls){var m=$('#'+id);m.innerHTML=txt;m.className='msg'+(cls?' '+cls:'')}
+  function fr(a,b){return '<span class="frac"><i>'+a+'</i><span class="fb"></span><i>'+b+'</i></span>'}
+  function vc(x){return String(x).replace('.',',')}
+  var BRAVO=['Bravo !','Exact !','Bien vu !','Oui, c\'est ça !','Parfait !'],bi=0;
+  function bravo(){bi=(bi+1)%BRAVO.length;return BRAVO[bi]}
+
+  /* ---------- dessins ---------- */
+  var INK='#1f2a5c';
+  function prInner(){
+    return '<circle cx="50" cy="50" r="48" fill="#e8f4ff" stroke="'+INK+'" stroke-width="3"/>'+
+      '<path d="M18 96 Q20 74 50 72 Q80 74 82 96Z" fill="#fff" stroke="'+INK+'" stroke-width="2.5"/>'+
+      '<path d="M44 74 L50 86 L56 74" fill="none" stroke="'+INK+'" stroke-width="2.5"/>'+
+      '<circle cx="22" cy="46" r="10" fill="#fff" stroke="'+INK+'" stroke-width="2.5"/><circle cx="78" cy="46" r="10" fill="#fff" stroke="'+INK+'" stroke-width="2.5"/>'+
+      '<circle cx="50" cy="50" r="25" fill="#f3cfae" stroke="'+INK+'" stroke-width="2.5"/>'+
+      '<path d="M52 24 Q62 10 56 2 Q66 6 64 16 Q62 24 52 26Z" fill="'+INK+'"/><circle cx="56" cy="14" r="7" fill="'+INK+'"/>'+
+      '<rect x="27" y="31" width="46" height="5" rx="2" fill="#8a3fb5"/><circle cx="40" cy="33" r="7" fill="#bfe6ff" stroke="'+INK+'" stroke-width="2.5"/><circle cx="60" cy="33" r="7" fill="#bfe6ff" stroke="'+INK+'" stroke-width="2.5"/>'+
+      '<circle cx="41" cy="50" r="3.2" fill="'+INK+'"/><circle cx="59" cy="50" r="3.2" fill="'+INK+'"/>'+
+      '<path d="M38 60 Q44 56 50 60 Q56 56 62 60 Q56 64 50 62 Q44 64 38 60Z" fill="#fff" stroke="'+INK+'" stroke-width="1.8"/>'+
+      '<path d="M43 66 Q50 71 57 66" fill="none" stroke="'+INK+'" stroke-width="2.5" stroke-linecap="round"/>';
+  }
+  function gastonInner(){
+    return '<circle cx="50" cy="50" r="48" fill="#fff3b8" stroke="'+INK+'" stroke-width="3"/>'+
+      '<rect x="24" y="30" width="52" height="42" rx="12" fill="#c9d3ea" stroke="'+INK+'" stroke-width="2.5"/>'+
+      '<line x1="50" y1="30" x2="50" y2="16" stroke="'+INK+'" stroke-width="2.5"/><circle cx="50" cy="14" r="5" fill="#d9383a"/>'+
+      '<circle cx="39" cy="48" r="6" fill="#fff" stroke="'+INK+'" stroke-width="2.5"/><circle cx="61" cy="48" r="6" fill="#fff" stroke="'+INK+'" stroke-width="2.5"/>'+
+      '<circle cx="40" cy="49" r="2.6" fill="'+INK+'"/><circle cx="60" cy="47" r="2.6" fill="'+INK+'"/>'+
+      '<path d="M40 62 Q50 58 60 63" fill="none" stroke="'+INK+'" stroke-width="2.5" stroke-linecap="round"/>'+
+      '<rect x="30" y="74" width="40" height="18" rx="6" fill="#c9d3ea" stroke="'+INK+'" stroke-width="2.5"/>';
+  }
+  function pr(who){return '<svg viewBox="0 0 100 100" aria-hidden="true">'+(who==='gaston'?gastonInner():prInner())+'</svg>'}
+  $$('[data-pr]').forEach(function(d){d.innerHTML=pr(d.getAttribute('data-who'))+'<p>'+d.getAttribute('data-pr')+'</p>'});
+
+  /* contenants : D bidon (dizaine), U flacon (unité), d fiole (dixième), c tube (centième), m goutte (millième) */
+  var CT={
+    D:{n:'bidon',v:'10 L',col:'#7b8bd6',w:44,h:56},
+    U:{n:'flacon',v:'1 L',col:'#f2a900',w:34,h:46},
+    d:{n:'fiole',v:'1 dixième de L',col:'#e0457b',w:16,h:36},
+    c:{n:'tube',v:'1 centième de L',col:'#1f8a5b',w:10,h:28},
+    m:{n:'goutte',v:'1 millième de L',col:'#2b9fd9',w:10,h:14}
+  };
+  function ct(t,s){
+    s=s||1;var k=CT[t],w=k.w*s,h=k.h*s,o='<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+k.w+' '+k.h+'" aria-hidden="true">';
+    if(t==='D')o+='<rect x="2" y="8" width="40" height="46" rx="6" fill="#fff" stroke="'+INK+'" stroke-width="2.5"/><rect x="4" y="18" width="36" height="34" rx="4" fill="'+k.col+'"/><rect x="26" y="2" width="12" height="8" rx="2" fill="'+INK+'"/><path d="M8 8 Q8 2 16 2 L22 2" fill="none" stroke="'+INK+'" stroke-width="2.5"/>';
+    if(t==='U')o+='<path d="M12 2 L22 2 L22 14 Q32 20 32 32 Q32 44 17 44 Q2 44 2 32 Q2 20 12 14Z" fill="#fff" stroke="'+INK+'" stroke-width="2.5"/><path d="M4 30 Q4 42 17 42 Q30 42 30 30Z" fill="'+k.col+'"/><rect x="10" y="0" width="14" height="5" rx="2" fill="#8a5a2b"/>';
+    if(t==='d')o+='<rect x="2" y="5" width="12" height="29" rx="6" fill="#fff" stroke="'+INK+'" stroke-width="2.2"/><rect x="3.5" y="15" width="9" height="17" rx="4.5" fill="'+k.col+'"/><rect x="3" y="0" width="10" height="6" rx="2" fill="#8a5a2b"/>';
+    if(t==='c')o+='<rect x="1.5" y="1.5" width="7" height="25" rx="3.5" fill="#fff" stroke="'+INK+'" stroke-width="2"/><rect x="2.8" y="12" width="4.4" height="13" rx="2.2" fill="'+k.col+'"/>';
+    if(t==='m')o+='<path d="M5 1 Q9 7 9 9.5 Q9 13 5 13 Q1 13 1 9.5 Q1 7 5 1Z" fill="'+k.col+'" stroke="'+INK+'" stroke-width="1.5"/>';
+    return o+'</svg>';
+  }
+  function chain(id,types){
+    var o='';
+    types.forEach(function(t,i){
+      o+='<div class="ct">'+ct(t,1.3)+'<b>1 '+CT[t].n+'</b><br>'+CT[t].v+'</div>';
+      if(i<types.length-1)o+='<div class="eq">= 10 ×</div>';
+    });
+    $('#'+id).innerHTML=o;
+  }
+  function shelf(counts){ /* counts: [[type,n],...] */
+    var o='<svg class="fig" viewBox="0 0 640 120" style="max-width:760px" aria-hidden="true"><rect x="0" y="0" width="640" height="120" fill="#fbf3e4"/>';
+    var x=16;
+    counts.forEach(function(p){
+      var t=p[0],n=p[1],k=CT[t],s=t==='D'?1.4:t==='U'?1.5:1.8,w=k.w*s,h=k.h*s,start=x;
+      if(n===0){o+='<rect x="'+x+'" y="'+(96-h)+'" width="'+w*1.6+'" height="'+h+'" rx="6" fill="none" stroke="#b0b6cc" stroke-width="2" stroke-dasharray="5 4"/>';x+=w*1.6+6}
+      for(var i=0;i<n;i++){o+='<g transform="translate('+x+','+(96-h)+')">'+ct(t,s).replace('<svg ','<svg x="0" y="0" ')+'</g>';x+=w+4}
+      o+='<text x="'+((start+x-4)/2)+'" y="115" text-anchor="middle" font-size="15" font-weight="800" fill="#5a6494" font-family="Nunito,sans-serif">'+(n===0?'aucune ':'')+CT[t].n+(n>1?'s':'')+'</text>';
+      x+=22;
+    });
+    o+='<rect x="0" y="96" width="640" height="6" fill="#8a5a2b"/></svg>';
+    return o;
+  }
+  var ICO={
+    eau:'<path d="M25 6 Q40 26 40 33 Q40 44 25 44 Q10 44 10 33 Q10 26 25 6Z" fill="#5aa9e6" stroke="'+INK+'" stroke-width="2.5"/><path d="M18 32 Q18 38 24 39" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>',
+    feu:'<path d="M25 4 Q36 18 34 26 Q40 22 40 16 Q46 28 40 38 Q34 46 25 46 Q12 46 10 34 Q8 24 16 18 Q16 26 20 28 Q18 14 25 4Z" fill="#f28c28" stroke="'+INK+'" stroke-width="2.5"/><path d="M25 26 Q32 34 30 40 Q28 44 25 44 Q20 44 20 38 Q20 32 25 26Z" fill="#ffe45c"/>',
+    lune:'<path d="M30 6 Q14 10 14 26 Q14 42 32 44 Q20 36 20 25 Q20 14 30 6Z" fill="#ffe45c" stroke="'+INK+'" stroke-width="2.5"/><circle cx="36" cy="14" r="2.5" fill="#f2a900"/><circle cx="40" cy="28" r="2" fill="#f2a900"/>',
+    fiole:'<path d="M19 4 L31 4 L31 16 L42 38 Q44 46 36 46 L14 46 Q6 46 8 38 L19 16Z" fill="#fff" stroke="'+INK+'" stroke-width="2.5"/><path d="M14 30 L36 30 L41 39 Q42 44 36 44 L14 44 Q8 44 9 39Z" fill="#b46be0"/>',
+    paillette:'<path d="M25 4 L30 19 L46 20 L33 30 L38 46 L25 36 L12 46 L17 30 L4 20 L20 19Z" fill="#ffe45c" stroke="'+INK+'" stroke-width="2.5" stroke-linejoin="round"/>'
+  };
+  function ico(k){return '<svg viewBox="0 0 50 50" aria-hidden="true">'+ICO[k]+'</svg>'}
+  $$('[data-ico]').forEach(function(s){s.innerHTML=ico(s.getAttribute('data-ico'))});
+
+  /* chaudron : couleur selon le nombre d'ingrédients */
+  var LIQ=['#a9b3c2','#5aa9e6','#3fb8a5','#9fd36b','#c86bd6','#ff7ab8'];
+  function cauldron(id){
+    return '<svg class="cau" id="'+id+'" viewBox="0 0 100 100" aria-hidden="true">'+
+      '<g class="fire"><path class="fl" d="M30 96 Q34 82 40 90 Q44 76 50 88 Q56 76 60 90 Q66 82 70 96Z" fill="#f28c28" stroke="'+INK+'" stroke-width="2"/></g>'+
+      '<path d="M14 40 L86 40 Q90 82 50 86 Q10 82 14 40Z" fill="#2c3354" stroke="'+INK+'" stroke-width="3"/>'+
+      '<ellipse class="liq" cx="50" cy="40" rx="36" ry="9" fill="'+LIQ[0]+'" stroke="'+INK+'" stroke-width="3"/>'+
+      '<circle class="bub liq" cx="40" cy="36" r="4" fill="'+LIQ[0]+'"/><circle class="bub liq" cx="56" cy="34" r="3" fill="'+LIQ[0]+'"/><circle class="bub liq" cx="64" cy="37" r="3.5" fill="'+LIQ[0]+'"/>'+
+      '<rect x="8" y="36" width="10" height="8" rx="3" fill="#2c3354"/><rect x="82" y="36" width="10" height="8" rx="3" fill="#2c3354"/></svg>';
+  }
+  var ING=[
+    {k:'eau',n:'Eau de pluie',d:'3,05 L'},
+    {k:'feu',n:'Chaleur',d:'37,64 °C'},
+    {k:'lune',n:'Jus de lune',d:'1,325 L'},
+    {k:'fiole',n:'4 fioles',d:'rangées'}
+  ];
+  var have=[false,false,false,false],bonus=false;
+  function nIng(){return have.filter(Boolean).length}
+  $('#recipe').innerHTML=cauldron('cau')+ING.map(function(g,i){return '<div class="slot" id="slot'+i+'">'+ico(g.k)+'<span>'+g.n+'</span></div>'}).join('')+'<div class="slot bonus" id="slotB">'+ico('paillette')+'<span>Paillettes</span></div>';
+  function paint(){
+    var c=LIQ[nIng()];
+    $$('.cau .liq').forEach(function(e){e.setAttribute('fill',c)});
+    $$('.cau').forEach(function(e){e.classList.toggle('hot',have[1])});
+    have.forEach(function(h,i){$('#slot'+i).classList.toggle('on',h)});
+    $('#slotB').classList.toggle('on',bonus);
+  }
+
+  /* ---------- fenêtre de réussite ---------- */
+  var winCb=null;
+  function openWin(title,sub,pics,cb){
+    $('#winT').textContent=title;$('#winS').innerHTML=sub;$('#winP').innerHTML=pics;
+    $('#win').hidden=false;winCb=cb||null;$('#winOk').focus();
+  }
+  $('#winOk').addEventListener('click',function(){$('#win').hidden=true;var c=winCb;winCb=null;if(c)c()});
+  function addIng(i,stepIdx,next){
+    if(have[i]){if(next)next();return}
+    var g=ING[i],left=3-nIng();
+    openWin('Ingrédient ajouté !','<b>'+g.n+' : '+g.d+'</b> tombe dans le chaudron. '+(left?'Encore '+left+' ingrédient'+(left>1?'s':'')+' à trouver.':'<b>Les 4 ingrédients sont prêts !</b>'),
+      '<svg viewBox="0 0 50 50" style="width:110px;height:110px" aria-hidden="true">'+ICO[g.k]+'</svg><span class="arrow">→</span>'+cauldron('cauW'),next);
+    setTimeout(function(){have[i]=true;markDone(stepIdx);paint()},700);
+  }
+
+  /* ---------- navigation ---------- */
+  var names=['Accueil','1 · Étagère','2 · Thermomètre','3 · Gouttes','4 · Balance','5 · Microscope','Bonus','Potion'];
+  var cur=0,LAST=names.length-1;
+  var tabs=$('#tabs');
+  names.forEach(function(n,i){var b=document.createElement('button');b.className='tab';b.innerHTML=n+' <span class="tick">✓</span>';b.addEventListener('click',function(){go(i)});tabs.appendChild(b)});
+  function go(i){cur=i;$$('.scr').forEach(function(s,k){s.classList.toggle('show',k===i)});$$('.tab').forEach(function(t,k){t.setAttribute('aria-current',k===i?'true':'false')});window.scrollTo(0,0)}
+  function markDone(i){$$('.tab')[i].classList.add('done')}
+  document.addEventListener('keydown',function(e){if(!$('#win').hidden)return;if(e.key==='ArrowRight'&&cur<LAST)go(cur+1);if(e.key==='ArrowLeft'&&cur>0)go(cur-1)});
+  $$('.card').forEach(function(card){
+    var nav=$('.subnav',card);if(!nav)return;
+    $$('.pill',nav).forEach(function(p){p.addEventListener('click',function(){showSub(card,p.getAttribute('data-s'))})});
+  });
+  function showSub(card,s){
+    $$('.pill',card).forEach(function(q){q.setAttribute('aria-selected',q.getAttribute('data-s')===String(s)?'true':'false')});
+    $$('.sub',card).forEach(function(x){x.classList.toggle('show',x.getAttribute('data-s')===String(s))});
+  }
+  function nextSub(n,s){return function(){showSub($('#s'+n+' .card'),s)}}
+  $$('[data-help]').forEach(function(b){b.addEventListener('click',function(){var h=$('#'+b.getAttribute('data-help'));h.hidden=!h.hidden})});
+  $('#go1').addEventListener('click',function(){go(1)});
+  [[1,'Étape suivante →'],[2,'Étape suivante →'],[3,'Étape suivante →'],[4,'Vers le microscope (bonus) →'],[5,'Vers la potion →'],[6,'Vers la potion →']].forEach(function(p){
+    var n=p[0],d=document.createElement('div');d.className='ask';d.innerHTML='<button class="btn alt">'+p[1]+'</button>';
+    if(n===4)d.innerHTML+=' <button class="btn alt">Aller directement à la potion →</button>';
+    $('#s'+n+' .card').appendChild(d);
+    var bs=$$('button',d);bs[0].addEventListener('click',function(){go(n===5?7:n+1)});
+    if(bs[1])bs[1].addEventListener('click',function(){go(7)});
+  });
+
+  /* ---------- choix à réponse unique ---------- */
+  function choice(boxId,opts,ans,cfg){
+    var box=$('#'+boxId),errs=0;box.innerHTML='';
+    opts.forEach(function(o,i){
+      var b=document.createElement('button');b.className='cb';b.innerHTML=o;
+      b.addEventListener('click',function(){
+        if(i===ans){
+          b.classList.add('ok');$$('.cb',box).forEach(function(x){x.disabled=true});
+          if(cfg.msg)say(cfg.msg,cfg.okTxt||bravo(),'ok');
+          if(cfg.ok)cfg.ok();
+        }else{
+          b.classList.add('bad');b.disabled=true;errs++;
+          var t=(cfg.why&&cfg.why[i])?cfg.why[i]:(errs>1?'Pas encore. Regarde le coup de pouce, puis réessaie.':'Presque ! Regarde bien et réessaie.');
+          if(cfg.msg)say(cfg.msg,t,'no');
+          if(errs>=2&&cfg.help){var h=$('#'+cfg.help);if(h)h.hidden=false}
+        }
+      });
+      box.appendChild(b);
+    });
+  }
+  function reveal(id){var e=$('#'+id);if(e)e.hidden=false}
+
+  /* ---------- toucher un chiffre selon son rang ---------- */
+  var RK={'-3':'millièmes','-2':'centièmes','-1':'dixièmes','0':'unités','1':'dizaines','2':'centaines','3':'milliers','4':'dizaines de mille','5':'centaines de mille','6':'millions'};
+  function digitPick(boxId,qId,str,asks,msgId,helpId,done){
+    var box=$('#'+boxId),k=0,errs=0,ci=str.indexOf(','),chars=str.split(''),digs=[];
+    var intLen=(ci<0?str:str.slice(0,ci)).replace(/\s/g,'').length,pos=0;
+    chars.forEach(function(ch,i){
+      if(ch===','){var s=document.createElement('span');s.className='cm';s.textContent=',';box.appendChild(s);return}
+      if(ch===' '){var g=document.createElement('span');g.className='gap';box.appendChild(g);return}
+      var off=(ci<0||i<ci)?(intLen-1-pos):-(i-ci);pos++;
+      var b=document.createElement('button');b.innerHTML=ch+'<span class="lbl"></span>';b.setAttribute('aria-label','chiffre '+ch);
+      b.addEventListener('click',function(){
+        if(k>=asks.length||b.classList.contains('good'))return;
+        if(off===asks[k]){
+          b.classList.add('good');$('.lbl',b).textContent=RK[off];errs=0;k++;
+          if(k<asks.length){say(msgId,bravo()+' '+ch+' est le chiffre des '+RK[off]+'.','ok');ask()}
+          else{say(msgId,bravo()+' '+ch+' est le chiffre des '+RK[off]+'.','ok');$('#'+qId).innerHTML='Tous les rangs sont trouvés !';if(done)done()}
+        }else{
+          b.classList.remove('nope');void b.offsetWidth;b.classList.add('nope');errs++;
+          var t='Non : ce '+ch+' est le chiffre des '+RK[off]+'.';
+          if(asks[k]===0&&off>0)t+=' Les unités ne sont pas tout à gauche : elles sont <b>juste avant la virgule</b>.';
+          say(msgId,t,'no');if(errs>=2&&helpId)reveal(helpId);
+        }
+      });
+      box.appendChild(b);digs.push(b);
+    });
+    function ask(){$('#'+qId).innerHTML='Touche le chiffre des <b>'+RK[asks[k]]+'</b>.'}
+    ask();
+  }
+
+  /* ====================== ÉTAPE 1 ====================== */
+  chain('chain1',['D','U','d','c']);
+  $('#sh0').innerHTML=shelf([['U',3]]);
+  choice('o1a',['2','3','4'],1,{msg:'m1a',help:'h1a',ok:function(){reveal('c1b')},okTxt:'Bravo ! 3 flacons = 3 litres = <b>3 unités</b>.'});
+  choice('o1b',['1','10','100'],1,{msg:'m1a',help:'h1a',okTxt:'Bravo ! Chaque contenant se remplit avec <b>10</b> plus petits.',ok:function(){setTimeout(nextSub(1,1),1400)},
+    why:{0:'1 tube, c\'est trop peu : regarde la chaîne en haut.',2:'100 tubes, c\'est trop : 100 tubes remplissent 1 flacon !'}});
+  digitPick('dg1','dq1','25,38',[0,-1,-2,1],'m1b','h1b',function(){reveal('tab1');setTimeout(nextSub(1,2),2600)});
+  $('#shA').innerHTML=shelf([['D',1],['U',2],['d',4],['c',7]]);
+  $('#shB').innerHTML=shelf([['U',3],['d',0],['c',5]]);
+  choice('o1c',['1,247 L','12,47 L','74,21 L','124,7 L'],1,{msg:'m1c',help:'h1c',ok:function(){reveal('e1b')},
+    why:{0:'Le bidon vaut 10 L : c\'est une dizaine. 1,247 ferait 1 seul flacon.',2:'On lit du plus grand contenant au plus petit : d\'abord le bidon.',3:'Les 4 fioles sont des dixièmes : elles vont juste après la virgule.'}});
+  choice('o1d',['3,5 L','3,05 L','35 L','3,50 L'],1,{msg:'m1c',help:'h1c',
+    why:{0:'Attention : il n\'y a <b>aucune fiole</b>. Les 5 tubes sont des centièmes.',2:'Sans virgule, 35 L ferait 35 flacons !',3:'3,50 voudrait dire 5 fioles. Ici, il n\'y a pas de fiole.'},
+    ok:function(){reveal('ret1');setTimeout(function(){addIng(0,1)},900)}});
+
+  /* ====================== ÉTAPE 2 ====================== */
+  var NS='http://www.w3.org/2000/svg';
+  function el(tag,attrs,parent){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
+  var X0=90,PX=25; /* 36,0 à x=90 ; 25 px par dixième */
+  function tx(v){return X0+Math.round((v-36)*10*1000)/1000*PX}
+  function thermo(svgId,level,clickable,onPick){
+    var s=$('#'+svgId);s.innerHTML='';
+    el('rect',{x:40,y:46,width:840,height:36,rx:18,fill:'#fff',stroke:INK,'stroke-width':3},s);
+    el('circle',{cx:44,cy:64,r:30,fill:'#d9383a',stroke:INK,'stroke-width':3},s);
+    var lq=el('rect',{x:44,y:55,width:Math.max(0,tx(level)-44),height:18,rx:9,fill:'#d9383a',style:'transition:width 1.2s'},s);
+    for(var i=0;i<=30;i++){
+      var v=36+i/10,x=tx(v),L=i%10===0?28:i%5===0?20:12;
+      el('line',{x1:x,y1:86,x2:x,y2:86+L,stroke:INK,'stroke-width':i%10===0?3.5:2},s);
+      if(i%10===0)el('text',{x:x,y:140,'text-anchor':'middle','font-size':26,'font-weight':800,fill:INK,'font-family':'Nunito,sans-serif'},s).textContent=(36+i/10)+' °C';
+      if(clickable&&i%10!==0){(function(i,x){
+        var g=el('g',{'class':'tk'},s);el('circle',{cx:x,cy:100,r:11},g);el('rect',{x:x-12,y:84,width:24,height:36,fill:'transparent'},g);
+        g.addEventListener('click',function(){onPick(i,g)});
+      })(i,x)}
+    }
+    return lq;
+  }
+  choice('o2a',['la masse, en kg','la température, en °C','la longueur, en cm'],1,{msg:'m2a',okTxt:'Bravo ! Le thermomètre mesure la <b>température</b>, en degrés Celsius (°C).',ok:function(){setTimeout(nextSub(2,1),1600)}});
+  thermo('th1',37.6,false);
+  choice('o2b',['37,06 °C','376 °C','37,6 °C','38,6 °C'],2,{msg:'m2b',help:'h2b',ok:function(){setTimeout(nextSub(2,2),1400)},
+    why:{0:'37,06 voudrait dire 0 dixième et 6 centièmes. Ici, ce sont 6 <b>dixièmes</b> (les graduations).',1:'Il manque la virgule ! La température est entre 37 et 38.',3:'Regarde le grand trait juste avant : c\'est 37, pas 38.'}});
+  var e2=0,lq2,stage2=0;
+  lq2=thermo('th2',36.3,true,function(i,g){
+    if(stage2!==0)return;
+    if(i===16){g.classList.add('good');stage2=1;say('m2c',bravo()+' Voilà 37,6. Regarde dans la loupe.','ok');$('#q2c').innerHTML='37,6 est trouvé. Maintenant, la loupe !';drawLoupe();reveal('lp2');lq2.setAttribute('width',tx(37.6)-44)}
+    else{e2++;g.classList.add('bad');setTimeout(function(){g.classList.remove('bad')},700);say('m2c','Ça, c\'est '+vc((36+i/10).toFixed(1))+' °C. Cherche 37,6 : 6 graduations après 37.','no');if(e2>=2)reveal('h2c')}
+  });
+  function drawLoupe(){
+    var th=$('#th2');
+    el('rect',{x:tx(37.6)-4,y:84,width:PX+8,height:40,rx:6,fill:'rgba(255,228,92,.45)',stroke:'#c8571d','stroke-width':3,'pointer-events':'none'},th);
+    var s=$('#loupe');s.innerHTML='';
+    el('rect',{x:20,y:10,width:880,height:180,rx:24,fill:'#fffbe0',stroke:'#c8571d','stroke-width':4},s);
+    var a=80,b=840,st=(b-a)/10;
+    el('line',{x1:a,y1:80,x2:b,y2:80,stroke:INK,'stroke-width':4},s);
+    for(var k=0;k<=10;k++){(function(k){
+      var x=a+k*st,L=k===0||k===10?40:k===5?28:20;
+      el('line',{x1:x,y1:80-L/2,x2:x,y2:80+L/2,stroke:INK,'stroke-width':k%10===0?4:2.5},s);
+      if(k===0||k===10)el('text',{x:x,y:150,'text-anchor':'middle','font-size':30,'font-weight':800,fill:INK,'font-family':'Nunito,sans-serif'},s).textContent=k===0?'37,6':'37,7';
+      if(k>0&&k<10){
+        var g=el('g',{'class':'tk'},s);el('circle',{cx:x,cy:80,r:16},g);el('rect',{x:x-st/2,y:50,width:st,height:60,fill:'transparent'},g);
+        g.addEventListener('click',function(){
+          if(stage2!==1)return;
+          if(k===4){g.classList.add('good');stage2=2;
+            el('text',{x:x,y:150,'text-anchor':'middle','font-size':30,'font-weight':800,fill:'#1f8a5b','font-family':'Nunito,sans-serif'},s).textContent='37,64';
+            lq2.setAttribute('width',tx(37.64)-44);say('m2c',bravo()+' 37,64 °C : la potion chauffe !','ok');reveal('ret2');setTimeout(function(){addIng(1,2)},1500)}
+          else{e2++;g.classList.add('bad');setTimeout(function(){g.classList.remove('bad')},700);say('m2c','Ça, c\'est 37,6'+k+' °C. Il faut 37,64 : compte 4 petites graduations après 37,6.','no');if(e2>=2)reveal('h2c')}
+        });
+      }
+    })(k)}
+  }
+
+  /* ====================== ÉTAPE 3 ====================== */
+  chain('chain3',['U','d','c','m']);
+  choice('o3a',['kg','L','°C'],1,{msg:'m3a',help:'h3a',okTxt:'Bravo ! <b>L</b> comme litre.',ok:function(){reveal('g3b')}});
+  choice('o3b',['1 dixième de litre','1 centième de litre','1 millième de litre'],2,{msg:'m3a',help:'h3a',okTxt:'Bravo ! La goutte, c\'est le <b>millième</b> : 3<sup>e</sup> chiffre après la virgule.',ok:function(){setTimeout(nextSub(3,1),1600)},
+    why:{0:'1 dixième, c\'est la fiole (le 1<sup>er</sup> chiffre après la virgule).',1:'1 centième, c\'est le tube. La goutte est 10 fois plus petite.'}});
+  $('#fa').innerHTML=fr(6,100)+' de litre';
+  $('#fb').innerHTML='2 + '+fr(4,10)+' + '+fr(7,1000)+' de litre';
+  $('#fc').innerHTML='1 + '+fr(3,10)+' + '+fr(2,100)+' + '+fr(5,1000)+' de litre';
+  choice('o3c',['0,6 L','0,06 L','6,100 L','0,006 L'],1,{msg:'m3b',help:'h3b',ok:function(){reveal('f3b')},
+    why:{0:'0,6, c\'est 6 <b>dixièmes</b>. Sur 100, ce sont des centièmes : 2<sup>e</sup> chiffre après la virgule.',2:'On n\'écrit pas le 100 après la virgule : 6 centièmes, c\'est 0,06.',3:'0,006, ce sont des millièmes (sur 1 000).'}});
+  choice('o3d',['2,47 L','2,407 L','2,0407 L','24,7 L'],1,{msg:'m3b',help:'h3b',ok:function(){reveal('f3c')},
+    why:{0:'Le 7 est sur 1 000 : il doit être au <b>3<sup>e</sup></b> rang. Il n\'y a pas de centièmes : on écrit 0.',2:'Un seul 0 suffit : 4 dixièmes, 0 centième, 7 millièmes.',3:'Le 2 est l\'unité : la virgule va juste après.'}});
+  choice('o3e',['13,25 L','1,235 L','1,325 L','1,3025 L'],2,{msg:'m3b',help:'h3b',okTxt:'Bravo ! Le jus de lune : <b>1,325 L</b>. Maintenant, on le dose !',ok:function(){setTimeout(nextSub(3,2),1800)},
+    why:{0:'Il n\'y a qu\'1 unité : la virgule va juste après le 1.',1:'Les chiffres sont échangés : 3 dixièmes puis 2 centièmes.',3:'Pas besoin de 0 ici : tous les rangs sont remplis.'}});
+  /* doseur */
+  var B={U:0,d:0,c:0,m:0},ORD=['U','d','c','m'],RKN={U:'unités',d:'dixièmes',c:'centièmes',m:'millièmes'},e3=0;
+  function drawB(flash){
+    var h='<tr>'+ORD.map(function(t,i){return (i===1?'<th class="vir"></th>':'')+'<th class="'+(t==='U'?'U':'')+'">'+RKN[t]+'<br>('+CT[t].n+'s)</th>'}).join('')+'</tr>';
+    h+='<tr>'+ORD.map(function(t,i){var o='';for(var k=0;k<B[t];k++)o+=ct(t,t==='U'?1.2:1.5);return (i===1?'<td class="vir"></td>':'')+'<td class="ic'+(t==='U'?' U':'')+'"><div>'+(o||'&nbsp;')+'</div></td>'}).join('')+'</tr>';
+    h+='<tr>'+ORD.map(function(t,i){return (i===1?'<td class="vir">,</td>':'')+'<td class="'+(t==='U'?'U':'')+'">'+B[t]+'</td>'}).join('')+'</tr>';
+    h+='<tr>'+ORD.map(function(t,i){return (i===1?'<td class="pm"></td>':'')+'<td class="pm"><button class="plus" data-t="'+t+'" data-d="1" aria-label="ajouter 1 '+CT[t].n+'">+</button><button data-t="'+t+'" data-d="-1" aria-label="enlever 1 '+CT[t].n+'">−</button></td>'}).join('')+'</tr>';
+    $('#bld').innerHTML=h;
+    $('#bnum').textContent=B.U+','+B.d+B.c+B.m+' L';
+    $$('#bld button').forEach(function(b){b.addEventListener('click',function(){
+      var t=b.getAttribute('data-t'),d=+b.getAttribute('data-d');
+      B[t]=Math.max(0,B[t]+d);
+      var msg='';
+      if(B.m>=10){B.m-=10;B.c++;msg='10 gouttes = 1 tube ! On les échange.'}
+      if(B.c>=10){B.c-=10;B.d++;msg='10 tubes = 1 fiole ! On les échange.'}
+      if(B.d>=10){B.d-=10;B.U++;msg='10 fioles = 1 flacon ! On les échange.'}
+      if(B.U>9)B.U=9;
+      if(msg)say('m3c',msg,'ok');drawB();
+    })});
+  }
+  drawB();
+  var done3=false;
+  $('#pour3').addEventListener('click',function(){
+    if(done3)return;
+    var T={U:1,d:3,c:2,m:5},bad=ORD.filter(function(t){return B[t]!==T[t]});
+    if(!bad.length){done3=true;say('m3c',bravo()+' 1,325 L de jus de lune, à la goutte près !','ok');reveal('ret3');setTimeout(function(){addIng(2,3)},1000);return}
+    e3++;var t=bad[0];
+    say('m3c','Pas encore : regarde les <b>'+RKN[t]+'</b> ('+CT[t].n+'s). Il en faut '+T[t]+', tu en as '+B[t]+'.','no');
+    if(e3>=2)reveal('h3c');
+  });
+
+  /* ====================== ÉTAPE 4 ====================== */
+  function vial(col,w,h){return '<svg viewBox="0 0 40 60" width="'+(w||40)+'" height="'+(h||60)+'" aria-hidden="true"><path d="M14 2 L26 2 L26 18 L37 46 Q39 58 30 58 L10 58 Q1 58 3 46 L14 18Z" fill="#fff" stroke="'+INK+'" stroke-width="2.5"/><path d="M8 34 L32 34 L36 46 Q37 56 30 56 L10 56 Q3 56 4 46Z" fill="'+col+'"/><rect x="12" y="0" width="16" height="5" rx="2" fill="#8a5a2b"/></svg>'}
+  function num(s){return parseFloat(s.replace(',','.'))}
+  function explain(a,b){
+    var A=a.split(','),Bb=b.split(','),ia=A[0],ib=Bb[0],da=A[1]||'',db=Bb[1]||'',n=Math.max(da.length,db.length);
+    while(da.length<n)da+='0';while(db.length<n)db+='0';
+    var t='On écrit avec autant de chiffres : <b>'+ia+','+da+'</b> et <b>'+ib+','+db+'</b>.<br>';
+    if(ia!==ib)return t+'Unités : '+ia+' et '+ib+'. Ça suffit pour décider !';
+    t+='Unités : '+ia+' et '+ib+', pareil. ';
+    var nm=['dixièmes','centièmes','millièmes'];
+    for(var i=0;i<n;i++){
+      if(da[i]!==db[i])return t+nm[i].charAt(0).toUpperCase()+nm[i].slice(1)+' : '+da[i]+' et '+db[i]+'. On a trouvé !';
+      t+=nm[i].charAt(0).toUpperCase()+nm[i].slice(1)+' : '+da[i]+' et '+db[i]+', pareil. ';
+    }
+    return t+'Tout est pareil : même masse !';
+  }
+  var DU=[['3,4','1,9'],['1,6','1,62'],['2,5','2,35'],['0,8','0,75'],['3,4','3,40']],di=0,e4=0,lock4=false;
+  function drawBal(){
+    var p=DU[di],s=$('#bal');
+    s.innerHTML='<rect x="0" y="0" width="520" height="300" fill="#faf5ff"/>'+
+      '<path d="M220 290 L300 290 L270 270 L250 270Z" fill="#8a5a2b"/><rect x="254" y="70" width="12" height="204" fill="#8a5a2b"/>'+
+      '<g class="beam" id="beam"><rect x="80" y="64" width="360" height="12" rx="6" fill="'+INK+'"/></g>'+
+      pan(90,p[0],'L')+pan(430,p[1],'R')+'<circle cx="260" cy="70" r="10" fill="#ffe45c" stroke="'+INK+'" stroke-width="3"/>';
+    $('#dq4').innerHTML='Duel '+(di+1)+' sur '+DU.length+' : <b>'+p[0]+' g</b> contre <b>'+p[1]+' g</b>.';
+    $$('#bal .pan').forEach(function(g){g.addEventListener('click',function(){pick(g.getAttribute('data-s'))})});
+    $('#h4a').hidden=true;e4=0;lock4=false;
+  }
+  function pan(cx,lab,side){
+    return '<g class="pan" id="pan'+side+'" data-s="'+side+'"><line x1="'+cx+'" y1="70" x2="'+(cx-50)+'" y2="180" stroke="'+INK+'" stroke-width="2.5"/><line x1="'+cx+'" y1="70" x2="'+(cx+50)+'" y2="180" stroke="'+INK+'" stroke-width="2.5"/>'+
+      '<path d="M'+(cx-60)+' 180 L'+(cx+60)+' 180 Q'+cx+' 210 '+(cx-60)+' 180Z" fill="#ffe45c" stroke="'+INK+'" stroke-width="3"/>'+
+      '<g class="vial" transform="translate('+(cx-22)+',112)">'+vial(side==='L'?'#e0457b':'#2b9fd9',44,66).replace('<svg ','<svg x="0" y="0" ')+'</g>'+
+      '<rect x="'+(cx-50)+'" y="212" width="100" height="40" rx="10" fill="#fff" stroke="'+INK+'" stroke-width="3"/><text x="'+cx+'" y="240" text-anchor="middle" font-size="26" font-weight="800" fill="'+INK+'" font-family="Nunito,sans-serif">'+lab+' g</text>'+
+      '<rect x="'+(cx-64)+'" y="100" width="128" height="160" fill="transparent"/></g>';
+  }
+  function pick(side){
+    if(lock4)return;
+    var p=DU[di],a=num(p[0]),b=num(p[1]),good=a>b?'L':a<b?'R':'=';
+    if(side===good){
+      lock4=true;
+      var dy=good==='L'?27:good==='R'?-27:0;
+      $('#beam').style.transform='rotate('+(good==='L'?-9:good==='R'?9:0)+'deg)';
+      $('#panL').style.transform='translateY('+dy+'px)';$('#panR').style.transform='translateY('+(-dy)+'px)';
+      var txt=good==='='?p[0]+' g = '+p[1]+' g : un 0 à la fin ne change rien.':(good==='L'?p[0]+' g &gt; '+p[1]+' g':p[0]+' g &lt; '+p[1]+' g');
+      say('m4a',bravo()+' '+txt,'ok');
+      var d=document.createElement('button');d.className='btn';d.style.marginLeft='12px';
+      d.textContent=di<DU.length-1?'Duel suivant →':'Ranger les fioles →';
+      $('#m4a').appendChild(d);
+      d.addEventListener('click',function(){if(di<DU.length-1){di++;drawBal();say('m4a','','')}else{showSub($('#s4 .card'),1)}});
+    }else{
+      e4++;
+      var t=side==='='?'Non, elles ne pèsent pas pareil. Compare rang par rang.':'Pas celle-là ! Compare d\'abord les unités, puis les dixièmes.';
+      if(di===2&&side==='R')t='Attention au piège : 2,35 a plus de chiffres, mais ça ne veut pas dire qu\'il est plus grand. Regarde les <b>dixièmes</b>.';
+      if(di===3&&side==='R')t='Attention au piège : 75 est plus grand que 8, mais il faut comparer les <b>dixièmes</b> : 8 et 7.';
+      if(di===4&&side!=='=')t='Regarde bien : 3,4 et 3,40… Écris 3,4 avec deux chiffres après la virgule.';
+      say('m4a',t,'no');
+      if(e4>=2){$('#h4a').innerHTML=explain(p[0],p[1]);$('#h4a').hidden=false}
+    }
+  }
+  $('#same').addEventListener('click',function(){pick('=')});
+  drawBal();
+  var VI=[['2,5','#b46be0'],['1,62','#e0457b'],['2,35','#2b9fd9'],['1,6','#f2a900']],ORDER=['1,6','1,62','2,35','2,5'],ri=0,e4b=0;
+  function rack(){
+    $('#rack').innerHTML='<span class="lt">la plus légère</span>'+ORDER.map(function(m,i){return (i?'<span class="lt">&lt;</span>':'')+'<div class="sl'+(i<ri?' f':'')+'">'+(i<ri?m+' g':'')+'</div>'}).join('')+'<span class="lt">la plus lourde</span>';
+  }
+  rack();
+  VI.forEach(function(v){
+    var b=document.createElement('button');b.className='vb';b.innerHTML=vial(v[1],60,90)+'<b>'+v[0]+' g</b>';
+    b.addEventListener('click',function(){
+      if(b.classList.contains('used')||ri>=4)return;
+      if(v[0]===ORDER[ri]){
+        b.classList.add('used');b.disabled=true;ri++;rack();
+        if(ri<4)say('m4b',bravo()+' '+v[0]+' g est la plus légère de celles qui restent.','ok');
+        else{say('m4b',bravo()+' 1,6 &lt; 1,62 &lt; 2,35 &lt; 2,5 : les fioles sont versées !','ok');reveal('ret4');setTimeout(function(){addIng(3,4)},1200)}
+      }else{
+        e4b++;b.classList.remove('nope');void b.offsetWidth;b.classList.add('nope');
+        say('m4b','Il y a une fiole plus légère que '+v[0]+' g. '+(num(v[0])>=2&&ri<2?'Regarde les unités : cherche une fiole avec 1 unité.':'Compare les dixièmes.'),'no');
+        if(e4b>=2)reveal('h4b');
+      }
+    });
+    $('#vials').appendChild(b);
+  });
+
+  /* ====================== ÉTAPE 5 ====================== */
+  (function(){
+    var s=$('#micro'),o='<ellipse cx="110" cy="226" rx="80" ry="10" fill="#d3dcf3"/>'+
+      '<rect x="40" y="200" width="140" height="24" rx="8" fill="'+INK+'"/><path d="M120 200 Q170 170 150 110" fill="none" stroke="'+INK+'" stroke-width="16" stroke-linecap="round"/>'+
+      '<rect x="56" y="150" width="108" height="10" rx="4" fill="#5a6494"/>'+
+      '<g transform="rotate(-28 100 70)"><rect x="80" y="20" width="36" height="110" rx="10" fill="#fff" stroke="'+INK+'" stroke-width="4"/><rect x="74" y="6" width="48" height="20" rx="6" fill="#0f7c8c"/><rect x="88" y="128" width="20" height="18" fill="#5a6494"/></g>'+
+      '<circle cx="120" cy="148" r="20" fill="#fffbe0" stroke="#0f7c8c" stroke-width="4"/>';
+    for(var i=0;i<9;i++){var a=i*0.7,r=4+(i%3)*4;o+='<g transform="translate('+(120+r*Math.cos(a)).toFixed(1)+','+(148+r*Math.sin(a)).toFixed(1)+')"><path class="spark" style="opacity:1;animation:tw 1s ease-in-out '+(i*0.15)+'s infinite alternate" d="M0 -4 L1.2 -1.2 L4 0 L1.2 1.2 L0 4 L-1.2 1.2 L-4 0 L-1.2 -1.2Z" fill="#f2a900"/></g>'}
+    s.innerHTML=o;
+  })();
+  choice('o5a',['cent vingt-cinq mille trois cent quarante','un million deux cent cinquante-trois mille quatre cents','un million deux cent cinquante-trois mille quatre'],1,{msg:'m5',help:'h5',ok:function(){reveal('k5b')},
+    why:{0:'Il y a 7 chiffres : c\'est plus qu\'un million ! Fais des paquets de 3 à partir de la droite.',2:'Le dernier paquet est 400 : quatre <b>cents</b>.'}});
+  digitPick('dg5','dq5','1 253 400',[3,6],'m5','h5',function(){reveal('ret5');bonus=true;paint();markDone(5);
+    setTimeout(function(){openWin('Paillettes trouvées !','1 253 400 paillettes magiques : Milli va briller !',ico('paillette').replace('<svg ','<svg style="width:110px;height:110px" ')+'<span class="arrow">→</span>'+cauldron('cauW2'),null);paint()},1400)});
+
+  /* ====================== BONUS ====================== */
+  var VF=[
+    ['« Dans 47,3, le chiffre des unités est 4. »',1,'Les unités sont juste avant la virgule : c\'est 7. Le 4, ce sont les dizaines.'],
+    ['« 3 dixièmes s\'écrit 0,3. »',0,'Vrai : 0 unité, 3 dixièmes.'],
+    ['« 2,35 est plus grand que 2,5. »',1,'2,5 = 2,50. 5 dixièmes contre 3 dixièmes : 2,5 est plus grand.'],
+    ['« La potion chauffe à 37,64 kg. »',1,'Une température se mesure en °C, pas en kg (le kg, c\'est pour une masse).'],
+    ['« 1,6 = 1,60 »',0,'Vrai : un 0 à la fin ne change rien.']
+  ],vfDone=0;
+  VF.forEach(function(v,i){
+    var r=document.createElement('div');r.className='row';
+    r.innerHTML='<div class="stmt">'+v[0]+'</div><div class="opts" id="vf'+i+'"></div><p class="why" id="vw'+i+'"></p>';
+    $('#vf').appendChild(r);
+    choice('vf'+i,['Vrai','Faux'],v[1],{msg:'m6',ok:function(){r.classList.add('done');$('#vw'+i).textContent=v[2];vfDone++;if(vfDone===VF.length){say('m6','Bravo ! Gaston a corrigé son cahier.','ok');markDone(6)}},
+      why:{0:'Gaston s\'est trompé ici. Relis bien !',1:'En fait, cette phrase est juste !'}});
+  });
+
+  /* ====================== LA POTION ====================== */
+  (function(){
+    var s=$('#milli'),o='<g class="cat">'+
+      '<path d="M210 190 Q270 180 262 120 Q258 96 240 100" fill="none" stroke="#e8913a" stroke-width="16" stroke-linecap="round"/>'+
+      '<ellipse cx="150" cy="180" rx="78" ry="52" fill="#f0a04b" stroke="'+INK+'" stroke-width="4"/>'+
+      '<path d="M120 140 Q130 160 118 180 M150 134 Q160 156 148 180 M180 140 Q188 160 178 182" fill="none" stroke="#c46f1f" stroke-width="6" stroke-linecap="round"/>'+
+      '<ellipse cx="112" cy="226" rx="18" ry="10" fill="#f0a04b" stroke="'+INK+'" stroke-width="3.5"/><ellipse cx="186" cy="226" rx="18" ry="10" fill="#f0a04b" stroke="'+INK+'" stroke-width="3.5"/>'+
+      '<path d="M86 58 L96 14 L122 46Z M178 46 L204 14 L214 58Z" fill="#f0a04b" stroke="'+INK+'" stroke-width="4" stroke-linejoin="round"/>'+
+      '<circle cx="150" cy="90" r="62" fill="#f0a04b" stroke="'+INK+'" stroke-width="4"/>'+
+      '<path d="M92 40 L98 22 L112 40Z M188 40 L202 22 L208 40Z" fill="#ffb3c7"/>'+
+      '<ellipse cx="126" cy="84" rx="10" ry="13" fill="#2e7d4f"/><ellipse cx="174" cy="84" rx="10" ry="13" fill="#2e7d4f"/><circle cx="129" cy="80" r="4" fill="#fff"/><circle cx="177" cy="80" r="4" fill="#fff"/>'+
+      '<path d="M143 104 L157 104 L150 112Z" fill="#ff7ab8" stroke="'+INK+'" stroke-width="2"/>'+
+      '<path d="M150 112 Q144 122 134 118 M150 112 Q156 122 166 118" fill="none" stroke="'+INK+'" stroke-width="3" stroke-linecap="round"/>'+
+      '<path d="M120 108 L82 100 M120 114 L80 116 M180 108 L218 100 M180 114 L220 116" stroke="'+INK+'" stroke-width="2.5" stroke-linecap="round"/></g>'+
+      '<path class="cat-ghost" d="M150 28 m-62 62 a62 62 0 1 0 124 0 a62 62 0 1 0 -124 0" fill="none" stroke="#5a6494" stroke-width="3" stroke-dasharray="8 8"/>';
+    var SP=[[60,60],[245,50],[40,170],[270,200],[150,12],[90,240]];
+    SP.forEach(function(p,i){o+='<g transform="translate('+p[0]+','+p[1]+')"><path class="spark" style="animation-delay:'+(i*0.2)+'s" d="M0 -14 L4 -4 L14 0 L4 4 L0 14 L-4 4 L-14 0 L-4 -4Z" fill="#ffe45c" stroke="#f2a900" stroke-width="2"/></g>'});
+    o+='<text x="150" y="98" text-anchor="middle" font-size="48" font-weight="800" fill="#5a6494" class="cat-ghost" font-family="Nunito,sans-serif">?</text>';
+    s.innerHTML=o;
+  })();
+  var KNOW=[
+    'Je sais que les <b>unités</b> sont <b>juste avant la virgule</b>.',
+    'Je sais lire <b>25,38</b> : 2 dizaines, 5 unités, 3 dixièmes, 8 centièmes.',
+    'Je sais lire un thermomètre avec la loupe : <b>37,64 °C</b>.',
+    'Je sais écrire 1 + '+fr(3,10)+' + '+fr(2,100)+' + '+fr(5,1000)+' = <b>1,325</b>.',
+    'Je sais comparer : <b>2,5 &gt; 2,35</b>, car 2,5 = 2,50.'
+  ];
+  $('#know').innerHTML=KNOW.map(function(k){return '<li>'+k+'</li>'}).join('');
+  function confetti(){
+    var cols=['#ffe45c','#d9383a','#2b59c3','#1f8a5b','#8a3fb5','#ff7ab8'];
+    for(var i=0;i<70;i++){var c=document.createElement('i');c.className='confetti';c.style.left=Math.random()*100+'vw';c.style.background=cols[i%6];c.style.animationDuration=(2.2+Math.random()*2.2)+'s';c.style.animationDelay=(Math.random()*.8)+'s';document.body.appendChild(c);setTimeout(function(x){x.remove()},6000,c)}
+  }
+  $('#rbtn').addEventListener('click',function(){
+    if(nIng()<4){
+      var miss=ING.filter(function(g,i){return !have[i]}).map(function(g){return g.n});
+      say('rmsg','Il manque encore : '+miss.join(', ')+'. Retourne aux instruments !','no');return;
+    }
+    $('#r0').hidden=true;$('#r1').hidden=false;
+    var m=$('#milli');m.classList.remove('ghost');if(bonus)m.classList.add('shiny');
+    $$('.cat-ghost',m).forEach(function(g){g.style.display='none'});
+    $('#rname').innerHTML='Milli est de retour'+(bonus?', et il brille !':' !');
+    LIQ[5]&&$$('.cau .liq').forEach(function(e){e.setAttribute('fill',LIQ[5])});
+    markDone(7);confetti();
+    $$('#know li').forEach(function(li,i){setTimeout(function(){li.classList.add('on')},1200+i*900)});
+  });
+  var FAV=[['eau','L\'étagère'],['feu','Le thermomètre'],['lune','Le compte-gouttes'],['fiole','La balance'],['paillette','Le microscope']];
+  FAV.forEach(function(f){
+    var b=document.createElement('button');b.innerHTML=ico(f[0])+'<b>'+f[1]+'</b>';
+    b.addEventListener('click',function(){$$('#fav button').forEach(function(x){x.classList.toggle('sel',x===b)});say('mfav','Noté : '+f[1].toLowerCase()+' !','ok')});
+    $('#fav').appendChild(b);
+  });
+
+  /* ====================== ACCUEIL : le décor ====================== */
+  (function(){
+    var o='<rect x="0" y="0" width="900" height="330" fill="#eef3ff"/><rect x="0" y="250" width="900" height="80" fill="#e9dcc3"/>'+
+      '<rect x="40" y="30" width="150" height="120" rx="8" fill="#22305e" stroke="'+INK+'" stroke-width="4"/><path d="M150 52 Q128 58 128 80 Q128 104 152 110 Q136 100 136 82 Q136 62 150 52Z" fill="#ffe45c"/><circle cx="70" cy="60" r="2.5" fill="#fff"/><circle cx="100" cy="110" r="2" fill="#fff"/><circle cx="170" cy="130" r="2" fill="#fff"/><line x1="115" y1="30" x2="115" y2="150" stroke="'+INK+'" stroke-width="4"/>';
+    [[110],[200]].forEach(function(p,j){
+      var y=p[0];o+='<rect x="560" y="'+y+'" width="320" height="10" fill="#8a5a2b"/>';
+      var types=j?['U','d','d','c','c','c','D']:['D','U','U','d','d','c','m'];var x=575;
+      types.forEach(function(t){var k=CT[t],s=1.25;o+='<g transform="translate('+x+','+(y-k.h*s)+')">'+ct(t,s).replace('<svg ','<svg x="0" y="0" ')+'</g>';x+=k.w*s+12});
+    });
+    o+='<g transform="translate(330,150)">'+
+      '<g class="fire" style="opacity:1"><path class="fl" d="M60 168 Q70 140 82 158 Q92 130 104 156 Q116 132 126 158 Q138 140 148 168Z" fill="#f28c28" stroke="'+INK+'" stroke-width="3"/></g>'+
+      '<path d="M20 40 L190 40 Q198 150 105 160 Q12 150 20 40Z" fill="#2c3354" stroke="'+INK+'" stroke-width="4"/>'+
+      '<ellipse cx="105" cy="40" rx="86" ry="18" fill="#a9b3c2" stroke="'+INK+'" stroke-width="4"/>'+
+      '<circle class="bub" cx="80" cy="30" r="9" fill="#a9b3c2"/><circle class="bub" cx="120" cy="26" r="7" fill="#a9b3c2"/><circle class="bub" cx="146" cy="32" r="8" fill="#a9b3c2"/></g>'+
+      '<svg x="190" y="120" width="150" height="150" viewBox="0 0 100 100">'+prInner()+'</svg>'+
+      '<g transform="translate(600,214) scale(.36)" opacity=".85"><circle cx="150" cy="90" r="62" fill="none" stroke="#5a6494" stroke-width="7" stroke-dasharray="14 12"/><path d="M86 58 L96 14 L122 46 M178 46 L204 14 L214 58" fill="none" stroke="#5a6494" stroke-width="7" stroke-dasharray="14 12"/><ellipse cx="150" cy="190" rx="78" ry="44" fill="none" stroke="#5a6494" stroke-width="7" stroke-dasharray="14 12"/><text x="150" y="112" text-anchor="middle" font-size="70" font-weight="800" fill="#5a6494" font-family="Nunito,sans-serif">?</text></g>'+
+      '<text x="660" y="318" text-anchor="middle" font-size="22" fill="#5a6494" font-family="Caveat Brush,cursive">Milli (invisible !)</text>'+
+      '<g transform="translate(40,170)"><rect x="0" y="0" width="200" height="70" rx="14" fill="#fff" stroke="'+INK+'" stroke-width="3"/><text x="100" y="30" text-anchor="middle" font-size="22" font-weight="800" fill="'+INK+'" font-family="Nunito,sans-serif">Il me faut</text><text x="100" y="56" text-anchor="middle" font-size="22" font-weight="800" fill="#d9383a" font-family="Nunito,sans-serif">4 ingrédients !</text><path d="M170 70 L190 92 L150 70Z" fill="#fff" stroke="'+INK+'" stroke-width="3"/></g>';
+    $('#scene').innerHTML=o;
+  })();
+
+  paint();go(0);
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+</html>
