@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Séance 6 — Priorités opératoires</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Source+Sans+3:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
 <style>
 :root{
   color-scheme:light;
@@ -14,7 +14,7 @@
   --blue:#1f56d6; --blue-bg:#e6eeff; --magenta:#b8217a; --magenta-bg:#ffe6f3;
   --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
   --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+  --f-num:"Source Sans 3","Work Sans",system-ui,sans-serif;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -27,7 +27,7 @@ h3{font:800 1.25rem/1.1 var(--f-title);text-transform:uppercase;letter-spacing:.
 .sub{margin:6px 0 0;color:var(--muted);font-size:.95rem}
 .pill{display:inline-block;font:700 .8rem var(--f-text);background:var(--ink);color:#fff;border-radius:6px;padding:2px 8px;margin-left:6px;vertical-align:middle}
 .panel{background:var(--panel);border:2px solid var(--ink);border-radius:8px;padding:14px 16px}
-.num{font-family:var(--f-num);font-weight:700;white-space:nowrap}
+.num{font-family:var(--f-num);font-weight:700;white-space:nowrap;font-size:1.15em;line-height:1}
 .btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:7px 13px;cursor:pointer;min-height:40px}
 .btn:hover{border-color:var(--amber)}
 .btn.main{background:var(--amber);border-color:var(--amber)}
@@ -65,13 +65,13 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
 .stars{color:#c98a00;font-size:1rem;letter-spacing:1px;white-space:nowrap}
 .ex p{margin:4px 0}
 .calc{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px 12px;margin:6px 0;align-items:center}
-.calc span.c{font:700 1rem var(--f-num);white-space:nowrap}
+.calc span.c{font:700 1.15rem/1.25 var(--f-num);white-space:nowrap}
 .calc span.c>i{font-style:normal;color:var(--muted);margin-right:4px}
 .faux{display:flex;flex-direction:column;gap:3px;margin:6px 0}
-.faux span{font:700 1.02rem var(--f-num)}
+.faux span{font:700 1.17rem/1.25 var(--f-num)}
 .faux span i{font-style:normal;color:var(--muted);margin-right:4px}
 .faux s{text-decoration:none;border-bottom:2.5px wavy var(--ko)}
-.chaine{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0;font:700 1rem var(--f-num)}
+.chaine{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0;font:700 1.15rem/1.25 var(--f-num)}
 .chaine .bo{border:2.5px solid var(--ink);border-radius:8px;padding:2px 10px;background:#fff}
 .chaine .bo.m{background:#bcd0ff;color:var(--blue)}
 .chaine .op{color:var(--amber-text)}
@@ -92,7 +92,7 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
 .pr-l{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,340px);gap:6px 14px;align-items:center}
 @media (max-width:760px){.pr-l{grid-template-columns:minmax(0,1fr)}}
 .pr-t{grid-column:1/-1;font:800 1rem var(--f-title);text-transform:uppercase;letter-spacing:.04em;color:var(--amber-text);margin-top:4px}
-.pr-e{font:700 clamp(1.1rem,3.2vw,1.7rem)/1.5 var(--f-num)}
+.pr-e{font:700 clamp(1.26rem,3.68vw,1.95rem)/1.3 var(--f-num)}
 .pr-n{font-size:.93rem;color:var(--muted);border-left:3px solid var(--line);padding-left:10px}
 .pr-l.neuf .pr-e{animation:monte .45s ease}
 @keyframes monte{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -105,8 +105,8 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
 @media (max-width:520px){.flash{grid-template-columns:minmax(0,1fr)}}
 .flash div.txt{font:500 1rem/1.35 var(--f-text);text-align:left}
 .flash .tri{display:block;width:100%;max-width:170px;height:auto;margin:2px auto 0}
-.flash div.txt .rep{font:700 1.1rem var(--f-num);text-align:center}
-.flash div{border:2px solid var(--line);border-radius:8px;background:#fff;padding:10px 12px;font:700 1.35rem var(--f-num);text-align:center}
+.flash div.txt .rep{font:700 1.26rem/1.25 var(--f-num);text-align:center}
+.flash div{border:2px solid var(--line);border-radius:8px;background:#fff;padding:10px 12px;font:700 1.55rem/1.25 var(--f-num);text-align:center}
 .flash div i{font:600 .9rem var(--f-text);font-style:normal;color:var(--muted);margin-right:6px}
 .flash .rep{display:block;margin-top:4px;font-size:1.1rem;color:var(--ok)}
 .flash .rep small{display:block;font:500 .85rem var(--f-text);color:var(--muted)}
@@ -114,13 +114,13 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
 .bl{border:2.5px solid var(--amber-text);border-radius:8px;padding:0 5px;position:relative;white-space:nowrap}
 .bl[data-n]::after{content:attr(data-n);position:absolute;top:-.85em;right:-.55em;font:700 .55em/1.5 var(--f-text);background:var(--amber-text);color:#fff;border-radius:999px;min-width:1.5em;text-align:center}
 .pi{border:2.5px dashed var(--blue);border-radius:8px;padding:0 4px}
-.barre{text-decoration:none;color:var(--muted)}
+.barre{text-decoration:none;color:var(--muted);font-variant-numeric:tabular-nums}
 .ordre{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:8px 0 4px}
 @media (max-width:700px){.ordre{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .ordre div{border:2px solid var(--ink);border-radius:8px;background:#fff;padding:6px 8px;text-align:center;font:600 1rem var(--f-text);color:var(--ink)}
-.ordre b{display:block;font:700 1.3rem var(--f-num);color:var(--amber-text)}
+.ordre b{display:block;font:700 1.49rem/1.25 var(--f-num);color:var(--amber-text)}
 .cartes{display:flex;gap:8px;margin:6px 0;flex-wrap:wrap}
-.cartes span{font:700 1.15rem var(--f-num);border:2.5px solid var(--ink);border-radius:8px;padding:6px 12px;background:var(--fill)}
+.cartes span{font:700 1.32rem/1.25 var(--f-num);border:2.5px solid var(--ink);border-radius:8px;padding:6px 12px;background:var(--fill)}
 .cartes span.m{background:#bcd0ff;color:var(--blue)}
 .calc .fr{font-size:1.02rem}
 </style>
@@ -141,7 +141,7 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
     <div><i>a)</i>(−4) × (−5)<span class="rep" hidden>20<small>deux facteurs négatifs</small></span></div>
     <div><i>b)</i>7 − (−3)<span class="rep" hidden>10<small>soustraire −3, c'est ajouter 3</small></span></div>
     <div><i>c)</i>9²<span class="rep" hidden>81<small>9 × 9, et non 9 × 2</small></span></div>
-    <div class="txt"><i>d)</i>Combien mesure BC ?<svg class="tri" viewBox="-16 0 156 104" role="img" aria-label="Triangle ABC rectangle en A : AB = 6 cm, AC = 8 cm, BC inconnu."><path d="M30 82V22L110 82Z" fill="#fff4b8" stroke="#1b2a5e" stroke-width="2.5" stroke-linejoin="round"/><path d="M30 72H40V82" fill="none" stroke="#1b2a5e" stroke-width="1.8"/><g font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="#1b2a5e"><text x="18" y="96">A</text><text x="24" y="16">B</text><text x="114" y="96">C</text></g><g font-family="Space Mono,monospace" font-weight="700" font-size="12" fill="#56608a"><text x="25" y="56" text-anchor="end">6 cm</text><text x="70" y="98" text-anchor="middle">8 cm</text></g><text x="76" y="46" font-family="Space Mono,monospace" font-weight="700" font-size="16" fill="#d62839">?</text></svg><span class="rep" hidden>10 cm<small>BC² = 6² + 8² = 36 + 64 = 100, donc BC = 10 cm</small></span></div>
+    <div class="txt"><i>d)</i>Combien mesure BC ?<svg class="tri" viewBox="-16 0 156 104" role="img" aria-label="Triangle ABC rectangle en A : AB = 6 cm, AC = 8 cm, BC inconnu."><path d="M30 82V22L110 82Z" fill="#fff4b8" stroke="#1b2a5e" stroke-width="2.5" stroke-linejoin="round"/><path d="M30 72H40V82" fill="none" stroke="#1b2a5e" stroke-width="1.8"/><g font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="#1b2a5e"><text x="18" y="96">A</text><text x="24" y="16">B</text><text x="114" y="96">C</text></g><g font-family="Source Sans 3,sans-serif" font-weight="700" font-size="13" fill="#56608a"><text x="25" y="56" text-anchor="end">6 cm</text><text x="70" y="98" text-anchor="middle">8 cm</text></g><text x="76" y="46" font-family="Source Sans 3,sans-serif" font-weight="700" font-size="18" fill="#d62839">?</text></svg><span class="rep" hidden>10 cm<small>BC² = 6² + 8² = 36 + 64 = 100, donc BC = 10 cm</small></span></div>
   </div>
   <div class="row" style="margin-top:8px"><button class="btn" id="flash-btn">Réponses</button></div>
 </section>

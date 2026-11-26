@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Séance 2 — Un seul facteur négatif</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Source+Sans+3:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
 <style>
 :root{
   color-scheme:light;
@@ -14,7 +14,7 @@
   --blue:#1f56d6; --blue-bg:#e6eeff; --magenta:#b8217a; --magenta-bg:#ffe6f3;
   --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
   --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+  --f-num:"Source Sans 3","Work Sans",system-ui,sans-serif;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -27,7 +27,7 @@ h3{font:800 1.25rem/1.1 var(--f-title);text-transform:uppercase;letter-spacing:.
 .sub{margin:6px 0 0;color:var(--muted);font-size:.95rem}
 .pill{display:inline-block;font:700 .8rem var(--f-text);background:var(--ink);color:#fff;border-radius:6px;padding:2px 8px;margin-left:6px;vertical-align:middle}
 .panel{background:var(--panel);border:2px solid var(--ink);border-radius:8px;padding:14px 16px}
-.num{font-family:var(--f-num);font-weight:700;white-space:nowrap}
+.num{font-family:var(--f-num);font-weight:700;white-space:nowrap;font-size:1.15em;line-height:1}
 .btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:7px 13px;cursor:pointer;min-height:40px}
 .btn:hover{border-color:var(--amber)}
 .btn.main{background:var(--amber);border-color:var(--amber)}
@@ -41,7 +41,7 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--amber);outline
 .regle{border:2px solid var(--line);border-radius:8px;padding:10px 12px;background:#fff}
 .regle b.t{display:block;font:800 1.1rem var(--f-title);text-transform:uppercase;letter-spacing:.03em}
 .regle ul{margin:4px 0 0;padding-left:18px}
-.tag-op{display:inline-block;min-width:1.6em;text-align:center;font:700 1rem var(--f-num);background:var(--fill-2);border:1.5px solid var(--amber);border-radius:5px}
+.tag-op{display:inline-block;min-width:1.6em;text-align:center;font:700 1.15rem/1.25 var(--f-num);background:var(--fill-2);border:1.5px solid var(--amber);border-radius:5px}
 /* scène */
 .scene{border:2px solid var(--line);border-radius:8px;background:#fff;margin-top:10px;overflow:hidden}
 .scene svg{display:block;width:100%;height:auto}
@@ -53,7 +53,7 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--amber);outline
 .concl{margin-top:10px;border-left:5px solid var(--amber);background:var(--fill-2);border-radius:0 8px 8px 0;padding:8px 12px}
 .concl p{margin:2px 0}
 .libre label{font-weight:600;display:flex;align-items:center;gap:6px}
-.libre select{font:700 1.05rem var(--f-num);border:2px solid var(--line);border-radius:6px;padding:4px 6px;background:#fff;color:var(--ink)}
+.libre select{font:700 1.21rem/1.25 var(--f-num);border:2px solid var(--line);border-radius:6px;padding:4px 6px;background:#fff;color:var(--ink)}
 .alerte{color:var(--ko);font-weight:600;margin:6px 0 0}
 /* exercices */
 .consigne-cahier{margin:0;color:var(--muted);font-size:.93rem}
@@ -66,12 +66,12 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--amber);outline
 .stars{color:#c98a00;font-size:1rem;letter-spacing:1px;white-space:nowrap}
 .ex p{margin:4px 0}
 .calc{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:4px 12px;margin:6px 0}
-.calc span{font:700 1.02rem var(--f-num)}
+.calc span{font:700 1.17rem/1.25 var(--f-num)}
 .calc span i{font-style:normal;color:var(--muted);margin-right:4px}
 table.t{border-collapse:collapse;width:100%;margin:6px 0;font-size:.95rem}
 table.t th,table.t td{border:1.5px solid var(--line);padding:4px 6px;text-align:center}
 table.t th{background:var(--blue-bg)}
-table.t td.n{font-family:var(--f-num);font-weight:700}
+table.t td.n{font-family:var(--f-num);font-weight:700;font-size:1.15em;line-height:1.3}
 .tools{display:flex;gap:8px;margin-top:8px}
 .tools .btn{min-height:34px;padding:4px 12px;font-size:.88rem}
 .ast,.sol{margin-top:8px;border-radius:6px;padding:8px 10px;font-size:.95rem}
@@ -87,7 +87,7 @@ table.t td.n{font-family:var(--f-num);font-weight:700}
 /* flash */
 .flash{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:8px}
 @media (max-width:700px){.flash{grid-template-columns:minmax(0,1fr)}}
-.flash div{border:2px solid var(--line);border-radius:8px;background:#fff;padding:10px 12px;font:700 1.35rem var(--f-num);text-align:center}
+.flash div{border:2px solid var(--line);border-radius:8px;background:#fff;padding:10px 12px;font:700 1.55rem/1.25 var(--f-num);text-align:center}
 .flash div i{font:600 .9rem var(--f-text);font-style:normal;color:var(--muted);margin-right:6px}
 .flash .rep{display:block;margin-top:4px;font-size:1.1rem;color:var(--ok)}
 /* congélateur */
@@ -96,9 +96,9 @@ table.t td.n{font-family:var(--f-num);font-weight:700}
 .congel svg{max-width:260px;margin:0 auto}
 .congel .etapes{border-top:0;border-left:2px dashed var(--line);min-height:100%}
 @media (max-width:700px){.congel .etapes{border-left:0;border-top:2px dashed var(--line)}}
-.lecture{font:700 1.5rem var(--f-num);padding:10px 14px 0 34px}
+.lecture{font:700 1.72rem/1.25 var(--f-num);padding:10px 14px 0 34px}
 /* méthode */
-.m-expr{font:700 clamp(1.6rem,5vw,2.6rem) var(--f-num);text-align:center;padding:18px 10px 14px}
+.m-expr{font:700 clamp(1.84rem,5.75vw,2.99rem)/1.25 var(--f-num);text-align:center;padding:18px 10px 14px}
 .m-expr .fa{border-radius:8px;padding:0 6px;transition:background .3s,box-shadow .3s}
 .m-expr .fa.neg{background:var(--blue-bg);box-shadow:0 0 0 3px var(--blue)}
 .m-expr .fa.dist{background:var(--fill-2);box-shadow:0 0 0 3px var(--amber)}
@@ -329,7 +329,7 @@ table.t td.n{font-family:var(--f-num);font-weight:700}
     el("path", { d: "M" + (xOf(MAX) + 30) + " " + Y + "l-12 -7v14z", fill: INK }, svg);
     for (var n = MIN; n <= MAX; n++) {
       el("line", { x1: xOf(n), y1: Y - (n === 0 ? 12 : 8), x2: xOf(n), y2: Y + (n === 0 ? 12 : 8), stroke: INK, "stroke-width": n === 0 ? 3 : 2 }, svg);
-      txt({ x: xOf(n), y: Y + 30, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": n === 0 ? 18 : 15, "font-weight": n === 0 ? 700 : 400, fill: INK }, fmt(n), svg);
+      txt({ x: xOf(n), y: Y + 30, "text-anchor": "middle", "font-family": "Source Sans 3, sans-serif", "font-size": n === 0 ? 20 : 17, "font-weight": n === 0 ? 700 : 400, fill: INK }, fmt(n), svg);
     }
     var traces = el("g", {}, svg);
     var repere = el("circle", { cx: xOf(0), cy: Y, r: 11, fill: "#ffc61a", stroke: INK, "stroke-width": 2.5, opacity: 0 }, svg);
@@ -368,7 +368,7 @@ table.t td.n{font-family:var(--f-num);font-weight:700}
       }).then(function(){
         pos = b; jA.removeAttribute("transform"); jB.removeAttribute("transform");
         el("line", { x1: xb, y1: YT - 9, x2: xb, y2: YT + 9, stroke: "#b8217a", "stroke-width": 2 }, traces);
-        txt({ x: (xa + xb) / 2, y: YT - 10, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 15, "font-weight": 700, fill: "#b8217a" }, fmt(c.b), traces);
+        txt({ x: (xa + xb) / 2, y: YT - 10, "text-anchor": "middle", "font-family": "Source Sans 3, sans-serif", "font-size": 17, "font-weight": 700, fill: "#b8217a" }, fmt(c.b), traces);
       });
     }
     next.onclick = function(){
@@ -401,7 +401,7 @@ table.t td.n{font-family:var(--f-num);font-weight:700}
     for (var t = 3; t >= -21; t--) {
       var gr = t % 3 === 0;
       el("line", { x1: 138, y1: yT(t), x2: gr ? 154 : 146, y2: yT(t), stroke: INK, "stroke-width": t === 0 ? 3 : (gr ? 2 : 1.2) }, svg);
-      if (gr) txt({ x: 160, y: yT(t) + 5, "font-family": "Space Mono, monospace", "font-size": t === 0 ? 17 : 15, "font-weight": t === 0 ? 700 : 400, fill: INK }, fmt(t) + " °C", svg);
+      if (gr) txt({ x: 160, y: yT(t) + 5, "font-family": "Source Sans 3, sans-serif", "font-size": t === 0 ? 19 : 17, "font-weight": t === 0 ? 700 : 400, fill: INK }, fmt(t) + " °C", svg);
     }
     el("line", { x1: 40, y1: yT(-18), x2: 104, y2: yT(-18), stroke: ROUGE, "stroke-width": 2.5, "stroke-dasharray": "6 5" }, svg);
     txt({ x: 40, y: yT(-18) - 8, "font-family": "Work Sans, sans-serif", "font-size": 14, "font-weight": 600, fill: ROUGE }, "objectif", svg);
@@ -438,33 +438,33 @@ table.t td.n{font-family:var(--f-num);font-weight:700}
     el("rect", { x: AXE - 13 * UB, y: 10, width: 13 * UB, height: yR(6) + 14, fill: "#e6eeff" }, svg);
     el("rect", { x: AXE, y: 10, width: 13 * UB, height: yR(6) + 14, fill: "#fff4b8" }, svg);
     el("line", { x1: AXE, y1: 10, x2: AXE, y2: yR(6) + 24, stroke: INK, "stroke-width": 3 }, svg);
-    txt({ x: AXE + 6, y: 26, "font-family": "Space Mono, monospace", "font-size": 15, "font-weight": 700, fill: INK }, "0", svg);
+    txt({ x: AXE + 6, y: 26, "font-family": "Source Sans 3, sans-serif", "font-size": 17, "font-weight": 700, fill: INK }, "0", svg);
     var lignes = F.map(function(f, i){
       var y = yR(i), v = 4 * f;
       var ge = el("g", { opacity: 0 }, svg);
-      txt({ x: 230, y: y + 8, "text-anchor": "end", "font-family": "Space Mono, monospace", "font-size": 24, "font-weight": 700, fill: f < 0 ? BLEU : INK }, "4 × " + par(f), ge);
-      txt({ x: 255, y: y + 8, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 24, fill: INK }, "=", ge);
-      var q = txt({ x: 285, y: y + 8, "font-family": "Space Mono, monospace", "font-size": 24, "font-weight": 700, fill: ROUGE }, "?", ge);
+      txt({ x: 230, y: y + 8, "text-anchor": "end", "font-family": "Source Sans 3, sans-serif", "font-size": 27, "font-weight": 700, fill: f < 0 ? BLEU : INK }, "4 × " + par(f), ge);
+      txt({ x: 255, y: y + 8, "text-anchor": "middle", "font-family": "Source Sans 3, sans-serif", "font-size": 27, fill: INK }, "=", ge);
+      var q = txt({ x: 285, y: y + 8, "font-family": "Source Sans 3, sans-serif", "font-size": 27, "font-weight": 700, fill: ROUGE }, "?", ge);
       var gr = el("g", { opacity: 0 }, svg);
-      txt({ x: 285, y: y + 8, "font-family": "Space Mono, monospace", "font-size": 24, "font-weight": 700, fill: v < 0 ? BLEU : INK }, fmt(v), gr);
+      txt({ x: 285, y: y + 8, "font-family": "Source Sans 3, sans-serif", "font-size": 27, "font-weight": 700, fill: v < 0 ? BLEU : INK }, fmt(v), gr);
       var barre = el("rect", { x: AXE, y: y - 12, width: 0, height: 24, rx: 3, fill: v < 0 ? "#bcd0ff" : "#ffe45e", stroke: INK, "stroke-width": 2 }, svg);
       var gn = el("g", { opacity: 0 }, svg);
       if (i > 0) {
         var ym = y - H / 2;
         el("path", { d: "M70 " + (y - H + 8) + "Q54 " + ym + " 68 " + (y - 9), fill: "none", stroke: ROUGE, "stroke-width": 2.2 }, gn);
         el("path", { d: "M71 " + (y - 5) + "l-9 -3l6 -7z", fill: ROUGE }, gn);
-        txt({ x: 48, y: ym + 5, "text-anchor": "end", "font-family": "Space Mono, monospace", "font-size": 15, "font-weight": 700, fill: ROUGE }, "−1", gn);
+        txt({ x: 48, y: ym + 5, "text-anchor": "end", "font-family": "Source Sans 3, sans-serif", "font-size": 17, "font-weight": 700, fill: ROUGE }, "−1", gn);
         el("path", { d: "M362 " + (y - H + 8) + "Q378 " + ym + " 364 " + (y - 9), fill: "none", stroke: ROUGE, "stroke-width": 2.2 }, gn);
         el("path", { d: "M361 " + (y - 5) + "l9 -3l-6 -7z", fill: ROUGE }, gn);
-        txt({ x: 384, y: ym + 5, "font-family": "Space Mono, monospace", "font-size": 15, "font-weight": 700, fill: ROUGE }, "−4", gn);
+        txt({ x: 384, y: ym + 5, "font-family": "Source Sans 3, sans-serif", "font-size": 17, "font-weight": 700, fill: ROUGE }, "−4", gn);
       }
       return { ge: ge, q: q, gr: gr, barre: barre, gn: gn, v: v };
     });
     var commut = el("g", { opacity: 0 }, svg);
     el("line", { x1: 90, y1: yR(6) + 28, x2: 400, y2: yR(6) + 28, stroke: "#c3d1ec", "stroke-width": 2, "stroke-dasharray": "5 5" }, commut);
-    txt({ x: 230, y: yR(7) + 14, "text-anchor": "end", "font-family": "Space Mono, monospace", "font-size": 24, "font-weight": 700, fill: BLEU }, "(−3) × 4", commut);
-    txt({ x: 255, y: yR(7) + 14, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 24, fill: INK }, "=", commut);
-    txt({ x: 285, y: yR(7) + 14, "font-family": "Space Mono, monospace", "font-size": 24, "font-weight": 700, fill: BLEU }, "−12", commut);
+    txt({ x: 230, y: yR(7) + 14, "text-anchor": "end", "font-family": "Source Sans 3, sans-serif", "font-size": 27, "font-weight": 700, fill: BLEU }, "(−3) × 4", commut);
+    txt({ x: 255, y: yR(7) + 14, "text-anchor": "middle", "font-family": "Source Sans 3, sans-serif", "font-size": 27, fill: INK }, "=", commut);
+    txt({ x: 285, y: yR(7) + 14, "font-family": "Source Sans 3, sans-serif", "font-size": 27, "font-weight": 700, fill: BLEU }, "−12", commut);
 
     function montre(e, p){ e.setAttribute("opacity", p); }
     function question(i){ var l = lignes[i]; return anim(350, function(p){ montre(l.ge, p); if (i > 0) montre(l.gn, p); }); }

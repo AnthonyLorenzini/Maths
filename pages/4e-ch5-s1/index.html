@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Séance 1 — Ajouter et soustraire des relatifs</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Source+Sans+3:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
 <style>
 :root{
   color-scheme:light;
@@ -14,7 +14,7 @@
   --blue:#1f56d6; --blue-bg:#e6eeff; --magenta:#b8217a; --magenta-bg:#ffe6f3;
   --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
   --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+  --f-num:"Source Sans 3","Work Sans",system-ui,sans-serif;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -27,7 +27,7 @@ h3{font:800 1.25rem/1.1 var(--f-title);text-transform:uppercase;letter-spacing:.
 .sub{margin:6px 0 0;color:var(--muted);font-size:.95rem}
 .pill{display:inline-block;font:700 .8rem var(--f-text);background:var(--ink);color:#fff;border-radius:6px;padding:2px 8px;margin-left:6px;vertical-align:middle}
 .panel{background:var(--panel);border:2px solid var(--ink);border-radius:8px;padding:14px 16px}
-.num{font-family:var(--f-num);font-weight:700;white-space:nowrap}
+.num{font-family:var(--f-num);font-weight:700;white-space:nowrap;font-size:1.15em;line-height:1}
 .btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:7px 13px;cursor:pointer;min-height:40px}
 .btn:hover{border-color:var(--amber)}
 .btn.main{background:var(--amber);border-color:var(--amber)}
@@ -41,7 +41,7 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--amber);outline
 .regle{border:2px solid var(--line);border-radius:8px;padding:10px 12px;background:#fff}
 .regle b.t{display:block;font:800 1.1rem var(--f-title);text-transform:uppercase;letter-spacing:.03em}
 .regle ul{margin:4px 0 0;padding-left:18px}
-.tag-op{display:inline-block;min-width:1.6em;text-align:center;font:700 1rem var(--f-num);background:var(--fill-2);border:1.5px solid var(--amber);border-radius:5px}
+.tag-op{display:inline-block;min-width:1.6em;text-align:center;font:700 1.15rem/1.25 var(--f-num);background:var(--fill-2);border:1.5px solid var(--amber);border-radius:5px}
 /* scène */
 .scene{border:2px solid var(--line);border-radius:8px;background:#fff;margin-top:10px;overflow:hidden}
 .scene svg{display:block;width:100%;height:auto}
@@ -53,7 +53,7 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--amber);outline
 .concl{margin-top:10px;border-left:5px solid var(--amber);background:var(--fill-2);border-radius:0 8px 8px 0;padding:8px 12px}
 .concl p{margin:2px 0}
 .libre label{font-weight:600;display:flex;align-items:center;gap:6px}
-.libre select{font:700 1.05rem var(--f-num);border:2px solid var(--line);border-radius:6px;padding:4px 6px;background:#fff;color:var(--ink)}
+.libre select{font:700 1.21rem/1.25 var(--f-num);border:2px solid var(--line);border-radius:6px;padding:4px 6px;background:#fff;color:var(--ink)}
 .alerte{color:var(--ko);font-weight:600;margin:6px 0 0}
 /* exercices */
 .consigne-cahier{margin:0;color:var(--muted);font-size:.93rem}
@@ -67,12 +67,12 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--amber);outline
 .stars{color:#c98a00;font-size:1rem;letter-spacing:1px;white-space:nowrap}
 .ex p{margin:4px 0}
 .calc{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:4px 12px;margin:6px 0}
-.calc span{font:700 1.02rem var(--f-num)}
+.calc span{font:700 1.17rem/1.25 var(--f-num)}
 .calc span i{font-style:normal;color:var(--muted);margin-right:4px}
 table.t{border-collapse:collapse;width:100%;margin:6px 0;font-size:.95rem}
 table.t th,table.t td{border:1.5px solid var(--line);padding:4px 6px;text-align:center}
 table.t th{background:var(--blue-bg)}
-table.t td.n{font-family:var(--f-num);font-weight:700}
+table.t td.n{font-family:var(--f-num);font-weight:700;font-size:1.15em;line-height:1.3}
 .tools{display:flex;gap:8px;margin-top:8px}
 .tools .btn{min-height:34px;padding:4px 12px;font-size:.88rem}
 .ast,.sol{margin-top:8px;border-radius:6px;padding:8px 10px;font-size:.95rem}
@@ -248,7 +248,7 @@ table.t td.n{font-family:var(--f-num);font-weight:700}
       <article class="ex">
         <div class="ex-tete"><h3>Exercice 6 · La chaîne de montagnes</h3><span class="stars" aria-label="2 étoiles">★★☆</span></div>
         <p>Une randonnée part du bord de la mer Morte (A), à −430 m. Sur chaque tronçon, on lit de combien on monte (+) ou on descend (−).</p>
-        <svg viewBox="0 0 460 214" role="img" aria-label="profil d'une randonnée de A à F" style="display:block;width:100%;height:auto;margin:6px 0"><polygon points="22,204 22,186.0 92,101.1 162,147.6 242,36.0 312,75.7 378,110.0 378,204" fill="#e9e4d4"/><line x1="8" x2="456" y1="127.1" y2="127.1" stroke="var(--blue)" stroke-width="1.5" stroke-dasharray="6 4"/><text x="456" y="142.1" text-anchor="end" font-size="11" fill="var(--blue)" font-family="Work Sans,sans-serif">niveau de la mer : 0 m</text><polyline points="22,186.0 92,101.1 162,147.6 242,36.0 312,75.7 378,110.0" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/><text x="46" y="162" text-anchor="end" font-family="Space Mono,monospace" font-weight="700" font-size="13" fill="var(--ok)">+620 m</text><text x="134" y="110" text-anchor="start" font-family="Space Mono,monospace" font-weight="700" font-size="13" fill="var(--ko)">−340 m</text><text x="196" y="88" text-anchor="end" font-family="Space Mono,monospace" font-weight="700" font-size="13" fill="var(--ok)">+815 m</text><text x="284" y="46" text-anchor="start" font-family="Space Mono,monospace" font-weight="700" font-size="13" fill="var(--ko)">−290 m</text><text x="352" y="84" text-anchor="start" font-family="Space Mono,monospace" font-weight="700" font-size="13" fill="var(--amber-text)">?</text><circle cx="22" cy="186.0" r="4.5" fill="var(--amber)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="92" cy="101.1" r="4.5" fill="var(--amber)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="162" cy="147.6" r="4.5" fill="var(--amber)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="242" cy="36.0" r="4.5" fill="var(--amber)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="312" cy="75.7" r="4.5" fill="var(--amber)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="378" cy="110.0" r="4.5" fill="var(--amber)" stroke="var(--ink)" stroke-width="1.5"/><text x="22" y="203" text-anchor="start" font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="var(--ink)">A : −430 m</text><text x="92" y="90" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="var(--ink)">B</text><text x="162" y="166" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="var(--ink)">C</text><text x="242" y="25" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="var(--ink)">D</text><text x="312" y="95" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="var(--ink)">E</text><text x="386" y="114" text-anchor="start" font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="var(--ink)">F : 125 m</text></svg>
+        <svg viewBox="0 0 460 214" role="img" aria-label="profil d'une randonnée de A à F" style="display:block;width:100%;height:auto;margin:6px 0"><polygon points="22,204 22,186.0 92,101.1 162,147.6 242,36.0 312,75.7 378,110.0 378,204" fill="#e9e4d4"/><line x1="8" x2="456" y1="127.1" y2="127.1" stroke="var(--blue)" stroke-width="1.5" stroke-dasharray="6 4"/><text x="456" y="142.1" text-anchor="end" font-size="11" fill="var(--blue)" font-family="Work Sans,sans-serif">niveau de la mer : 0 m</text><polyline points="22,186.0 92,101.1 162,147.6 242,36.0 312,75.7 378,110.0" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/><text x="46" y="162" text-anchor="end" font-family="Source Sans 3,sans-serif" font-weight="700" font-size="15" fill="var(--ok)">+620 m</text><text x="134" y="110" text-anchor="start" font-family="Source Sans 3,sans-serif" font-weight="700" font-size="15" fill="var(--ko)">−340 m</text><text x="196" y="88" text-anchor="end" font-family="Source Sans 3,sans-serif" font-weight="700" font-size="15" fill="var(--ok)">+815 m</text><text x="284" y="46" text-anchor="start" font-family="Source Sans 3,sans-serif" font-weight="700" font-size="15" fill="var(--ko)">−290 m</text><text x="352" y="84" text-anchor="start" font-family="Source Sans 3,sans-serif" font-weight="700" font-size="15" fill="var(--amber-text)">?</text><circle cx="22" cy="186.0" r="4.5" fill="var(--amber)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="92" cy="101.1" r="4.5" fill="var(--amber)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="162" cy="147.6" r="4.5" fill="var(--amber)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="242" cy="36.0" r="4.5" fill="var(--amber)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="312" cy="75.7" r="4.5" fill="var(--amber)" stroke="var(--ink)" stroke-width="1.5"/><circle cx="378" cy="110.0" r="4.5" fill="var(--amber)" stroke="var(--ink)" stroke-width="1.5"/><text x="22" y="203" text-anchor="start" font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="var(--ink)">A : −430 m</text><text x="92" y="90" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="var(--ink)">B</text><text x="162" y="166" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="var(--ink)">C</text><text x="242" y="25" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="var(--ink)">D</text><text x="312" y="95" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="var(--ink)">E</text><text x="386" y="114" text-anchor="start" font-family="Work Sans,sans-serif" font-weight="700" font-size="13" fill="var(--ink)">F : 125 m</text></svg>
         <p>a) Calcule l'altitude des points B, C, D et E.</p>
         <p>b) L'arrivée F est à 125 m. Quel est le dénivelé du dernier tronçon ?</p>
         <p>c) Quel écart y a-t-il entre le point le plus haut et le point le plus bas ?</p>
@@ -278,7 +278,7 @@ table.t td.n{font-family:var(--f-num);font-weight:700}
       <article class="ex plus">
         <div class="ex-tete"><h3>Exercice 8 · La pyramide</h3><span class="stars" aria-label="3 étoiles">★★★</span></div>
         <p>Chaque brique est la <b>somme</b> des deux briques juste en dessous. Complète la pyramide.</p>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin:8px 0;font:700 1.05rem var(--f-num)">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin:8px 0;font:700 1.21rem/1.25 var(--f-num)">
           <div style="display:flex;gap:4px"><span class="bq">?</span></div>
           <div style="display:flex;gap:4px"><span class="bq">?</span><span class="bq">?</span></div>
           <div style="display:flex;gap:4px"><span class="bq">?</span><span class="bq">1</span><span class="bq">?</span></div>
@@ -331,7 +331,7 @@ table.t td.n{font-family:var(--f-num);font-weight:700}
     el("path", { d: "M" + (xOf(MAX) + 30) + " " + Y + "l-12 -7v14z", fill: "#1b2a5e" }, svg);
     for (var n = MIN; n <= MAX; n++) {
       el("line", { x1: xOf(n), y1: Y - (n === 0 ? 12 : 8), x2: xOf(n), y2: Y + (n === 0 ? 12 : 8), stroke: "#1b2a5e", "stroke-width": n === 0 ? 3 : 2 }, svg);
-      var t = el("text", { x: xOf(n), y: Y + 30, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": n === 0 ? 19 : 16, "font-weight": n === 0 ? 700 : 400, fill: "#1b2a5e" }, svg);
+      var t = el("text", { x: xOf(n), y: Y + 30, "text-anchor": "middle", "font-family": "Source Sans 3, sans-serif", "font-size": n === 0 ? 21 : 18, "font-weight": n === 0 ? 700 : 400, fill: "#1b2a5e" }, svg);
       t.textContent = fmt(n);
     }
     this.traces = el("g", {}, svg);

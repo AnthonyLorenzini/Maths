@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Séance 3 — Deux facteurs négatifs</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Source+Sans+3:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
 <style>
 :root{
   color-scheme:light;
@@ -14,7 +14,7 @@
   --blue:#1f56d6; --blue-bg:#e6eeff; --magenta:#b8217a; --magenta-bg:#ffe6f3;
   --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
   --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+  --f-num:"Source Sans 3","Work Sans",system-ui,sans-serif;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -27,7 +27,7 @@ h3{font:800 1.25rem/1.1 var(--f-title);text-transform:uppercase;letter-spacing:.
 .sub{margin:6px 0 0;color:var(--muted);font-size:.95rem}
 .pill{display:inline-block;font:700 .8rem var(--f-text);background:var(--ink);color:#fff;border-radius:6px;padding:2px 8px;margin-left:6px;vertical-align:middle}
 .panel{background:var(--panel);border:2px solid var(--ink);border-radius:8px;padding:14px 16px}
-.num{font-family:var(--f-num);font-weight:700;white-space:nowrap}
+.num{font-family:var(--f-num);font-weight:700;white-space:nowrap;font-size:1.15em;line-height:1}
 .btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:7px 13px;cursor:pointer;min-height:40px}
 .btn:hover{border-color:var(--amber)}
 .btn.main{background:var(--amber);border-color:var(--amber)}
@@ -41,7 +41,7 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--amber);outline
 .regle{border:2px solid var(--line);border-radius:8px;padding:10px 12px;background:#fff}
 .regle b.t{display:block;font:800 1.1rem var(--f-title);text-transform:uppercase;letter-spacing:.03em}
 .regle ul{margin:4px 0 0;padding-left:18px}
-.tag-op{display:inline-block;min-width:1.6em;text-align:center;font:700 1rem var(--f-num);background:var(--fill-2);border:1.5px solid var(--amber);border-radius:5px}
+.tag-op{display:inline-block;min-width:1.6em;text-align:center;font:700 1.15rem/1.25 var(--f-num);background:var(--fill-2);border:1.5px solid var(--amber);border-radius:5px}
 /* scène */
 .scene{border:2px solid var(--line);border-radius:8px;background:#fff;margin-top:10px;overflow:hidden}
 .scene svg{display:block;width:100%;height:auto}
@@ -53,7 +53,7 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--amber);outline
 .concl{margin-top:10px;border-left:5px solid var(--amber);background:var(--fill-2);border-radius:0 8px 8px 0;padding:8px 12px}
 .concl p{margin:2px 0}
 .libre label{font-weight:600;display:flex;align-items:center;gap:6px}
-.libre select{font:700 1.05rem var(--f-num);border:2px solid var(--line);border-radius:6px;padding:4px 6px;background:#fff;color:var(--ink)}
+.libre select{font:700 1.21rem/1.25 var(--f-num);border:2px solid var(--line);border-radius:6px;padding:4px 6px;background:#fff;color:var(--ink)}
 .alerte{color:var(--ko);font-weight:600;margin:6px 0 0}
 /* exercices */
 .consigne-cahier{margin:0;color:var(--muted);font-size:.93rem}
@@ -66,12 +66,12 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--amber);outline
 .stars{color:#c98a00;font-size:1rem;letter-spacing:1px;white-space:nowrap}
 .ex p{margin:4px 0}
 .calc{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:4px 12px;margin:6px 0}
-.calc span{font:700 1.02rem var(--f-num)}
+.calc span{font:700 1.17rem/1.25 var(--f-num)}
 .calc span i{font-style:normal;color:var(--muted);margin-right:4px}
 table.t{border-collapse:collapse;width:100%;margin:6px 0;font-size:.95rem}
 table.t th,table.t td{border:1.5px solid var(--line);padding:4px 6px;text-align:center}
 table.t th{background:var(--blue-bg)}
-table.t td.n{font-family:var(--f-num);font-weight:700}
+table.t td.n{font-family:var(--f-num);font-weight:700;font-size:1.15em;line-height:1.3}
 .tools{display:flex;gap:8px;margin-top:8px}
 .tools .btn{min-height:34px;padding:4px 12px;font-size:.88rem}
 .ast,.sol{margin-top:8px;border-radius:6px;padding:8px 10px;font-size:.95rem}
@@ -87,7 +87,7 @@ table.t td.n{font-family:var(--f-num);font-weight:700}
 /* flash */
 .flash{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:8px}
 @media (max-width:700px){.flash{grid-template-columns:minmax(0,1fr)}}
-.flash div{border:2px solid var(--line);border-radius:8px;background:#fff;padding:10px 12px;font:700 1.35rem var(--f-num);text-align:center}
+.flash div{border:2px solid var(--line);border-radius:8px;background:#fff;padding:10px 12px;font:700 1.55rem/1.25 var(--f-num);text-align:center}
 .flash div i{font:600 .9rem var(--f-text);font-style:normal;color:var(--muted);margin-right:6px}
 .flash .rep{display:block;margin-top:4px;font-size:1.1rem;color:var(--ok)}
 
@@ -97,7 +97,7 @@ table.t td.n{font-family:var(--f-num);font-weight:700}
 .pr-l{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,300px);gap:6px 14px;align-items:center}
 @media (max-width:760px){.pr-l{grid-template-columns:minmax(0,1fr)}}
 .pr-t{grid-column:1/-1;font:800 1rem var(--f-title);text-transform:uppercase;letter-spacing:.04em;color:var(--amber-text);margin-top:4px}
-.pr-e{font:700 clamp(1.1rem,3.2vw,1.7rem)/1.5 var(--f-num)}
+.pr-e{font:700 clamp(1.26rem,3.68vw,1.95rem)/1.3 var(--f-num)}
 .pr-n{font-size:.93rem;color:var(--muted);border-left:3px solid var(--line);padding-left:10px}
 .pr-l.neuf .pr-e{animation:monte .45s ease}
 @keyframes monte{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -117,7 +117,7 @@ table.t td.n{font-family:var(--f-num);font-weight:700}
 .mr .num{display:block;font-size:1.05rem;margin-top:2px;min-height:1.6em}
 /* règle des signes */
 .signes{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center;margin-top:6px}
-table.sg{border-collapse:collapse;font:700 1.2rem var(--f-num)}
+table.sg{border-collapse:collapse;font:700 1.38rem/1.25 var(--f-num)}
 table.sg th,table.sg td{border:2px solid var(--ink);width:2.4em;height:2em;text-align:center}
 table.sg th{background:#fff}
 table.sg td.p{background:var(--fill)}
@@ -350,7 +350,7 @@ table.sg td.m{background:#bcd0ff}
     el("rect", { x: 130, y: Y0, width: 760, height: 7 * K, fill: "#e6eeff" }, svg);
     for (var t = -6; t <= 12; t += 3) {
       el("line", { x1: 124, y1: yT(t), x2: 136, y2: yT(t), stroke: INK, "stroke-width": t === 0 ? 3 : 2 }, svg);
-      txt({ x: 116, y: yT(t) + 5, "text-anchor": "end", "font-family": "Space Mono, monospace", "font-size": t === 0 ? 16 : 14, "font-weight": t === 0 ? 700 : 400, fill: INK }, fmt(t) + " °C", svg);
+      txt({ x: 116, y: yT(t) + 5, "text-anchor": "end", "font-family": "Source Sans 3, sans-serif", "font-size": t === 0 ? 18 : 16, "font-weight": t === 0 ? 700 : 400, fill: INK }, fmt(t) + " °C", svg);
     }
     el("line", { x1: 130, y1: yT(13.5), x2: 130, y2: yT(-7), stroke: INK, "stroke-width": 2 }, svg);
     el("line", { x1: 130, y1: Y0, x2: 890, y2: Y0, stroke: INK, "stroke-width": 3 }, svg);
@@ -360,12 +360,12 @@ table.sg td.m{background:#bcd0ff}
     txt({ x: 116, y: 377, "text-anchor": "end", "font-family": "Work Sans, sans-serif", "font-size": 14, "font-weight": 600, fill: BLEU }, "temps", rel);
     for (var h = -4; h <= 2; h++) {
       var x = xH(h);
-      txt({ x: x, y: 348, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": h === 0 ? 17 : 15, "font-weight": h === 0 ? 700 : 400, fill: INK }, HEURES[h + 4], svg);
-      txt({ x: x, y: 377, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 16, "font-weight": 700, fill: h < 0 ? BLEU : INK }, h === 0 ? "0 h" : (h > 0 ? "+" : "") + fmt(h) + " h", rel);
+      txt({ x: x, y: 348, "text-anchor": "middle", "font-family": "Source Sans 3, sans-serif", "font-size": h === 0 ? 19 : 17, "font-weight": h === 0 ? 700 : 400, fill: INK }, HEURES[h + 4], svg);
+      txt({ x: x, y: 377, "text-anchor": "middle", "font-family": "Source Sans 3, sans-serif", "font-size": 18, "font-weight": 700, fill: h < 0 ? BLEU : INK }, h === 0 ? "0 h" : (h > 0 ? "+" : "") + fmt(h) + " h", rel);
       var v = -3 * h;
       var barre = el("rect", { x: x - W / 2, y: Y0, width: W, height: 0, rx: 3, fill: v > 0 ? "#ffe45e" : "#bcd0ff", stroke: INK, "stroke-width": 2, opacity: 0 }, svg);
-      var val = txt({ x: x, y: v >= 0 ? yT(v) - 10 : yT(v) + 22, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 18, "font-weight": 700, fill: v < 0 ? BLEU : INK, opacity: 0 }, fmt(v) + " °C", svg);
-      var q = txt({ x: x, y: Y0 - 14, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 26, "font-weight": 700, fill: ROUGE, opacity: 0 }, "?", svg);
+      var val = txt({ x: x, y: v >= 0 ? yT(v) - 10 : yT(v) + 22, "text-anchor": "middle", "font-family": "Source Sans 3, sans-serif", "font-size": 20, "font-weight": 700, fill: v < 0 ? BLEU : INK, opacity: 0 }, fmt(v) + " °C", svg);
+      var q = txt({ x: x, y: Y0 - 14, "text-anchor": "middle", "font-family": "Source Sans 3, sans-serif", "font-size": 29, "font-weight": 700, fill: ROUGE, opacity: 0 }, "?", svg);
       cols[h] = { barre: barre, val: val, q: q, v: v };
     }
     var point = el("circle", { cx: xH(0), cy: Y0, r: 9, fill: "#ffc61a", stroke: INK, "stroke-width": 2.5 }, svg);
@@ -415,26 +415,26 @@ table.sg td.m{background:#bcd0ff}
     el("rect", { x: AXE - 10 * UB, y: 10, width: 10 * UB, height: yR(7) + 14, fill: "#e6eeff" }, svg);
     el("rect", { x: AXE, y: 10, width: 13 * UB, height: yR(7) + 14, fill: "#fff4b8" }, svg);
     el("line", { x1: AXE, y1: 10, x2: AXE, y2: yR(7) + 24, stroke: INK, "stroke-width": 3 }, svg);
-    txt({ x: AXE + 6, y: 26, "font-family": "Space Mono, monospace", "font-size": 15, "font-weight": 700, fill: INK }, "0", svg);
+    txt({ x: AXE + 6, y: 26, "font-family": "Source Sans 3, sans-serif", "font-size": 17, "font-weight": 700, fill: INK }, "0", svg);
     var cadre = el("rect", { x: 88, y: yR(4) - 22, width: 280, height: 4 * H + 2, rx: 8, fill: "none", stroke: ROUGE, "stroke-width": 2.5, "stroke-dasharray": "7 5", opacity: 0 }, svg);
     var lignes = F.map(function(f, i){
       var y = yR(i), v = -3 * f;
       var ge = el("g", { opacity: 0 }, svg);
-      txt({ x: 260, y: y + 8, "text-anchor": "end", "font-family": "Space Mono, monospace", "font-size": 24, "font-weight": 700, fill: INK }, "(−3) × " + par(f), ge);
-      txt({ x: 285, y: y + 8, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 24, fill: INK }, "=", ge);
-      var q = txt({ x: 312, y: y + 8, "font-family": "Space Mono, monospace", "font-size": 24, "font-weight": 700, fill: ROUGE }, "?", ge);
+      txt({ x: 260, y: y + 8, "text-anchor": "end", "font-family": "Source Sans 3, sans-serif", "font-size": 27, "font-weight": 700, fill: INK }, "(−3) × " + par(f), ge);
+      txt({ x: 285, y: y + 8, "text-anchor": "middle", "font-family": "Source Sans 3, sans-serif", "font-size": 27, fill: INK }, "=", ge);
+      var q = txt({ x: 312, y: y + 8, "font-family": "Source Sans 3, sans-serif", "font-size": 27, "font-weight": 700, fill: ROUGE }, "?", ge);
       var gr = el("g", { opacity: 0 }, svg);
-      txt({ x: 312, y: y + 8, "font-family": "Space Mono, monospace", "font-size": 24, "font-weight": 700, fill: v < 0 ? BLEU : INK }, fmt(v), gr);
+      txt({ x: 312, y: y + 8, "font-family": "Source Sans 3, sans-serif", "font-size": 27, "font-weight": 700, fill: v < 0 ? BLEU : INK }, fmt(v), gr);
       var barre = el("rect", { x: AXE, y: y - 11, width: 0, height: 22, rx: 3, fill: v < 0 ? "#bcd0ff" : "#ffe45e", stroke: INK, "stroke-width": 2 }, svg);
       var gn = el("g", { opacity: 0 }, svg);
       if (i > 0) {
         var ym = y - H / 2;
         el("path", { d: "M70 " + (y - H + 8) + "Q54 " + ym + " 68 " + (y - 9), fill: "none", stroke: ROUGE, "stroke-width": 2.2 }, gn);
         el("path", { d: "M71 " + (y - 5) + "l-9 -3l6 -7z", fill: ROUGE }, gn);
-        txt({ x: 48, y: ym + 5, "text-anchor": "end", "font-family": "Space Mono, monospace", "font-size": 15, "font-weight": 700, fill: ROUGE }, "−1", gn);
+        txt({ x: 48, y: ym + 5, "text-anchor": "end", "font-family": "Source Sans 3, sans-serif", "font-size": 17, "font-weight": 700, fill: ROUGE }, "−1", gn);
         el("path", { d: "M392 " + (y - H + 8) + "Q408 " + ym + " 394 " + (y - 9), fill: "none", stroke: ROUGE, "stroke-width": 2.2 }, gn);
         el("path", { d: "M391 " + (y - 5) + "l9 -3l-6 -7z", fill: ROUGE }, gn);
-        txt({ x: 414, y: ym + 5, "font-family": "Space Mono, monospace", "font-size": 15, "font-weight": 700, fill: ROUGE }, "+3", gn);
+        txt({ x: 414, y: ym + 5, "font-family": "Source Sans 3, sans-serif", "font-size": 17, "font-weight": 700, fill: ROUGE }, "+3", gn);
       }
       return { ge: ge, q: q, gr: gr, barre: barre, gn: gn, v: v };
     });
@@ -503,7 +503,7 @@ table.sg td.m{background:#bcd0ff}
       var svg = el("svg", { viewBox: "0 0 140 140", role: "img", "aria-label": "Monsieur " + m[0] + " " + m[1] }, d);
       var tete = el("circle", { cx: 70, cy: 70, r: 60, fill: "#fff", stroke: INK, "stroke-width": 4 }, svg);
       oeil(48, m[0], svg); oeil(92, m[1], svg);
-      var q = txt({ x: 70, y: 112, "text-anchor": "middle", "font-family": "Space Mono, monospace", "font-size": 28, "font-weight": 700, fill: ROUGE }, "?", svg);
+      var q = txt({ x: 70, y: 112, "text-anchor": "middle", "font-family": "Source Sans 3, sans-serif", "font-size": 31, "font-weight": 700, fill: ROUGE }, "?", svg);
       var bouche = el("path", { d: content ? "M42 92Q70 120 98 92" : "M44 110Q70 86 96 110", fill: "none", stroke: INK, "stroke-width": 6, "stroke-linecap": "round", opacity: 0 }, svg);
       var nom = document.createElement("b"); nom.textContent = "Monsieur " + m[0] + " " + m[1]; d.appendChild(nom);
       var r = document.createElement("span"); r.className = "num"; d.appendChild(r);

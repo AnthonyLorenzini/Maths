@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Séance 7 — Remplacer la lettre</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Source+Sans+3:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
 <style>
 :root{
   color-scheme:light;
@@ -14,7 +14,7 @@
   --blue:#1f56d6; --blue-bg:#e6eeff; --magenta:#b8217a; --magenta-bg:#ffe6f3;
   --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
   --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+  --f-num:"Source Sans 3","Work Sans",system-ui,sans-serif;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -27,7 +27,7 @@ h3{font:800 1.25rem/1.1 var(--f-title);text-transform:uppercase;letter-spacing:.
 .sub{margin:6px 0 0;color:var(--muted);font-size:.95rem}
 .pill{display:inline-block;font:700 .8rem var(--f-text);background:var(--ink);color:#fff;border-radius:6px;padding:2px 8px;margin-left:6px;vertical-align:middle}
 .panel{background:var(--panel);border:2px solid var(--ink);border-radius:8px;padding:14px 16px}
-.num{font-family:var(--f-num);font-weight:700;white-space:nowrap}
+.num{font-family:var(--f-num);font-weight:700;white-space:nowrap;font-size:1.15em;line-height:1}
 .btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:7px 13px;cursor:pointer;min-height:40px}
 .btn:hover{border-color:var(--amber)}
 .btn.main{background:var(--amber);border-color:var(--amber)}
@@ -65,13 +65,13 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
 .stars{color:#c98a00;font-size:1rem;letter-spacing:1px;white-space:nowrap}
 .ex p{margin:4px 0}
 .calc{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px 12px;margin:6px 0;align-items:center}
-.calc span.c{font:700 1rem var(--f-num);white-space:nowrap}
+.calc span.c{font:700 1.15rem/1.25 var(--f-num);white-space:nowrap}
 .calc span.c>i{font-style:normal;color:var(--muted);margin-right:4px}
 .faux{display:flex;flex-direction:column;gap:3px;margin:6px 0}
-.faux span{font:700 1.02rem var(--f-num)}
+.faux span{font:700 1.17rem/1.25 var(--f-num)}
 .faux span i{font-style:normal;color:var(--muted);margin-right:4px}
 .faux s{text-decoration:none;border-bottom:2.5px wavy var(--ko)}
-.chaine{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0;font:700 1rem var(--f-num)}
+.chaine{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0;font:700 1.15rem/1.25 var(--f-num)}
 .chaine .bo{border:2.5px solid var(--ink);border-radius:8px;padding:2px 10px;background:#fff}
 .chaine .bo.m{background:#bcd0ff;color:var(--blue)}
 .chaine .op{color:var(--amber-text)}
@@ -92,7 +92,7 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
 .pr-l{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,340px);gap:6px 14px;align-items:center}
 @media (max-width:760px){.pr-l{grid-template-columns:minmax(0,1fr)}}
 .pr-t{grid-column:1/-1;font:800 1rem var(--f-title);text-transform:uppercase;letter-spacing:.04em;color:var(--amber-text);margin-top:4px}
-.pr-e{font:700 clamp(1.1rem,3.2vw,1.7rem)/1.5 var(--f-num)}
+.pr-e{font:700 clamp(1.26rem,3.68vw,1.95rem)/1.3 var(--f-num)}
 .pr-n{font-size:.93rem;color:var(--muted);border-left:3px solid var(--line);padding-left:10px}
 .pr-l.neuf .pr-e{animation:monte .45s ease}
 @keyframes monte{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -105,8 +105,8 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
 @media (max-width:520px){.flash{grid-template-columns:minmax(0,1fr)}}
 .flash div.txt{font:500 1rem/1.35 var(--f-text);text-align:left}
 .flash .tri{display:block;width:100%;max-width:170px;height:auto;margin:2px auto 0}
-.flash div.txt .rep{font:700 1.1rem var(--f-num);text-align:center}
-.flash div{border:2px solid var(--line);border-radius:8px;background:#fff;padding:10px 12px;font:700 1.35rem var(--f-num);text-align:center}
+.flash div.txt .rep{font:700 1.26rem/1.25 var(--f-num);text-align:center}
+.flash div{border:2px solid var(--line);border-radius:8px;background:#fff;padding:10px 12px;font:700 1.55rem/1.25 var(--f-num);text-align:center}
 .flash div i{font:600 .9rem var(--f-text);font-style:normal;color:var(--muted);margin-right:6px}
 .flash .rep{display:block;margin-top:4px;font-size:1.1rem;color:var(--ok)}
 .flash .rep small{display:block;font:500 .85rem var(--f-text);color:var(--muted)}
@@ -120,7 +120,7 @@ var{font:italic 700 1.08em Georgia,"Times New Roman",serif;color:var(--ink)}
 .mini{display:block;width:100%;max-width:380px;height:auto}
 .bal svg{display:block;width:100%;max-width:250px;height:auto}
 /* programmes de calcul */
-.chaine{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:4px 0;font:700 clamp(1rem,2.6vw,1.35rem) var(--f-num)}
+.chaine{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:4px 0;font:700 clamp(1.15rem,2.99vw,1.55rem)/1.25 var(--f-num)}
 .chaine .bo{border:2.5px solid var(--ink);border-radius:8px;padding:2px 10px;background:#fff}
 .chaine .bo.m{background:#bcd0ff;color:var(--blue);border-color:var(--blue)}
 .chaine .bo.p{background:var(--fill)}
@@ -132,7 +132,7 @@ var{font:italic 700 1.08em Georgia,"Times New Roman",serif;color:var(--ink)}
 table.t{border-collapse:collapse;margin:6px 0;font-size:.98rem}
 table.t th,table.t td{border:1.5px solid var(--line);padding:4px 10px;text-align:center;min-width:3em}
 table.t th{background:var(--blue-bg)}
-table.t td{font-family:var(--f-num);font-weight:700}
+table.t td{font-family:var(--f-num);font-weight:700;font-size:1.15em;line-height:1.3}
 .vf{display:flex;flex-direction:column;gap:3px;margin:6px 0}
 </style>
 </head>
@@ -229,7 +229,7 @@ table.t td{font-family:var(--f-num);font-weight:700}
     <div class="pr-l" data-e="1"><div class="pr-e"><span class="v m">(−5)</span>² = (−5) × (−5) = <span class="res">25</span></div><div class="pr-n">Les parenthèses sont indispensables : −5² vaudrait −25.</div></div>
     <div class="pr-l" data-e="2"><div class="pr-e"><var>x</var>² ≥ 0</div><div class="pr-n">Deux facteurs de même signe : un <span class="gl" data-t="carre">carré</span> n'est <b>jamais négatif</b>.</div></div>
     <div class="pr-l" data-e="3"><div class="pr-t">L'opposé</div><div class="pr-e">−<var>x</var> &nbsp; pour &nbsp;<var>x</var> = −5</div><div class="pr-n">−<var>x</var> veut dire « l'<span class="gl" data-t="oppose-nombre">opposé</span> de <var>x</var> ». Est-il forcément négatif ?</div></div>
-    <div class="pr-l" data-e="4"><div class="pr-e">−<span class="v m">(−5)</span> = <span class="res">5</span><svg class="mini" viewBox="0 0 380 70" role="img" aria-label="Droite graduée : x = −5 est à gauche de 0, son opposé −x = 5 est à droite, à la même distance de 0."><line x1="14" y1="40" x2="366" y2="40" stroke="#1b2a5e" stroke-width="2.5"/><g stroke="#1b2a5e" stroke-width="2"><line x1="40" y1="34" x2="40" y2="46"/><line x1="70" y1="34" x2="70" y2="46"/><line x1="100" y1="34" x2="100" y2="46"/><line x1="130" y1="34" x2="130" y2="46"/><line x1="160" y1="34" x2="160" y2="46"/><line x1="190" y1="30" x2="190" y2="50" stroke-width="3"/><line x1="220" y1="34" x2="220" y2="46"/><line x1="250" y1="34" x2="250" y2="46"/><line x1="280" y1="34" x2="280" y2="46"/><line x1="310" y1="34" x2="310" y2="46"/><line x1="340" y1="34" x2="340" y2="46"/></g><path d="M44 30Q190 -6 336 30" fill="none" stroke="#d62839" stroke-width="2.2" stroke-dasharray="5 5"/><circle cx="40" cy="40" r="8" fill="#bcd0ff" stroke="#1f56d6" stroke-width="2.5"/><circle cx="340" cy="40" r="8" fill="#ffe45e" stroke="#c98a00" stroke-width="2.5"/><g font-family="Space Mono,monospace" font-weight="700" font-size="14" text-anchor="middle"><text x="190" y="66" fill="#1b2a5e">0</text><text x="40" y="66" fill="#1f56d6">x = −5</text><text x="340" y="66" fill="#8a5a00">−x = 5</text></g></svg></div><div class="pr-n">L'opposé d'un nombre négatif est <b>positif</b> : même <span class="gl" data-t="distance-zero">distance à zéro</span>, de l'autre côté.</div></div>
+    <div class="pr-l" data-e="4"><div class="pr-e">−<span class="v m">(−5)</span> = <span class="res">5</span><svg class="mini" viewBox="0 0 380 70" role="img" aria-label="Droite graduée : x = −5 est à gauche de 0, son opposé −x = 5 est à droite, à la même distance de 0."><line x1="14" y1="40" x2="366" y2="40" stroke="#1b2a5e" stroke-width="2.5"/><g stroke="#1b2a5e" stroke-width="2"><line x1="40" y1="34" x2="40" y2="46"/><line x1="70" y1="34" x2="70" y2="46"/><line x1="100" y1="34" x2="100" y2="46"/><line x1="130" y1="34" x2="130" y2="46"/><line x1="160" y1="34" x2="160" y2="46"/><line x1="190" y1="30" x2="190" y2="50" stroke-width="3"/><line x1="220" y1="34" x2="220" y2="46"/><line x1="250" y1="34" x2="250" y2="46"/><line x1="280" y1="34" x2="280" y2="46"/><line x1="310" y1="34" x2="310" y2="46"/><line x1="340" y1="34" x2="340" y2="46"/></g><path d="M44 30Q190 -6 336 30" fill="none" stroke="#d62839" stroke-width="2.2" stroke-dasharray="5 5"/><circle cx="40" cy="40" r="8" fill="#bcd0ff" stroke="#1f56d6" stroke-width="2.5"/><circle cx="340" cy="40" r="8" fill="#ffe45e" stroke="#c98a00" stroke-width="2.5"/><g font-family="Source Sans 3,sans-serif" font-weight="700" font-size="16" text-anchor="middle"><text x="190" y="66" fill="#1b2a5e">0</text><text x="40" y="66" fill="#1f56d6">x = −5</text><text x="340" y="66" fill="#8a5a00">−x = 5</text></g></svg></div><div class="pr-n">L'opposé d'un nombre négatif est <b>positif</b> : même <span class="gl" data-t="distance-zero">distance à zéro</span>, de l'autre côté.</div></div>
     <div class="pr-l" data-e="5"><div class="pr-t">Les deux ensemble</div><div class="pr-e"><var>x</var>² − <var>x</var> &nbsp; pour &nbsp;<var>x</var> = −3</div><div class="pr-n">On remplace chaque <var>x</var>, avec ses parenthèses.</div></div>
     <div class="pr-l" data-e="6"><div class="pr-e"><span class="v m">(−3)</span>² − <span class="v m">(−3)</span> = 9 + 3 = <span class="res">12</span></div><div class="pr-n">Le carré d'abord, puis soustraire −3, c'est ajouter 3.</div></div>
     <div class="pr-l" data-e="7"><div class="pr-t">Le carré passe avant le ×</div><div class="pr-e">2<var>x</var>² = 2 × <span class="v m">(−3)</span>² = 2 × 9 = <span class="res">18</span></div><div class="pr-n">Le carré ne porte que sur <var>x</var>. Calculer (−6)² = 36 serait faux.</div></div>
@@ -456,7 +456,7 @@ table.t td{font-family:var(--f-num);font-weight:700}
     var neg = n < 0;
     return '<path d="M' + cx + ' ' + y + 'L' + (cx - 26) + ' ' + (y + 28) + 'M' + cx + ' ' + y + 'L' + (cx + 26) + ' ' + (y + 28) + '" stroke="#56608a" stroke-width="1.8"/>' +
       '<rect x="' + (cx - 32) + '" y="' + (y + 28) + '" width="64" height="26" rx="7" fill="' + (neg ? "#bcd0ff" : "#ffe45e") + '" stroke="' + (neg ? "#1f56d6" : "#c98a00") + '" stroke-width="2.5"/>' +
-      '<text x="' + cx + '" y="' + (y + 46) + '" text-anchor="middle" font-family="Space Mono,monospace" font-weight="700" font-size="16" fill="' + (neg ? "#1f56d6" : "#1b2a5e") + '">' + ecrit(n) + '</text>';
+      '<text x="' + cx + '" y="' + (y + 46) + '" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-weight="700" font-size="18" fill="' + (neg ? "#1f56d6" : "#1b2a5e") + '">' + ecrit(n) + '</text>';
   }
   document.querySelectorAll(".bal").forEach(function(b){
     var g = +b.dataset.g, d = +b.dataset.d, dy = g === d ? 0 : (g > d ? 12 : -12), yg = 36 + dy, yd = 36 - dy;
@@ -464,7 +464,7 @@ table.t td{font-family:var(--f-num);font-weight:700}
       '<path d="M125 36V100M95 102H155" stroke="#1b2a5e" stroke-width="4" stroke-linecap="round"/>' +
       '<line x1="45" y1="' + yg + '" x2="205" y2="' + yd + '" stroke="#1b2a5e" stroke-width="4" stroke-linecap="round"/>' +
       '<circle cx="125" cy="36" r="5" fill="#1b2a5e"/>' +
-      '<text x="125" y="22" text-anchor="middle" font-family="Space Mono,monospace" font-weight="700" font-size="20" fill="#d62839">' + (g === d ? "=" : "≠") + '</text>' +
+      '<text x="125" y="22" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-weight="700" font-size="22" fill="#d62839">' + (g === d ? "=" : "≠") + '</text>' +
       plateau(45, yg, g) + plateau(205, yd, d) + '</svg>';
   });
 
