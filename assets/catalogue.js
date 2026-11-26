@@ -605,6 +605,23 @@ window.SITE = {
               ],
               exemple: "50 élèves, des minibus de 8 places : 50 ÷ 8 = 6, il reste 2. Il faut 7 minibus.",
               savoir: "reconnaître une division dans un problème et choisir la forme de la réponse : entier, décimal, fraction, valeur approchée ou arrondi au-dessus."
+            },
+            {
+              titre: "Un problème, plusieurs étapes", duree: "50 min",
+              contenu: [
+                "Questions flash (8 min, projeté, une question à la fois avec un minuteur de 30, 45 ou 60 s) : huit égalités à trou sans calculatrice, de ? × 7 = 56 à 100 ÷ ? = 4 et 0,5 × ? = 6, pour finir par 5 × ? = 3 et ? × 3 = 2, dont la réponse est une fraction (3/5, 2/3). Bouton « Réponse » à chaque question et récapitulatif pour corriger ; les élèves notent le numéro et leur réponse au cahier.",
+                "L'escalier du problème (12 min, projeté, pas à pas) : des gourdes pour les 102 élèves de 6e, vendues par cartons de 12 à 30 €. Six marches, et à chacune une question posée à la classe avant la réponse : repérer les deux questions, trier les informations (75 cL et 3 jours ne servent à rien), trouver l'ordre des étapes (+, puis ÷, puis ×), calculer (102 ÷ 12 = 8, il reste 6, donc 9 cartons, décidé avant de multiplier : 270 € et pas 240 €), répondre par une phrase, vérifier.",
+                "Les exercices (30 min, cahier) : l'info en trop (chorales sur des gradins, ça tombe juste ; bulbes de tulipes, un entier et un reste) ; le ticket de caisse effacé (prix d'un classeur, total, monnaie rendue) ; le meilleur prix (piles 1,50 € ou 1,40 €, feutres ≈ 0,67 € ou 0,625 €) ; trois marches (aquarium : arrondi au-dessus après une soustraction ; pizzas : 5/7 de pizza). Défi ★ : les tables puis les lots de nappes, deux arrondis au-dessus de suite."
+              ],
+              ressources: ["6e-ch6-s7"],
+              retenir: [
+                "Pour un problème à étapes, je monte les marches : je repère **la question**, je **trie** les informations (certaines ne servent à rien), je cherche **les étapes** dans le bon ordre, je **calcule**, je **réponds par une phrase** avec l'unité, et je **vérifie** que la réponse a du sens.",
+                "La division n'est **pas toujours la première étape** : il faut parfois d'abord additionner, soustraire ou multiplier.",
+                "Je choisis la forme de la réponse **au moment de la division** (arrondir au-dessus, garder le reste, décimal, fraction), **avant** de continuer les calculs.",
+                "Pour **comparer deux offres**, je calcule le prix d'**un** objet dans chacune."
+              ],
+              exemple: "102 élèves, des cartons de 12 gourdes à 30 € : 102 ÷ 12 = 8, il reste 6, donc 9 cartons ; 9 × 30 = 270 €.",
+              savoir: "résoudre un problème à plusieurs étapes : trier les informations, ordonner les calculs, choisir la forme de la réponse au bon moment et comparer deux offres."
             }
           ],
           ressources: [
@@ -614,6 +631,7 @@ window.SITE = {
             { id: "6e-ch6-s4", type: "exos", titre: "Séance 4 — Ça s'arrête ou ça boucle ?", resume: "Le détecteur de restes : la division s'arrête sur un reste 0, ou boucle quand un reste revient (5/3 = 1,666…). Valeur exacte, valeur approchée au dixième et au centième, le signe ≈. Cinq exercices et un défi. Avec corrections.", ajout: "2026-11-23" },
             { id: "6e-ch6-s5", type: "exos", titre: "Séance 5 — Carte d'identité d'un quotient", resume: "La carte d'identité d'un quotient : nombre caché, division posée, vérification, puis entier, décimal ou ni l'un ni l'autre. Diviser par 12, 25 et même 137 avec la table. Trois exercices de cartes et un défi, avec des questions pour aller plus loin. Avec corrections.", ajout: "2026-11-24" },
             { id: "6e-ch6-s6", type: "exos", titre: "Séance 6 — Le bon quotient pour le bon problème", resume: "Une même division, 50 ÷ 8, dans quatre histoires : minibus, cartes, euros et tartes à la cantine. La réponse dépend de la question : arrondi au-dessus, entier et reste, décimal, fraction, et valeur approchée dans les exercices. Problèmes en trois temps, réponses absurdes et un défi. Avec corrections.", ajout: "2026-11-24" },
+            { id: "6e-ch6-s7", type: "exos", titre: "Séance 7 — Un problème, plusieurs étapes", resume: "Questions flash chronométrées, puis l'escalier du problème : des gourdes pour 102 élèves, en six marches (question, tri, étapes, calcul, phrase, vérification). L'info en trop, un ticket de caisse effacé, le meilleur prix, des problèmes à trois marches et un défi. Avec corrections.", ajout: "2026-11-26" },
             { id: "6e-ch6-minijeux", type: "jeu", titre: "Mini-jeux — Le jardin des taupes", resume: "Multiplications et divisions à trou : tape la taupe qui porte le nombre caché, bouche les trous, mémory piégé (seul ou à deux) et mode tableau pour la classe.", ajout: "2026-11-25" }
           ]
         },

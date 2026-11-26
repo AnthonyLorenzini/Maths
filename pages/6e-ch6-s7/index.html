@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}/* Cahier à carreaux : cartes aux coins nets, contour encre */
+.ex{border-color:var(--ink);border-radius:8px}
+</style>
+<title>Séance 7 — Un problème, plusieurs étapes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap">
+<style>
+/* Base commune Leçon 4 — titres condensés, texte Work Sans, nombres Space Mono ; ambre = action, vert = juste, rouge = faux */
+:root{
+  color-scheme:light;
+  --bg:#fffef8; --panel:#ffffff; --paper:#ffffff; --ink:#1b2a5e; --muted:#56608a; --line:#c3d1ec; --grid:#dbe5f6;
+  --amber:#ffc61a; --amber-text:#d62839; --amber-ink:#9c1c2a; --fill:#ffe45e; --fill-2:#fff4b8; --on-amber:#1b2a5e;
+  --ok:#17703f; --ok-bg:#dff5e6; --ko:#b3261e; --ko-bg:#ffe5e2;
+  --blue:#1f56d6; --blue-bg:#e6eeff; --magenta:#b8217a; --magenta-bg:#ffe6f3; --teal:#08766f; --teal-bg:#dcf5f2;
+  --f-title:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-text:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"Space Mono",ui-monospace,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;color:var(--ink);font:16px/1.5 var(--f-text);padding-inline:16px;padding-block:16px 40px;margin:0}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+h1{font:800 clamp(2.1rem,7vw,3.5rem)/.9 var(--f-title);letter-spacing:.01em;margin:0;text-transform:uppercase;text-wrap:balance}
+h1 span{color:var(--amber-text)}
+h2{font:800 clamp(1.4rem,4.5vw,2rem)/1.05 var(--f-title);text-transform:uppercase;letter-spacing:.02em;margin:0;text-wrap:balance}
+.sub{margin:6px 0 0;color:var(--muted);font-size:.95rem;max-width:70ch}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:2px solid var(--line)}
+.tabs button{font:700 1.1rem var(--f-title);letter-spacing:.06em;text-transform:uppercase;background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;border-bottom:4px solid transparent;margin-bottom:-2px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--amber)}
+@media (max-width:440px){.tabs button{padding:8px 8px;font-size:1rem}}
+.seg{display:inline-flex;flex-wrap:wrap;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.seg button{font:600 .9rem var(--f-text);background:none;border:0;color:var(--muted);padding:8px 12px;cursor:pointer;min-height:40px}
+.seg button[aria-pressed="true"]{background:var(--amber);color:var(--on-amber)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.btn{font:600 .95rem var(--f-text);border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:8px 14px;cursor:pointer;min-height:42px}
+.btn:hover{border-color:var(--amber)}
+.btn.main{background:var(--amber);border-color:var(--amber);color:var(--on-amber)}
+.btn:disabled{opacity:.45;cursor:default}
+button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:14px 16px}
+.hint{color:var(--muted);font-size:.9rem;margin:0}
+.recit{margin:0;padding:12px 16px;background:var(--panel);border-left:4px solid var(--amber);border-radius:0 8px 8px 0;max-width:75ch}
+.num{font-family:var(--f-num);font-weight:700}
+.fr{display:inline-flex;flex-direction:column;align-items:center;font:700 1em var(--f-num);line-height:1.05;vertical-align:middle}
+.fr>span:first-child{border-bottom:.09em solid currentColor;padding:0 .15em}
+.msg{min-height:1.5em;font-weight:600;margin:0}
+.msg.ok{color:var(--ok)}.msg.ko{color:var(--ko)}
+input.ans{font:700 1.25rem var(--f-num);text-align:center;border:2px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:6px 4px;width:6em;max-width:100%}
+input.ans:focus{outline:none;border-color:var(--amber)}
+input.ans.ok{border-color:var(--ok);background:var(--ok-bg)}
+input.ans.ko{border-color:var(--ko);background:var(--ko-bg)}
+.lvl{font:600 .85rem var(--f-text);color:var(--muted)}
+/* équipes */
+.teams{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.teams{grid-template-columns:minmax(0,1fr)}}
+.team{border:2px solid var(--tc);border-radius:12px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column}
+.team.t0{--tc:var(--blue);--tb:var(--blue-bg)}.team.t1{--tc:var(--magenta);--tb:var(--magenta-bg)}.team.t2{--tc:var(--teal);--tb:var(--teal-bg)}
+.team .th{background:var(--tb);display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px}
+.team .tn{font:800 1.3rem var(--f-title);text-transform:uppercase;letter-spacing:.05em;color:var(--tc)}
+.team .ts{font:700 1.5rem var(--f-num);color:var(--tc)}
+.team .tb{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.team .draw{display:flex;align-items:center;gap:10px}
+.team .draw button{font:600 .85rem var(--f-text);border:2px solid var(--tc);color:var(--tc);background:none;border-radius:8px;padding:6px 10px;cursor:pointer;min-height:38px}
+.team .who{font:700 1.4rem var(--f-num);color:var(--tc);min-width:2ch}
+.team.turn{box-shadow:0 0 0 4px var(--tc)}
+.team.win{animation:pop .5s}
+.team .res{font-weight:600;min-height:1.4em}
+.team .res.ok{color:var(--ok)}.team .res.ko{color:var(--ko)}
+@keyframes pop{50%{transform:scale(1.04)}}
+.settings{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:.85rem;color:var(--muted)}
+.settings input{width:4em;font:700 .95rem var(--f-num);border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:3px 6px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.team .slot:empty,.team .res:empty{display:none}
+.teams.compact{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.teams.compact .th{flex-direction:column;align-items:flex-start;gap:0;padding:6px 10px}
+.teams.compact .tn{font-size:1.05rem}
+.teams.compact .ts{font-size:1.3rem}
+.teams.compact .tb{padding:6px 10px}
+.teams.compact .draw{flex-wrap:wrap;gap:4px 8px}
+.teams.compact .draw button{padding:4px 8px;min-height:32px;font-size:.8rem}
+.teams.compact .who{font-size:1.1rem}
+@media (max-width:420px){.teams.compact .tn{font-size:.9rem;letter-spacing:.02em}}
+.pane{display:flex;flex-direction:column;gap:16px;min-width:0}
+.grp{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:100%}
+</style>
+<script>
+window.L4=(function(){
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const f=(n,d)=>`<span class="fr"><span>${n}</span><span>${d}</span></span>`;
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+/* nombre en écriture française, sans zéros inutiles (dp = nb max de décimales) */
+const fmt=(x,dp=3)=>{let s=(Math.round(x*10**dp)/10**dp).toFixed(dp);if(s.includes('.'))s=s.replace(/0+$/,'').replace(/\.$/,'');const [a,b]=s.split('.');return a.replace(/\B(?=(\d{3})+(?!\d))/g,' ')+(b?','+b:'');};
+const fmt2=x=>(Math.round(x*100)/100).toFixed(2).replace('.',',');
+/* lecture d'une réponse : "3,5" "3.5" "35/100" "35 %" "1 + 3/10" ; NaN si illisible */
+function parse(v){
+  if(v==null)return NaN;v=String(v).trim().replace(/\s+/g,'').replace(/%$/,'');
+  if(!v)return NaN;
+  if(v.includes('+'))return v.split('+').reduce((s,p)=>s+parse(p),0);
+  const m=v.match(/^(\d+(?:[.,]\d+)?)\/(\d+(?:[.,]\d+)?)$/);
+  if(m){const d=+m[2].replace(',','.');return d?(+m[1].replace(',','.'))/d:NaN;}
+  if(!/^-?\d+(?:[.,]\d+)?$/.test(v)&&!/^-?[.,]\d+$/.test(v))return NaN;
+  return +v.replace(',','.');
+}
+const same=(a,b)=>Math.abs(a-b)<1e-9;
+const store={get(k,d){try{const v=localStorage.getItem('l4.'+k);return v==null?d:JSON.parse(v);}catch(e){return d;}},
+             set(k,v){try{localStorage.setItem('l4.'+k,JSON.stringify(v));}catch(e){}}};
+/* onglets simples : <nav class="tabs"><button data-tab="x"> + éléments [data-pane="x"] */
+function tabs(nav,onChange){
+  nav.setAttribute('role','tablist');
+  const go=t=>{$$('[data-tab]',nav).forEach(b=>{b.setAttribute('role','tab');b.setAttribute('aria-selected',b.dataset.tab===t);});
+    $$('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!==t);onChange&&onChange(t);};
+  nav.addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)go(b.dataset.tab);});
+  return go;
+}
+/* contrôle segmenté : boutons [data-v] */
+function seg(el,onChange,init){
+  const set=v=>{$$('[data-v]',el).forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===String(v)));onChange&&onChange(v);};
+  el.addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(b)set(b.dataset.v);});
+  if(init!=null)set(init);return set;
+}
+/* ---- trois équipes : bleu, magenta, turquoise, tirage au sort d'un élève ---- */
+const TEAMS=['Bleus','Magentas','Turquoises'];
+function Teams(el,opt={}){
+  let size=store.get('teamSize',9);
+  const T=TEAMS.map((n,i)=>({i,name:n,score:0,pool:[],who:null}));
+  let turn=null;
+  el.classList.add('teams');if(opt.compact)el.classList.add('compact');
+  el.innerHTML=T.map(t=>`<section class="team t${t.i}" data-team="${t.i}">
+    <div class="th"><span class="tn">${t.name}</span><span class="ts" aria-label="score">0</span></div>
+    <div class="tb"><div class="draw"><button type="button" data-drawbtn>${opt.compact?'Tirer':'Tirer un élève'}</button><span class="who" aria-live="polite"></span></div>
+    <div class="slot"></div><div class="res" aria-live="polite"></div></div></section>`).join('');
+  const box=i=>el.querySelector(`[data-team="${i}"]`);
+  function refill(t){t.pool=shuffle(Array.from({length:size},(_,k)=>k+1));}
+  function draw(i){
+    const t=T[i];if(!t.pool.length)refill(t);
+    const n=t.pool.pop(),w=box(i).querySelector('.who');
+    const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce){w.textContent='n°'+n;return;}
+    let k=0;const iv=setInterval(()=>{w.textContent='n°'+rnd(1,size);if(++k>9){clearInterval(iv);w.textContent='n°'+n;}},55);
+  }
+  el.addEventListener('click',e=>{const b=e.target.closest('[data-drawbtn]');if(b)draw(+b.closest('[data-team]').dataset.team);});
+  const api={
+    slot:i=>box(i).querySelector('.slot'),
+    res(i,txt,ok){const r=box(i).querySelector('.res');r.textContent=txt||'';r.className='res'+(ok===true?' ok':ok===false?' ko':'');},
+    add(i,p=1){T[i].score+=p;box(i).querySelector('.ts').textContent=T[i].score;if(p>0){const b=box(i);b.classList.remove('win');void b.offsetWidth;b.classList.add('win');}},
+    setTurn(i){turn=i;T.forEach(t=>box(t.i).classList.toggle('turn',t.i===i));},
+    nextTurn(){api.setTurn(turn==null?0:(turn+1)%3);return turn;},
+    get turn(){return turn;},
+    scores:()=>T.map(t=>t.score),
+    reset(){T.forEach(t=>{t.score=0;box(t.i).querySelector('.ts').textContent=0;api.res(t.i,'');});},
+    clearWho(){T.forEach(t=>box(t.i).querySelector('.who').textContent='');},
+    name:i=>T[i].name,
+    settings(container){
+      container.innerHTML=`<label class="settings">Élèves par équipe <input type="number" id="teamsize" min="2" max="15" value="${size}"></label>`;
+      container.querySelector('input').addEventListener('change',e=>{size=Math.max(2,Math.min(15,+e.target.value||9));store.set('teamSize',size);T.forEach(refill);});
+    }
+  };
+  T.forEach(refill);
+  return api;
+}
+/* petit carré dessiné en SVG : n parts coloriées sur u (10 = bandes, 100 = quadrillage), plusieurs carrés si besoin */
+function squaresSVG(t,u,size=60){
+  const n=Math.max(1,Math.ceil(t/u)),gap=6,W=n*size+(n-1)*gap;
+  let s=`<svg viewBox="-1 -1 ${W+2} ${size+2}" width="${W+2}" height="${size+2}" role="img" aria-label="carré colorié">`;
+  for(let k=0;k<n;k++){const x0=k*(size+gap);
+    s+=`<rect x="${x0}" y="0" width="${size}" height="${size}" fill="var(--paper)"/>`;
+    const c=size/10;
+    for(let j=0;j<u;j++){const idx=k*u+j;if(idx>=t)break;
+      if(u===10)s+=`<rect x="${x0}" y="${j*c}" width="${size}" height="${c}" fill="var(--fill)"/>`;
+      else s+=`<rect x="${x0+(j%10)*c}" y="${Math.floor(j/10)*c}" width="${c}" height="${c}" fill="var(--fill)"/>`;}
+    for(let j=1;j<10;j++){s+=`<line x1="${x0}" x2="${x0+size}" y1="${j*c}" y2="${j*c}" stroke="var(--grid)" stroke-width="1"/>`;
+      if(u===100)s+=`<line y1="0" y2="${size}" x1="${x0+j*c}" x2="${x0+j*c}" stroke="var(--grid)" stroke-width="1"/>`;}
+    s+=`<rect x="${x0}" y="0" width="${size}" height="${size}" fill="none" stroke="var(--ink)" stroke-width="1.5"/>`;}
+  return s+'</svg>';
+}
+return {$,$$,f,rnd,pick,shuffle,fmt,fmt2,parse,same,store,tabs,seg,Teams,squaresSVG};
+})();
+</script>
+<style>
+/* ---- séance 6e ch.6 : page légère, une figure à la fois ---- */
+.ex{display:flex;flex-direction:column;gap:12px;padding-top:8px;border-top:2px solid var(--line)}
+.ex-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px}
+.ex-h h2 small{font:600 .9rem var(--f-text);text-transform:none;letter-spacing:0;color:var(--muted);margin-left:.4em}
+.consigne{margin:0;max-width:70ch;font-size:1.05rem}
+.fig{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.fig svg{display:block;width:100%;height:auto;max-width:760px}
+.ex:not(.show) .sol,.ex:not(.show) .ans{display:none!important}
+.ex.show .q{display:none}
+.s{color:var(--ok);font-weight:600}
+.qs{margin:0;padding-left:1.5em;display:flex;flex-direction:column;gap:10px;max-width:75ch}
+.qs li::marker{font-weight:700;color:var(--amber-ink)}
+.qs .sol{display:block}
+.qs.big{padding-left:2.4em}
+.qs.big li{font:700 1.4rem var(--f-num);padding-block:2px}
+.qs.big .sol{font:600 1rem var(--f-text)}
+.qs.big .sol.in,.qs .sol.in{display:inline;font:800 1.4rem var(--f-num);color:var(--ok);background:var(--ok-bg);border-radius:8px;padding:0 .35em}
+.qs.big .fr{font-size:1.05em}
+.hole{display:inline-flex;align-items:center;justify-content:center;min-width:1.35em;height:1.35em;background:var(--amber);color:var(--on-amber);border-radius:8px;border:3px solid var(--ink);font-weight:800}
+.cas{display:flex;flex-wrap:wrap;gap:10px}
+.cas .btn{font-size:1.05rem;padding:10px 16px}
+.pas{display:flex;flex-wrap:wrap;gap:10px}
+.res{margin:0;display:flex;flex-direction:column;gap:6px}
+.res .eq{font:800 clamp(1.9rem,7vw,2.8rem)/1.15 var(--f-num);margin:0;min-height:1.2em}
+.res .eq .fr{font-size:1.05em}
+.res .ver{margin:0;font-size:1.05rem}
+.mach .tok{transition:opacity .45s}
+.mach .tok.off{opacity:0}
+.mach .arr.off{opacity:.18}
+.hole .ans{display:none}
+.ex.show .hole.has{background:var(--ok-bg);border-color:var(--ok);color:var(--ok);padding:0 .3em;height:auto;min-height:1.35em}
+.ex.show .hole.has .qm{display:none}
+.ex.show .hole.has .ans{display:inline-flex;align-items:center}
+.hole.has .fr{font-size:.8em}
+.qs:not(.big) .hole.has .fr{font-size:1.05em}
+.num{white-space:nowrap}
+/* ---- séance 3 : division posée + barre ---- */
+.div{margin:0;font:700 clamp(1.05rem,4.6vw,1.35rem)/1.3 var(--f-num);background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:10px 16px;white-space:pre;align-self:center;max-width:100%;overflow-x:auto}
+.div mark.nw{background:var(--fill-2);color:inherit;border-radius:3px}
+.mk{padding:0 .3em;border-radius:5px;font-weight:600;color:var(--ink)}
+.recit p{margin:0 0 6px}.recit p:last-child{margin:0}
+.recit pre.div{margin:8px 0 0;align-self:flex-start}
+.fig.col{gap:10px;padding:10px}
+.anim{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start}
+@media (max-width:760px){.anim{grid-template-columns:minmax(0,1fr)}.anim .div{justify-self:center}}
+.div mark.z{background:var(--amber);color:var(--on-amber);border-radius:3px}
+.div .qt{color:var(--amber-ink)}
+#bver{min-height:3.2em;margin:0;font-size:1.05rem}
+.ex3{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.div.sm{font-size:1rem;padding:6px 12px;align-self:flex-start;margin:0}
+.rep{display:flex;flex-direction:column;gap:10px;font-weight:600}
+.rep span{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+@media (max-width:440px){.div.sm{font-size:.82rem;padding:4px 8px}.ex3{gap:8px 10px}.rep{font-size:.9rem;gap:8px}}
+</style>
+<style>
+/* ---- séance 6 : une division, quatre histoires ---- */
+.cas .btn[aria-pressed="true"]{background:var(--fill-2);border-color:var(--ink)}
+.cas .btn .ok{display:none;color:var(--ok);font-weight:800;margin-left:4px}
+.cas .btn.done .ok{display:inline}
+.story{font-size:1.1rem}
+.story mark.kw{background:none;color:inherit}
+.story.key mark.kw{background:var(--fill);border-radius:3px;padding:0 .15em;box-shadow:0 2px 0 var(--amber-ink)}
+.card{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.card>li{display:grid;grid-template-columns:8.5em minmax(0,1fr);gap:12px;align-items:start;background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:10px 14px;animation:rbin .4s}
+.card>li>b.lab{font:800 1.1rem/1.2 var(--f-title);text-transform:uppercase;letter-spacing:.04em;color:var(--amber-ink);padding-top:2px}
+.card>li>div{display:flex;flex-direction:column;gap:8px;min-width:0}
+.card p{margin:0;font-size:1.05rem}
+.card .big{font:800 clamp(1.25rem,4.6vw,1.6rem)/1.3 var(--f-num)}
+.card .big.txt{font-family:var(--f-text)}
+.card .div{align-self:flex-start;margin:0}
+.card .fig{align-self:stretch}
+.card .fig svg{max-width:640px}
+@media (max-width:560px){.card>li{grid-template-columns:minmax(0,1fr);gap:4px}}
+@keyframes rbin{from{transform:scale(.6);opacity:0}}
+.div mark.hl{background:var(--fill);color:inherit;border-radius:3px}
+.div mark.z0{background:var(--ok-bg);color:var(--ok);border-radius:3px;box-shadow:inset 0 0 0 2px var(--ok)}
+.div mark.r{background:var(--magenta-bg);color:var(--magenta);border-radius:3px;box-shadow:inset 0 0 0 2px var(--magenta)}
+.tag{display:inline-block;align-self:flex-start;font:800 1rem var(--f-title);text-transform:uppercase;letter-spacing:.05em;padding:2px 10px;border-radius:8px;color:#fff;background:var(--fc)}
+.k0{--fc:var(--blue);--fb:var(--blue-bg)}.k1{--fc:var(--teal);--fb:var(--teal-bg)}.k2{--fc:var(--magenta);--fb:var(--magenta-bg)}.k3{--fc:#6a3fb5;--fb:#efe7fb}
+/* le tableau des quatre réponses */
+.tally{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (max-width:640px){.tally{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tile{border:2px dashed var(--line);border-radius:12px;background:var(--panel);padding:6px 10px;display:flex;flex-direction:column;gap:2px;min-height:4.6em}
+.tile b{font:800 .95rem var(--f-title);text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.tile span{font:700 1.15rem var(--f-num);color:var(--muted)}
+.tile.on{border-style:solid;border-color:var(--fc);background:var(--fb)}
+.tile.on b{color:var(--fc)}.tile.on span{color:var(--ink);animation:rbin .45s}
+.tile .fr{font-size:.95em}
+.recit p{margin:0 0 6px}.recit p:last-child{margin:0}
+.steps3{margin:4px 0 0;padding-left:1.4em;display:flex;flex-direction:column;gap:2px}
+/* exercices */
+.done-calc{margin:0;font-weight:600}
+.answers{display:flex;flex-wrap:wrap;gap:8px}
+.answers>span{display:inline-flex;align-items:center;gap:8px;background:var(--panel);border:2px solid var(--ink);border-radius:10px;padding:4px 12px;font:700 1.15rem var(--f-num)}
+.answers i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:1.6em;height:1.6em;border-radius:50%;background:var(--amber);color:var(--on-amber);font:800 1rem var(--f-text)}
+.qs .hole.has{margin-left:6px}
+.hole.has .ans i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:1.45em;height:1.45em;border-radius:50%;background:var(--amber);color:var(--on-amber);font:800 .85em var(--f-text);margin-right:6px}
+.qs.pb{gap:18px}
+.qs.pb .card{margin-top:6px;gap:6px}
+.qs.pb .card>li{animation:none;padding:6px 12px;grid-template-columns:8em minmax(0,1fr);align-items:center}
+.qs.pb .card>li>b.lab{font-size:.9rem}
+.qs.pb .card p{font:600 1.05rem/1.6 var(--f-text)}
+@media (max-width:560px){.qs.pb .card>li{grid-template-columns:minmax(0,1fr)}}
+.vf{font-weight:700}.vf.t{color:var(--ok)}.vf.f{color:var(--ko)}
+.say{font-style:italic}
+.tries{display:flex;flex-direction:column;gap:6px;padding:4px 8px;align-self:center}
+.tries p{margin:0;display:flex;align-items:center;gap:14px;font-size:clamp(1.1rem,4.4vw,1.5rem)}
+.tries .vf{font-size:1rem}
+.plus{display:table;margin:0 0 4px;padding:1px 10px;border-radius:999px;background:var(--amber);color:var(--on-amber);font:700 .85rem var(--f-text)}
+.pl{margin-top:6px}
+.pl .sol{display:block;margin-top:4px}
+</style>
+<style>
+/* ---- séance 7 : questions flash, l'escalier du problème, documents ---- */
+/* questions flash */
+.fl{background:var(--panel);border:3px solid var(--ink);border-radius:14px;padding:12px 16px 16px;display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center}
+.fl.end{border-color:var(--ko)}
+.fl-top{align-self:stretch;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px}
+.fl-n{font:800 1.5rem var(--f-title);text-transform:uppercase;letter-spacing:.05em}
+.dots{display:flex;gap:6px}
+.dots i{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink);background:var(--paper)}
+.dots i.on{background:var(--amber)}
+.dots i.cur{box-shadow:0 0 0 3px var(--fill)}
+.fl-q{font:800 clamp(2.6rem,11vw,5.2rem)/1.15 var(--f-num);margin:6px 0 0;white-space:nowrap}
+.fl-q .hole{min-width:1.1em;height:1.15em;border-width:4px;border-radius:12px}
+.fl-q .hole.got{background:var(--ok-bg);border-color:var(--ok);color:var(--ok);padding:0 .2em;min-width:1.2em;height:auto;animation:rbin .4s}
+.fl-q .fr{font-size:.62em}
+.fl-why{margin:0;min-height:1.6em;font-size:1.15rem;font-weight:600;color:var(--ok)}
+.tbar{align-self:stretch;height:12px;border-radius:999px;background:var(--grid);overflow:hidden}
+.tbar b{display:block;height:100%;width:100%;background:var(--amber);transform-origin:left;transition:transform 1s linear}
+.fl.end .tbar b{background:var(--ko)}
+.fl-t{font:700 1.3rem var(--f-num);min-width:3ch}
+.fl.end .fl-t{color:var(--ko)}
+.recap{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;align-self:stretch}
+@media (max-width:700px){.recap{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.recap li{border:2px solid var(--line);border-radius:10px;padding:6px 8px;font:700 1.05rem var(--f-num);background:var(--paper)}
+.recap li b{color:var(--amber-ink);margin-right:6px}
+.recap .g{color:var(--ok)}
+.recap .fr{font-size:.95em}
+/* l'escalier du problème */
+.stair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:820px){.stair{grid-template-columns:minmax(0,1fr)}}
+.stair .fig svg{max-width:520px}
+.story.q-on mark.kw{background:var(--fill);border-radius:3px;padding:0 .15em;box-shadow:0 2px 0 var(--amber-ink)}
+.story .use,.story .no{transition:all .3s}
+.story.tri-on .use{box-shadow:inset 0 -3px 0 var(--ok)}
+.story.tri-on .no{color:var(--muted);text-decoration:line-through 2px var(--ko)}
+.ask{font-style:italic;font-weight:600;color:var(--amber-ink)}
+.card>li .rv{display:flex;flex-direction:column;gap:8px;animation:rbin .4s}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:2px solid var(--ok);background:var(--ok-bg);border-radius:999px;padding:2px 10px;font-weight:600}
+.chip.ko{border-color:var(--ko);background:var(--ko-bg);color:var(--ko);text-decoration:line-through}
+.plan{margin:0;padding-left:1.6em;display:flex;flex-direction:column;gap:4px;font-size:1.05rem}
+.plan .op{display:inline-block;min-width:1.4em;text-align:center;font:800 1.1rem var(--f-num);color:var(--amber-ink)}
+.calc3{margin:0;padding-left:1.6em;display:flex;flex-direction:column;gap:10px}
+.calc3 li>p{margin:0}
+.oops{margin:0;padding:6px 10px;border-radius:8px;background:var(--ko-bg);color:var(--ko);font-weight:600}
+/* documents */
+.ticket{align-self:flex-start;background:var(--paper);border:2px dashed var(--ink);border-radius:4px;padding:12px 16px;font:400 1.05rem/1.7 var(--f-num);min-width:min(100%,360px)}
+.ticket h3{margin:0 0 4px;font:700 1.1rem var(--f-num);text-align:center;letter-spacing:.08em}
+.ticket table{border-collapse:collapse;width:100%}
+.ticket td{padding:1px 6px;white-space:nowrap}
+.ticket td:last-child{text-align:right}
+.ticket tr.tot td{border-top:2px dashed var(--ink);font-weight:700;padding-top:4px}
+.ticket .hole{font-family:var(--f-text);font-size:.95rem}
+.offres{display:flex;flex-wrap:wrap;gap:12px}
+.etiq{border:2px solid var(--ink);border-radius:10px;background:var(--paper);padding:8px 14px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:9.5em}
+.etiq b{font:800 1.05rem var(--f-title);text-transform:uppercase;letter-spacing:.05em}
+.etiq span{font-size:1rem}
+.etiq strong{font:700 1.5rem var(--f-num);background:var(--fill);border-radius:6px;padding:0 .3em}
+.qs .etiq strong{font-size:1.25rem}
+.qs>li>.offres{margin:6px 0}
+.ex.show .qs>li.sol{display:list-item}
+.fl.rc .tbar,.fl.rc .fl-t{display:none}
+.qs>li>.hole.has+.hole.has{margin-left:8px}
+</style>
+<div class="wrap">
+  <header class="top">
+    <div><h1>Un problème, <span>plusieurs étapes</span></h1>
+    <p class="sub">Chapitre 6, séance 7</p></div>
+  </header>
+
+  <!-- ================= QUESTIONS FLASH ================= -->
+  <section class="ex" id="flash">
+    <div class="ex-h"><h2>Questions flash <small>trouve le nombre caché</small></h2>
+      <span class="grp"><span class="lvl">Temps par question</span><div class="seg" id="fdur"><button data-v="30">30 s</button><button data-v="45">45 s</button><button data-v="60">60 s</button></div></span></div>
+    <p class="consigne">Sans calculatrice. Dans ton cahier : le numéro de la question et ta réponse.</p>
+    <div class="fl" id="fl">
+      <div class="fl-top"><span class="fl-n" id="fn">Prêts ?</span><span class="dots" id="fdots"></span><span class="fl-t" id="ft"></span></div>
+      <p class="fl-q" id="fq">? × ? = ?</p>
+      <div class="tbar" aria-hidden="true"><b id="fbar"></b></div>
+      <p class="fl-why" id="fwhy" aria-live="polite"></p>
+      <ol class="recap" id="frecap" hidden></ol>
+      <div class="row" style="justify-content:center">
+        <button class="btn" id="fprev" hidden>◀</button>
+        <button class="btn" id="fpause" hidden>Pause</button>
+        <button class="btn" id="fans" hidden>Réponse</button>
+        <button class="btn main" id="fnext">Commencer</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ACTIVITÉ : L'ESCALIER DU PROBLÈME ================= -->
+  <section class="ex" id="act">
+    <div class="ex-h"><h2>Activité <small>l'escalier du problème</small></h2></div>
+    <p class="consigne">Un problème difficile se résout marche par marche. On monte ensemble les six marches.</p>
+    <div class="stair">
+      <div class="recit story" id="story">
+        <p>Mme Martin, la principale, commande une gourde pour chaque élève de 6<sup>e</sup>. <span class="use">Il y a 4 classes de 6<sup>e</sup>, avec 26, 25, 27 et 24 élèves.</span></p>
+        <p><span class="use">Les gourdes sont vendues uniquement par cartons de 12.</span> <span class="no">Une gourde contient 75&nbsp;cL.</span> <span class="use">Un carton coûte 30&nbsp;€.</span> <span class="no">La livraison prend 3 jours.</span></p>
+        <p><b><mark class="kw">Combien de cartons doit-elle commander ?</mark> <mark class="kw">Combien va-t-elle payer ?</mark></b></p>
+      </div>
+      <div class="fig" id="stairs"></div>
+    </div>
+    <ol class="card" id="steps" aria-live="polite"></ol>
+    <div class="pas"><button class="btn main" id="next">Première marche</button></div>
+    <div class="recit" id="ret" hidden>
+      <p><b>Pour un problème à étapes :</b></p>
+      <ol class="steps3">
+        <li>je repère <b>la question</b> ;</li>
+        <li>je <b>trie</b> les informations : certaines ne servent à rien ;</li>
+        <li>je cherche <b>les étapes</b>, dans le bon ordre (la division n'est pas toujours la première) ;</li>
+        <li>je <b>calcule</b>, et je choisis la forme de la réponse <b>dès la division</b> ;</li>
+        <li>je <b>réponds par une phrase</b>, avec l'unité ;</li>
+        <li>je <b>vérifie</b> que ma réponse a du sens.</li>
+      </ol>
+    </div>
+  </section>
+
+  <p class="hint">Dans ton cahier : la lettre et ta réponse, sans recopier.</p>
+
+  <!-- ================= EXERCICES ================= -->
+  <section class="ex" id="ex1">
+    <div class="ex-h"><h2>Exercice 1 <small>l'info en trop</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Une information ne sert à rien : écris-la. Puis réponds par une phrase.</p>
+    <ol class="qs" type="a">
+      <li>Les 3 chorales du collège chantent ensemble au spectacle. Chaque chorale a 28 élèves. Le spectacle commence à 18&nbsp;h&nbsp;30. Les choristes remplissent des gradins de 14 places par rang. <b>Combien de rangs occupent-ils&nbsp;?</b>
+        <span class="hole has"><span class="qm">?</span><span class="ans">inutile : 18&nbsp;h&nbsp;30</span></span><span class="hole has"><span class="qm">?</span><span class="ans">Ils occupent 6 rangs.</span></span>
+        <span class="sol s">3 × 28 = 84 choristes. 84 ÷ 14 = 6, il reste 0 : ça tombe juste, 6 rangs pleins.</span></li>
+      <li>Le club jardin a 100 bulbes de tulipes. Les élèves en ont déjà planté 36. Les bulbes ont coûté 12&nbsp;€. Ils plantent les autres en rangs de 15 bulbes. <b>Combien de rangs complets peuvent-ils encore planter ? Combien de bulbes restera-t-il&nbsp;?</b>
+        <span class="hole has"><span class="qm">?</span><span class="ans">inutile : 12&nbsp;€</span></span><span class="hole has"><span class="qm">?</span><span class="ans">4 rangs complets, il restera 4 bulbes.</span></span>
+        <span class="sol s">D'abord la soustraction : 100 − 36 = 64 bulbes à planter. 64 ÷ 15 = 4, il reste 4 (4 × 15 = 60). On ne coupe pas un bulbe : un entier et un reste.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex2">
+    <div class="ex-h"><h2>Exercice 2 <small>le ticket effacé</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Des nombres du ticket de Jade sont effacés. Retrouve <b>a</b>, <b>b</b>, <b>c</b> et <b>d</b>.</p>
+    <div class="ticket" role="group" aria-label="ticket de caisse">
+      <h3>PAPETERIE DU PARC</h3>
+      <table>
+        <tr><td>4 classeurs</td><td>4 × <span class="hole has"><span class="qm">a</span><span class="ans">2,50&nbsp;€</span></span></td><td>10,00&nbsp;€</td></tr>
+        <tr><td>6 stylos</td><td>6 × 0,75&nbsp;€</td><td><span class="hole has"><span class="qm">b</span><span class="ans">4,50&nbsp;€</span></span></td></tr>
+        <tr><td>1 cahier</td><td>1 × 2,30&nbsp;€</td><td>2,30&nbsp;€</td></tr>
+        <tr class="tot"><td>TOTAL</td><td></td><td><span class="hole has"><span class="qm">c</span><span class="ans">16,80&nbsp;€</span></span></td></tr>
+        <tr><td>Billet</td><td></td><td>20,00&nbsp;€</td></tr>
+        <tr><td>Rendu</td><td></td><td><span class="hole has"><span class="qm">d</span><span class="ans">3,20&nbsp;€</span></span></td></tr>
+      </table>
+    </div>
+    <ol class="qs" type="a">
+      <li class="sol s">4 classeurs coûtent 10&nbsp;€ : un classeur coûte 10 ÷ 4 = 2,50&nbsp;€. Vérifie : 2,50 × 4 = 10.</li>
+      <li class="sol s">6 × 0,75 = 4,50&nbsp;€.</li>
+      <li class="sol s">On ne peut le trouver qu'après <b>b</b> : 10 + 4,50 + 2,30 = 16,80&nbsp;€.</li>
+      <li class="sol s">Il faut d'abord <b>c</b> : 20 − 16,80 = 3,20&nbsp;€.</li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex3">
+    <div class="ex-h"><h2>Exercice 3 <small>le meilleur prix</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Calcule le prix d'<b>un</b> objet dans chaque offre, puis choisis la moins chère.</p>
+    <ol class="qs" type="a">
+      <li>Des piles : où une pile coûte-t-elle le moins cher&nbsp;?
+        <div class="offres"><div class="etiq"><b>Magasin Hop</b><span>4 piles</span><strong>6&nbsp;€</strong></div><div class="etiq"><b>Magasin Top</b><span>6 piles</span><strong>8,40&nbsp;€</strong></div></div>
+        <span class="hole has"><span class="qm">?</span><span class="ans">Chez Top : 1,40&nbsp;€ la pile.</span></span>
+        <span class="sol s">Hop : 6 ÷ 4 = 1,50&nbsp;€. Top : 8,40 ÷ 6 = 1,40&nbsp;€. Le paquet de Top coûte plus cher, mais chaque pile y est moins chère.</span></li>
+      <li>Des feutres : dans quel paquet un feutre coûte-t-il le moins cher ? Si la division ne s'arrête pas, arrondis au centime.
+        <div class="offres"><div class="etiq"><b>Paquet de 3</b><span>3 feutres</span><strong>2&nbsp;€</strong></div><div class="etiq"><b>Paquet de 8</b><span>8 feutres</span><strong>5&nbsp;€</strong></div></div>
+        <span class="hole has"><span class="qm">?</span><span class="ans">Le paquet de 8 : 0,625&nbsp;€ le feutre.</span></span>
+        <span class="sol s">2 ÷ 3 = 0,666… ≈ 0,67&nbsp;€ (la division boucle). 5 ÷ 8 = 0,625&nbsp;€ (elle s'arrête). 0,625 &lt; 0,67.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex4">
+    <div class="ex-h"><h2>Exercice 4 <small>trois marches</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">Cherche les étapes, calcule, puis réponds par une phrase.</p>
+    <ol class="qs" type="a">
+      <li>Léo remplit un aquarium de 60&nbsp;L avec un seau de 8&nbsp;L. Il a déjà versé 3 seaux pleins. <b>Combien d'allers-retours au robinet doit-il encore faire&nbsp;?</b>
+        <span class="hole has"><span class="qm">?</span><span class="ans">Il doit encore faire 5 allers-retours.</span></span>
+        <span class="sol s">3 × 8 = 24&nbsp;L déjà versés. 60 − 24 = 36&nbsp;L qui manquent. 36 ÷ 8 = 4, il reste 4 : après 4 seaux, il manque encore 4&nbsp;L, donc un 5<sup>e</sup> aller-retour.</span></li>
+      <li>Pour la fête du club d'échecs, M. Diaz achète 2 pizzas au fromage et 3 pizzas aux légumes. Les 7 joueurs se partagent toutes les pizzas en parts exactement égales. <b>Quelle quantité de pizza mange chaque joueur&nbsp;?</b>
+        <span class="hole has"><span class="qm">?</span><span class="ans">Chaque joueur mange&nbsp;<span class="fr"><span>5</span><span>7</span></span>&nbsp;de pizza.</span></span>
+        <span class="sol s">2 + 3 = 5 pizzas. 5 ÷ 7 = 0,714… ne s'arrête pas. On coupe chaque pizza en 7 parts : chaque joueur prend 1 part de chaque pizza, soit 5 parts de <span class="fr"><span>1</span><span>7</span></span>.</span></li>
+    </ol>
+  </section>
+
+  <section class="ex" id="ex5">
+    <div class="ex-h"><h2>Défi ★ <small>le repas de fin d'année</small></h2><button class="btn" data-sol>Correction</button></div>
+    <p class="consigne">75 invités s'assoient à des tables de 6 places. On met une nappe sur chaque table. Les nappes sont vendues par lots de 4, à 9&nbsp;€ le lot. <b>Combien coûtent les nappes&nbsp;?</b></p>
+    <div class="pl" style="margin:0"><span class="hole has"><span class="qm">?</span><span class="ans">Les nappes coûtent 36&nbsp;€.</span></span>
+        <span class="sol s">75 ÷ 6 = 12, il reste 3 : 3 invités seraient debout, il faut 13 tables. 13 ÷ 4 = 3, il reste 1 : une table serait sans nappe, il faut 4 lots. 4 × 9 = 36&nbsp;€. Deux fois, on arrondit au-dessus !</span></div>
+    <div class="pl"><span class="plus">★ Pour aller plus loin</span> Combien de places restent vides ? Combien de nappes sont en trop ?<span class="sol s">13 × 6 = 78 places : 78 − 75 = 3 places vides. 4 × 4 = 16 nappes : 16 − 13 = 3 nappes en trop.</span></div>
+  </section>
+</div>
+<script>
+(function(){
+const {$,$$,f,seg,store}=L4;
+const ink='var(--ink)',fill='var(--fill)',paper='var(--paper)',hi='var(--amber-text)';
+const T=(x,y,t,o='')=>`<text x="${x}" y="${y}" text-anchor="middle" font-family="Work Sans,sans-serif" font-weight="600" ${o}>${t}</text>`;
+
+/* =============== QUESTIONS FLASH =============== */
+const Q=[
+ {q:'? × 7 = 56',a:'8',w:'car 8 × 7 = 56'},
+ {q:'9 × ? = 54',a:'6',w:'car 9 × 6 = 54'},
+ {q:'42 ÷ ? = 6',a:'7',w:'car 6 × 7 = 42'},
+ {q:'? ÷ 4 = 9',a:'36',w:'on multiplie : 9 × 4 = 36'},
+ {q:'100 ÷ ? = 4',a:'25',w:'car 4 × 25 = 100'},
+ {q:'0,5 × ? = 6',a:'12',w:'0,5, c\'est la moitié : la moitié de 12 est 6'},
+ {q:'5 × ? = 3',a:f(3,5),w:`le quotient de 3 par 5 : ${f(3,5)} × 5 = 3 (on peut aussi écrire 0,6)`},
+ {q:'? × 3 = 2',a:f(2,3),w:`${f(2,3)} × 3 = 2 ; 2 ÷ 3 = 0,666… ne s'arrête pas : seule la fraction est exacte`}
+];
+const fl=$('#fl'),fq=$('#fq'),fwhy=$('#fwhy'),fbar=$('#fbar'),ft=$('#ft'),fn=$('#fn');
+const bNext=$('#fnext'),bAns=$('#fans'),bPrev=$('#fprev'),bPause=$('#fpause');
+let qi=-1,dur=store.get('s7flash',45),left=0,iv=null,shown=new Set();
+$('#fdots').innerHTML=Q.map(()=>'<i></i>').join('');
+const stop=()=>{if(iv){clearInterval(iv);iv=null;}bPause.textContent='Reprendre';};
+function tick(){
+  ft.textContent=left+' s';fbar.style.transform=`scaleX(${left/dur})`;
+  fl.classList.toggle('end',left===0);
+  if(left===0){stop();bPause.hidden=true;fwhy.style.color='var(--ko)';if(!shown.has(qi))fwhy.textContent='Temps écoulé ! Stylo posé.';}
+}
+function start(){stop();iv=setInterval(()=>{left=Math.max(0,left-1);tick();},1000);bPause.textContent='Pause';bPause.hidden=false;}
+function holeEq(q,a){return q.replace('?',a==null?'<span class="hole">?</span>':`<span class="hole got">${a}</span>`);}
+function showQ(i){
+  qi=i;left=dur;fl.classList.remove('rc');fwhy.textContent='';fwhy.style.color='';$('#frecap').hidden=true;fq.hidden=false;
+  fn.textContent=`Question ${i+1} / ${Q.length}`;
+  $$('#fdots i').forEach((d,k)=>{d.classList.toggle('on',k<i||shown.has(k));d.classList.toggle('cur',k===i);});
+  fq.innerHTML=holeEq(Q[i].q);
+  fbar.style.transition='none';tick();void fbar.offsetWidth;fbar.style.transition='';
+  bPrev.hidden=i===0;bAns.hidden=false;bNext.textContent=i===Q.length-1?'Récapitulatif':'Suivante ▶';
+  start();
+}
+function reveal(){
+  stop();bPause.hidden=true;shown.add(qi);fl.classList.remove('end');fwhy.style.color='';
+  fq.innerHTML=holeEq(Q[qi].q,Q[qi].a);fwhy.innerHTML=Q[qi].w;bAns.hidden=true;
+  $$('#fdots i')[qi].classList.add('on');
+}
+function recap(){
+  stop();qi=Q.length;fl.classList.remove('end');fl.classList.add('rc');bPause.hidden=true;bAns.hidden=true;fq.hidden=true;
+  fn.textContent='Je corrige';ft.textContent='';fbar.style.transform='scaleX(0)';fwhy.textContent='';
+  $$('#fdots i').forEach(d=>{d.classList.add('on');d.classList.remove('cur');});
+  const r=$('#frecap');r.hidden=false;
+  r.innerHTML=Q.map((q,k)=>`<li><b>${k+1}.</b> ${holeEq(q.q,`<span class="g">${q.a}</span>`).replace('hole got','')}</li>`).join('');
+  bPrev.hidden=false;bNext.textContent='Recommencer';
+}
+bNext.addEventListener('click',()=>{if(qi>=Q.length){shown.clear();showQ(0);}else if(qi===Q.length-1)recap();else showQ(qi+1);});
+bPrev.addEventListener('click',()=>showQ(Math.min(qi,Q.length)-1));
+bAns.addEventListener('click',reveal);
+bPause.addEventListener('click',()=>{if(iv)stop();else if(left>0)start();});
+seg($('#fdur'),v=>{dur=+v;store.set('s7flash',dur);if(qi>=0&&qi<Q.length&&!shown.has(qi)){left=dur;tick();start();}},String(dur));
+if(qi<0){ft.textContent='';fbar.style.transform='scaleX(1)';}
+
+/* =============== L'ESCALIER DU PROBLÈME =============== */
+const WORDS=['Question','Trier','Étapes','Calculer','Répondre','Vérifier'];
+function stairs(cur){ /* cur = marche atteinte (-1 : en bas, 6 : en haut) */
+  const W=96,G=4,B=190;let s=`<svg viewBox="-4 -62 608 284" role="img" aria-label="un escalier de six marches">`;
+  for(let i=0;i<6;i++){const x=i*(W+G),h=44+i*24,y=B-h,done=i<cur||cur===6,now=i===cur&&cur<6;
+    s+=`<rect x="${x}" y="${y}" width="${W}" height="${h}" rx="6" fill="${done?fill:now?'var(--fill-2)':paper}" stroke="${now?hi:ink}" stroke-width="${now?3.5:2}"/>`;
+    s+=T(x+W/2,y+29,i+1,`font-size="24" font-family="Space Mono,monospace" font-weight="700" fill="${now?hi:ink}"`);
+    s+=T(x+W/2,B+22,WORDS[i],`font-size="15" fill="${now?hi:ink}"`);}
+  const k=Math.min(cur,5),px=cur<0?-30:k*(W+G)+W/2,py=cur<0?B:B-(44+k*24);
+  if(cur>=0){ /* le pion */
+    s+=`<g style="transition:transform .5s" transform="translate(${px} ${py})"><path d="M-11 0L-7 -22H7L11 0Z" fill="var(--blue)" stroke="${ink}" stroke-width="2"/><circle cx="0" cy="-30" r="10" fill="var(--blue)" stroke="${ink}" stroke-width="2"/></g>`;}
+  if(cur===6){const x=5*(W+G)+W-14,y=B-164;
+    s+=`<line x1="${x}" y1="${y+2}" x2="${x}" y2="${y-40}" stroke="${ink}" stroke-width="3"/><path d="M${x} ${y-40}L${x-30} ${y-31}L${x} ${y-22}Z" fill="${hi}" stroke="${ink}" stroke-width="2"/>`;}
+  return s+'</svg>';
+}
+function cartons(){ /* 9 cartons de 12 : 8 pleins, le 9e avec 6 gourdes utiles et 6 en trop */
+  const W=58,G=7;let s=`<svg viewBox="0 0 ${9*W+8*G} 120" role="img" aria-label="8 cartons pleins de 12 gourdes, et un 9e carton dont 6 gourdes servent">`;
+  s+=`<path d="M2 22V16H${8*(W+G)-G-2}V22" fill="none" stroke="${ink}" stroke-width="2"/>`+T((8*(W+G)-G)/2,11,'8 cartons : 96 gourdes',`font-size="13" fill="${ink}"`);
+  for(let b=0;b<9;b++){const x=b*(W+G),last=b===8;
+    s+=`<rect x="${x+1}" y="28" width="${W-2}" height="58" rx="6" fill="${last?'var(--fill-2)':'var(--blue-bg)'}" stroke="${last?hi:ink}" stroke-width="${last?3:2}"/>`;
+    for(let g=0;g<12;g++){const cx=x+11+(g%4)*12,cy=41+Math.floor(g/4)*16,on=!last||g<6;
+      s+=`<rect x="${cx-4}" y="${cy-6}" width="8" height="13" rx="3" fill="${on?fill:paper}" stroke="${ink}" stroke-width="1.2" ${on?'':'stroke-dasharray="2 2"'}/>`;}
+    s+=T(x+W/2,104,last?'6 utiles':'12',`font-size="${last?13:14}" fill="${last?hi:ink}"`);}
+  return s+'</svg>';
+}
+const DIV=`<pre class="div sm" aria-label="102 divisé par 12 : 8, il reste 6"> 102 | 12\n -96 |----\n   <mark class="r">6</mark> | <mark class="hl">8</mark></pre>`;
+const S=[
+ {lab:'1. La question',ask:'Que cherche-t-on ?',
+  rv:'<p>On cherche <b>deux choses</b> : le nombre de cartons, <b>puis</b> le prix.</p>',
+  on:'q-on'},
+ {lab:'2. Je trie',ask:'Quelles informations servent ? Lesquelles ne servent à rien ?',
+  rv:'<div class="chips"><span class="chip">26, 25, 27, 24 élèves</span><span class="chip">cartons de 12</span><span class="chip">30 € le carton</span><span class="chip ko">75 cL</span><span class="chip ko">3 jours</span></div><p>La taille des gourdes et la livraison ne changent pas le nombre de cartons.</p>',
+  on:'tri-on'},
+ {lab:'3. Les étapes',ask:'Dans quel ordre calculer ?',
+  rv:'<ol class="plan"><li>Combien d\'élèves en tout ? <span class="op">+</span></li><li>Combien de cartons ? <span class="op">÷</span></li><li>Combien ça coûte ? <span class="op">×</span></li></ol><p>La division arrive en <b>2<sup>e</sup></b> : on ne peut pas la faire avant de connaître le nombre d\'élèves.</p>'},
+ {lab:'4. Je calcule',ask:'Calcule chaque étape. Attention au reste !',
+  rv:`<ol class="calc3"><li><p class="num">26 + 25 + 27 + 24 = 102 élèves</p></li>
+   <li><div class="ex3">${DIV}<p style="margin:0">102 ÷ 12 = 8, il reste 6.</p></div><div class="fig">${cartons()}</div><p>Avec 8 cartons, 6 élèves n'auraient pas de gourde : il faut <b>9 cartons</b>.</p></li>
+   <li><p class="num">9 × 30 = 270 €</p><p class="oops">Piège : 8 × 30 = 240 € serait faux. On décide « 9 cartons » <b>avant</b> de multiplier.</p></li></ol>`},
+ {lab:'5. Je réponds',ask:'Une phrase pour chaque question.',
+  rv:'<p class="big txt">Elle doit commander 9 cartons. Elle va payer 270 €.</p>'},
+ {lab:'6. Je vérifie',ask:'Ma réponse a-t-elle du sens ?',
+  rv:'<p>9 × 12 = 108 gourdes : il y en a assez pour 102 élèves, avec 6 en trop. ✓</p><p>« 8,5 cartons » ? On ne commande pas un demi-carton : la réponse est bien un entier. ✓</p>'}
+];
+let st=-1,open=false;
+const next=$('#next'),box=$('#steps'),story=$('#story'),fig=$('#stairs');
+fig.innerHTML=stairs(-1);
+next.addEventListener('click',()=>{
+  if(st===5&&open){return;}
+  if(st<0||open){ /* nouvelle marche : la question posée à la classe */
+    st++;open=false;
+    const li=document.createElement('li');
+    li.innerHTML=`<b class="lab">${S[st].lab}</b><div><p class="ask">${S[st].ask}</p></div>`;
+    box.appendChild(li);fig.innerHTML=stairs(st);next.textContent='Réponse';
+  }else{ /* la réponse */
+    open=true;const d=document.createElement('div');d.className='rv';d.innerHTML=S[st].rv;
+    box.lastElementChild.querySelector('div').appendChild(d);
+    if(S[st].on)story.classList.add(S[st].on);
+    if(st===5){fig.innerHTML=stairs(6);next.hidden=true;$('#ret').hidden=false;}
+    else{next.textContent='Marche suivante';}
+  }
+});
+
+/* ---------- boutons « Correction » ---------- */
+document.addEventListener('click',e=>{const bt=e.target.closest('[data-sol]');if(!bt)return;const s=bt.closest('.ex');const on=s.classList.toggle('show');bt.textContent=on?'Cacher la correction':'Correction';bt.classList.toggle('main',on);bt.setAttribute('aria-pressed',on);});
+})();
+</script>
+<script src="../../assets/catalogue.js"></script>
+<script src="../../assets/barre.js"></script>
+<script src="../../assets/glossaire.js"></script>

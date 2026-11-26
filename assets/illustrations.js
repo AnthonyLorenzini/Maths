@@ -175,6 +175,12 @@
       '<circle class="f-i" cx="19" cy="52" r="7"/><circle class="f-b" cx="19" cy="52" r="2.6"/>' +
       '<circle class="f-i" cx="53" cy="52" r="7"/><circle class="f-b" cx="53" cy="52" r="2.6"/>' +
       '<circle class="f-b s-i" cx="58" cy="13" r="11" stroke-width="2.6"/>' + lab(58, 13.5, '+1', 12)),
+    "6e-ch6-s7": svg( // un problème, plusieurs étapes : un escalier de trois marches et le drapeau en haut
+      '<path class="f-c s-i" d="M5 64V50H22V36H39V22H58V64Z" stroke-width="3" stroke-linejoin="round"/>' +
+      '<g class="s-i" stroke-width="2.4"><line x1="22" y1="50" x2="22" y2="64"/><line x1="39" y1="36" x2="39" y2="64"/></g>' +
+      lab(13.5, 57.5, '1', 11) + lab(30.5, 50.5, '2', 11) + lab(48.5, 43.5, '3', 11) +
+      '<line class="s-i" x1="52" y1="22" x2="52" y2="5" stroke-width="2.6" stroke-linecap="round"/>' +
+      '<path class="f-s s-i" d="M52 5L67 9.5L52 14Z" stroke-width="2.2" stroke-linejoin="round"/>'),
     // 6e ch.5 : Cercle et disque
     "6e-ch5-s1": svg( // le vocabulaire : un cercle, son diamètre, une corde et un arc
       '<circle class="f-b s-i" cx="36" cy="38" r="27" stroke-width="3.4"/>' +
